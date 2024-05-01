@@ -3,14 +3,14 @@
 
 import {
   InteractiveBrowserCredential,
-  type InteractiveBrowserCredentialNodeOptions as IBCNOptions,
+  InteractiveBrowserCredentialNodeOptions as IBCNOptions,
 } from "@azure/identity";
-import { ServiceInformation } from "./deploy.js";
+import { ServiceInformation } from "./deploy";
 import { getClient } from "@azure-rest/core-client";
 
 async function getAccessToken(
   managementApiEndpoint: string,
-  options: IBCNOptions = {},
+  options?: IBCNOptions,
 ): Promise<string> {
   const credentials = new InteractiveBrowserCredential(options);
   const scope = `${managementApiEndpoint}/user_impersonation`;

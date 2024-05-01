@@ -5,14 +5,14 @@
  * @summary Demonstrates the Skillset Operations.
  */
 
-const { AzureKeyCredential, SearchIndexerClient } = require("@azure/search-documents");
+const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search-documents");
 
 require("dotenv").config();
 
 const endpoint = process.env.ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 
-const TEST_SKILLSET_NAME = "example-skillset-sample-1";
+const skillsetName = "example-skillset-sample-1";
 
 async function createSkillset(skillsetName, client) {
   console.log(`Creating Skillset Operation`);
@@ -76,20 +76,20 @@ async function listSkillsets(client) {
 
   console.log(`\tList of Skillsets`);
   console.log(`\t******************`);
-  for (const skillset of listOfSkillsets) {
+  for (let skillset of listOfSkillsets) {
     console.log(`Name: ${skillset.name}`);
     console.log(`Description: ${skillset.description}`);
     console.log(`Skills`);
     console.log(`******`);
-    for (const skill of skillset.skills) {
+    for (let skill of skillset.skills) {
       console.log(`ODataType: ${skill.odatatype}`);
       console.log(`Inputs`);
-      for (const input of skill.inputs) {
+      for (let input of skill.inputs) {
         console.log(`\tName: ${input.name}`);
         console.log(`\tSource: ${input.source}`);
       }
       console.log(`Outputs`);
-      for (const output of skill.outputs) {
+      for (let output of skill.outputs) {
         console.log(`\tName: ${output.name}`);
         console.log(`\tTarget Name: ${output.targetName}`);
       }
@@ -110,11 +110,11 @@ async function main() {
   }
   const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
   try {
-    await createSkillset(TEST_SKILLSET_NAME, client);
-    await getAndUpdateSkillset(TEST_SKILLSET_NAME, client);
+    await createSkillset(skillsetName, client);
+    await getAndUpdateSkillset(skillsetName, client);
     await listSkillsets(client);
   } finally {
-    await deleteSkillset(TEST_SKILLSET_NAME, client);
+    await deleteSkillset(skillsetName, client);
   }
 }
 

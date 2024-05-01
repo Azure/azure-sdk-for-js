@@ -15,7 +15,7 @@ export {
   askForSecrets,
   buildOnChange,
   onChangeWithOrigin,
-} from "./utils.js";
+} from "./utils";
 export type {
   PortalData,
   EditorData,
@@ -24,7 +24,7 @@ export type {
   TargetModule,
   ValuesCommon,
   Environment,
-} from "./utils.js";
+} from "./utils";
 export {
   BLOB_ROOT,
   APIM_CONFIG_FILE_NAME,
@@ -32,8 +32,8 @@ export {
   BLOB_CONFIGS_FOLDER,
   buildBlobDataPath,
   buildBlobConfigPath,
-} from "./paths.js";
+} from "./paths";
 
-import deployNodeJS from "./node/deploy.js";
+import deployNodeJS from "./node/deploy";
 export { deployNodeJS };
-export type { ServiceInformation, DeployConfig } from "./node/deploy.js";
+export type { ServiceInformation, DeployConfig } from "./node/deploy";

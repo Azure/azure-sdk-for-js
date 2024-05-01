@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Tells an Active cache to transition to Stopped state.
  *
  * @summary Tells an Active cache to transition to Stopped state.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/Caches_Stop.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2023-05-01/examples/Caches_Stop.json
  */
 async function cachesStop() {
   const subscriptionId =

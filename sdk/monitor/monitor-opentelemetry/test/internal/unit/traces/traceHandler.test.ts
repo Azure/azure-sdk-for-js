@@ -58,9 +58,9 @@ describe("Library/TraceHandler", () => {
         }),
     );
     const tracerProvider = new NodeTracerProvider();
-    tracerProvider.addSpanProcessor(handler.getAzureMonitorSpanProcessor());
-    tracerProvider.addSpanProcessor(handler.getBatchSpanProcessor());
+    tracerProvider.addSpanProcessor(handler.getSpanProcessor());
     trace.setGlobalTracerProvider(tracerProvider);
+    handler.start();
 
     // Load Http modules, HTTP instrumentation hook will be created in OpenTelemetry
     http = require("http") as any;

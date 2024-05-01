@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, expect, vi, afterEach } from "vitest";
 import {
   type PipelineResponse,
   RestError,
@@ -9,9 +8,10 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   retryPolicy,
-} from "../src/index.js";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
-import { makeTestLogger } from "./util.js";
+} from "../src";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+import { assert, describe, it, afterEach, vi, expect } from "vitest";
+import { makeTestLogger } from "./util";
 
 describe("retryPolicy", function () {
   afterEach(function () {

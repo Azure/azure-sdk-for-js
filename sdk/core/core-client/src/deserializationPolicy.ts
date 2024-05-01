@@ -10,7 +10,7 @@ import {
   SerializerOptions,
   XML_CHARKEY,
   XmlOptions,
-} from "./interfaces.js";
+} from "./interfaces";
 import {
   PipelinePolicy,
   PipelineRequest,
@@ -18,8 +18,8 @@ import {
   RestError,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { MapperTypeNames } from "./serializer.js";
-import { getOperationRequestInfo } from "./operationHelpers.js";
+import { MapperTypeNames } from "./serializer";
+import { getOperationRequestInfo } from "./operationHelpers";
 
 const defaultJsonContentTypes = ["application/json", "text/json"];
 const defaultXmlContentTypes = ["application/xml", "application/atom+xml"];

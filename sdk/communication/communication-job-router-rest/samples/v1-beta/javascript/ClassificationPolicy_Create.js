@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 const dotenv = require("dotenv");
-/**
- * @summary Classification policy crud
- */
-const JobRouter = require("@azure-rest/communication-job-router").default;
+const JobRouter = require("../src").default;
 
 dotenv.config();
 

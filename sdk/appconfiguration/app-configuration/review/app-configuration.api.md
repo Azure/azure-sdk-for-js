@@ -122,11 +122,6 @@ export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField
 }
 
 // @public
-export interface EtagEntity {
-    etag?: string;
-}
-
-// @public
 export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+json;charset=utf-8";
 
 // @public
@@ -211,7 +206,7 @@ export enum KnownSnapshotComposition {
 }
 
 // @public
-export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
+export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
     items: ConfigurationSetting[];
 }
 
@@ -221,7 +216,6 @@ export interface ListConfigurationSettingsForSnapshotOptions extends OperationOp
 
 // @public
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
-    pageEtags?: string[];
 }
 
 // @public

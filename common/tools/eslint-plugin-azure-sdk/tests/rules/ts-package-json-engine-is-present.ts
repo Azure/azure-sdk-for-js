@@ -8,7 +8,7 @@
 
 "use strict";
 
-import { RuleTester } from "../ruleTester";
+import { RuleTester } from "eslint";
 import rule, { LTS } from "../../src/rules/ts-package-json-engine-is-present";
 
 //------------------------------------------------------------------------------

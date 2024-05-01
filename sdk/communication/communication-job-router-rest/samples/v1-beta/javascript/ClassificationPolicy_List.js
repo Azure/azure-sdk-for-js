@@ -1,13 +1,6 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-/**
- * @summary Classification policy crud
- */
-const JobRouter = require("@azure-rest/communication-job-router").default,
-  { paginate } = require("@azure-rest/communication-job-router");
+const JobRouter = require("../src").default;
+const { paginate } = require("../src");
 require("dotenv").config();
-
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // List classification policies

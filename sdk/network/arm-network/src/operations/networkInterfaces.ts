@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -67,7 +67,7 @@ import {
   NetworkInterfacesListNextResponse,
   NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextResponse,
   NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResponse,
-  NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse,
+  NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -94,13 +94,13 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     resourceGroupName: string,
     cloudServiceName: string,
     roleInstanceName: string,
-    options?: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams,
+    options?: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams
   ): PagedAsyncIterableIterator<NetworkInterface> {
     const iter = this.listCloudServiceRoleInstanceNetworkInterfacesPagingAll(
       resourceGroupName,
       cloudServiceName,
       roleInstanceName,
-      options,
+      options
     );
     return {
       next() {
@@ -118,9 +118,9 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
           cloudServiceName,
           roleInstanceName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -129,7 +129,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     cloudServiceName: string,
     roleInstanceName: string,
     options?: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkInterface[]> {
     let result: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesResponse;
     let continuationToken = settings?.continuationToken;
@@ -138,7 +138,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         resourceGroupName,
         cloudServiceName,
         roleInstanceName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -151,7 +151,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         cloudServiceName,
         roleInstanceName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -164,13 +164,13 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     resourceGroupName: string,
     cloudServiceName: string,
     roleInstanceName: string,
-    options?: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams,
+    options?: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams
   ): AsyncIterableIterator<NetworkInterface> {
     for await (const page of this.listCloudServiceRoleInstanceNetworkInterfacesPagingPage(
       resourceGroupName,
       cloudServiceName,
       roleInstanceName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -185,12 +185,12 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   public listCloudServiceNetworkInterfaces(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams,
+    options?: NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams
   ): PagedAsyncIterableIterator<NetworkInterface> {
     const iter = this.listCloudServiceNetworkInterfacesPagingAll(
       resourceGroupName,
       cloudServiceName,
-      options,
+      options
     );
     return {
       next() {
@@ -207,9 +207,9 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
           resourceGroupName,
           cloudServiceName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -217,7 +217,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     resourceGroupName: string,
     cloudServiceName: string,
     options?: NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkInterface[]> {
     let result: NetworkInterfacesListCloudServiceNetworkInterfacesResponse;
     let continuationToken = settings?.continuationToken;
@@ -225,7 +225,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
       result = await this._listCloudServiceNetworkInterfaces(
         resourceGroupName,
         cloudServiceName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -237,7 +237,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         resourceGroupName,
         cloudServiceName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -249,12 +249,12 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   private async *listCloudServiceNetworkInterfacesPagingAll(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams,
+    options?: NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams
   ): AsyncIterableIterator<NetworkInterface> {
     for await (const page of this.listCloudServiceNetworkInterfacesPagingPage(
       resourceGroupName,
       cloudServiceName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -265,7 +265,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
    * @param options The options parameters.
    */
   public listAll(
-    options?: NetworkInterfacesListAllOptionalParams,
+    options?: NetworkInterfacesListAllOptionalParams
   ): PagedAsyncIterableIterator<NetworkInterface> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -280,13 +280,13 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      },
+      }
     };
   }
 
   private async *listAllPagingPage(
     options?: NetworkInterfacesListAllOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkInterface[]> {
     let result: NetworkInterfacesListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -307,7 +307,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   }
 
   private async *listAllPagingAll(
-    options?: NetworkInterfacesListAllOptionalParams,
+    options?: NetworkInterfacesListAllOptionalParams
   ): AsyncIterableIterator<NetworkInterface> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -321,7 +321,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
    */
   public list(
     resourceGroupName: string,
-    options?: NetworkInterfacesListOptionalParams,
+    options?: NetworkInterfacesListOptionalParams
   ): PagedAsyncIterableIterator<NetworkInterface> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -336,14 +336,14 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      },
+      }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: NetworkInterfacesListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkInterface[]> {
     let result: NetworkInterfacesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -358,7 +358,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -369,7 +369,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: NetworkInterfacesListOptionalParams,
+    options?: NetworkInterfacesListOptionalParams
   ): AsyncIterableIterator<NetworkInterface> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -387,13 +387,13 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
     virtualmachineIndex: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams,
+    options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams
   ): PagedAsyncIterableIterator<NetworkInterface> {
     const iter = this.listVirtualMachineScaleSetVMNetworkInterfacesPagingAll(
       resourceGroupName,
       virtualMachineScaleSetName,
       virtualmachineIndex,
-      options,
+      options
     );
     return {
       next() {
@@ -411,9 +411,9 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
           virtualMachineScaleSetName,
           virtualmachineIndex,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -422,7 +422,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     virtualMachineScaleSetName: string,
     virtualmachineIndex: string,
     options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkInterface[]> {
     let result: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesResponse;
     let continuationToken = settings?.continuationToken;
@@ -431,7 +431,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         resourceGroupName,
         virtualMachineScaleSetName,
         virtualmachineIndex,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -444,7 +444,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         virtualMachineScaleSetName,
         virtualmachineIndex,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -457,13 +457,13 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
     virtualmachineIndex: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams,
+    options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams
   ): AsyncIterableIterator<NetworkInterface> {
     for await (const page of this.listVirtualMachineScaleSetVMNetworkInterfacesPagingPage(
       resourceGroupName,
       virtualMachineScaleSetName,
       virtualmachineIndex,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -478,12 +478,12 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   public listVirtualMachineScaleSetNetworkInterfaces(
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
+    options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams
   ): PagedAsyncIterableIterator<NetworkInterface> {
     const iter = this.listVirtualMachineScaleSetNetworkInterfacesPagingAll(
       resourceGroupName,
       virtualMachineScaleSetName,
-      options,
+      options
     );
     return {
       next() {
@@ -500,9 +500,9 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
           resourceGroupName,
           virtualMachineScaleSetName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -510,7 +510,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
     options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkInterface[]> {
     let result: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesResponse;
     let continuationToken = settings?.continuationToken;
@@ -518,7 +518,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
       result = await this._listVirtualMachineScaleSetNetworkInterfaces(
         resourceGroupName,
         virtualMachineScaleSetName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -530,7 +530,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         resourceGroupName,
         virtualMachineScaleSetName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -542,12 +542,12 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   private async *listVirtualMachineScaleSetNetworkInterfacesPagingAll(
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
+    options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams
   ): AsyncIterableIterator<NetworkInterface> {
     for await (const page of this.listVirtualMachineScaleSetNetworkInterfacesPagingPage(
       resourceGroupName,
       virtualMachineScaleSetName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -566,14 +566,14 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     virtualMachineScaleSetName: string,
     virtualmachineIndex: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams,
+    options?: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams
   ): PagedAsyncIterableIterator<NetworkInterfaceIPConfiguration> {
     const iter = this.listVirtualMachineScaleSetIpConfigurationsPagingAll(
       resourceGroupName,
       virtualMachineScaleSetName,
       virtualmachineIndex,
       networkInterfaceName,
-      options,
+      options
     );
     return {
       next() {
@@ -592,9 +592,9 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
           virtualmachineIndex,
           networkInterfaceName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -604,7 +604,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     virtualmachineIndex: string,
     networkInterfaceName: string,
     options?: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkInterfaceIPConfiguration[]> {
     let result: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsResponse;
     let continuationToken = settings?.continuationToken;
@@ -614,7 +614,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         virtualMachineScaleSetName,
         virtualmachineIndex,
         networkInterfaceName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -628,7 +628,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         virtualmachineIndex,
         networkInterfaceName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -642,14 +642,14 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     virtualMachineScaleSetName: string,
     virtualmachineIndex: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams,
+    options?: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams
   ): AsyncIterableIterator<NetworkInterfaceIPConfiguration> {
     for await (const page of this.listVirtualMachineScaleSetIpConfigurationsPagingPage(
       resourceGroupName,
       virtualMachineScaleSetName,
       virtualmachineIndex,
       networkInterfaceName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -666,11 +666,13 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     resourceGroupName: string,
     cloudServiceName: string,
     roleInstanceName: string,
-    options?: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams,
-  ): Promise<NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesResponse> {
+    options?: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams
+  ): Promise<
+    NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesResponse
+  > {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudServiceName, roleInstanceName, options },
-      listCloudServiceRoleInstanceNetworkInterfacesOperationSpec,
+      listCloudServiceRoleInstanceNetworkInterfacesOperationSpec
     );
   }
 
@@ -683,11 +685,11 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   private _listCloudServiceNetworkInterfaces(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams,
+    options?: NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams
   ): Promise<NetworkInterfacesListCloudServiceNetworkInterfacesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudServiceName, options },
-      listCloudServiceNetworkInterfacesOperationSpec,
+      listCloudServiceNetworkInterfacesOperationSpec
     );
   }
 
@@ -704,7 +706,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     cloudServiceName: string,
     roleInstanceName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesGetCloudServiceNetworkInterfaceOptionalParams,
+    options?: NetworkInterfacesGetCloudServiceNetworkInterfaceOptionalParams
   ): Promise<NetworkInterfacesGetCloudServiceNetworkInterfaceResponse> {
     return this.client.sendOperationRequest(
       {
@@ -712,9 +714,9 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         cloudServiceName,
         roleInstanceName,
         networkInterfaceName,
-        options,
+        options
       },
-      getCloudServiceNetworkInterfaceOperationSpec,
+      getCloudServiceNetworkInterfaceOperationSpec
     );
   }
 
@@ -727,24 +729,25 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   async beginDelete(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesDeleteOptionalParams,
+    options?: NetworkInterfacesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -753,8 +756,8 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -762,20 +765,20 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkInterfaceName, options },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -790,12 +793,12 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesDeleteOptionalParams,
+    options?: NetworkInterfacesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkInterfaceName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -809,11 +812,11 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   get(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesGetOptionalParams,
+    options?: NetworkInterfacesGetOptionalParams
   ): Promise<NetworkInterfacesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkInterfaceName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -828,7 +831,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     resourceGroupName: string,
     networkInterfaceName: string,
     parameters: NetworkInterface,
-    options?: NetworkInterfacesCreateOrUpdateOptionalParams,
+    options?: NetworkInterfacesCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfacesCreateOrUpdateResponse>,
@@ -837,20 +840,21 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<NetworkInterfacesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -859,8 +863,8 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -868,15 +872,15 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkInterfaceName, parameters, options },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       NetworkInterfacesCreateOrUpdateResponse,
@@ -884,7 +888,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -901,13 +905,13 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     resourceGroupName: string,
     networkInterfaceName: string,
     parameters: NetworkInterface,
-    options?: NetworkInterfacesCreateOrUpdateOptionalParams,
+    options?: NetworkInterfacesCreateOrUpdateOptionalParams
   ): Promise<NetworkInterfacesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       networkInterfaceName,
       parameters,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -923,11 +927,11 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     resourceGroupName: string,
     networkInterfaceName: string,
     parameters: TagsObject,
-    options?: NetworkInterfacesUpdateTagsOptionalParams,
+    options?: NetworkInterfacesUpdateTagsOptionalParams
   ): Promise<NetworkInterfacesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkInterfaceName, parameters, options },
-      updateTagsOperationSpec,
+      updateTagsOperationSpec
     );
   }
 
@@ -936,7 +940,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
    * @param options The options parameters.
    */
   private _listAll(
-    options?: NetworkInterfacesListAllOptionalParams,
+    options?: NetworkInterfacesListAllOptionalParams
   ): Promise<NetworkInterfacesListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
@@ -948,11 +952,11 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
    */
   private _list(
     resourceGroupName: string,
-    options?: NetworkInterfacesListOptionalParams,
+    options?: NetworkInterfacesListOptionalParams
   ): Promise<NetworkInterfacesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -965,7 +969,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   async beginGetEffectiveRouteTable(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams,
+    options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfacesGetEffectiveRouteTableResponse>,
@@ -974,20 +978,21 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<NetworkInterfacesGetEffectiveRouteTableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -996,8 +1001,8 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1005,15 +1010,15 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkInterfaceName, options },
-      spec: getEffectiveRouteTableOperationSpec,
+      spec: getEffectiveRouteTableOperationSpec
     });
     const poller = await createHttpPoller<
       NetworkInterfacesGetEffectiveRouteTableResponse,
@@ -1021,7 +1026,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1036,12 +1041,12 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   async beginGetEffectiveRouteTableAndWait(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams,
+    options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams
   ): Promise<NetworkInterfacesGetEffectiveRouteTableResponse> {
     const poller = await this.beginGetEffectiveRouteTable(
       resourceGroupName,
       networkInterfaceName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -1055,29 +1060,32 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   async beginListEffectiveNetworkSecurityGroups(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams,
+    options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse>,
+      OperationState<
+        NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse
+      >,
       NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1086,8 +1094,8 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1095,23 +1103,25 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkInterfaceName, options },
-      spec: listEffectiveNetworkSecurityGroupsOperationSpec,
+      spec: listEffectiveNetworkSecurityGroupsOperationSpec
     });
     const poller = await createHttpPoller<
       NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse,
-      OperationState<NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse>
+      OperationState<
+        NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse
+      >
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1126,12 +1136,12 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   async beginListEffectiveNetworkSecurityGroupsAndWait(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams,
+    options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams
   ): Promise<NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse> {
     const poller = await this.beginListEffectiveNetworkSecurityGroups(
       resourceGroupName,
       networkInterfaceName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -1147,16 +1157,18 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
     virtualmachineIndex: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams,
-  ): Promise<NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesResponse> {
+    options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams
+  ): Promise<
+    NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesResponse
+  > {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         virtualMachineScaleSetName,
         virtualmachineIndex,
-        options,
+        options
       },
-      listVirtualMachineScaleSetVMNetworkInterfacesOperationSpec,
+      listVirtualMachineScaleSetVMNetworkInterfacesOperationSpec
     );
   }
 
@@ -1169,11 +1181,13 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   private _listVirtualMachineScaleSetNetworkInterfaces(
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
-  ): Promise<NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesResponse> {
+    options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams
+  ): Promise<
+    NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesResponse
+  > {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineScaleSetName, options },
-      listVirtualMachineScaleSetNetworkInterfacesOperationSpec,
+      listVirtualMachineScaleSetNetworkInterfacesOperationSpec
     );
   }
 
@@ -1190,17 +1204,19 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     virtualMachineScaleSetName: string,
     virtualmachineIndex: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams,
-  ): Promise<NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse> {
+    options?: NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams
+  ): Promise<
+    NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse
+  > {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         virtualMachineScaleSetName,
         virtualmachineIndex,
         networkInterfaceName,
-        options,
+        options
       },
-      getVirtualMachineScaleSetNetworkInterfaceOperationSpec,
+      getVirtualMachineScaleSetNetworkInterfaceOperationSpec
     );
   }
 
@@ -1217,17 +1233,19 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     virtualMachineScaleSetName: string,
     virtualmachineIndex: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams,
-  ): Promise<NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsResponse> {
+    options?: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams
+  ): Promise<
+    NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsResponse
+  > {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         virtualMachineScaleSetName,
         virtualmachineIndex,
         networkInterfaceName,
-        options,
+        options
       },
-      listVirtualMachineScaleSetIpConfigurationsOperationSpec,
+      listVirtualMachineScaleSetIpConfigurationsOperationSpec
     );
   }
 
@@ -1246,8 +1264,10 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     virtualmachineIndex: string,
     networkInterfaceName: string,
     ipConfigurationName: string,
-    options?: NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams,
-  ): Promise<NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse> {
+    options?: NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams
+  ): Promise<
+    NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse
+  > {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1255,9 +1275,9 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         virtualmachineIndex,
         networkInterfaceName,
         ipConfigurationName,
-        options,
+        options
       },
-      getVirtualMachineScaleSetIpConfigurationOperationSpec,
+      getVirtualMachineScaleSetIpConfigurationOperationSpec
     );
   }
 
@@ -1275,17 +1295,19 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     cloudServiceName: string,
     roleInstanceName: string,
     nextLink: string,
-    options?: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesNextOptionalParams,
-  ): Promise<NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesNextResponse> {
+    options?: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesNextOptionalParams
+  ): Promise<
+    NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesNextResponse
+  > {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         cloudServiceName,
         roleInstanceName,
         nextLink,
-        options,
+        options
       },
-      listCloudServiceRoleInstanceNetworkInterfacesNextOperationSpec,
+      listCloudServiceRoleInstanceNetworkInterfacesNextOperationSpec
     );
   }
 
@@ -1301,11 +1323,11 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     resourceGroupName: string,
     cloudServiceName: string,
     nextLink: string,
-    options?: NetworkInterfacesListCloudServiceNetworkInterfacesNextOptionalParams,
+    options?: NetworkInterfacesListCloudServiceNetworkInterfacesNextOptionalParams
   ): Promise<NetworkInterfacesListCloudServiceNetworkInterfacesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudServiceName, nextLink, options },
-      listCloudServiceNetworkInterfacesNextOperationSpec,
+      listCloudServiceNetworkInterfacesNextOperationSpec
     );
   }
 
@@ -1316,11 +1338,11 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
    */
   private _listAllNext(
     nextLink: string,
-    options?: NetworkInterfacesListAllNextOptionalParams,
+    options?: NetworkInterfacesListAllNextOptionalParams
   ): Promise<NetworkInterfacesListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec,
+      listAllNextOperationSpec
     );
   }
 
@@ -1333,11 +1355,11 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkInterfacesListNextOptionalParams,
+    options?: NetworkInterfacesListNextOptionalParams
   ): Promise<NetworkInterfacesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 
@@ -1355,17 +1377,19 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     virtualMachineScaleSetName: string,
     virtualmachineIndex: string,
     nextLink: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextOptionalParams,
-  ): Promise<NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextResponse> {
+    options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextOptionalParams
+  ): Promise<
+    NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextResponse
+  > {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         virtualMachineScaleSetName,
         virtualmachineIndex,
         nextLink,
-        options,
+        options
       },
-      listVirtualMachineScaleSetVMNetworkInterfacesNextOperationSpec,
+      listVirtualMachineScaleSetVMNetworkInterfacesNextOperationSpec
     );
   }
 
@@ -1381,11 +1405,13 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
     nextLink: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextOptionalParams,
-  ): Promise<NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResponse> {
+    options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextOptionalParams
+  ): Promise<
+    NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResponse
+  > {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineScaleSetName, nextLink, options },
-      listVirtualMachineScaleSetNetworkInterfacesNextOperationSpec,
+      listVirtualMachineScaleSetNetworkInterfacesNextOperationSpec
     );
   }
 
@@ -1405,8 +1431,10 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     virtualmachineIndex: string,
     networkInterfaceName: string,
     nextLink: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextOptionalParams,
-  ): Promise<NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse> {
+    options?: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextOptionalParams
+  ): Promise<
+    NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse
+  > {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1414,70 +1442,71 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         virtualmachineIndex,
         networkInterfaceName,
         nextLink,
-        options,
+        options
       },
-      listVirtualMachineScaleSetIpConfigurationsNextOperationSpec,
+      listVirtualMachineScaleSetIpConfigurationsNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listCloudServiceRoleInstanceNetworkInterfacesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.NetworkInterfaceListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
-    },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.cloudServiceName,
-      Parameters.roleInstanceName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listCloudServiceNetworkInterfacesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/networkInterfaces",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.NetworkInterfaceListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
-    },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.cloudServiceName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getCloudServiceNetworkInterfaceOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}",
+const listCloudServiceRoleInstanceNetworkInterfacesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterface,
+      bodyMapper: Mappers.NetworkInterfaceListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.cloudServiceName,
+    Parameters.roleInstanceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listCloudServiceNetworkInterfacesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/networkInterfaces",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterfaceListResult
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.cloudServiceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getCloudServiceNetworkInterfaceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterface
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
@@ -1486,13 +1515,14 @@ const getCloudServiceNetworkInterfaceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.cloudServiceName,
     Parameters.roleInstanceName,
-    Parameters.networkInterfaceName,
+    Parameters.networkInterfaceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1500,59 +1530,61 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkInterfaceName,
+    Parameters.networkInterfaceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterface,
+      bodyMapper: Mappers.NetworkInterface
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkInterfaceName,
+    Parameters.networkInterfaceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterface,
+      bodyMapper: Mappers.NetworkInterface
     },
     201: {
-      bodyMapper: Mappers.NetworkInterface,
+      bodyMapper: Mappers.NetworkInterface
     },
     202: {
-      bodyMapper: Mappers.NetworkInterface,
+      bodyMapper: Mappers.NetworkInterface
     },
     204: {
-      bodyMapper: Mappers.NetworkInterface,
+      bodyMapper: Mappers.NetworkInterface
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
@@ -1560,22 +1592,23 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkInterfaceName,
+    Parameters.networkInterfaceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterface,
+      bodyMapper: Mappers.NetworkInterface
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -1583,377 +1616,375 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkInterfaceName,
+    Parameters.networkInterfaceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listAllOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkInterfaces",
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkInterfaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceListResult,
+      bodyMapper: Mappers.NetworkInterfaceListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceListResult,
+      bodyMapper: Mappers.NetworkInterfaceListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getEffectiveRouteTableOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EffectiveRouteListResult
     },
+    201: {
+      bodyMapper: Mappers.EffectiveRouteListResult
+    },
+    202: {
+      bodyMapper: Mappers.EffectiveRouteListResult
+    },
+    204: {
+      bodyMapper: Mappers.EffectiveRouteListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.networkInterfaceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
-const getEffectiveRouteTableOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable",
+const listEffectiveNetworkSecurityGroupsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveNetworkSecurityGroups",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EffectiveRouteListResult,
+      bodyMapper: Mappers.EffectiveNetworkSecurityGroupListResult
     },
     201: {
-      bodyMapper: Mappers.EffectiveRouteListResult,
+      bodyMapper: Mappers.EffectiveNetworkSecurityGroupListResult
     },
     202: {
-      bodyMapper: Mappers.EffectiveRouteListResult,
+      bodyMapper: Mappers.EffectiveNetworkSecurityGroupListResult
     },
     204: {
-      bodyMapper: Mappers.EffectiveRouteListResult,
+      bodyMapper: Mappers.EffectiveNetworkSecurityGroupListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkInterfaceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listVirtualMachineScaleSetVMNetworkInterfacesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterfaceListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualMachineScaleSetName,
+    Parameters.virtualmachineIndex
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listVirtualMachineScaleSetNetworkInterfacesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/networkInterfaces",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterfaceListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualMachineScaleSetName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getVirtualMachineScaleSetNetworkInterfaceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterface
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.expand, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkInterfaceName,
+    Parameters.virtualMachineScaleSetName,
+    Parameters.virtualmachineIndex
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
-const listEffectiveNetworkSecurityGroupsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveNetworkSecurityGroups",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.EffectiveNetworkSecurityGroupListResult,
-      },
-      201: {
-        bodyMapper: Mappers.EffectiveNetworkSecurityGroupListResult,
-      },
-      202: {
-        bodyMapper: Mappers.EffectiveNetworkSecurityGroupListResult,
-      },
-      204: {
-        bodyMapper: Mappers.EffectiveNetworkSecurityGroupListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const listVirtualMachineScaleSetIpConfigurationsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterfaceIPConfigurationListResult
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.networkInterfaceName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listVirtualMachineScaleSetVMNetworkInterfacesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.NetworkInterfaceListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.expand, Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkInterfaceName,
+    Parameters.virtualMachineScaleSetName,
+    Parameters.virtualmachineIndex
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getVirtualMachineScaleSetIpConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterfaceIPConfiguration
     },
-    queryParameters: [Parameters.apiVersion1],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.virtualMachineScaleSetName,
-      Parameters.virtualmachineIndex,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listVirtualMachineScaleSetNetworkInterfacesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/networkInterfaces",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.NetworkInterfaceListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.expand, Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkInterfaceName,
+    Parameters.virtualMachineScaleSetName,
+    Parameters.virtualmachineIndex,
+    Parameters.ipConfigurationName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listCloudServiceRoleInstanceNetworkInterfacesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterfaceListResult
     },
-    queryParameters: [Parameters.apiVersion1],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.virtualMachineScaleSetName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getVirtualMachineScaleSetNetworkInterfaceOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.NetworkInterface,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.cloudServiceName,
+    Parameters.roleInstanceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listCloudServiceNetworkInterfacesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterfaceListResult
     },
-    queryParameters: [Parameters.expand, Parameters.apiVersion1],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.networkInterfaceName,
-      Parameters.virtualMachineScaleSetName,
-      Parameters.virtualmachineIndex,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listVirtualMachineScaleSetIpConfigurationsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.NetworkInterfaceIPConfigurationListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
-    },
-    queryParameters: [Parameters.expand, Parameters.apiVersion1],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.networkInterfaceName,
-      Parameters.virtualMachineScaleSetName,
-      Parameters.virtualmachineIndex,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getVirtualMachineScaleSetIpConfigurationOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.NetworkInterfaceIPConfiguration,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
-    },
-    queryParameters: [Parameters.expand, Parameters.apiVersion1],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.networkInterfaceName,
-      Parameters.virtualMachineScaleSetName,
-      Parameters.virtualmachineIndex,
-      Parameters.ipConfigurationName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listCloudServiceRoleInstanceNetworkInterfacesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.NetworkInterfaceListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
-    },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.cloudServiceName,
-      Parameters.roleInstanceName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listCloudServiceNetworkInterfacesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.NetworkInterfaceListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
-    },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.cloudServiceName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.cloudServiceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceListResult,
+      bodyMapper: Mappers.NetworkInterfaceListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceListResult,
+      bodyMapper: Mappers.NetworkInterfaceListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listVirtualMachineScaleSetVMNetworkInterfacesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterfaceListResult
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.virtualMachineScaleSetName,
+    Parameters.virtualmachineIndex
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
-const listVirtualMachineScaleSetVMNetworkInterfacesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.NetworkInterfaceListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const listVirtualMachineScaleSetNetworkInterfacesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterfaceListResult
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.virtualMachineScaleSetName,
-      Parameters.virtualmachineIndex,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listVirtualMachineScaleSetNetworkInterfacesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.NetworkInterfaceListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.virtualMachineScaleSetName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listVirtualMachineScaleSetIpConfigurationsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterfaceIPConfigurationListResult
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.virtualMachineScaleSetName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listVirtualMachineScaleSetIpConfigurationsNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.NetworkInterfaceIPConfigurationListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
-    },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.networkInterfaceName,
-      Parameters.virtualMachineScaleSetName,
-      Parameters.virtualmachineIndex,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.networkInterfaceName,
+    Parameters.virtualMachineScaleSetName,
+    Parameters.virtualmachineIndex
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};

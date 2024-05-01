@@ -5,10 +5,12 @@ import * as dotenv from "dotenv";
 /**
  * @summary Classification policy crud
  */
-import JobRouter, {
-  QueueLengthExceptionTrigger,
-  AzureCommunicationRoutingServiceClient
-} from "@azure-rest/communication-job-router";
+import {
+  QueueLengthExceptionTrigger
+} from "../src";
+
+import { AzureCommunicationRoutingServiceClient } from "../src"
+import JobRouter from "../src";
 
 dotenv.config();
 
@@ -47,15 +49,15 @@ async function createClassificationPolicy(): Promise<void> {
     body: {
       name: "test-policy",
       exceptionRules: [{
-        id: "MaxWaitTimeExceeded",
-        actions: [{
-          kind: "reclassify",
-          classificationPolicyId: "Main",
-          labelsToUpsert: {
-            escalated: true,
-          },
-        }],
-        trigger: queueLengthExceptionTrigger,
+          id: "MaxWaitTimeExceeded",
+          actions: [{
+              kind: "reclassify",
+              classificationPolicyId: "Main",
+              labelsToUpsert: {
+                escalated: true,
+              },
+          }],
+          trigger: queueLengthExceptionTrigger,
       }]
     }
   })
@@ -96,6 +98,7 @@ async function createClassificationPolicy(): Promise<void> {
     }
   })
 
+
   const result = await routerClient.path("/routing/classificationPolicies/{classificationPolicyId}", classificationPolicyId).patch({
     contentType: "application/merge-patch+json",
     body: {
@@ -104,7 +107,7 @@ async function createClassificationPolicy(): Promise<void> {
       queueSelectorAttachments: [
         {
           kind: "conditional",
-          queueSelectors: [{
+          queueSelectors : [{
             key: "foo",
             labelOperator: "equal",
             value: { default: 10 },

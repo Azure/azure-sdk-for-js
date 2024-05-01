@@ -364,6 +364,22 @@ export interface SenderUsernameResourceCollection {
   nextLink?: string;
 }
 
+/** A class representing a Domains SuppressionListResource collection. */
+export interface SuppressionListResourceCollection {
+  /** List of SuppressionListResource */
+  value?: SuppressionListResource[];
+  /** The URL the client should use to fetch the next page (per server side paging). */
+  nextLink?: string;
+}
+
+/** Collection of addresses in a suppression list. Response will include a nextLink if response contains more pages. */
+export interface SuppressionListAddressResourceCollection {
+  /** List of suppressed email addresses. */
+  value?: SuppressionListAddressResource[];
+  /** The URL the client should use to fetch the next page (per server side paging). */
+  nextLink?: string;
+}
+
 /** Data POST-ed to the nameAvailability action */
 export interface NameAvailabilityParameters
   extends CheckNameAvailabilityRequest {}
@@ -498,6 +514,49 @@ export interface SenderUsernameResource extends ProxyResource {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** A class representing a SuppressionList resource. */
+export interface SuppressionListResource extends ProxyResource {
+  /** The the name of the suppression list. This value must match one of the valid sender usernames of the sending domain. */
+  listName?: string;
+  /**
+   * The date the resource was last updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedTimeStamp?: string;
+  /**
+   * The date the resource was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimeStamp?: string;
+  /**
+   * The location where the SuppressionListAddress data is stored at rest. This value is inherited from the parent Domains resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataLocation?: string;
+}
+
+/** A object that represents a SuppressionList record. */
+export interface SuppressionListAddressResource extends ProxyResource {
+  /** Email address of the recipient. */
+  email?: string;
+  /** The first name of the email recipient. */
+  firstName?: string;
+  /** The last name of the email recipient. */
+  lastName?: string;
+  /** An optional property to provide contextual notes or a description for an address. */
+  notes?: string;
+  /**
+   * The date the address was last updated in a suppression list.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModified?: Date;
+  /**
+   * The location where the SuppressionListAddress data is stored at rest. This value is inherited from the parent Domains resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataLocation?: string;
+}
+
 /** Defines headers for CommunicationServices_createOrUpdate operation. */
 export interface CommunicationServicesCreateOrUpdateHeaders {
   /** URL to query for status of the operation. */
@@ -565,7 +624,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system",
+  UserSystem = "user,system"
 }
 
 /**
@@ -582,7 +641,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal",
+  Internal = "Internal"
 }
 
 /**
@@ -599,7 +658,7 @@ export enum KnownCheckNameAvailabilityReason {
   /** Invalid */
   Invalid = "Invalid",
   /** AlreadyExists */
-  AlreadyExists = "AlreadyExists",
+  AlreadyExists = "AlreadyExists"
 }
 
 /**
@@ -631,7 +690,7 @@ export enum KnownCommunicationServicesProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Moving */
-  Moving = "Moving",
+  Moving = "Moving"
 }
 
 /**
@@ -660,7 +719,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
 }
 
 /**
@@ -684,7 +743,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key",
+  Key = "Key"
 }
 
 /**
@@ -718,7 +777,7 @@ export enum KnownDomainsProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Moving */
-  Moving = "Moving",
+  Moving = "Moving"
 }
 
 /**
@@ -745,7 +804,7 @@ export enum KnownDomainManagement {
   /** CustomerManaged */
   CustomerManaged = "CustomerManaged",
   /** CustomerManagedInExchangeOnline */
-  CustomerManagedInExchangeOnline = "CustomerManagedInExchangeOnline",
+  CustomerManagedInExchangeOnline = "CustomerManagedInExchangeOnline"
 }
 
 /**
@@ -772,7 +831,7 @@ export enum KnownVerificationStatus {
   /** Verified */
   Verified = "Verified",
   /** CancellationRequested */
-  CancellationRequested = "CancellationRequested",
+  CancellationRequested = "CancellationRequested"
 }
 
 /**
@@ -794,7 +853,7 @@ export enum KnownUserEngagementTracking {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled",
+  Enabled = "Enabled"
 }
 
 /**
@@ -818,7 +877,7 @@ export enum KnownVerificationType {
   /** Dkim2 */
   Dkim2 = "DKIM2",
   /** Dmarc */
-  Dmarc = "DMARC",
+  Dmarc = "DMARC"
 }
 
 /**
@@ -853,7 +912,7 @@ export enum KnownEmailServicesProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Moving */
-  Moving = "Moving",
+  Moving = "Moving"
 }
 
 /**
@@ -892,7 +951,7 @@ export enum KnownProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Moving */
-  Moving = "Moving",
+  Moving = "Moving"
 }
 
 /**
@@ -933,8 +992,7 @@ export interface CommunicationServicesCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type CommunicationServicesCheckNameAvailabilityResponse =
-  CheckNameAvailabilityResponse;
+export type CommunicationServicesCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface CommunicationServicesLinkNotificationHubOptionalParams
@@ -944,24 +1002,21 @@ export interface CommunicationServicesLinkNotificationHubOptionalParams
 }
 
 /** Contains response data for the linkNotificationHub operation. */
-export type CommunicationServicesLinkNotificationHubResponse =
-  LinkedNotificationHub;
+export type CommunicationServicesLinkNotificationHubResponse = LinkedNotificationHub;
 
 /** Optional parameters. */
 export interface CommunicationServicesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type CommunicationServicesListBySubscriptionResponse =
-  CommunicationServiceResourceList;
+export type CommunicationServicesListBySubscriptionResponse = CommunicationServiceResourceList;
 
 /** Optional parameters. */
 export interface CommunicationServicesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type CommunicationServicesListByResourceGroupResponse =
-  CommunicationServiceResourceList;
+export type CommunicationServicesListByResourceGroupResponse = CommunicationServiceResourceList;
 
 /** Optional parameters. */
 export interface CommunicationServicesUpdateOptionalParams
@@ -987,8 +1042,7 @@ export interface CommunicationServicesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type CommunicationServicesCreateOrUpdateResponse =
-  CommunicationServiceResource;
+export type CommunicationServicesCreateOrUpdateResponse = CommunicationServiceResource;
 
 /** Optional parameters. */
 export interface CommunicationServicesDeleteOptionalParams
@@ -1011,24 +1065,21 @@ export interface CommunicationServicesRegenerateKeyOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateKey operation. */
-export type CommunicationServicesRegenerateKeyResponse =
-  CommunicationServiceKeys;
+export type CommunicationServicesRegenerateKeyResponse = CommunicationServiceKeys;
 
 /** Optional parameters. */
 export interface CommunicationServicesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type CommunicationServicesListBySubscriptionNextResponse =
-  CommunicationServiceResourceList;
+export type CommunicationServicesListBySubscriptionNextResponse = CommunicationServiceResourceList;
 
 /** Optional parameters. */
 export interface CommunicationServicesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type CommunicationServicesListByResourceGroupNextResponse =
-  CommunicationServiceResourceList;
+export type CommunicationServicesListByResourceGroupNextResponse = CommunicationServiceResourceList;
 
 /** Optional parameters. */
 export interface DomainsGetOptionalParams extends coreClient.OperationOptions {}
@@ -1086,8 +1137,7 @@ export interface DomainsInitiateVerificationOptionalParams
 }
 
 /** Contains response data for the initiateVerification operation. */
-export type DomainsInitiateVerificationResponse =
-  DomainsInitiateVerificationHeaders;
+export type DomainsInitiateVerificationResponse = DomainsInitiateVerificationHeaders;
 
 /** Optional parameters. */
 export interface DomainsCancelVerificationOptionalParams
@@ -1099,8 +1149,7 @@ export interface DomainsCancelVerificationOptionalParams
 }
 
 /** Contains response data for the cancelVerification operation. */
-export type DomainsCancelVerificationResponse =
-  DomainsCancelVerificationHeaders;
+export type DomainsCancelVerificationResponse = DomainsCancelVerificationHeaders;
 
 /** Optional parameters. */
 export interface DomainsListByEmailServiceResourceNextOptionalParams
@@ -1178,24 +1227,21 @@ export interface EmailServicesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type EmailServicesListBySubscriptionNextResponse =
-  EmailServiceResourceList;
+export type EmailServicesListBySubscriptionNextResponse = EmailServiceResourceList;
 
 /** Optional parameters. */
 export interface EmailServicesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type EmailServicesListByResourceGroupNextResponse =
-  EmailServiceResourceList;
+export type EmailServicesListByResourceGroupNextResponse = EmailServiceResourceList;
 
 /** Optional parameters. */
 export interface SenderUsernamesListByDomainsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDomains operation. */
-export type SenderUsernamesListByDomainsResponse =
-  SenderUsernameResourceCollection;
+export type SenderUsernamesListByDomainsResponse = SenderUsernameResourceCollection;
 
 /** Optional parameters. */
 export interface SenderUsernamesGetOptionalParams
@@ -1220,8 +1266,71 @@ export interface SenderUsernamesListByDomainsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDomainsNext operation. */
-export type SenderUsernamesListByDomainsNextResponse =
-  SenderUsernameResourceCollection;
+export type SenderUsernamesListByDomainsNextResponse = SenderUsernameResourceCollection;
+
+/** Optional parameters. */
+export interface SuppressionListsListByDomainOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDomain operation. */
+export type SuppressionListsListByDomainResponse = SuppressionListResourceCollection;
+
+/** Optional parameters. */
+export interface SuppressionListsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SuppressionListsGetResponse = SuppressionListResource;
+
+/** Optional parameters. */
+export interface SuppressionListsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SuppressionListsCreateOrUpdateResponse = SuppressionListResource;
+
+/** Optional parameters. */
+export interface SuppressionListsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SuppressionListsListByDomainNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDomainNext operation. */
+export type SuppressionListsListByDomainNextResponse = SuppressionListResourceCollection;
+
+/** Optional parameters. */
+export interface SuppressionListAddressesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SuppressionListAddressesListResponse = SuppressionListAddressResourceCollection;
+
+/** Optional parameters. */
+export interface SuppressionListAddressesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SuppressionListAddressesGetResponse = SuppressionListAddressResource;
+
+/** Optional parameters. */
+export interface SuppressionListAddressesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SuppressionListAddressesCreateOrUpdateResponse = SuppressionListAddressResource;
+
+/** Optional parameters. */
+export interface SuppressionListAddressesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SuppressionListAddressesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SuppressionListAddressesListNextResponse = SuppressionListAddressResourceCollection;
 
 /** Optional parameters. */
 export interface CommunicationServiceManagementClientOptionalParams

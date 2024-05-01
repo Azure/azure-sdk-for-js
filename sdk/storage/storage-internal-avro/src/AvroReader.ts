@@ -4,6 +4,7 @@
 // TODO: Do a review of non-interfaces
 /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
 
+import "@azure/core-paging";
 import {
   AVRO_CODEC_KEY,
   AVRO_INIT_BYTES,

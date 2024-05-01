@@ -5,7 +5,7 @@ import {
   getEnvVar,
   PerfOptionDictionary,
   PerfTest
-} from "@azure-tools/test-perf";
+} from "@azure/test-utils-perf";
 import { EventHubClient, EventData } from "@azure/event-hubs";
 
 import { config } from "dotenv";

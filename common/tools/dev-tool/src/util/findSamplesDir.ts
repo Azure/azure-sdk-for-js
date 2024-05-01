@@ -2,7 +2,7 @@
 // Licensed under the MIT license
 
 import fs from "fs-extra";
-import path from "node:path";
+import path from "path";
 
 export function findSamplesRelativeDir(samplesDir: string): string {
   const dirs = [];

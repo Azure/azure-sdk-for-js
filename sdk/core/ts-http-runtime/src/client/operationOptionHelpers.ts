@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions, RequestParameters } from "./common.js";
+import { OperationOptions, RequestParameters } from "./common";
 
 /**
  * Helper function to convert OperationOptions to RequestParameters

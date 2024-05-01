@@ -29,12 +29,11 @@ async function virtualMachineScaleSetForceRecoveryServiceFabricPlatformUpdateDom
   const platformUpdateDomain = 30;
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.forceRecoveryServiceFabricPlatformUpdateDomainWalk(
-      resourceGroupName,
-      vmScaleSetName,
-      platformUpdateDomain,
-    );
+  const result = await client.virtualMachineScaleSets.forceRecoveryServiceFabricPlatformUpdateDomainWalk(
+    resourceGroupName,
+    vmScaleSetName,
+    platformUpdateDomain
+  );
   console.log(result);
 }
 
@@ -53,12 +52,11 @@ async function virtualMachineScaleSetForceRecoveryServiceFabricPlatformUpdateDom
   const platformUpdateDomain = 9;
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.forceRecoveryServiceFabricPlatformUpdateDomainWalk(
-      resourceGroupName,
-      vmScaleSetName,
-      platformUpdateDomain,
-    );
+  const result = await client.virtualMachineScaleSets.forceRecoveryServiceFabricPlatformUpdateDomainWalk(
+    resourceGroupName,
+    vmScaleSetName,
+    platformUpdateDomain
+  );
   console.log(result);
 }
 

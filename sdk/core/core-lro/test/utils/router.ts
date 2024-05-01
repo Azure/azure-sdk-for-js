@@ -17,12 +17,12 @@ import {
   State,
   createProcessor,
   generate,
-} from "./utils.js";
-import { LroEngine, LroResponse, SimplePollerLike, createHttpPoller } from "../../src/index.js";
-import { LroResourceLocationConfig, RawResponse, ResponseBody } from "../../src/http/models.js";
+} from "./utils";
+import { LroEngine, LroResponse, SimplePollerLike, createHttpPoller } from "../../src";
+import { LroResourceLocationConfig, RawResponse, ResponseBody } from "../../src/http/models";
 import { AbortError } from "@azure/abort-controller";
-import { createCoreRestPipelineLro } from "./coreRestPipelineLro.js";
-import { getYieldedValue } from "../getYieldedValue.js";
+import { createCoreRestPipelineLro } from "./coreRestPipelineLro";
+import { getYieldedValue } from "@azure/test-utils";
 
 /**
  * Dummy value for the path of the initial request

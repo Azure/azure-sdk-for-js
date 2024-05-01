@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
+import { assert, describe, it } from "vitest";
 import {
   type HttpClient,
   type PipelinePolicy,
@@ -9,7 +9,7 @@ import {
   createHttpHeaders,
   createPipelineFromOptions,
   createPipelineRequest,
-} from "../src/index.js";
+} from "../src";
 
 describe("HttpsPipeline", function () {
   it("Newly created pipeline has no policies", function () {

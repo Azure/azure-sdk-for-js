@@ -15,9 +15,6 @@ import {
   ClustersListServiceConfigsOptionalParams,
   ClusterInstanceViewResult,
   ClustersListInstanceViewsOptionalParams,
-  ClusterUpgrade,
-  ClustersUpgradeOptionalParams,
-  ClustersUpgradeResponse,
   ClusterResizeData,
   ClustersResizeOptionalParams,
   ClustersResizeResponse,
@@ -30,7 +27,7 @@ import {
   ClustersUpdateResponse,
   ClustersDeleteOptionalParams,
   ClustersGetInstanceViewOptionalParams,
-  ClustersGetInstanceViewResponse,
+  ClustersGetInstanceViewResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +42,7 @@ export interface Clusters {
   listByClusterPoolName(
     resourceGroupName: string,
     clusterPoolName: string,
-    options?: ClustersListByClusterPoolNameOptionalParams,
+    options?: ClustersListByClusterPoolNameOptionalParams
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Lists the config dump of all services running in cluster.
@@ -58,7 +55,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    options?: ClustersListServiceConfigsOptionalParams,
+    options?: ClustersListServiceConfigsOptionalParams
   ): PagedAsyncIterableIterator<ServiceConfigResult>;
   /**
    * Lists the lists of instance views
@@ -71,43 +68,8 @@ export interface Clusters {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    options?: ClustersListInstanceViewsOptionalParams,
+    options?: ClustersListInstanceViewsOptionalParams
   ): PagedAsyncIterableIterator<ClusterInstanceViewResult>;
-  /**
-   * Upgrade a cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterPoolName The name of the cluster pool.
-   * @param clusterName The name of the HDInsight cluster.
-   * @param clusterUpgradeRequest Upgrade a cluster.
-   * @param options The options parameters.
-   */
-  beginUpgrade(
-    resourceGroupName: string,
-    clusterPoolName: string,
-    clusterName: string,
-    clusterUpgradeRequest: ClusterUpgrade,
-    options?: ClustersUpgradeOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersUpgradeResponse>,
-      ClustersUpgradeResponse
-    >
-  >;
-  /**
-   * Upgrade a cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterPoolName The name of the cluster pool.
-   * @param clusterName The name of the HDInsight cluster.
-   * @param clusterUpgradeRequest Upgrade a cluster.
-   * @param options The options parameters.
-   */
-  beginUpgradeAndWait(
-    resourceGroupName: string,
-    clusterPoolName: string,
-    clusterName: string,
-    clusterUpgradeRequest: ClusterUpgrade,
-    options?: ClustersUpgradeOptionalParams,
-  ): Promise<ClustersUpgradeResponse>;
   /**
    * Resize an existing Cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -121,7 +83,7 @@ export interface Clusters {
     clusterPoolName: string,
     clusterName: string,
     clusterResizeRequest: ClusterResizeData,
-    options?: ClustersResizeOptionalParams,
+    options?: ClustersResizeOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersResizeResponse>,
@@ -141,7 +103,7 @@ export interface Clusters {
     clusterPoolName: string,
     clusterName: string,
     clusterResizeRequest: ClusterResizeData,
-    options?: ClustersResizeOptionalParams,
+    options?: ClustersResizeOptionalParams
   ): Promise<ClustersResizeResponse>;
   /**
    * Gets a HDInsight cluster.
@@ -154,7 +116,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    options?: ClustersGetOptionalParams,
+    options?: ClustersGetOptionalParams
   ): Promise<ClustersGetResponse>;
   /**
    * Creates a cluster.
@@ -169,7 +131,7 @@ export interface Clusters {
     clusterPoolName: string,
     clusterName: string,
     hDInsightCluster: Cluster,
-    options?: ClustersCreateOptionalParams,
+    options?: ClustersCreateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersCreateResponse>,
@@ -189,7 +151,7 @@ export interface Clusters {
     clusterPoolName: string,
     clusterName: string,
     hDInsightCluster: Cluster,
-    options?: ClustersCreateOptionalParams,
+    options?: ClustersCreateOptionalParams
   ): Promise<ClustersCreateResponse>;
   /**
    * Updates an existing Cluster.
@@ -204,7 +166,7 @@ export interface Clusters {
     clusterPoolName: string,
     clusterName: string,
     clusterPatchRequest: ClusterPatch,
-    options?: ClustersUpdateOptionalParams,
+    options?: ClustersUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersUpdateResponse>,
@@ -224,7 +186,7 @@ export interface Clusters {
     clusterPoolName: string,
     clusterName: string,
     clusterPatchRequest: ClusterPatch,
-    options?: ClustersUpdateOptionalParams,
+    options?: ClustersUpdateOptionalParams
   ): Promise<ClustersUpdateResponse>;
   /**
    * Deletes a cluster.
@@ -237,7 +199,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams,
+    options?: ClustersDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a cluster.
@@ -250,7 +212,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams,
+    options?: ClustersDeleteOptionalParams
   ): Promise<void>;
   /**
    * Gets the status of a cluster instance.
@@ -263,6 +225,6 @@ export interface Clusters {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    options?: ClustersGetInstanceViewOptionalParams,
+    options?: ClustersGetInstanceViewOptionalParams
   ): Promise<ClustersGetInstanceViewResponse>;
 }

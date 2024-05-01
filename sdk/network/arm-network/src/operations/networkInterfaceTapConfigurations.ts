@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,14 +29,13 @@ import {
   NetworkInterfaceTapConfigurationsGetResponse,
   NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams,
   NetworkInterfaceTapConfigurationsCreateOrUpdateResponse,
-  NetworkInterfaceTapConfigurationsListNextResponse,
+  NetworkInterfaceTapConfigurationsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkInterfaceTapConfigurations operations. */
 export class NetworkInterfaceTapConfigurationsImpl
-  implements NetworkInterfaceTapConfigurations
-{
+  implements NetworkInterfaceTapConfigurations {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -56,12 +55,12 @@ export class NetworkInterfaceTapConfigurationsImpl
   public list(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfaceTapConfigurationsListOptionalParams,
+    options?: NetworkInterfaceTapConfigurationsListOptionalParams
   ): PagedAsyncIterableIterator<NetworkInterfaceTapConfiguration> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkInterfaceName,
-      options,
+      options
     );
     return {
       next() {
@@ -78,9 +77,9 @@ export class NetworkInterfaceTapConfigurationsImpl
           resourceGroupName,
           networkInterfaceName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -88,7 +87,7 @@ export class NetworkInterfaceTapConfigurationsImpl
     resourceGroupName: string,
     networkInterfaceName: string,
     options?: NetworkInterfaceTapConfigurationsListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkInterfaceTapConfiguration[]> {
     let result: NetworkInterfaceTapConfigurationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +95,7 @@ export class NetworkInterfaceTapConfigurationsImpl
       result = await this._list(
         resourceGroupName,
         networkInterfaceName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +107,7 @@ export class NetworkInterfaceTapConfigurationsImpl
         resourceGroupName,
         networkInterfaceName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,12 +119,12 @@ export class NetworkInterfaceTapConfigurationsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfaceTapConfigurationsListOptionalParams,
+    options?: NetworkInterfaceTapConfigurationsListOptionalParams
   ): AsyncIterableIterator<NetworkInterfaceTapConfiguration> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkInterfaceName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -142,24 +141,25 @@ export class NetworkInterfaceTapConfigurationsImpl
     resourceGroupName: string,
     networkInterfaceName: string,
     tapConfigurationName: string,
-    options?: NetworkInterfaceTapConfigurationsDeleteOptionalParams,
+    options?: NetworkInterfaceTapConfigurationsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -168,8 +168,8 @@ export class NetworkInterfaceTapConfigurationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -177,8 +177,8 @@ export class NetworkInterfaceTapConfigurationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -188,14 +188,14 @@ export class NetworkInterfaceTapConfigurationsImpl
         resourceGroupName,
         networkInterfaceName,
         tapConfigurationName,
-        options,
+        options
       },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -212,13 +212,13 @@ export class NetworkInterfaceTapConfigurationsImpl
     resourceGroupName: string,
     networkInterfaceName: string,
     tapConfigurationName: string,
-    options?: NetworkInterfaceTapConfigurationsDeleteOptionalParams,
+    options?: NetworkInterfaceTapConfigurationsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkInterfaceName,
       tapConfigurationName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -234,16 +234,16 @@ export class NetworkInterfaceTapConfigurationsImpl
     resourceGroupName: string,
     networkInterfaceName: string,
     tapConfigurationName: string,
-    options?: NetworkInterfaceTapConfigurationsGetOptionalParams,
+    options?: NetworkInterfaceTapConfigurationsGetOptionalParams
   ): Promise<NetworkInterfaceTapConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         networkInterfaceName,
         tapConfigurationName,
-        options,
+        options
       },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -261,7 +261,7 @@ export class NetworkInterfaceTapConfigurationsImpl
     networkInterfaceName: string,
     tapConfigurationName: string,
     tapConfigurationParameters: NetworkInterfaceTapConfiguration,
-    options?: NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams,
+    options?: NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfaceTapConfigurationsCreateOrUpdateResponse>,
@@ -270,20 +270,21 @@ export class NetworkInterfaceTapConfigurationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<NetworkInterfaceTapConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -292,8 +293,8 @@ export class NetworkInterfaceTapConfigurationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -301,8 +302,8 @@ export class NetworkInterfaceTapConfigurationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -313,9 +314,9 @@ export class NetworkInterfaceTapConfigurationsImpl
         networkInterfaceName,
         tapConfigurationName,
         tapConfigurationParameters,
-        options,
+        options
       },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       NetworkInterfaceTapConfigurationsCreateOrUpdateResponse,
@@ -323,7 +324,7 @@ export class NetworkInterfaceTapConfigurationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -343,14 +344,14 @@ export class NetworkInterfaceTapConfigurationsImpl
     networkInterfaceName: string,
     tapConfigurationName: string,
     tapConfigurationParameters: NetworkInterfaceTapConfiguration,
-    options?: NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams,
+    options?: NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams
   ): Promise<NetworkInterfaceTapConfigurationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       networkInterfaceName,
       tapConfigurationName,
       tapConfigurationParameters,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -364,11 +365,11 @@ export class NetworkInterfaceTapConfigurationsImpl
   private _list(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfaceTapConfigurationsListOptionalParams,
+    options?: NetworkInterfaceTapConfigurationsListOptionalParams
   ): Promise<NetworkInterfaceTapConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkInterfaceName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -383,11 +384,11 @@ export class NetworkInterfaceTapConfigurationsImpl
     resourceGroupName: string,
     networkInterfaceName: string,
     nextLink: string,
-    options?: NetworkInterfaceTapConfigurationsListNextOptionalParams,
+    options?: NetworkInterfaceTapConfigurationsListNextOptionalParams
   ): Promise<NetworkInterfaceTapConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkInterfaceName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -395,7 +396,8 @@ export class NetworkInterfaceTapConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -403,8 +405,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -412,21 +414,22 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkInterfaceName,
-    Parameters.tapConfigurationName,
+    Parameters.tapConfigurationName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceTapConfiguration,
+      bodyMapper: Mappers.NetworkInterfaceTapConfiguration
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -434,30 +437,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkInterfaceName,
-    Parameters.tapConfigurationName,
+    Parameters.tapConfigurationName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceTapConfiguration,
+      bodyMapper: Mappers.NetworkInterfaceTapConfiguration
     },
     201: {
-      bodyMapper: Mappers.NetworkInterfaceTapConfiguration,
+      bodyMapper: Mappers.NetworkInterfaceTapConfiguration
     },
     202: {
-      bodyMapper: Mappers.NetworkInterfaceTapConfiguration,
+      bodyMapper: Mappers.NetworkInterfaceTapConfiguration
     },
     204: {
-      bodyMapper: Mappers.NetworkInterfaceTapConfiguration,
+      bodyMapper: Mappers.NetworkInterfaceTapConfiguration
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.tapConfigurationParameters,
   queryParameters: [Parameters.apiVersion],
@@ -466,51 +470,52 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkInterfaceName,
-    Parameters.tapConfigurationName,
+    Parameters.tapConfigurationName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceTapConfigurationListResult,
+      bodyMapper: Mappers.NetworkInterfaceTapConfigurationListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkInterfaceName,
+    Parameters.networkInterfaceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceTapConfigurationListResult,
+      bodyMapper: Mappers.NetworkInterfaceTapConfigurationListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkInterfaceName,
+    Parameters.networkInterfaceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

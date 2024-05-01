@@ -3,6 +3,7 @@
 /// <reference lib="dom" />
 import { PriorityLevel } from "../documents/PriorityLevel";
 import { CosmosHeaders } from "../index";
+import { AbortSignal } from "node-abort-controller";
 
 /**
  * Options that can be specified for a requested issued to the Azure Cosmos DB servers.=
@@ -33,13 +34,6 @@ export interface SharedOptions {
    * <p>Cache Staleness is supported in milliseconds granularity. Anything smaller than milliseconds will be ignored.</p>
    */
   maxIntegratedCacheStalenessInMs?: number;
-
-  /**
-   * Sets if integrated cache should be bypassed or enabled for the request in Azure CosmosDB service.
-   *
-   * <p>Default value is false. By default integrated cache is enabled</p>
-   */
-  bypassIntegratedCache?: boolean;
 
   /**
    * Priority Level (Low/High) for each request.

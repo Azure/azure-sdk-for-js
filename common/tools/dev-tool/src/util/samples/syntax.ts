@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import ts from "typescript";
+import * as ts from "typescript";
 
 /**
  * Tests for syntax compatibility.

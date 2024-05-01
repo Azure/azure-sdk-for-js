@@ -24,7 +24,9 @@ async function retrieveBootDiagnosticsDataOfAVirtualMachine() {
   const vmScaleSetName = "myvmScaleSet";
   const instanceId = "0";
   const sasUriExpirationTimeInMinutes = 60;
-  const options = { sasUriExpirationTimeInMinutes };
+  const options = {
+    sasUriExpirationTimeInMinutes,
+  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSetVMs.retrieveBootDiagnosticsData(

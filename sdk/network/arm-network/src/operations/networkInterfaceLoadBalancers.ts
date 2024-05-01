@@ -18,14 +18,13 @@ import {
   NetworkInterfaceLoadBalancersListNextOptionalParams,
   NetworkInterfaceLoadBalancersListOptionalParams,
   NetworkInterfaceLoadBalancersListResponse,
-  NetworkInterfaceLoadBalancersListNextResponse,
+  NetworkInterfaceLoadBalancersListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkInterfaceLoadBalancers operations. */
 export class NetworkInterfaceLoadBalancersImpl
-  implements NetworkInterfaceLoadBalancers
-{
+  implements NetworkInterfaceLoadBalancers {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -45,12 +44,12 @@ export class NetworkInterfaceLoadBalancersImpl
   public list(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfaceLoadBalancersListOptionalParams,
+    options?: NetworkInterfaceLoadBalancersListOptionalParams
   ): PagedAsyncIterableIterator<LoadBalancer> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkInterfaceName,
-      options,
+      options
     );
     return {
       next() {
@@ -67,9 +66,9 @@ export class NetworkInterfaceLoadBalancersImpl
           resourceGroupName,
           networkInterfaceName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -77,7 +76,7 @@ export class NetworkInterfaceLoadBalancersImpl
     resourceGroupName: string,
     networkInterfaceName: string,
     options?: NetworkInterfaceLoadBalancersListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<LoadBalancer[]> {
     let result: NetworkInterfaceLoadBalancersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +84,7 @@ export class NetworkInterfaceLoadBalancersImpl
       result = await this._list(
         resourceGroupName,
         networkInterfaceName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -97,7 +96,7 @@ export class NetworkInterfaceLoadBalancersImpl
         resourceGroupName,
         networkInterfaceName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -109,12 +108,12 @@ export class NetworkInterfaceLoadBalancersImpl
   private async *listPagingAll(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfaceLoadBalancersListOptionalParams,
+    options?: NetworkInterfaceLoadBalancersListOptionalParams
   ): AsyncIterableIterator<LoadBalancer> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkInterfaceName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -129,11 +128,11 @@ export class NetworkInterfaceLoadBalancersImpl
   private _list(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfaceLoadBalancersListOptionalParams,
+    options?: NetworkInterfaceLoadBalancersListOptionalParams
   ): Promise<NetworkInterfaceLoadBalancersListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkInterfaceName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -148,11 +147,11 @@ export class NetworkInterfaceLoadBalancersImpl
     resourceGroupName: string,
     networkInterfaceName: string,
     nextLink: string,
-    options?: NetworkInterfaceLoadBalancersListNextOptionalParams,
+    options?: NetworkInterfaceLoadBalancersListNextOptionalParams
   ): Promise<NetworkInterfaceLoadBalancersListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkInterfaceName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -160,44 +159,45 @@ export class NetworkInterfaceLoadBalancersImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/loadBalancers",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/loadBalancers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceLoadBalancerListResult,
+      bodyMapper: Mappers.NetworkInterfaceLoadBalancerListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkInterfaceName,
+    Parameters.networkInterfaceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceLoadBalancerListResult,
+      bodyMapper: Mappers.NetworkInterfaceLoadBalancerListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkInterfaceName,
+    Parameters.networkInterfaceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

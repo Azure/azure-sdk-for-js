@@ -6915,7 +6915,7 @@ export const timeout55: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "timeout",
-    defaultValue: 120,
+    defaultValue: 30,
     type: {
       name: "Number"
     }

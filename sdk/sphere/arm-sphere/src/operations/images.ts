@@ -16,7 +16,7 @@ import { AzureSphereManagementClient } from "../azureSphereManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   ImagesCreateOrUpdateOptionalParams,
   ImagesCreateOrUpdateResponse,
   ImagesDeleteOptionalParams,
-  ImagesListByCatalogNextResponse,
+  ImagesListByCatalogNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +54,12 @@ export class ImagesImpl implements Images {
   public listByCatalog(
     resourceGroupName: string,
     catalogName: string,
-    options?: ImagesListByCatalogOptionalParams,
+    options?: ImagesListByCatalogOptionalParams
   ): PagedAsyncIterableIterator<Image> {
     const iter = this.listByCatalogPagingAll(
       resourceGroupName,
       catalogName,
-      options,
+      options
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class ImagesImpl implements Images {
           resourceGroupName,
           catalogName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -86,7 +86,7 @@ export class ImagesImpl implements Images {
     resourceGroupName: string,
     catalogName: string,
     options?: ImagesListByCatalogOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<Image[]> {
     let result: ImagesListByCatalogResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class ImagesImpl implements Images {
       result = await this._listByCatalog(
         resourceGroupName,
         catalogName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class ImagesImpl implements Images {
         resourceGroupName,
         catalogName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class ImagesImpl implements Images {
   private async *listByCatalogPagingAll(
     resourceGroupName: string,
     catalogName: string,
-    options?: ImagesListByCatalogOptionalParams,
+    options?: ImagesListByCatalogOptionalParams
   ): AsyncIterableIterator<Image> {
     for await (const page of this.listByCatalogPagingPage(
       resourceGroupName,
       catalogName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class ImagesImpl implements Images {
   private _listByCatalog(
     resourceGroupName: string,
     catalogName: string,
-    options?: ImagesListByCatalogOptionalParams,
+    options?: ImagesListByCatalogOptionalParams
   ): Promise<ImagesListByCatalogResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, options },
-      listByCatalogOperationSpec,
+      listByCatalogOperationSpec
     );
   }
 
@@ -150,18 +150,18 @@ export class ImagesImpl implements Images {
    * Get a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use an image GUID for GA versions of the API.
+   * @param imageName Image name. Use .default for image creation.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     catalogName: string,
     imageName: string,
-    options?: ImagesGetOptionalParams,
+    options?: ImagesGetOptionalParams
   ): Promise<ImagesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, imageName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -169,7 +169,7 @@ export class ImagesImpl implements Images {
    * Create a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use an image GUID for GA versions of the API.
+   * @param imageName Image name. Use .default for image creation.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
@@ -178,7 +178,7 @@ export class ImagesImpl implements Images {
     catalogName: string,
     imageName: string,
     resource: Image,
-    options?: ImagesCreateOrUpdateOptionalParams,
+    options?: ImagesCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<ImagesCreateOrUpdateResponse>,
@@ -187,20 +187,21 @@ export class ImagesImpl implements Images {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<ImagesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -209,8 +210,8 @@ export class ImagesImpl implements Images {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -218,15 +219,15 @@ export class ImagesImpl implements Images {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, catalogName, imageName, resource, options },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       ImagesCreateOrUpdateResponse,
@@ -234,7 +235,7 @@ export class ImagesImpl implements Images {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -244,7 +245,7 @@ export class ImagesImpl implements Images {
    * Create a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use an image GUID for GA versions of the API.
+   * @param imageName Image name. Use .default for image creation.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
@@ -253,14 +254,14 @@ export class ImagesImpl implements Images {
     catalogName: string,
     imageName: string,
     resource: Image,
-    options?: ImagesCreateOrUpdateOptionalParams,
+    options?: ImagesCreateOrUpdateOptionalParams
   ): Promise<ImagesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       catalogName,
       imageName,
       resource,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -269,31 +270,32 @@ export class ImagesImpl implements Images {
    * Delete a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use an image GUID for GA versions of the API.
+   * @param imageName Image name. Use .default for image creation.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     catalogName: string,
     imageName: string,
-    options?: ImagesDeleteOptionalParams,
+    options?: ImagesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -302,8 +304,8 @@ export class ImagesImpl implements Images {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -311,20 +313,20 @@ export class ImagesImpl implements Images {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, catalogName, imageName, options },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -334,20 +336,20 @@ export class ImagesImpl implements Images {
    * Delete a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use an image GUID for GA versions of the API.
+   * @param imageName Image name. Use .default for image creation.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     catalogName: string,
     imageName: string,
-    options?: ImagesDeleteOptionalParams,
+    options?: ImagesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       catalogName,
       imageName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -363,11 +365,11 @@ export class ImagesImpl implements Images {
     resourceGroupName: string,
     catalogName: string,
     nextLink: string,
-    options?: ImagesListByCatalogNextOptionalParams,
+    options?: ImagesListByCatalogNextOptionalParams
   ): Promise<ImagesListByCatalogNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, nextLink, options },
-      listByCatalogNextOperationSpec,
+      listByCatalogNextOperationSpec
     );
   }
 }
@@ -375,42 +377,44 @@ export class ImagesImpl implements Images {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByCatalogOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/images",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/images",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImageListResult,
+      bodyMapper: Mappers.ImageListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.maxpagesize,
+    Parameters.maxpagesize
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName,
+    Parameters.catalogName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/images/{imageName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/images/{imageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Image,
+      bodyMapper: Mappers.Image
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -418,30 +422,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.catalogName,
-    Parameters.imageName,
+    Parameters.imageName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/images/{imageName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/images/{imageName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Image,
+      bodyMapper: Mappers.Image
     },
     201: {
-      bodyMapper: Mappers.Image,
+      bodyMapper: Mappers.Image
     },
     202: {
-      bodyMapper: Mappers.Image,
+      bodyMapper: Mappers.Image
     },
     204: {
-      bodyMapper: Mappers.Image,
+      bodyMapper: Mappers.Image
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
@@ -450,14 +455,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.catalogName,
-    Parameters.imageName,
+    Parameters.imageName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/images/{imageName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/images/{imageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -465,8 +471,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -474,29 +480,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.catalogName,
-    Parameters.imageName,
+    Parameters.imageName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByCatalogNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImageListResult,
+      bodyMapper: Mappers.ImageListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName,
+    Parameters.catalogName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

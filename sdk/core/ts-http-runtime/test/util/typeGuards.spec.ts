@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
-import { isDefined, isObjectWithProperties, objectHasProperty } from "../../src/index.js";
+import { isDefined, isObjectWithProperties, objectHasProperty } from "../../src/index";
+import { assert } from "chai";
 
 describe("Type guards", function () {
   describe("isDefined", function () {

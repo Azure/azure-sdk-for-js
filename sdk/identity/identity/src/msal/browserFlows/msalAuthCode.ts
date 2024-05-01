@@ -2,16 +2,8 @@
 // Licensed under the MIT license.
 
 import * as msalBrowser from "@azure/msal-browser";
-
 import { MsalBrowser, MsalBrowserFlowOptions } from "./msalBrowserCommon";
-import {
-  defaultLoggerCallback,
-  getMSALLogLevel,
-  handleMsalError,
-  msalToPublic,
-  publicToMsal,
-} from "../utils";
-
+import { defaultLoggerCallback, msalToPublic, publicToMsal, getMSALLogLevel } from "../utils";
 import { AccessToken } from "@azure/core-auth";
 import { AuthenticationRecord } from "../types";
 import { AuthenticationRequiredError } from "../../errors";
@@ -27,7 +19,7 @@ const redirectHash = self.location.hash;
  * @internal
  */
 export class MSALAuthCode extends MsalBrowser {
-  protected app?: msalBrowser.IPublicClientApplication;
+  protected app: msalBrowser.PublicClientApplication;
   private loginHint?: string;
 
   /**
@@ -51,28 +43,14 @@ export class MSALAuthCode extends MsalBrowser {
         piiLoggingEnabled: options.loggingOptions?.enableUnsafeSupportLogging,
       },
     };
-    if (options.authenticationRecord) {
-      this.account = {
-        ...options.authenticationRecord,
-        tenantId: this.tenantId,
-      };
+
+    // Preparing the MSAL application.
+    this.app = new msalBrowser.PublicClientApplication(
+      this.msalConfig as msalBrowser.Configuration,
+    );
+    if (this.account) {
+      this.app.setActiveAccount(publicToMsal(this.account));
     }
-  }
-
-  private async getApp(): Promise<msalBrowser.IPublicClientApplication> {
-    if (!this.app) {
-      // Prepare the MSAL application
-      this.app = await msalBrowser.PublicClientApplication.createPublicClientApplication(
-        this.msalConfig as msalBrowser.Configuration,
-      );
-
-      // setting the account right after the app is created.
-      if (this.account) {
-        this.app.setActiveAccount(publicToMsal(this.account));
-      }
-    }
-
-    return this.app;
   }
 
   /**
@@ -84,10 +62,9 @@ export class MSALAuthCode extends MsalBrowser {
     result?: msalBrowser.AuthenticationResult,
   ): Promise<AuthenticationRecord | undefined> {
     try {
-      const app = await this.getApp();
       if (result && result.account) {
         this.logger.info(`MSAL Browser V2 authentication successful.`);
-        app.setActiveAccount(result.account);
+        this.app.setActiveAccount(result.account);
         return msalToPublic(this.clientId, result.account);
       }
 
@@ -98,7 +75,7 @@ export class MSALAuthCode extends MsalBrowser {
       }
 
       // If we don't have an active account, we try to activate it from all the already loaded accounts.
-      const accounts = app.getAllAccounts();
+      const accounts = this.app.getAllAccounts();
       if (accounts.length > 1) {
         // If there's more than one account in memory, we force the user to authenticate again.
         // At this point we can't identify which account should this credential work with,
@@ -114,7 +91,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         // To safely trigger a new login, we're also ensuring the local cache is cleared up for this MSAL object.
         // However, we want to avoid kicking the user out of their authentication on the Azure side.
         // We do this by calling to logout while specifying a `onRedirectNavigate` that returns false.
-        await app.logout({
+        await this.app.logout({
           onRedirectNavigate: () => false,
         });
         return;
@@ -123,7 +100,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       // If there's only one account for this MSAL object, we can safely activate it.
       if (accounts.length === 1) {
         const account = accounts[0];
-        app.setActiveAccount(account);
+        this.app.setActiveAccount(account);
         return msalToPublic(this.clientId, account);
       }
 
@@ -138,8 +115,9 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    * Uses MSAL to handle the redirect.
    */
   public async handleRedirect(): Promise<AuthenticationRecord | undefined> {
-    const app = await this.getApp();
-    return this.handleBrowserResult((await app.handleRedirectPromise(redirectHash)) || undefined);
+    return this.handleBrowserResult(
+      (await this.app.handleRedirectPromise(redirectHash)) || undefined,
+    );
   }
 
   /**
@@ -151,14 +129,13 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       scopes: arrayScopes,
       loginHint: this.loginHint,
     };
-    const app = await this.getApp();
     switch (this.loginStyle) {
       case "redirect": {
-        await app.loginRedirect(loginRequest);
+        await this.app.loginRedirect(loginRequest);
         return;
       }
       case "popup":
-        return this.handleBrowserResult(await app.loginPopup(loginRequest));
+        return this.handleBrowserResult(await this.app.loginPopup(loginRequest));
     }
   }
 
@@ -166,8 +143,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    * Uses MSAL to retrieve the active account.
    */
   public async getActiveAccount(): Promise<AuthenticationRecord | undefined> {
-    const app = await this.getApp();
-    const account = app.getActiveAccount();
+    const account = this.app.getActiveAccount();
     if (!account) {
       return;
     }
@@ -202,11 +178,10 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
     try {
       this.logger.info("Attempting to acquire token silently");
-      const app = await this.getApp();
-      const response = await app.acquireTokenSilent(parameters);
-      return this.handleResult(scopes, response);
+      const response = await this.app.acquireTokenSilent(parameters);
+      return this.handleResult(scopes, this.clientId, response);
     } catch (err: any) {
-      throw handleMsalError(scopes, err, options);
+      throw this.handleError(scopes, err, options);
     }
   }
 
@@ -235,17 +210,20 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       loginHint: this.loginHint,
       scopes,
     };
-    const app = await this.getApp();
+
     switch (this.loginStyle) {
       case "redirect":
         // This will go out of the page.
         // Once the InteractiveBrowserCredential is initialized again,
         // we'll load the MSAL account in the constructor.
-
-        await app.acquireTokenRedirect(parameters);
+        await this.app.acquireTokenRedirect(parameters);
         return { token: "", expiresOnTimestamp: 0 };
       case "popup":
-        return this.handleResult(scopes, await app.acquireTokenPopup(parameters));
+        return this.handleResult(
+          scopes,
+          this.clientId,
+          await this.app.acquireTokenPopup(parameters),
+        );
     }
   }
 }

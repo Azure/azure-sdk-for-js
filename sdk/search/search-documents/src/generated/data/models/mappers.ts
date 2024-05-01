@@ -8,47 +8,25 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const ErrorResponse: coreClient.CompositeMapper = {
+export const SearchError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorDetail",
-        },
-      },
-    },
-  },
-};
-
-export const ErrorDetail: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorDetail",
+    className: "SearchError",
     modelProperties: {
       code: {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       message: {
         serializedName: "message",
+        required: true,
         readOnly: true,
         type: {
-          name: "String",
-        },
-      },
-      target: {
-        serializedName: "target",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       details: {
         serializedName: "details",
@@ -58,50 +36,13 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail",
-            },
-          },
-        },
-      },
-      additionalInfo: {
-        serializedName: "additionalInfo",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorAdditionalInfo",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorAdditionalInfo",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      info: {
-        serializedName: "info",
-        readOnly: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } },
-        },
-      },
-    },
-  },
+              className: "SearchError"
+            }
+          }
+        }
+      }
+    }
+  }
 };
 
 export const SearchDocumentsResult: coreClient.CompositeMapper = {
@@ -113,15 +54,15 @@ export const SearchDocumentsResult: coreClient.CompositeMapper = {
         serializedName: "@odata\\.count",
         readOnly: true,
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       coverage: {
         serializedName: "@search\\.coverage",
         readOnly: true,
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       facets: {
         serializedName: "@search\\.facets",
@@ -131,12 +72,10 @@ export const SearchDocumentsResult: coreClient.CompositeMapper = {
           value: {
             type: {
               name: "Sequence",
-              element: {
-                type: { name: "Composite", className: "FacetResult" },
-              },
-            },
-          },
-        },
+              element: { type: { name: "Composite", className: "FacetResult" } }
+            }
+          }
+        }
       },
       answers: {
         serializedName: "@search\\.answers",
@@ -147,31 +86,31 @@ export const SearchDocumentsResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "QueryAnswerResult",
-            },
-          },
-        },
+              className: "AnswerResult"
+            }
+          }
+        }
       },
       nextPageParameters: {
         serializedName: "@search\\.nextPageParameters",
         type: {
           name: "Composite",
-          className: "SearchRequest",
-        },
+          className: "SearchRequest"
+        }
       },
       semanticPartialResponseReason: {
         serializedName: "@search\\.semanticPartialResponseReason",
         readOnly: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       semanticPartialResponseType: {
         serializedName: "@search\\.semanticPartialResponseType",
         readOnly: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       results: {
         serializedName: "value",
@@ -182,20 +121,20 @@ export const SearchDocumentsResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SearchResult",
-            },
-          },
-        },
+              className: "SearchResult"
+            }
+          }
+        }
       },
       nextLink: {
         serializedName: "@odata\\.nextLink",
         readOnly: true,
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
 export const FacetResult: coreClient.CompositeMapper = {
@@ -208,17 +147,17 @@ export const FacetResult: coreClient.CompositeMapper = {
         serializedName: "count",
         readOnly: true,
         type: {
-          name: "Number",
-        },
-      },
-    },
-  },
+          name: "Number"
+        }
+      }
+    }
+  }
 };
 
-export const QueryAnswerResult: coreClient.CompositeMapper = {
+export const AnswerResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "QueryAnswerResult",
+    className: "AnswerResult",
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       score: {
@@ -226,35 +165,35 @@ export const QueryAnswerResult: coreClient.CompositeMapper = {
         required: true,
         readOnly: true,
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       key: {
         serializedName: "key",
         required: true,
         readOnly: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       text: {
         serializedName: "text",
         required: true,
         readOnly: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       highlights: {
         serializedName: "highlights",
         readOnly: true,
         nullable: true,
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
 export const SearchRequest: coreClient.CompositeMapper = {
@@ -265,8 +204,8 @@ export const SearchRequest: coreClient.CompositeMapper = {
       includeTotalResultCount: {
         serializedName: "count",
         type: {
-          name: "Boolean",
-        },
+          name: "Boolean"
+        }
       },
       facets: {
         serializedName: "facets",
@@ -274,66 +213,66 @@ export const SearchRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String",
-            },
-          },
-        },
+              name: "String"
+            }
+          }
+        }
       },
       filter: {
         serializedName: "filter",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       highlightFields: {
         serializedName: "highlight",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       highlightPostTag: {
         serializedName: "highlightPostTag",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       highlightPreTag: {
         serializedName: "highlightPreTag",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       minimumCoverage: {
         serializedName: "minimumCoverage",
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       orderBy: {
         serializedName: "orderby",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       queryType: {
         serializedName: "queryType",
         type: {
           name: "Enum",
-          allowedValues: ["simple", "full", "semantic"],
-        },
+          allowedValues: ["simple", "full", "semantic"]
+        }
       },
       scoringStatistics: {
         serializedName: "scoringStatistics",
         type: {
           name: "Enum",
-          allowedValues: ["local", "global"],
-        },
+          allowedValues: ["local", "global"]
+        }
       },
       sessionId: {
         serializedName: "sessionId",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       scoringParameters: {
         serializedName: "scoringParameters",
@@ -341,117 +280,117 @@ export const SearchRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String",
-            },
-          },
-        },
+              name: "String"
+            }
+          }
+        }
       },
       scoringProfile: {
         serializedName: "scoringProfile",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       semanticQuery: {
         serializedName: "semanticQuery",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
-      semanticConfigurationName: {
+      semanticConfiguration: {
         serializedName: "semanticConfiguration",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       semanticErrorHandling: {
         serializedName: "semanticErrorHandling",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       semanticMaxWaitInMilliseconds: {
         constraints: {
-          InclusiveMinimum: 700,
+          InclusiveMinimum: 700
         },
         serializedName: "semanticMaxWaitInMilliseconds",
         nullable: true,
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       debug: {
         serializedName: "debug",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       searchText: {
         serializedName: "search",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       searchFields: {
         serializedName: "searchFields",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       searchMode: {
         serializedName: "searchMode",
         type: {
           name: "Enum",
-          allowedValues: ["any", "all"],
-        },
+          allowedValues: ["any", "all"]
+        }
       },
       queryLanguage: {
         serializedName: "queryLanguage",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       speller: {
         serializedName: "speller",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       answers: {
         serializedName: "answers",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       select: {
         serializedName: "select",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       skip: {
         serializedName: "skip",
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       top: {
         serializedName: "top",
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       captions: {
         serializedName: "captions",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       semanticFields: {
         serializedName: "semanticFields",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       vectorQueries: {
         serializedName: "vectorQueries",
@@ -460,19 +399,19 @@ export const SearchRequest: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "VectorQuery",
-            },
-          },
-        },
+              className: "VectorQuery"
+            }
+          }
+        }
       },
       vectorFilterMode: {
         serializedName: "vectorFilterMode",
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
 export const VectorQuery: coreClient.CompositeMapper = {
@@ -482,42 +421,36 @@ export const VectorQuery: coreClient.CompositeMapper = {
     uberParent: "VectorQuery",
     polymorphicDiscriminator: {
       serializedName: "kind",
-      clientName: "kind",
+      clientName: "kind"
     },
     modelProperties: {
       kind: {
         serializedName: "kind",
         required: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       kNearestNeighborsCount: {
         serializedName: "k",
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       fields: {
         serializedName: "fields",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       exhaustive: {
         serializedName: "exhaustive",
         type: {
-          name: "Boolean",
-        },
-      },
-      oversampling: {
-        serializedName: "oversampling",
-        type: {
-          name: "Number",
-        },
-      },
-    },
-  },
+          name: "Boolean"
+        }
+      }
+    }
+  }
 };
 
 export const SearchResult: coreClient.CompositeMapper = {
@@ -531,16 +464,16 @@ export const SearchResult: coreClient.CompositeMapper = {
         required: true,
         readOnly: true,
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
-      _rerankerScore: {
+      rerankerScore: {
         serializedName: "@search\\.rerankerScore",
         readOnly: true,
         nullable: true,
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       _highlights: {
         serializedName: "@search\\.highlights",
@@ -548,11 +481,11 @@ export const SearchResult: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Sequence", element: { type: { name: "String" } } },
-          },
-        },
+            type: { name: "Sequence", element: { type: { name: "String" } } }
+          }
+        }
       },
-      _captions: {
+      captions: {
         serializedName: "@search\\.captions",
         readOnly: true,
         nullable: true,
@@ -561,10 +494,10 @@ export const SearchResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "QueryCaptionResult",
-            },
-          },
-        },
+              className: "CaptionResult"
+            }
+          }
+        }
       },
       documentDebugInfo: {
         serializedName: "@search\\.documentDebugInfo",
@@ -575,38 +508,38 @@ export const SearchResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DocumentDebugInfo",
-            },
-          },
-        },
-      },
-    },
-  },
+              className: "DocumentDebugInfo"
+            }
+          }
+        }
+      }
+    }
+  }
 };
 
-export const QueryCaptionResult: coreClient.CompositeMapper = {
+export const CaptionResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "QueryCaptionResult",
+    className: "CaptionResult",
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       text: {
         serializedName: "text",
         readOnly: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       highlights: {
         serializedName: "highlights",
         readOnly: true,
         nullable: true,
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
 export const DocumentDebugInfo: coreClient.CompositeMapper = {
@@ -618,11 +551,11 @@ export const DocumentDebugInfo: coreClient.CompositeMapper = {
         serializedName: "semantic",
         type: {
           name: "Composite",
-          className: "SemanticDebugInfo",
-        },
-      },
-    },
-  },
+          className: "SemanticDebugInfo"
+        }
+      }
+    }
+  }
 };
 
 export const SemanticDebugInfo: coreClient.CompositeMapper = {
@@ -634,8 +567,8 @@ export const SemanticDebugInfo: coreClient.CompositeMapper = {
         serializedName: "titleField",
         type: {
           name: "Composite",
-          className: "QueryResultDocumentSemanticField",
-        },
+          className: "QueryResultDocumentSemanticField"
+        }
       },
       contentFields: {
         serializedName: "contentFields",
@@ -645,10 +578,10 @@ export const SemanticDebugInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "QueryResultDocumentSemanticField",
-            },
-          },
-        },
+              className: "QueryResultDocumentSemanticField"
+            }
+          }
+        }
       },
       keywordFields: {
         serializedName: "keywordFields",
@@ -658,20 +591,20 @@ export const SemanticDebugInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "QueryResultDocumentSemanticField",
-            },
-          },
-        },
+              className: "QueryResultDocumentSemanticField"
+            }
+          }
+        }
       },
       rerankerInput: {
         serializedName: "rerankerInput",
         type: {
           name: "Composite",
-          className: "QueryResultDocumentRerankerInput",
-        },
-      },
-    },
-  },
+          className: "QueryResultDocumentRerankerInput"
+        }
+      }
+    }
+  }
 };
 
 export const QueryResultDocumentSemanticField: coreClient.CompositeMapper = {
@@ -683,18 +616,18 @@ export const QueryResultDocumentSemanticField: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       state: {
         serializedName: "state",
         readOnly: true,
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
 export const QueryResultDocumentRerankerInput: coreClient.CompositeMapper = {
@@ -706,25 +639,25 @@ export const QueryResultDocumentRerankerInput: coreClient.CompositeMapper = {
         serializedName: "title",
         readOnly: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       content: {
         serializedName: "content",
         readOnly: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       keywords: {
         serializedName: "keywords",
         readOnly: true,
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
 export const SuggestDocumentsResult: coreClient.CompositeMapper = {
@@ -741,20 +674,20 @@ export const SuggestDocumentsResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SuggestResult",
-            },
-          },
-        },
+              className: "SuggestResult"
+            }
+          }
+        }
       },
       coverage: {
         serializedName: "@search\\.coverage",
         readOnly: true,
         type: {
-          name: "Number",
-        },
-      },
-    },
-  },
+          name: "Number"
+        }
+      }
+    }
+  }
 };
 
 export const SuggestResult: coreClient.CompositeMapper = {
@@ -768,11 +701,11 @@ export const SuggestResult: coreClient.CompositeMapper = {
         required: true,
         readOnly: true,
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
 export const SuggestRequest: coreClient.CompositeMapper = {
@@ -783,73 +716,73 @@ export const SuggestRequest: coreClient.CompositeMapper = {
       filter: {
         serializedName: "filter",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       useFuzzyMatching: {
         serializedName: "fuzzy",
         type: {
-          name: "Boolean",
-        },
+          name: "Boolean"
+        }
       },
       highlightPostTag: {
         serializedName: "highlightPostTag",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       highlightPreTag: {
         serializedName: "highlightPreTag",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       minimumCoverage: {
         serializedName: "minimumCoverage",
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       orderBy: {
         serializedName: "orderby",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       searchText: {
         serializedName: "search",
         required: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       searchFields: {
         serializedName: "searchFields",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       select: {
         serializedName: "select",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       suggesterName: {
         serializedName: "suggesterName",
         required: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       top: {
         serializedName: "top",
         type: {
-          name: "Number",
-        },
-      },
-    },
-  },
+          name: "Number"
+        }
+      }
+    }
+  }
 };
 
 export const IndexBatch: coreClient.CompositeMapper = {
@@ -865,13 +798,13 @@ export const IndexBatch: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "IndexAction",
-            },
-          },
-        },
-      },
-    },
-  },
+              className: "IndexAction"
+            }
+          }
+        }
+      }
+    }
+  }
 };
 
 export const IndexAction: coreClient.CompositeMapper = {
@@ -885,11 +818,11 @@ export const IndexAction: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: ["upload", "merge", "mergeOrUpload", "delete"],
-        },
-      },
-    },
-  },
+          allowedValues: ["upload", "merge", "mergeOrUpload", "delete"]
+        }
+      }
+    }
+  }
 };
 
 export const IndexDocumentsResult: coreClient.CompositeMapper = {
@@ -906,13 +839,13 @@ export const IndexDocumentsResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "IndexingResult",
-            },
-          },
-        },
-      },
-    },
-  },
+              className: "IndexingResult"
+            }
+          }
+        }
+      }
+    }
+  }
 };
 
 export const IndexingResult: coreClient.CompositeMapper = {
@@ -925,34 +858,34 @@ export const IndexingResult: coreClient.CompositeMapper = {
         required: true,
         readOnly: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       errorMessage: {
         serializedName: "errorMessage",
         readOnly: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       succeeded: {
         serializedName: "status",
         required: true,
         readOnly: true,
         type: {
-          name: "Boolean",
-        },
+          name: "Boolean"
+        }
       },
       statusCode: {
         serializedName: "statusCode",
         required: true,
         readOnly: true,
         type: {
-          name: "Number",
-        },
-      },
-    },
-  },
+          name: "Number"
+        }
+      }
+    }
+  }
 };
 
 export const AutocompleteResult: coreClient.CompositeMapper = {
@@ -964,8 +897,8 @@ export const AutocompleteResult: coreClient.CompositeMapper = {
         serializedName: "@search\\.coverage",
         readOnly: true,
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       results: {
         serializedName: "value",
@@ -976,13 +909,13 @@ export const AutocompleteResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AutocompleteItem",
-            },
-          },
-        },
-      },
-    },
-  },
+              className: "AutocompleteItem"
+            }
+          }
+        }
+      }
+    }
+  }
 };
 
 export const AutocompleteItem: coreClient.CompositeMapper = {
@@ -995,19 +928,19 @@ export const AutocompleteItem: coreClient.CompositeMapper = {
         required: true,
         readOnly: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       queryPlusText: {
         serializedName: "queryPlusText",
         required: true,
         readOnly: true,
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
 export const AutocompleteRequest: coreClient.CompositeMapper = {
@@ -1019,92 +952,91 @@ export const AutocompleteRequest: coreClient.CompositeMapper = {
         serializedName: "search",
         required: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       autocompleteMode: {
         serializedName: "autocompleteMode",
         type: {
           name: "Enum",
-          allowedValues: ["oneTerm", "twoTerms", "oneTermWithContext"],
-        },
+          allowedValues: ["oneTerm", "twoTerms", "oneTermWithContext"]
+        }
       },
       filter: {
         serializedName: "filter",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       useFuzzyMatching: {
         serializedName: "fuzzy",
         type: {
-          name: "Boolean",
-        },
+          name: "Boolean"
+        }
       },
       highlightPostTag: {
         serializedName: "highlightPostTag",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       highlightPreTag: {
         serializedName: "highlightPreTag",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       minimumCoverage: {
         serializedName: "minimumCoverage",
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       searchFields: {
         serializedName: "searchFields",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       suggesterName: {
         serializedName: "suggesterName",
         required: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       top: {
         serializedName: "top",
         type: {
-          name: "Number",
-        },
-      },
-    },
-  },
+          name: "Number"
+        }
+      }
+    }
+  }
 };
 
-export const VectorizedQuery: coreClient.CompositeMapper = {
+export const RawVectorQuery: coreClient.CompositeMapper = {
   serializedName: "vector",
   type: {
     name: "Composite",
-    className: "VectorizedQuery",
+    className: "RawVectorQuery",
     uberParent: "VectorQuery",
     polymorphicDiscriminator: VectorQuery.type.polymorphicDiscriminator,
     modelProperties: {
       ...VectorQuery.type.modelProperties,
       vector: {
         serializedName: "vector",
-        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "Number",
-            },
-          },
-        },
-      },
-    },
-  },
+              name: "Number"
+            }
+          }
+        }
+      }
+    }
+  }
 };
 
 export const VectorizableTextQuery: coreClient.CompositeMapper = {
@@ -1118,17 +1050,16 @@ export const VectorizableTextQuery: coreClient.CompositeMapper = {
       ...VectorQuery.type.modelProperties,
       text: {
         serializedName: "text",
-        required: true,
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
 export let discriminators = {
   VectorQuery: VectorQuery,
-  "VectorQuery.vector": VectorizedQuery,
-  "VectorQuery.text": VectorizableTextQuery,
+  "VectorQuery.vector": RawVectorQuery,
+  "VectorQuery.text": VectorizableTextQuery
 };

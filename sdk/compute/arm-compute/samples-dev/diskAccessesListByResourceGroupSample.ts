@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the disk access resources under a resource group.
  *
  * @summary Lists all the disk access resources under a resource group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskAccessExamples/DiskAccess_ListByResourceGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskAccessExamples/DiskAccess_ListByResourceGroup.json
  */
 async function listAllDiskAccessResourcesInAResourceGroup() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function listAllDiskAccessResourcesInAResourceGroup() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.diskAccesses.listByResourceGroup(
-    resourceGroupName,
+    resourceGroupName
   )) {
     resArray.push(item);
   }

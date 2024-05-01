@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Resumes a paused priming job.
  *
  * @summary Resumes a paused priming job.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/ResumePrimingJob.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2023-05-01/examples/ResumePrimingJob.json
  */
 async function resumePrimingJob() {
   const subscriptionId =

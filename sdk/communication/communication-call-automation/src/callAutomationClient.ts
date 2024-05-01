@@ -209,13 +209,6 @@ export class CallAutomationClient {
                 createCallEventResult.isSuccess = true;
                 createCallEventResult.successResult = event;
                 return true;
-              } else if (
-                event.callConnectionId === callConnectionId &&
-                event.kind === "CreateCallFailed"
-              ) {
-                createCallEventResult.isSuccess = false;
-                createCallEventResult.failureResult = event;
-                return true;
               } else {
                 return false;
               }
@@ -304,6 +297,7 @@ export class CallAutomationClient {
       mediaStreamingConfiguration,
       transcriptionConfiguration,
       operationContext,
+      sourceCallIdNumber,
       ...operationOptions
     } = options;
     const request: AnswerCallRequest = {
@@ -314,6 +308,7 @@ export class CallAutomationClient {
       operationContext: operationContext,
       callbackUri: callbackUrl,
       answeredBy: this.sourceIdentity,
+      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(sourceCallIdNumber),
     };
     const optionsInternal = {
       ...operationOptions,
@@ -353,11 +348,6 @@ export class CallAutomationClient {
               if (event.callConnectionId === callConnectionId && event.kind === "CallConnected") {
                 answerCallEventResult.isSuccess = true;
                 answerCallEventResult.successResult = event;
-                return true;
-              }
-              if (event.callConnectionId === callConnectionId && event.kind === "AnswerFailed") {
-                answerCallEventResult.isSuccess = false;
-                answerCallEventResult.failureResult = event;
                 return true;
               } else {
                 return false;

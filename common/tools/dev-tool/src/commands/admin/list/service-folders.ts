@@ -2,9 +2,6 @@
 // Licensed under the MIT license.
 
 import { leafCommand, makeCommandInfo } from "../../../framework/command";
-import path from "node:path";
-import { resolveRoot } from "../../../util/resolveProject";
-import { readdir } from "node:fs/promises";
 
 export const commandInfo = makeCommandInfo("packages", "list service folders in the monorepo", {
   relative: {
@@ -14,6 +11,11 @@ export const commandInfo = makeCommandInfo("packages", "list service folders in 
     shortName: "r",
   },
 });
+
+import path from "path";
+import { resolveRoot } from "../../../util/resolveProject";
+
+import { readdir } from "fs/promises";
 
 export async function getServiceFolders(root?: string): Promise<string[]> {
   root ??= await resolveRoot();

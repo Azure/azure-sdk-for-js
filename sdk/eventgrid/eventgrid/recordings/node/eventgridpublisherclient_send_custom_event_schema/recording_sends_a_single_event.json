@@ -1,0 +1,30 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/api/events?api-version=2018-01-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "aeg-sas-key": "api_key",
+        "Connection": "keep-alive",
+        "Content-Length": "87",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-eventgrid/4.7.1 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "d8bfc82c-a7fc-4f88-a46e-75e4d3e7ac12"
+      },
+      "RequestBody": "[{\u0022ver\u0022:\u00221.0\u0022,\u0022typ\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022sub\u0022:\u0022Single\u0022,\u0022payload\u0022:{\u0022hello\u0022:\u0022world\u0022}}]",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2018-01-01",
+        "Connection": "close",
+        "Content-Length": "0",
+        "Date": "Wed, 09 Feb 2022 01:44:24 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "93505e3a-2c4b-4885-baf9-b1e404902a14"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

@@ -16,7 +16,7 @@ import { NetAppManagementClient } from "../netAppManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -41,6 +41,8 @@ import {
   VolumesRevertOptionalParams,
   VolumesResetCifsPasswordOptionalParams,
   VolumesResetCifsPasswordResponse,
+  VolumesSplitCloneFromParentOptionalParams,
+  VolumesSplitCloneFromParentResponse,
   VolumesBreakFileLocksOptionalParams,
   GetGroupIdListForLdapUserRequest,
   VolumesListGetGroupIdListForLdapUserOptionalParams,
@@ -60,7 +62,7 @@ import {
   VolumesRelocateOptionalParams,
   VolumesFinalizeRelocationOptionalParams,
   VolumesRevertRelocationOptionalParams,
-  VolumesListNextResponse,
+  VolumesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -87,13 +89,13 @@ export class VolumesImpl implements Volumes {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: VolumesListOptionalParams,
+    options?: VolumesListOptionalParams
   ): PagedAsyncIterableIterator<Volume> {
     const iter = this.listPagingAll(
       resourceGroupName,
       accountName,
       poolName,
-      options,
+      options
     );
     return {
       next() {
@@ -111,9 +113,9 @@ export class VolumesImpl implements Volumes {
           accountName,
           poolName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -122,7 +124,7 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     options?: VolumesListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<Volume[]> {
     let result: VolumesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -131,7 +133,7 @@ export class VolumesImpl implements Volumes {
         resourceGroupName,
         accountName,
         poolName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -144,7 +146,7 @@ export class VolumesImpl implements Volumes {
         accountName,
         poolName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -157,13 +159,13 @@ export class VolumesImpl implements Volumes {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: VolumesListOptionalParams,
+    options?: VolumesListOptionalParams
   ): AsyncIterableIterator<Volume> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
       poolName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -182,14 +184,14 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesListReplicationsOptionalParams,
+    options?: VolumesListReplicationsOptionalParams
   ): PagedAsyncIterableIterator<Replication> {
     const iter = this.listReplicationsPagingAll(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options,
+      options
     );
     return {
       next() {
@@ -208,9 +210,9 @@ export class VolumesImpl implements Volumes {
           poolName,
           volumeName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -220,7 +222,7 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     options?: VolumesListReplicationsOptionalParams,
-    _settings?: PageSettings,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Replication[]> {
     let result: VolumesListReplicationsResponse;
     result = await this._listReplications(
@@ -228,7 +230,7 @@ export class VolumesImpl implements Volumes {
       accountName,
       poolName,
       volumeName,
-      options,
+      options
     );
     yield result.value || [];
   }
@@ -238,14 +240,14 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesListReplicationsOptionalParams,
+    options?: VolumesListReplicationsOptionalParams
   ): AsyncIterableIterator<Replication> {
     for await (const page of this.listReplicationsPagingPage(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -262,11 +264,11 @@ export class VolumesImpl implements Volumes {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: VolumesListOptionalParams,
+    options?: VolumesListOptionalParams
   ): Promise<VolumesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -283,11 +285,11 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesGetOptionalParams,
+    options?: VolumesGetOptionalParams
   ): Promise<VolumesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, volumeName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -306,7 +308,7 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     body: Volume,
-    options?: VolumesCreateOrUpdateOptionalParams,
+    options?: VolumesCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<VolumesCreateOrUpdateResponse>,
@@ -315,20 +317,21 @@ export class VolumesImpl implements Volumes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<VolumesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -337,8 +340,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -346,8 +349,8 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -359,9 +362,9 @@ export class VolumesImpl implements Volumes {
         poolName,
         volumeName,
         body,
-        options,
+        options
       },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       VolumesCreateOrUpdateResponse,
@@ -369,7 +372,7 @@ export class VolumesImpl implements Volumes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -390,7 +393,7 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     body: Volume,
-    options?: VolumesCreateOrUpdateOptionalParams,
+    options?: VolumesCreateOrUpdateOptionalParams
   ): Promise<VolumesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -398,7 +401,7 @@ export class VolumesImpl implements Volumes {
       poolName,
       volumeName,
       body,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -418,7 +421,7 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     body: VolumePatch,
-    options?: VolumesUpdateOptionalParams,
+    options?: VolumesUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<VolumesUpdateResponse>,
@@ -427,20 +430,21 @@ export class VolumesImpl implements Volumes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<VolumesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -449,8 +453,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -458,8 +462,8 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -471,9 +475,9 @@ export class VolumesImpl implements Volumes {
         poolName,
         volumeName,
         body,
-        options,
+        options
       },
-      spec: updateOperationSpec,
+      spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
       VolumesUpdateResponse,
@@ -481,7 +485,7 @@ export class VolumesImpl implements Volumes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -502,7 +506,7 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     body: VolumePatch,
-    options?: VolumesUpdateOptionalParams,
+    options?: VolumesUpdateOptionalParams
   ): Promise<VolumesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -510,7 +514,7 @@ export class VolumesImpl implements Volumes {
       poolName,
       volumeName,
       body,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -528,24 +532,25 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesDeleteOptionalParams,
+    options?: VolumesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -554,8 +559,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -563,20 +568,20 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, poolName, volumeName, options },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -595,14 +600,14 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesDeleteOptionalParams,
+    options?: VolumesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -620,7 +625,7 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesPopulateAvailabilityZoneOptionalParams,
+    options?: VolumesPopulateAvailabilityZoneOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<VolumesPopulateAvailabilityZoneResponse>,
@@ -629,20 +634,21 @@ export class VolumesImpl implements Volumes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<VolumesPopulateAvailabilityZoneResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -651,8 +657,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -660,15 +666,15 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, poolName, volumeName, options },
-      spec: populateAvailabilityZoneOperationSpec,
+      spec: populateAvailabilityZoneOperationSpec
     });
     const poller = await createHttpPoller<
       VolumesPopulateAvailabilityZoneResponse,
@@ -676,7 +682,7 @@ export class VolumesImpl implements Volumes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -695,14 +701,14 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesPopulateAvailabilityZoneOptionalParams,
+    options?: VolumesPopulateAvailabilityZoneOptionalParams
   ): Promise<VolumesPopulateAvailabilityZoneResponse> {
     const poller = await this.beginPopulateAvailabilityZone(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -722,24 +728,25 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     body: VolumeRevert,
-    options?: VolumesRevertOptionalParams,
+    options?: VolumesRevertOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -748,8 +755,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -757,8 +764,8 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -770,14 +777,14 @@ export class VolumesImpl implements Volumes {
         poolName,
         volumeName,
         body,
-        options,
+        options
       },
-      spec: revertOperationSpec,
+      spec: revertOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -798,7 +805,7 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     body: VolumeRevert,
-    options?: VolumesRevertOptionalParams,
+    options?: VolumesRevertOptionalParams
   ): Promise<void> {
     const poller = await this.beginRevert(
       resourceGroupName,
@@ -806,7 +813,7 @@ export class VolumesImpl implements Volumes {
       poolName,
       volumeName,
       body,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -824,7 +831,7 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesResetCifsPasswordOptionalParams,
+    options?: VolumesResetCifsPasswordOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<VolumesResetCifsPasswordResponse>,
@@ -833,20 +840,21 @@ export class VolumesImpl implements Volumes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<VolumesResetCifsPasswordResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -855,8 +863,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -864,22 +872,22 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, poolName, volumeName, options },
-      spec: resetCifsPasswordOperationSpec,
+      spec: resetCifsPasswordOperationSpec
     });
     const poller = await createHttpPoller<
       VolumesResetCifsPasswordResponse,
       OperationState<VolumesResetCifsPasswordResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -898,14 +906,115 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesResetCifsPasswordOptionalParams,
+    options?: VolumesResetCifsPasswordOptionalParams
   ): Promise<VolumesResetCifsPasswordResponse> {
     const poller = await this.beginResetCifsPassword(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   *  Split operation to convert clone volume to an independent volume.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  async beginSplitCloneFromParent(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesSplitCloneFromParentOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesSplitCloneFromParentResponse>,
+      VolumesSplitCloneFromParentResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<VolumesSplitCloneFromParentResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, poolName, volumeName, options },
+      spec: splitCloneFromParentOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VolumesSplitCloneFromParentResponse,
+      OperationState<VolumesSplitCloneFromParentResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   *  Split operation to convert clone volume to an independent volume.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  async beginSplitCloneFromParentAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesSplitCloneFromParentOptionalParams
+  ): Promise<VolumesSplitCloneFromParentResponse> {
+    const poller = await this.beginSplitCloneFromParent(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -923,24 +1032,25 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesBreakFileLocksOptionalParams,
+    options?: VolumesBreakFileLocksOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -949,8 +1059,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -958,20 +1068,20 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, poolName, volumeName, options },
-      spec: breakFileLocksOperationSpec,
+      spec: breakFileLocksOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -990,14 +1100,14 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesBreakFileLocksOptionalParams,
+    options?: VolumesBreakFileLocksOptionalParams
   ): Promise<void> {
     const poller = await this.beginBreakFileLocks(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -1017,7 +1127,7 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     body: GetGroupIdListForLdapUserRequest,
-    options?: VolumesListGetGroupIdListForLdapUserOptionalParams,
+    options?: VolumesListGetGroupIdListForLdapUserOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<VolumesListGetGroupIdListForLdapUserResponse>,
@@ -1026,20 +1136,21 @@ export class VolumesImpl implements Volumes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<VolumesListGetGroupIdListForLdapUserResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1048,8 +1159,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1057,8 +1168,8 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -1070,9 +1181,9 @@ export class VolumesImpl implements Volumes {
         poolName,
         volumeName,
         body,
-        options,
+        options
       },
-      spec: listGetGroupIdListForLdapUserOperationSpec,
+      spec: listGetGroupIdListForLdapUserOperationSpec
     });
     const poller = await createHttpPoller<
       VolumesListGetGroupIdListForLdapUserResponse,
@@ -1080,7 +1191,7 @@ export class VolumesImpl implements Volumes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1101,7 +1212,7 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     body: GetGroupIdListForLdapUserRequest,
-    options?: VolumesListGetGroupIdListForLdapUserOptionalParams,
+    options?: VolumesListGetGroupIdListForLdapUserOptionalParams
   ): Promise<VolumesListGetGroupIdListForLdapUserResponse> {
     const poller = await this.beginListGetGroupIdListForLdapUser(
       resourceGroupName,
@@ -1109,7 +1220,7 @@ export class VolumesImpl implements Volumes {
       poolName,
       volumeName,
       body,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -1127,24 +1238,25 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesBreakReplicationOptionalParams,
+    options?: VolumesBreakReplicationOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1153,8 +1265,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1162,20 +1274,20 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, poolName, volumeName, options },
-      spec: breakReplicationOperationSpec,
+      spec: breakReplicationOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1194,14 +1306,14 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesBreakReplicationOptionalParams,
+    options?: VolumesBreakReplicationOptionalParams
   ): Promise<void> {
     const poller = await this.beginBreakReplication(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -1222,24 +1334,25 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     body: ReestablishReplicationRequest,
-    options?: VolumesReestablishReplicationOptionalParams,
+    options?: VolumesReestablishReplicationOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1248,8 +1361,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1257,8 +1370,8 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -1270,14 +1383,14 @@ export class VolumesImpl implements Volumes {
         poolName,
         volumeName,
         body,
-        options,
+        options
       },
-      spec: reestablishReplicationOperationSpec,
+      spec: reestablishReplicationOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1299,7 +1412,7 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     body: ReestablishReplicationRequest,
-    options?: VolumesReestablishReplicationOptionalParams,
+    options?: VolumesReestablishReplicationOptionalParams
   ): Promise<void> {
     const poller = await this.beginReestablishReplication(
       resourceGroupName,
@@ -1307,7 +1420,7 @@ export class VolumesImpl implements Volumes {
       poolName,
       volumeName,
       body,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -1325,11 +1438,11 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesReplicationStatusOptionalParams,
+    options?: VolumesReplicationStatusOptionalParams
   ): Promise<VolumesReplicationStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, volumeName, options },
-      replicationStatusOperationSpec,
+      replicationStatusOperationSpec
     );
   }
 
@@ -1346,11 +1459,11 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesListReplicationsOptionalParams,
+    options?: VolumesListReplicationsOptionalParams
   ): Promise<VolumesListReplicationsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, volumeName, options },
-      listReplicationsOperationSpec,
+      listReplicationsOperationSpec
     );
   }
 
@@ -1368,24 +1481,25 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesResyncReplicationOptionalParams,
+    options?: VolumesResyncReplicationOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1394,8 +1508,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1403,20 +1517,20 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, poolName, volumeName, options },
-      spec: resyncReplicationOperationSpec,
+      spec: resyncReplicationOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1436,14 +1550,14 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesResyncReplicationOptionalParams,
+    options?: VolumesResyncReplicationOptionalParams
   ): Promise<void> {
     const poller = await this.beginResyncReplication(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -1462,24 +1576,25 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesDeleteReplicationOptionalParams,
+    options?: VolumesDeleteReplicationOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1488,8 +1603,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1497,20 +1612,20 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, poolName, volumeName, options },
-      spec: deleteReplicationOperationSpec,
+      spec: deleteReplicationOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1530,14 +1645,14 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesDeleteReplicationOptionalParams,
+    options?: VolumesDeleteReplicationOptionalParams
   ): Promise<void> {
     const poller = await this.beginDeleteReplication(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -1557,24 +1672,25 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     body: AuthorizeRequest,
-    options?: VolumesAuthorizeReplicationOptionalParams,
+    options?: VolumesAuthorizeReplicationOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1583,8 +1699,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1592,8 +1708,8 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -1605,14 +1721,14 @@ export class VolumesImpl implements Volumes {
         poolName,
         volumeName,
         body,
-        options,
+        options
       },
-      spec: authorizeReplicationOperationSpec,
+      spec: authorizeReplicationOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1633,7 +1749,7 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     body: AuthorizeRequest,
-    options?: VolumesAuthorizeReplicationOptionalParams,
+    options?: VolumesAuthorizeReplicationOptionalParams
   ): Promise<void> {
     const poller = await this.beginAuthorizeReplication(
       resourceGroupName,
@@ -1641,7 +1757,7 @@ export class VolumesImpl implements Volumes {
       poolName,
       volumeName,
       body,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -1659,24 +1775,25 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesReInitializeReplicationOptionalParams,
+    options?: VolumesReInitializeReplicationOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1685,8 +1802,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1694,20 +1811,20 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, poolName, volumeName, options },
-      spec: reInitializeReplicationOperationSpec,
+      spec: reInitializeReplicationOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1726,14 +1843,14 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesReInitializeReplicationOptionalParams,
+    options?: VolumesReInitializeReplicationOptionalParams
   ): Promise<void> {
     const poller = await this.beginReInitializeReplication(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -1753,24 +1870,25 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     body: PoolChangeRequest,
-    options?: VolumesPoolChangeOptionalParams,
+    options?: VolumesPoolChangeOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1779,8 +1897,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1788,8 +1906,8 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -1801,14 +1919,14 @@ export class VolumesImpl implements Volumes {
         poolName,
         volumeName,
         body,
-        options,
+        options
       },
-      spec: poolChangeOperationSpec,
+      spec: poolChangeOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1829,7 +1947,7 @@ export class VolumesImpl implements Volumes {
     poolName: string,
     volumeName: string,
     body: PoolChangeRequest,
-    options?: VolumesPoolChangeOptionalParams,
+    options?: VolumesPoolChangeOptionalParams
   ): Promise<void> {
     const poller = await this.beginPoolChange(
       resourceGroupName,
@@ -1837,7 +1955,7 @@ export class VolumesImpl implements Volumes {
       poolName,
       volumeName,
       body,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -1855,24 +1973,25 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesRelocateOptionalParams,
+    options?: VolumesRelocateOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1881,8 +2000,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1890,19 +2009,19 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, poolName, volumeName, options },
-      spec: relocateOperationSpec,
+      spec: relocateOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -1921,14 +2040,14 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesRelocateOptionalParams,
+    options?: VolumesRelocateOptionalParams
   ): Promise<void> {
     const poller = await this.beginRelocate(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -1946,24 +2065,25 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesFinalizeRelocationOptionalParams,
+    options?: VolumesFinalizeRelocationOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1972,8 +2092,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1981,19 +2101,19 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, poolName, volumeName, options },
-      spec: finalizeRelocationOperationSpec,
+      spec: finalizeRelocationOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -2012,14 +2132,14 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesFinalizeRelocationOptionalParams,
+    options?: VolumesFinalizeRelocationOptionalParams
   ): Promise<void> {
     const poller = await this.beginFinalizeRelocation(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -2038,24 +2158,25 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesRevertRelocationOptionalParams,
+    options?: VolumesRevertRelocationOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -2064,8 +2185,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -2073,19 +2194,19 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, poolName, volumeName, options },
-      spec: revertRelocationOperationSpec,
+      spec: revertRelocationOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -2105,14 +2226,14 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesRevertRelocationOptionalParams,
+    options?: VolumesRevertRelocationOptionalParams
   ): Promise<void> {
     const poller = await this.beginRevertRelocation(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -2130,11 +2251,11 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     nextLink: string,
-    options?: VolumesListNextOptionalParams,
+    options?: VolumesListNextOptionalParams
   ): Promise<VolumesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -2142,15 +2263,14 @@ export class VolumesImpl implements Volumes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeList,
+      bodyMapper: Mappers.VolumeList
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2158,21 +2278,20 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.poolName,
+    Parameters.poolName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Volume,
+      bodyMapper: Mappers.Volume
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2181,64 +2300,29 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName,
+    Parameters.volumeName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Volume,
+      bodyMapper: Mappers.Volume
     },
     201: {
-      bodyMapper: Mappers.Volume,
+      bodyMapper: Mappers.Volume
     },
     202: {
-      bodyMapper: Mappers.Volume,
+      bodyMapper: Mappers.Volume
     },
     204: {
-      bodyMapper: Mappers.Volume,
+      bodyMapper: Mappers.Volume
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.body9,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Volume,
-    },
-    201: {
-      bodyMapper: Mappers.Volume,
-    },
-    202: {
-      bodyMapper: Mappers.Volume,
-    },
-    204: {
-      bodyMapper: Mappers.Volume,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
   requestBody: Parameters.body10,
   queryParameters: [Parameters.apiVersion],
@@ -2248,79 +2332,32 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName,
+    Parameters.volumeName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.forceDelete],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const populateAvailabilityZoneOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/populateAvailabilityZone",
-  httpMethod: "POST",
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
+  httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Volume,
+      bodyMapper: Mappers.Volume
     },
     201: {
-      bodyMapper: Mappers.Volume,
+      bodyMapper: Mappers.Volume
     },
     202: {
-      bodyMapper: Mappers.Volume,
+      bodyMapper: Mappers.Volume
     },
     204: {
-      bodyMapper: Mappers.Volume,
+      bodyMapper: Mappers.Volume
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const revertOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/revert",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.body11,
   queryParameters: [Parameters.apiVersion],
@@ -2330,31 +2367,48 @@ const revertOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName,
+    Parameters.volumeName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
-const resetCifsPasswordOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/resetCifsPassword",
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
+  httpMethod: "DELETE",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion, Parameters.forceDelete],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  serializer
+};
+const populateAvailabilityZoneOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/populateAvailabilityZone",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.VolumesResetCifsPasswordHeaders,
+      bodyMapper: Mappers.Volume
     },
     201: {
-      headersMapper: Mappers.VolumesResetCifsPasswordHeaders,
+      bodyMapper: Mappers.Volume
     },
     202: {
-      headersMapper: Mappers.VolumesResetCifsPasswordHeaders,
+      bodyMapper: Mappers.Volume
     },
     204: {
-      headersMapper: Mappers.VolumesResetCifsPasswordHeaders,
+      bodyMapper: Mappers.Volume
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2363,23 +2417,16 @@ const resetCifsPasswordOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName,
+    Parameters.volumeName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
-const breakFileLocksOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/breakFileLocks",
+const revertOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/revert",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   requestBody: Parameters.body12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2388,32 +2435,80 @@ const breakFileLocksOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName,
+    Parameters.volumeName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
-const listGetGroupIdListForLdapUserOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/getGroupIdListForLdapUser",
+const resetCifsPasswordOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/resetCifsPassword",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.GetGroupIdListForLdapUserResponse,
+      headersMapper: Mappers.VolumesResetCifsPasswordHeaders
     },
     201: {
-      bodyMapper: Mappers.GetGroupIdListForLdapUserResponse,
+      headersMapper: Mappers.VolumesResetCifsPasswordHeaders
     },
     202: {
-      bodyMapper: Mappers.GetGroupIdListForLdapUserResponse,
+      headersMapper: Mappers.VolumesResetCifsPasswordHeaders
     },
     204: {
-      bodyMapper: Mappers.GetGroupIdListForLdapUserResponse,
+      headersMapper: Mappers.VolumesResetCifsPasswordHeaders
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  serializer
+};
+const splitCloneFromParentOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/splitCloneFromParent",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.VolumesSplitCloneFromParentHeaders
+    },
+    201: {
+      headersMapper: Mappers.VolumesSplitCloneFromParentHeaders
+    },
+    202: {
+      headersMapper: Mappers.VolumesSplitCloneFromParentHeaders
+    },
+    204: {
+      headersMapper: Mappers.VolumesSplitCloneFromParentHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const breakFileLocksOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/breakFileLocks",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   requestBody: Parameters.body13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2422,23 +2517,32 @@ const listGetGroupIdListForLdapUserOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName,
+    Parameters.volumeName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
-const breakReplicationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/breakReplication",
+const listGetGroupIdListForLdapUserOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/getGroupIdListForLdapUser",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
+    200: {
+      bodyMapper: Mappers.GetGroupIdListForLdapUserResponse
     },
+    201: {
+      bodyMapper: Mappers.GetGroupIdListForLdapUserResponse
+    },
+    202: {
+      bodyMapper: Mappers.GetGroupIdListForLdapUserResponse
+    },
+    204: {
+      bodyMapper: Mappers.GetGroupIdListForLdapUserResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.body14,
   queryParameters: [Parameters.apiVersion],
@@ -2448,24 +2552,17 @@ const breakReplicationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName,
+    Parameters.volumeName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
-const reestablishReplicationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/reestablishReplication",
+const breakReplicationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/breakReplication",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   requestBody: Parameters.body15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2474,118 +2571,17 @@ const reestablishReplicationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName,
+    Parameters.volumeName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
-const replicationStatusOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/replicationStatus",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReplicationStatus,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listReplicationsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/listReplications",
+const reestablishReplicationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/reestablishReplication",
   httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListReplications,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const resyncReplicationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/resyncReplication",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const deleteReplicationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/deleteReplication",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const authorizeReplicationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/authorizeReplication",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   requestBody: Parameters.body16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2594,23 +2590,21 @@ const authorizeReplicationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName,
+    Parameters.volumeName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
-const reInitializeReplicationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/reinitializeReplication",
-  httpMethod: "POST",
+const replicationStatusOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/replicationStatus",
+  httpMethod: "GET",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
+    200: {
+      bodyMapper: Mappers.ReplicationStatus
     },
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2619,23 +2613,70 @@ const reInitializeReplicationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName,
+    Parameters.volumeName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
-const poolChangeOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/poolChange",
+const listReplicationsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/listReplications",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
+    200: {
+      bodyMapper: Mappers.ListReplications
     },
+    default: {}
   },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const resyncReplicationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/resyncReplication",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  serializer
+};
+const deleteReplicationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/deleteReplication",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  serializer
+};
+const authorizeReplicationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/authorizeReplication",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   requestBody: Parameters.body17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2644,24 +2685,33 @@ const poolChangeOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName,
+    Parameters.volumeName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
-const relocateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/relocate",
+const reInitializeReplicationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/reinitializeReplication",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  serializer
+};
+const poolChangeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/poolChange",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   requestBody: Parameters.body18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2670,24 +2720,36 @@ const relocateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName,
+    Parameters.volumeName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
+};
+const relocateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/relocate",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  requestBody: Parameters.body19,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
+  serializer
 };
 const finalizeRelocationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/finalizeRelocation",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/finalizeRelocation",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2695,23 +2757,15 @@ const finalizeRelocationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName,
+    Parameters.volumeName
   ],
-  headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const revertRelocationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/revertRelocation",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/revertRelocation",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2719,30 +2773,27 @@ const revertRelocationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName,
+    Parameters.volumeName
   ],
-  headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeList,
+      bodyMapper: Mappers.VolumeList
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.nextLink,
-    Parameters.poolName,
+    Parameters.poolName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

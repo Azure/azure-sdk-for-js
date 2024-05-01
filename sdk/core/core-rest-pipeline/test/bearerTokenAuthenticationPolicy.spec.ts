@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, TokenCredential } from "@azure/core-auth";
-import type { PipelinePolicy, PipelineResponse, SendRequest } from "../src/index.js";
+import { assert, describe, it, beforeEach, afterEach, vi, expect } from "vitest";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import {
+  type PipelinePolicy,
+  type PipelineResponse,
+  type SendRequest,
   bearerTokenAuthenticationPolicy,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src/index.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
+} from "../src";
+import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
@@ -17,7 +19,6 @@ describe("BearerTokenAuthenticationPolicy", function () {
   beforeEach(() => {
     vi.useFakeTimers({ now: Date.now() });
   });
-
   afterEach(() => {
     vi.useRealTimers();
   });

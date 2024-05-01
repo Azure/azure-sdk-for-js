@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeepAliveOptions } from "./policies/keepAliveOptions.js";
+import { KeepAliveOptions } from "./policies/keepAliveOptions";
 import {
   createDisableKeepAlivePolicy,
   pipelineContainsDisableKeepAlivePolicy,
-} from "./policies/disableKeepAlivePolicy.js";
-import { RedirectOptions } from "./policies/redirectOptions.js";
+} from "./policies/disableKeepAlivePolicy";
+import { RedirectOptions } from "./policies/redirectOptions";
 import { redirectPolicyName } from "@azure/core-rest-pipeline";
 import {
   CommonClientOptions,
@@ -17,7 +17,7 @@ import {
   ServiceClient,
   ServiceClientOptions,
 } from "@azure/core-client";
-import { toCompatResponse } from "./response.js";
+import { toCompatResponse } from "./response";
 
 /**
  * Options specific to Shim Clients.

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LongRunningOperation, LroResourceLocationConfig, RawResponse } from "../../http/models.js";
-import { PollOperation, PollOperationState } from "../pollOperation.js";
-import { RestorableOperationState, StateProxy } from "../../poller/models.js";
-import { initHttpOperation, pollHttpOperation } from "../../http/operation.js";
+import { LongRunningOperation, LroResourceLocationConfig, RawResponse } from "../../http/models";
+import { PollOperation, PollOperationState } from "../pollOperation";
+import { RestorableOperationState, StateProxy } from "../../poller/models";
+import { initHttpOperation, pollHttpOperation } from "../../http/operation";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { PollerConfig } from "./models.js";
-import { logger } from "../../logger.js";
+import { PollerConfig } from "./models";
+import { logger } from "../../logger";
 
 const createStateProxy: <TResult, TState extends PollOperationState<TResult>>() => StateProxy<
   TState,

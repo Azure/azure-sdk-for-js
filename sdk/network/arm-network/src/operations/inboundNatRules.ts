@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   InboundNatRulesGetResponse,
   InboundNatRulesCreateOrUpdateOptionalParams,
   InboundNatRulesCreateOrUpdateResponse,
-  InboundNatRulesListNextResponse,
+  InboundNatRulesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +54,12 @@ export class InboundNatRulesImpl implements InboundNatRules {
   public list(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: InboundNatRulesListOptionalParams,
+    options?: InboundNatRulesListOptionalParams
   ): PagedAsyncIterableIterator<InboundNatRule> {
     const iter = this.listPagingAll(
       resourceGroupName,
       loadBalancerName,
-      options,
+      options
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class InboundNatRulesImpl implements InboundNatRules {
           resourceGroupName,
           loadBalancerName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -86,7 +86,7 @@ export class InboundNatRulesImpl implements InboundNatRules {
     resourceGroupName: string,
     loadBalancerName: string,
     options?: InboundNatRulesListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<InboundNatRule[]> {
     let result: InboundNatRulesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class InboundNatRulesImpl implements InboundNatRules {
         resourceGroupName,
         loadBalancerName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,12 +114,12 @@ export class InboundNatRulesImpl implements InboundNatRules {
   private async *listPagingAll(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: InboundNatRulesListOptionalParams,
+    options?: InboundNatRulesListOptionalParams
   ): AsyncIterableIterator<InboundNatRule> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       loadBalancerName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -134,11 +134,11 @@ export class InboundNatRulesImpl implements InboundNatRules {
   private _list(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: InboundNatRulesListOptionalParams,
+    options?: InboundNatRulesListOptionalParams
   ): Promise<InboundNatRulesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, loadBalancerName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -153,24 +153,25 @@ export class InboundNatRulesImpl implements InboundNatRules {
     resourceGroupName: string,
     loadBalancerName: string,
     inboundNatRuleName: string,
-    options?: InboundNatRulesDeleteOptionalParams,
+    options?: InboundNatRulesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -179,8 +180,8 @@ export class InboundNatRulesImpl implements InboundNatRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -188,8 +189,8 @@ export class InboundNatRulesImpl implements InboundNatRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -199,14 +200,14 @@ export class InboundNatRulesImpl implements InboundNatRules {
         resourceGroupName,
         loadBalancerName,
         inboundNatRuleName,
-        options,
+        options
       },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -223,13 +224,13 @@ export class InboundNatRulesImpl implements InboundNatRules {
     resourceGroupName: string,
     loadBalancerName: string,
     inboundNatRuleName: string,
-    options?: InboundNatRulesDeleteOptionalParams,
+    options?: InboundNatRulesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       loadBalancerName,
       inboundNatRuleName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -245,11 +246,11 @@ export class InboundNatRulesImpl implements InboundNatRules {
     resourceGroupName: string,
     loadBalancerName: string,
     inboundNatRuleName: string,
-    options?: InboundNatRulesGetOptionalParams,
+    options?: InboundNatRulesGetOptionalParams
   ): Promise<InboundNatRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, loadBalancerName, inboundNatRuleName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -267,7 +268,7 @@ export class InboundNatRulesImpl implements InboundNatRules {
     loadBalancerName: string,
     inboundNatRuleName: string,
     inboundNatRuleParameters: InboundNatRule,
-    options?: InboundNatRulesCreateOrUpdateOptionalParams,
+    options?: InboundNatRulesCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<InboundNatRulesCreateOrUpdateResponse>,
@@ -276,20 +277,21 @@ export class InboundNatRulesImpl implements InboundNatRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<InboundNatRulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -298,8 +300,8 @@ export class InboundNatRulesImpl implements InboundNatRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -307,8 +309,8 @@ export class InboundNatRulesImpl implements InboundNatRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -319,9 +321,9 @@ export class InboundNatRulesImpl implements InboundNatRules {
         loadBalancerName,
         inboundNatRuleName,
         inboundNatRuleParameters,
-        options,
+        options
       },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       InboundNatRulesCreateOrUpdateResponse,
@@ -329,7 +331,7 @@ export class InboundNatRulesImpl implements InboundNatRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -349,14 +351,14 @@ export class InboundNatRulesImpl implements InboundNatRules {
     loadBalancerName: string,
     inboundNatRuleName: string,
     inboundNatRuleParameters: InboundNatRule,
-    options?: InboundNatRulesCreateOrUpdateOptionalParams,
+    options?: InboundNatRulesCreateOrUpdateOptionalParams
   ): Promise<InboundNatRulesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       loadBalancerName,
       inboundNatRuleName,
       inboundNatRuleParameters,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -372,11 +374,11 @@ export class InboundNatRulesImpl implements InboundNatRules {
     resourceGroupName: string,
     loadBalancerName: string,
     nextLink: string,
-    options?: InboundNatRulesListNextOptionalParams,
+    options?: InboundNatRulesListNextOptionalParams
   ): Promise<InboundNatRulesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, loadBalancerName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -384,28 +386,30 @@ export class InboundNatRulesImpl implements InboundNatRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InboundNatRuleListResult,
+      bodyMapper: Mappers.InboundNatRuleListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.loadBalancerName,
+    Parameters.loadBalancerName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -413,8 +417,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -422,21 +426,22 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.loadBalancerName,
-    Parameters.inboundNatRuleName,
+    Parameters.inboundNatRuleName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InboundNatRule,
+      bodyMapper: Mappers.InboundNatRule
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
@@ -444,30 +449,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.loadBalancerName,
-    Parameters.inboundNatRuleName,
+    Parameters.inboundNatRuleName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.InboundNatRule,
+      bodyMapper: Mappers.InboundNatRule
     },
     201: {
-      bodyMapper: Mappers.InboundNatRule,
+      bodyMapper: Mappers.InboundNatRule
     },
     202: {
-      bodyMapper: Mappers.InboundNatRule,
+      bodyMapper: Mappers.InboundNatRule
     },
     204: {
-      bodyMapper: Mappers.InboundNatRule,
+      bodyMapper: Mappers.InboundNatRule
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.inboundNatRuleParameters,
   queryParameters: [Parameters.apiVersion],
@@ -476,30 +482,30 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.loadBalancerName,
-    Parameters.inboundNatRuleName,
+    Parameters.inboundNatRuleName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InboundNatRuleListResult,
+      bodyMapper: Mappers.InboundNatRuleListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.loadBalancerName,
+    Parameters.loadBalancerName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

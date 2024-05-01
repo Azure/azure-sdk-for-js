@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { createSerializer, MapperTypeNames } from "./serializer.js";
-export { ServiceClient, ServiceClientOptions } from "./serviceClient.js";
-export { createClientPipeline, InternalClientPipelineOptions } from "./pipeline.js";
+export { createSerializer, MapperTypeNames } from "./serializer";
+export { ServiceClient, ServiceClientOptions } from "./serviceClient";
+export { createClientPipeline, InternalClientPipelineOptions } from "./pipeline";
 export {
   OperationSpec,
   OperationArguments,
@@ -41,17 +41,17 @@ export {
   RawResponseCallback,
   CommonClientOptions,
   AdditionalPolicyConfig,
-} from "./interfaces.js";
+} from "./interfaces";
 export {
   deserializationPolicy,
   deserializationPolicyName,
   DeserializationPolicyOptions,
   DeserializationContentTypes,
-} from "./deserializationPolicy.js";
+} from "./deserializationPolicy";
 export {
   serializationPolicy,
   serializationPolicyName,
   SerializationPolicyOptions,
-} from "./serializationPolicy.js";
-export { authorizeRequestOnClaimChallenge } from "./authorizeRequestOnClaimChallenge.js";
-export { authorizeRequestOnTenantChallenge } from "./authorizeRequestOnTenantChallenge.js";
+} from "./serializationPolicy";
+export { authorizeRequestOnClaimChallenge } from "./authorizeRequestOnClaimChallenge";
+export { authorizeRequestOnTenantChallenge } from "./authorizeRequestOnTenantChallenge";

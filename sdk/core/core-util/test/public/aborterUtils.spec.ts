@@ -3,7 +3,7 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { describe, it, assert, expect, afterEach, vi } from "vitest";
-import { cancelablePromiseRace, createAbortablePromise } from "../../src/index.js";
+import { cancelablePromiseRace, createAbortablePromise } from "../../src";
 
 describe("createAbortablePromise", function () {
   let token: ReturnType<typeof setTimeout>;

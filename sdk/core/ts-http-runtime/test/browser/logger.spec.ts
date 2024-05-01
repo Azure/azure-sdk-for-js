@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, expect, vi, afterEach } from "vitest";
-import * as Logger from "../../src/logger/logger.js";
+import * as Logger from "../../src/logger/logger";
+import * as sinon from "sinon";
+import { assert } from "chai";
 
 const testLogger = Logger.createClientLogger("test");
 
@@ -13,40 +14,40 @@ describe("TypeSpecRuntimeLogger (browser)", function () {
 
   afterEach(() => {
     Logger.setLogLevel(undefined);
-    vi.restoreAllMocks();
+    sinon.restore();
   });
 
   it("logs to the correct console function", () => {
     Logger.setLogLevel("verbose");
 
-    const debugStub = vi.spyOn(console, "debug");
+    const debugStub = sinon.stub(console, "debug");
     testLogger.verbose("verbose");
-    expect(debugStub).toHaveBeenCalledOnce();
-    expect(debugStub).toHaveBeenCalledWith(
+    assert.isTrue(debugStub.calledOnce, "console.debug called");
+    assert.strictEqual(
+      debugStub.firstCall.args[0],
       expectedTestMessage("typeSpecRuntime:test:verbose", "verbose"),
     );
-    debugStub.mockClear();
+    debugStub.restore();
 
-    const infoStub = vi.spyOn(console, "info");
+    const infoStub = sinon.stub(console, "info");
     testLogger.info("info");
-    expect(infoStub).toHaveBeenCalledOnce();
-    expect(infoStub).toHaveBeenCalledWith(expectedTestMessage("typeSpecRuntime:test:info", "info"));
-    infoStub.mockClear();
+    assert.isTrue(
+      infoStub.calledOnceWith(expectedTestMessage("typeSpecRuntime:test:info", "info")),
+    );
+    infoStub.restore();
 
-    const warningStub = vi.spyOn(console, "warn");
+    const warningStub = sinon.stub(console, "warn");
     testLogger.warning("warning");
-    expect(warningStub).toHaveBeenCalledOnce();
-    expect(warningStub).toHaveBeenCalledWith(
-      expectedTestMessage("typeSpecRuntime:test:warning", "warning"),
+    assert.isTrue(
+      warningStub.calledOnceWith(expectedTestMessage("typeSpecRuntime:test:warning", "warning")),
     );
-    warningStub.mockClear();
+    warningStub.restore();
 
-    const errorStub = vi.spyOn(console, "error");
+    const errorStub = sinon.stub(console, "error");
     testLogger.error("error");
-    expect(errorStub).toHaveBeenCalledOnce();
-    expect(errorStub).toHaveBeenCalledWith(
-      expectedTestMessage("typeSpecRuntime:test:error", "error"),
+    assert.isTrue(
+      errorStub.calledOnceWith(expectedTestMessage("typeSpecRuntime:test:error", "error")),
     );
-    errorStub.mockClear();
+    errorStub.restore();
   });
 });

@@ -15,14 +15,13 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   RestorableMongodbCollectionGetResult,
   RestorableMongodbCollectionsListOptionalParams,
-  RestorableMongodbCollectionsListResponse,
+  RestorableMongodbCollectionsListResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RestorableMongodbCollections operations. */
 export class RestorableMongodbCollectionsImpl
-  implements RestorableMongodbCollections
-{
+  implements RestorableMongodbCollections {
   private readonly client: CosmosDBManagementClient;
 
   /**
@@ -44,7 +43,7 @@ export class RestorableMongodbCollectionsImpl
   public list(
     location: string,
     instanceId: string,
-    options?: RestorableMongodbCollectionsListOptionalParams,
+    options?: RestorableMongodbCollectionsListOptionalParams
   ): PagedAsyncIterableIterator<RestorableMongodbCollectionGetResult> {
     const iter = this.listPagingAll(location, instanceId, options);
     return {
@@ -59,7 +58,7 @@ export class RestorableMongodbCollectionsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, instanceId, options, settings);
-      },
+      }
     };
   }
 
@@ -67,7 +66,7 @@ export class RestorableMongodbCollectionsImpl
     location: string,
     instanceId: string,
     options?: RestorableMongodbCollectionsListOptionalParams,
-    _settings?: PageSettings,
+    _settings?: PageSettings
   ): AsyncIterableIterator<RestorableMongodbCollectionGetResult[]> {
     let result: RestorableMongodbCollectionsListResponse;
     result = await this._list(location, instanceId, options);
@@ -77,12 +76,12 @@ export class RestorableMongodbCollectionsImpl
   private async *listPagingAll(
     location: string,
     instanceId: string,
-    options?: RestorableMongodbCollectionsListOptionalParams,
+    options?: RestorableMongodbCollectionsListOptionalParams
   ): AsyncIterableIterator<RestorableMongodbCollectionGetResult> {
     for await (const page of this.listPagingPage(
       location,
       instanceId,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -99,11 +98,11 @@ export class RestorableMongodbCollectionsImpl
   private _list(
     location: string,
     instanceId: string,
-    options?: RestorableMongodbCollectionsListOptionalParams,
+    options?: RestorableMongodbCollectionsListOptionalParams
   ): Promise<RestorableMongodbCollectionsListResponse> {
     return this.client.sendOperationRequest(
       { location, instanceId, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 }
@@ -111,28 +110,29 @@ export class RestorableMongodbCollectionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableMongodbCollections",
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableMongodbCollections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorableMongodbCollectionsListResult,
+      bodyMapper: Mappers.RestorableMongodbCollectionsListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.startTime,
     Parameters.endTime,
-    Parameters.restorableMongodbDatabaseRid,
+    Parameters.restorableMongodbDatabaseRid
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location1,
-    Parameters.instanceId,
+    Parameters.instanceId
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

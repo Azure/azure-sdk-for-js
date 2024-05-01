@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a managed cluster.
  *
  * @summary Deletes a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersDelete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/examples/ManagedClustersDelete.json
  */
 async function deleteManagedCluster() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function deleteManagedCluster() {
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginDeleteAndWait(
     resourceGroupName,
-    resourceName,
+    resourceName
   );
   console.log(result);
 }

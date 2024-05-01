@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { TracingContext } from "./tracing.js";
+import { TracingContext } from "./tracing";
 
 /**
  * Represents a credential capable of providing an authentication token.

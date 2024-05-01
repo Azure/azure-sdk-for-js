@@ -9,18 +9,16 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
+  OperationQueryParameter
 } from "@azure/core-client";
 import {
   ClusterPool as ClusterPoolMapper,
   TagsObject as TagsObjectMapper,
-  ClusterPoolUpgrade as ClusterPoolUpgradeMapper,
-  ClusterUpgrade as ClusterUpgradeMapper,
   ClusterResizeData as ClusterResizeDataMapper,
   Cluster as ClusterMapper,
   ClusterPatch as ClusterPatchMapper,
   ClusterJob as ClusterJobMapper,
-  NameAvailabilityParameters as NameAvailabilityParametersMapper,
+  NameAvailabilityParameters as NameAvailabilityParametersMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -30,9 +28,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const $host: OperationURLParameter = {
@@ -41,10 +39,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String",
-    },
+      name: "String"
+    }
   },
-  skipEncoding: true,
+  skipEncoding: true
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -53,9 +51,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid",
-    },
-  },
+      name: "Uuid"
+    }
+  }
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -63,26 +61,26 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1,
+      MinLength: 1
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-11-01-preview",
+    defaultValue: "2023-06-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const clusterPoolName: OperationURLParameter = {
@@ -91,9 +89,9 @@ export const clusterPoolName: OperationURLParameter = {
     serializedName: "clusterPoolName",
     required: true,
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const contentType: OperationParameter = {
@@ -103,24 +101,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const clusterPool: OperationParameter = {
   parameterPath: "clusterPool",
-  mapper: ClusterPoolMapper,
+  mapper: ClusterPoolMapper
 };
 
 export const clusterPoolTags: OperationParameter = {
   parameterPath: "clusterPoolTags",
-  mapper: TagsObjectMapper,
-};
-
-export const clusterPoolUpgradeRequest: OperationParameter = {
-  parameterPath: "clusterPoolUpgradeRequest",
-  mapper: ClusterPoolUpgradeMapper,
+  mapper: TagsObjectMapper
 };
 
 export const nextLink: OperationURLParameter = {
@@ -129,15 +122,15 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String",
-    },
+      name: "String"
+    }
   },
-  skipEncoding: true,
+  skipEncoding: true
 };
 
-export const clusterUpgradeRequest: OperationParameter = {
-  parameterPath: "clusterUpgradeRequest",
-  mapper: ClusterUpgradeMapper,
+export const clusterResizeRequest: OperationParameter = {
+  parameterPath: "clusterResizeRequest",
+  mapper: ClusterResizeDataMapper
 };
 
 export const clusterName: OperationURLParameter = {
@@ -146,56 +139,41 @@ export const clusterName: OperationURLParameter = {
     serializedName: "clusterName",
     required: true,
     type: {
-      name: "String",
-    },
-  },
-};
-
-export const clusterResizeRequest: OperationParameter = {
-  parameterPath: "clusterResizeRequest",
-  mapper: ClusterResizeDataMapper,
+      name: "String"
+    }
+  }
 };
 
 export const hDInsightCluster: OperationParameter = {
   parameterPath: "hDInsightCluster",
-  mapper: ClusterMapper,
+  mapper: ClusterMapper
 };
 
 export const clusterPatchRequest: OperationParameter = {
   parameterPath: "clusterPatchRequest",
-  mapper: ClusterPatchMapper,
+  mapper: ClusterPatchMapper
 };
 
 export const clusterJob: OperationParameter = {
   parameterPath: "clusterJob",
-  mapper: ClusterJobMapper,
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String",
-    },
-  },
+  mapper: ClusterJobMapper
 };
 
 export const nameAvailabilityParameters: OperationParameter = {
   parameterPath: "nameAvailabilityParameters",
-  mapper: NameAvailabilityParametersMapper,
+  mapper: NameAvailabilityParametersMapper
 };
 
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     constraints: {
-      MinLength: 1,
+      MinLength: 1
     },
     serializedName: "location",
     required: true,
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };

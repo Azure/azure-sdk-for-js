@@ -73,26 +73,11 @@ export interface AzureChatEnhancements {
 }
 
 // @public
-export interface AzureChatExtensionConfiguration {
-    type: AzureChatExtensionType;
-}
-
-// @public
-export type AzureChatExtensionConfigurationUnion = AzureSearchChatExtensionConfiguration | AzureMachineLearningIndexChatExtensionConfiguration | AzureCosmosDBChatExtensionConfiguration | ElasticsearchChatExtensionConfiguration | PineconeChatExtensionConfiguration | AzureChatExtensionConfiguration;
-
-// @public
-export interface AzureChatExtensionDataSourceResponseCitation {
-    chunkId?: string;
-    content: string;
-    filepath?: string;
-    title?: string;
-    url?: string;
-}
+export type AzureChatExtensionConfiguration = AzureCognitiveSearchChatExtensionConfiguration | AzureMachineLearningIndexChatExtensionConfiguration | AzureCosmosDBChatExtensionConfiguration | ElasticsearchChatExtensionConfiguration | PineconeChatExtensionConfiguration;
 
 // @public
 export interface AzureChatExtensionsMessageContext {
-    citations?: AzureChatExtensionDataSourceResponseCitation[];
-    intent?: string;
+    messages?: ChatResponseMessage[];
 }
 
 // @public
@@ -109,34 +94,63 @@ export interface AzureChatOCREnhancementConfiguration {
 }
 
 // @public
+export interface AzureCognitiveSearchChatExtensionConfiguration {
+    authentication?: OnYourDataAuthenticationOptions;
+    embeddingDependency?: OnYourDataVectorizationSource;
+    embeddingEndpoint?: string;
+    embeddingKey?: string;
+    endpoint: string;
+    fieldsMapping?: AzureCognitiveSearchIndexFieldMappingOptions;
+    filter?: string;
+    indexName: string;
+    inScope?: boolean;
+    key?: string;
+    queryType?: AzureCognitiveSearchQueryType;
+    roleInformation?: string;
+    semanticConfiguration?: string;
+    strictness?: number;
+    topNDocuments?: number;
+    type: "AzureCognitiveSearch";
+}
+
+// @public
+export interface AzureCognitiveSearchIndexFieldMappingOptions {
+    contentFields?: string[];
+    contentFieldsSeparator?: string;
+    filepathField?: string;
+    imageVectorFields?: string[];
+    titleField?: string;
+    urlField?: string;
+    vectorFields?: string[];
+}
+
+// @public
+export type AzureCognitiveSearchQueryType = "simple" | "semantic" | "vector" | "vectorSimpleHybrid" | "vectorSemanticHybrid";
+
+// @public
 export interface AzureCosmosDBChatExtensionConfiguration {
-    authentication?: OnYourDataAuthenticationOptionsUnion;
+    authentication?: OnYourDataAuthenticationOptions;
     containerName: string;
     databaseName: string;
-    embeddingDependency: OnYourDataVectorizationSourceUnion;
+    embeddingDependency?: OnYourDataVectorizationSource;
     fieldsMapping: AzureCosmosDBFieldMappingOptions;
     indexName: string;
     inScope?: boolean;
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
-    type: "azure_cosmos_db";
+    type: "AzureCosmosDB";
 }
 
 // @public
 export interface AzureCosmosDBFieldMappingOptions {
-    contentFields: string[];
-    contentFieldsSeparator?: string;
-    filepathField?: string;
-    titleField?: string;
-    urlField?: string;
     vectorFields: string[];
 }
 
 // @public
 export interface AzureExtensionsOptions {
     enhancements?: AzureChatEnhancementConfiguration;
-    extensions?: AzureChatExtensionConfigurationUnion[];
+    extensions?: AzureChatExtensionConfiguration[];
 }
 
 // @public
@@ -168,7 +182,7 @@ export { AzureKeyCredential }
 
 // @public
 export interface AzureMachineLearningIndexChatExtensionConfiguration {
-    authentication?: OnYourDataAuthenticationOptionsUnion;
+    authentication?: OnYourDataAuthenticationOptions;
     filter?: string;
     inScope?: boolean;
     name: string;
@@ -176,56 +190,19 @@ export interface AzureMachineLearningIndexChatExtensionConfiguration {
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
-    type: "azure_ml_index";
+    type: "AzureMLIndex";
     version: string;
 }
-
-// @public
-export interface AzureSearchChatExtensionConfiguration extends AzureChatExtensionConfiguration {
-    authentication?: OnYourDataAuthenticationOptionsUnion;
-    embeddingDependency?: OnYourDataVectorizationSourceUnion;
-    endpoint: string;
-    fieldsMapping?: AzureSearchIndexFieldMappingOptions;
-    filter?: string;
-    indexName: string;
-    inScope?: boolean;
-    queryType?: AzureSearchQueryType;
-    roleInformation?: string;
-    semanticConfiguration?: string;
-    strictness?: number;
-    topNDocuments?: number;
-    type: "azure_search";
-}
-
-// @public
-export interface AzureSearchIndexFieldMappingOptions {
-    contentFields?: string[];
-    contentFieldsSeparator?: string;
-    filepathField?: string;
-    imageVectorFields?: string[];
-    titleField?: string;
-    urlField?: string;
-    vectorFields?: string[];
-}
-
-// @public
-export type AzureSearchQueryType = string;
 
 // @public
 export interface ChatChoice {
     contentFilterResults?: ContentFilterResultsForChoice;
     delta?: ChatResponseMessage;
     enhancements?: AzureChatEnhancements;
-    finishDetails?: ChatFinishDetailsUnion;
+    finishDetails?: ChatFinishDetails;
     finishReason: CompletionsFinishReason | null;
     index: number;
-    logprobs: ChatChoiceLogProbabilityInfo | null;
     message?: ChatResponseMessage;
-}
-
-// @public
-export interface ChatChoiceLogProbabilityInfo {
-    content: ChatTokenLogProbabilityResult[] | null;
 }
 
 // @public
@@ -233,106 +210,69 @@ export interface ChatCompletions {
     choices: ChatChoice[];
     created: Date;
     id: string;
-    model: string;
-    promptFilterResults?: ContentFilterResultsForPrompt[];
+    promptFilterResults: ContentFilterResultsForPrompt[];
     systemFingerprint?: string;
     usage?: CompletionsUsage;
 }
 
 // @public
-export interface ChatCompletionsFunctionToolCall extends ChatCompletionsToolCall {
+export interface ChatCompletionsFunctionToolCall {
     function: FunctionCall;
+    id: string;
     type: "function";
 }
 
 // @public
-export interface ChatCompletionsFunctionToolDefinition extends ChatCompletionsToolDefinition {
+export interface ChatCompletionsFunctionToolDefinition {
     function: FunctionDefinition;
     type: "function";
 }
 
 // @public
-export interface ChatCompletionsFunctionToolSelection {
-    name: string;
-}
-
-// @public
-export interface ChatCompletionsJsonResponseFormat extends ChatCompletionsResponseFormat {
+export interface ChatCompletionsJsonResponseFormat {
     type: "json_object";
 }
 
 // @public
-export interface ChatCompletionsNamedFunctionToolSelection extends ChatCompletionsNamedToolSelection {
-    function: ChatCompletionsFunctionToolSelection;
+export interface ChatCompletionsNamedFunctionToolSelection {
+    name: string;
     type: "function";
 }
 
 // @public
-export interface ChatCompletionsNamedToolSelection {
-    type: string;
-}
+export type ChatCompletionsNamedToolSelection = ChatCompletionsToolSelectionPreset | ChatCompletionsNamedFunctionToolSelection;
 
 // @public
-export type ChatCompletionsNamedToolSelectionUnion = ChatCompletionsNamedFunctionToolSelection | ChatCompletionsToolSelectionPreset | ChatCompletionsNamedToolSelection;
+export type ChatCompletionsResponseFormat = ChatCompletionsTextResponseFormat | ChatCompletionsJsonResponseFormat;
 
 // @public
-export interface ChatCompletionsResponseFormat {
-    type: string;
-}
-
-// @public
-export type ChatCompletionsResponseFormatUnion = ChatCompletionsTextResponseFormat | ChatCompletionsJsonResponseFormat | ChatCompletionsResponseFormat;
-
-// @public
-export interface ChatCompletionsTextResponseFormat extends ChatCompletionsResponseFormat {
+export interface ChatCompletionsTextResponseFormat {
     type: "text";
 }
 
 // @public
-export interface ChatCompletionsToolCall {
-    id: string;
-    index?: number;
-    type: string;
-}
+export type ChatCompletionsToolCall = ChatCompletionsFunctionToolCall;
 
 // @public
-export type ChatCompletionsToolCallUnion = ChatCompletionsFunctionToolCall | ChatCompletionsToolCall;
+export type ChatCompletionsToolDefinition = ChatCompletionsFunctionToolDefinition;
 
 // @public
-export interface ChatCompletionsToolDefinition {
-    type: string;
-}
+export type ChatCompletionsToolSelectionPreset = "auto" | "none";
 
 // @public
-export type ChatCompletionsToolDefinitionUnion = ChatCompletionsFunctionToolDefinition | ChatCompletionsToolDefinition;
+export type ChatFinishDetails = StopFinishDetails | MaxTokensFinishDetails;
 
 // @public
-export type ChatCompletionsToolSelectionPreset = string;
+export type ChatMessageContentItem = ChatMessageTextContentItem | ChatMessageImageContentItem;
 
 // @public
-export interface ChatFinishDetails {
-    type: string;
-}
-
-// @public
-export type ChatFinishDetailsUnion = StopFinishDetails | MaxTokensFinishDetails | ChatFinishDetails;
-
-// @public
-export interface ChatMessageContentItem {
-    type: string;
-}
-
-// @public
-export type ChatMessageContentItemUnion = ChatMessageTextContentItem | ChatMessageImageContentItem | ChatMessageContentItem;
-
-// @public
-export interface ChatMessageImageContentItem extends ChatMessageContentItem {
+export interface ChatMessageImageContentItem {
     imageUrl: ChatMessageImageUrl;
     type: "image_url";
 }
 
 // @public
-export type ChatMessageImageDetailLevel = string;
+export type ChatMessageImageDetailLevel = "auto" | "low" | "high";
 
 // @public
 export interface ChatMessageImageUrl {
@@ -341,52 +281,47 @@ export interface ChatMessageImageUrl {
 }
 
 // @public
-export interface ChatMessageTextContentItem extends ChatMessageContentItem {
+export interface ChatMessageTextContentItem {
     text: string;
     type: "text";
 }
 
 // @public
-export interface ChatRequestAssistantMessage extends ChatRequestMessage {
+export interface ChatRequestAssistantMessage {
     content: string | null;
     functionCall?: FunctionCall;
     name?: string;
     role: "assistant";
-    toolCalls?: ChatCompletionsToolCallUnion[];
+    toolCalls?: Array<ChatCompletionsToolCall>;
 }
 
 // @public
-export interface ChatRequestFunctionMessage extends ChatRequestMessage {
+export interface ChatRequestFunctionMessage {
     content: string | null;
     name: string;
     role: "function";
 }
 
 // @public
-export interface ChatRequestMessage {
-    role: ChatRole;
-}
+export type ChatRequestMessage = ChatRequestSystemMessage | ChatRequestUserMessage | ChatRequestAssistantMessage | ChatRequestToolMessage | ChatRequestFunctionMessage;
 
 // @public
-export type ChatRequestMessageUnion = ChatRequestSystemMessage | ChatRequestUserMessage | ChatRequestAssistantMessage | ChatRequestToolMessage | ChatRequestFunctionMessage | ChatRequestMessage;
-
-// @public
-export interface ChatRequestSystemMessage extends ChatRequestMessage {
+export interface ChatRequestSystemMessage {
     content: string;
     name?: string;
     role: "system";
 }
 
 // @public
-export interface ChatRequestToolMessage extends ChatRequestMessage {
+export interface ChatRequestToolMessage {
     content: string | null;
     role: "tool";
     toolCallId: string;
 }
 
 // @public
-export interface ChatRequestUserMessage extends ChatRequestMessage {
-    content: string | ChatMessageContentItemUnion[];
+export interface ChatRequestUserMessage {
+    content: string | Array<ChatMessageContentItem>;
     name?: string;
     role: "user";
 }
@@ -397,26 +332,11 @@ export interface ChatResponseMessage {
     context?: AzureChatExtensionsMessageContext;
     functionCall?: FunctionCall;
     role: ChatRole;
-    toolCalls?: ChatCompletionsToolCallUnion[];
+    toolCalls: ChatCompletionsToolCall[];
 }
 
 // @public
 export type ChatRole = string;
-
-// @public
-export interface ChatTokenLogProbabilityInfo {
-    bytes: number[] | null;
-    logprob: number;
-    token: string;
-}
-
-// @public
-export interface ChatTokenLogProbabilityResult {
-    bytes: number[] | null;
-    logprob: number;
-    token: string;
-    topLogprobs: ChatTokenLogProbabilityInfo[] | null;
-}
 
 // @public
 export interface Choice {
@@ -432,7 +352,7 @@ export interface Completions {
     choices: Choice[];
     created: Date;
     id: string;
-    promptFilterResults?: ContentFilterResultsForPrompt[];
+    promptFilterResults: ContentFilterResultsForPrompt[];
     usage: CompletionsUsage;
 }
 
@@ -535,8 +455,8 @@ export interface ContentFilterSuccessResultsForChoice {
 
 // @public
 export interface ElasticsearchChatExtensionConfiguration {
-    authentication?: OnYourDataAuthenticationOptionsUnion;
-    embeddingDependency?: OnYourDataVectorizationSourceUnion;
+    authentication?: OnYourDataAuthenticationOptions;
+    embeddingDependency?: OnYourDataVectorizationSource;
     endpoint: string;
     fieldsMapping?: ElasticsearchIndexFieldMappingOptions;
     indexName: string;
@@ -545,7 +465,7 @@ export interface ElasticsearchChatExtensionConfiguration {
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
-    type: "elasticsearch";
+    type: "Elasticsearch";
 }
 
 // @public
@@ -559,7 +479,7 @@ export interface ElasticsearchIndexFieldMappingOptions {
 }
 
 // @public
-export type ElasticsearchQueryType = string;
+export type ElasticsearchQueryType = "simple" | "vector";
 
 // @public
 export interface EmbeddingItem {
@@ -580,7 +500,7 @@ export interface EmbeddingsUsage {
 }
 
 // @public
-export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T> {
+export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T>, AsyncDisposable {
 }
 
 // @public
@@ -590,7 +510,7 @@ export interface FunctionCall {
 }
 
 // @public
-export type FunctionCallPreset = string;
+export type FunctionCallPreset = "auto" | "none";
 
 // @public
 export interface FunctionDefinition {
@@ -631,8 +551,8 @@ export interface GetChatCompletionsOptions extends OperationOptions {
     seed?: number;
     stop?: string[];
     temperature?: number;
-    toolChoice?: ChatCompletionsNamedToolSelectionUnion;
-    tools?: ChatCompletionsToolDefinitionUnion[];
+    toolChoice?: ChatCompletionsNamedToolSelection;
+    tools?: ChatCompletionsToolDefinition[];
     topP?: number;
     user?: string;
 }
@@ -655,7 +575,6 @@ export interface GetCompletionsOptions extends OperationOptions {
 
 // @public
 export interface GetEmbeddingsOptions extends OperationOptions {
-    dimensions?: number;
     model?: string;
     user?: string;
 }
@@ -671,37 +590,17 @@ export interface GetImagesOptions extends OperationOptions {
 }
 
 // @public
-export interface ImageGenerationContentFilterResults {
-    hate?: ContentFilterResult;
-    selfHarm?: ContentFilterResult;
-    sexual?: ContentFilterResult;
-    violence?: ContentFilterResult;
-}
-
-// @public
 export interface ImageGenerationData {
     base64Data?: string;
-    contentFilterResults?: ImageGenerationContentFilterResults;
-    promptFilterResults?: ImageGenerationPromptFilterResults;
     revisedPrompt?: string;
     url?: string;
 }
 
 // @public
-export interface ImageGenerationPromptFilterResults {
-    hate?: ContentFilterResult;
-    jailbreak?: ContentFilterDetectionResult;
-    profanity?: ContentFilterDetectionResult;
-    selfHarm?: ContentFilterResult;
-    sexual?: ContentFilterResult;
-    violence?: ContentFilterResult;
-}
+export type ImageGenerationQuality = "standard" | "hd";
 
 // @public
-export type ImageGenerationQuality = string;
-
-// @public
-export type ImageGenerationResponseFormat = string;
+export type ImageGenerationResponseFormat = "url" | "b64_json";
 
 // @public
 export interface ImageGenerations {
@@ -710,98 +609,76 @@ export interface ImageGenerations {
 }
 
 // @public
-export type ImageGenerationStyle = string;
+export type ImageGenerationStyle = "natural" | "vivid";
 
 // @public
-export type ImageSize = string;
+export type ImageSize = "1024x1024" | "1792x1024" | "1024x1792";
 
 // @public
-export interface MaxTokensFinishDetails extends ChatFinishDetails {
+export interface MaxTokensFinishDetails {
     type: "max_tokens";
 }
 
 // @public
-export interface OnYourDataAccessTokenAuthenticationOptions extends OnYourDataAuthenticationOptions {
-    accessToken: string;
-    type: "access_token";
-}
-
-// @public
-export interface OnYourDataApiKeyAuthenticationOptions extends OnYourDataAuthenticationOptions {
+export interface OnYourDataApiKeyAuthenticationOptions {
     key: string;
-    type: "api_key";
+    type: "APIKey";
 }
 
 // @public
-export interface OnYourDataAuthenticationOptions {
-    type: OnYourDataAuthenticationType;
-}
+export type OnYourDataAuthenticationOptions = OnYourDataApiKeyAuthenticationOptions | OnYourDataConnectionStringAuthenticationOptions | OnYourDataKeyAndKeyIdAuthenticationOptions | OnYourDataSystemAssignedManagedIdentityAuthenticationOptions | OnYourDataUserAssignedManagedIdentityAuthenticationOptions;
 
 // @public
-export type OnYourDataAuthenticationOptionsUnion = OnYourDataApiKeyAuthenticationOptions | OnYourDataConnectionStringAuthenticationOptions | OnYourDataKeyAndKeyIdAuthenticationOptions | OnYourDataEncodedApiKeyAuthenticationOptions | OnYourDataAccessTokenAuthenticationOptions | OnYourDataSystemAssignedManagedIdentityAuthenticationOptions | OnYourDataUserAssignedManagedIdentityAuthenticationOptions | OnYourDataAuthenticationOptions;
+export type OnYourDataAuthenticationType = "APIKey" | "ConnectionString" | "KeyAndKeyId" | "SystemAssignedManagedIdentity" | "UserAssignedManagedIdentity";
 
 // @public
-export type OnYourDataAuthenticationType = string;
-
-// @public
-export interface OnYourDataConnectionStringAuthenticationOptions extends OnYourDataAuthenticationOptions {
+export interface OnYourDataConnectionStringAuthenticationOptions {
     connectionString: string;
-    type: "connection_string";
+    type: "ConnectionString";
 }
 
 // @public
-export interface OnYourDataDeploymentNameVectorizationSource extends OnYourDataVectorizationSource {
+export interface OnYourDataDeploymentNameVectorizationSource {
     deploymentName: string;
-    type: "deployment_name";
+    type: "DeploymentName";
 }
 
 // @public
-export interface OnYourDataEncodedApiKeyAuthenticationOptions extends OnYourDataAuthenticationOptions {
-    encodedApiKey: string;
-    type: "encoded_api_key";
-}
-
-// @public
-export interface OnYourDataEndpointVectorizationSource extends OnYourDataVectorizationSource {
-    authentication: OnYourDataAuthenticationOptionsUnion;
+export interface OnYourDataEndpointVectorizationSource {
+    authentication: OnYourDataAuthenticationOptions;
     endpoint: string;
-    type: "endpoint";
+    type: "Endpoint";
 }
 
 // @public
-export interface OnYourDataKeyAndKeyIdAuthenticationOptions extends OnYourDataAuthenticationOptions {
+export interface OnYourDataKeyAndKeyIdAuthenticationOptions {
     key: string;
     keyId: string;
-    type: "key_and_key_id";
+    type: "KeyAndKeyId";
 }
 
 // @public
-export interface OnYourDataModelIdVectorizationSource extends OnYourDataVectorizationSource {
+export interface OnYourDataModelIdVectorizationSource {
     modelId: string;
-    type: "model_id";
+    type: "ModelId";
 }
 
 // @public
-export interface OnYourDataSystemAssignedManagedIdentityAuthenticationOptions extends OnYourDataAuthenticationOptions {
-    type: "system_assigned_managed_identity";
+export interface OnYourDataSystemAssignedManagedIdentityAuthenticationOptions {
+    type: "SystemAssignedManagedIdentity";
 }
 
 // @public
-export interface OnYourDataUserAssignedManagedIdentityAuthenticationOptions extends OnYourDataAuthenticationOptions {
+export interface OnYourDataUserAssignedManagedIdentityAuthenticationOptions {
     managedIdentityResourceId: string;
-    type: "user_assigned_managed_identity";
+    type: "UserAssignedManagedIdentity";
 }
 
 // @public
-export interface OnYourDataVectorizationSource {
-    type: OnYourDataVectorizationSourceType;
-}
+export type OnYourDataVectorizationSource = OnYourDataEndpointVectorizationSource | OnYourDataDeploymentNameVectorizationSource | OnYourDataModelIdVectorizationSource;
 
 // @public
-export type OnYourDataVectorizationSourceType = string;
-
-// @public
-export type OnYourDataVectorizationSourceUnion = OnYourDataEndpointVectorizationSource | OnYourDataDeploymentNameVectorizationSource | OnYourDataModelIdVectorizationSource | OnYourDataVectorizationSource;
+export type OnYourDataVectorizationSourceType = "Endpoint" | "DeploymentName" | "ModelId";
 
 // @public
 export class OpenAIClient {
@@ -812,11 +689,11 @@ export class OpenAIClient {
     getAudioTranscription<Format extends AudioResultFormat>(deploymentName: string, fileContent: Uint8Array, format: Format, options?: GetAudioTranscriptionOptions): Promise<AudioResult<Format>>;
     getAudioTranslation(deploymentName: string, fileContent: Uint8Array, options?: GetAudioTranslationOptions): Promise<AudioResultSimpleJson>;
     getAudioTranslation<Format extends AudioResultFormat>(deploymentName: string, fileContent: Uint8Array, format: Format, options?: GetAudioTranslationOptions): Promise<AudioResult<Format>>;
-    getChatCompletions(deploymentName: string, messages: ChatRequestMessageUnion[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
+    getChatCompletions(deploymentName: string, messages: ChatRequestMessage[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
     getCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
     getEmbeddings(deploymentName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
     getImages(deploymentName: string, prompt: string, options?: GetImagesOptions): Promise<ImageGenerations>;
-    streamChatCompletions(deploymentName: string, messages: ChatRequestMessageUnion[], options?: GetChatCompletionsOptions): Promise<EventStream<ChatCompletions>>;
+    streamChatCompletions(deploymentName: string, messages: ChatRequestMessage[], options?: GetChatCompletionsOptions): Promise<EventStream<ChatCompletions>>;
     streamCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<EventStream<Omit<Completions, "usage">>>;
 }
 
@@ -834,7 +711,7 @@ export class OpenAIKeyCredential implements KeyCredential {
 // @public
 export interface PineconeChatExtensionConfiguration {
     authentication?: OnYourDataAuthenticationOptions;
-    embeddingDependency: OnYourDataVectorizationSourceUnion;
+    embeddingDependency?: OnYourDataVectorizationSource;
     environment: string;
     fieldsMapping: PineconeFieldMappingOptions;
     indexName: string;
@@ -842,20 +719,22 @@ export interface PineconeChatExtensionConfiguration {
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
-    type: "pinecone";
+    type: "Pinecone";
 }
 
 // @public
 export interface PineconeFieldMappingOptions {
-    contentFields: string[];
+    contentFields?: string[];
     contentFieldsSeparator?: string;
     filepathField?: string;
+    imageVectorFields?: string[];
     titleField?: string;
     urlField?: string;
+    vectorFields?: string[];
 }
 
 // @public
-export interface StopFinishDetails extends ChatFinishDetails {
+export interface StopFinishDetails {
     stop: string;
     type: "stop";
 }

@@ -36,35 +36,22 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
+export const resourceUri: OperationURLParameter = {
+  parameterPath: "resourceUri",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "subscriptionId",
+    serializedName: "resourceUri",
     required: true,
     type: {
       name: "String"
     }
-  }
+  },
+  skipEncoding: true
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     serializedName: "api-version",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const region: OperationQueryParameter = {
-  parameterPath: "region",
-  mapper: {
-    serializedName: "region",
     required: true,
     type: {
       name: "String"
@@ -80,16 +67,4 @@ export const metricnamespace: OperationQueryParameter = {
       name: "String"
     }
   }
-};
-
-export const resourceUri: OperationURLParameter = {
-  parameterPath: "resourceUri",
-  mapper: {
-    serializedName: "resourceUri",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };

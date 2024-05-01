@@ -5,12 +5,9 @@
  */
 
 
-import JobRouter, {
-  AzureCommunicationRoutingServiceClient
-} from "@azure-rest/communication-job-router";
-import * as dotenv from "dotenv";
+import { AzureCommunicationRoutingServiceClient } from "../src";
+import JobRouter from "../src"; import * as dotenv from "dotenv";
 dotenv.config();
-
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // Create an distribution policy
@@ -18,6 +15,7 @@ async function createDistributionPolicy(): Promise<void> {
   // Create the Router Client
   const routerClient: AzureCommunicationRoutingServiceClient =
     JobRouter(connectionString);
+
 
   const id = "distribution-policy-123";
   const result = await routerClient.path("/routing/distributionPolicies/{distributionPolicyId}", id).patch({

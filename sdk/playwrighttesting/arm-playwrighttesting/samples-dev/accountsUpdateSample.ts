@@ -31,7 +31,7 @@ async function accountsUpdate() {
     process.env["PLAYWRIGHTTESTING_RESOURCE_GROUP"] || "dummyrg";
   const name = "myPlaywrightAccount";
   const properties: AccountUpdate = {
-    properties: { regionalAffinity: "Enabled" },
+    regionalAffinity: "Enabled",
     tags: { division: "LT", team: "Dev Exp" }
   };
   const credential = new DefaultAzureCredential();

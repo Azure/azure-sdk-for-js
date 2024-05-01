@@ -16,7 +16,7 @@ import { ContainerServiceClient } from "../containerServiceClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,14 +30,13 @@ import {
   TrustedAccessRoleBindingsCreateOrUpdateResponse,
   TrustedAccessRoleBindingsDeleteOptionalParams,
   TrustedAccessRoleBindingsDeleteResponse,
-  TrustedAccessRoleBindingsListNextResponse,
+  TrustedAccessRoleBindingsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TrustedAccessRoleBindings operations. */
 export class TrustedAccessRoleBindingsImpl
-  implements TrustedAccessRoleBindings
-{
+  implements TrustedAccessRoleBindings {
   private readonly client: ContainerServiceClient;
 
   /**
@@ -57,7 +56,7 @@ export class TrustedAccessRoleBindingsImpl
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: TrustedAccessRoleBindingsListOptionalParams,
+    options?: TrustedAccessRoleBindingsListOptionalParams
   ): PagedAsyncIterableIterator<TrustedAccessRoleBinding> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
@@ -75,9 +74,9 @@ export class TrustedAccessRoleBindingsImpl
           resourceGroupName,
           resourceName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -85,7 +84,7 @@ export class TrustedAccessRoleBindingsImpl
     resourceGroupName: string,
     resourceName: string,
     options?: TrustedAccessRoleBindingsListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<TrustedAccessRoleBinding[]> {
     let result: TrustedAccessRoleBindingsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +100,7 @@ export class TrustedAccessRoleBindingsImpl
         resourceGroupName,
         resourceName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,12 +112,12 @@ export class TrustedAccessRoleBindingsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: TrustedAccessRoleBindingsListOptionalParams,
+    options?: TrustedAccessRoleBindingsListOptionalParams
   ): AsyncIterableIterator<TrustedAccessRoleBinding> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -133,11 +132,11 @@ export class TrustedAccessRoleBindingsImpl
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: TrustedAccessRoleBindingsListOptionalParams,
+    options?: TrustedAccessRoleBindingsListOptionalParams
   ): Promise<TrustedAccessRoleBindingsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -152,16 +151,16 @@ export class TrustedAccessRoleBindingsImpl
     resourceGroupName: string,
     resourceName: string,
     trustedAccessRoleBindingName: string,
-    options?: TrustedAccessRoleBindingsGetOptionalParams,
+    options?: TrustedAccessRoleBindingsGetOptionalParams
   ): Promise<TrustedAccessRoleBindingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         resourceName,
         trustedAccessRoleBindingName,
-        options,
+        options
       },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -178,7 +177,7 @@ export class TrustedAccessRoleBindingsImpl
     resourceName: string,
     trustedAccessRoleBindingName: string,
     trustedAccessRoleBinding: TrustedAccessRoleBinding,
-    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
+    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<TrustedAccessRoleBindingsCreateOrUpdateResponse>,
@@ -187,20 +186,21 @@ export class TrustedAccessRoleBindingsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -209,8 +209,8 @@ export class TrustedAccessRoleBindingsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -218,8 +218,8 @@ export class TrustedAccessRoleBindingsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -230,16 +230,16 @@ export class TrustedAccessRoleBindingsImpl
         resourceName,
         trustedAccessRoleBindingName,
         trustedAccessRoleBinding,
-        options,
+        options
       },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       TrustedAccessRoleBindingsCreateOrUpdateResponse,
       OperationState<TrustedAccessRoleBindingsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -258,14 +258,14 @@ export class TrustedAccessRoleBindingsImpl
     resourceName: string,
     trustedAccessRoleBindingName: string,
     trustedAccessRoleBinding: TrustedAccessRoleBinding,
-    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
+    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
   ): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
       trustedAccessRoleBindingName,
       trustedAccessRoleBinding,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -281,7 +281,7 @@ export class TrustedAccessRoleBindingsImpl
     resourceGroupName: string,
     resourceName: string,
     trustedAccessRoleBindingName: string,
-    options?: TrustedAccessRoleBindingsDeleteOptionalParams,
+    options?: TrustedAccessRoleBindingsDeleteOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<TrustedAccessRoleBindingsDeleteResponse>,
@@ -290,20 +290,21 @@ export class TrustedAccessRoleBindingsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<TrustedAccessRoleBindingsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -312,8 +313,8 @@ export class TrustedAccessRoleBindingsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -321,8 +322,8 @@ export class TrustedAccessRoleBindingsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -332,16 +333,16 @@ export class TrustedAccessRoleBindingsImpl
         resourceGroupName,
         resourceName,
         trustedAccessRoleBindingName,
-        options,
+        options
       },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<
       TrustedAccessRoleBindingsDeleteResponse,
       OperationState<TrustedAccessRoleBindingsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -358,13 +359,13 @@ export class TrustedAccessRoleBindingsImpl
     resourceGroupName: string,
     resourceName: string,
     trustedAccessRoleBindingName: string,
-    options?: TrustedAccessRoleBindingsDeleteOptionalParams,
+    options?: TrustedAccessRoleBindingsDeleteOptionalParams
   ): Promise<TrustedAccessRoleBindingsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
       trustedAccessRoleBindingName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -380,11 +381,11 @@ export class TrustedAccessRoleBindingsImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: TrustedAccessRoleBindingsListNextOptionalParams,
+    options?: TrustedAccessRoleBindingsListNextOptionalParams
   ): Promise<TrustedAccessRoleBindingsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -392,36 +393,38 @@ export class TrustedAccessRoleBindingsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleBindingListResult,
+      bodyMapper: Mappers.TrustedAccessRoleBindingListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName,
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.TrustedAccessRoleBinding
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -429,30 +432,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.trustedAccessRoleBindingName,
+    Parameters.trustedAccessRoleBindingName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.TrustedAccessRoleBinding
     },
     201: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.TrustedAccessRoleBinding
     },
     202: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.TrustedAccessRoleBinding
     },
     204: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.TrustedAccessRoleBinding
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.trustedAccessRoleBinding,
   queryParameters: [Parameters.apiVersion],
@@ -461,31 +465,32 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.trustedAccessRoleBindingName,
+    Parameters.trustedAccessRoleBindingName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders,
+      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders
     },
     201: {
-      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders,
+      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders
     },
     202: {
-      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders,
+      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders
     },
     204: {
-      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders,
+      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -493,29 +498,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.trustedAccessRoleBindingName,
+    Parameters.trustedAccessRoleBindingName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleBindingListResult,
+      bodyMapper: Mappers.TrustedAccessRoleBindingListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.nextLink,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

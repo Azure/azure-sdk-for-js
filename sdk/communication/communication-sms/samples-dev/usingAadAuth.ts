@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT Licence.
 
 /**
  * @summary Use AAD token credentials when sending a SMS message.

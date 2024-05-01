@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   RoutesGetResponse,
   RoutesCreateOrUpdateOptionalParams,
   RoutesCreateOrUpdateResponse,
-  RoutesListNextResponse,
+  RoutesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export class RoutesImpl implements Routes {
   public list(
     resourceGroupName: string,
     routeTableName: string,
-    options?: RoutesListOptionalParams,
+    options?: RoutesListOptionalParams
   ): PagedAsyncIterableIterator<Route> {
     const iter = this.listPagingAll(resourceGroupName, routeTableName, options);
     return {
@@ -72,9 +72,9 @@ export class RoutesImpl implements Routes {
           resourceGroupName,
           routeTableName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -82,7 +82,7 @@ export class RoutesImpl implements Routes {
     resourceGroupName: string,
     routeTableName: string,
     options?: RoutesListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<Route[]> {
     let result: RoutesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class RoutesImpl implements Routes {
         resourceGroupName,
         routeTableName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +110,12 @@ export class RoutesImpl implements Routes {
   private async *listPagingAll(
     resourceGroupName: string,
     routeTableName: string,
-    options?: RoutesListOptionalParams,
+    options?: RoutesListOptionalParams
   ): AsyncIterableIterator<Route> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       routeTableName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -132,24 +132,25 @@ export class RoutesImpl implements Routes {
     resourceGroupName: string,
     routeTableName: string,
     routeName: string,
-    options?: RoutesDeleteOptionalParams,
+    options?: RoutesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -158,8 +159,8 @@ export class RoutesImpl implements Routes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -167,20 +168,20 @@ export class RoutesImpl implements Routes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, routeTableName, routeName, options },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -197,13 +198,13 @@ export class RoutesImpl implements Routes {
     resourceGroupName: string,
     routeTableName: string,
     routeName: string,
-    options?: RoutesDeleteOptionalParams,
+    options?: RoutesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       routeTableName,
       routeName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -219,11 +220,11 @@ export class RoutesImpl implements Routes {
     resourceGroupName: string,
     routeTableName: string,
     routeName: string,
-    options?: RoutesGetOptionalParams,
+    options?: RoutesGetOptionalParams
   ): Promise<RoutesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, routeTableName, routeName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -240,7 +241,7 @@ export class RoutesImpl implements Routes {
     routeTableName: string,
     routeName: string,
     routeParameters: Route,
-    options?: RoutesCreateOrUpdateOptionalParams,
+    options?: RoutesCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<RoutesCreateOrUpdateResponse>,
@@ -249,20 +250,21 @@ export class RoutesImpl implements Routes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<RoutesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -271,8 +273,8 @@ export class RoutesImpl implements Routes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -280,8 +282,8 @@ export class RoutesImpl implements Routes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -292,9 +294,9 @@ export class RoutesImpl implements Routes {
         routeTableName,
         routeName,
         routeParameters,
-        options,
+        options
       },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       RoutesCreateOrUpdateResponse,
@@ -302,7 +304,7 @@ export class RoutesImpl implements Routes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -321,14 +323,14 @@ export class RoutesImpl implements Routes {
     routeTableName: string,
     routeName: string,
     routeParameters: Route,
-    options?: RoutesCreateOrUpdateOptionalParams,
+    options?: RoutesCreateOrUpdateOptionalParams
   ): Promise<RoutesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       routeTableName,
       routeName,
       routeParameters,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -342,11 +344,11 @@ export class RoutesImpl implements Routes {
   private _list(
     resourceGroupName: string,
     routeTableName: string,
-    options?: RoutesListOptionalParams,
+    options?: RoutesListOptionalParams
   ): Promise<RoutesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, routeTableName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -361,11 +363,11 @@ export class RoutesImpl implements Routes {
     resourceGroupName: string,
     routeTableName: string,
     nextLink: string,
-    options?: RoutesListNextOptionalParams,
+    options?: RoutesListNextOptionalParams
   ): Promise<RoutesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, routeTableName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -373,7 +375,8 @@ export class RoutesImpl implements Routes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -381,8 +384,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -390,21 +393,22 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.routeTableName,
-    Parameters.routeName,
+    Parameters.routeName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Route,
+      bodyMapper: Mappers.Route
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -412,30 +416,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.routeTableName,
-    Parameters.routeName,
+    Parameters.routeName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Route,
+      bodyMapper: Mappers.Route
     },
     201: {
-      bodyMapper: Mappers.Route,
+      bodyMapper: Mappers.Route
     },
     202: {
-      bodyMapper: Mappers.Route,
+      bodyMapper: Mappers.Route
     },
     204: {
-      bodyMapper: Mappers.Route,
+      bodyMapper: Mappers.Route
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.routeParameters,
   queryParameters: [Parameters.apiVersion],
@@ -444,51 +449,52 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.routeTableName,
-    Parameters.routeName,
+    Parameters.routeName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteListResult,
+      bodyMapper: Mappers.RouteListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.routeTableName,
+    Parameters.routeTableName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteListResult,
+      bodyMapper: Mappers.RouteListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.routeTableName,
+    Parameters.routeTableName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

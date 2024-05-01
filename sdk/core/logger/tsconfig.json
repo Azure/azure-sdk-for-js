@@ -1,13 +1,10 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "paths": {
-      "@azure/logger": ["./src/index.ts"]
-    },
-    "downlevelIteration": true,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "downlevelIteration": true
   },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "./test/**/*.ts"]
+  "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

@@ -9,7 +9,7 @@ import {
   toHttpHeadersLike,
   toPipelineRequest,
   toWebResourceLike,
-} from "./util.js";
+} from "./util";
 /**
  * Http Response that is compatible with the core-v1(core-http).
  */

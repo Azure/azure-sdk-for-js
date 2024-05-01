@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-
 import concurrently from "concurrently";
+import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
+import { isModuleProject } from "../../util/resolveProject";
 import { runTestsWithProxyTool } from "../../util/testUtils";
 
 export const commandInfo = makeCommandInfo(
   "test:node-js-input",
   "runs the node tests using mocha with the default and the provided options; starts the proxy-tool in record and playback modes",
   {
-    "test-proxy": {
-      shortName: "tp",
+    "no-test-proxy": {
+      shortName: "ntp",
       kind: "boolean",
-      default: true,
+      default: false,
       description: "whether to run with test-proxy",
     },
   },
@@ -23,7 +23,11 @@ export const commandInfo = makeCommandInfo(
 export default leafCommand(commandInfo, async (options) => {
   const reporterArgs =
     "--reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml";
-  const defaultMochaArgs = `-r source-map-support/register.js ${reporterArgs} --full-trace`;
+  const defaultMochaArgs = `${
+    (await isModuleProject())
+      ? "-r source-map-support/register.js"
+      : "-r ../../../common/tools/esm-workaround -r esm -r source-map-support/register"
+  } ${reporterArgs} --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
@@ -31,11 +35,11 @@ export default leafCommand(commandInfo, async (options) => {
     ? updatedArgs.join(" ")
     : '--timeout 5000000 "dist-esm/test/{,!(browser)/**/}/*.spec.js"';
   const command = {
-    command: `c8 mocha --require tsx ${defaultMochaArgs} ${mochaArgs}`,
+    command: `c8 mocha ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 
-  if (options["test-proxy"]) {
+  if (!options["no-test-proxy"]) {
     return runTestsWithProxyTool(command);
   }
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
-import { createHttpHeaders } from "../src/httpHeaders.js";
+import { assert } from "chai";
+import { createHttpHeaders } from "../src/httpHeaders";
 
 describe("HttpHeaders", () => {
   it("toJSON() should use normalized header names", () => {

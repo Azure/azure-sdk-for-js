@@ -3,7 +3,6 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-const expect = chai.expect;
 import {
   ServiceBusReceivedMessage,
   delay,
@@ -25,7 +24,7 @@ import {
 import { getDeliveryProperty } from "./utils/misc";
 import { verifyMessageCount } from "../public/utils/managementUtils";
 import sinon from "sinon";
-import { isNodeLike } from "@azure/core-util";
+import { isNode } from "@azure/core-util";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -492,11 +491,7 @@ describe("Streaming Receiver Tests", () => {
     });
 
     const testError = (err: Error): void => {
-      expect(
-        err.message,
-
-        "ErrorMessage is different than expected",
-      ).includes(MessageAlreadySettled);
+      should.equal(err.message, MessageAlreadySettled, "ErrorMessage is different than expected");
       errorWasThrown = true;
     };
 
@@ -999,7 +994,7 @@ export function createOnDetachedProcessErrorFake(): sinon.SinonSpy & {
     // websocket platforms this can manifest as a CloseEvent).
     const expectedErrors = [];
 
-    if (isNodeLike) {
+    if (isNode) {
       if (errors.length > 0) {
         expectedErrors.push("read ECONNRESET");
       }

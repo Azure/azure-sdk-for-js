@@ -2743,28 +2743,30 @@ export const UserAssignedManagedIdentityDetails: coreClient.CompositeMapper = {
         serializedName: "userAssignedIdentityProperties",
         type: {
           name: "Composite",
-          className: "UserAssignedIdentityProperties"
+          className: "UserAssignedIdentity"
         }
       }
     }
   }
 };
 
-export const UserAssignedIdentityProperties: coreClient.CompositeMapper = {
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "UserAssignedIdentityProperties",
+    className: "UserAssignedIdentity",
     modelProperties: {
-      clientId: {
-        serializedName: "clientId",
-        type: {
-          name: "String"
-        }
-      },
       principalId: {
         serializedName: "principalId",
+        readOnly: true,
         type: {
-          name: "String"
+          name: "Uuid"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
         }
       }
     }

@@ -16,7 +16,7 @@ import { NetAppManagementClient } from "../netAppManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,8 +36,10 @@ import {
   AccountsUpdateOptionalParams,
   AccountsUpdateResponse,
   AccountsRenewCredentialsOptionalParams,
+  AccountsMigrateEncryptionKeyOptionalParams,
+  AccountsMigrateEncryptionKeyResponse,
   AccountsListBySubscriptionNextResponse,
-  AccountsListNextResponse,
+  AccountsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +60,7 @@ export class AccountsImpl implements Accounts {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: AccountsListBySubscriptionOptionalParams,
+    options?: AccountsListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<NetAppAccount> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -73,13 +75,13 @@ export class AccountsImpl implements Accounts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      },
+      }
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: AccountsListBySubscriptionOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetAppAccount[]> {
     let result: AccountsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +102,7 @@ export class AccountsImpl implements Accounts {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: AccountsListBySubscriptionOptionalParams,
+    options?: AccountsListBySubscriptionOptionalParams
   ): AsyncIterableIterator<NetAppAccount> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -114,7 +116,7 @@ export class AccountsImpl implements Accounts {
    */
   public list(
     resourceGroupName: string,
-    options?: AccountsListOptionalParams,
+    options?: AccountsListOptionalParams
   ): PagedAsyncIterableIterator<NetAppAccount> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -129,14 +131,14 @@ export class AccountsImpl implements Accounts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      },
+      }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: AccountsListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetAppAccount[]> {
     let result: AccountsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -151,7 +153,7 @@ export class AccountsImpl implements Accounts {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -162,7 +164,7 @@ export class AccountsImpl implements Accounts {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: AccountsListOptionalParams,
+    options?: AccountsListOptionalParams
   ): AsyncIterableIterator<NetAppAccount> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -174,11 +176,11 @@ export class AccountsImpl implements Accounts {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: AccountsListBySubscriptionOptionalParams,
+    options?: AccountsListBySubscriptionOptionalParams
   ): Promise<AccountsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec,
+      listBySubscriptionOperationSpec
     );
   }
 
@@ -189,11 +191,11 @@ export class AccountsImpl implements Accounts {
    */
   private _list(
     resourceGroupName: string,
-    options?: AccountsListOptionalParams,
+    options?: AccountsListOptionalParams
   ): Promise<AccountsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -206,11 +208,11 @@ export class AccountsImpl implements Accounts {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsGetOptionalParams,
+    options?: AccountsGetOptionalParams
   ): Promise<AccountsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -225,7 +227,7 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     body: NetAppAccount,
-    options?: AccountsCreateOrUpdateOptionalParams,
+    options?: AccountsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<AccountsCreateOrUpdateResponse>,
@@ -234,20 +236,21 @@ export class AccountsImpl implements Accounts {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<AccountsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -256,8 +259,8 @@ export class AccountsImpl implements Accounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -265,15 +268,15 @@ export class AccountsImpl implements Accounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, body, options },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       AccountsCreateOrUpdateResponse,
@@ -281,7 +284,7 @@ export class AccountsImpl implements Accounts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -298,13 +301,13 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     body: NetAppAccount,
-    options?: AccountsCreateOrUpdateOptionalParams,
+    options?: AccountsCreateOrUpdateOptionalParams
   ): Promise<AccountsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       accountName,
       body,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -318,24 +321,25 @@ export class AccountsImpl implements Accounts {
   async beginDelete(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsDeleteOptionalParams,
+    options?: AccountsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -344,8 +348,8 @@ export class AccountsImpl implements Accounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -353,20 +357,20 @@ export class AccountsImpl implements Accounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, options },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -381,12 +385,12 @@ export class AccountsImpl implements Accounts {
   async beginDeleteAndWait(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsDeleteOptionalParams,
+    options?: AccountsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -402,7 +406,7 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     body: NetAppAccountPatch,
-    options?: AccountsUpdateOptionalParams,
+    options?: AccountsUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<AccountsUpdateResponse>,
@@ -411,20 +415,21 @@ export class AccountsImpl implements Accounts {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<AccountsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -433,8 +438,8 @@ export class AccountsImpl implements Accounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -442,15 +447,15 @@ export class AccountsImpl implements Accounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, body, options },
-      spec: updateOperationSpec,
+      spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
       AccountsUpdateResponse,
@@ -458,7 +463,7 @@ export class AccountsImpl implements Accounts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -475,13 +480,13 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     body: NetAppAccountPatch,
-    options?: AccountsUpdateOptionalParams,
+    options?: AccountsUpdateOptionalParams
   ): Promise<AccountsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       accountName,
       body,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -497,24 +502,25 @@ export class AccountsImpl implements Accounts {
   async beginRenewCredentials(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsRenewCredentialsOptionalParams,
+    options?: AccountsRenewCredentialsOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -523,8 +529,8 @@ export class AccountsImpl implements Accounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -532,20 +538,20 @@ export class AccountsImpl implements Accounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, options },
-      spec: renewCredentialsOperationSpec,
+      spec: renewCredentialsOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -562,12 +568,107 @@ export class AccountsImpl implements Accounts {
   async beginRenewCredentialsAndWait(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsRenewCredentialsOptionalParams,
+    options?: AccountsRenewCredentialsOptionalParams
   ): Promise<void> {
     const poller = await this.beginRenewCredentials(
       resourceGroupName,
       accountName,
-      options,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Migrates all volumes in a VNet to a different encryption key source (Microsoft-managed key or Azure
+   * Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from
+   * another account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  async beginMigrateEncryptionKey(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsMigrateEncryptionKeyOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccountsMigrateEncryptionKeyResponse>,
+      AccountsMigrateEncryptionKeyResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AccountsMigrateEncryptionKeyResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, options },
+      spec: migrateEncryptionKeyOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AccountsMigrateEncryptionKeyResponse,
+      OperationState<AccountsMigrateEncryptionKeyResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Migrates all volumes in a VNet to a different encryption key source (Microsoft-managed key or Azure
+   * Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from
+   * another account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  async beginMigrateEncryptionKeyAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsMigrateEncryptionKeyOptionalParams
+  ): Promise<AccountsMigrateEncryptionKeyResponse> {
+    const poller = await this.beginMigrateEncryptionKey(
+      resourceGroupName,
+      accountName,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -579,11 +680,11 @@ export class AccountsImpl implements Accounts {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: AccountsListBySubscriptionNextOptionalParams,
+    options?: AccountsListBySubscriptionNextOptionalParams
   ): Promise<AccountsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec,
+      listBySubscriptionNextOperationSpec
     );
   }
 
@@ -596,11 +697,11 @@ export class AccountsImpl implements Accounts {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AccountsListNextOptionalParams,
+    options?: AccountsListNextOptionalParams
   ): Promise<AccountsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -608,81 +709,77 @@ export class AccountsImpl implements Accounts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/netAppAccounts",
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/netAppAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetAppAccountList,
+      bodyMapper: Mappers.NetAppAccountList
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetAppAccountList,
+      bodyMapper: Mappers.NetAppAccountList
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetAppAccount,
+      bodyMapper: Mappers.NetAppAccount
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetAppAccount,
+      bodyMapper: Mappers.NetAppAccount
     },
     201: {
-      bodyMapper: Mappers.NetAppAccount,
+      bodyMapper: Mappers.NetAppAccount
     },
     202: {
-      bodyMapper: Mappers.NetAppAccount,
+      bodyMapper: Mappers.NetAppAccount
     },
     204: {
-      bodyMapper: Mappers.NetAppAccount,
+      bodyMapper: Mappers.NetAppAccount
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
   requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
@@ -690,53 +787,46 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName
   ],
-  headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetAppAccount,
+      bodyMapper: Mappers.NetAppAccount
     },
     201: {
-      bodyMapper: Mappers.NetAppAccount,
+      bodyMapper: Mappers.NetAppAccount
     },
     202: {
-      bodyMapper: Mappers.NetAppAccount,
+      bodyMapper: Mappers.NetAppAccount
     },
     204: {
-      bodyMapper: Mappers.NetAppAccount,
+      bodyMapper: Mappers.NetAppAccount
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
@@ -744,70 +834,91 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const renewCredentialsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/renewCredentials",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/renewCredentials",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName
   ],
-  headerParameters: [Parameters.accept],
-  serializer,
+  serializer
+};
+const migrateEncryptionKeyOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/migrateEncryption",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.AccountsMigrateEncryptionKeyHeaders
+    },
+    201: {
+      headersMapper: Mappers.AccountsMigrateEncryptionKeyHeaders
+    },
+    202: {
+      headersMapper: Mappers.AccountsMigrateEncryptionKeyHeaders
+    },
+    204: {
+      headersMapper: Mappers.AccountsMigrateEncryptionKeyHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body7,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetAppAccountList,
+      bodyMapper: Mappers.NetAppAccountList
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetAppAccountList,
+      bodyMapper: Mappers.NetAppAccountList
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

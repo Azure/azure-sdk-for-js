@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets private endpoint connection.
  *
  * @summary Gets private endpoint connection.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/PrivateEndpointConnectionsGet.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/PrivateEndpointConnectionsGet.json
  */
 async function getsPrivateEndpointConnection() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getsPrivateEndpointConnection() {
   const result = await client.privateEndpointConnections.get(
     resourceGroupName,
     clusterName,
-    privateEndpointConnectionName,
+    privateEndpointConnectionName
   );
   console.log(result);
 }

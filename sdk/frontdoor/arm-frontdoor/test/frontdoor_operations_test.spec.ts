@@ -33,7 +33,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("FrontDoor test", () => {
+describe("FrontDoor test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: FrontDoorManagementClient;

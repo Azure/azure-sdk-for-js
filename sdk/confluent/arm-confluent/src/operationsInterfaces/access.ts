@@ -22,20 +22,14 @@ import {
   AccessListClustersOptionalParams,
   AccessListClustersResponse,
   AccessListRoleBindingsOptionalParams,
-  AccessListRoleBindingsResponse,
-  AccessCreateRoleBindingRequestModel,
-  AccessCreateRoleBindingOptionalParams,
-  AccessCreateRoleBindingResponse,
-  AccessDeleteRoleBindingOptionalParams,
-  AccessListRoleBindingNameListOptionalParams,
-  AccessListRoleBindingNameListResponse,
+  AccessListRoleBindingsResponse
 } from "../models";
 
 /** Interface representing a Access. */
 export interface Access {
   /**
    * Organization users details
-   * @param resourceGroupName Resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param organizationName Organization resource name
    * @param body List Access Request Model
    * @param options The options parameters.
@@ -44,11 +38,11 @@ export interface Access {
     resourceGroupName: string,
     organizationName: string,
     body: ListAccessRequestModel,
-    options?: AccessListUsersOptionalParams,
+    options?: AccessListUsersOptionalParams
   ): Promise<AccessListUsersResponse>;
   /**
    * Organization service accounts details
-   * @param resourceGroupName Resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param organizationName Organization resource name
    * @param body List Access Request Model
    * @param options The options parameters.
@@ -57,11 +51,11 @@ export interface Access {
     resourceGroupName: string,
     organizationName: string,
     body: ListAccessRequestModel,
-    options?: AccessListServiceAccountsOptionalParams,
+    options?: AccessListServiceAccountsOptionalParams
   ): Promise<AccessListServiceAccountsResponse>;
   /**
    * Organization accounts invitation details
-   * @param resourceGroupName Resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param organizationName Organization resource name
    * @param body List Access Request Model
    * @param options The options parameters.
@@ -70,11 +64,11 @@ export interface Access {
     resourceGroupName: string,
     organizationName: string,
     body: ListAccessRequestModel,
-    options?: AccessListInvitationsOptionalParams,
+    options?: AccessListInvitationsOptionalParams
   ): Promise<AccessListInvitationsResponse>;
   /**
    * Invite user to the organization
-   * @param resourceGroupName Resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param organizationName Organization resource name
    * @param body Invite user account model
    * @param options The options parameters.
@@ -83,7 +77,7 @@ export interface Access {
     resourceGroupName: string,
     organizationName: string,
     body: AccessInviteUserAccountModel,
-    options?: AccessInviteUserOptionalParams,
+    options?: AccessInviteUserOptionalParams
   ): Promise<AccessInviteUserResponse>;
   /**
    * Environment list of an organization
@@ -96,7 +90,7 @@ export interface Access {
     resourceGroupName: string,
     organizationName: string,
     body: ListAccessRequestModel,
-    options?: AccessListEnvironmentsOptionalParams,
+    options?: AccessListEnvironmentsOptionalParams
   ): Promise<AccessListEnvironmentsResponse>;
   /**
    * Cluster details
@@ -109,7 +103,7 @@ export interface Access {
     resourceGroupName: string,
     organizationName: string,
     body: ListAccessRequestModel,
-    options?: AccessListClustersOptionalParams,
+    options?: AccessListClustersOptionalParams
   ): Promise<AccessListClustersResponse>;
   /**
    * Organization role bindings
@@ -122,45 +116,6 @@ export interface Access {
     resourceGroupName: string,
     organizationName: string,
     body: ListAccessRequestModel,
-    options?: AccessListRoleBindingsOptionalParams,
+    options?: AccessListRoleBindingsOptionalParams
   ): Promise<AccessListRoleBindingsResponse>;
-  /**
-   * Organization role bindings
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param organizationName Organization resource name
-   * @param body Create role binding Request Model
-   * @param options The options parameters.
-   */
-  createRoleBinding(
-    resourceGroupName: string,
-    organizationName: string,
-    body: AccessCreateRoleBindingRequestModel,
-    options?: AccessCreateRoleBindingOptionalParams,
-  ): Promise<AccessCreateRoleBindingResponse>;
-  /**
-   * Organization role bindings
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param organizationName Organization resource name
-   * @param roleBindingId Confluent Role binding id
-   * @param options The options parameters.
-   */
-  deleteRoleBinding(
-    resourceGroupName: string,
-    organizationName: string,
-    roleBindingId: string,
-    options?: AccessDeleteRoleBindingOptionalParams,
-  ): Promise<void>;
-  /**
-   * Organization role bindings
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param organizationName Organization resource name
-   * @param body List Access Request Model
-   * @param options The options parameters.
-   */
-  listRoleBindingNameList(
-    resourceGroupName: string,
-    organizationName: string,
-    body: ListAccessRequestModel,
-    options?: AccessListRoleBindingNameListOptionalParams,
-  ): Promise<AccessListRoleBindingNameListResponse>;
 }

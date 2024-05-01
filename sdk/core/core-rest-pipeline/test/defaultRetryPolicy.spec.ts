@@ -1,14 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  RestError,
-  type SendRequest,
-  createPipelineRequest,
-  defaultRetryPolicy,
-} from "../src/index.js";
-import { describe, it, assert, expect, vi, afterEach } from "vitest";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
+import { assert, describe, it, afterEach, vi, expect } from "vitest";
+
+import { RestError, type SendRequest, createPipelineRequest, defaultRetryPolicy } from "../src";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("defaultRetryPolicy", function () {
   afterEach(function () {

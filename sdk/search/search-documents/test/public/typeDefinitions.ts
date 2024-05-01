@@ -8,47 +8,74 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import {
-  KnownCharFilterName,
-  KnownLexicalAnalyzerName,
-  KnownLexicalTokenizerName,
-  KnownTokenFilterName,
-  KnownVectorSearchAlgorithmKind,
+  KnownSearchFieldDataType,
   KnownVectorSearchAlgorithmMetric,
+  KnownVectorSearchAlgorithmKind,
+  KnownIndexProjectionMode,
+  KnownVectorSearchVectorizerKind,
 } from "../../src/generated/service";
-
-import { KnownVectorFilterMode } from "../../src/generated/data";
-
 import {
-  KnownAnalyzerNames,
-  KnownCharFilterNames,
-  KnownTokenFilterNames,
-  KnownTokenizerNames,
-  VectorFilterMode,
-  VectorSearchAlgorithmKind,
+  KnownSemanticPartialResponseReason,
+  KnownSemanticPartialResponseType,
+  KnownQueryDebugMode,
+  KnownSemanticErrorHandling,
+  KnownSemanticFieldState,
+  KnownVectorQueryKind,
+  KnownVectorFilterMode,
+} from "../../src/generated/data";
+import {
+  ComplexDataType,
+  SearchFieldDataType,
+  SemanticPartialResponseReason,
+  SemanticPartialResponseType,
+  QueryDebugMode,
+  SemanticErrorHandlingMode,
+  SemanticFieldState,
   VectorSearchAlgorithmMetric,
+  VectorSearchAlgorithmKind,
+  IndexProjectionMode,
+  VectorSearchVectorizerKind,
+  VectorQueryKind,
+  VectorFilterMode,
 } from "../../src/index";
 
-type IsIdentical<T1, T2> =
-  (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2 ? true : false ? any : never;
+type IsIdentical<T1, T2> = (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2
+  ? true
+  : false
+  ? any
+  : never;
 
+type ExpectSearchFieldDataType = Exclude<
+  `${KnownSearchFieldDataType}` | `Collection(${KnownSearchFieldDataType})`,
+  ComplexDataType | "Edm.Single"
+>;
+type ExpectSemanticPartialResponseReason = `${KnownSemanticPartialResponseReason}`;
+type ExpectSemanticPartialResponseType = `${KnownSemanticPartialResponseType}`;
+type ExpectQueryDebugMode = `${KnownQueryDebugMode}`;
+type ExpectSemanticErrorHandlingMode = `${KnownSemanticErrorHandling}`;
+type ExpectSemanticFieldState = `${KnownSemanticFieldState}`;
 type ExpectVectorSearchAlgorithmMetric = `${KnownVectorSearchAlgorithmMetric}`;
 type ExpectVectorSearchAlgorithmKind = `${KnownVectorSearchAlgorithmKind}`;
+type ExpectIndexProjectionMode = `${KnownIndexProjectionMode}`;
+type ExpectVectorSearchVectorizerKind = `${KnownVectorSearchVectorizerKind}`;
+type ExpectVectorQueryKind = `${KnownVectorQueryKind}`;
 type ExpectVectorFilterMode = `${KnownVectorFilterMode}`;
-type ExpectKnownCharFilterNames = `${KnownCharFilterName}`;
-type ExpectKnownAnalyzerNames = `${KnownLexicalAnalyzerName}`;
-type ExpectKnownTokenizerNames = `${KnownLexicalTokenizerName}`;
-type ExpectKnownTokenFilterNames = `${KnownTokenFilterName}`;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 function fun() {
-  const a: IsIdentical<ExpectVectorSearchAlgorithmMetric, VectorSearchAlgorithmMetric> = "pass";
-  const b: IsIdentical<ExpectVectorSearchAlgorithmKind, VectorSearchAlgorithmKind> = "pass";
-  const c: IsIdentical<ExpectVectorFilterMode, VectorFilterMode> = "pass";
-  const d: IsIdentical<ExpectKnownCharFilterNames, `${KnownCharFilterNames}`> = "pass";
-  const e: IsIdentical<ExpectKnownAnalyzerNames, `${KnownAnalyzerNames}`> = "pass";
-  const f: IsIdentical<ExpectKnownTokenizerNames, `${KnownTokenizerNames}`> = "pass";
-  const g: IsIdentical<ExpectKnownTokenFilterNames, `${KnownTokenFilterNames}`> = "pass";
+  const a: IsIdentical<ExpectSearchFieldDataType, SearchFieldDataType> = "pass";
+  const b: IsIdentical<ExpectSemanticPartialResponseReason, SemanticPartialResponseReason> = "pass";
+  const c: IsIdentical<ExpectSemanticPartialResponseType, SemanticPartialResponseType> = "pass";
+  const d: IsIdentical<ExpectQueryDebugMode, QueryDebugMode> = "pass";
+  const e: IsIdentical<ExpectSemanticErrorHandlingMode, SemanticErrorHandlingMode> = "pass";
+  const f: IsIdentical<ExpectSemanticFieldState, SemanticFieldState> = "pass";
+  const g: IsIdentical<ExpectVectorSearchAlgorithmMetric, VectorSearchAlgorithmMetric> = "pass";
+  const h: IsIdentical<ExpectVectorSearchAlgorithmKind, VectorSearchAlgorithmKind> = "pass";
+  const i: IsIdentical<ExpectIndexProjectionMode, IndexProjectionMode> = "pass";
+  const j: IsIdentical<ExpectVectorSearchVectorizerKind, VectorSearchVectorizerKind> = "pass";
+  const k: IsIdentical<ExpectVectorQueryKind, VectorQueryKind> = "pass";
+  const l: IsIdentical<ExpectVectorFilterMode, VectorFilterMode> = "pass";
 
-  return [a, b, c, d, e, f, g];
+  return [a, b, c, d, e, f, g, h, i, j, k, l];
 }

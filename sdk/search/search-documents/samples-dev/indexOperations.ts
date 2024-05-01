@@ -6,9 +6,9 @@
  */
 
 import {
+  SearchIndexClient,
   AzureKeyCredential,
   SearchIndex,
-  SearchIndexClient,
   SearchIndexStatistics,
 } from "@azure/search-documents";
 
@@ -17,9 +17,9 @@ dotenv.config();
 
 const endpoint = process.env.ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
-const TEST_INDEX_NAME = "example-index-sample-1";
+const indexName = "example-index-sample-1";
 
-async function createIndex(indexName: string, client: SearchIndexClient): Promise<void> {
+async function createIndex(indexName: string, client: SearchIndexClient) {
   console.log(`Creating Index Operation`);
   const index: SearchIndex = {
     name: indexName,
@@ -62,7 +62,7 @@ async function createIndex(indexName: string, client: SearchIndexClient): Promis
   await client.createIndex(index);
 }
 
-async function getAndUpdateIndex(indexName: string, client: SearchIndexClient): Promise<void> {
+async function getAndUpdateIndex(indexName: string, client: SearchIndexClient) {
   console.log(`Get And Update Index Operation`);
   const index: SearchIndex = await client.getIndex(indexName);
   index.fields.push({
@@ -73,14 +73,14 @@ async function getAndUpdateIndex(indexName: string, client: SearchIndexClient): 
   await client.createOrUpdateIndex(index);
 }
 
-async function getIndexStatistics(indexName: string, client: SearchIndexClient): Promise<void> {
+async function getIndexStatistics(indexName: string, client: SearchIndexClient) {
   console.log(`Get Index Statistics Operation`);
   const statistics: SearchIndexStatistics = await client.getIndexStatistics(indexName);
   console.log(`Document Count: ${statistics.documentCount}`);
   console.log(`Storage Size: ${statistics.storageSize}`);
 }
 
-async function getServiceStatistics(client: SearchIndexClient): Promise<void> {
+async function getServiceStatistics(client: SearchIndexClient) {
   console.log(`Get Service Statistics Operation`);
   const { counters, limits } = await client.getServiceStatistics();
   console.log(`Counters`);
@@ -116,7 +116,7 @@ async function getServiceStatistics(client: SearchIndexClient): Promise<void> {
   );
 }
 
-async function listIndexes(client: SearchIndexClient): Promise<void> {
+async function listIndexes(client: SearchIndexClient) {
   console.log(`List Indexes Operation`);
   const result = await client.listIndexes();
   let listOfIndexes = await result.next();
@@ -132,12 +132,12 @@ async function listIndexes(client: SearchIndexClient): Promise<void> {
   }
 }
 
-async function deleteIndex(indexName: string, client: SearchIndexClient): Promise<void> {
+async function deleteIndex(indexName: string, client: SearchIndexClient) {
   console.log(`Deleting Index Operation`);
   await client.deleteIndex(indexName);
 }
 
-async function main(): Promise<void> {
+async function main() {
   console.log(`Running Index Operations Sample....`);
   if (!endpoint || !apiKey) {
     console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
@@ -145,13 +145,13 @@ async function main(): Promise<void> {
   }
   const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
   try {
-    await createIndex(TEST_INDEX_NAME, client);
-    await getAndUpdateIndex(TEST_INDEX_NAME, client);
-    await getIndexStatistics(TEST_INDEX_NAME, client);
+    await createIndex(indexName, client);
+    await getAndUpdateIndex(indexName, client);
+    await getIndexStatistics(indexName, client);
     await getServiceStatistics(client);
     await listIndexes(client);
   } finally {
-    await deleteIndex(TEST_INDEX_NAME, client);
+    await deleteIndex(indexName, client);
   }
 }
 

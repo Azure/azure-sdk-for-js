@@ -3,8 +3,8 @@
     {
       "Agent": {
         "ubuntu-20.04_ManagedHSM": {
-          "OSVmImage": "env:LINUXVMIMAGE",
-          "Pool": "env:LINUXPOOL",
+          "OSVmImage": "MMSUbuntu20.04",
+          "Pool": "azsdk-pool-mms-ubuntu-2004-general",
           "ArmTemplateParameters": "@{ enableHsm = $true }"
         }
       },
@@ -14,8 +14,8 @@
     {
       "Agent": {
         "ubuntu-20.04": {
-          "OSVmImage": "env:LINUXVMIMAGE",
-          "Pool": "env:LINUXPOOL"
+          "OSVmImage": "MMSUbuntu20.04",
+          "Pool": "azsdk-pool-mms-ubuntu-2004-general"
         }
       },
       "TestType": "node",

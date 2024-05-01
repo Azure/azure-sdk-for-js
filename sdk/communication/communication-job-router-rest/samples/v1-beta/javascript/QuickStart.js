@@ -3,9 +3,8 @@
 /**
  * @summary Quick start workflow for creating queue, job and worker, routing/matching job with worker
  */
-const JobRouter = require("@azure-rest/communication-job-router").default;
+const JobRouter = require("../src").default;
 require("dotenv").config();
-
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 async function quickStart() {
@@ -115,7 +114,7 @@ async function quickStart() {
 
   console.log(`Offer: ${jobOffer.offerId} sent to worker: ${workerId} has been accepted`);
   console.log(
-    `Job has been assigned to worker: ${workerId} with assignment: ${acceptJobOfferResult.assignmentId}`,
+    `Job has been assigned to worker: ${workerId} with assignment: ${acceptJobOfferResult.assignmentId}`
   );
 
   // verify job assignment is populated when querying job
@@ -137,7 +136,7 @@ async function quickStart() {
     .path(
       "/routing/jobs/{jobId}/assignments/{assignmentId}:complete",
       jobId,
-      acceptJobOfferResult.assignmentId,
+      acceptJobOfferResult.assignmentId
     )
     .post({
       body: {
@@ -154,7 +153,7 @@ async function quickStart() {
     .path(
       "/routing/jobs/{jobId}/assignments/{assignmentId}:close",
       jobId,
-      acceptJobOfferResult.assignmentId,
+      acceptJobOfferResult.assignmentId
     )
     .post({
       body: {
@@ -170,7 +169,7 @@ async function quickStart() {
     .path(
       "/routing/jobs/{jobId}/assignments/{assignmentId}:close",
       jobId,
-      acceptJobOfferResult.assignmentId,
+      acceptJobOfferResult.assignmentId
     )
     .post({
       body: {

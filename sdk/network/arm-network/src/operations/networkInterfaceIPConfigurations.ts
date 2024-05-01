@@ -20,14 +20,13 @@ import {
   NetworkInterfaceIPConfigurationsListResponse,
   NetworkInterfaceIPConfigurationsGetOptionalParams,
   NetworkInterfaceIPConfigurationsGetResponse,
-  NetworkInterfaceIPConfigurationsListNextResponse,
+  NetworkInterfaceIPConfigurationsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkInterfaceIPConfigurations operations. */
 export class NetworkInterfaceIPConfigurationsImpl
-  implements NetworkInterfaceIPConfigurations
-{
+  implements NetworkInterfaceIPConfigurations {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -47,12 +46,12 @@ export class NetworkInterfaceIPConfigurationsImpl
   public list(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfaceIPConfigurationsListOptionalParams,
+    options?: NetworkInterfaceIPConfigurationsListOptionalParams
   ): PagedAsyncIterableIterator<NetworkInterfaceIPConfiguration> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkInterfaceName,
-      options,
+      options
     );
     return {
       next() {
@@ -69,9 +68,9 @@ export class NetworkInterfaceIPConfigurationsImpl
           resourceGroupName,
           networkInterfaceName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -79,7 +78,7 @@ export class NetworkInterfaceIPConfigurationsImpl
     resourceGroupName: string,
     networkInterfaceName: string,
     options?: NetworkInterfaceIPConfigurationsListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkInterfaceIPConfiguration[]> {
     let result: NetworkInterfaceIPConfigurationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +86,7 @@ export class NetworkInterfaceIPConfigurationsImpl
       result = await this._list(
         resourceGroupName,
         networkInterfaceName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -99,7 +98,7 @@ export class NetworkInterfaceIPConfigurationsImpl
         resourceGroupName,
         networkInterfaceName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +110,12 @@ export class NetworkInterfaceIPConfigurationsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfaceIPConfigurationsListOptionalParams,
+    options?: NetworkInterfaceIPConfigurationsListOptionalParams
   ): AsyncIterableIterator<NetworkInterfaceIPConfiguration> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkInterfaceName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -131,11 +130,11 @@ export class NetworkInterfaceIPConfigurationsImpl
   private _list(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfaceIPConfigurationsListOptionalParams,
+    options?: NetworkInterfaceIPConfigurationsListOptionalParams
   ): Promise<NetworkInterfaceIPConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkInterfaceName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -150,11 +149,11 @@ export class NetworkInterfaceIPConfigurationsImpl
     resourceGroupName: string,
     networkInterfaceName: string,
     ipConfigurationName: string,
-    options?: NetworkInterfaceIPConfigurationsGetOptionalParams,
+    options?: NetworkInterfaceIPConfigurationsGetOptionalParams
   ): Promise<NetworkInterfaceIPConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkInterfaceName, ipConfigurationName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -169,11 +168,11 @@ export class NetworkInterfaceIPConfigurationsImpl
     resourceGroupName: string,
     networkInterfaceName: string,
     nextLink: string,
-    options?: NetworkInterfaceIPConfigurationsListNextOptionalParams,
+    options?: NetworkInterfaceIPConfigurationsListNextOptionalParams
   ): Promise<NetworkInterfaceIPConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkInterfaceName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -181,36 +180,38 @@ export class NetworkInterfaceIPConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceIPConfigurationListResult,
+      bodyMapper: Mappers.NetworkInterfaceIPConfigurationListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkInterfaceName,
+    Parameters.networkInterfaceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceIPConfiguration,
+      bodyMapper: Mappers.NetworkInterfaceIPConfiguration
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -218,29 +219,29 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkInterfaceName,
-    Parameters.ipConfigurationName,
+    Parameters.ipConfigurationName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceIPConfigurationListResult,
+      bodyMapper: Mappers.NetworkInterfaceIPConfigurationListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkInterfaceName,
+    Parameters.networkInterfaceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

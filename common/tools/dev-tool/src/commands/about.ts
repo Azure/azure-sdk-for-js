@@ -2,6 +2,7 @@
 // Licensed under the MIT license
 
 import chalk from "chalk";
+
 import { baseCommands, baseCommandInfo } from ".";
 import { resolveProject } from "../util/resolveProject";
 import { createPrinter } from "../util/printer";
@@ -31,7 +32,7 @@ export default leafCommand(commandInfo, async (options) => {
     console.log(chalk.blueBright(`  Name/Version:\t${packageInfo.name}@${packageInfo.version}`));
     console.log(chalk.blueBright(`  Location:\t${packageInfo.path}`));
     console.log();
-  } catch (error: unknown) {
+  } catch (error: any) {
     log.error("Could not locate dev-tool package.");
     log.error("Unable to display dev-tool version information.");
   }

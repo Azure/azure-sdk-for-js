@@ -6,8 +6,8 @@
  */
 
 import {
-  AzureKeyCredential,
   SearchIndexerClient,
+  AzureKeyCredential,
   SearchIndexerSkillset,
 } from "@azure/search-documents";
 
@@ -17,9 +17,9 @@ dotenv.config();
 const endpoint = process.env.ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 
-const TEST_SKILLSET_NAME = "example-skillset-sample-1";
+const skillsetName = "example-skillset-sample-1";
 
-async function createSkillset(skillsetName: string, client: SearchIndexerClient): Promise<void> {
+async function createSkillset(skillsetName: string, client: SearchIndexerClient) {
   console.log(`Creating Skillset Operation`);
   const skillset: SearchIndexerSkillset = {
     name: skillsetName,
@@ -57,10 +57,7 @@ async function createSkillset(skillsetName: string, client: SearchIndexerClient)
   await client.createSkillset(skillset);
 }
 
-async function getAndUpdateSkillset(
-  skillsetName: string,
-  client: SearchIndexerClient,
-): Promise<void> {
+async function getAndUpdateSkillset(skillsetName: string, client: SearchIndexerClient) {
   console.log(`Get And Update Skillset Operation`);
   const skillset: SearchIndexerSkillset = await client.getSkillset(skillsetName);
 
@@ -78,26 +75,26 @@ async function getAndUpdateSkillset(
   await client.createOrUpdateSkillset(skillset);
 }
 
-async function listSkillsets(client: SearchIndexerClient): Promise<void> {
+async function listSkillsets(client: SearchIndexerClient) {
   console.log(`List Skillset Operation`);
   const listOfSkillsets: Array<SearchIndexerSkillset> = await client.listSkillsets();
 
   console.log(`\tList of Skillsets`);
   console.log(`\t******************`);
-  for (const skillset of listOfSkillsets) {
+  for (let skillset of listOfSkillsets) {
     console.log(`Name: ${skillset.name}`);
     console.log(`Description: ${skillset.description}`);
     console.log(`Skills`);
     console.log(`******`);
-    for (const skill of skillset.skills) {
+    for (let skill of skillset.skills) {
       console.log(`ODataType: ${skill.odatatype}`);
       console.log(`Inputs`);
-      for (const input of skill.inputs) {
+      for (let input of skill.inputs) {
         console.log(`\tName: ${input.name}`);
         console.log(`\tSource: ${input.source}`);
       }
       console.log(`Outputs`);
-      for (const output of skill.outputs) {
+      for (let output of skill.outputs) {
         console.log(`\tName: ${output.name}`);
         console.log(`\tTarget Name: ${output.targetName}`);
       }
@@ -105,12 +102,12 @@ async function listSkillsets(client: SearchIndexerClient): Promise<void> {
   }
 }
 
-async function deleteSkillset(skillsetName: string, client: SearchIndexerClient): Promise<void> {
+async function deleteSkillset(skillsetName: string, client: SearchIndexerClient) {
   console.log(`Deleting Skillset Operation`);
   await client.deleteSkillset(skillsetName);
 }
 
-async function main(): Promise<void> {
+async function main() {
   console.log(`Running Skillset Operations Sample....`);
   if (!endpoint || !apiKey) {
     console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
@@ -118,11 +115,11 @@ async function main(): Promise<void> {
   }
   const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
   try {
-    await createSkillset(TEST_SKILLSET_NAME, client);
-    await getAndUpdateSkillset(TEST_SKILLSET_NAME, client);
+    await createSkillset(skillsetName, client);
+    await getAndUpdateSkillset(skillsetName, client);
     await listSkillsets(client);
   } finally {
-    await deleteSkillset(TEST_SKILLSET_NAME, client);
+    await deleteSkillset(skillsetName, client);
   }
 }
 

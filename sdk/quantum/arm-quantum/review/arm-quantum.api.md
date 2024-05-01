@@ -10,17 +10,6 @@ import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
-// @public
-export interface ApiKey {
-    createdAt?: Date;
-    readonly key?: string;
-}
-
-// @public
-export interface APIKeys {
-    keys?: KeyType_2[];
-}
-
 // @public (undocumented)
 export class AzureQuantumManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -87,21 +76,11 @@ export interface ErrorResponse {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-type KeyType_2 = string;
-export { KeyType_2 as KeyType }
-
-// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
-}
-
-// @public
-export enum KnownKeyType {
-    Primary = "Primary",
-    Secondary = "Secondary"
 }
 
 // @public
@@ -135,15 +114,6 @@ export enum KnownUsableStatus {
     No = "No",
     Partial = "Partial",
     Yes = "Yes"
-}
-
-// @public
-export interface ListKeysResult {
-    apiKeyEnabled?: boolean;
-    readonly primaryConnectionString?: string;
-    primaryKey?: ApiKey;
-    readonly secondaryConnectionString?: string;
-    secondaryKey?: ApiKey;
 }
 
 // @public
@@ -271,8 +241,13 @@ export type ProvisioningStatus = string;
 
 // @public
 export interface QuantumWorkspace extends TrackedResource {
+    readonly endpointUri?: string;
     identity?: QuantumWorkspaceIdentity;
-    properties?: WorkspaceResourceProperties;
+    providers?: Provider[];
+    readonly provisioningState?: ProvisioningStatus;
+    storageAccount?: string;
+    readonly systemData?: SystemData;
+    readonly usable?: UsableStatus;
 }
 
 // @public
@@ -298,7 +273,6 @@ export interface QuotaDimension {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
-    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -361,8 +335,6 @@ export type UsableStatus = string;
 // @public
 export interface Workspace {
     checkNameAvailability(locationName: string, checkNameAvailabilityParameters: CheckNameAvailabilityParameters, options?: WorkspaceCheckNameAvailabilityOptionalParams): Promise<WorkspaceCheckNameAvailabilityResponse>;
-    listKeys(resourceGroupName: string, workspaceName: string, options?: WorkspaceListKeysOptionalParams): Promise<WorkspaceListKeysResponse>;
-    regenerateKeys(resourceGroupName: string, workspaceName: string, keySpecification: APIKeys, options?: WorkspaceRegenerateKeysOptionalParams): Promise<void>;
 }
 
 // @public
@@ -373,30 +345,9 @@ export interface WorkspaceCheckNameAvailabilityOptionalParams extends coreClient
 export type WorkspaceCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 // @public
-export interface WorkspaceListKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkspaceListKeysResponse = ListKeysResult;
-
-// @public
 export interface WorkspaceListResult {
     nextLink?: string;
     value?: QuantumWorkspace[];
-}
-
-// @public
-export interface WorkspaceRegenerateKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface WorkspaceResourceProperties {
-    apiKeyEnabled?: boolean;
-    readonly endpointUri?: string;
-    providers?: Provider[];
-    readonly provisioningState?: ProvisioningStatus;
-    storageAccount?: string;
-    readonly usable?: UsableStatus;
 }
 
 // @public

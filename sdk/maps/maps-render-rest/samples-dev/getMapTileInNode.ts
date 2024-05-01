@@ -6,7 +6,7 @@ import { createWriteStream } from "fs";
 import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
 
 /**
- * @summary How to get the map tile and store it as a file in **Node.js**.
+ * @summary How to get the map tile and store it as a file in Node.js.
  */
 async function main() {
   /**
@@ -41,10 +41,6 @@ async function main() {
         y,
       },
     })
-    /**
-     * This is a Node.js API and cannot be used in a browser.
-     * If you're using a browser, please refer to the `getMapTileInBrowser` sample.
-     */
     .asNodeStream();
 
   if (!response.body) {

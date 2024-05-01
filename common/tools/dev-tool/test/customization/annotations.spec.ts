@@ -1,9 +1,6 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { describe, it, assert, beforeEach } from "vitest";
 import { Project, SourceFile } from "ts-morph";
 import { getAnnotation } from "../../src/util/customization/helpers/annotations";
+import { expect } from "chai";
 
 describe("Annotations", () => {
   let project: Project;
@@ -24,7 +21,7 @@ describe("Annotations", () => {
         });
 
         const annotation = getAnnotation(functionDeclaration);
-        assert.deepEqual(annotation, { type: "remove", param: undefined });
+        expect(annotation).to.deep.equal({ type: "remove", param: undefined });
       });
 
       it("should find it in Properties", () => {
@@ -41,7 +38,7 @@ describe("Annotations", () => {
         const propertyDeclaration = interfaceDeclaration.getProperty("myProperty")!;
 
         const annotation = getAnnotation(propertyDeclaration);
-        assert.deepEqual(annotation, { type: "remove", param: undefined });
+        expect(annotation).to.deep.equal({ type: "remove", param: undefined });
       });
 
       it("should find it in CallSignatures", () => {
@@ -57,7 +54,7 @@ describe("Annotations", () => {
         const callSignatureDeclaration = interfaceDeclaration.getCallSignatures()[0];
 
         const annotation = getAnnotation(callSignatureDeclaration);
-        assert.deepEqual(annotation, { type: "remove", param: undefined });
+        expect(annotation).to.deep.equal({ type: "remove", param: undefined });
       });
     });
 
@@ -70,7 +67,7 @@ describe("Annotations", () => {
         });
 
         const annotation = getAnnotation(functionDeclaration);
-        assert.deepEqual(annotation, { type: "rename", param: "myNewFunction" });
+        expect(annotation).to.deep.equal({ type: "rename", param: "myNewFunction" });
       });
 
       it("should find it in Properties", () => {
@@ -87,7 +84,7 @@ describe("Annotations", () => {
         const propertyDeclaration = interfaceDeclaration.getProperty("myProperty")!;
 
         const annotation = getAnnotation(propertyDeclaration);
-        assert.deepEqual(annotation, { type: "rename", param: "myNewProperty" });
+        expect(annotation).to.deep.equal({ type: "rename", param: "myNewProperty" });
       });
     });
   });
@@ -100,7 +97,7 @@ describe("Annotations", () => {
       });
 
       const annotation = getAnnotation(functionDeclaration);
-      assert.isUndefined(annotation);
+      expect(annotation).to.be.undefined;
     });
 
     it("should not find any in Properties", () => {
@@ -116,7 +113,7 @@ describe("Annotations", () => {
       const propertyDeclaration = interfaceDeclaration.getProperty("myProperty")!;
 
       const annotation = getAnnotation(propertyDeclaration);
-      assert.isUndefined(annotation);
+      expect(annotation).to.be.undefined;
     });
 
     it("should not find any in CallSignatures", () => {
@@ -131,7 +128,7 @@ describe("Annotations", () => {
       const callSignatureDeclaration = interfaceDeclaration.getCallSignatures()[0];
 
       const annotation = getAnnotation(callSignatureDeclaration);
-      assert.isUndefined(annotation);
+      expect(annotation).to.be.undefined;
     });
   });
 });

@@ -16,13 +16,13 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 
 // @public (undocumented)
-export interface AnalyzeFromImageData {
-    post(options: AnalyzeFromImageDataParameters): StreamableMethod<AnalyzeFromImageData200Response | AnalyzeFromImageDataDefaultResponse>;
+export interface AnalyzeFromBuffer {
+    post(options: AnalyzeFromBufferParameters): StreamableMethod<AnalyzeFromBuffer200Response | AnalyzeFromBufferDefaultResponse>;
     post(options: AnalyzeFromUrlParameters): StreamableMethod<AnalyzeFromUrl200Response | AnalyzeFromUrlDefaultResponse>;
 }
 
 // @public
-export interface AnalyzeFromImageData200Response extends HttpResponse {
+export interface AnalyzeFromBuffer200Response extends HttpResponse {
     // (undocumented)
     body: ImageAnalysisResultOutput;
     // (undocumented)
@@ -30,41 +30,41 @@ export interface AnalyzeFromImageData200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface AnalyzeFromImageDataBodyParam {
+export interface AnalyzeFromBufferBodyParam {
     body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 // @public (undocumented)
-export interface AnalyzeFromImageDataDefaultHeaders {
+export interface AnalyzeFromBufferDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public (undocumented)
-export interface AnalyzeFromImageDataDefaultResponse extends HttpResponse {
+export interface AnalyzeFromBufferDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
-    headers: RawHttpHeaders & AnalyzeFromImageDataDefaultHeaders;
+    headers: RawHttpHeaders & AnalyzeFromBufferDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export interface AnalyzeFromImageDataMediaTypesParam {
+export interface AnalyzeFromBufferMediaTypesParam {
     contentType: "application/octet-stream";
 }
 
 // @public (undocumented)
-export type AnalyzeFromImageDataParameters = AnalyzeFromImageDataQueryParam & AnalyzeFromImageDataMediaTypesParam & AnalyzeFromImageDataBodyParam & RequestParameters;
+export type AnalyzeFromBufferParameters = AnalyzeFromBufferQueryParam & AnalyzeFromBufferMediaTypesParam & AnalyzeFromBufferBodyParam & RequestParameters;
 
 // @public (undocumented)
-export interface AnalyzeFromImageDataQueryParam {
+export interface AnalyzeFromBufferQueryParam {
     // (undocumented)
-    queryParameters: AnalyzeFromImageDataQueryParamProperties;
+    queryParameters: AnalyzeFromBufferQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface AnalyzeFromImageDataQueryParamProperties {
+export interface AnalyzeFromBufferQueryParamProperties {
     "gender-neutral-caption"?: boolean;
     "model-version"?: string;
     "smartcrops-aspect-ratios"?: number[];
@@ -237,7 +237,7 @@ export interface ImageUrlOutput {
 }
 
 // @public (undocumented)
-export function isUnexpected(response: AnalyzeFromImageData200Response | AnalyzeFromUrl200Response | AnalyzeFromImageDataDefaultResponse): response is AnalyzeFromImageDataDefaultResponse;
+export function isUnexpected(response: AnalyzeFromBuffer200Response | AnalyzeFromUrl200Response | AnalyzeFromBufferDefaultResponse): response is AnalyzeFromBufferDefaultResponse;
 
 // @public
 export interface ObjectsResultOutput {
@@ -256,7 +256,7 @@ export interface ReadResultOutput {
 
 // @public (undocumented)
 export interface Routes {
-    (path: "/imageanalysis:analyze"): AnalyzeFromImageData;
+    (path: "/imageanalysis:analyze"): AnalyzeFromBuffer;
 }
 
 // @public

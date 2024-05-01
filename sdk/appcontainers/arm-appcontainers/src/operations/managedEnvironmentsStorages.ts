@@ -19,13 +19,12 @@ import {
   ManagedEnvironmentStorage,
   ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams,
   ManagedEnvironmentsStoragesCreateOrUpdateResponse,
-  ManagedEnvironmentsStoragesDeleteOptionalParams,
+  ManagedEnvironmentsStoragesDeleteOptionalParams
 } from "../models";
 
 /** Class containing ManagedEnvironmentsStorages operations. */
 export class ManagedEnvironmentsStoragesImpl
-  implements ManagedEnvironmentsStorages
-{
+  implements ManagedEnvironmentsStorages {
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -45,11 +44,11 @@ export class ManagedEnvironmentsStoragesImpl
   list(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedEnvironmentsStoragesListOptionalParams,
+    options?: ManagedEnvironmentsStoragesListOptionalParams
   ): Promise<ManagedEnvironmentsStoragesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -64,11 +63,11 @@ export class ManagedEnvironmentsStoragesImpl
     resourceGroupName: string,
     environmentName: string,
     storageName: string,
-    options?: ManagedEnvironmentsStoragesGetOptionalParams,
+    options?: ManagedEnvironmentsStoragesGetOptionalParams
   ): Promise<ManagedEnvironmentsStoragesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, storageName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -85,7 +84,7 @@ export class ManagedEnvironmentsStoragesImpl
     environmentName: string,
     storageName: string,
     storageEnvelope: ManagedEnvironmentStorage,
-    options?: ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams,
+    options?: ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams
   ): Promise<ManagedEnvironmentsStoragesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -93,9 +92,9 @@ export class ManagedEnvironmentsStoragesImpl
         environmentName,
         storageName,
         storageEnvelope,
-        options,
+        options
       },
-      createOrUpdateOperationSpec,
+      createOrUpdateOperationSpec
     );
   }
 
@@ -110,11 +109,11 @@ export class ManagedEnvironmentsStoragesImpl
     resourceGroupName: string,
     environmentName: string,
     storageName: string,
-    options?: ManagedEnvironmentsStoragesDeleteOptionalParams,
+    options?: ManagedEnvironmentsStoragesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, storageName, options },
-      deleteOperationSpec,
+      deleteOperationSpec
     );
   }
 }
@@ -122,36 +121,38 @@ export class ManagedEnvironmentsStoragesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/storages",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/storages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedEnvironmentStoragesCollection,
+      bodyMapper: Mappers.ManagedEnvironmentStoragesCollection
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/storages/{storageName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/storages/{storageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedEnvironmentStorage,
+      bodyMapper: Mappers.ManagedEnvironmentStorage
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -159,21 +160,22 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageName,
-    Parameters.environmentName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/storages/{storageName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/storages/{storageName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedEnvironmentStorage,
+      bodyMapper: Mappers.ManagedEnvironmentStorage
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
   },
   requestBody: Parameters.storageEnvelope1,
   queryParameters: [Parameters.apiVersion],
@@ -182,21 +184,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageName,
-    Parameters.environmentName,
+    Parameters.environmentName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/storages/{storageName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/storages/{storageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -204,8 +207,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageName,
-    Parameters.environmentName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

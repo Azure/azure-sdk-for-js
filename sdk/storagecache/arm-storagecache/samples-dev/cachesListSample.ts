@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns all caches the user has access to under a subscription.
  *
  * @summary Returns all caches the user has access to under a subscription.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/Caches_List.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2023-05-01/examples/Caches_List.json
  */
 async function cachesList() {
   const subscriptionId =

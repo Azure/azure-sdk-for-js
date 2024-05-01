@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  SearchManagementClient,
+  SearchManagementClient
 } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -18,10 +18,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Updates a private endpoint connection to the search service in the given resource group.
+ * This sample demonstrates how to Updates a Private Endpoint connection to the search service in the given resource group.
  *
- * @summary Updates a private endpoint connection to the search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-03-01-preview/examples/UpdatePrivateEndpointConnection.json
+ * @summary Updates a Private Endpoint connection to the search service in the given resource group.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/UpdatePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionUpdate() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -32,10 +32,10 @@ async function privateEndpointConnectionUpdate() {
   const privateEndpointConnection: PrivateEndpointConnection = {
     properties: {
       privateLinkServiceConnectionState: {
-        description: "Rejected for some reason.",
-        status: "Rejected",
-      },
-    },
+        description: "Rejected for some reason",
+        status: "Rejected"
+      }
+    }
   };
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function privateEndpointConnectionUpdate() {
     resourceGroupName,
     searchServiceName,
     privateEndpointConnectionName,
-    privateEndpointConnection,
+    privateEndpointConnection
   );
   console.log(result);
 }

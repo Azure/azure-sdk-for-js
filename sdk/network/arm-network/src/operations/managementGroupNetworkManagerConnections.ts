@@ -23,14 +23,13 @@ import {
   ManagementGroupNetworkManagerConnectionsGetOptionalParams,
   ManagementGroupNetworkManagerConnectionsGetResponse,
   ManagementGroupNetworkManagerConnectionsDeleteOptionalParams,
-  ManagementGroupNetworkManagerConnectionsListNextResponse,
+  ManagementGroupNetworkManagerConnectionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagementGroupNetworkManagerConnections operations. */
 export class ManagementGroupNetworkManagerConnectionsImpl
-  implements ManagementGroupNetworkManagerConnections
-{
+  implements ManagementGroupNetworkManagerConnections {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -49,7 +48,7 @@ export class ManagementGroupNetworkManagerConnectionsImpl
    */
   public list(
     managementGroupId: string,
-    options?: ManagementGroupNetworkManagerConnectionsListOptionalParams,
+    options?: ManagementGroupNetworkManagerConnectionsListOptionalParams
   ): PagedAsyncIterableIterator<NetworkManagerConnection> {
     const iter = this.listPagingAll(managementGroupId, options);
     return {
@@ -64,14 +63,14 @@ export class ManagementGroupNetworkManagerConnectionsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(managementGroupId, options, settings);
-      },
+      }
     };
   }
 
   private async *listPagingPage(
     managementGroupId: string,
     options?: ManagementGroupNetworkManagerConnectionsListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkManagerConnection[]> {
     let result: ManagementGroupNetworkManagerConnectionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +85,7 @@ export class ManagementGroupNetworkManagerConnectionsImpl
       result = await this._listNext(
         managementGroupId,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -97,7 +96,7 @@ export class ManagementGroupNetworkManagerConnectionsImpl
 
   private async *listPagingAll(
     managementGroupId: string,
-    options?: ManagementGroupNetworkManagerConnectionsListOptionalParams,
+    options?: ManagementGroupNetworkManagerConnectionsListOptionalParams
   ): AsyncIterableIterator<NetworkManagerConnection> {
     for await (const page of this.listPagingPage(managementGroupId, options)) {
       yield* page;
@@ -116,11 +115,11 @@ export class ManagementGroupNetworkManagerConnectionsImpl
     managementGroupId: string,
     networkManagerConnectionName: string,
     parameters: NetworkManagerConnection,
-    options?: ManagementGroupNetworkManagerConnectionsCreateOrUpdateOptionalParams,
+    options?: ManagementGroupNetworkManagerConnectionsCreateOrUpdateOptionalParams
   ): Promise<ManagementGroupNetworkManagerConnectionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, networkManagerConnectionName, parameters, options },
-      createOrUpdateOperationSpec,
+      createOrUpdateOperationSpec
     );
   }
 
@@ -134,11 +133,11 @@ export class ManagementGroupNetworkManagerConnectionsImpl
   get(
     managementGroupId: string,
     networkManagerConnectionName: string,
-    options?: ManagementGroupNetworkManagerConnectionsGetOptionalParams,
+    options?: ManagementGroupNetworkManagerConnectionsGetOptionalParams
   ): Promise<ManagementGroupNetworkManagerConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, networkManagerConnectionName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -152,11 +151,11 @@ export class ManagementGroupNetworkManagerConnectionsImpl
   delete(
     managementGroupId: string,
     networkManagerConnectionName: string,
-    options?: ManagementGroupNetworkManagerConnectionsDeleteOptionalParams,
+    options?: ManagementGroupNetworkManagerConnectionsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { managementGroupId, networkManagerConnectionName, options },
-      deleteOperationSpec,
+      deleteOperationSpec
     );
   }
 
@@ -168,11 +167,11 @@ export class ManagementGroupNetworkManagerConnectionsImpl
    */
   private _list(
     managementGroupId: string,
-    options?: ManagementGroupNetworkManagerConnectionsListOptionalParams,
+    options?: ManagementGroupNetworkManagerConnectionsListOptionalParams
   ): Promise<ManagementGroupNetworkManagerConnectionsListResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -186,11 +185,11 @@ export class ManagementGroupNetworkManagerConnectionsImpl
   private _listNext(
     managementGroupId: string,
     nextLink: string,
-    options?: ManagementGroupNetworkManagerConnectionsListNextOptionalParams,
+    options?: ManagementGroupNetworkManagerConnectionsListNextOptionalParams
   ): Promise<ManagementGroupNetworkManagerConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -198,105 +197,109 @@ export class ManagementGroupNetworkManagerConnectionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
+  path:
+    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerConnection,
+      bodyMapper: Mappers.NetworkManagerConnection
     },
     201: {
-      bodyMapper: Mappers.NetworkManagerConnection,
+      bodyMapper: Mappers.NetworkManagerConnection
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.parameters36,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.networkManagerConnectionName,
-    Parameters.managementGroupId,
+    Parameters.managementGroupId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
+  path:
+    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerConnection,
+      bodyMapper: Mappers.NetworkManagerConnection
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.networkManagerConnectionName,
-    Parameters.managementGroupId,
+    Parameters.managementGroupId
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
+  path:
+    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.networkManagerConnectionName,
-    Parameters.managementGroupId,
+    Parameters.managementGroupId
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections",
+  path:
+    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerConnectionListResult,
+      bodyMapper: Mappers.NetworkManagerConnectionListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.skipToken,
+    Parameters.skipToken
   ],
   urlParameters: [Parameters.$host, Parameters.managementGroupId],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerConnectionListResult,
+      bodyMapper: Mappers.NetworkManagerConnectionListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.managementGroupId,
+    Parameters.managementGroupId
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest,
+  SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -20,10 +20,7 @@ import {
   MonitorsImpl,
   OrganizationsImpl,
   PlansImpl,
-  BillingInfoImpl,
-  ConnectedPartnerResourcesImpl,
-  TagRulesImpl,
-  MonitoredSubscriptionsImpl,
+  TagRulesImpl
 } from "./operations";
 import {
   Operations,
@@ -31,10 +28,7 @@ import {
   Monitors,
   Organizations,
   Plans,
-  BillingInfo,
-  ConnectedPartnerResources,
-  TagRules,
-  MonitoredSubscriptions,
+  TagRules
 } from "./operationsInterfaces";
 import { NewRelicObservabilityOptionalParams } from "./models";
 
@@ -52,7 +46,7 @@ export class NewRelicObservability extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: NewRelicObservabilityOptionalParams,
+    options?: NewRelicObservabilityOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -67,10 +61,10 @@ export class NewRelicObservability extends coreClient.ServiceClient {
     }
     const defaults: NewRelicObservabilityOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials,
+      credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-newrelicobservability/1.1.1`;
+    const packageDetails = `azsdk-js-arm-newrelicobservability/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -80,21 +74,20 @@ export class NewRelicObservability extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix,
+        userAgentPrefix
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
-        options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
     }
     if (
@@ -104,7 +97,7 @@ export class NewRelicObservability extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -114,9 +107,9 @@ export class NewRelicObservability extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
-          },
-        }),
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
       );
     }
     // Parameter assignments
@@ -124,16 +117,13 @@ export class NewRelicObservability extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-01-01";
+    this.apiVersion = options.apiVersion || "2022-07-01";
     this.operations = new OperationsImpl(this);
     this.accounts = new AccountsImpl(this);
     this.monitors = new MonitorsImpl(this);
     this.organizations = new OrganizationsImpl(this);
     this.plans = new PlansImpl(this);
-    this.billingInfo = new BillingInfoImpl(this);
-    this.connectedPartnerResources = new ConnectedPartnerResourcesImpl(this);
     this.tagRules = new TagRulesImpl(this);
-    this.monitoredSubscriptions = new MonitoredSubscriptionsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -146,7 +136,7 @@ export class NewRelicObservability extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest,
+        next: SendRequest
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -160,7 +150,7 @@ export class NewRelicObservability extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      },
+      }
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -170,8 +160,5 @@ export class NewRelicObservability extends coreClient.ServiceClient {
   monitors: Monitors;
   organizations: Organizations;
   plans: Plans;
-  billingInfo: BillingInfo;
-  connectedPartnerResources: ConnectedPartnerResources;
   tagRules: TagRules;
-  monitoredSubscriptions: MonitoredSubscriptions;
 }

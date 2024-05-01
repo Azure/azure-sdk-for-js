@@ -25,8 +25,8 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const batchRequest: OperationParameter = {
-  parameterPath: "batchRequest",
+export const resourceIds: OperationParameter = {
+  parameterPath: "resourceIds",
   mapper: ResourceIdListMapper
 };
 
@@ -60,7 +60,7 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid"
+      name: "String"
     }
   }
 };
@@ -158,16 +158,6 @@ export const filter: OperationQueryParameter = {
   parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "filter",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const rollupby: OperationQueryParameter = {
-  parameterPath: ["options", "rollupby"],
-  mapper: {
-    serializedName: "rollupby",
     type: {
       name: "String"
     }

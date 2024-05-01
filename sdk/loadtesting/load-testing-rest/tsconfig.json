@@ -2,10 +2,17 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "outDir": "./dist-esm",
+    "declaration": true,
     "declarationDir": "./types",
+    "esModuleInterop": true,
     "paths": {
       "@azure-rest/load-testing": ["./src/index"]
-    }
+    },
+    "types": [],
+    "lib": ["DOM"],
+    "target": "ES6",
+    "module": "commonjs",
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }

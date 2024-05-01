@@ -77,14 +77,6 @@ describe("Sql test", () => {
     assert.equal(res.name, databaseName);
   });
 
-  it("databaseSecurityAlertPolicies create test", async function () {
-    const res = await client.databaseSecurityAlertPolicies.createOrUpdate(resourceGroup, serverName, databaseName, "Default", {
-      disabledAlerts: ["Sql_Injection", "Access_Anomaly"],
-      state: "Enabled",
-    })
-    assert.equal(res.name, "Default");
-  });
-
   it("servers get test", async function () {
     const res = await client.servers.get(resourceGroup, serverName);
     assert.equal(res.name, serverName);

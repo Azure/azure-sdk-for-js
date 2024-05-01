@@ -6,7 +6,7 @@ REST API for Azure Communication Services
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/arm-communication) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-communication) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-communication) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-communication?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

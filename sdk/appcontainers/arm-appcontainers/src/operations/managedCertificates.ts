@@ -16,7 +16,7 @@ import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   ManagedCertificatePatch,
   ManagedCertificatesUpdateOptionalParams,
   ManagedCertificatesUpdateResponse,
-  ManagedCertificatesListNextResponse,
+  ManagedCertificatesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,12 +57,12 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
   public list(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedCertificatesListOptionalParams,
+    options?: ManagedCertificatesListOptionalParams
   ): PagedAsyncIterableIterator<ManagedCertificate> {
     const iter = this.listPagingAll(
       resourceGroupName,
       environmentName,
-      options,
+      options
     );
     return {
       next() {
@@ -79,9 +79,9 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
           resourceGroupName,
           environmentName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -89,7 +89,7 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
     resourceGroupName: string,
     environmentName: string,
     options?: ManagedCertificatesListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<ManagedCertificate[]> {
     let result: ManagedCertificatesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -105,7 +105,7 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
         resourceGroupName,
         environmentName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +117,12 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
   private async *listPagingAll(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedCertificatesListOptionalParams,
+    options?: ManagedCertificatesListOptionalParams
   ): AsyncIterableIterator<ManagedCertificate> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       environmentName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -139,11 +139,11 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
     resourceGroupName: string,
     environmentName: string,
     managedCertificateName: string,
-    options?: ManagedCertificatesGetOptionalParams,
+    options?: ManagedCertificatesGetOptionalParams
   ): Promise<ManagedCertificatesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, managedCertificateName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -158,7 +158,7 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
     resourceGroupName: string,
     environmentName: string,
     managedCertificateName: string,
-    options?: ManagedCertificatesCreateOrUpdateOptionalParams,
+    options?: ManagedCertificatesCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedCertificatesCreateOrUpdateResponse>,
@@ -167,20 +167,21 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<ManagedCertificatesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -189,8 +190,8 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -198,8 +199,8 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -209,9 +210,9 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
         resourceGroupName,
         environmentName,
         managedCertificateName,
-        options,
+        options
       },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       ManagedCertificatesCreateOrUpdateResponse,
@@ -219,7 +220,7 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -236,13 +237,13 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
     resourceGroupName: string,
     environmentName: string,
     managedCertificateName: string,
-    options?: ManagedCertificatesCreateOrUpdateOptionalParams,
+    options?: ManagedCertificatesCreateOrUpdateOptionalParams
   ): Promise<ManagedCertificatesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       environmentName,
       managedCertificateName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -258,11 +259,11 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
     resourceGroupName: string,
     environmentName: string,
     managedCertificateName: string,
-    options?: ManagedCertificatesDeleteOptionalParams,
+    options?: ManagedCertificatesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, managedCertificateName, options },
-      deleteOperationSpec,
+      deleteOperationSpec
     );
   }
 
@@ -279,7 +280,7 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
     environmentName: string,
     managedCertificateName: string,
     managedCertificateEnvelope: ManagedCertificatePatch,
-    options?: ManagedCertificatesUpdateOptionalParams,
+    options?: ManagedCertificatesUpdateOptionalParams
   ): Promise<ManagedCertificatesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -287,9 +288,9 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
         environmentName,
         managedCertificateName,
         managedCertificateEnvelope,
-        options,
+        options
       },
-      updateOperationSpec,
+      updateOperationSpec
     );
   }
 
@@ -302,11 +303,11 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
   private _list(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedCertificatesListOptionalParams,
+    options?: ManagedCertificatesListOptionalParams
   ): Promise<ManagedCertificatesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -321,11 +322,11 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
     resourceGroupName: string,
     environmentName: string,
     nextLink: string,
-    options?: ManagedCertificatesListNextOptionalParams,
+    options?: ManagedCertificatesListNextOptionalParams
   ): Promise<ManagedCertificatesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -333,15 +334,16 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/managedCertificates/{managedCertificateName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/managedCertificates/{managedCertificateName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedCertificate,
+      bodyMapper: Mappers.ManagedCertificate
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -349,33 +351,34 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName,
-    Parameters.managedCertificateName,
+    Parameters.managedCertificateName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/managedCertificates/{managedCertificateName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/managedCertificates/{managedCertificateName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedCertificate,
+      bodyMapper: Mappers.ManagedCertificate
     },
     201: {
-      bodyMapper: Mappers.ManagedCertificate,
+      bodyMapper: Mappers.ManagedCertificate
     },
     202: {
-      bodyMapper: Mappers.ManagedCertificate,
+      bodyMapper: Mappers.ManagedCertificate
     },
     204: {
-      bodyMapper: Mappers.ManagedCertificate,
+      bodyMapper: Mappers.ManagedCertificate
     },
     400: {
-      isError: true,
+      isError: true
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
   },
   requestBody: Parameters.managedCertificateEnvelope,
   queryParameters: [Parameters.apiVersion],
@@ -384,21 +387,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName,
-    Parameters.managedCertificateName,
+    Parameters.managedCertificateName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/managedCertificates/{managedCertificateName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/managedCertificates/{managedCertificateName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -406,21 +410,22 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName,
-    Parameters.managedCertificateName,
+    Parameters.managedCertificateName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/managedCertificates/{managedCertificateName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/managedCertificates/{managedCertificateName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedCertificate,
+      bodyMapper: Mappers.ManagedCertificate
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
   },
   requestBody: Parameters.managedCertificateEnvelope1,
   queryParameters: [Parameters.apiVersion],
@@ -429,51 +434,52 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName,
-    Parameters.managedCertificateName,
+    Parameters.managedCertificateName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/managedCertificates",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/managedCertificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedCertificateCollection,
+      bodyMapper: Mappers.ManagedCertificateCollection
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedCertificateCollection,
+      bodyMapper: Mappers.ManagedCertificateCollection
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.environmentName,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

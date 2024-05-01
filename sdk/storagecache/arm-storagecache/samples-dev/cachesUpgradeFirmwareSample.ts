@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Upgrade a cache's firmware if a new version is available. Otherwise, this operation has no effect.
  *
  * @summary Upgrade a cache's firmware if a new version is available. Otherwise, this operation has no effect.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/Caches_UpgradeFirmware.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2023-05-01/examples/Caches_UpgradeFirmware.json
  */
 async function cachesUpgradeFirmware() {
   const subscriptionId =

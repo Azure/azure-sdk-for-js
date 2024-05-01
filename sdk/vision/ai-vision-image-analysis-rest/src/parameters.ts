@@ -4,7 +4,7 @@
 import { RequestParameters } from "@azure-rest/core-client";
 import { ImageUrl } from "./models";
 
-export interface AnalyzeFromImageDataBodyParam {
+export interface AnalyzeFromBufferBodyParam {
   /**
    * The image to be analyzed
    *
@@ -13,7 +13,7 @@ export interface AnalyzeFromImageDataBodyParam {
   body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
-export interface AnalyzeFromImageDataQueryParamProperties {
+export interface AnalyzeFromBufferQueryParamProperties {
   /**
    * A list of visual features to analyze.
    * Seven visual features are supported: Caption, DenseCaptions, Read (OCR), Tags, Objects, SmartCrops, and People.
@@ -24,6 +24,7 @@ export interface AnalyzeFromImageDataQueryParamProperties {
    * The desired language for result generation (a two-letter language code).
    * If this option is not specified, the default value 'en' is used (English).
    * See https://aka.ms/cv-languages for a list of supported languages.
+   * At the moment, only tags can be generated in none-English languages.
    */
   language?: string;
   /**
@@ -49,18 +50,18 @@ export interface AnalyzeFromImageDataQueryParamProperties {
   "model-version"?: string;
 }
 
-export interface AnalyzeFromImageDataQueryParam {
-  queryParameters: AnalyzeFromImageDataQueryParamProperties;
+export interface AnalyzeFromBufferQueryParam {
+  queryParameters: AnalyzeFromBufferQueryParamProperties;
 }
 
-export interface AnalyzeFromImageDataMediaTypesParam {
+export interface AnalyzeFromBufferMediaTypesParam {
   /** The format of the HTTP payload. */
   contentType: "application/octet-stream";
 }
 
-export type AnalyzeFromImageDataParameters = AnalyzeFromImageDataQueryParam &
-  AnalyzeFromImageDataMediaTypesParam &
-  AnalyzeFromImageDataBodyParam &
+export type AnalyzeFromBufferParameters = AnalyzeFromBufferQueryParam &
+  AnalyzeFromBufferMediaTypesParam &
+  AnalyzeFromBufferBodyParam &
   RequestParameters;
 
 export interface AnalyzeFromUrlBodyParam {
@@ -79,6 +80,7 @@ export interface AnalyzeFromUrlQueryParamProperties {
    * The desired language for result generation (a two-letter language code).
    * If this option is not specified, the default value 'en' is used (English).
    * See https://aka.ms/cv-languages for a list of supported languages.
+   * At the moment, only tags can be generated in none-English languages.
    */
   language?: string;
   /**

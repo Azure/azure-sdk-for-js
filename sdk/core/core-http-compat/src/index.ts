@@ -11,8 +11,8 @@ export {
   ExtendedServiceClientOptions,
   ExtendedCommonClientOptions,
   ExtendedClientOptions,
-} from "./extendedClient.js";
-export { CompatResponse } from "./response.js";
+} from "./extendedClient";
+export { CompatResponse } from "./response";
 export {
   requestPolicyFactoryPolicyName,
   createRequestPolicyFactoryPolicy,
@@ -20,11 +20,11 @@ export {
   RequestPolicy,
   RequestPolicyOptionsLike,
   HttpPipelineLogLevel,
-} from "./policies/requestPolicyFactoryPolicy.js";
-export { KeepAliveOptions } from "./policies/keepAliveOptions.js";
-export { RedirectOptions } from "./policies/redirectOptions.js";
-export { disableKeepAlivePolicyName } from "./policies/disableKeepAlivePolicy.js";
-export { convertHttpClient } from "./httpClientAdapter.js";
+} from "./policies/requestPolicyFactoryPolicy";
+export { KeepAliveOptions } from "./policies/keepAliveOptions";
+export { RedirectOptions } from "./policies/redirectOptions";
+export { disableKeepAlivePolicyName } from "./policies/disableKeepAlivePolicy";
+export { convertHttpClient } from "./httpClientAdapter";
 export {
   WebResourceLike,
   HttpHeadersLike,
@@ -32,4 +32,4 @@ export {
   HttpHeader,
   TransferProgressEvent,
   toHttpHeadersLike,
-} from "./util.js";
+} from "./util";

@@ -19,11 +19,13 @@ require("dotenv").config();
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2015-04-01/examples/GetTenantActivityLogsFiltered.json
  */
 async function getTenantActivityLogsWithFilter() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const filter =
     "eventTimestamp ge '2015-01-21T20:00:00Z' and eventTimestamp le '2015-01-23T20:00:00Z' and resourceGroupName eq 'MSSupportGroup'";
   const options = { filter };
   const credential = new DefaultAzureCredential();
-  const client = new MonitorClient(credential);
+  const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.tenantActivityLogs.list(options)) {
     resArray.push(item);
@@ -38,13 +40,15 @@ async function getTenantActivityLogsWithFilter() {
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2015-04-01/examples/GetTenantActivityLogsFilteredAndSelected.json
  */
 async function getTenantActivityLogsWithFilterAndSelect() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const filter =
     "eventTimestamp ge '2015-01-21T20:00:00Z' and eventTimestamp le '2015-01-23T20:00:00Z' and resourceGroupName eq 'MSSupportGroup'";
   const select =
     "eventName,id,resourceGroupName,resourceProviderName,operationName,status,eventTimestamp,correlationId,submissionTimestamp,level";
   const options = { filter, select };
   const credential = new DefaultAzureCredential();
-  const client = new MonitorClient(credential);
+  const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.tenantActivityLogs.list(options)) {
     resArray.push(item);
@@ -59,11 +63,13 @@ async function getTenantActivityLogsWithFilterAndSelect() {
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2015-04-01/examples/GetTenantActivityLogsSelected.json
  */
 async function getTenantActivityLogsWithSelect() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const select =
     "eventName,id,resourceGroupName,resourceProviderName,operationName,status,eventTimestamp,correlationId,submissionTimestamp,level";
   const options = { select };
   const credential = new DefaultAzureCredential();
-  const client = new MonitorClient(credential);
+  const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.tenantActivityLogs.list(options)) {
     resArray.push(item);
@@ -78,8 +84,10 @@ async function getTenantActivityLogsWithSelect() {
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2015-04-01/examples/GetTenantActivityLogsNoParams.json
  */
 async function getTenantActivityLogsWithoutFilterOrSelect() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new MonitorClient(credential);
+  const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.tenantActivityLogs.list()) {
     resArray.push(item);

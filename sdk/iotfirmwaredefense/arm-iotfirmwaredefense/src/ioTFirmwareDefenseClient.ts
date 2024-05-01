@@ -11,32 +11,18 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest,
+  SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  BinaryHardeningImpl,
-  CryptoCertificatesImpl,
-  CryptoKeysImpl,
-  CvesImpl,
-  FirmwaresImpl,
-  OperationsImpl,
-  PasswordHashesImpl,
-  SbomComponentsImpl,
-  SummariesImpl,
+  FirmwareOperationsImpl,
   WorkspacesImpl,
+  OperationsImpl
 } from "./operations";
 import {
-  BinaryHardening,
-  CryptoCertificates,
-  CryptoKeys,
-  Cves,
-  Firmwares,
-  Operations,
-  PasswordHashes,
-  SbomComponents,
-  Summaries,
+  FirmwareOperations,
   Workspaces,
+  Operations
 } from "./operationsInterfaces";
 import { IoTFirmwareDefenseClientOptionalParams } from "./models";
 
@@ -48,13 +34,13 @@ export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the IoTFirmwareDefenseClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: IoTFirmwareDefenseClientOptionalParams,
+    options?: IoTFirmwareDefenseClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -69,10 +55,10 @@ export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
     }
     const defaults: IoTFirmwareDefenseClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials,
+      credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-iotfirmwaredefense/1.0.1`;
+    const packageDetails = `azsdk-js-arm-iotfirmwaredefense/1.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -82,21 +68,20 @@ export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix,
+        userAgentPrefix
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
-        options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
     }
     if (
@@ -106,7 +91,7 @@ export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -116,9 +101,9 @@ export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
-          },
-        }),
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
       );
     }
     // Parameter assignments
@@ -126,17 +111,10 @@ export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-01-10";
-    this.binaryHardening = new BinaryHardeningImpl(this);
-    this.cryptoCertificates = new CryptoCertificatesImpl(this);
-    this.cryptoKeys = new CryptoKeysImpl(this);
-    this.cves = new CvesImpl(this);
-    this.firmwares = new FirmwaresImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.passwordHashes = new PasswordHashesImpl(this);
-    this.sbomComponents = new SbomComponentsImpl(this);
-    this.summaries = new SummariesImpl(this);
+    this.apiVersion = options.apiVersion || "2023-02-08-preview";
+    this.firmwareOperations = new FirmwareOperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
+    this.operations = new OperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -149,7 +127,7 @@ export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest,
+        next: SendRequest
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -163,19 +141,12 @@ export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      },
+      }
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  binaryHardening: BinaryHardening;
-  cryptoCertificates: CryptoCertificates;
-  cryptoKeys: CryptoKeys;
-  cves: Cves;
-  firmwares: Firmwares;
-  operations: Operations;
-  passwordHashes: PasswordHashes;
-  sbomComponents: SbomComponents;
-  summaries: Summaries;
+  firmwareOperations: FirmwareOperations;
   workspaces: Workspaces;
+  operations: Operations;
 }

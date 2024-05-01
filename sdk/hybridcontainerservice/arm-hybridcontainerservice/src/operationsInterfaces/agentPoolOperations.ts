@@ -6,37 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  AgentPool,
-  AgentPoolListByProvisionedClusterOptionalParams,
   AgentPoolGetOptionalParams,
   AgentPoolGetResponse,
+  AgentPool,
   AgentPoolCreateOrUpdateOptionalParams,
   AgentPoolCreateOrUpdateResponse,
   AgentPoolDeleteOptionalParams,
-  AgentPoolDeleteResponse
+  AgentPoolDeleteResponse,
+  AgentPoolPatch,
+  AgentPoolUpdateOptionalParams,
+  AgentPoolUpdateResponse,
+  AgentPoolListByProvisionedClusterOptionalParams,
+  AgentPoolListByProvisionedClusterResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a AgentPoolOperations. */
 export interface AgentPoolOperations {
   /**
-   * Gets the list of agent pools in the specified provisioned cluster
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Gets the agent pool in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
-   * @param options The options parameters.
-   */
-  listByProvisionedCluster(
-    connectedClusterResourceUri: string,
-    options?: AgentPoolListByProvisionedClusterOptionalParams
-  ): PagedAsyncIterableIterator<AgentPool>;
-  /**
-   * Gets the specified agent pool in the provisioned cluster
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
-   *                                    connected cluster resource.
-   * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster.
+   * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param options The options parameters.
    */
   get(
@@ -45,11 +37,11 @@ export interface AgentPoolOperations {
     options?: AgentPoolGetOptionalParams
   ): Promise<AgentPoolGetResponse>;
   /**
-   * Creates or updates the agent pool in the provisioned cluster
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Creates the agent pool in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
-   * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster.
-   * @param agentPool Agent Pool resource definition
+   * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
+   * @param agentPool The agentPool resource definition
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -64,11 +56,11 @@ export interface AgentPoolOperations {
     >
   >;
   /**
-   * Creates or updates the agent pool in the provisioned cluster
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Creates the agent pool in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
-   * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster.
-   * @param agentPool Agent Pool resource definition
+   * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
+   * @param agentPool The agentPool resource definition
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -78,10 +70,10 @@ export interface AgentPoolOperations {
     options?: AgentPoolCreateOrUpdateOptionalParams
   ): Promise<AgentPoolCreateOrUpdateResponse>;
   /**
-   * Deletes the specified agent pool in the provisioned cluster
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Deletes the agent pool in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
-   * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster.
+   * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param options The options parameters.
    */
   beginDelete(
@@ -95,10 +87,10 @@ export interface AgentPoolOperations {
     >
   >;
   /**
-   * Deletes the specified agent pool in the provisioned cluster
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Deletes the agent pool in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
-   * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster.
+   * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -106,4 +98,47 @@ export interface AgentPoolOperations {
     agentPoolName: string,
     options?: AgentPoolDeleteOptionalParams
   ): Promise<AgentPoolDeleteResponse>;
+  /**
+   * Updates the agent pool in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   *                                    connected cluster resource.
+   * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
+   * @param agentPool The agentPool resource patch definition
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    connectedClusterResourceUri: string,
+    agentPoolName: string,
+    agentPool: AgentPoolPatch,
+    options?: AgentPoolUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AgentPoolUpdateResponse>,
+      AgentPoolUpdateResponse
+    >
+  >;
+  /**
+   * Updates the agent pool in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   *                                    connected cluster resource.
+   * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
+   * @param agentPool The agentPool resource patch definition
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    connectedClusterResourceUri: string,
+    agentPoolName: string,
+    agentPool: AgentPoolPatch,
+    options?: AgentPoolUpdateOptionalParams
+  ): Promise<AgentPoolUpdateResponse>;
+  /**
+   * Gets the agent pools in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   *                                    connected cluster resource.
+   * @param options The options parameters.
+   */
+  listByProvisionedCluster(
+    connectedClusterResourceUri: string,
+    options?: AgentPoolListByProvisionedClusterOptionalParams
+  ): Promise<AgentPoolListByProvisionedClusterResponse>;
 }

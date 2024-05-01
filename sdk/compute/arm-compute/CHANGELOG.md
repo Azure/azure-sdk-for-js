@@ -1,6 +1,6 @@
 # Release History
 
-## 21.5.1 (Unreleased)
+## 21.3.1 (Unreleased)
 
 ### Features Added
 
@@ -10,23 +10,6 @@
 
 ### Other Changes
 
-## 21.5.0 (2024-03-01)
-    
-**Features**
-
-  - Interface GalleryArtifactVersionFullSource has a new optional parameter virtualMachineId
-    
-    
-## 21.4.0 (2023-12-28)
-    
-**Features**
-
-  - Added Type Alias ProvisionedBandwidthCopyOption
-  - Interface CreationData has a new optional parameter provisionedBandwidthCopySpeed
-  - Added Enum KnownProvisionedBandwidthCopyOption
-  - Enum KnownDiskSecurityTypes has a new value ConfidentialVMNonPersistedTPM
-    
-    
 ## 21.3.0 (2023-12-08)
     
 **Features**

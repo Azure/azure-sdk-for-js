@@ -111,8 +111,7 @@ describe("JsonSerializer", async function () {
     assert.deepStrictEqual(deserializedValue, value);
   });
 
-  /** TODO: unskip when we can access internal cache */
-  it.skip("cache size growth is bounded", async function (this: Context) {
+  it("cache size growth is bounded", async function (this: Context) {
     /**
      * This test is very expensive to run in live because it registers too many
      * schemas but the standard-tier resource allows for up to 25 schemas only

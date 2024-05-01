@@ -11,14 +11,14 @@ import {
   XML_ATTRKEY,
   XML_CHARKEY,
   XmlOptions,
-} from "./interfaces.js";
+} from "./interfaces";
 import { PipelinePolicy, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import {
   getOperationArgumentValueFromParameter,
   getOperationRequestInfo,
-} from "./operationHelpers.js";
-import { MapperTypeNames } from "./serializer.js";
-import { getPathStringFromParameter } from "./interfaceHelpers.js";
+} from "./operationHelpers";
+import { MapperTypeNames } from "./serializer";
+import { getPathStringFromParameter } from "./interfaceHelpers";
 
 /**
  * The programmatic identifier of the serializationPolicy.

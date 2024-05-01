@@ -14,8 +14,6 @@ import {
   RestCallTransferFailed,
   RestParticipantsUpdated,
   RestRecordingStateChanged,
-  RestTeamsComplianceRecordingStateChanged,
-  RestTeamsRecordingStateChanged,
   RestPlayCompleted,
   RestPlayFailed,
   RestPlayCanceled,
@@ -34,10 +32,8 @@ import {
   RestTranscriptionStarted,
   RestTranscriptionStopped,
   RestTranscriptionUpdated,
+  RestTranscriptionResumed,
   RestTranscriptionFailed,
-  RestCreateCallFailed,
-  RestAnswerFailed,
-  RestHoldFailed,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -54,8 +50,6 @@ export type CallAutomationEvent =
   | CallTransferFailed
   | ParticipantsUpdated
   | RecordingStateChanged
-  | TeamsComplianceRecordingStateChanged
-  | TeamsRecordingStateChanged
   | PlayCompleted
   | PlayFailed
   | PlayCanceled
@@ -72,10 +66,8 @@ export type CallAutomationEvent =
   | TranscriptionStarted
   | TranscriptionStopped
   | TranscriptionUpdated
-  | TranscriptionFailed
-  | CreateCallFailed
-  | AnswerFailed
-  | HoldFailed;
+  | TranscriptionResumed
+  | TranscriptionFailed;
 
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
@@ -267,38 +259,6 @@ export interface RecordingStateChanged
   correlationId: string;
   /** kind of this event. */
   kind: "RecordingStateChanged";
-}
-
-/** Event when Teams Compliance Recording state has been changed. */
-export interface TeamsComplianceRecordingStateChanged
-  extends Omit<
-    RestTeamsComplianceRecordingStateChanged,
-    "callConnectionId" | "serverCallId" | "correlationId"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** kind of this event. */
-  kind: "TeamsComplianceRecordingStateChanged";
-}
-
-/** Event when Teams Recording state has been changed. */
-export interface TeamsRecordingStateChanged
-  extends Omit<
-    RestTeamsRecordingStateChanged,
-    "callConnectionId" | "serverCallId" | "correlationId"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** kind of this event. */
-  kind: "TeamsRecordingStateChanged";
 }
 
 /** Event when Media play was successfully completed. */
@@ -587,6 +547,23 @@ export interface TranscriptionUpdated
   kind: "TranscriptionUpdated";
 }
 
+export interface TranscriptionResumed
+  extends Omit<
+    RestTranscriptionResumed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: RestResultInformation;
+  /** kind of this event. */
+  kind: "TranscriptionResumed";
+}
+
 export interface TranscriptionFailed
   extends Omit<
     RestTranscriptionFailed,
@@ -602,55 +579,4 @@ export interface TranscriptionFailed
   resultInformation?: RestResultInformation;
   /** kind of this event. */
   kind: "TranscriptionFailed";
-}
-
-export interface CreateCallFailed
-  extends Omit<
-    RestCreateCallFailed,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-  /** kind of this event. */
-  kind: "CreateCallFailed";
-}
-
-export interface AnswerFailed
-  extends Omit<
-    RestAnswerFailed,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-  /** kind of this event. */
-  kind: "AnswerFailed";
-}
-
-export interface HoldFailed
-  extends Omit<
-    RestHoldFailed,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-  /** kind of this event. */
-  kind: "HoldFailed";
 }

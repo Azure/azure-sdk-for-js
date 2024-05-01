@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { assert } from "chai";
+import * as sinon from "sinon";
 import {
   PipelineResponse,
   RestError,
   SendRequest,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src/index.js";
-import { exponentialRetryPolicy } from "../src/policies/exponentialRetryPolicy.js";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
+} from "../src";
+import { exponentialRetryPolicy } from "../src/policies/exponentialRetryPolicy";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("exponentialRetryPolicy", function () {
   afterEach(function () {
-    vi.useRealTimers();
+    sinon.restore();
   });
 
   it("It should throw immediately if we get a 416 response", async () => {
@@ -29,11 +30,11 @@ describe("exponentialRetryPolicy", function () {
     const testError = new RestError("Test Error!", { statusCode: 416, response });
 
     const policy = exponentialRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockRejectedValue(testError);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
 
-    await expect(policy.sendRequest(request, next)).rejects.toThrow(/Test Error/);
-    expect(next).toHaveBeenCalledOnce();
+    await assert.isRejected(policy.sendRequest(request, next), /Test Error/);
+    assert.strictEqual(next.callCount, 1);
   });
 
   it("It should retry with a 503 response", async () => {
@@ -48,14 +49,14 @@ describe("exponentialRetryPolicy", function () {
     const testError = new RestError("Test Error!", { statusCode: 503, response });
 
     const policy = exponentialRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockRejectedValue(testError);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
 
-    vi.useFakeTimers();
+    const clock = sinon.useFakeTimers();
 
-    const promise = expect(policy.sendRequest(request, next)).rejects.toThrow(/Test Error/);
-    await vi.runAllTimersAsync();
+    const promise = assert.isRejected(policy.sendRequest(request, next), /Test Error/);
+    await clock.runAllAsync();
     await promise;
-    expect(next).toHaveBeenCalledTimes(DEFAULT_RETRY_POLICY_COUNT + 1);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
   });
 });

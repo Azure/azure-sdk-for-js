@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about a cluster such as compute and storage configuration and cluster lifecycle metadata such as cluster creation date and time.
  *
  * @summary Gets information about a cluster such as compute and storage configuration and cluster lifecycle metadata such as cluster creation date and time.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterGet.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterGet.json
  */
 async function getTheCluster() {
   const subscriptionId =

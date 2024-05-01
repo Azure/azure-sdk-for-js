@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Schedule a priming job for deletion.
  *
  * @summary Schedule a priming job for deletion.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/StopPrimingJob.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2023-05-01/examples/StopPrimingJob.json
  */
 async function stopPrimingJob() {
   const subscriptionId =

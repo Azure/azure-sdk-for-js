@@ -16,7 +16,7 @@ import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -40,14 +40,13 @@ import {
   ReplicationProtectionContainersSwitchProtectionOptionalParams,
   ReplicationProtectionContainersSwitchProtectionResponse,
   ReplicationProtectionContainersListByReplicationFabricsNextResponse,
-  ReplicationProtectionContainersListNextResponse,
+  ReplicationProtectionContainersListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReplicationProtectionContainers operations. */
 export class ReplicationProtectionContainersImpl
-  implements ReplicationProtectionContainers
-{
+  implements ReplicationProtectionContainers {
   private readonly client: SiteRecoveryManagementClient;
 
   /**
@@ -70,13 +69,13 @@ export class ReplicationProtectionContainersImpl
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams,
+    options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams
   ): PagedAsyncIterableIterator<ProtectionContainer> {
     const iter = this.listByReplicationFabricsPagingAll(
       resourceName,
       resourceGroupName,
       fabricName,
-      options,
+      options
     );
     return {
       next() {
@@ -94,9 +93,9 @@ export class ReplicationProtectionContainersImpl
           resourceGroupName,
           fabricName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -105,7 +104,7 @@ export class ReplicationProtectionContainersImpl
     resourceGroupName: string,
     fabricName: string,
     options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<ProtectionContainer[]> {
     let result: ReplicationProtectionContainersListByReplicationFabricsResponse;
     let continuationToken = settings?.continuationToken;
@@ -114,7 +113,7 @@ export class ReplicationProtectionContainersImpl
         resourceName,
         resourceGroupName,
         fabricName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -127,7 +126,7 @@ export class ReplicationProtectionContainersImpl
         resourceGroupName,
         fabricName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -140,13 +139,13 @@ export class ReplicationProtectionContainersImpl
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams,
+    options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams
   ): AsyncIterableIterator<ProtectionContainer> {
     for await (const page of this.listByReplicationFabricsPagingPage(
       resourceName,
       resourceGroupName,
       fabricName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -162,7 +161,7 @@ export class ReplicationProtectionContainersImpl
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationProtectionContainersListOptionalParams,
+    options?: ReplicationProtectionContainersListOptionalParams
   ): PagedAsyncIterableIterator<ProtectionContainer> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -180,9 +179,9 @@ export class ReplicationProtectionContainersImpl
           resourceName,
           resourceGroupName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -190,7 +189,7 @@ export class ReplicationProtectionContainersImpl
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationProtectionContainersListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<ProtectionContainer[]> {
     let result: ReplicationProtectionContainersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -206,7 +205,7 @@ export class ReplicationProtectionContainersImpl
         resourceName,
         resourceGroupName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -218,12 +217,12 @@ export class ReplicationProtectionContainersImpl
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationProtectionContainersListOptionalParams,
+    options?: ReplicationProtectionContainersListOptionalParams
   ): AsyncIterableIterator<ProtectionContainer> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -241,11 +240,11 @@ export class ReplicationProtectionContainersImpl
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams,
+    options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams
   ): Promise<ReplicationProtectionContainersListByReplicationFabricsResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, fabricName, options },
-      listByReplicationFabricsOperationSpec,
+      listByReplicationFabricsOperationSpec
     );
   }
 
@@ -263,7 +262,7 @@ export class ReplicationProtectionContainersImpl
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectionContainersGetOptionalParams,
+    options?: ReplicationProtectionContainersGetOptionalParams
   ): Promise<ReplicationProtectionContainersGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -271,9 +270,9 @@ export class ReplicationProtectionContainersImpl
         resourceGroupName,
         fabricName,
         protectionContainerName,
-        options,
+        options
       },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -293,7 +292,7 @@ export class ReplicationProtectionContainersImpl
     fabricName: string,
     protectionContainerName: string,
     creationInput: CreateProtectionContainerInput,
-    options?: ReplicationProtectionContainersCreateOptionalParams,
+    options?: ReplicationProtectionContainersCreateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectionContainersCreateResponse>,
@@ -302,20 +301,21 @@ export class ReplicationProtectionContainersImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<ReplicationProtectionContainersCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -324,8 +324,8 @@ export class ReplicationProtectionContainersImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -333,8 +333,8 @@ export class ReplicationProtectionContainersImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -346,16 +346,16 @@ export class ReplicationProtectionContainersImpl
         fabricName,
         protectionContainerName,
         creationInput,
-        options,
+        options
       },
-      spec: createOperationSpec,
+      spec: createOperationSpec
     });
     const poller = await createHttpPoller<
       ReplicationProtectionContainersCreateResponse,
       OperationState<ReplicationProtectionContainersCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -377,7 +377,7 @@ export class ReplicationProtectionContainersImpl
     fabricName: string,
     protectionContainerName: string,
     creationInput: CreateProtectionContainerInput,
-    options?: ReplicationProtectionContainersCreateOptionalParams,
+    options?: ReplicationProtectionContainersCreateOptionalParams
   ): Promise<ReplicationProtectionContainersCreateResponse> {
     const poller = await this.beginCreate(
       resourceName,
@@ -385,7 +385,7 @@ export class ReplicationProtectionContainersImpl
       fabricName,
       protectionContainerName,
       creationInput,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -406,29 +406,32 @@ export class ReplicationProtectionContainersImpl
     fabricName: string,
     protectionContainerName: string,
     discoverProtectableItemRequest: DiscoverProtectableItemRequest,
-    options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams,
+    options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ReplicationProtectionContainersDiscoverProtectableItemResponse>,
+      OperationState<
+        ReplicationProtectionContainersDiscoverProtectableItemResponse
+      >,
       ReplicationProtectionContainersDiscoverProtectableItemResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<ReplicationProtectionContainersDiscoverProtectableItemResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -437,8 +440,8 @@ export class ReplicationProtectionContainersImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -446,8 +449,8 @@ export class ReplicationProtectionContainersImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -459,16 +462,18 @@ export class ReplicationProtectionContainersImpl
         fabricName,
         protectionContainerName,
         discoverProtectableItemRequest,
-        options,
+        options
       },
-      spec: discoverProtectableItemOperationSpec,
+      spec: discoverProtectableItemOperationSpec
     });
     const poller = await createHttpPoller<
       ReplicationProtectionContainersDiscoverProtectableItemResponse,
-      OperationState<ReplicationProtectionContainersDiscoverProtectableItemResponse>
+      OperationState<
+        ReplicationProtectionContainersDiscoverProtectableItemResponse
+      >
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -490,7 +495,7 @@ export class ReplicationProtectionContainersImpl
     fabricName: string,
     protectionContainerName: string,
     discoverProtectableItemRequest: DiscoverProtectableItemRequest,
-    options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams,
+    options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams
   ): Promise<ReplicationProtectionContainersDiscoverProtectableItemResponse> {
     const poller = await this.beginDiscoverProtectableItem(
       resourceName,
@@ -498,7 +503,7 @@ export class ReplicationProtectionContainersImpl
       fabricName,
       protectionContainerName,
       discoverProtectableItemRequest,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -517,24 +522,25 @@ export class ReplicationProtectionContainersImpl
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectionContainersDeleteOptionalParams,
+    options?: ReplicationProtectionContainersDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -543,8 +549,8 @@ export class ReplicationProtectionContainersImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -552,8 +558,8 @@ export class ReplicationProtectionContainersImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -564,13 +570,13 @@ export class ReplicationProtectionContainersImpl
         resourceGroupName,
         fabricName,
         protectionContainerName,
-        options,
+        options
       },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -590,14 +596,14 @@ export class ReplicationProtectionContainersImpl
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectionContainersDeleteOptionalParams,
+    options?: ReplicationProtectionContainersDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceName,
       resourceGroupName,
       fabricName,
       protectionContainerName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -618,7 +624,7 @@ export class ReplicationProtectionContainersImpl
     fabricName: string,
     protectionContainerName: string,
     switchInput: SwitchProtectionInput,
-    options?: ReplicationProtectionContainersSwitchProtectionOptionalParams,
+    options?: ReplicationProtectionContainersSwitchProtectionOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectionContainersSwitchProtectionResponse>,
@@ -627,20 +633,21 @@ export class ReplicationProtectionContainersImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<ReplicationProtectionContainersSwitchProtectionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -649,8 +656,8 @@ export class ReplicationProtectionContainersImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -658,8 +665,8 @@ export class ReplicationProtectionContainersImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -671,16 +678,16 @@ export class ReplicationProtectionContainersImpl
         fabricName,
         protectionContainerName,
         switchInput,
-        options,
+        options
       },
-      spec: switchProtectionOperationSpec,
+      spec: switchProtectionOperationSpec
     });
     const poller = await createHttpPoller<
       ReplicationProtectionContainersSwitchProtectionResponse,
       OperationState<ReplicationProtectionContainersSwitchProtectionResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -702,7 +709,7 @@ export class ReplicationProtectionContainersImpl
     fabricName: string,
     protectionContainerName: string,
     switchInput: SwitchProtectionInput,
-    options?: ReplicationProtectionContainersSwitchProtectionOptionalParams,
+    options?: ReplicationProtectionContainersSwitchProtectionOptionalParams
   ): Promise<ReplicationProtectionContainersSwitchProtectionResponse> {
     const poller = await this.beginSwitchProtection(
       resourceName,
@@ -710,7 +717,7 @@ export class ReplicationProtectionContainersImpl
       fabricName,
       protectionContainerName,
       switchInput,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -725,11 +732,11 @@ export class ReplicationProtectionContainersImpl
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationProtectionContainersListOptionalParams,
+    options?: ReplicationProtectionContainersListOptionalParams
   ): Promise<ReplicationProtectionContainersListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -748,11 +755,13 @@ export class ReplicationProtectionContainersImpl
     resourceGroupName: string,
     fabricName: string,
     nextLink: string,
-    options?: ReplicationProtectionContainersListByReplicationFabricsNextOptionalParams,
-  ): Promise<ReplicationProtectionContainersListByReplicationFabricsNextResponse> {
+    options?: ReplicationProtectionContainersListByReplicationFabricsNextOptionalParams
+  ): Promise<
+    ReplicationProtectionContainersListByReplicationFabricsNextResponse
+  > {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, fabricName, nextLink, options },
-      listByReplicationFabricsNextOperationSpec,
+      listByReplicationFabricsNextOperationSpec
     );
   }
 
@@ -768,11 +777,11 @@ export class ReplicationProtectionContainersImpl
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationProtectionContainersListNextOptionalParams,
+    options?: ReplicationProtectionContainersListNextOptionalParams
   ): Promise<ReplicationProtectionContainersListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -780,12 +789,13 @@ export class ReplicationProtectionContainersImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByReplicationFabricsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainerCollection,
-    },
+      bodyMapper: Mappers.ProtectionContainerCollection
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -793,18 +803,19 @@ const listByReplicationFabricsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.fabricName,
+    Parameters.fabricName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainer,
-    },
+      bodyMapper: Mappers.ProtectionContainer
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -813,27 +824,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.fabricName,
-    Parameters.protectionContainerName,
+    Parameters.protectionContainerName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainer,
+      bodyMapper: Mappers.ProtectionContainer
     },
     201: {
-      bodyMapper: Mappers.ProtectionContainer,
+      bodyMapper: Mappers.ProtectionContainer
     },
     202: {
-      bodyMapper: Mappers.ProtectionContainer,
+      bodyMapper: Mappers.ProtectionContainer
     },
     204: {
-      bodyMapper: Mappers.ProtectionContainer,
-    },
+      bodyMapper: Mappers.ProtectionContainer
+    }
   },
   requestBody: Parameters.creationInput,
   queryParameters: [Parameters.apiVersion],
@@ -843,28 +855,29 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.fabricName,
-    Parameters.protectionContainerName,
+    Parameters.protectionContainerName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const discoverProtectableItemOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/discoverProtectableItem",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/discoverProtectableItem",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainer,
+      bodyMapper: Mappers.ProtectionContainer
     },
     201: {
-      bodyMapper: Mappers.ProtectionContainer,
+      bodyMapper: Mappers.ProtectionContainer
     },
     202: {
-      bodyMapper: Mappers.ProtectionContainer,
+      bodyMapper: Mappers.ProtectionContainer
     },
     204: {
-      bodyMapper: Mappers.ProtectionContainer,
-    },
+      bodyMapper: Mappers.ProtectionContainer
+    }
   },
   requestBody: Parameters.discoverProtectableItemRequest,
   queryParameters: [Parameters.apiVersion],
@@ -874,14 +887,15 @@ const discoverProtectableItemOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.fabricName,
-    Parameters.protectionContainerName,
+    Parameters.protectionContainerName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/remove",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/remove",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
@@ -891,26 +905,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.fabricName,
-    Parameters.protectionContainerName,
+    Parameters.protectionContainerName
   ],
-  serializer,
+  serializer
 };
 const switchProtectionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/switchprotection",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/switchprotection",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainer,
+      bodyMapper: Mappers.ProtectionContainer
     },
     201: {
-      bodyMapper: Mappers.ProtectionContainer,
+      bodyMapper: Mappers.ProtectionContainer
     },
     202: {
-      bodyMapper: Mappers.ProtectionContainer,
+      bodyMapper: Mappers.ProtectionContainer
     },
     204: {
-      bodyMapper: Mappers.ProtectionContainer,
-    },
+      bodyMapper: Mappers.ProtectionContainer
+    }
   },
   requestBody: Parameters.switchInput,
   queryParameters: [Parameters.apiVersion],
@@ -920,37 +935,38 @@ const switchProtectionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.fabricName,
-    Parameters.protectionContainerName,
+    Parameters.protectionContainerName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionContainers",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionContainers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainerCollection,
-    },
+      bodyMapper: Mappers.ProtectionContainerCollection
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName,
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByReplicationFabricsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainerCollection,
-    },
+      bodyMapper: Mappers.ProtectionContainerCollection
+    }
   },
   urlParameters: [
     Parameters.$host,
@@ -958,26 +974,26 @@ const listByReplicationFabricsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceName,
-    Parameters.fabricName,
+    Parameters.fabricName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainerCollection,
-    },
+      bodyMapper: Mappers.ProtectionContainerCollection
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceName,
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

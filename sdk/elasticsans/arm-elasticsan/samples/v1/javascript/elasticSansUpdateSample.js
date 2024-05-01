@@ -23,11 +23,9 @@ async function elasticSansUpdateMaximumSetGen() {
   const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
   const elasticSanName = "elasticsanname";
   const parameters = {
-    properties: {
-      baseSizeTiB: 13,
-      extendedCapacitySizeTiB: 29,
-      publicNetworkAccess: "Enabled",
-    },
+    baseSizeTiB: 13,
+    extendedCapacitySizeTiB: 29,
+    publicNetworkAccess: "Enabled",
     tags: { key1931: "yhjwkgmrrwrcoxblgwgzjqusch" },
   };
   const credential = new DefaultAzureCredential();
@@ -35,7 +33,7 @@ async function elasticSansUpdateMaximumSetGen() {
   const result = await client.elasticSans.beginUpdateAndWait(
     resourceGroupName,
     elasticSanName,
-    parameters,
+    parameters
   );
   console.log(result);
 }
@@ -56,7 +54,7 @@ async function elasticSansUpdateMinimumSetGen() {
   const result = await client.elasticSans.beginUpdateAndWait(
     resourceGroupName,
     elasticSanName,
-    parameters,
+    parameters
   );
   console.log(result);
 }

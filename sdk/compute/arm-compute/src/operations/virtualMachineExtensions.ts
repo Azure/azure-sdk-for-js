@@ -14,7 +14,7 @@ import { ComputeManagementClient } from "../computeManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -28,7 +28,7 @@ import {
   VirtualMachineExtensionsGetOptionalParams,
   VirtualMachineExtensionsGetResponse,
   VirtualMachineExtensionsListOptionalParams,
-  VirtualMachineExtensionsListResponse,
+  VirtualMachineExtensionsListResponse
 } from "../models";
 
 /** Class containing VirtualMachineExtensions operations. */
@@ -56,7 +56,7 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     vmName: string,
     vmExtensionName: string,
     extensionParameters: VirtualMachineExtension,
-    options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams,
+    options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineExtensionsCreateOrUpdateResponse>,
@@ -65,20 +65,21 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<VirtualMachineExtensionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -87,8 +88,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -96,8 +97,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -108,16 +109,16 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
         vmName,
         vmExtensionName,
         extensionParameters,
-        options,
+        options
       },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       VirtualMachineExtensionsCreateOrUpdateResponse,
       OperationState<VirtualMachineExtensionsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -136,14 +137,14 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     vmName: string,
     vmExtensionName: string,
     extensionParameters: VirtualMachineExtension,
-    options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams,
+    options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams
   ): Promise<VirtualMachineExtensionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       vmName,
       vmExtensionName,
       extensionParameters,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -161,7 +162,7 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     vmName: string,
     vmExtensionName: string,
     extensionParameters: VirtualMachineExtensionUpdate,
-    options?: VirtualMachineExtensionsUpdateOptionalParams,
+    options?: VirtualMachineExtensionsUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineExtensionsUpdateResponse>,
@@ -170,20 +171,21 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<VirtualMachineExtensionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -192,8 +194,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -201,8 +203,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -213,16 +215,16 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
         vmName,
         vmExtensionName,
         extensionParameters,
-        options,
+        options
       },
-      spec: updateOperationSpec,
+      spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
       VirtualMachineExtensionsUpdateResponse,
       OperationState<VirtualMachineExtensionsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -241,14 +243,14 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     vmName: string,
     vmExtensionName: string,
     extensionParameters: VirtualMachineExtensionUpdate,
-    options?: VirtualMachineExtensionsUpdateOptionalParams,
+    options?: VirtualMachineExtensionsUpdateOptionalParams
   ): Promise<VirtualMachineExtensionsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       vmName,
       vmExtensionName,
       extensionParameters,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -264,24 +266,25 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     resourceGroupName: string,
     vmName: string,
     vmExtensionName: string,
-    options?: VirtualMachineExtensionsDeleteOptionalParams,
+    options?: VirtualMachineExtensionsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -290,8 +293,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -299,19 +302,19 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vmName, vmExtensionName, options },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -328,13 +331,13 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     resourceGroupName: string,
     vmName: string,
     vmExtensionName: string,
-    options?: VirtualMachineExtensionsDeleteOptionalParams,
+    options?: VirtualMachineExtensionsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       vmName,
       vmExtensionName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -350,11 +353,11 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     resourceGroupName: string,
     vmName: string,
     vmExtensionName: string,
-    options?: VirtualMachineExtensionsGetOptionalParams,
+    options?: VirtualMachineExtensionsGetOptionalParams
   ): Promise<VirtualMachineExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vmName, vmExtensionName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -367,11 +370,11 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
   list(
     resourceGroupName: string,
     vmName: string,
-    options?: VirtualMachineExtensionsListOptionalParams,
+    options?: VirtualMachineExtensionsListOptionalParams
   ): Promise<VirtualMachineExtensionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vmName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 }
@@ -379,24 +382,25 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineExtension,
+      bodyMapper: Mappers.VirtualMachineExtension
     },
     201: {
-      bodyMapper: Mappers.VirtualMachineExtension,
+      bodyMapper: Mappers.VirtualMachineExtension
     },
     202: {
-      bodyMapper: Mappers.VirtualMachineExtension,
+      bodyMapper: Mappers.VirtualMachineExtension
     },
     204: {
-      bodyMapper: Mappers.VirtualMachineExtension,
+      bodyMapper: Mappers.VirtualMachineExtension
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.extensionParameters4,
   queryParameters: [Parameters.apiVersion],
@@ -405,31 +409,32 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vmExtensionName,
-    Parameters.vmName,
+    Parameters.vmName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineExtension,
+      bodyMapper: Mappers.VirtualMachineExtension
     },
     201: {
-      bodyMapper: Mappers.VirtualMachineExtension,
+      bodyMapper: Mappers.VirtualMachineExtension
     },
     202: {
-      bodyMapper: Mappers.VirtualMachineExtension,
+      bodyMapper: Mappers.VirtualMachineExtension
     },
     204: {
-      bodyMapper: Mappers.VirtualMachineExtension,
+      bodyMapper: Mappers.VirtualMachineExtension
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.extensionParameters5,
   queryParameters: [Parameters.apiVersion],
@@ -438,14 +443,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vmExtensionName,
-    Parameters.vmName,
+    Parameters.vmName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -453,8 +459,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -462,21 +468,22 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vmExtensionName,
-    Parameters.vmName,
+    Parameters.vmName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineExtension,
+      bodyMapper: Mappers.VirtualMachineExtension
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand1],
   urlParameters: [
@@ -484,29 +491,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vmExtensionName,
-    Parameters.vmName,
+    Parameters.vmName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineExtensionsListResult,
+      bodyMapper: Mappers.VirtualMachineExtensionsListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vmName,
+    Parameters.vmName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

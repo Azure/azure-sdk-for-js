@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information of a configuration for coordinator.
  *
  * @summary Gets information of a configuration for coordinator.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ConfigurationGetCoordinator.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ConfigurationGetCoordinator.json
  */
 async function getConfigurationDetailsForCoordinator() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getConfigurationDetailsForCoordinator() {
   const result = await client.configurations.getCoordinator(
     resourceGroupName,
     clusterName,
-    configurationName,
+    configurationName
   );
   console.log(result);
 }

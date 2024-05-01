@@ -8,10 +8,10 @@ import type {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces.js";
-import { RestError } from "./restError.js";
-import { createHttpHeaders } from "./httpHeaders.js";
-import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
+} from "./interfaces";
+import { RestError } from "./restError";
+import { createHttpHeaders } from "./httpHeaders";
+import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards";
 
 /**
  * Checks if the body is a Blob or Blob-like
@@ -103,7 +103,7 @@ async function buildPipelineResponse(
   httpResponse: Response,
   request: PipelineRequest,
   abortControllerCleanup?: () => void,
-): Promise<PipelineResponse> {
+) {
   const headers = buildPipelineHeaders(httpResponse);
   const response: PipelineResponse = {
     request,
@@ -184,7 +184,6 @@ function setupAbortSignal(request: PipelineRequest): {
 /**
  * Gets the specific error
  */
-// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 function getError(e: RestError, request: PipelineRequest): RestError {
   if (e && e?.name === "AbortError") {
     return e;
@@ -199,7 +198,7 @@ function getError(e: RestError, request: PipelineRequest): RestError {
 /**
  * Converts PipelineRequest headers to Fetch headers
  */
-function buildFetchHeaders(pipelineHeaders: PipelineHeaders): Headers {
+function buildFetchHeaders(pipelineHeaders: PipelineHeaders) {
   const headers = new Headers();
   for (const [name, value] of pipelineHeaders) {
     headers.append(name, value);
@@ -217,20 +216,7 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
   return responseHeaders;
 }
 
-interface BuildRequestBodyResponse {
-  body:
-    | string
-    | Blob
-    | ReadableStream<Uint8Array>
-    | ArrayBuffer
-    | ArrayBufferView
-    | FormData
-    | null
-    | undefined;
-  streaming: boolean;
-}
-
-function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
+function buildRequestBody(request: PipelineRequest) {
   const body = typeof request.body === "function" ? request.body() : request.body;
   if (isNodeReadableStream(body)) {
     throw new Error("Node streams are not supported in browser environment.");

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SharedPrivateLinkResource,
-  SearchManagementClient,
+  SearchManagementClient
 } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Initiates the creation or update of a shared private link resource managed by the search service in the given resource group.
  *
  * @summary Initiates the creation or update of a shared private link resource managed by the search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-03-01-preview/examples/CreateOrUpdateSharedPrivateLinkResource.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/CreateOrUpdateSharedPrivateLinkResource.json
  */
 async function sharedPrivateLinkResourceCreateOrUpdate() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -34,18 +34,17 @@ async function sharedPrivateLinkResourceCreateOrUpdate() {
       privateLinkResourceId:
         "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/storageAccountName",
       requestMessage: "please approve",
-      resourceRegion: undefined,
-    },
+      resourceRegion: undefined
+    }
   };
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
-  const result =
-    await client.sharedPrivateLinkResources.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      searchServiceName,
-      sharedPrivateLinkResourceName,
-      sharedPrivateLinkResource,
-    );
+  const result = await client.sharedPrivateLinkResources.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    searchServiceName,
+    sharedPrivateLinkResourceName,
+    sharedPrivateLinkResource
+  );
   console.log(result);
 }
 

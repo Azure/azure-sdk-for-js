@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   MetricsStatusRequest,
-  NewRelicObservability,
+  NewRelicObservability
 } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,27 +21,24 @@ dotenv.config();
  * This sample demonstrates how to Get metric status
  *
  * @summary Get metric status
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_GetMetricStatus_MaximumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Monitors_GetMetricStatus_MaximumSet_Gen.json
  */
 async function monitorsGetMetricStatusMaximumSetGen() {
   const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
   const resourceGroupName =
     process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
   const monitorName = "fhcjxnxumkdlgpwanewtkdnyuz";
   const request: MetricsStatusRequest = {
-    azureResourceIds: [
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgNewRelic/providers/NewRelic.Observability/monitors/fhcjxnxumkdlgpwanewtkdnyuz",
-    ],
-    userEmail: "ruxvg@xqkmdhrnoo.hlmbpm",
+    azureResourceIds: ["enfghpfw"],
+    userEmail: "ruxvg@xqkmdhrnoo.hlmbpm"
   };
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const result = await client.monitors.getMetricStatus(
     resourceGroupName,
     monitorName,
-    request,
+    request
   );
   console.log(result);
 }
@@ -50,27 +47,23 @@ async function monitorsGetMetricStatusMaximumSetGen() {
  * This sample demonstrates how to Get metric status
  *
  * @summary Get metric status
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_GetMetricStatus_MinimumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Monitors_GetMetricStatus_MinimumSet_Gen.json
  */
 async function monitorsGetMetricStatusMinimumSetGen() {
   const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
   const resourceGroupName =
     process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
   const monitorName = "fhcjxnxumkdlgpwanewtkdnyuz";
   const request: MetricsStatusRequest = {
-    azureResourceIds: [
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgNewRelic/providers/NewRelic.Observability/monitors/fhcjxnxumkdlgpwanewtkdnyuz",
-    ],
-    userEmail: "ruxvg@xqkmdhrnoo.hlmbpm",
+    userEmail: "ruxvg@xqkmdhrnoo.hlmbpm"
   };
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const result = await client.monitors.getMetricStatus(
     resourceGroupName,
     monitorName,
-    request,
+    request
   );
   console.log(result);
 }

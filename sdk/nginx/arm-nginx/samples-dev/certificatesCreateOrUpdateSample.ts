@@ -8,11 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  NginxCertificate,
-  CertificatesCreateOrUpdateOptionalParams,
-  NginxManagementClient,
-} from "@azure/arm-nginx";
+import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -22,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update the NGINX certificates for given NGINX deployment
  *
  * @summary Create or update the NGINX certificates for given NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Certificates_CreateOrUpdate.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2023-04-01/examples/Certificates_CreateOrUpdate.json
  */
 async function certificatesCreateOrUpdate() {
   const subscriptionId =
@@ -32,21 +28,12 @@ async function certificatesCreateOrUpdate() {
     process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
   const certificateName = "default";
-  const body: NginxCertificate = {
-    properties: {
-      certificateVirtualPath: "/src/cert/somePath.cert",
-      keyVaultSecretId: "https://someKV.vault.azure.com/someSecretID",
-      keyVirtualPath: "/src/cert/somekey.key",
-    },
-  };
-  const options: CertificatesCreateOrUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const result = await client.certificates.beginCreateOrUpdateAndWait(
     resourceGroupName,
     deploymentName,
-    certificateName,
-    options,
+    certificateName
   );
   console.log(result);
 }

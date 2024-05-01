@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   VirtualHubRouteTableV2SCreateOrUpdateOptionalParams,
   VirtualHubRouteTableV2SCreateOrUpdateResponse,
   VirtualHubRouteTableV2SDeleteOptionalParams,
-  VirtualHubRouteTableV2SListNextResponse,
+  VirtualHubRouteTableV2SListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
   public list(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: VirtualHubRouteTableV2SListOptionalParams,
+    options?: VirtualHubRouteTableV2SListOptionalParams
   ): PagedAsyncIterableIterator<VirtualHubRouteTableV2> {
     const iter = this.listPagingAll(resourceGroupName, virtualHubName, options);
     return {
@@ -72,9 +72,9 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
           resourceGroupName,
           virtualHubName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -82,7 +82,7 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
     resourceGroupName: string,
     virtualHubName: string,
     options?: VirtualHubRouteTableV2SListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualHubRouteTableV2[]> {
     let result: VirtualHubRouteTableV2SListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
         resourceGroupName,
         virtualHubName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +110,12 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
   private async *listPagingAll(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: VirtualHubRouteTableV2SListOptionalParams,
+    options?: VirtualHubRouteTableV2SListOptionalParams
   ): AsyncIterableIterator<VirtualHubRouteTableV2> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       virtualHubName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -132,11 +132,11 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
     resourceGroupName: string,
     virtualHubName: string,
     routeTableName: string,
-    options?: VirtualHubRouteTableV2SGetOptionalParams,
+    options?: VirtualHubRouteTableV2SGetOptionalParams
   ): Promise<VirtualHubRouteTableV2SGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualHubName, routeTableName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -155,7 +155,7 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
     virtualHubName: string,
     routeTableName: string,
     virtualHubRouteTableV2Parameters: VirtualHubRouteTableV2,
-    options?: VirtualHubRouteTableV2SCreateOrUpdateOptionalParams,
+    options?: VirtualHubRouteTableV2SCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualHubRouteTableV2SCreateOrUpdateResponse>,
@@ -164,20 +164,21 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<VirtualHubRouteTableV2SCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -186,8 +187,8 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -195,8 +196,8 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -207,9 +208,9 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
         virtualHubName,
         routeTableName,
         virtualHubRouteTableV2Parameters,
-        options,
+        options
       },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       VirtualHubRouteTableV2SCreateOrUpdateResponse,
@@ -217,7 +218,7 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -238,14 +239,14 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
     virtualHubName: string,
     routeTableName: string,
     virtualHubRouteTableV2Parameters: VirtualHubRouteTableV2,
-    options?: VirtualHubRouteTableV2SCreateOrUpdateOptionalParams,
+    options?: VirtualHubRouteTableV2SCreateOrUpdateOptionalParams
   ): Promise<VirtualHubRouteTableV2SCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       virtualHubName,
       routeTableName,
       virtualHubRouteTableV2Parameters,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -261,24 +262,25 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
     resourceGroupName: string,
     virtualHubName: string,
     routeTableName: string,
-    options?: VirtualHubRouteTableV2SDeleteOptionalParams,
+    options?: VirtualHubRouteTableV2SDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -287,8 +289,8 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -296,20 +298,20 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, virtualHubName, routeTableName, options },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -326,13 +328,13 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
     resourceGroupName: string,
     virtualHubName: string,
     routeTableName: string,
-    options?: VirtualHubRouteTableV2SDeleteOptionalParams,
+    options?: VirtualHubRouteTableV2SDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       virtualHubName,
       routeTableName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -346,11 +348,11 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
   private _list(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: VirtualHubRouteTableV2SListOptionalParams,
+    options?: VirtualHubRouteTableV2SListOptionalParams
   ): Promise<VirtualHubRouteTableV2SListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualHubName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -365,11 +367,11 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
     resourceGroupName: string,
     virtualHubName: string,
     nextLink: string,
-    options?: VirtualHubRouteTableV2SListNextOptionalParams,
+    options?: VirtualHubRouteTableV2SListNextOptionalParams
   ): Promise<VirtualHubRouteTableV2SListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualHubName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -377,15 +379,16 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualHubRouteTableV2,
+      bodyMapper: Mappers.VirtualHubRouteTableV2
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
-    },
+      bodyMapper: Mappers.ErrorModel
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -393,30 +396,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.routeTableName,
-    Parameters.virtualHubName,
+    Parameters.virtualHubName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualHubRouteTableV2,
+      bodyMapper: Mappers.VirtualHubRouteTableV2
     },
     201: {
-      bodyMapper: Mappers.VirtualHubRouteTableV2,
+      bodyMapper: Mappers.VirtualHubRouteTableV2
     },
     202: {
-      bodyMapper: Mappers.VirtualHubRouteTableV2,
+      bodyMapper: Mappers.VirtualHubRouteTableV2
     },
     204: {
-      bodyMapper: Mappers.VirtualHubRouteTableV2,
+      bodyMapper: Mappers.VirtualHubRouteTableV2
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
-    },
+      bodyMapper: Mappers.ErrorModel
+    }
   },
   requestBody: Parameters.virtualHubRouteTableV2Parameters,
   queryParameters: [Parameters.apiVersion],
@@ -425,14 +429,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.routeTableName,
-    Parameters.virtualHubName,
+    Parameters.virtualHubName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -440,8 +445,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel,
-    },
+      bodyMapper: Mappers.ErrorModel
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -449,50 +454,51 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.routeTableName,
-    Parameters.virtualHubName,
+    Parameters.virtualHubName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListVirtualHubRouteTableV2SResult,
+      bodyMapper: Mappers.ListVirtualHubRouteTableV2SResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.virtualHubName,
+    Parameters.virtualHubName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListVirtualHubRouteTableV2SResult,
+      bodyMapper: Mappers.ListVirtualHubRouteTableV2SResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.virtualHubName,
+    Parameters.virtualHubName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

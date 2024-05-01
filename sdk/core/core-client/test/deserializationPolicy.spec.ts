@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, vi } from "vitest";
+import * as sinon from "sinon";
 import {
   CompositeMapper,
   FullOperationResponse,
@@ -10,7 +10,7 @@ import {
   SerializerOptions,
   createSerializer,
   deserializationPolicy,
-} from "../src/index.js";
+} from "../src";
 import {
   PipelineResponse,
   RawHttpHeaders,
@@ -18,7 +18,8 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { getOperationRequestInfo } from "../src/operationHelpers.js";
+import { assert } from "chai";
+import { getOperationRequestInfo } from "../src/operationHelpers";
 import { parseXML } from "@azure/core-xml";
 
 describe("deserializationPolicy", function () {
@@ -822,8 +823,8 @@ async function getDeserializedResponse(
     bodyAsText: options.bodyAsText,
     status: options.status ?? 200,
   };
-  const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-  next.mockResolvedValue(res);
+  const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  next.resolves(res);
 
   const response = await policy.sendRequest(request, next);
   return response;

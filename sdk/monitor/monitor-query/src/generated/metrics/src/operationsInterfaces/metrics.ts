@@ -6,40 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  MetricsListAtSubscriptionScopeOptionalParams,
-  MetricsListAtSubscriptionScopeResponse,
-  MetricsListAtSubscriptionScopePostOptionalParams,
-  MetricsListAtSubscriptionScopePostResponse,
-  MetricsListOptionalParams,
-  MetricsListResponse
-} from "../models";
+import { MetricsListOptionalParams, MetricsListResponse } from "../models";
 
 /** Interface representing a Metrics. */
 export interface Metrics {
-  /**
-   * **Lists the metric data for a subscription**.
-   * @param subscriptionId The ID of the target subscription.
-   * @param region The region where the metrics you want reside.
-   * @param options The options parameters.
-   */
-  listAtSubscriptionScope(
-    subscriptionId: string,
-    region: string,
-    options?: MetricsListAtSubscriptionScopeOptionalParams
-  ): Promise<MetricsListAtSubscriptionScopeResponse>;
-  /**
-   * **Lists the metric data for a subscription**. Parameters can be specified on either query params or
-   * the body.
-   * @param subscriptionId The ID of the target subscription.
-   * @param region The region where the metrics you want reside.
-   * @param options The options parameters.
-   */
-  listAtSubscriptionScopePost(
-    subscriptionId: string,
-    region: string,
-    options?: MetricsListAtSubscriptionScopePostOptionalParams
-  ): Promise<MetricsListAtSubscriptionScopePostResponse>;
   /**
    * **Lists the metric values for a resource**.
    * @param resourceUri The identifier of the resource.

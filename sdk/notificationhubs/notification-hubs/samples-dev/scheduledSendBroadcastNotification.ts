@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the scheduleNotification() method can be used to schedule a broadcast
@@ -26,7 +26,7 @@ dotenv.config();
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
-async function main(): Promise<void> {
+async function main() {
   const context = createClientContext(connectionString, hubName);
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;

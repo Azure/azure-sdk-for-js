@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as http from "node:http";
-import * as https from "node:https";
-import * as zlib from "node:zlib";
-import { Transform } from "node:stream";
-import { AbortError } from "./abort-controller/AbortError.js";
+import * as http from "http";
+import * as https from "https";
+import * as zlib from "zlib";
+import { Transform } from "stream";
+import { AbortError } from "./abort-controller/AbortError";
 import {
   HttpClient,
   HttpHeaders,
@@ -14,11 +14,11 @@ import {
   RequestBodyType,
   TlsSettings,
   TransferProgressEvent,
-} from "./interfaces.js";
-import { createHttpHeaders } from "./httpHeaders.js";
-import { RestError } from "./restError.js";
-import { IncomingMessage } from "node:http";
-import { logger } from "./log.js";
+} from "./interfaces";
+import { createHttpHeaders } from "./httpHeaders";
+import { RestError } from "./restError";
+import { IncomingMessage } from "http";
+import { logger } from "./log";
 
 const DEFAULT_TLS_SETTINGS = {};
 
@@ -171,7 +171,7 @@ class NodeHttpClient implements HttpClient {
       if (request.abortSignal && abortListener) {
         let uploadStreamDone = Promise.resolve();
         if (isReadableStream(body)) {
-          uploadStreamDone = isStreamComplete(body);
+          uploadStreamDone = isStreamComplete(body as NodeJS.ReadableStream);
         }
         let downloadStreamDone = Promise.resolve();
         if (isReadableStream(responseStream)) {

@@ -1,12 +1,11 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
       - main
       - release/*
       - hotfix/*
-      - search/stable
   paths:
     include:
       - sdk/search/
@@ -20,7 +19,6 @@ pr:
       - feature/*
       - release/*
       - hotfix/*
-      - search/stable
     exclude:
       - feature/v4
   paths:

@@ -29,7 +29,6 @@ import {
   CustomizedAcceleratorsCreateOrUpdateOptionalParams,
   CustomizedAcceleratorsCreateOrUpdateResponse,
   CustomizedAcceleratorsDeleteOptionalParams,
-  CustomizedAcceleratorsDeleteResponse,
   CustomizedAcceleratorProperties,
   CustomizedAcceleratorsValidateOptionalParams,
   CustomizedAcceleratorsValidateResponse,
@@ -320,16 +319,11 @@ export class CustomizedAcceleratorsImpl implements CustomizedAccelerators {
     applicationAcceleratorName: string,
     customizedAcceleratorName: string,
     options?: CustomizedAcceleratorsDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CustomizedAcceleratorsDeleteResponse>,
-      CustomizedAcceleratorsDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<CustomizedAcceleratorsDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -376,10 +370,7 @@ export class CustomizedAcceleratorsImpl implements CustomizedAccelerators {
       },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<
-      CustomizedAcceleratorsDeleteResponse,
-      OperationState<CustomizedAcceleratorsDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
@@ -402,7 +393,7 @@ export class CustomizedAcceleratorsImpl implements CustomizedAccelerators {
     applicationAcceleratorName: string,
     customizedAcceleratorName: string,
     options?: CustomizedAcceleratorsDeleteOptionalParams
-  ): Promise<CustomizedAcceleratorsDeleteResponse> {
+  ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
@@ -423,92 +414,7 @@ export class CustomizedAcceleratorsImpl implements CustomizedAccelerators {
    * @param properties Customized accelerator properties to be validated
    * @param options The options parameters.
    */
-  async beginValidate(
-    resourceGroupName: string,
-    serviceName: string,
-    applicationAcceleratorName: string,
-    customizedAcceleratorName: string,
-    properties: CustomizedAcceleratorProperties,
-    options?: CustomizedAcceleratorsValidateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CustomizedAcceleratorsValidateResponse>,
-      CustomizedAcceleratorsValidateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<CustomizedAcceleratorsValidateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        serviceName,
-        applicationAcceleratorName,
-        customizedAcceleratorName,
-        properties,
-        options
-      },
-      spec: validateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      CustomizedAcceleratorsValidateResponse,
-      OperationState<CustomizedAcceleratorsValidateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Check the customized accelerator are valid.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param applicationAcceleratorName The name of the application accelerator.
-   * @param customizedAcceleratorName The name of the customized accelerator.
-   * @param properties Customized accelerator properties to be validated
-   * @param options The options parameters.
-   */
-  async beginValidateAndWait(
+  validate(
     resourceGroupName: string,
     serviceName: string,
     applicationAcceleratorName: string,
@@ -516,15 +422,17 @@ export class CustomizedAcceleratorsImpl implements CustomizedAccelerators {
     properties: CustomizedAcceleratorProperties,
     options?: CustomizedAcceleratorsValidateOptionalParams
   ): Promise<CustomizedAcceleratorsValidateResponse> {
-    const poller = await this.beginValidate(
-      resourceGroupName,
-      serviceName,
-      applicationAcceleratorName,
-      customizedAcceleratorName,
-      properties,
-      options
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        applicationAcceleratorName,
+        customizedAcceleratorName,
+        properties,
+        options
+      },
+      validateOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -645,18 +553,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}/customizedAccelerators/{customizedAcceleratorName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.CustomizedAcceleratorsDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.CustomizedAcceleratorsDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.CustomizedAcceleratorsDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.CustomizedAcceleratorsDeleteHeaders
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -681,15 +581,7 @@ const validateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.CustomizedAcceleratorValidateResult
     },
-    201: {
-      bodyMapper: Mappers.CustomizedAcceleratorValidateResult
-    },
-    202: {
-      bodyMapper: Mappers.CustomizedAcceleratorValidateResult
-    },
-    204: {
-      bodyMapper: Mappers.CustomizedAcceleratorValidateResult
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

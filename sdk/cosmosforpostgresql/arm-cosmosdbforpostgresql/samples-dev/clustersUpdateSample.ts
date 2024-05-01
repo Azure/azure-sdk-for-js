@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ClusterForUpdate,
-  CosmosDBForPostgreSQL,
+  CosmosDBForPostgreSQL
 } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  *
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterScaleCompute.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterScaleCompute.json
  */
 async function scaleComputeUpOrDown() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function scaleComputeUpOrDown() {
   const result = await client.clusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    parameters,
+    parameters
   );
   console.log(result);
 }
@@ -45,7 +45,7 @@ async function scaleComputeUpOrDown() {
  * This sample demonstrates how to Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  *
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterAddNode.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterAddNode.json
  */
 async function scaleOutAddNewWorkerNodes() {
   const subscriptionId =
@@ -60,7 +60,7 @@ async function scaleOutAddNewWorkerNodes() {
   const result = await client.clusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    parameters,
+    parameters
   );
   console.log(result);
 }
@@ -69,7 +69,7 @@ async function scaleOutAddNewWorkerNodes() {
  * This sample demonstrates how to Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  *
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterScaleStorage.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterScaleStorage.json
  */
 async function scaleUpStorage() {
   const subscriptionId =
@@ -84,7 +84,7 @@ async function scaleUpStorage() {
   const result = await client.clusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    parameters,
+    parameters
   );
   console.log(result);
 }
@@ -93,7 +93,7 @@ async function scaleUpStorage() {
  * This sample demonstrates how to Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  *
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterUpdate.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterUpdate.json
  */
 async function updateMultipleConfigurationSettingsOfTheCluster() {
   const subscriptionId =
@@ -106,14 +106,14 @@ async function updateMultipleConfigurationSettingsOfTheCluster() {
     administratorLoginPassword: "newpassword",
     coordinatorVCores: 16,
     nodeCount: 4,
-    nodeVCores: 16,
+    nodeVCores: 16
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
   const result = await client.clusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    parameters,
+    parameters
   );
   console.log(result);
 }
@@ -122,7 +122,7 @@ async function updateMultipleConfigurationSettingsOfTheCluster() {
  * This sample demonstrates how to Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  *
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterUpdateMaintenanceWindow.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterUpdateMaintenanceWindow.json
  */
 async function updateOrDefineMaintenanceWindow() {
   const subscriptionId =
@@ -136,15 +136,15 @@ async function updateOrDefineMaintenanceWindow() {
       customWindow: "Enabled",
       dayOfWeek: 0,
       startHour: 8,
-      startMinute: 0,
-    },
+      startMinute: 0
+    }
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
   const result = await client.clusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    parameters,
+    parameters
   );
   console.log(result);
 }

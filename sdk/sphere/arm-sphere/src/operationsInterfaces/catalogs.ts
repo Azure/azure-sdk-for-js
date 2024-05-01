@@ -30,10 +30,7 @@ import {
   CatalogsUpdateResponse,
   CatalogsDeleteOptionalParams,
   CatalogsCountDevicesOptionalParams,
-  CatalogsCountDevicesResponse,
-  Image,
-  CatalogsUploadImageOptionalParams,
-  CatalogsUploadImageResponse,
+  CatalogsCountDevicesResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +41,7 @@ export interface Catalogs {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: CatalogsListBySubscriptionOptionalParams,
+    options?: CatalogsListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<Catalog>;
   /**
    * List Catalog resources by resource group
@@ -53,7 +50,7 @@ export interface Catalogs {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: CatalogsListByResourceGroupOptionalParams,
+    options?: CatalogsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<Catalog>;
   /**
    * Lists deployments for catalog.
@@ -64,7 +61,7 @@ export interface Catalogs {
   listDeployments(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsListDeploymentsOptionalParams,
+    options?: CatalogsListDeploymentsOptionalParams
   ): PagedAsyncIterableIterator<Deployment>;
   /**
    * List the device groups for the catalog.
@@ -77,7 +74,7 @@ export interface Catalogs {
     resourceGroupName: string,
     catalogName: string,
     listDeviceGroupsRequest: ListDeviceGroupsRequest,
-    options?: CatalogsListDeviceGroupsOptionalParams,
+    options?: CatalogsListDeviceGroupsOptionalParams
   ): PagedAsyncIterableIterator<DeviceGroup>;
   /**
    * Lists device insights for catalog.
@@ -88,7 +85,7 @@ export interface Catalogs {
   listDeviceInsights(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsListDeviceInsightsOptionalParams,
+    options?: CatalogsListDeviceInsightsOptionalParams
   ): PagedAsyncIterableIterator<DeviceInsight>;
   /**
    * Lists devices for catalog.
@@ -99,7 +96,7 @@ export interface Catalogs {
   listDevices(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsListDevicesOptionalParams,
+    options?: CatalogsListDevicesOptionalParams
   ): PagedAsyncIterableIterator<Device>;
   /**
    * Get a Catalog
@@ -110,7 +107,7 @@ export interface Catalogs {
   get(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsGetOptionalParams,
+    options?: CatalogsGetOptionalParams
   ): Promise<CatalogsGetResponse>;
   /**
    * Create a Catalog
@@ -123,7 +120,7 @@ export interface Catalogs {
     resourceGroupName: string,
     catalogName: string,
     resource: Catalog,
-    options?: CatalogsCreateOrUpdateOptionalParams,
+    options?: CatalogsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<CatalogsCreateOrUpdateResponse>,
@@ -141,7 +138,7 @@ export interface Catalogs {
     resourceGroupName: string,
     catalogName: string,
     resource: Catalog,
-    options?: CatalogsCreateOrUpdateOptionalParams,
+    options?: CatalogsCreateOrUpdateOptionalParams
   ): Promise<CatalogsCreateOrUpdateResponse>;
   /**
    * Update a Catalog
@@ -154,7 +151,7 @@ export interface Catalogs {
     resourceGroupName: string,
     catalogName: string,
     properties: CatalogUpdate,
-    options?: CatalogsUpdateOptionalParams,
+    options?: CatalogsUpdateOptionalParams
   ): Promise<CatalogsUpdateResponse>;
   /**
    * Delete a Catalog
@@ -165,7 +162,7 @@ export interface Catalogs {
   beginDelete(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsDeleteOptionalParams,
+    options?: CatalogsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Catalog
@@ -176,7 +173,7 @@ export interface Catalogs {
   beginDeleteAndWait(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsDeleteOptionalParams,
+    options?: CatalogsDeleteOptionalParams
   ): Promise<void>;
   /**
    * Counts devices in catalog.
@@ -187,37 +184,6 @@ export interface Catalogs {
   countDevices(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsCountDevicesOptionalParams,
+    options?: CatalogsCountDevicesOptionalParams
   ): Promise<CatalogsCountDevicesResponse>;
-  /**
-   * Creates an image. Use this action when the image ID is unknown.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param catalogName Name of catalog
-   * @param uploadImageRequest Image upload request body.
-   * @param options The options parameters.
-   */
-  beginUploadImage(
-    resourceGroupName: string,
-    catalogName: string,
-    uploadImageRequest: Image,
-    options?: CatalogsUploadImageOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CatalogsUploadImageResponse>,
-      CatalogsUploadImageResponse
-    >
-  >;
-  /**
-   * Creates an image. Use this action when the image ID is unknown.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param catalogName Name of catalog
-   * @param uploadImageRequest Image upload request body.
-   * @param options The options parameters.
-   */
-  beginUploadImageAndWait(
-    resourceGroupName: string,
-    catalogName: string,
-    uploadImageRequest: Image,
-    options?: CatalogsUploadImageOptionalParams,
-  ): Promise<CatalogsUploadImageResponse>;
 }

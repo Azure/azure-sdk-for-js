@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import {
   NotificationHubsClientContext,
   createOrUpdateRegistration,
   createRegistrationId,
   deleteRegistration,
   getRegistration,
-} from "../../src/api/index.js";
+} from "@azure/notification-hubs/api";
+import { assert, isNode } from "@azure/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createAppleRegistrationDescription } from "../../src/models/index.js";
+import { createAppleRegistrationDescription } from "@azure/notification-hubs/models";
 import { createRecordedClientContext } from "./utils/recordedClient.js";
 
 describe("createRegistrationId()", () => {
@@ -19,8 +19,12 @@ describe("createRegistrationId()", () => {
   let context: NotificationHubsClientContext;
   const deviceToken = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 
-  beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
+  beforeEach(async function (this: Mocha.Context) {
+    if (!isNode) {
+      return;
+    }
+
+    recorder = new Recorder(this.currentTest);
     await recorder.setMatcher("BodilessMatcher");
     context = await createRecordedClientContext(recorder);
 
@@ -36,11 +40,19 @@ describe("createRegistrationId()", () => {
   });
 
   afterEach(async () => {
+    if (!isNode) {
+      return;
+    }
+
     await deleteRegistration(context, registrationId);
     await recorder.stop();
   });
 
-  it("should get a registration by the given registration ID", async () => {
+  it("should get a registration by the given registration ID", async function () {
+    if (!isNode) {
+      this.skip();
+    }
+
     const registration = await getRegistration(context!, registrationId!);
 
     assert.equal(registration.registrationId, registrationId);

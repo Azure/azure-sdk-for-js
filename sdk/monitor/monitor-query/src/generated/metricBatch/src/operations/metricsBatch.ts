@@ -34,18 +34,18 @@ export class MetricsBatchImpl implements MetricsBatch {
    * @param subscriptionId The subscription identifier for the resources in this batch.
    * @param metricnamespace Metric namespace that contains the requested metric names.
    * @param metricnames The names of the metrics (comma separated) to retrieve.
-   * @param batchRequest Metrics batch body including the list of resource ids
+   * @param resourceIds The comma separated list of resource IDs to query metrics for.
    * @param options The options parameters.
    */
   batch(
     subscriptionId: string,
     metricnamespace: string,
     metricnames: string[],
-    batchRequest: ResourceIdList,
+    resourceIds: ResourceIdList,
     options?: MetricsBatchBatchOptionalParams
   ): Promise<MetricsBatchBatchResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, metricnamespace, metricnames, batchRequest, options },
+      { subscriptionId, metricnamespace, metricnames, resourceIds, options },
       batchOperationSpec
     );
   }
@@ -61,11 +61,11 @@ const batchOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MetricResultsResponse
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.AdditionalInfoErrorResponse,
       headersMapper: Mappers.MetricsBatchBatchExceptionHeaders
     }
   },
-  requestBody: Parameters.batchRequest,
+  requestBody: Parameters.resourceIds,
   queryParameters: [
     Parameters.starttime,
     Parameters.endtime,
@@ -76,7 +76,6 @@ const batchOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.orderby,
     Parameters.filter,
-    Parameters.rollupby,
     Parameters.apiVersion
   ],
   urlParameters: [Parameters.endpoint, Parameters.subscriptionId],

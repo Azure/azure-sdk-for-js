@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
-
 import { AzureApplicationCredential } from "../../../src/credentials/azureApplicationCredential";
 import { IdentityTestContext } from "../../httpRequests";
 import { RestError } from "@azure/core-rest-pipeline";

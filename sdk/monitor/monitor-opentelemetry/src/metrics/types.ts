@@ -16,7 +16,6 @@ export interface StandardMetricBaseDimensions {
 export interface MetricRequestDimensions extends StandardMetricBaseDimensions {
   requestSuccess?: string;
   requestResultCode?: string;
-  operationSynthetic?: string;
 }
 
 export interface MetricDependencyDimensions extends StandardMetricBaseDimensions {
@@ -24,7 +23,13 @@ export interface MetricDependencyDimensions extends StandardMetricBaseDimensions
   dependencyTarget?: string;
   dependencySuccess?: string;
   dependencyResultCode?: string;
-  operationSynthetic?: string;
+}
+
+export enum StandardMetricNames {
+  HTTP_REQUEST_DURATION = "azureMonitor.http.requestDuration",
+  HTTP_DEPENDENCY_DURATION = "azureMonitor.http.dependencyDuration",
+  EXCEPTION_COUNT = "azureMonitor.exceptionCount",
+  TRACE_COUNT = "azureMonitor.traceCount",
 }
 
 export enum PerformanceCounterMetricNames {
@@ -34,40 +39,4 @@ export enum PerformanceCounterMetricNames {
   PROCESS_TIME = "\\Process(??APP_WIN32_PROC??)\\% Processor Time",
   REQUEST_RATE = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Requests/Sec",
   REQUEST_DURATION = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Request Execution Time",
-}
-
-export type MetricDimensionTypeKeys =
-  | "cloudRoleInstance"
-  | "cloudRoleName"
-  | "requestSuccess"
-  | "requestResultCode"
-  | "dependencyType"
-  | "dependencyTarget"
-  | "dependencySuccess"
-  | "dependencyResultCode"
-  | "traceSeverityLevel"
-  | "operationSynthetic"
-  | "metricId"
-  | "IsAutocollected";
-
-export const StandardMetricPropertyNames: { [key in MetricDimensionTypeKeys]: string } = {
-  cloudRoleInstance: "cloud/roleInstance",
-  cloudRoleName: "cloud/roleName",
-  operationSynthetic: "operation/synthetic",
-  requestSuccess: "Request.Success",
-  requestResultCode: "request/resultCode",
-  dependencyType: "Dependency.Type",
-  dependencyTarget: "dependency/target",
-  dependencySuccess: "Dependency.Success",
-  dependencyResultCode: "dependency/resultCode",
-  traceSeverityLevel: "trace/severityLevel",
-  metricId: "_MS.MetricId",
-  IsAutocollected: "_MS.IsAutocollected",
-};
-
-export enum StandardMetricIds {
-  REQUEST_DURATION = "requests/duration",
-  DEPENDENCIES_DURATION = "dependencies/duration",
-  EXCEPTIONS_COUNT = "exceptions/count",
-  TRACES_COUNT = "traces/count",
 }

@@ -3,17 +3,13 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { InternalClientPipelineOptions } from "@azure/core-client";
-import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { bearerTokenAuthenticationPolicy, Pipeline } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { AnalyzeResult } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
-import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
-import { KnownSearchAudience } from "./searchAudience";
-import { SearchClient, SearchClientOptions as GetSearchClientOptions } from "./searchClient";
 import {
   AliasIterator,
   AnalyzeTextOptions,
@@ -44,6 +40,10 @@ import {
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
+import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
+import { SearchClientOptions as GetSearchClientOptions, SearchClient } from "./searchClient";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import { KnownSearchAudience } from "./searchAudience";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -91,15 +91,11 @@ export class SearchIndexClient {
   public readonly endpoint: string;
 
   /**
+   * @internal
    * @hidden
    * A reference to the auto-generated SearchServiceClient
    */
   private readonly client: GeneratedClient;
-
-  /**
-   * A reference to the internal HTTP pipeline for use with raw requests
-   */
-  public readonly pipeline: Pipeline;
 
   /**
    * Used to authenticate requests to the service.
@@ -162,7 +158,6 @@ export class SearchIndexClient {
       this.serviceVersion,
       internalClientPipelineOptions,
     );
-    this.pipeline = this.client.pipeline;
 
     if (isTokenCredential(credential)) {
       const scope: string = this.options.audience
@@ -737,15 +732,7 @@ export class SearchIndexClient {
    * @param options - Additional arguments
    */
   public async analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult> {
-    const {
-      abortSignal,
-      requestOptions,
-      tracingOptions,
-      analyzerName: analyzer,
-      tokenizerName: tokenizer,
-      ...restOptions
-    } = options;
-
+    const { abortSignal, requestOptions, tracingOptions, ...restOptions } = options;
     const operationOptions = {
       abortSignal,
       requestOptions,
@@ -753,11 +740,15 @@ export class SearchIndexClient {
     };
 
     const { span, updatedOptions } = createSpan("SearchIndexClient-analyzeText", operationOptions);
-
     try {
       const result = await this.client.indexes.analyze(
         indexName,
-        { ...restOptions, analyzer, tokenizer },
+        {
+          ...restOptions,
+          analyzer: restOptions.analyzerName,
+          tokenizer: restOptions.tokenizerName,
+          normalizer: restOptions.normalizerName,
+        },
         updatedOptions,
       );
       return result;

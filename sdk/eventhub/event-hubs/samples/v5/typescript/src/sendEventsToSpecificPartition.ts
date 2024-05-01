@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT Licence.
 
 /**
  * @summary Demonstrates how to send events to a specific partition in an Event Hub.

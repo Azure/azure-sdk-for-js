@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRestError } from "../src/restError.js";
+import { createRestError } from "../src/restError";
 import { PipelineRequest } from "@azure/core-rest-pipeline";
-import { describe, it, assert } from "vitest";
+import { assert } from "chai";
 
 describe("createRestError", () => {
   it("should create a rest error from a PathUnchecked response with standard error", () => {

@@ -13,10 +13,10 @@ import { Operation, OperationsListOptionalParams } from "../models";
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * Lists all available Notification Hubs operations.
+   * Lists all of the available NotificationHubs REST API operations.
    * @param options The options parameters.
    */
   list(
-    options?: OperationsListOptionalParams,
+    options?: OperationsListOptionalParams
   ): PagedAsyncIterableIterator<Operation>;
 }

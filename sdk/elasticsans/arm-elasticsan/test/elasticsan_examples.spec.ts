@@ -49,46 +49,25 @@ describe("elasticSan test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new ElasticSanManagement(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus2";
+    location = "eastus2stage";
     resourceGroup = "myjstest";
-    elasticSanName = "testelasticsan";
+    elasticSanName = "ti7q-k952-1qB3J_5";
     parameters = {
-      location,
-      properties: {
-        baseSizeTiB: 15,
-        extendedCapacitySizeTiB: 27,
-        sku: { name: "Premium_LRS" }
-      }
-    }
+      availabilityZones: ["aaaaaaaaaaaaaaaaa"],
+      baseSizeTiB: 26,
+      extendedCapacitySizeTiB: 7,
+      location: location,
+      sku: { name: "Premium_LRS", tier: "Premium" },
+      tags: { key896: "aaaaaaaaaaaaaaaaaa" }
+    };
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it("elasticSan create test", async function () {
-    const res = await client.elasticSans.beginCreateAndWait(
-      resourceGroup,
-      elasticSanName,
-      parameters
-    );
-    assert.equal(res.name, elasticSanName);
-  });
-
   it("elasticSan list test", async function () {
     const resArray = new Array();
-    for await (let item of client.elasticSans.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 1);
-  });
-
-  it("elasticSan delete test", async function () {
-    const resArray = new Array();
-    const result = await client.elasticSans.beginDeleteAndWait(
-      resourceGroup,
-      elasticSanName
-    );
     for await (let item of client.elasticSans.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

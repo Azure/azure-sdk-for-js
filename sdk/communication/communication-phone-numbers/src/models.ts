@@ -67,13 +67,6 @@ export interface ListLocalitiesOptions extends OperationOptions {
 }
 
 /**
- * Additional options for the search operator information request.
- */
-export interface SearchOperatorInformationOptions extends OperationOptions {
-  includeAdditionalOperatorDetails: boolean;
-}
-
-/**
  * Additional options that can be passed to list SIP routes.
  */
 export interface ListSipRoutesOptions extends OperationOptions {}
@@ -105,14 +98,8 @@ export {
   PhoneNumberOffering,
   PhoneNumberSearchRequest,
   PhoneNumberSearchResult,
-  PhoneNumberSearchResultError,
   PhoneNumberType,
   PurchasedPhoneNumber,
-  OperatorDetails,
-  OperatorInformation,
-  OperatorInformationOptions,
-  OperatorInformationResult,
-  OperatorNumberType,
 } from "./generated/src/models/";
 
 export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models";

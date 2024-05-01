@@ -3,14 +3,16 @@
 /**
  * @summary router job crud
  */
-import JobRouter, {
-  AzureCommunicationRoutingServiceClient,
-  QueueLengthExceptionTrigger
-} from "@azure-rest/communication-job-router";
-import * as dotenv from "dotenv";
+import { AzureCommunicationRoutingServiceClient, QueueLengthExceptionTrigger } from "../src";
+import JobRouter from "../src"; import * as dotenv from "dotenv";
 dotenv.config();
-
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+
+
+
+
+
+
 
 // Create a router job
 async function createRouterJob(): Promise<void> {

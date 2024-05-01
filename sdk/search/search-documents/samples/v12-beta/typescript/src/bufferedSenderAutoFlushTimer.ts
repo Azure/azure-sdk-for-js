@@ -6,15 +6,15 @@
  */
 
 import {
-  AzureKeyCredential,
-  DEFAULT_FLUSH_WINDOW,
-  GeographyPoint,
-  SearchClient,
-  SearchIndexClient,
   SearchIndexingBufferedSender,
+  AzureKeyCredential,
+  SearchClient,
+  GeographyPoint,
+  SearchIndexClient,
+  DEFAULT_FLUSH_WINDOW,
 } from "@azure/search-documents";
+import { createIndex, documentKeyRetriever, WAIT_TIME, delay } from "./setup";
 import { Hotel } from "./interfaces";
-import { createIndex, delay, documentKeyRetriever, WAIT_TIME } from "./setup";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -30,7 +30,7 @@ const endpoint = process.env.ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-5";
 
-export async function main(): Promise<void> {
+export async function main() {
   if (!endpoint || !apiKey) {
     console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
     return;
@@ -42,7 +42,7 @@ export async function main(): Promise<void> {
   const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
     endpoint,
     TEST_INDEX_NAME,
-    credential,
+    credential
   );
   const indexClient: SearchIndexClient = new SearchIndexClient(endpoint, credential);
 
@@ -55,7 +55,7 @@ export async function main(): Promise<void> {
       documentKeyRetriever,
       {
         autoFlush: true,
-      },
+      }
     );
 
     bufferedClient.on("batchAdded", (response: any) => {
@@ -76,7 +76,7 @@ export async function main(): Promise<void> {
       console.log(response);
     });
 
-    await bufferedClient.uploadDocuments([
+    bufferedClient.uploadDocuments([
       {
         hotelId: "1",
         description:
@@ -112,6 +112,7 @@ export async function main(): Promise<void> {
   } finally {
     await indexClient.deleteIndex(TEST_INDEX_NAME);
   }
+  await delay(WAIT_TIME);
 }
 
 main();

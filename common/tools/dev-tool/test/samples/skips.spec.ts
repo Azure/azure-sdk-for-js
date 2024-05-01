@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
+import { assert } from "chai";
+
 import { FileInfo } from "../../src/util/findMatchingFiles";
 import { shouldSkip } from "../../src/util/samples/configuration";
 

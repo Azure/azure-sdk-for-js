@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { HttpHeaders, RawHttpHeaders, RawHttpHeadersInput } from "./interfaces.js";
+import type { HttpHeaders, RawHttpHeaders, RawHttpHeadersInput } from "./interfaces";
 
 interface HeaderEntry {
   name: string;

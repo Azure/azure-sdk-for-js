@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import fs from "fs-extra";
-import path from "node:path";
+import path from "path";
+
 import { createPrinter } from "../../util/printer";
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { resolveProject } from "../../util/resolveProject";

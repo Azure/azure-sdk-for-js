@@ -23,7 +23,7 @@ import {
   DataFlowsGetOptionalParams,
   DataFlowsGetResponse,
   DataFlowsDeleteOptionalParams,
-  DataFlowsListByFactoryNextResponse,
+  DataFlowsListByFactoryNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,12 +48,12 @@ export class DataFlowsImpl implements DataFlows {
   public listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: DataFlowsListByFactoryOptionalParams,
+    options?: DataFlowsListByFactoryOptionalParams
   ): PagedAsyncIterableIterator<DataFlowResource> {
     const iter = this.listByFactoryPagingAll(
       resourceGroupName,
       factoryName,
-      options,
+      options
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class DataFlowsImpl implements DataFlows {
           resourceGroupName,
           factoryName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -80,7 +80,7 @@ export class DataFlowsImpl implements DataFlows {
     resourceGroupName: string,
     factoryName: string,
     options?: DataFlowsListByFactoryOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<DataFlowResource[]> {
     let result: DataFlowsListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class DataFlowsImpl implements DataFlows {
       result = await this._listByFactory(
         resourceGroupName,
         factoryName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -100,7 +100,7 @@ export class DataFlowsImpl implements DataFlows {
         resourceGroupName,
         factoryName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +112,12 @@ export class DataFlowsImpl implements DataFlows {
   private async *listByFactoryPagingAll(
     resourceGroupName: string,
     factoryName: string,
-    options?: DataFlowsListByFactoryOptionalParams,
+    options?: DataFlowsListByFactoryOptionalParams
   ): AsyncIterableIterator<DataFlowResource> {
     for await (const page of this.listByFactoryPagingPage(
       resourceGroupName,
       factoryName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -136,11 +136,11 @@ export class DataFlowsImpl implements DataFlows {
     factoryName: string,
     dataFlowName: string,
     dataFlow: DataFlowResource,
-    options?: DataFlowsCreateOrUpdateOptionalParams,
+    options?: DataFlowsCreateOrUpdateOptionalParams
   ): Promise<DataFlowsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, dataFlowName, dataFlow, options },
-      createOrUpdateOperationSpec,
+      createOrUpdateOperationSpec
     );
   }
 
@@ -155,11 +155,11 @@ export class DataFlowsImpl implements DataFlows {
     resourceGroupName: string,
     factoryName: string,
     dataFlowName: string,
-    options?: DataFlowsGetOptionalParams,
+    options?: DataFlowsGetOptionalParams
   ): Promise<DataFlowsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, dataFlowName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -174,11 +174,11 @@ export class DataFlowsImpl implements DataFlows {
     resourceGroupName: string,
     factoryName: string,
     dataFlowName: string,
-    options?: DataFlowsDeleteOptionalParams,
+    options?: DataFlowsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, dataFlowName, options },
-      deleteOperationSpec,
+      deleteOperationSpec
     );
   }
 
@@ -191,11 +191,11 @@ export class DataFlowsImpl implements DataFlows {
   private _listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: DataFlowsListByFactoryOptionalParams,
+    options?: DataFlowsListByFactoryOptionalParams
   ): Promise<DataFlowsListByFactoryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, options },
-      listByFactoryOperationSpec,
+      listByFactoryOperationSpec
     );
   }
 
@@ -210,11 +210,11 @@ export class DataFlowsImpl implements DataFlows {
     resourceGroupName: string,
     factoryName: string,
     nextLink: string,
-    options?: DataFlowsListByFactoryNextOptionalParams,
+    options?: DataFlowsListByFactoryNextOptionalParams
   ): Promise<DataFlowsListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, nextLink, options },
-      listByFactoryNextOperationSpec,
+      listByFactoryNextOperationSpec
     );
   }
 }
@@ -222,15 +222,16 @@ export class DataFlowsImpl implements DataFlows {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataFlowResource,
+      bodyMapper: Mappers.DataFlowResource
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.dataFlow,
   queryParameters: [Parameters.apiVersion],
@@ -239,26 +240,27 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.dataFlowName,
+    Parameters.dataFlowName
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch,
+    Parameters.ifMatch
   ],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataFlowResource,
+      bodyMapper: Mappers.DataFlowResource
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -266,20 +268,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.dataFlowName,
+    Parameters.dataFlowName
   ],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -287,50 +290,51 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.dataFlowName,
+    Parameters.dataFlowName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByFactoryOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataFlowListResponse,
+      bodyMapper: Mappers.DataFlowListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName,
+    Parameters.factoryName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataFlowListResponse,
+      bodyMapper: Mappers.DataFlowListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName,
+    Parameters.factoryName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

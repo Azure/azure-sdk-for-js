@@ -6,20 +6,20 @@ import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import { ImageAnalysisResultOutput } from "./outputModels";
 
 /** The request has succeeded. */
-export interface AnalyzeFromImageData200Response extends HttpResponse {
+export interface AnalyzeFromBuffer200Response extends HttpResponse {
   status: "200";
   body: ImageAnalysisResultOutput;
 }
 
-export interface AnalyzeFromImageDataDefaultHeaders {
+export interface AnalyzeFromBufferDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AnalyzeFromImageDataDefaultResponse extends HttpResponse {
+export interface AnalyzeFromBufferDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AnalyzeFromImageDataDefaultHeaders;
+  headers: RawHttpHeaders & AnalyzeFromBufferDefaultHeaders;
 }
 
 /** The request has succeeded. */

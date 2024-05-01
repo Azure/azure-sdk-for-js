@@ -13,13 +13,12 @@ import * as Parameters from "../models/parameters";
 import { MonitorClient } from "../monitorClient";
 import {
   PrivateLinkScopeOperationStatusGetOptionalParams,
-  PrivateLinkScopeOperationStatusGetResponse,
+  PrivateLinkScopeOperationStatusGetResponse
 } from "../models";
 
 /** Class containing PrivateLinkScopeOperationStatus operations. */
 export class PrivateLinkScopeOperationStatusImpl
-  implements PrivateLinkScopeOperationStatus
-{
+  implements PrivateLinkScopeOperationStatus {
   private readonly client: MonitorClient;
 
   /**
@@ -39,11 +38,11 @@ export class PrivateLinkScopeOperationStatusImpl
   get(
     asyncOperationId: string,
     resourceGroupName: string,
-    options?: PrivateLinkScopeOperationStatusGetOptionalParams,
+    options?: PrivateLinkScopeOperationStatusGetOptionalParams
   ): Promise<PrivateLinkScopeOperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       { asyncOperationId, resourceGroupName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 }
@@ -51,23 +50,24 @@ export class PrivateLinkScopeOperationStatusImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopeOperationStatuses/{asyncOperationId}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopeOperationStatuses/{asyncOperationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus,
+      bodyMapper: Mappers.OperationStatus
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.asyncOperationId,
+    Parameters.subscriptionId,
+    Parameters.asyncOperationId
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

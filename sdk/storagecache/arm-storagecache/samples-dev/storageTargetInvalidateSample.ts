@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Invalidate all cached data for a storage target. Cached files are discarded and fetched from the back end on the next request.
  *
  * @summary Invalidate all cached data for a storage target. Cached files are discarded and fetched from the back end on the next request.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/StorageTargets_Invalidate.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2023-05-01/examples/StorageTargets_Invalidate.json
  */
 async function storageTargetsInvalidate() {
   const subscriptionId =

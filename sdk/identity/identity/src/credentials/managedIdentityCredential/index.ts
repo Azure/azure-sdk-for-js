@@ -2,29 +2,29 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AppTokenProviderParameters, ConfidentialClientApplication } from "@azure/msal-node";
+
+import { IdentityClient } from "../../client/identityClient";
+import { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import {
   AuthenticationError,
   AuthenticationRequiredError,
   CredentialUnavailableError,
 } from "../../errors";
-import { MSI, MSIConfiguration, MSIToken } from "./models";
-import { MsalResult, MsalToken, ValidMsalToken } from "../../msal/types";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
-
-import { DeveloperSignOnClientId } from "../../constants";
-import { IdentityClient } from "../../client/identityClient";
-import { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
-import { appServiceMsi2019 } from "./appServiceMsi2019";
-import { arcMsi } from "./arcMsi";
-import { cloudShellMsi } from "./cloudShellMsi";
-import { fabricMsi } from "./fabricMsi";
-import { getLogLevel } from "@azure/logger";
-import { getMSALLogLevel } from "../../msal/utils";
-import { imdsMsi } from "./imdsMsi";
-import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { tracingClient } from "../../util/tracing";
+import { cloudShellMsi } from "./cloudShellMsi";
+import { imdsMsi } from "./imdsMsi";
+import { MSI, MSIToken } from "./models";
+import { arcMsi } from "./arcMsi";
+import { tokenExchangeMsi } from "./tokenExchangeMsi";
+import { fabricMsi } from "./fabricMsi";
+import { appServiceMsi2019 } from "./appServiceMsi2019";
+import { AppTokenProviderParameters, ConfidentialClientApplication } from "@azure/msal-node";
+import { DeveloperSignOnClientId } from "../../constants";
+import { MsalResult, MsalToken } from "../../msal/types";
+import { getMSALLogLevel } from "../../msal/utils";
+import { getLogLevel } from "@azure/logger";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -70,11 +70,6 @@ export class ManagedIdentityCredential implements TokenCredential {
   private isAvailableIdentityClient: IdentityClient;
   private confidentialApp: ConfidentialClientApplication;
   private isAppTokenProviderInitialized: boolean = false;
-  private msiRetryConfig: MSIConfiguration["retryConfig"] = {
-    maxRetries: 5,
-    startDelayInMs: 800,
-    intervalIncrement: 2,
-  };
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -121,9 +116,6 @@ export class ManagedIdentityCredential implements TokenCredential {
       throw new Error(
         `${ManagedIdentityCredential.name} - Client Id and Resource Id can't be provided at the same time.`,
       );
-    }
-    if (_options?.retryOptions?.maxRetries !== undefined) {
-      this.msiRetryConfig.maxRetries = _options.retryOptions.maxRetries;
     }
     this.identityClient = new IdentityClient(_options);
     this.isAvailableIdentityClient = new IdentityClient({
@@ -213,7 +205,6 @@ export class ManagedIdentityCredential implements TokenCredential {
           scopes,
           clientId: this.clientId,
           resourceId: this.resourceId,
-          retryConfig: this.msiRetryConfig,
         },
         updatedOptions,
       );
@@ -347,10 +338,10 @@ export class ManagedIdentityCredential implements TokenCredential {
         );
       }
 
-      // This is a special case for Docker Desktop which responds with a 403 with a message that contains "A socket operation was attempted to an unreachable network" or "A socket operation was attempted to an unreachable host"
+      // This is a special case for Docker Desktop which responds with a 403 with a message that contains "A socket operation was attempted to an unreachable network"
       // rather than just timing out, as expected.
       if (err.statusCode === 403 || err.code === 403) {
-        if (err.message.includes("unreachable")) {
+        if (err.message.includes("A socket operation was attempted to an unreachable network")) {
           const error = new CredentialUnavailableError(
             `${ManagedIdentityCredential.name}: Unavailable. Network unreachable. Message: ${err.message}`,
           );
@@ -392,19 +383,20 @@ export class ManagedIdentityCredential implements TokenCredential {
     this.ensureValidMsalToken(scopes, result, getTokenOptions);
     logger.getToken.info(formatSuccess(scopes));
     return {
-      token: result.accessToken,
-      expiresOnTimestamp: result.expiresOn.getTime(),
+      token: result!.accessToken!,
+      expiresOnTimestamp: result!.expiresOn!.getTime(),
     };
   }
 
   /**
    * Ensures the validity of the MSAL token
+   * @internal
    */
   private ensureValidMsalToken(
     scopes: string | string[],
     msalToken?: MsalToken,
     getTokenOptions?: GetTokenOptions,
-  ): asserts msalToken is ValidMsalToken {
+  ): void {
     const error = (message: string): Error => {
       logger.getToken.info(message);
       return new AuthenticationRequiredError({

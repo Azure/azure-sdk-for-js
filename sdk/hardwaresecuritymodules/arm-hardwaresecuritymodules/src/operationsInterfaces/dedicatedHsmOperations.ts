@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DedicatedHsm,
   DedicatedHsmListByResourceGroupOptionalParams,
@@ -68,8 +68,8 @@ export interface DedicatedHsmOperations {
     parameters: DedicatedHsm,
     options?: DedicatedHsmCreateOrUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<DedicatedHsmCreateOrUpdateResponse>,
+    PollerLike<
+      PollOperationState<DedicatedHsmCreateOrUpdateResponse>,
       DedicatedHsmCreateOrUpdateResponse
     >
   >;
@@ -97,8 +97,8 @@ export interface DedicatedHsmOperations {
     name: string,
     options?: DedicatedHsmUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<DedicatedHsmUpdateResponse>,
+    PollerLike<
+      PollOperationState<DedicatedHsmUpdateResponse>,
       DedicatedHsmUpdateResponse
     >
   >;
@@ -123,7 +123,7 @@ export interface DedicatedHsmOperations {
     resourceGroupName: string,
     name: string,
     options?: DedicatedHsmDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes the specified Azure Dedicated HSM.
    * @param resourceGroupName The name of the Resource Group to which the dedicated HSM belongs.

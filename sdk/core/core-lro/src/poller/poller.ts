@@ -10,9 +10,9 @@ import {
   RestorableOperationState,
   SimplePollerLike,
   StateProxy,
-} from "./models.js";
-import { deserializeState, initOperation, pollOperation } from "./operation.js";
-import { POLL_INTERVAL_IN_MS } from "./constants.js";
+} from "./models";
+import { deserializeState, initOperation, pollOperation } from "./operation";
+import { POLL_INTERVAL_IN_MS } from "./constants";
 import { delay } from "@azure/core-util";
 
 const createStateProxy: <TResult, TState extends OperationState<TResult>>() => StateProxy<

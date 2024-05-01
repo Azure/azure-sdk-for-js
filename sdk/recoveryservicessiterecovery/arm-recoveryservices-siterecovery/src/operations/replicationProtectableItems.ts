@@ -20,14 +20,13 @@ import {
   ReplicationProtectableItemsListByReplicationProtectionContainersResponse,
   ReplicationProtectableItemsGetOptionalParams,
   ReplicationProtectableItemsGetResponse,
-  ReplicationProtectableItemsListByReplicationProtectionContainersNextResponse,
+  ReplicationProtectableItemsListByReplicationProtectionContainersNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReplicationProtectableItems operations. */
 export class ReplicationProtectableItemsImpl
-  implements ReplicationProtectableItems
-{
+  implements ReplicationProtectableItems {
   private readonly client: SiteRecoveryManagementClient;
 
   /**
@@ -52,14 +51,14 @@ export class ReplicationProtectableItemsImpl
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams,
+    options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams
   ): PagedAsyncIterableIterator<ProtectableItem> {
     const iter = this.listByReplicationProtectionContainersPagingAll(
       resourceName,
       resourceGroupName,
       fabricName,
       protectionContainerName,
-      options,
+      options
     );
     return {
       next() {
@@ -78,9 +77,9 @@ export class ReplicationProtectableItemsImpl
           fabricName,
           protectionContainerName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -90,7 +89,7 @@ export class ReplicationProtectableItemsImpl
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<ProtectableItem[]> {
     let result: ReplicationProtectableItemsListByReplicationProtectionContainersResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +99,7 @@ export class ReplicationProtectableItemsImpl
         resourceGroupName,
         fabricName,
         protectionContainerName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -114,7 +113,7 @@ export class ReplicationProtectableItemsImpl
         fabricName,
         protectionContainerName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -128,14 +127,14 @@ export class ReplicationProtectableItemsImpl
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams,
+    options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams
   ): AsyncIterableIterator<ProtectableItem> {
     for await (const page of this.listByReplicationProtectionContainersPagingPage(
       resourceName,
       resourceGroupName,
       fabricName,
       protectionContainerName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -155,17 +154,19 @@ export class ReplicationProtectableItemsImpl
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams,
-  ): Promise<ReplicationProtectableItemsListByReplicationProtectionContainersResponse> {
+    options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams
+  ): Promise<
+    ReplicationProtectableItemsListByReplicationProtectionContainersResponse
+  > {
     return this.client.sendOperationRequest(
       {
         resourceName,
         resourceGroupName,
         fabricName,
         protectionContainerName,
-        options,
+        options
       },
-      listByReplicationProtectionContainersOperationSpec,
+      listByReplicationProtectionContainersOperationSpec
     );
   }
 
@@ -185,7 +186,7 @@ export class ReplicationProtectableItemsImpl
     fabricName: string,
     protectionContainerName: string,
     protectableItemName: string,
-    options?: ReplicationProtectableItemsGetOptionalParams,
+    options?: ReplicationProtectableItemsGetOptionalParams
   ): Promise<ReplicationProtectableItemsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -194,9 +195,9 @@ export class ReplicationProtectableItemsImpl
         fabricName,
         protectionContainerName,
         protectableItemName,
-        options,
+        options
       },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -217,8 +218,10 @@ export class ReplicationProtectableItemsImpl
     fabricName: string,
     protectionContainerName: string,
     nextLink: string,
-    options?: ReplicationProtectableItemsListByReplicationProtectionContainersNextOptionalParams,
-  ): Promise<ReplicationProtectableItemsListByReplicationProtectionContainersNextResponse> {
+    options?: ReplicationProtectableItemsListByReplicationProtectionContainersNextOptionalParams
+  ): Promise<
+    ReplicationProtectableItemsListByReplicationProtectionContainersNextResponse
+  > {
     return this.client.sendOperationRequest(
       {
         resourceName,
@@ -226,48 +229,49 @@ export class ReplicationProtectableItemsImpl
         fabricName,
         protectionContainerName,
         nextLink,
-        options,
+        options
       },
-      listByReplicationProtectionContainersNextOperationSpec,
+      listByReplicationProtectionContainersNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByReplicationProtectionContainersOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectableItems",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ProtectableItemCollection,
-      },
-    },
-    queryParameters: [
-      Parameters.apiVersion,
-      Parameters.filter,
-      Parameters.take,
-      Parameters.skipToken1,
-    ],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.resourceName,
-      Parameters.fabricName,
-      Parameters.protectionContainerName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectableItems/{protectableItemName}",
+const listByReplicationProtectionContainersOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectableItems",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectableItem,
-    },
+      bodyMapper: Mappers.ProtectableItemCollection
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.take,
+    Parameters.skipToken1
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName,
+    Parameters.fabricName,
+    Parameters.protectionContainerName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectableItems/{protectableItemName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProtectableItem
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -277,29 +281,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.protectableItemName,
+    Parameters.protectableItemName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
-const listByReplicationProtectionContainersNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ProtectableItemCollection,
-      },
-    },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.resourceName,
-      Parameters.fabricName,
-      Parameters.protectionContainerName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+const listByReplicationProtectionContainersNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProtectableItemCollection
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.resourceName,
+    Parameters.fabricName,
+    Parameters.protectionContainerName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};

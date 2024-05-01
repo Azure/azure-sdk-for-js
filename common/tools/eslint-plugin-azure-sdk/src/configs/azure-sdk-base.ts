@@ -22,7 +22,7 @@ export default {
   ignorePatterns: ["**/generated/**"],
   overrides: [
     {
-      files: ["*.ts", "*.cts", "*.mts", "*.tsx", "*.json"],
+      files: ["*.ts", "*.tsx", "*.json"],
       parserOptions: {
         project: [
           "./tsconfig.json",
@@ -141,7 +141,7 @@ export default {
     },
     {
       files: ["**/*.md/*.{js,javascript}"],
-      extends: ["plugin:markdown/recommended-legacy"],
+      extends: ["plugin:markdown/recommended"],
       rules: {
         "no-restricted-imports": [
           "error",

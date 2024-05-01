@@ -3,21 +3,21 @@
 
 import {
   FormDataMap,
-  FormDataValue,
   HttpClient,
   HttpMethods,
   PipelineRequest,
   PipelineResponse,
+  RawHttpHeaders,
   RequestBodyType,
-} from "../interfaces.js";
-import { RestError } from "../restError.js";
-import { Pipeline } from "../pipeline.js";
-import { createHttpHeaders } from "../httpHeaders.js";
-import { createPipelineRequest } from "../pipelineRequest.js";
-import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
-import { isReadableStream } from "../util/typeGuards.js";
-import { HttpResponse, RequestParameters } from "./common.js";
-import { createFile } from "../util/file.js";
+} from "../interfaces";
+import { RestError } from "../restError";
+import { Pipeline } from "../pipeline";
+import { createHttpHeaders } from "../httpHeaders";
+import { createPipelineRequest } from "../pipelineRequest";
+import { getCachedDefaultHttpsClient } from "./clientHelpers";
+import { isReadableStream } from "../util/typeGuards";
+import { HttpResponse, RequestParameters } from "./common";
+import { binaryArrayToString } from "./helpers/getBinaryBody";
 
 /**
  * Helper function to send request used by the client
@@ -32,41 +32,63 @@ export async function sendRequest(
   method: HttpMethods,
   url: string,
   pipeline: Pipeline,
-  options: InternalRequestParameters = {},
+  options: RequestParameters = {},
   customHttpClient?: HttpClient,
 ): Promise<HttpResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
+
   const response = await pipeline.sendRequest(httpClient, request);
-  const headers = response.headers.toJSON();
-  const stream = response.readableStreamBody ?? response.browserStreamBody;
-  const parsedBody =
-    options.responseAsStream || stream !== undefined ? undefined : getResponseBody(response);
-  const body = stream ?? parsedBody;
+
+  const rawHeaders: RawHttpHeaders = response.headers.toJSON();
+
+  const parsedBody: RequestBodyType | undefined = getResponseBody(response);
 
   if (options?.onResponse) {
-    options.onResponse({ ...response, request, rawHeaders: headers, parsedBody });
+    options.onResponse({ ...response, request, rawHeaders, parsedBody });
   }
 
   return {
     request,
-    headers,
+    headers: rawHeaders,
     status: `${response.status}`,
-    body,
+    body: parsedBody,
   };
 }
 
 /**
- * Function to determine the request content type
- * @param options - request options InternalRequestParameters
- * @returns returns the content-type
+ * Helper function to send request used by the client
+ * @param method - method to use to send the request
+ * @param url - url to send the request to
+ * @param pipeline - pipeline with the policies to run when sending the request
+ * @param options - request options
+ * @param customHttpClient - a custom HttpClient to use when making the request
+ * @returns returns and HttpResponse
  */
-function getRequestContentType(options: InternalRequestParameters = {}): string {
-  return (
-    options.contentType ??
-    (options.headers?.["content-type"] as string) ??
-    getContentType(options.body)
-  );
+export async function sendRequestAsStream<
+  TResponse extends HttpResponse & {
+    body: NodeJS.ReadableStream | ReadableStream<Uint8Array> | undefined;
+  },
+>(
+  method: HttpMethods,
+  url: string,
+  pipeline: Pipeline,
+  options: RequestParameters = {},
+  customHttpClient?: HttpClient,
+): Promise<TResponse> {
+  const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
+  const request = buildPipelineRequest(method, url, { ...options, responseAsStream: true });
+  const response = await pipeline.sendRequest(httpClient, request);
+  const rawHeaders: RawHttpHeaders = response.headers.toJSON();
+
+  const parsedBody = response.browserStreamBody ?? response.readableStreamBody;
+
+  return {
+    request,
+    headers: rawHeaders,
+    status: `${response.status}`,
+    body: parsedBody,
+  } as TResponse;
 }
 
 /**
@@ -75,20 +97,11 @@ function getRequestContentType(options: InternalRequestParameters = {}): string 
  * @param body - body in the request
  * @returns returns the content-type
  */
-function getContentType(body: any): string | undefined {
+function getContentType(body: any): string {
   if (ArrayBuffer.isView(body)) {
     return "application/octet-stream";
   }
 
-  if (typeof body === "string") {
-    try {
-      JSON.parse(body);
-      return "application/json; charset=UTF-8";
-    } catch (error: any) {
-      // If we fail to parse the body, it is not json
-      return undefined;
-    }
-  }
   // By default return json
   return "application/json; charset=UTF-8";
 }
@@ -102,17 +115,15 @@ function buildPipelineRequest(
   url: string,
   options: InternalRequestParameters = {},
 ): PipelineRequest {
-  const requestContentType = getRequestContentType(options);
-  const { body, formData } = getRequestBody(options.body, requestContentType);
+  const { body, formData } = getRequestBody(options.body, options.contentType);
   const hasContent = body !== undefined || formData !== undefined;
 
   const headers = createHttpHeaders({
     ...(options.headers ? options.headers : {}),
-    accept: options.accept ?? options.headers?.accept ?? "application/json",
-    ...(hasContent &&
-      requestContentType && {
-        "content-type": requestContentType,
-      }),
+    accept: options.accept ?? "application/json",
+    ...(hasContent && {
+      "content-type": options.contentType ?? getContentType(options.body),
+    }),
   });
 
   return createPipelineRequest({
@@ -151,6 +162,10 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
     return { body };
   }
 
+  if (!contentType && typeof body === "string") {
+    return { body };
+  }
+
   const firstType = contentType.split(";")[0];
 
   if (firstType === "application/json") {
@@ -158,12 +173,16 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   }
 
   if (ArrayBuffer.isView(body)) {
-    return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
+    if (body instanceof Uint8Array) {
+      return { body: binaryArrayToString(body) };
+    } else {
+      return { body: JSON.stringify(body) };
+    }
   }
 
   switch (firstType) {
     case "multipart/form-data":
-      return isRLCFormDataInput(body)
+      return isFormData(body)
         ? { formData: processFormData(body) }
         : { body: JSON.stringify(body) };
     case "text/plain":
@@ -176,54 +195,28 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   }
 }
 
-/**
- * Union of possible input types for multipart/form-data values that are accepted by RLCs.
- * This extends the default FormDataValue type to include Uint8Array, which is accepted as an input by RLCs.
- */
-type RLCFormDataValue = FormDataValue | Uint8Array;
-
-/**
- * Input shape for a form data body type as generated by an RLC
- */
-type RLCFormDataInput = Record<string, RLCFormDataValue | RLCFormDataValue[]>;
-
-function isRLCFormDataValue(value: unknown): value is RLCFormDataValue {
-  return (
-    typeof value === "string" ||
-    value instanceof Uint8Array ||
-    // We don't do `instanceof Blob` since we should also accept polyfills of e.g. File in Node.
-    typeof (value as Blob).stream === "function"
-  );
-}
-
-function isRLCFormDataInput(body: unknown): body is RLCFormDataInput {
-  return (
-    body !== undefined &&
-    body instanceof Object &&
-    Object.values(body).every(
-      (value) =>
-        isRLCFormDataValue(value) || (Array.isArray(value) && value.every(isRLCFormDataValue)),
-    )
-  );
-}
-
-function processFormDataValue(value: RLCFormDataValue): FormDataValue {
-  return value instanceof Uint8Array ? createFile(value, "blob") : value;
+function isFormData(body: unknown): body is FormDataMap {
+  return body instanceof Object && Object.keys(body).length > 0;
 }
 
 /**
- * Checks if binary data is in Uint8Array format, if so wrap it in a Blob
+ * Checks if binary data is in Uint8Array format, if so decode it to a binary string
  * to send over the wire
  */
-function processFormData(formData: RLCFormDataInput): FormDataMap {
+function processFormData(formData?: FormDataMap) {
+  if (!formData) {
+    return formData;
+  }
+
   const processedFormData: FormDataMap = {};
 
   for (const element in formData) {
-    const value = formData[element];
-
-    processedFormData[element] = Array.isArray(value)
-      ? value.map(processFormDataValue)
-      : processFormDataValue(value);
+    const item = formData[element];
+    if (item instanceof Uint8Array) {
+      processedFormData[element] = binaryArrayToString(item);
+    } else {
+      processedFormData[element] = item;
+    }
   }
 
   return processedFormData;

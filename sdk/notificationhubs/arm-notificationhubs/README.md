@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure NotificationHubsManagement client.
 
-Microsoft Notification Hubs Resource Provider REST API.
+Azure NotificationHub client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/arm-notificationhubs) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-notificationhubs) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-notificationhubs?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-notificationhubs) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

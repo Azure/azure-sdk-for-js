@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LroEngineOptions, PollerConfig } from "./models.js";
-import { GenericPollOperation } from "./operation.js";
-import { LongRunningOperation } from "../../http/models.js";
-import { POLL_INTERVAL_IN_MS } from "../../poller/constants.js";
-import { PollOperationState } from "../pollOperation.js";
-import { Poller } from "../poller.js";
-import { RestorableOperationState } from "../../poller/models.js";
-import { deserializeState } from "../../poller/operation.js";
+import { LroEngineOptions, PollerConfig } from "./models";
+import { GenericPollOperation } from "./operation";
+import { LongRunningOperation } from "../../http/models";
+import { POLL_INTERVAL_IN_MS } from "../../poller/constants";
+import { PollOperationState } from "../pollOperation";
+import { Poller } from "../poller";
+import { RestorableOperationState } from "../../poller/models";
+import { deserializeState } from "../../poller/operation";
 
 /**
  * The LRO Engine, a class that performs polling.

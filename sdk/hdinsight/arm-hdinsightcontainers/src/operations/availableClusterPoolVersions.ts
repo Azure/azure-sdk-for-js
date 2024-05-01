@@ -18,14 +18,13 @@ import {
   AvailableClusterPoolVersionsListByLocationNextOptionalParams,
   AvailableClusterPoolVersionsListByLocationOptionalParams,
   AvailableClusterPoolVersionsListByLocationResponse,
-  AvailableClusterPoolVersionsListByLocationNextResponse,
+  AvailableClusterPoolVersionsListByLocationNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailableClusterPoolVersions operations. */
 export class AvailableClusterPoolVersionsImpl
-  implements AvailableClusterPoolVersions
-{
+  implements AvailableClusterPoolVersions {
   private readonly client: HDInsightContainersManagementClient;
 
   /**
@@ -43,7 +42,7 @@ export class AvailableClusterPoolVersionsImpl
    */
   public listByLocation(
     location: string,
-    options?: AvailableClusterPoolVersionsListByLocationOptionalParams,
+    options?: AvailableClusterPoolVersionsListByLocationOptionalParams
   ): PagedAsyncIterableIterator<ClusterPoolVersion> {
     const iter = this.listByLocationPagingAll(location, options);
     return {
@@ -58,14 +57,14 @@ export class AvailableClusterPoolVersionsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByLocationPagingPage(location, options, settings);
-      },
+      }
     };
   }
 
   private async *listByLocationPagingPage(
     location: string,
     options?: AvailableClusterPoolVersionsListByLocationOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<ClusterPoolVersion[]> {
     let result: AvailableClusterPoolVersionsListByLocationResponse;
     let continuationToken = settings?.continuationToken;
@@ -80,7 +79,7 @@ export class AvailableClusterPoolVersionsImpl
       result = await this._listByLocationNext(
         location,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -91,7 +90,7 @@ export class AvailableClusterPoolVersionsImpl
 
   private async *listByLocationPagingAll(
     location: string,
-    options?: AvailableClusterPoolVersionsListByLocationOptionalParams,
+    options?: AvailableClusterPoolVersionsListByLocationOptionalParams
   ): AsyncIterableIterator<ClusterPoolVersion> {
     for await (const page of this.listByLocationPagingPage(location, options)) {
       yield* page;
@@ -105,11 +104,11 @@ export class AvailableClusterPoolVersionsImpl
    */
   private _listByLocation(
     location: string,
-    options?: AvailableClusterPoolVersionsListByLocationOptionalParams,
+    options?: AvailableClusterPoolVersionsListByLocationOptionalParams
   ): Promise<AvailableClusterPoolVersionsListByLocationResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listByLocationOperationSpec,
+      listByLocationOperationSpec
     );
   }
 
@@ -122,11 +121,11 @@ export class AvailableClusterPoolVersionsImpl
   private _listByLocationNext(
     location: string,
     nextLink: string,
-    options?: AvailableClusterPoolVersionsListByLocationNextOptionalParams,
+    options?: AvailableClusterPoolVersionsListByLocationNextOptionalParams
   ): Promise<AvailableClusterPoolVersionsListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listByLocationNextOperationSpec,
+      listByLocationNextOperationSpec
     );
   }
 }
@@ -134,42 +133,43 @@ export class AvailableClusterPoolVersionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/availableClusterPoolVersions",
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/availableClusterPoolVersions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterPoolVersionsListResult,
+      bodyMapper: Mappers.ClusterPoolVersionsListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterPoolVersionsListResult,
+      bodyMapper: Mappers.ClusterPoolVersionsListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location,
+    Parameters.location
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

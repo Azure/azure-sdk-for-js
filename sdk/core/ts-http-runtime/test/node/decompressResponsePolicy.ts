@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, expect, vi } from "vitest";
-import { SendRequest, createPipelineRequest, decompressResponsePolicy } from "../../src/index.js";
+import { assert } from "chai";
+import * as sinon from "sinon";
+import { SendRequest, createPipelineRequest, decompressResponsePolicy } from "../../src";
 
 describe("decompressResponsePolicy (node)", function () {
   it("Sets the expected flag on the request", function () {
@@ -14,10 +15,11 @@ describe("decompressResponsePolicy (node)", function () {
 
     assert.isFalse(request.headers.has("Accept-Encoding"), "acceptEncoding is set.");
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+
     policy.sendRequest(request, next);
 
-    expect(next).toBeCalledWith(request);
+    assert.isTrue(next.calledOnceWith(request), "next called with request");
     assert.strictEqual(request.headers.get("Accept-Encoding"), "gzip,deflate");
   });
 });

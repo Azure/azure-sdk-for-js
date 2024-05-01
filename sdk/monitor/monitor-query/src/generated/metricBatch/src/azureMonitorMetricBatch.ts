@@ -11,7 +11,7 @@ import { MetricsBatch } from "./operationsInterfaces";
 import { AzureMonitorMetricBatchContext } from "./azureMonitorMetricBatchContext";
 import {
   AzureMonitorMetricBatchOptionalParams,
-  ApiVersion20240201
+  ApiVersion20230501Preview
 } from "./models";
 
 /** @internal */
@@ -26,7 +26,7 @@ export class AzureMonitorMetricBatch extends AzureMonitorMetricBatchContext {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20240201,
+    apiVersion: ApiVersion20230501Preview,
     options?: AzureMonitorMetricBatchOptionalParams
   ) {
     super(endpoint, apiVersion, options);

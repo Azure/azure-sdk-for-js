@@ -53,14 +53,14 @@ async function createIndex(client, name) {
         name: "descriptionVectorEn",
         searchable: true,
         vectorSearchDimensions: 1536,
-        vectorSearchProfileName: "vector-search-profile",
+        vectorSearchProfile: "vector-search-profile",
       },
       {
         type: "Collection(Edm.Single)",
         name: "descriptionVectorFr",
         searchable: true,
         vectorSearchDimensions: 1536,
-        vectorSearchProfileName: "vector-search-profile",
+        vectorSearchProfile: "vector-search-profile",
       },
       {
         type: "Edm.String",
@@ -254,15 +254,15 @@ async function createIndex(client, name) {
           kind: "azureOpenAI",
           azureOpenAIParameters: {
             resourceUri: env.AZURE_OPENAI_ENDPOINT,
-            apiKey: env.AZURE_OPENAI_KEY,
-            deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
+            apiKey: env.OPENAI_KEY,
+            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
           },
         },
       ],
       profiles: [
         {
           name: "vector-search-profile",
-          algorithmConfigurationName: "vector-search-algorithm",
+          algorithm: "vector-search-algorithm",
           vectorizer: "vector-search-vectorizer",
         },
       ],

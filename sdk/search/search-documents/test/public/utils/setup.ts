@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { OpenAIClient } from "@azure/openai";
-import { assert } from "chai";
 import {
   GeographyPoint,
   KnownAnalyzerNames,
@@ -12,9 +9,11 @@ import {
   SearchIndexClient,
   SearchIndexerClient,
 } from "../../../src";
-import { delay } from "../../../src/serviceUtils";
-import { COMPRESSION_DISABLED } from "../../compressionDisabled";
 import { Hotel } from "./interfaces";
+import { delay } from "../../../src/serviceUtils";
+import { assert } from "chai";
+import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { OpenAIClient } from "@azure/openai";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 
@@ -24,12 +23,6 @@ export async function createIndex(
   name: string,
   serviceVersion: string,
 ): Promise<void> {
-  const algorithmConfigurationName = "algorithm-configuration-name";
-  const vectorizerName = "vectorizer-name";
-  const vectorSearchProfileName = "profile-name";
-  const compressedVectorSearchProfileName = "compressed-profile-name";
-  const compressionConfigurationName = "compression-configuration-name";
-
   const hotelIndex: SearchIndex = {
     name,
     fields: [
@@ -208,23 +201,6 @@ export async function createIndex(
           },
         ],
       },
-      {
-        type: "Collection(Edm.Single)",
-        name: "vectorDescription",
-        searchable: true,
-        vectorSearchDimensions: 1536,
-        hidden: true,
-        vectorSearchProfileName,
-      },
-      {
-        type: "Collection(Edm.Half)",
-        name: "compressedVectorDescription",
-        searchable: true,
-        hidden: true,
-        vectorSearchDimensions: 1536,
-        vectorSearchProfileName: compressedVectorSearchProfileName,
-        stored: false,
-      },
     ],
     suggesters: [
       {
@@ -254,77 +230,57 @@ export async function createIndex(
       // for browser tests
       allowedOrigins: ["*"],
     },
-    vectorSearch: {
+  };
+
+  if (serviceVersion.includes("Preview")) {
+    const algorithm = "algorithm-configuration";
+    const vectorizer = "vectorizer";
+    const profile = "profile";
+
+    hotelIndex.fields.push({
+      type: "Collection(Edm.Single)",
+      name: "vectorDescription",
+      searchable: true,
+      vectorSearchDimensions: 1536,
+      hidden: true,
+      vectorSearchProfile: profile,
+    });
+
+    hotelIndex.vectorSearch = {
       algorithms: [
         {
-          name: algorithmConfigurationName,
-          kind: "hnsw",
+          name: algorithm,
+          kind: "exhaustiveKnn",
           parameters: {
             metric: "dotProduct",
           },
         },
       ],
-      vectorizers: serviceVersion.includes("Preview")
-        ? [
-            {
-              kind: "azureOpenAI",
-              name: vectorizerName,
-              azureOpenAIParameters: {
-                apiKey: env.AZURE_OPENAI_KEY,
-                deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
-                resourceUri: env.AZURE_OPENAI_ENDPOINT,
-              },
-            },
-          ]
-        : undefined,
-      compressions: [
+      vectorizers: [
         {
-          name: compressionConfigurationName,
-          kind: "scalarQuantization",
-          parameters: { quantizedDataType: "int8" },
-          rerankWithOriginalVectors: true,
+          kind: "azureOpenAI",
+          name: vectorizer,
+          azureOpenAIParameters: {
+            apiKey: env.OPENAI_KEY,
+            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
+            resourceUri: env.OPENAI_ENDPOINT,
+          },
         },
       ],
-      profiles: [
-        {
-          name: vectorSearchProfileName,
-          vectorizer: serviceVersion.includes("Preview") ? vectorizerName : undefined,
-          algorithmConfigurationName,
-        },
-        {
-          name: compressedVectorSearchProfileName,
-          vectorizer: serviceVersion.includes("Preview") ? vectorizerName : undefined,
-          algorithmConfigurationName,
-          compressionConfigurationName,
-        },
-      ],
-    },
-    semanticSearch: {
+      profiles: [{ name: profile, vectorizer, algorithm }],
+    };
+    hotelIndex.semanticSettings = {
       configurations: [
         {
           name: "semantic-configuration-name",
           prioritizedFields: {
             titleField: { name: "hotelName" },
-            contentFields: [{ name: "description" }],
-            keywordsFields: [{ name: "tags" }],
+            prioritizedContentFields: [{ name: "description" }],
+            prioritizedKeywordsFields: [{ name: "tags" }],
           },
         },
       ],
-    },
-  };
-
-  // This feature isn't publically available yet
-  if (COMPRESSION_DISABLED) {
-    hotelIndex.fields = hotelIndex.fields.filter(
-      (field) => field.name !== "compressedVectorDescription",
-    );
-    const vs = hotelIndex.vectorSearch;
-    if (vs) {
-      delete vs.compressions;
-      vs.profiles = vs.profiles?.filter(
-        (profile) => profile.name !== compressedVectorSearchProfileName,
-      );
-    }
+    };
   }
 
   await client.createIndex(hotelIndex);
@@ -334,6 +290,7 @@ export async function createIndex(
 export async function populateIndex(
   client: SearchClient<Hotel>,
   openAIClient: OpenAIClient,
+  serviceVersion: string,
 ): Promise<void> {
   // test data from https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/search/Azure.Search.Documents/tests/Utilities/SearchResources.Data.cs
   const testDocuments: Hotel[] = [
@@ -538,7 +495,7 @@ export async function populateIndex(
     },
   ];
 
-  if (!isLiveMode()) {
+  if (serviceVersion.includes("Preview") && !isLiveMode()) {
     await addVectorDescriptions(testDocuments, openAIClient);
   }
 
@@ -557,22 +514,29 @@ async function addVectorDescriptions(
   documents: Hotel[],
   openAIClient: OpenAIClient,
 ): Promise<void> {
-  const deploymentName = process.env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
+  const deploymentName = process.env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
+
+  const descriptionMap: Map<number, Hotel> = documents.reduce((map, document, i) => {
+    map.set(i, document);
+    return map;
+  }, new Map<number, Hotel>());
 
   const descriptions = documents
     .filter(({ description }) => description)
     .map(({ description }) => description!);
 
-  const embeddingsArray = await openAIClient.getEmbeddings(deploymentName, descriptions);
+  // OpenAI only supports one description at a time at the moment
+  const embeddingsArray = await Promise.all(
+    descriptions.map((description) => openAIClient.getEmbeddings(deploymentName, [description])),
+  );
 
-  embeddingsArray.data.forEach((embeddingItem) => {
-    const { embedding, index } = embeddingItem;
-    const document = documents[index];
-    document.vectorDescription = embedding;
-    if (!COMPRESSION_DISABLED) {
-      document.compressedVectorDescription = embedding;
-    }
-  });
+  embeddingsArray.forEach((embeddings, i) =>
+    embeddings.data.forEach((embeddingItem) => {
+      const { embedding, index: j } = embeddingItem;
+      const document = descriptionMap.get(i + j)!;
+      document.vectorDescription = embedding;
+    }),
+  );
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters

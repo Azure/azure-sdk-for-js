@@ -18,7 +18,7 @@ export type ApnsPushTypes =
 /**
  * The list of APNs specific headers.
  */
-export interface AppleHeaders extends Record<string, unknown> {
+export interface AppleHeaders extends Record<string, string | undefined> {
   /**
    * The value of this header must accurately reflect the contents of your notification’s payload.
    */
@@ -53,7 +53,7 @@ export type WnsTypes = "wns/toast" | "wns/badge" | "wns/tile" | "wns/raw";
 /**
  * List of WNS specific headers.
  */
-export interface WindowsHeaders extends Record<string, unknown> {
+export interface WindowsHeaders extends Record<string, string | undefined> {
   /**
    * The header specifies whether this is a tile, toast, badge, or raw notification.
    */

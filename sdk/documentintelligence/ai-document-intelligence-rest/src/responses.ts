@@ -20,16 +20,10 @@ import {
   DocumentClassifierDetailsOutput,
 } from "./outputModels";
 
-export interface ListOperations200Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
 /** The request has succeeded. */
 export interface ListOperations200Response extends HttpResponse {
   status: "200";
   body: PagedOperationDetailsOutput;
-  headers: RawHttpHeaders & ListOperations200Headers;
 }
 
 export interface ListOperationsDefaultResponse extends HttpResponse {
@@ -37,16 +31,10 @@ export interface ListOperationsDefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
-export interface GetDocumentModelBuildOperation200Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
 /** The request has succeeded. */
 export interface GetDocumentModelBuildOperation200Response extends HttpResponse {
   status: "200";
   body: DocumentModelBuildOperationDetailsOutput;
-  headers: RawHttpHeaders & GetDocumentModelBuildOperation200Headers;
 }
 
 export interface GetDocumentModelBuildOperationDefaultResponse extends HttpResponse {
@@ -54,16 +42,10 @@ export interface GetDocumentModelBuildOperationDefaultResponse extends HttpRespo
   body: ErrorResponseOutput;
 }
 
-export interface GetDocumentModelComposeOperation200Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
 /** The request has succeeded. */
 export interface GetDocumentModelComposeOperation200Response extends HttpResponse {
   status: "200";
   body: DocumentModelComposeOperationDetailsOutput;
-  headers: RawHttpHeaders & GetDocumentModelComposeOperation200Headers;
 }
 
 export interface GetDocumentModelComposeOperationDefaultResponse extends HttpResponse {
@@ -71,16 +53,10 @@ export interface GetDocumentModelComposeOperationDefaultResponse extends HttpRes
   body: ErrorResponseOutput;
 }
 
-export interface GetDocumentModelCopyToOperation200Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
 /** The request has succeeded. */
 export interface GetDocumentModelCopyToOperation200Response extends HttpResponse {
   status: "200";
   body: DocumentModelCopyToOperationDetailsOutput;
-  headers: RawHttpHeaders & GetDocumentModelCopyToOperation200Headers;
 }
 
 export interface GetDocumentModelCopyToOperationDefaultResponse extends HttpResponse {
@@ -88,16 +64,10 @@ export interface GetDocumentModelCopyToOperationDefaultResponse extends HttpResp
   body: ErrorResponseOutput;
 }
 
-export interface GetDocumentClassifierBuildOperation200Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
 /** The request has succeeded. */
 export interface GetDocumentClassifierBuildOperation200Response extends HttpResponse {
   status: "200";
   body: DocumentClassifierBuildOperationDetailsOutput;
-  headers: RawHttpHeaders & GetDocumentClassifierBuildOperation200Headers;
 }
 
 export interface GetDocumentClassifierBuildOperationDefaultResponse extends HttpResponse {
@@ -105,16 +75,10 @@ export interface GetDocumentClassifierBuildOperationDefaultResponse extends Http
   body: ErrorResponseOutput;
 }
 
-export interface GetOperation200Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
 /** The request has succeeded. */
 export interface GetOperation200Response extends HttpResponse {
   status: "200";
   body: OperationDetailsOutput;
-  headers: RawHttpHeaders & GetOperation200Headers;
 }
 
 export interface GetOperationDefaultResponse extends HttpResponse {
@@ -145,8 +109,6 @@ export interface GetAnalyzeResultDefaultResponse extends HttpResponse {
 }
 
 export interface AnalyzeDocumentFromStream202Headers {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  "retry-after"?: number;
   "operation-location": string;
 }
 
@@ -167,8 +129,6 @@ export interface AnalyzeDocumentFromStreamLogicalResponse extends HttpResponse {
 }
 
 export interface AnalyzeDocument202Headers {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  "retry-after"?: number;
   "operation-location": string;
 }
 
@@ -188,16 +148,10 @@ export interface AnalyzeDocumentLogicalResponse extends HttpResponse {
   status: "200";
 }
 
-export interface GetModel200Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
 /** The request has succeeded. */
 export interface GetModel200Response extends HttpResponse {
   status: "200";
   body: DocumentModelDetailsOutput;
-  headers: RawHttpHeaders & GetModel200Headers;
 }
 
 export interface GetModelDefaultResponse extends HttpResponse {
@@ -206,8 +160,6 @@ export interface GetModelDefaultResponse extends HttpResponse {
 }
 
 export interface BuildModel202Headers {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  "retry-after"?: number;
   "operation-location": string;
 }
 
@@ -228,8 +180,6 @@ export interface BuildModelLogicalResponse extends HttpResponse {
 }
 
 export interface ComposeModel202Headers {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  "retry-after"?: number;
   "operation-location": string;
 }
 
@@ -261,8 +211,6 @@ export interface AuthorizeModelCopyDefaultResponse extends HttpResponse {
 }
 
 export interface CopyModelTo202Headers {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  "retry-after"?: number;
   "operation-location": string;
 }
 
@@ -282,16 +230,10 @@ export interface CopyModelToLogicalResponse extends HttpResponse {
   status: "200";
 }
 
-export interface ListModels200Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
 /** The request has succeeded. */
 export interface ListModels200Response extends HttpResponse {
   status: "200";
   body: PagedDocumentModelDetailsOutput;
-  headers: RawHttpHeaders & ListModels200Headers;
 }
 
 export interface ListModelsDefaultResponse extends HttpResponse {
@@ -299,15 +241,9 @@ export interface ListModelsDefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
-export interface DeleteModel204Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
 /** There is no content to send for this request, but the headers may be useful. */
 export interface DeleteModel204Response extends HttpResponse {
   status: "204";
-  headers: RawHttpHeaders & DeleteModel204Headers;
 }
 
 export interface DeleteModelDefaultResponse extends HttpResponse {
@@ -316,8 +252,6 @@ export interface DeleteModelDefaultResponse extends HttpResponse {
 }
 
 export interface BuildClassifier202Headers {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  "retry-after"?: number;
   "operation-location": string;
 }
 
@@ -337,16 +271,10 @@ export interface BuildClassifierLogicalResponse extends HttpResponse {
   status: "200";
 }
 
-export interface ListClassifiers200Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
 /** The request has succeeded. */
 export interface ListClassifiers200Response extends HttpResponse {
   status: "200";
   body: PagedDocumentClassifierDetailsOutput;
-  headers: RawHttpHeaders & ListClassifiers200Headers;
 }
 
 export interface ListClassifiersDefaultResponse extends HttpResponse {
@@ -354,16 +282,10 @@ export interface ListClassifiersDefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
-export interface GetClassifier200Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
 /** The request has succeeded. */
 export interface GetClassifier200Response extends HttpResponse {
   status: "200";
   body: DocumentClassifierDetailsOutput;
-  headers: RawHttpHeaders & GetClassifier200Headers;
 }
 
 export interface GetClassifierDefaultResponse extends HttpResponse {
@@ -371,15 +293,9 @@ export interface GetClassifierDefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
-export interface DeleteClassifier204Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
 /** There is no content to send for this request, but the headers may be useful. */
 export interface DeleteClassifier204Response extends HttpResponse {
   status: "204";
-  headers: RawHttpHeaders & DeleteClassifier204Headers;
 }
 
 export interface DeleteClassifierDefaultResponse extends HttpResponse {
@@ -388,8 +304,6 @@ export interface DeleteClassifierDefaultResponse extends HttpResponse {
 }
 
 export interface ClassifyDocumentFromStream202Headers {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  "retry-after"?: number;
   "operation-location": string;
 }
 
@@ -410,8 +324,6 @@ export interface ClassifyDocumentFromStreamLogicalResponse extends HttpResponse 
 }
 
 export interface ClassifyDocument202Headers {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  "retry-after"?: number;
   "operation-location": string;
 }
 

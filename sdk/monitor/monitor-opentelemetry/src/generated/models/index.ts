@@ -8,160 +8,140 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type DocumentIngressUnion =
-  | DocumentIngress
-  | Event
-  | Exception
-  | RemoteDependency
-  | Request
-  | Trace;
-
-/** Monitoring data point coming from the client, which includes metrics, documents and other metadata info. */
+/** Monitoring data point coming from SDK, which includes metrics, documents and other metadata info. */
 export interface MonitoringDataPoint {
-  /** Application Insights SDK version. */
-  version: string;
-  /** Version/generation of the data contract (MonitoringDataPoint) between SDK and Live Metrics. */
-  invariantVersion: number;
-  /** Service instance name where Application Insights SDK lives. */
-  instance: string;
+  /** AI SDK version. */
+  version?: string;
+  /** Version/generation of the data contract (MonitoringDataPoint) between SDK and QuickPulse. */
+  invariantVersion?: number;
+  /** Service instance name where AI SDK lives. */
+  instance?: string;
   /** Service role name. */
-  roleName: string;
-  /** Computer name where Application Insights SDK lives. */
-  machineName: string;
-  /** Identifies an Application Insights SDK as a trusted agent to report metrics and documents. */
-  streamId: string;
+  roleName?: string;
+  /** Computer name where AI SDK lives. */
+  machineName?: string;
+  /** Identifies an AI SDK as a trusted agent to report metrics and documents. */
+  streamId?: string;
   /** Data point generation timestamp. */
   timestamp?: Date;
-  /** Timestamp when the client transmits the metrics and documents to Live Metrics. */
+  /** Timestamp when SDK transmits the metrics and documents to QuickPulse. A 8-byte long type of ticks. */
   transmissionTime?: Date;
   /** True if the current application is an Azure Web App. */
-  isWebApp: boolean;
+  isWebApp?: boolean;
   /** True if performance counters collection is supported. */
-  performanceCollectionSupported: boolean;
-  /** An array of metric data points. */
+  performanceCollectionSupported?: boolean;
+  /** An array of meric data points. */
   metrics?: MetricPoint[];
-  /** An array of documents of a specific type {Request}, {RemoteDependency}, {Exception}, {Event}, or {Trace} */
-  documents?: DocumentIngressUnion[];
+  /** An array of documents of a specific type {RequestDocumentIngress}, {RemoteDependencyDocumentIngress}, {ExceptionDocumentIngress}, {EventDocumentIngress}, or {TraceDocumentIngress} */
+  documents?: DocumentIngress[];
   /** An array of top cpu consumption data point. */
   topCpuProcesses?: ProcessCpuData[];
-  /** An array of error while SDK parses and applies the {CollectionConfigurationInfo} provided by Live Metrics. */
+  /** An array of error while parsing and applying . */
   collectionConfigurationErrors?: CollectionConfigurationError[];
 }
 
 /** Metric data point. */
 export interface MetricPoint {
   /** Metric name. */
-  name: string;
+  name?: string;
   /** Metric value. */
-  value: number;
+  value?: number;
   /** Metric weight. */
-  weight: number;
+  weight?: number;
 }
 
 /** Base class of the specific document types. */
 export interface DocumentIngress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  documentType:
-    | "Event"
-    | "Exception"
-    | "RemoteDependency"
-    | "Request"
-    | "Trace";
+  /** Telemetry type. Types not defined in enum will get replaced with a 'Unknown' type. */
+  documentType?: DocumentIngressDocumentType;
   /** An array of document streaming ids. Each id identifies a flow of documents customized by UX customers. */
   documentStreamIds?: string[];
   /** Collection of custom properties. */
-  properties?: KeyValuePairString[];
-}
-
-/** Key-value pair of string and string. */
-export interface KeyValuePairString {
-  /** Key of the key-value pair. */
-  key: string;
-  /** Value of the key-value pair. */
-  value: string;
+  properties?: Record<string, unknown>[];
 }
 
 /** CPU consumption datapoint. */
 export interface ProcessCpuData {
   /** Process name. */
-  processName: string;
+  processName?: string;
   /** CPU consumption percentage. */
-  cpuPercentage: number;
+  cpuPercentage?: number;
 }
 
-/** Represents an error while SDK parses and applies an instance of CollectionConfigurationInfo. */
+/** Represents an error while SDK parsing and applying an instance of CollectionConfigurationInfo. */
 export interface CollectionConfigurationError {
-  /** Error type. */
-  collectionConfigurationErrorType: CollectionConfigurationErrorType;
+  /** Collection configuration error type reported by SDK. */
+  collectionConfigurationErrorType?: CollectionConfigurationErrorType;
   /** Error message. */
-  message: string;
-  /** Exception that led to the creation of the configuration error. */
-  fullException: string;
+  message?: string;
+  /** Exception that leads to the creation of the configuration error. */
+  fullException?: string;
   /** Custom properties to add more information to the error. */
-  data: KeyValuePairString[];
+  data?: KeyValuePairString[];
 }
 
-/** Represents the collection configuration - a customizable description of performance counters, metrics, and full telemetry documents to be collected by the client SDK. */
+export interface KeyValuePairString {
+  key?: string;
+  value?: string;
+}
+
+/** Represents the collection configuration - a customizable description of performance counters, metrics, and full telemetry documents to be collected by the SDK. */
 export interface CollectionConfigurationInfo {
   /** An encoded string that indicates whether the collection configuration is changed. */
-  eTag: string;
+  etag?: string;
   /** An array of metric configuration info. */
-  metrics: DerivedMetricInfo[];
+  metrics?: DerivedMetricInfo[];
   /** An array of document stream configuration info. */
-  documentStreams: DocumentStreamInfo[];
-  /** Controls document quotas to be sent to Live Metrics. */
+  documentStreams?: DocumentStreamInfo[];
+  /** Control document quotas for QuickPulse */
   quotaInfo?: QuotaConfigurationInfo;
 }
 
 /** A metric configuration set by UX to scope the metrics it's interested in. */
 export interface DerivedMetricInfo {
   /** metric configuration identifier. */
-  id: string;
+  id?: string;
   /** Telemetry type. */
-  telemetryType: string;
+  telemetryType?: string;
   /** A collection of filters to scope metrics that UX needs. */
-  filterGroups: FilterConjunctionGroupInfo[];
+  filterGroups?: FilterConjunctionGroupInfo[];
   /** Telemetry's metric dimension whose value is to be aggregated. Example values: Duration, Count(),... */
-  projection: string;
-  /** Aggregation type. This is the aggregation done from everything within a single server. */
-  aggregation: AggregationType;
-  /** Aggregation type. This Aggregation is done across the values for all the servers taken together. */
-  backEndAggregation: AggregationType;
+  projection?: string;
+  /** Aggregation type. */
+  aggregation?: DerivedMetricInfoAggregation;
 }
 
 /** An AND-connected group of FilterInfo objects. */
 export interface FilterConjunctionGroupInfo {
-  /** An array of filters. */
-  filters: FilterInfo[];
+  filters?: FilterInfo[];
 }
 
 /** A filter set on UX */
 export interface FilterInfo {
   /** dimension name of the filter */
-  fieldName: string;
+  fieldName?: string;
   /** Operator of the filter */
-  predicate: PredicateType;
-  /** Comparand of the filter */
-  comparand: string;
+  predicate?: FilterInfoPredicate;
+  comparand?: string;
 }
 
 /** Configurations/filters set by UX to scope the document/telemetry it's interested in. */
 export interface DocumentStreamInfo {
   /** Identifier of the document stream initiated by a UX. */
-  id: string;
+  id?: string;
   /** Gets or sets an OR-connected collection of filter groups. */
-  documentFilterGroups: DocumentFilterConjunctionGroupInfo[];
+  documentFilterGroups?: DocumentFilterConjunctionGroupInfo[];
 }
 
-/** A collection of filters for a specific telemetry type. */
+/** A collection of filters for a specificy telemetry type. */
 export interface DocumentFilterConjunctionGroupInfo {
   /** Telemetry type. */
-  telemetryType: TelemetryType;
-  /** An array of filter groups. */
-  filters: FilterConjunctionGroupInfo;
+  telemetryType?: DocumentFilterConjunctionGroupInfoTelemetryType;
+  /** An AND-connected group of FilterInfo objects. */
+  filters?: FilterConjunctionGroupInfo;
 }
 
-/** Controls document quotas to be sent to Live Metrics. */
+/** Control document quotas for QuickPulse */
 export interface QuotaConfigurationInfo {
   /** Initial quota */
   initialQuota?: number;
@@ -173,43 +153,35 @@ export interface QuotaConfigurationInfo {
 
 /** Optional http response body, whose existence carries additional error descriptions. */
 export interface ServiceError {
-  /** A globally unique identifier to identify the diagnostic context. It defaults to the empty GUID. */
-  requestId: string;
+  /** A guid of the request that triggers the service error. */
+  requestId?: string;
   /** Service error response date time. */
-  responseDateTime: string;
+  responseDateTime?: Date;
   /** Error code. */
-  code: string;
+  code?: string;
   /** Error message. */
-  message: string;
+  message?: string;
   /** Message of the exception that triggers the error response. */
-  exception: string;
+  exception?: string;
 }
 
-/** Event document type. */
-export interface Event extends DocumentIngress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  documentType: "Event";
-  /** Event name. */
+/** Request type document */
+export interface RequestDocumentIngress extends DocumentIngress {
+  /** Name of the request, e.g., 'GET /values/{id}'. */
   name?: string;
+  /** Request URL with all query string parameters. */
+  url?: string;
+  /** Result of a request execution. For http requestss, it could be some HTTP status code. */
+  responseCode?: string;
+  /** Request duration in ISO 8601 duration format, i.e., P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W. */
+  duration?: string;
 }
 
-/** Exception document type. */
-export interface Exception extends DocumentIngress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  documentType: "Exception";
-  /** Exception type name. */
-  exceptionType?: string;
-  /** Exception message. */
-  exceptionMessage?: string;
-}
-
-/** RemoteDependency document type. */
-export interface RemoteDependency extends DocumentIngress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  documentType: "RemoteDependency";
-  /** Name of the command initiated with this dependency call, e.g., GET /username. */
+/** Dependency type document */
+export interface RemoteDependencyDocumentIngress extends DocumentIngress {
+  /** Name of the command initiated with this dependency call, e.g., GET /username */
   name?: string;
-  /** URL of the dependency call to the target, with all query string parameters. */
+  /** URL of the dependency call to the target, with all query string parameters */
   commandName?: string;
   /** Result code of a dependency call. Examples are SQL error code and HTTP status code. */
   resultCode?: string;
@@ -217,106 +189,107 @@ export interface RemoteDependency extends DocumentIngress {
   duration?: string;
 }
 
-/** Request document type. */
-export interface Request extends DocumentIngress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  documentType: "Request";
-  /** Name of the request, e.g., 'GET /values/{id}'. */
-  name?: string;
-  /** Request URL with all query string parameters. */
-  url?: string;
-  /** Result of a request execution. For http requests, it could be some HTTP status code. */
-  responseCode?: string;
-  /** Request duration in ISO 8601 duration format, i.e., P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W. */
-  duration?: string;
+/** Exception type document */
+export interface ExceptionDocumentIngress extends DocumentIngress {
+  /** Exception type name. */
+  exceptionType?: string;
+  /** Exception message. */
+  exceptionMessage?: string;
 }
 
-/** Trace document type. */
-export interface Trace extends DocumentIngress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  documentType: "Trace";
-  /** Trace message. */
+/** Event type document. */
+export interface EventDocumentIngress extends DocumentIngress {
+  /** Event name. */
+  name?: string;
+}
+
+/** Trace type name. */
+export interface TraceDocumentIngress extends DocumentIngress {
+  /** Trace message */
   message?: string;
 }
 
-/** Defines headers for QuickpulseClient_isSubscribed operation. */
-export interface QuickpulseClientIsSubscribedHeaders {
-  /** A boolean flag indicating whether there are active user sessions 'watching' the instrumentation key. If true, the client must start collecting data and posting it to Live Metrics. Otherwise, the client must keep pinging. */
+/** Defines headers for QuickpulseClient_ping operation. */
+export interface QuickpulseClientPingHeaders {
+  /** A boolean flag indicating whether there are active user sessions 'watching' the SDK's ikey. If true, SDK must start collecting data and post'ing it to QuickPulse. Otherwise, SDK must keep ping'ing. */
   xMsQpsSubscribed?: string;
   /** An encoded string that indicates whether the collection configuration is changed. */
   xMsQpsConfigurationEtag?: string;
-  /** Recommended time (in milliseconds) before the client should ping the service again. This header exists only when the instrumentation key is not subscribed to. */
-  xMsQpsServicePollingIntervalHint?: string;
-  /** Contains a URI of the service endpoint that the client must permanently use for the particular resource. This header exists only when the client is talking to Live Metrics global endpoint. */
+  /** Recommended time (in milliseconds) before an SDK should ping the service again. This header exists only when ikey is not watched by UX. */
+  xMsQpsServicePollingIntervalHint?: number;
+  /** Contains a URI of the service endpoint that an SDK must permanently use for the particular resource. This header exists only when SDK is talking to QuickPulse's global endpoint. */
   xMsQpsServiceEndpointRedirectV2?: string;
 }
 
-/** Defines headers for QuickpulseClient_publish operation. */
-export interface QuickpulseClientPublishHeaders {
-  /** Tells the client whether the input instrumentation key is subscribed to. */
+/** Defines headers for QuickpulseClient_post operation. */
+export interface QuickpulseClientPostHeaders {
+  /** Tells SDK whether the input ikey is subscribed to by UX. */
   xMsQpsSubscribed?: string;
   /** An encoded string that indicates whether the collection configuration is changed. */
   xMsQpsConfigurationEtag?: string;
+  /** A 8-byte long type of milliseconds QuickPulse suggests SDK polling period. */
+  xMsQpsServicePollingIntervalHint?: number;
+  /** All official SDKs now uses v2 header. Use v2 instead. */
+  xMsQpsServiceEndpointRedirect?: string;
+  /** URI of the service endpoint that an SDK must permanently use for the particular resource. */
+  xMsQpsServiceEndpointRedirectV2?: string;
 }
 
-/** Known values of {@link DocumentType} that the service accepts. */
-export enum KnownDocumentType {
-  /** Represents a request telemetry type. */
+/** Known values of {@link DocumentIngressDocumentType} that the service accepts. */
+export enum KnownDocumentIngressDocumentType {
+  /** Request */
   Request = "Request",
-  /** Represents a remote dependency telemetry type. */
+  /** RemoteDependency */
   RemoteDependency = "RemoteDependency",
-  /** Represents an exception telemetry type. */
+  /** Exception */
   Exception = "Exception",
-  /** Represents an event telemetry type. */
+  /** Event */
   Event = "Event",
-  /** Represents a trace telemetry type. */
-  Trace = "Trace",
-  /** Represents an unknown telemetry type. */
-  Unknown = "Unknown",
+  /** Trace */
+  Trace = "Trace"
 }
 
 /**
- * Defines values for DocumentType. \
- * {@link KnownDocumentType} can be used interchangeably with DocumentType,
+ * Defines values for DocumentIngressDocumentType. \
+ * {@link KnownDocumentIngressDocumentType} can be used interchangeably with DocumentIngressDocumentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Request**: Represents a request telemetry type. \
- * **RemoteDependency**: Represents a remote dependency telemetry type. \
- * **Exception**: Represents an exception telemetry type. \
- * **Event**: Represents an event telemetry type. \
- * **Trace**: Represents a trace telemetry type. \
- * **Unknown**: Represents an unknown telemetry type.
+ * **Request** \
+ * **RemoteDependency** \
+ * **Exception** \
+ * **Event** \
+ * **Trace**
  */
-export type DocumentType = string;
+export type DocumentIngressDocumentType = string;
 
 /** Known values of {@link CollectionConfigurationErrorType} that the service accepts. */
 export enum KnownCollectionConfigurationErrorType {
-  /** Unknown error type. */
+  /** Unknown */
   Unknown = "Unknown",
-  /** Performance counter parsing error. */
+  /** PerformanceCounterParsing */
   PerformanceCounterParsing = "PerformanceCounterParsing",
-  /** Performance counter unexpected error. */
+  /** PerformanceCounterUnexpected */
   PerformanceCounterUnexpected = "PerformanceCounterUnexpected",
-  /** Performance counter duplicate ids. */
+  /** PerformanceCounterDuplicateIds */
   PerformanceCounterDuplicateIds = "PerformanceCounterDuplicateIds",
-  /** Document stream duplication ids. */
+  /** DocumentStreamDuplicateIds */
   DocumentStreamDuplicateIds = "DocumentStreamDuplicateIds",
-  /** Document stream failed to create. */
+  /** DocumentStreamFailureToCreate */
   DocumentStreamFailureToCreate = "DocumentStreamFailureToCreate",
-  /** Document stream failed to create filter unexpectedly. */
+  /** DocumentStreamFailureToCreateFilterUnexpected */
   DocumentStreamFailureToCreateFilterUnexpected = "DocumentStreamFailureToCreateFilterUnexpected",
-  /** Metric duplicate ids. */
+  /** MetricDuplicateIds */
   MetricDuplicateIds = "MetricDuplicateIds",
-  /** Metric telemetry type unsupported. */
+  /** MetricTelemetryTypeUnsupported */
   MetricTelemetryTypeUnsupported = "MetricTelemetryTypeUnsupported",
-  /** Metric failed to create. */
+  /** MetricFailureToCreate */
   MetricFailureToCreate = "MetricFailureToCreate",
-  /** Metric failed to create filter unexpectedly. */
+  /** MetricFailureToCreateFilterUnexpected */
   MetricFailureToCreateFilterUnexpected = "MetricFailureToCreateFilterUnexpected",
-  /** Filter failed to create unexpectedly. */
+  /** FilterFailureToCreateUnexpected */
   FilterFailureToCreateUnexpected = "FilterFailureToCreateUnexpected",
-  /** Collection configuration failed to create unexpectedly. */
-  CollectionConfigurationFailureToCreateUnexpected = "CollectionConfigurationFailureToCreateUnexpected",
+  /** CollectionConfigurationFailureToCreateUnexpected */
+  CollectionConfigurationFailureToCreateUnexpected = "CollectionConfigurationFailureToCreateUnexpected"
 }
 
 /**
@@ -324,159 +297,162 @@ export enum KnownCollectionConfigurationErrorType {
  * {@link KnownCollectionConfigurationErrorType} can be used interchangeably with CollectionConfigurationErrorType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown**: Unknown error type. \
- * **PerformanceCounterParsing**: Performance counter parsing error. \
- * **PerformanceCounterUnexpected**: Performance counter unexpected error. \
- * **PerformanceCounterDuplicateIds**: Performance counter duplicate ids. \
- * **DocumentStreamDuplicateIds**: Document stream duplication ids. \
- * **DocumentStreamFailureToCreate**: Document stream failed to create. \
- * **DocumentStreamFailureToCreateFilterUnexpected**: Document stream failed to create filter unexpectedly. \
- * **MetricDuplicateIds**: Metric duplicate ids. \
- * **MetricTelemetryTypeUnsupported**: Metric telemetry type unsupported. \
- * **MetricFailureToCreate**: Metric failed to create. \
- * **MetricFailureToCreateFilterUnexpected**: Metric failed to create filter unexpectedly. \
- * **FilterFailureToCreateUnexpected**: Filter failed to create unexpectedly. \
- * **CollectionConfigurationFailureToCreateUnexpected**: Collection configuration failed to create unexpectedly.
+ * **Unknown** \
+ * **PerformanceCounterParsing** \
+ * **PerformanceCounterUnexpected** \
+ * **PerformanceCounterDuplicateIds** \
+ * **DocumentStreamDuplicateIds** \
+ * **DocumentStreamFailureToCreate** \
+ * **DocumentStreamFailureToCreateFilterUnexpected** \
+ * **MetricDuplicateIds** \
+ * **MetricTelemetryTypeUnsupported** \
+ * **MetricFailureToCreate** \
+ * **MetricFailureToCreateFilterUnexpected** \
+ * **FilterFailureToCreateUnexpected** \
+ * **CollectionConfigurationFailureToCreateUnexpected**
  */
 export type CollectionConfigurationErrorType = string;
 
-/** Known values of {@link PredicateType} that the service accepts. */
-export enum KnownPredicateType {
-  /** Represents an equality predicate. */
+/** Known values of {@link FilterInfoPredicate} that the service accepts. */
+export enum KnownFilterInfoPredicate {
+  /** Equal */
   Equal = "Equal",
-  /** Represents a not-equal predicate. */
+  /** NotEqual */
   NotEqual = "NotEqual",
-  /** Represents a less-than predicate. */
+  /** LessThan */
   LessThan = "LessThan",
-  /** Represents a greater-than predicate. */
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
-  /** Represents a less-than-or-equal predicate. */
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
-  /** Represents a greater-than-or-equal predicate. */
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
-  /** Represents a contains predicate. */
+  /** Contains */
   Contains = "Contains",
-  /** Represents a does-not-contain predicate. */
-  DoesNotContain = "DoesNotContain",
+  /** DoesNotContain */
+  DoesNotContain = "DoesNotContain"
 }
 
 /**
- * Defines values for PredicateType. \
- * {@link KnownPredicateType} can be used interchangeably with PredicateType,
+ * Defines values for FilterInfoPredicate. \
+ * {@link KnownFilterInfoPredicate} can be used interchangeably with FilterInfoPredicate,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Equal**: Represents an equality predicate. \
- * **NotEqual**: Represents a not-equal predicate. \
- * **LessThan**: Represents a less-than predicate. \
- * **GreaterThan**: Represents a greater-than predicate. \
- * **LessThanOrEqual**: Represents a less-than-or-equal predicate. \
- * **GreaterThanOrEqual**: Represents a greater-than-or-equal predicate. \
- * **Contains**: Represents a contains predicate. \
- * **DoesNotContain**: Represents a does-not-contain predicate.
+ * **Equal** \
+ * **NotEqual** \
+ * **LessThan** \
+ * **GreaterThan** \
+ * **LessThanOrEqual** \
+ * **GreaterThanOrEqual** \
+ * **Contains** \
+ * **DoesNotContain**
  */
-export type PredicateType = string;
+export type FilterInfoPredicate = string;
 
-/** Known values of {@link AggregationType} that the service accepts. */
-export enum KnownAggregationType {
-  /** Average */
+/** Known values of {@link DerivedMetricInfoAggregation} that the service accepts. */
+export enum KnownDerivedMetricInfoAggregation {
+  /** Avg */
   Avg = "Avg",
   /** Sum */
   Sum = "Sum",
-  /** Minimum */
+  /** Min */
   Min = "Min",
-  /** Maximum */
-  Max = "Max",
+  /** Max */
+  Max = "Max"
 }
 
 /**
- * Defines values for AggregationType. \
- * {@link KnownAggregationType} can be used interchangeably with AggregationType,
+ * Defines values for DerivedMetricInfoAggregation. \
+ * {@link KnownDerivedMetricInfoAggregation} can be used interchangeably with DerivedMetricInfoAggregation,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Avg**: Average \
- * **Sum**: Sum \
- * **Min**: Minimum \
- * **Max**: Maximum
+ * **Avg** \
+ * **Sum** \
+ * **Min** \
+ * **Max**
  */
-export type AggregationType = string;
+export type DerivedMetricInfoAggregation = string;
 
-/** Known values of {@link TelemetryType} that the service accepts. */
-export enum KnownTelemetryType {
-  /** Represents a request telemetry type. */
+/** Known values of {@link DocumentFilterConjunctionGroupInfoTelemetryType} that the service accepts. */
+export enum KnownDocumentFilterConjunctionGroupInfoTelemetryType {
+  /** Request */
   Request = "Request",
-  /** Represents a dependency telemetry type. */
+  /** Dependency */
   Dependency = "Dependency",
-  /** Represents an exception telemetry type. */
+  /** Exception */
   Exception = "Exception",
-  /** Represents an event telemetry type. */
+  /** Event */
   Event = "Event",
-  /** Represents a metric telemetry type. */
+  /** Metric */
   Metric = "Metric",
-  /** Represents a performance counter telemetry type. */
+  /** PerformanceCounter */
   PerformanceCounter = "PerformanceCounter",
-  /** Represents a trace telemetry type. */
-  Trace = "Trace",
+  /** Trace */
+  Trace = "Trace"
 }
 
 /**
- * Defines values for TelemetryType. \
- * {@link KnownTelemetryType} can be used interchangeably with TelemetryType,
+ * Defines values for DocumentFilterConjunctionGroupInfoTelemetryType. \
+ * {@link KnownDocumentFilterConjunctionGroupInfoTelemetryType} can be used interchangeably with DocumentFilterConjunctionGroupInfoTelemetryType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Request**: Represents a request telemetry type. \
- * **Dependency**: Represents a dependency telemetry type. \
- * **Exception**: Represents an exception telemetry type. \
- * **Event**: Represents an event telemetry type. \
- * **Metric**: Represents a metric telemetry type. \
- * **PerformanceCounter**: Represents a performance counter telemetry type. \
- * **Trace**: Represents a trace telemetry type.
+ * **Request** \
+ * **Dependency** \
+ * **Exception** \
+ * **Event** \
+ * **Metric** \
+ * **PerformanceCounter** \
+ * **Trace**
  */
-export type TelemetryType = string;
+export type DocumentFilterConjunctionGroupInfoTelemetryType = string;
 
 /** Optional parameters. */
-export interface IsSubscribedOptionalParams
-  extends coreClient.OperationOptions {
-  /** Data contract between Application Insights client SDK and Live Metrics. /QuickPulseService.svc/ping uses this as a backup source of machine name, instance name and invariant version. */
+export interface PingOptionalParams extends coreClient.OperationOptions {
+  /** Data contract between SDK and QuickPulse. /QuickPulseService.svc/ping uses this as a backup source of machine name, instance name and invariant version. */
   monitoringDataPoint?: MonitoringDataPoint;
-  /** Timestamp when the client transmits the metrics and documents to Live Metrics. A 8-byte long type of ticks. */
-  transmissionTime?: number;
-  /** Computer name where Application Insights SDK lives. Live Metrics uses machine name with instance name as a backup. */
-  machineName?: string;
-  /** Service instance name where Application Insights SDK lives. Live Metrics uses machine name with instance name as a backup. */
-  instanceName?: string;
-  /** Identifies an Application Insights SDK as trusted agent to report metrics and documents. */
-  streamId?: string;
-  /** Cloud role name of the service. */
-  roleName?: string;
-  /** Version/generation of the data contract (MonitoringDataPoint) between the client and Live Metrics. */
-  invariantVersion?: string;
+  /** Deprecated. An alternative way to pass api key. Use AAD auth instead. */
+  apikey?: string;
+  /** Timestamp when SDK transmits the metrics and documents to QuickPulse. A 8-byte long type of ticks. */
+  xMsQpsTransmissionTime?: number;
+  /** Computer name where AI SDK lives. QuickPulse uses machine name with instance name as a backup. */
+  xMsQpsMachineName?: string;
+  /** Service instance name where AI SDK lives. QuickPulse uses machine name with instance name as a backup. */
+  xMsQpsInstanceName?: string;
+  /** Identifies an AI SDK as trusted agent to report metrics and documents. */
+  xMsQpsStreamId?: string;
+  /** Cloud role name for which SDK reports metrics and documents. */
+  xMsQpsRoleName?: string;
+  /** Version/generation of the data contract (MonitoringDataPoint) between SDK and QuickPulse. */
+  xMsQpsInvariantVersion?: string;
   /** An encoded string that indicates whether the collection configuration is changed. */
-  configurationEtag?: string;
+  xMsQpsConfigurationEtag?: string;
 }
 
-/** Contains response data for the isSubscribed operation. */
-export type IsSubscribedResponse = QuickpulseClientIsSubscribedHeaders &
+/** Contains response data for the ping operation. */
+export type PingResponse = QuickpulseClientPingHeaders &
   CollectionConfigurationInfo;
 
 /** Optional parameters. */
-export interface PublishOptionalParams extends coreClient.OperationOptions {
-  /** Timestamp when the client transmits the metrics and documents to Live Metrics. A 8-byte long type of ticks. */
-  transmissionTime?: number;
+export interface PostOptionalParams extends coreClient.OperationOptions {
+  /** An alternative way to pass api key. Deprecated. Use AAD authentication instead. */
+  apikey?: string;
+  /** Timestamp when SDK transmits the metrics and documents to QuickPulse. A 8-byte long type of ticks. */
+  xMsQpsTransmissionTime?: number;
   /** An encoded string that indicates whether the collection configuration is changed. */
-  configurationEtag?: string;
-  /** Data contract between the client and Live Metrics. /QuickPulseService.svc/ping uses this as a backup source of machine name, instance name and invariant version. */
+  xMsQpsConfigurationEtag?: string;
+  /** Data contract between SDK and QuickPulse. /QuickPulseService.svc/post uses this to publish metrics and documents to the backend QuickPulse server. */
   monitoringDataPoints?: MonitoringDataPoint[];
 }
 
-/** Contains response data for the publish operation. */
-export type PublishResponse = QuickpulseClientPublishHeaders &
+/** Contains response data for the post operation. */
+export type PostResponse = QuickpulseClientPostHeaders &
   CollectionConfigurationInfo;
 
 /** Optional parameters. */
 export interface QuickpulseClientOptionalParams
   extends coreClient.ServiceClientOptions {
-  /** Api Version */
-  apiVersion?: string;
+  /** QuickPulse endpoint: https://rt.services.visualstudio.com */
+  host?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

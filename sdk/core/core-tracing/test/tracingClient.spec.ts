@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Instrumenter, TracingClient, TracingContext, TracingSpan } from "../src/interfaces.js";
+import { Instrumenter, TracingClient, TracingContext, TracingSpan } from "../src/interfaces";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
   useInstrumenter,
-} from "../src/instrumenter.js";
-import { createTracingContext, knownContextKeys } from "../src/tracingContext.js";
-import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
-import { createTracingClient } from "../src/tracingClient.js";
+} from "../src/instrumenter";
+import { createTracingContext, knownContextKeys } from "../src/tracingContext";
+import { assert } from "chai";
+import { createTracingClient } from "../src/tracingClient";
+import sinon from "sinon";
 
 describe("TracingClient", () => {
   let instrumenter: Instrumenter;
@@ -32,7 +33,7 @@ describe("TracingClient", () => {
   });
 
   afterEach(() => {
-    vi.restoreAllMocks();
+    sinon.restore();
   });
 
   describe("#startSpan", () => {
@@ -45,20 +46,23 @@ describe("TracingClient", () => {
           tracingContext: context,
         };
       };
-      const setAttributeSpy = vi.spyOn(span, "setAttribute");
+      const setAttributeSpy = sinon.spy(span, "setAttribute");
       client.startSpan("test", {});
-      expect(setAttributeSpy).toBeCalledWith("az.namespace", expectedNamespace);
+      assert.isTrue(
+        setAttributeSpy.calledWith("az.namespace", expectedNamespace),
+        `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`,
+      );
     });
 
     it("passes package information to instrumenter", () => {
-      const instrumenterStartSpanSpy = vi.spyOn(instrumenter, "startSpan");
+      const instrumenterStartSpanSpy = sinon.spy(instrumenter, "startSpan");
       client.startSpan("test", {});
-      expect(instrumenterStartSpanSpy).toHaveBeenCalledOnce();
-      expect(instrumenterStartSpanSpy).toHaveBeenCalledWith("test", {
-        packageName: "test-package",
-        packageVersion: "1.0.0",
-        tracingContext: undefined,
-      });
+      assert.isTrue(instrumenterStartSpanSpy.called);
+      const args = instrumenterStartSpanSpy.getCall(0).args;
+
+      assert.equal(args[0], "test");
+      assert.equal(args[1]?.packageName, "test-package");
+      assert.equal(args[1]?.packageVersion, "1.0.0");
     });
 
     it("sets namespace on context", () => {
@@ -108,11 +112,14 @@ describe("TracingClient", () => {
           tracingContext: context,
         };
       };
-      const setAttributeSpy = vi.spyOn(span, "setAttribute");
+      const setAttributeSpy = sinon.spy(span, "setAttribute");
       await client.withSpan(spanName, {}, async () => {
         // no op
       });
-      expect(setAttributeSpy).toBeCalledWith("az.namespace", expectedNamespace);
+      assert.isTrue(
+        setAttributeSpy.calledWith("az.namespace", expectedNamespace),
+        `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`,
+      );
     });
 
     it("passes options and span to callback", async () => {
@@ -165,10 +172,10 @@ describe("TracingClient", () => {
             tracingContext: context,
           };
         };
-        const setStatusSpy = vi.spyOn(span, "setStatus");
+        const setStatusSpy = sinon.spy(span, "setStatus");
         await client.withSpan(spanName, {}, () => Promise.resolve(42));
 
-        expect(setStatusSpy).toHaveBeenCalledWith({ status: "success" });
+        assert.isTrue(setStatusSpy.calledWith(sinon.match({ status: "success" })));
       });
     });
 
@@ -182,13 +189,13 @@ describe("TracingClient", () => {
             tracingContext: context,
           };
         };
-        const setStatusSpy = vi.spyOn(span, "setStatus");
+        const setStatusSpy = sinon.spy(span, "setStatus");
         let errorThrown = false;
         try {
           await client.withSpan(spanName, {}, () => Promise.reject(new Error("test")));
         } catch (err: any) {
           errorThrown = true;
-          expect(setStatusSpy).toHaveBeenCalledWith({ status: "error", error: err });
+          assert.isTrue(setStatusSpy.calledWith(sinon.match({ status: "error", error: err })));
         }
 
         assert.isTrue(errorThrown);

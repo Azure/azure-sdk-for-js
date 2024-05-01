@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PollOperation, PollOperationState } from "./pollOperation.js";
+import { PollOperation, PollOperationState } from "./pollOperation";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { CancelOnProgress } from "../poller/models.js";
-import { PollerLike } from "./models.js";
+import { CancelOnProgress } from "../poller/models";
+import { PollerLike } from "./models";
 
 /**
  * PollProgressCallback<TState> is the type of the callback functions sent to onProgress.

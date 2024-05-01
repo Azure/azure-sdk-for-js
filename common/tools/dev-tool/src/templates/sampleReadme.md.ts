@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
-import path from "node:path";
+import path from "path";
 import YAML from "yaml";
+
 import { SampleReadmeConfiguration } from "../util/samples/info";
 import { format } from "../util/prettier";
 
@@ -130,7 +131,7 @@ function table(info: SampleReadmeConfiguration) {
  */
 function exampleNodeInvocation(info: SampleReadmeConfiguration) {
   const firstModule = filterModules(info)[0];
-  const envVars = [...new Set(firstModule.usedEnvironmentVariables)]
+  const envVars = firstModule.usedEnvironmentVariables
     .map((envVar) => `${envVar}="<${envVar.replace(/_/g, " ").toLowerCase()}>"`)
     .join(" ");
 

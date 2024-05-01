@@ -5,8 +5,7 @@ import { AzurePluginContext, IdentityPlugin } from "./provider";
 import {
   msalNodeFlowCacheControl,
   msalNodeFlowNativeBrokerControl,
-} from "../msal/nodeFlows/msalPlugins";
-
+} from "../msal/nodeFlows/msalNodeCommon";
 import { vsCodeCredentialControl } from "../credentials/visualStudioCodeCredential";
 
 /**

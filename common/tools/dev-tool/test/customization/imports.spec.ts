@@ -1,9 +1,6 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { ImportDeclaration, Project } from "ts-morph";
 import { augmentImports } from "../../src/util/customization/imports";
+import { expect } from "chai";
 import { resetCustomizationState, setCustomizationState } from "../../src/util/customization/state";
 
 describe("Imports", () => {
@@ -30,7 +27,7 @@ describe("Imports", () => {
     augmentImports(imports, customFile.getImportDeclarations(), originalFile);
 
     const augmentedImports = originalFile.getImportDeclarations();
-    assert.equal(augmentedImports.length, 0);
+    expect(augmentedImports).to.have.lengthOf(0);
   });
 
   it("should remove self imports on Windows", () => {
@@ -52,7 +49,7 @@ describe("Imports", () => {
     augmentImports(imports, customFile.getImportDeclarations(), originalFile);
 
     const augmentedImports = originalFile.getImportDeclarations();
-    assert.equal(augmentedImports.length, 0);
+    expect(augmentedImports).to.have.lengthOf(0);
   });
 
   it("should rewrite relative imports to the source directory", () => {
@@ -78,11 +75,11 @@ describe("Imports", () => {
     resetCustomizationState();
 
     const augmentedImports = originalFile.getImportDeclarations();
-    assert.lengthOf(augmentedImports, 2);
+    expect(augmentedImports).to.have.lengthOf(2);
     const rewrittenImportSpecifier = augmentedImports[0].getModuleSpecifierValue();
-    assert.equal(rewrittenImportSpecifier, "./anotherFile.js");
+    expect(rewrittenImportSpecifier).to.equal("./anotherFile.js");
     const rewrittenImportSpecifier2 = augmentedImports[1].getModuleSpecifierValue();
-    assert.equal(rewrittenImportSpecifier2, "../rest/file.js");
+    expect(rewrittenImportSpecifier2).to.equal("../rest/file.js");
   });
 
   it("rewrite relative imports to the source directory on Windows", () => {
@@ -109,11 +106,11 @@ describe("Imports", () => {
     resetCustomizationState();
 
     const augmentedImports = originalFile.getImportDeclarations();
-    assert.lengthOf(augmentedImports, 2);
+    expect(augmentedImports).to.have.lengthOf(2);
     const rewrittenImportSpecifier = augmentedImports[0].getModuleSpecifierValue();
-    assert.equal(rewrittenImportSpecifier, "./anotherFile.js");
+    expect(rewrittenImportSpecifier).to.equal("./anotherFile.js");
     const rewrittenImportSpecifier2 = augmentedImports[1].getModuleSpecifierValue();
-    assert.equal(rewrittenImportSpecifier2, "../rest/file.js");
+    expect(rewrittenImportSpecifier2).to.equal("../rest/file.js");
   });
 
   it("should rewrite relative imports to the source directory when nested", () => {
@@ -136,9 +133,9 @@ describe("Imports", () => {
     resetCustomizationState();
 
     const augmentedImports = originalFile.getImportDeclarations();
-    assert.lengthOf(augmentedImports, 1);
+    expect(augmentedImports).to.have.lengthOf(1);
     const rewrittenImportSpecifier = augmentedImports[0].getModuleSpecifierValue();
-    assert.equal(rewrittenImportSpecifier, "../anotherFile.js");
+    expect(rewrittenImportSpecifier).to.equal("../anotherFile.js");
   });
 
   it("should rewrite relative imports to new files from customization", () => {
@@ -161,8 +158,8 @@ describe("Imports", () => {
     resetCustomizationState();
 
     const augmentedImports = originalFile.getImportDeclarations();
-    assert.lengthOf(augmentedImports, 1);
+    expect(augmentedImports).to.have.lengthOf(1);
     const rewrittenImportSpecifier = augmentedImports[0].getModuleSpecifierValue();
-    assert.equal(rewrittenImportSpecifier, "../anotherFile.js");
+    expect(rewrittenImportSpecifier).to.equal("../anotherFile.js");
   });
 });

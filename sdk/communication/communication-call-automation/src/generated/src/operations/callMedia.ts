@@ -29,14 +29,10 @@ import {
   CallMediaSendDtmfTonesResponse,
   UpdateTranscriptionRequest,
   CallMediaUpdateTranscriptionOptionalParams,
-  HoldRequest,
-  CallMediaHoldOptionalParams,
-  UnholdRequest,
-  CallMediaUnholdOptionalParams,
   StartHoldMusicRequest,
   CallMediaStartHoldMusicOptionalParams,
   StopHoldMusicRequest,
-  CallMediaStopHoldMusicOptionalParams,
+  CallMediaStopHoldMusicOptionalParams
 } from "../models";
 
 /** Class containing CallMedia operations. */
@@ -60,11 +56,11 @@ export class CallMediaImpl implements CallMedia {
   play(
     callConnectionId: string,
     playRequest: PlayRequest,
-    options?: CallMediaPlayOptionalParams,
+    options?: CallMediaPlayOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, playRequest, options },
-      playOperationSpec,
+      playOperationSpec
     );
   }
 
@@ -77,11 +73,11 @@ export class CallMediaImpl implements CallMedia {
   startTranscription(
     callConnectionId: string,
     startTranscriptionRequest: StartTranscriptionRequest,
-    options?: CallMediaStartTranscriptionOptionalParams,
+    options?: CallMediaStartTranscriptionOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, startTranscriptionRequest, options },
-      startTranscriptionOperationSpec,
+      startTranscriptionOperationSpec
     );
   }
 
@@ -94,11 +90,11 @@ export class CallMediaImpl implements CallMedia {
   stopTranscription(
     callConnectionId: string,
     stopTranscriptionRequest: StopTranscriptionRequest,
-    options?: CallMediaStopTranscriptionOptionalParams,
+    options?: CallMediaStopTranscriptionOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, stopTranscriptionRequest, options },
-      stopTranscriptionOperationSpec,
+      stopTranscriptionOperationSpec
     );
   }
 
@@ -109,11 +105,11 @@ export class CallMediaImpl implements CallMedia {
    */
   cancelAllMediaOperations(
     callConnectionId: string,
-    options?: CallMediaCancelAllMediaOperationsOptionalParams,
+    options?: CallMediaCancelAllMediaOperationsOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, options },
-      cancelAllMediaOperationsOperationSpec,
+      cancelAllMediaOperationsOperationSpec
     );
   }
 
@@ -126,11 +122,11 @@ export class CallMediaImpl implements CallMedia {
   recognize(
     callConnectionId: string,
     recognizeRequest: RecognizeRequest,
-    options?: CallMediaRecognizeOptionalParams,
+    options?: CallMediaRecognizeOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, recognizeRequest, options },
-      recognizeOperationSpec,
+      recognizeOperationSpec
     );
   }
 
@@ -143,11 +139,11 @@ export class CallMediaImpl implements CallMedia {
   startContinuousDtmfRecognition(
     callConnectionId: string,
     continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest,
-    options?: CallMediaStartContinuousDtmfRecognitionOptionalParams,
+    options?: CallMediaStartContinuousDtmfRecognitionOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, continuousDtmfRecognitionRequest, options },
-      startContinuousDtmfRecognitionOperationSpec,
+      startContinuousDtmfRecognitionOperationSpec
     );
   }
 
@@ -160,11 +156,11 @@ export class CallMediaImpl implements CallMedia {
   stopContinuousDtmfRecognition(
     callConnectionId: string,
     continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest,
-    options?: CallMediaStopContinuousDtmfRecognitionOptionalParams,
+    options?: CallMediaStopContinuousDtmfRecognitionOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, continuousDtmfRecognitionRequest, options },
-      stopContinuousDtmfRecognitionOperationSpec,
+      stopContinuousDtmfRecognitionOperationSpec
     );
   }
 
@@ -177,11 +173,11 @@ export class CallMediaImpl implements CallMedia {
   sendDtmfTones(
     callConnectionId: string,
     sendDtmfTonesRequest: SendDtmfTonesRequest,
-    options?: CallMediaSendDtmfTonesOptionalParams,
+    options?: CallMediaSendDtmfTonesOptionalParams
   ): Promise<CallMediaSendDtmfTonesResponse> {
     return this.client.sendOperationRequest(
       { callConnectionId, sendDtmfTonesRequest, options },
-      sendDtmfTonesOperationSpec,
+      sendDtmfTonesOperationSpec
     );
   }
 
@@ -194,45 +190,11 @@ export class CallMediaImpl implements CallMedia {
   updateTranscription(
     callConnectionId: string,
     updateTranscriptionRequest: UpdateTranscriptionRequest,
-    options?: CallMediaUpdateTranscriptionOptionalParams,
+    options?: CallMediaUpdateTranscriptionOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, updateTranscriptionRequest, options },
-      updateTranscriptionOperationSpec,
-    );
-  }
-
-  /**
-   * Hold participant from the call using identifier.
-   * @param callConnectionId The call connection id.
-   * @param holdRequest The participants to be hold from the call.
-   * @param options The options parameters.
-   */
-  hold(
-    callConnectionId: string,
-    holdRequest: HoldRequest,
-    options?: CallMediaHoldOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { callConnectionId, holdRequest, options },
-      holdOperationSpec,
-    );
-  }
-
-  /**
-   * Unhold participants from the call using identifier.
-   * @param callConnectionId The call connection id.
-   * @param unholdRequest The participants to be hold from the call.
-   * @param options The options parameters.
-   */
-  unhold(
-    callConnectionId: string,
-    unholdRequest: UnholdRequest,
-    options?: CallMediaUnholdOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { callConnectionId, unholdRequest, options },
-      unholdOperationSpec,
+      updateTranscriptionOperationSpec
     );
   }
 
@@ -245,11 +207,11 @@ export class CallMediaImpl implements CallMedia {
   startHoldMusic(
     callConnectionId: string,
     startHoldMusicRequest: StartHoldMusicRequest,
-    options?: CallMediaStartHoldMusicOptionalParams,
+    options?: CallMediaStartHoldMusicOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, startHoldMusicRequest, options },
-      startHoldMusicOperationSpec,
+      startHoldMusicOperationSpec
     );
   }
 
@@ -262,11 +224,11 @@ export class CallMediaImpl implements CallMedia {
   stopHoldMusic(
     callConnectionId: string,
     stopHoldMusicRequest: StopHoldMusicRequest,
-    options?: CallMediaStopHoldMusicOptionalParams,
+    options?: CallMediaStopHoldMusicOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, stopHoldMusicRequest, options },
-      stopHoldMusicOperationSpec,
+      stopHoldMusicOperationSpec
     );
   }
 }
@@ -279,15 +241,15 @@ const playOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   requestBody: Parameters.playRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const startTranscriptionOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:startTranscription",
@@ -295,15 +257,15 @@ const startTranscriptionOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   requestBody: Parameters.startTranscriptionRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const stopTranscriptionOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:stopTranscription",
@@ -311,15 +273,15 @@ const stopTranscriptionOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   requestBody: Parameters.stopTranscriptionRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const cancelAllMediaOperationsOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:cancelAllMediaOperations",
@@ -327,13 +289,13 @@ const cancelAllMediaOperationsOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const recognizeOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:recognize",
@@ -341,58 +303,60 @@ const recognizeOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   requestBody: Parameters.recognizeRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const startContinuousDtmfRecognitionOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:startContinuousDtmfRecognition",
+  path:
+    "/calling/callConnections/{callConnectionId}:startContinuousDtmfRecognition",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   requestBody: Parameters.continuousDtmfRecognitionRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const stopContinuousDtmfRecognitionOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:stopContinuousDtmfRecognition",
+  path:
+    "/calling/callConnections/{callConnectionId}:stopContinuousDtmfRecognition",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   requestBody: Parameters.continuousDtmfRecognitionRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const sendDtmfTonesOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:sendDtmfTones",
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.SendDtmfTonesResult,
+      bodyMapper: Mappers.SendDtmfTonesResult
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   requestBody: Parameters.sendDtmfTonesRequest,
   queryParameters: [Parameters.apiVersion],
@@ -401,10 +365,10 @@ const sendDtmfTonesOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent,
+    Parameters.repeatabilityFirstSent
   ],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const updateTranscriptionOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:updateTranscription",
@@ -412,47 +376,15 @@ const updateTranscriptionOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   requestBody: Parameters.updateTranscriptionRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
-};
-const holdOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:hold",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
-  },
-  requestBody: Parameters.holdRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const unholdOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:unhold",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
-  },
-  requestBody: Parameters.unholdRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
+  serializer
 };
 const startHoldMusicOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:startHoldMusic",
@@ -460,15 +392,15 @@ const startHoldMusicOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   requestBody: Parameters.startHoldMusicRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const stopHoldMusicOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:stopHoldMusic",
@@ -476,13 +408,13 @@ const stopHoldMusicOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   requestBody: Parameters.stopHoldMusicRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };

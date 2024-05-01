@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
 import {
   AnalyzeDocumentRequest,
@@ -13,75 +12,12 @@ import {
   ClassifyDocumentRequest,
 } from "./models";
 
-export interface ListOperationsHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-export interface ListOperationsHeaderParam {
-  headers?: RawHttpHeadersInput & ListOperationsHeaders;
-}
-
-export type ListOperationsParameters = ListOperationsHeaderParam & RequestParameters;
-
-export interface GetDocumentModelBuildOperationHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-export interface GetDocumentModelBuildOperationHeaderParam {
-  headers?: RawHttpHeadersInput & GetDocumentModelBuildOperationHeaders;
-}
-
-export type GetDocumentModelBuildOperationParameters = GetDocumentModelBuildOperationHeaderParam &
-  RequestParameters;
-
-export interface GetDocumentModelComposeOperationHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-export interface GetDocumentModelComposeOperationHeaderParam {
-  headers?: RawHttpHeadersInput & GetDocumentModelComposeOperationHeaders;
-}
-
-export type GetDocumentModelComposeOperationParameters =
-  GetDocumentModelComposeOperationHeaderParam & RequestParameters;
-
-export interface GetDocumentModelCopyToOperationHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-export interface GetDocumentModelCopyToOperationHeaderParam {
-  headers?: RawHttpHeadersInput & GetDocumentModelCopyToOperationHeaders;
-}
-
-export type GetDocumentModelCopyToOperationParameters = GetDocumentModelCopyToOperationHeaderParam &
-  RequestParameters;
-
-export interface GetDocumentClassifierBuildOperationHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-export interface GetDocumentClassifierBuildOperationHeaderParam {
-  headers?: RawHttpHeadersInput & GetDocumentClassifierBuildOperationHeaders;
-}
-
-export type GetDocumentClassifierBuildOperationParameters =
-  GetDocumentClassifierBuildOperationHeaderParam & RequestParameters;
-
-export interface GetOperationHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-export interface GetOperationHeaderParam {
-  headers?: RawHttpHeadersInput & GetOperationHeaders;
-}
-
-export type GetOperationParameters = GetOperationHeaderParam & RequestParameters;
+export type ListOperationsParameters = RequestParameters;
+export type GetDocumentModelBuildOperationParameters = RequestParameters;
+export type GetDocumentModelComposeOperationParameters = RequestParameters;
+export type GetDocumentModelCopyToOperationParameters = RequestParameters;
+export type GetDocumentClassifierBuildOperationParameters = RequestParameters;
+export type GetOperationParameters = RequestParameters;
 export type GetResourceInfoParameters = RequestParameters;
 export type GetAnalyzeResultParameters = RequestParameters;
 
@@ -105,7 +41,7 @@ export interface AnalyzeDocumentFromStreamQueryParamProperties {
   /**
    * Method used to compute string offset and length.
    *
-   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
+   * Possible values: textElements, unicodeCodePoint, utf16CodeUnit
    */
   stringIndexType?: string;
   /** List of optional analysis features. */
@@ -115,7 +51,7 @@ export interface AnalyzeDocumentFromStreamQueryParamProperties {
   /**
    * Format of the analyze result top-level content.
    *
-   * Possible values: "text", "markdown"
+   * Possible values: text, markdown
    */
   outputContentFormat?: string;
 }
@@ -161,7 +97,7 @@ export interface AnalyzeDocumentQueryParamProperties {
   /**
    * Method used to compute string offset and length.
    *
-   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
+   * Possible values: textElements, unicodeCodePoint, utf16CodeUnit
    */
   stringIndexType?: string;
   /** List of optional analysis features. */
@@ -171,7 +107,7 @@ export interface AnalyzeDocumentQueryParamProperties {
   /**
    * Format of the analyze result top-level content.
    *
-   * Possible values: "text", "markdown"
+   * Possible values: text, markdown
    */
   outputContentFormat?: string;
 }
@@ -189,17 +125,7 @@ export type AnalyzeDocumentParameters = AnalyzeDocumentQueryParam &
   AnalyzeDocumentMediaTypesParam &
   AnalyzeDocumentBodyParam &
   RequestParameters;
-
-export interface GetModelHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-export interface GetModelHeaderParam {
-  headers?: RawHttpHeadersInput & GetModelHeaders;
-}
-
-export type GetModelParameters = GetModelHeaderParam & RequestParameters;
+export type GetModelParameters = RequestParameters;
 
 export interface BuildModelBodyParam {
   /** Build request parameters. */
@@ -228,28 +154,8 @@ export interface CopyModelToBodyParam {
 }
 
 export type CopyModelToParameters = CopyModelToBodyParam & RequestParameters;
-
-export interface ListModelsHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-export interface ListModelsHeaderParam {
-  headers?: RawHttpHeadersInput & ListModelsHeaders;
-}
-
-export type ListModelsParameters = ListModelsHeaderParam & RequestParameters;
-
-export interface DeleteModelHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-export interface DeleteModelHeaderParam {
-  headers?: RawHttpHeadersInput & DeleteModelHeaders;
-}
-
-export type DeleteModelParameters = DeleteModelHeaderParam & RequestParameters;
+export type ListModelsParameters = RequestParameters;
+export type DeleteModelParameters = RequestParameters;
 
 export interface BuildClassifierBodyParam {
   /** Build request parameters. */
@@ -257,39 +163,9 @@ export interface BuildClassifierBodyParam {
 }
 
 export type BuildClassifierParameters = BuildClassifierBodyParam & RequestParameters;
-
-export interface ListClassifiersHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-export interface ListClassifiersHeaderParam {
-  headers?: RawHttpHeadersInput & ListClassifiersHeaders;
-}
-
-export type ListClassifiersParameters = ListClassifiersHeaderParam & RequestParameters;
-
-export interface GetClassifierHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-export interface GetClassifierHeaderParam {
-  headers?: RawHttpHeadersInput & GetClassifierHeaders;
-}
-
-export type GetClassifierParameters = GetClassifierHeaderParam & RequestParameters;
-
-export interface DeleteClassifierHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-export interface DeleteClassifierHeaderParam {
-  headers?: RawHttpHeadersInput & DeleteClassifierHeaders;
-}
-
-export type DeleteClassifierParameters = DeleteClassifierHeaderParam & RequestParameters;
+export type ListClassifiersParameters = RequestParameters;
+export type GetClassifierParameters = RequestParameters;
+export type DeleteClassifierParameters = RequestParameters;
 
 export interface ClassifyDocumentFromStreamBodyParam {
   /**
@@ -304,13 +180,13 @@ export interface ClassifyDocumentFromStreamQueryParamProperties {
   /**
    * Method used to compute string offset and length.
    *
-   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
+   * Possible values: textElements, unicodeCodePoint, utf16CodeUnit
    */
   stringIndexType?: string;
   /**
    * Document splitting mode.
    *
-   * Possible values: "auto", "none", "perPage"
+   * Possible values: auto, none, perPage
    */
   split?: string;
 }
@@ -349,13 +225,13 @@ export interface ClassifyDocumentQueryParamProperties {
   /**
    * Method used to compute string offset and length.
    *
-   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
+   * Possible values: textElements, unicodeCodePoint, utf16CodeUnit
    */
   stringIndexType?: string;
   /**
    * Document splitting mode.
    *
-   * Possible values: "auto", "none", "perPage"
+   * Possible values: auto, none, perPage
    */
   split?: string;
 }

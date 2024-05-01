@@ -6,14 +6,14 @@
  */
 
 const {
-  AzureKeyCredential,
-  DEFAULT_FLUSH_WINDOW,
-  GeographyPoint,
-  SearchClient,
-  SearchIndexClient,
   SearchIndexingBufferedSender,
+  AzureKeyCredential,
+  SearchClient,
+  GeographyPoint,
+  SearchIndexClient,
+  DEFAULT_FLUSH_WINDOW,
 } = require("@azure/search-documents");
-const { createIndex, delay, documentKeyRetriever, WAIT_TIME } = require("./setup");
+const { createIndex, documentKeyRetriever, WAIT_TIME, delay } = require("./setup");
 
 require("dotenv").config();
 
@@ -66,7 +66,7 @@ async function main() {
       console.log(response);
     });
 
-    await bufferedClient.uploadDocuments([
+    bufferedClient.uploadDocuments([
       {
         hotelId: "1",
         description:
@@ -102,6 +102,7 @@ async function main() {
   } finally {
     await indexClient.deleteIndex(TEST_INDEX_NAME);
   }
+  await delay(WAIT_TIME);
 }
 
 main();

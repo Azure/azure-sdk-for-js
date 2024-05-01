@@ -1,13 +1,11 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types/latest",
     "paths": {
-      "@azure/core-paging": ["./src/index.ts"]
-    },
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
+      "@azure/core-paging": ["./src/index"]
+    }
   },
-  "exclude": ["./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "./samples-dev/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

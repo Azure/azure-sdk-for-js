@@ -32,8 +32,8 @@ extends:
         skipPublishDocMs: true
         skipPublishDocGithubIo: true
         skipPublishDevFeed: true
-      - name: azure-tools-test-perf
-        safeName: azuretoolstestperf
+      - name: azure-test-utils-perf
+        safeName: azuretestutilsperf
         skipPublishDocMs: true
         skipPublishDocGithubIo: true
         skipPublishDevFeed: true

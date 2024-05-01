@@ -6,7 +6,7 @@ The Microsoft.HybridContainerService Rest API spec.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridcontainerservice/arm-hybridcontainerservice) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-hybridcontainerservice) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-hybridcontainerservice) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-hybridcontainerservice?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

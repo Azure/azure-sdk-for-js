@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Licensed under the MIT Licence.
 
 /**
  * @summary This sample demonstrates how to create a ServiceBusClient meant to be used in an environment

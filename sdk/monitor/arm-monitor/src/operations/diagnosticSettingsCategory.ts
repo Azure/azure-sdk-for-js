@@ -17,14 +17,13 @@ import {
   DiagnosticSettingsCategoryListOptionalParams,
   DiagnosticSettingsCategoryListResponse,
   DiagnosticSettingsCategoryGetOptionalParams,
-  DiagnosticSettingsCategoryGetResponse,
+  DiagnosticSettingsCategoryGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DiagnosticSettingsCategory operations. */
 export class DiagnosticSettingsCategoryImpl
-  implements DiagnosticSettingsCategory
-{
+  implements DiagnosticSettingsCategory {
   private readonly client: MonitorClient;
 
   /**
@@ -42,7 +41,7 @@ export class DiagnosticSettingsCategoryImpl
    */
   public list(
     resourceUri: string,
-    options?: DiagnosticSettingsCategoryListOptionalParams,
+    options?: DiagnosticSettingsCategoryListOptionalParams
   ): PagedAsyncIterableIterator<DiagnosticSettingsCategoryResource> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -57,14 +56,14 @@ export class DiagnosticSettingsCategoryImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      },
+      }
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: DiagnosticSettingsCategoryListOptionalParams,
-    _settings?: PageSettings,
+    _settings?: PageSettings
   ): AsyncIterableIterator<DiagnosticSettingsCategoryResource[]> {
     let result: DiagnosticSettingsCategoryListResponse;
     result = await this._list(resourceUri, options);
@@ -73,7 +72,7 @@ export class DiagnosticSettingsCategoryImpl
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: DiagnosticSettingsCategoryListOptionalParams,
+    options?: DiagnosticSettingsCategoryListOptionalParams
   ): AsyncIterableIterator<DiagnosticSettingsCategoryResource> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
@@ -89,11 +88,11 @@ export class DiagnosticSettingsCategoryImpl
   get(
     resourceUri: string,
     name: string,
-    options?: DiagnosticSettingsCategoryGetOptionalParams,
+    options?: DiagnosticSettingsCategoryGetOptionalParams
   ): Promise<DiagnosticSettingsCategoryGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, name, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -104,11 +103,11 @@ export class DiagnosticSettingsCategoryImpl
    */
   private _list(
     resourceUri: string,
-    options?: DiagnosticSettingsCategoryListOptionalParams,
+    options?: DiagnosticSettingsCategoryListOptionalParams
   ): Promise<DiagnosticSettingsCategoryListResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 }
@@ -116,34 +115,36 @@ export class DiagnosticSettingsCategoryImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.Insights/diagnosticSettingsCategories/{name}",
+  path:
+    "/{resourceUri}/providers/Microsoft.Insights/diagnosticSettingsCategories/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiagnosticSettingsCategoryResource,
+      bodyMapper: Mappers.DiagnosticSettingsCategoryResource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.name],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.Insights/diagnosticSettingsCategories",
+  path:
+    "/{resourceUri}/providers/Microsoft.Insights/diagnosticSettingsCategories",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiagnosticSettingsCategoryResourceCollection,
+      bodyMapper: Mappers.DiagnosticSettingsCategoryResourceCollection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

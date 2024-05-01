@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Regenerates either the primary or secondary admin API key. You can only regenerate one key at a time.
  *
  * @summary Regenerates either the primary or secondary admin API key. You can only regenerate one key at a time.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-03-01-preview/examples/SearchRegenerateAdminKey.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchRegenerateAdminKey.json
  */
 async function searchRegenerateAdminKey() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function searchRegenerateAdminKey() {
   const result = await client.adminKeys.regenerate(
     resourceGroupName,
     searchServiceName,
-    keyKind,
+    keyKind
   );
   console.log(result);
 }

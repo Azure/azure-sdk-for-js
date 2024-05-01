@@ -6,11 +6,8 @@
  * @packageDocumentation
  */
 
-export { createRestError } from "./restError.js";
-export {
-  addCredentialPipelinePolicy,
-  AddCredentialPipelinePolicyOptions,
-} from "./clientHelpers.js";
-export { operationOptionsToRequestParameters } from "./operationOptionHelpers.js";
-export * from "./getClient.js";
-export * from "./common.js";
+export { createRestError } from "./restError";
+export { addCredentialPipelinePolicy, AddCredentialPipelinePolicyOptions } from "./clientHelpers";
+export { operationOptionsToRequestParameters } from "./operationOptionHelpers";
+export * from "./getClient";
+export * from "./common";

@@ -53,8 +53,6 @@ export interface CommunicationIdentifierModel {
   phoneNumber?: PhoneNumberIdentifierModel;
   /** The Microsoft Teams user. */
   microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
-  /** The Microsoft Teams application. */
-  microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
 }
 
 /** A user that got created with an Azure Communication Services resource. */
@@ -76,14 +74,6 @@ export interface MicrosoftTeamsUserIdentifierModel {
   /** True if the Microsoft Teams user is anonymous. By default false if missing. */
   isAnonymous?: boolean;
   /** The cloud that the Microsoft Teams user belongs to. By default 'public' if missing. */
-  cloud?: CommunicationCloudEnvironmentModel;
-}
-
-/** A Microsoft Teams application. */
-export interface MicrosoftTeamsAppIdentifierModel {
-  /** The Id of the Microsoft Teams application. */
-  appId: string;
-  /** The cloud that the Microsoft Teams application belongs to. By default 'public' if missing. */
   cloud?: CommunicationCloudEnvironmentModel;
 }
 
@@ -153,8 +143,6 @@ export interface CallConnectionPropertiesInternal {
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
   answeredBy?: CommunicationUserIdentifierModel;
-  /** Identity of the original Pstn target of an incoming Call. Only populated when the original target is a Pstn number. */
-  answeredFor?: PhoneNumberIdentifierModel;
 }
 
 /** The Communication Services error. */
@@ -202,6 +190,11 @@ export interface AnswerCallRequest {
   callIntelligenceOptions?: CallIntelligenceOptionsInternal;
   /** The identifier of the call automation entity which answers the call */
   answeredBy?: CommunicationUserIdentifierModel;
+  /**
+   * The source caller Id, a phone number, that's will be used when inviting a pstn target.
+   * Required only when transferring call to PSTN, if this is an incoming voip call.
+   */
+  sourceCallerIdNumber?: PhoneNumberIdentifierModel;
 }
 
 /** The request payload for redirecting the call. */
@@ -237,8 +230,6 @@ export interface TransferToParticipantRequest {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUri?: string;
-  /** The source caller Id, a phone number, that's will be used as the transferor's(Contoso) caller id when transfering a call a pstn target. */
-  sourceCallerIdNumber?: PhoneNumberIdentifierModel;
 }
 
 /** The response payload for transferring the call. */
@@ -313,8 +304,6 @@ export interface SsmlSourceInternal {
 export interface PlayOptionsInternal {
   /** The option to play the provided audio source in loop when set to true */
   loop: boolean;
-  /** If set play can barge into other existing queued-up/currently-processing requests. */
-  interruptCallMediaOperation?: boolean;
 }
 
 export interface StartTranscriptionRequest {
@@ -427,44 +416,15 @@ export interface UpdateTranscriptionRequest {
 }
 
 /** The request payload for holding participant from the call. */
-export interface HoldRequest {
-  /** Participant to be held from the call. */
-  targetParticipant: CommunicationIdentifierModel;
-  /** Prompt to play while in hold. */
-  playSourceInfo?: PlaySourceInternal;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /**
-   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
-   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
-   */
-  operationCallbackUri?: string;
-}
-
-/** The request payload for holding participant from the call. */
-export interface UnholdRequest {
-  /**
-   * Participants to be hold from the call.
-   * Only ACS Users are supported.
-   */
-  targetParticipant: CommunicationIdentifierModel;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-}
-
-/** The request payload for holding participant from the call. */
 export interface StartHoldMusicRequest {
   /** Participant to be held from the call. */
   targetParticipant: CommunicationIdentifierModel;
   /** Prompt to play while in hold. */
-  playSourceInfo?: PlaySourceInternal;
+  playSourceInfo: PlaySourceInternal;
+  /** If the prompt will be looped or not. */
+  loop?: boolean;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /**
-   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
-   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
-   */
-  operationCallbackUri?: string;
 }
 
 /** The request payload for holding participant from the call. */
@@ -539,8 +499,6 @@ export interface CallParticipantInternal {
   identifier?: CommunicationIdentifierModel;
   /** Is participant muted */
   isMuted?: boolean;
-  /** Is participant on hold. */
-  isOnHold?: boolean;
 }
 
 /** The request payload for adding participant to the call. */
@@ -729,73 +687,6 @@ export interface RecordingStateResponse {
   recordingType?: RecordingType;
 }
 
-/** AnswerFailed event */
-export interface AnswerFailed {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
-export interface RestResultInformation {
-  /** Code of the current result. This can be helpful to Call Automation team to troubleshoot the issue if this result was unexpected. */
-  code?: number;
-  /** Subcode of the current result. This can be helpful to Call Automation team to troubleshoot the issue if this result was unexpected. */
-  subCode?: number;
-  /** Detail message that describes the current result. */
-  message?: string;
-}
-
-/** The CreateCallFailed event */
-export interface CreateCallFailed {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
 export interface CollectTonesResult {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly tones?: Tone[];
@@ -855,6 +746,15 @@ export interface DialogCompleted {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly correlationId?: string;
+}
+
+export interface RestResultInformation {
+  /** Code of the current result. This can be helpful to Call Automation team to troubleshoot the issue if this result was unexpected. */
+  code?: number;
+  /** Subcode of the current result. This can be helpful to Call Automation team to troubleshoot the issue if this result was unexpected. */
+  subCode?: number;
+  /** Detail message that describes the current result. */
+  message?: string;
 }
 
 export interface DialogFailed {
@@ -1191,34 +1091,6 @@ export interface TranscriptionUpdate {
   transcriptionStatusDetails?: TranscriptionStatusDetails;
 }
 
-export interface HoldFailed {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
 /** The participant successfully added event. */
 export interface RestAddParticipantSucceeded {
   /**
@@ -1472,66 +1344,6 @@ export interface RestCallTransferFailed {
 }
 
 export interface RestRecordingStateChanged {
-  /**
-   * The call recording id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recordingId?: string;
-  state?: RecordingState;
-  /**
-   * The time of the recording started
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startDateTime?: Date;
-  recordingType?: RecordingType;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
-export interface RestTeamsRecordingStateChanged {
-  /**
-   * The call recording id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recordingId?: string;
-  state?: RecordingState;
-  /**
-   * The time of the recording started
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startDateTime?: Date;
-  recordingType?: RecordingType;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
-export interface RestTeamsComplianceRecordingStateChanged {
   /**
    * The call recording id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2113,8 +1925,7 @@ export interface RestTranscriptionFailed {
   readonly correlationId?: string;
 }
 
-/** The CreateCallFailed event */
-export interface RestCreateCallFailed {
+export interface RestTranscriptionResumed {
   /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2126,62 +1937,10 @@ export interface RestCreateCallFailed {
    */
   readonly resultInformation?: RestResultInformation;
   /**
-   * Call connection ID.
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
-/** AnswerFailed event */
-export interface RestAnswerFailed {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
-export interface RestHoldFailed {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
+  readonly transcriptionUpdate?: TranscriptionUpdate;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2230,9 +1989,7 @@ export enum KnownCommunicationIdentifierModelKind {
   /** PhoneNumber */
   PhoneNumber = "phoneNumber",
   /** MicrosoftTeamsUser */
-  MicrosoftTeamsUser = "microsoftTeamsUser",
-  /** MicrosoftTeamsApp */
-  MicrosoftTeamsApp = "microsoftTeamsApp",
+  MicrosoftTeamsUser = "microsoftTeamsUser"
 }
 
 /**
@@ -2243,8 +2000,7 @@ export enum KnownCommunicationIdentifierModelKind {
  * **unknown** \
  * **communicationUser** \
  * **phoneNumber** \
- * **microsoftTeamsUser** \
- * **microsoftTeamsApp**
+ * **microsoftTeamsUser**
  */
 export type CommunicationIdentifierModelKind = string;
 
@@ -2255,7 +2011,7 @@ export enum KnownCommunicationCloudEnvironmentModel {
   /** Dod */
   Dod = "dod",
   /** Gcch */
-  Gcch = "gcch",
+  Gcch = "gcch"
 }
 
 /**
@@ -2272,7 +2028,7 @@ export type CommunicationCloudEnvironmentModel = string;
 /** Known values of {@link MediaStreamingTransportType} that the service accepts. */
 export enum KnownMediaStreamingTransportType {
   /** Websocket */
-  Websocket = "websocket",
+  Websocket = "websocket"
 }
 
 /**
@@ -2287,7 +2043,7 @@ export type MediaStreamingTransportType = string;
 /** Known values of {@link MediaStreamingContentType} that the service accepts. */
 export enum KnownMediaStreamingContentType {
   /** Audio */
-  Audio = "audio",
+  Audio = "audio"
 }
 
 /**
@@ -2304,7 +2060,7 @@ export enum KnownMediaStreamingAudioChannelType {
   /** Mixed */
   Mixed = "mixed",
   /** Unmixed */
-  Unmixed = "unmixed",
+  Unmixed = "unmixed"
 }
 
 /**
@@ -2320,7 +2076,7 @@ export type MediaStreamingAudioChannelType = string;
 /** Known values of {@link TranscriptionTransportType} that the service accepts. */
 export enum KnownTranscriptionTransportType {
   /** Websocket */
-  Websocket = "websocket",
+  Websocket = "websocket"
 }
 
 /**
@@ -2347,7 +2103,7 @@ export enum KnownCallConnectionStateModel {
   /** Disconnecting */
   Disconnecting = "disconnecting",
   /** Disconnected */
-  Disconnected = "disconnected",
+  Disconnected = "disconnected"
 }
 
 /**
@@ -2372,7 +2128,7 @@ export enum KnownCallRejectReason {
   /** Busy */
   Busy = "busy",
   /** Forbidden */
-  Forbidden = "forbidden",
+  Forbidden = "forbidden"
 }
 
 /**
@@ -2393,7 +2149,7 @@ export enum KnownPlaySourceType {
   /** Text */
   Text = "text",
   /** Ssml */
-  Ssml = "ssml",
+  Ssml = "ssml"
 }
 
 /**
@@ -2412,7 +2168,7 @@ export enum KnownVoiceKind {
   /** Male */
   Male = "male",
   /** Female */
-  Female = "female",
+  Female = "female"
 }
 
 /**
@@ -2434,7 +2190,7 @@ export enum KnownRecognizeInputType {
   /** SpeechOrDtmf */
   SpeechOrDtmf = "speechOrDtmf",
   /** Choices */
-  Choices = "choices",
+  Choices = "choices"
 }
 
 /**
@@ -2482,7 +2238,7 @@ export enum KnownTone {
   /** Pound */
   Pound = "pound",
   /** Asterisk */
-  Asterisk = "asterisk",
+  Asterisk = "asterisk"
 }
 
 /**
@@ -2514,7 +2270,7 @@ export enum KnownDialogInputType {
   /** PowerVirtualAgents */
   PowerVirtualAgents = "powerVirtualAgents",
   /** AzureOpenAI */
-  AzureOpenAI = "azureOpenAI",
+  AzureOpenAI = "azureOpenAI"
 }
 
 /**
@@ -2532,7 +2288,7 @@ export enum KnownCallLocatorKind {
   /** GroupCallLocator */
   GroupCallLocator = "groupCallLocator",
   /** ServerCallLocator */
-  ServerCallLocator = "serverCallLocator",
+  ServerCallLocator = "serverCallLocator"
 }
 
 /**
@@ -2550,7 +2306,7 @@ export enum KnownRecordingContentType {
   /** Audio */
   Audio = "audio",
   /** AudioVideo */
-  AudioVideo = "audioVideo",
+  AudioVideo = "audioVideo"
 }
 
 /**
@@ -2568,7 +2324,7 @@ export enum KnownRecordingChannelType {
   /** Mixed */
   Mixed = "mixed",
   /** Unmixed */
-  Unmixed = "unmixed",
+  Unmixed = "unmixed"
 }
 
 /**
@@ -2588,7 +2344,7 @@ export enum KnownRecordingFormatType {
   /** Mp3 */
   Mp3 = "mp3",
   /** Mp4 */
-  Mp4 = "mp4",
+  Mp4 = "mp4"
 }
 
 /**
@@ -2607,7 +2363,7 @@ export enum KnownRecordingStorageType {
   /** Acs */
   Acs = "acs",
   /** BlobStorage */
-  BlobStorage = "blobStorage",
+  BlobStorage = "blobStorage"
 }
 
 /**
@@ -2625,7 +2381,7 @@ export enum KnownRecordingState {
   /** Active */
   Active = "active",
   /** Inactive */
-  Inactive = "inactive",
+  Inactive = "inactive"
 }
 
 /**
@@ -2643,9 +2399,7 @@ export enum KnownRecordingType {
   /** Acs */
   Acs = "acs",
   /** Teams */
-  Teams = "teams",
-  /** TeamsCompliance */
-  TeamsCompliance = "teamsCompliance",
+  Teams = "teams"
 }
 
 /**
@@ -2654,8 +2408,7 @@ export enum KnownRecordingType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **acs** \
- * **teams** \
- * **teamsCompliance**
+ * **teams**
  */
 export type RecordingType = string;
 
@@ -2672,7 +2425,7 @@ export enum KnownTranscriptionStatus {
   /** TranscriptionStopped */
   TranscriptionStopped = "transcriptionStopped",
   /** UnspecifiedError */
-  UnspecifiedError = "unspecifiedError",
+  UnspecifiedError = "unspecifiedError"
 }
 
 /**
@@ -2720,7 +2473,7 @@ export enum KnownTranscriptionStatusDetails {
   /** ServiceTimeout */
   ServiceTimeout = "serviceTimeout",
   /** TranscriptionLocaleUpdated */
-  TranscriptionLocaleUpdated = "transcriptionLocaleUpdated",
+  TranscriptionLocaleUpdated = "transcriptionLocaleUpdated"
 }
 
 /**
@@ -2753,7 +2506,7 @@ export enum KnownRecognitionType {
   /** Speech */
   Speech = "speech",
   /** Choices */
-  Choices = "choices",
+  Choices = "choices"
 }
 
 /**
@@ -2903,8 +2656,7 @@ export interface CallConnectionCancelAddParticipantOptionalParams
 }
 
 /** Contains response data for the cancelAddParticipant operation. */
-export type CallConnectionCancelAddParticipantResponse =
-  CancelAddParticipantResponse;
+export type CallConnectionCancelAddParticipantResponse = CancelAddParticipantResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams
@@ -2965,14 +2717,6 @@ export interface CallMediaUpdateTranscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface CallMediaHoldOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface CallMediaUnholdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
 export interface CallMediaStartHoldMusicOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2990,7 +2734,7 @@ export type CallDialogStartDialogResponse = DialogStateResponse;
 /** Optional parameters. */
 export interface CallDialogStopDialogOptionalParams
   extends coreClient.OperationOptions {
-  /** Operation callback URI. */
+  /** Opeation callback URI. */
   operationCallbackUri?: string;
 }
 
@@ -3015,8 +2759,7 @@ export interface CallRecordingGetRecordingPropertiesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getRecordingProperties operation. */
-export type CallRecordingGetRecordingPropertiesResponse =
-  RecordingStateResponse;
+export type CallRecordingGetRecordingPropertiesResponse = RecordingStateResponse;
 
 /** Optional parameters. */
 export interface CallRecordingStopRecordingOptionalParams

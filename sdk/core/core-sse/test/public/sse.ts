@@ -18,13 +18,12 @@ import {
   genStrs,
   createRetry,
 } from "./util.js";
-import { describe, it, assert, SuiteCollector } from "vitest";
-import { matrix } from "../matrix.js";
+import { assert, matrix } from "@azure/test-utils";
 
 export function buildSseTests(
   rtName: string,
   createStream: (cb: (write: (chunk: Uint8Array) => void) => void) => AsyncIterable<EventMessage>,
-): SuiteCollector {
+): Mocha.Suite {
   return describe(`[${rtName}] Server-sent Events`, () => {
     matrix([[0, 1, 2, 10000]], async function (count: number) {
       matrix([[1, 3, 10]], async function (chunkLen: number) {

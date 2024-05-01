@@ -8,14 +8,14 @@
 
 import * as coreClient from "@azure/core-client";
 import {
-  ApiVersion20240201,
+  ApiVersion201801,
   MonitorManagementClientOptionalParams
 } from "./models";
 
 /** @internal */
 export class MonitorManagementClientContext extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: ApiVersion20240201;
+  apiVersion: ApiVersion201801;
 
   /**
    * Initializes a new instance of the MonitorManagementClientContext class.
@@ -23,7 +23,7 @@ export class MonitorManagementClientContext extends coreClient.ServiceClient {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion20240201,
+    apiVersion: ApiVersion201801,
     options?: MonitorManagementClientOptionalParams
   ) {
     if (apiVersion === undefined) {
@@ -38,7 +38,7 @@ export class MonitorManagementClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-monitor-metrics-definitions/1.2.0`;
+    const packageDetails = `azsdk-js-monitor-metrics-definitions/1.2.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

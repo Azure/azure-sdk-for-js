@@ -5,16 +5,16 @@
   "matrix": {
     "Agent": {
       "windows-2022": {
-        "OSVmImage": "env:WINDOWSVMIMAGE",
-        "Pool": "env:WINDOWSPOOL"
+        "OSVmImage": "MMS2022",
+        "Pool": "azsdk-pool-mms-win-2022-general"
       },
       "ubuntu-20.04": {
-        "OSVmImage": "env:LINUXVMIMAGE",
-        "Pool": "env:LINUXPOOL"
+        "OSVmImage": "MMSUbuntu20.04",
+        "Pool": "azsdk-pool-mms-ubuntu-2004-general"
       },
       "macos-11": {
-        "OSVmImage": "env:MACVMIMAGE",
-        "Pool": "env:MACPOOL"
+        "OSVmImage": "macos-11",
+        "Pool": "Azure Pipelines"
       }
     },
     "NodeTestVersion": [
@@ -29,8 +29,8 @@
     {
       "Agent": {
         "windows-2022": {
-          "OSVmImage": "env:WINDOWSVMIMAGE",
-          "Pool": "env:WINDOWSPOOL"
+          "OSVmImage": "MMS2022",
+          "Pool": "azsdk-pool-mms-win-2022-general"
         }
       },
       "Scenario": {
@@ -53,16 +53,13 @@
     {
       "Agent": {
         "ubuntu-20.04": {
-          "OSVmImage": "env:LINUXVMIMAGE",
-          "Pool": "env:LINUXPOOL"
+          "OSVmImage": "MMSUbuntu20.04",
+          "Pool": "azsdk-pool-mms-ubuntu-2004-general"
         }
       },
       "TestType": "node",
       "NodeTestVersion": "18.x",
-      "DependencyVersion": [
-        "max",
-        "min"
-      ],
+      "DependencyVersion": ["max", "min"],
       "TestResultsFiles": "**/test-results.xml"
     }
   ]

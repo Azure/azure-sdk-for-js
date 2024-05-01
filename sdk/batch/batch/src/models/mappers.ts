@@ -2015,8 +2015,7 @@ export const DataDisk: msRest.CompositeMapper = {
           name: "Enum",
           allowedValues: [
             "standard_lrs",
-            "premium_lrs",
-            "standardssd_lrs"
+            "premium_lrs"
           ]
         }
       }
@@ -2200,27 +2199,6 @@ export const DiffDiskSettings: msRest.CompositeMapper = {
   }
 };
 
-export const ManagedDisk: msRest.CompositeMapper = {
-  serializedName: "ManagedDisk",
-  type: {
-    name: "Composite",
-    className: "ManagedDisk",
-    modelProperties: {
-      storageAccountType: {
-        serializedName: "storageAccountType",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "standard_lrs",
-            "premium_lrs",
-            "standardssd_lrs"
-          ]
-        }
-      }
-    }
-  }
-};
-
 export const OSDisk: msRest.CompositeMapper = {
   serializedName: "OSDisk",
   type: {
@@ -2232,107 +2210,6 @@ export const OSDisk: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DiffDiskSettings"
-        }
-      },
-      caching: {
-        serializedName: "caching",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "none",
-            "readonly",
-            "readwrite"
-          ]
-        }
-      },
-      managedDisk: {
-        serializedName: "managedDisk",
-        type: {
-          name: "Composite",
-          className: "ManagedDisk"
-        }
-      },
-      diskSizeGB: {
-        serializedName: "diskSizeGB",
-        type: {
-          name: "Number"
-        }
-      },
-      writeAcceleratorEnabled: {
-        serializedName: "writeAcceleratorEnabled",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const UefiSettings: msRest.CompositeMapper = {
-  serializedName: "UefiSettings",
-  type: {
-    name: "Composite",
-    className: "UefiSettings",
-    modelProperties: {
-      secureBootEnabled: {
-        serializedName: "secureBootEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      vTpmEnabled: {
-        serializedName: "vTpmEnabled",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const SecurityProfile: msRest.CompositeMapper = {
-  serializedName: "SecurityProfile",
-  type: {
-    name: "Composite",
-    className: "SecurityProfile",
-    modelProperties: {
-      securityType: {
-        serializedName: "securityType",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "trustedLaunch"
-          ]
-        }
-      },
-      encryptionAtHost: {
-        serializedName: "encryptionAtHost",
-        type: {
-          name: "Boolean"
-        }
-      },
-      uefiSettings: {
-        serializedName: "uefiSettings",
-        type: {
-          name: "Composite",
-          className: "UefiSettings"
-        }
-      }
-    }
-  }
-};
-
-export const ServiceArtifactReference: msRest.CompositeMapper = {
-  serializedName: "ServiceArtifactReference",
-  type: {
-    name: "Composite",
-    className: "ServiceArtifactReference",
-    modelProperties: {
-      id: {
-        required: true,
-        serializedName: "id",
-        type: {
-          name: "String"
         }
       }
     }
@@ -2423,20 +2300,6 @@ export const VirtualMachineConfiguration: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "OSDisk"
-        }
-      },
-      securityProfile: {
-        serializedName: "securityProfile",
-        type: {
-          name: "Composite",
-          className: "SecurityProfile"
-        }
-      },
-      serviceArtifactReference: {
-        serializedName: "serviceArtifactReference",
-        type: {
-          name: "Composite",
-          className: "ServiceArtifactReference"
         }
       }
     }
@@ -2863,140 +2726,6 @@ export const MountConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const AutomaticOSUpgradePolicy: msRest.CompositeMapper = {
-  serializedName: "AutomaticOSUpgradePolicy",
-  type: {
-    name: "Composite",
-    className: "AutomaticOSUpgradePolicy",
-    modelProperties: {
-      disableAutomaticRollback: {
-        serializedName: "disableAutomaticRollback",
-        type: {
-          name: "Boolean"
-        }
-      },
-      enableAutomaticOSUpgrade: {
-        serializedName: "enableAutomaticOSUpgrade",
-        type: {
-          name: "Boolean"
-        }
-      },
-      useRollingUpgradePolicy: {
-        serializedName: "useRollingUpgradePolicy",
-        type: {
-          name: "Boolean"
-        }
-      },
-      osRollingUpgradeDeferral: {
-        serializedName: "osRollingUpgradeDeferral",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const RollingUpgradePolicy: msRest.CompositeMapper = {
-  serializedName: "RollingUpgradePolicy",
-  type: {
-    name: "Composite",
-    className: "RollingUpgradePolicy",
-    modelProperties: {
-      enableCrossZoneUpgrade: {
-        serializedName: "enableCrossZoneUpgrade",
-        type: {
-          name: "Boolean"
-        }
-      },
-      maxBatchInstancePercent: {
-        serializedName: "maxBatchInstancePercent",
-        constraints: {
-          InclusiveMaximum: 100,
-          InclusiveMinimum: 5
-        },
-        type: {
-          name: "Number"
-        }
-      },
-      maxUnhealthyInstancePercent: {
-        serializedName: "maxUnhealthyInstancePercent",
-        constraints: {
-          InclusiveMaximum: 100,
-          InclusiveMinimum: 5
-        },
-        type: {
-          name: "Number"
-        }
-      },
-      maxUnhealthyUpgradedInstancePercent: {
-        serializedName: "maxUnhealthyUpgradedInstancePercent",
-        constraints: {
-          InclusiveMaximum: 100,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      },
-      pauseTimeBetweenBatches: {
-        serializedName: "pauseTimeBetweenBatches",
-        type: {
-          name: "TimeSpan"
-        }
-      },
-      prioritizeUnhealthyInstances: {
-        serializedName: "prioritizeUnhealthyInstances",
-        type: {
-          name: "Boolean"
-        }
-      },
-      rollbackFailedInstancesOnPolicyBreach: {
-        serializedName: "rollbackFailedInstancesOnPolicyBreach",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const UpgradePolicy: msRest.CompositeMapper = {
-  serializedName: "UpgradePolicy",
-  type: {
-    name: "Composite",
-    className: "UpgradePolicy",
-    modelProperties: {
-      mode: {
-        required: true,
-        serializedName: "mode",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "automatic",
-            "manual",
-            "rolling"
-          ]
-        }
-      },
-      automaticOSUpgradePolicy: {
-        serializedName: "automaticOSUpgradePolicy",
-        type: {
-          name: "Composite",
-          className: "AutomaticOSUpgradePolicy"
-        }
-      },
-      rollingUpgradePolicy: {
-        serializedName: "rollingUpgradePolicy",
-        type: {
-          name: "Composite",
-          className: "RollingUpgradePolicy"
-        }
-      }
-    }
-  }
-};
-
 export const PoolSpecification: msRest.CompositeMapper = {
   serializedName: "PoolSpecification",
   type: {
@@ -3179,24 +2908,6 @@ export const PoolSpecification: msRest.CompositeMapper = {
             "classic",
             "simplified"
           ]
-        }
-      },
-      upgradePolicy: {
-        serializedName: "upgradePolicy",
-        type: {
-          name: "Composite",
-          className: "UpgradePolicy"
-        }
-      },
-      resourceTags: {
-        serializedName: "resourceTags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
         }
       }
     }
@@ -5138,24 +4849,6 @@ export const CloudPool: msRest.CompositeMapper = {
             "simplified"
           ]
         }
-      },
-      upgradePolicy: {
-        serializedName: "upgradePolicy",
-        type: {
-          name: "Composite",
-          className: "UpgradePolicy"
-        }
-      },
-      resourceTags: {
-        serializedName: "resourceTags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
       }
     }
   }
@@ -5350,24 +5043,6 @@ export const PoolAddParameter: msRest.CompositeMapper = {
             "classic",
             "simplified"
           ]
-        }
-      },
-      upgradePolicy: {
-        serializedName: "upgradePolicy",
-        type: {
-          name: "Composite",
-          className: "UpgradePolicy"
-        }
-      },
-      resourceTags: {
-        serializedName: "resourceTags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
         }
       }
     }
@@ -6635,12 +6310,6 @@ export const VirtualMachineInfo: msRest.CompositeMapper = {
           name: "Composite",
           className: "ImageReference"
         }
-      },
-      scaleSetVmResourceId: {
-        serializedName: "scaleSetVmResourceId",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -6681,8 +6350,7 @@ export const ComputeNode: msRest.CompositeMapper = {
             "unknown",
             "leavingpool",
             "offline",
-            "preempted",
-            "upgradingos"
+            "preempted"
           ]
         }
       },
@@ -7661,13 +7329,6 @@ export const NodeCounts: msRest.CompositeMapper = {
       waitingForStartTask: {
         required: true,
         serializedName: "waitingForStartTask",
-        type: {
-          name: "Number"
-        }
-      },
-      upgradingOS: {
-        required: true,
-        serializedName: "upgradingOS",
         type: {
           name: "Number"
         }
@@ -10178,7 +9839,7 @@ export const TaskAddCollectionOptions: msRest.CompositeMapper = {
     className: "TaskAddCollectionOptions",
     modelProperties: {
       timeout: {
-        defaultValue: 120,
+        defaultValue: 30,
         type: {
           name: "Number"
         }

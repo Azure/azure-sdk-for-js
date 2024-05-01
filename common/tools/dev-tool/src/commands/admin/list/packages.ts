@@ -2,9 +2,12 @@
 // Licensed under the MIT license.
 
 import { leafCommand, makeCommandInfo } from "../../../framework/command";
-import path from "node:path";
+
+import path from "path";
 import { resolveRoot } from "../../../util/resolveProject";
-import { readFile } from "node:fs/promises";
+
+import { readFile } from "fs/promises";
+
 import stripJsonComments from "strip-json-comments";
 
 export const commandInfo = makeCommandInfo("packages", "list packages defined in the monorepo", {
@@ -22,10 +25,8 @@ export const commandInfo = makeCommandInfo("packages", "list packages defined in
   },
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let _rushJson: any = undefined;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getRushJson(): Promise<any> {
   if (_rushJson) return _rushJson;
 

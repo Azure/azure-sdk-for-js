@@ -12,8 +12,6 @@ import {
   BrowserTemplateRegistrationDescription,
   GcmRegistrationDescription,
   GcmTemplateRegistrationDescription,
-  FcmV1RegistrationDescription,
-  FcmV1TemplateRegistrationDescription,
   MpnsRegistrationDescription,
   MpnsTemplateRegistrationDescription,
   RegistrationDescription,
@@ -105,20 +103,6 @@ export interface RegistrationDescriptionParser {
   createBrowserTemplateRegistrationDescription: (
     rawRegistrationDescription: Record<string, any>,
   ) => BrowserTemplateRegistrationDescription;
-  /**
-   * @internal
-   * Creates a Firebase V1 Cloud Messaging (FCM) registration description from the incoming parsed XML.
-   */
-  createFcmV1RegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>,
-  ) => FcmV1RegistrationDescription;
-  /**
-   * @internal
-   * Creates a Firebase V1 Cloud Messaging (FCM) template registration description from the incoming parsed XML.
-   */
-  createFcmV1TemplateRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>,
-  ) => FcmV1TemplateRegistrationDescription;
   /**
    * @internal
    * Creates a Google Cloud Messaging (GCM) registration description from the incoming parsed XML.
@@ -344,36 +328,6 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
       ...this.createBrowserRegistrationDescription(rawRegistrationDescription),
       ...createTemplateRegistrationDescription(rawRegistrationDescription),
       kind: "BrowserTemplate",
-    };
-  },
-  /**
-   * @internal
-   * Creates an GCM registration description from incoming XML property bag.
-   */
-  createFcmV1RegistrationDescription(
-    rawRegistrationDescription: Record<string, any>,
-  ): FcmV1RegistrationDescription {
-    return {
-      fcmV1RegistrationId: getString(
-        rawRegistrationDescription["FcmV1RegistrationId"],
-        "fcmV1RegistrationId",
-      ),
-      ...createRegistrationDescription(rawRegistrationDescription),
-      kind: "FcmV1",
-    };
-  },
-
-  /**
-   * @internal
-   * Creates an FCM template registration description from incoming XML property bag.
-   */
-  createFcmV1TemplateRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>,
-  ): FcmV1TemplateRegistrationDescription {
-    return {
-      ...this.createFcmV1RegistrationDescription(rawRegistrationDescription),
-      ...createTemplateRegistrationDescription(rawRegistrationDescription),
-      kind: "FcmV1Template",
     };
   },
 
@@ -611,20 +565,6 @@ export interface RegistrationDescriptionSerializer {
    * @internal
    * Serializes a Google Cloud Messaging (GCM) registration description into an XML object for serialization.
    */
-  serializeFcmV1RegistrationDescription(
-    description: Omit<FcmV1RegistrationDescription, "kind">,
-  ): Record<string, any>;
-  /**
-   * @internal
-   * Serializes a Google Cloud Messaging (GCM) template registration description into an XML object for serialization.
-   */
-  serializeFcmV1TemplateRegistrationDescription(
-    description: Omit<FcmV1TemplateRegistrationDescription, "kind">,
-  ): Record<string, any>;
-  /**
-   * @internal
-   * Serializes a Google Cloud Messaging (GCM) registration description into an XML object for serialization.
-   */
   serializeGcmRegistrationDescription(
     description: Omit<GcmRegistrationDescription, "kind">,
   ): Record<string, any>;
@@ -805,8 +745,8 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
     return {
       ...serializeRegistrationDescription(description),
       Endpoint: description.endpoint,
-      P256DH: description.p256dh,
       Auth: description.auth,
+      P256DH: description.p256dh,
     };
   },
 
@@ -825,32 +765,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
 
   /**
    * @internal
-   * Serializes an existing FCM V1 registration description to an object for serialization.
-   */
-  serializeFcmV1RegistrationDescription(
-    description: Omit<FcmV1RegistrationDescription, "kind">,
-  ): Record<string, any> {
-    return {
-      ...serializeRegistrationDescription(description),
-      FcmV1RegistrationId: getString(description.fcmV1RegistrationId, "fcmRegistrationId"),
-    };
-  },
-
-  /**
-   * @internal
-   * Serializes an existing FCM V1 template registration description to an object for serialization.
-   */
-  serializeFcmV1TemplateRegistrationDescription(
-    description: Omit<FcmV1TemplateRegistrationDescription, "kind">,
-  ): Record<string, any> {
-    return {
-      ...this.serializeFcmV1RegistrationDescription(description),
-      ...serializeTemplateRegistrationDescription(description),
-    };
-  },
-
-  /**
-   * @internal
+   * @deprecated Should use FCM registrations instead of GCM.
    * Serializes an existing GCM registration description to an object for serialization.
    */
   serializeGcmRegistrationDescription(
@@ -864,6 +779,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
 
   /**
    * @internal
+   * @deprecated Should use FCM template registrations instead of GCM.
    * Serializes an existing GCM template registration description to an object for serialization.
    */
   serializeGcmTemplateRegistrationDescription(

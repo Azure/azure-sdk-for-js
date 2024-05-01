@@ -15,14 +15,13 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   PartitionMetric,
   CollectionPartitionRegionListMetricsOptionalParams,
-  CollectionPartitionRegionListMetricsResponse,
+  CollectionPartitionRegionListMetricsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CollectionPartitionRegion operations. */
 export class CollectionPartitionRegionImpl
-  implements CollectionPartitionRegion
-{
+  implements CollectionPartitionRegion {
   private readonly client: CosmosDBManagementClient;
 
   /**
@@ -53,7 +52,7 @@ export class CollectionPartitionRegionImpl
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionPartitionRegionListMetricsOptionalParams,
+    options?: CollectionPartitionRegionListMetricsOptionalParams
   ): PagedAsyncIterableIterator<PartitionMetric> {
     const iter = this.listMetricsPagingAll(
       resourceGroupName,
@@ -62,7 +61,7 @@ export class CollectionPartitionRegionImpl
       databaseRid,
       collectionRid,
       filter,
-      options,
+      options
     );
     return {
       next() {
@@ -83,9 +82,9 @@ export class CollectionPartitionRegionImpl
           collectionRid,
           filter,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -97,7 +96,7 @@ export class CollectionPartitionRegionImpl
     collectionRid: string,
     filter: string,
     options?: CollectionPartitionRegionListMetricsOptionalParams,
-    _settings?: PageSettings,
+    _settings?: PageSettings
   ): AsyncIterableIterator<PartitionMetric[]> {
     let result: CollectionPartitionRegionListMetricsResponse;
     result = await this._listMetrics(
@@ -107,7 +106,7 @@ export class CollectionPartitionRegionImpl
       databaseRid,
       collectionRid,
       filter,
-      options,
+      options
     );
     yield result.value || [];
   }
@@ -119,7 +118,7 @@ export class CollectionPartitionRegionImpl
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionPartitionRegionListMetricsOptionalParams,
+    options?: CollectionPartitionRegionListMetricsOptionalParams
   ): AsyncIterableIterator<PartitionMetric> {
     for await (const page of this.listMetricsPagingPage(
       resourceGroupName,
@@ -128,7 +127,7 @@ export class CollectionPartitionRegionImpl
       databaseRid,
       collectionRid,
       filter,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -154,7 +153,7 @@ export class CollectionPartitionRegionImpl
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionPartitionRegionListMetricsOptionalParams,
+    options?: CollectionPartitionRegionListMetricsOptionalParams
   ): Promise<CollectionPartitionRegionListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -164,9 +163,9 @@ export class CollectionPartitionRegionImpl
         databaseRid,
         collectionRid,
         filter,
-        options,
+        options
       },
-      listMetricsOperationSpec,
+      listMetricsOperationSpec
     );
   }
 }
@@ -174,12 +173,13 @@ export class CollectionPartitionRegionImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listMetricsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartitionMetricListResult,
-    },
+      bodyMapper: Mappers.PartitionMetricListResult
+    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -189,8 +189,8 @@ const listMetricsOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.databaseRid,
     Parameters.collectionRid,
-    Parameters.region,
+    Parameters.region
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

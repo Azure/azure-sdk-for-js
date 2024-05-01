@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Tells a storage target to restore its settings to their default values.
  *
  * @summary Tells a storage target to restore its settings to their default values.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/StorageTargets_RestoreDefaults.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2023-05-01/examples/StorageTargets_RestoreDefaults.json
  */
 async function storageTargetsRestoreDefaults() {
   const subscriptionId =

@@ -10,7 +10,7 @@ import {
 
 const AcceptHeaderName = "Accept";
 
-type MetadataLevel = "none" | "minimal";
+export type MetadataLevel = "none" | "minimal";
 const odataMetadataPolicy = "OdataMetadataPolicy";
 
 /**

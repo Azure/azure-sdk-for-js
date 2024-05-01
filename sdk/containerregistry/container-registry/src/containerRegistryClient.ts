@@ -10,6 +10,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
+import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { logger } from "./logger";
