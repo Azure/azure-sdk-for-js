@@ -45,6 +45,7 @@ export interface QueryInfo {
   rewrittenQuery?: any;
   distinctType: string;
   hasSelectValue: boolean;
+  hasNonStreamingOrderBy: boolean;
 }
 
 export type GroupByExpressions = string[];
