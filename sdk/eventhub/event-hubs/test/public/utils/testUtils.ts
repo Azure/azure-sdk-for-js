@@ -3,7 +3,7 @@
 
 import { assertEnvironmentVariable, setEnvironmentVariables } from "@azure-tools/test-recorder";
 import { EventHubConsumerClient, EventHubProducerClient, EventPosition } from "../../../src";
-import { TestTracer, resetTracer, setTracer } from "@azure/test-utils";
+import { TestTracer, resetTracer, setTracer } from "@azure-tools/test-utils";
 import { delay } from "@azure/core-amqp";
 import { loggerForTest } from "./logHelpers";
 

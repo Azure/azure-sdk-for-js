@@ -76,3 +76,19 @@ function Get-javascript-DocsPackagesAlreadyOnboarded($docRepoLocation, $moniker)
 
   return $onboardedPackages
 }
+
+# "@azure/package-name@1.2.3" -> "@azure/package-name"
+function Get-PackageNameFromDocsMsConfig($DocsConfigName) {
+  if ($DocsConfigName -match '^(?<pkgName>.+?)(?<pkgVersion>@.+)?$') {
+    return $Matches['pkgName']
+  }
+  LogWarning "Could not find package name in ($DocsConfigName)"
+  return ''
+}
+
+# Given the name of a package (possibly of the form "@azure/package-name@1.2.3")
+# return a package name with the version specified in $packageVersion
+# "@azure/package-name@1.2.3" "1.3.0" -> "@azure/package-name@1.3.0"
+function Get-DocsMsPackageName($packageName, $packageVersion) {
+  return "$(Get-PackageNameFromDocsMsConfig $packageName)@$packageVersion"
+}

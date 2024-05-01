@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the available REST API operations.
  *
  * @summary Lists all of the available REST API operations.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/OperationList.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/OperationList.json
  */
 async function operationList() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function operationList() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.operations.list();
   console.log(result);

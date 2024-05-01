@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the diagnostics using the 'diagnosticsResourceName' you chose while creating the diagnostic.
  *
  * @summary Get the diagnostics using the 'diagnosticsResourceName' you chose while creating the diagnostic.
- * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2023-09-01-preview/examples/GetDiagnosticForKeyVaultResource.json
+ * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/GetDiagnosticForKeyVaultResource.json
  */
 async function getsADiagnosticForAKeyVaultResource() {
   const scope =

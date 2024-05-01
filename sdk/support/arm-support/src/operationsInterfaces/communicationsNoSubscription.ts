@@ -30,7 +30,7 @@ export interface CommunicationsNoSubscription {
    * with _nextLink_, using which you can retrieve the next set of Communication results.
    * <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was
    * created more than 18 months ago, a request for data might cause an error.
-   * @param supportTicketName Support ticket name.
+   * @param supportTicketName Support ticket name
    * @param options The options parameters.
    */
   list(

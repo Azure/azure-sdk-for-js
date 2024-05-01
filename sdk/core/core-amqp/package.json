@@ -50,7 +50,7 @@
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && npm run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_FILES=true dev-tool run test:node-ts-input --no-test-proxy=true",
+    "unit-test:node": "cross-env TS_NODE_FILES=true dev-tool run test:node-ts-input --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "engines": {
@@ -93,7 +93,7 @@
     "karma-chrome-launcher": "^3.0.0",
     "karma-mocha": "^2.0.1",
     "mocha": "^10.0.0",
-    "c8": "^9.1.0",
+    "nyc": "^15.1.0",
     "puppeteer": "^22.2.0",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",

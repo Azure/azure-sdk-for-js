@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode } from "@azure/core-util";
-import { assert } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
+import { assert } from "@azure-tools/test-utils";
 import { isPlaybackMode, Recorder, delay } from "@azure-tools/test-recorder";
 
 import { DataLakeDirectoryClient, DataLakeFileClient, DataLakeFileSystemClient } from "../src";
@@ -890,7 +890,7 @@ describe("DataLakePathClient", () => {
       contentDisposition: "contentDisposition",
       contentEncoding: "contentEncoding",
       contentLanguage: "contentLanguage",
-      contentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
+      contentMD5: isNodeLike ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
       contentType: "contentType",
     };
     await fileClient.setHttpHeaders(headers);
