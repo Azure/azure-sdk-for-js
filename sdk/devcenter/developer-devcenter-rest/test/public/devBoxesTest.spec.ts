@@ -122,7 +122,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   it("GetDevBox", async function () {
-    await  setupDevBox();
+    await setupDevBox();
     const devboxOutput = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}",
@@ -140,7 +140,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   it("GetRemoteConnection", async function () {
-    await  setupDevBox();
+    await setupDevBox();
     const remoteConnectionResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/remoteConnection",
@@ -158,7 +158,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   it("GetAllDevBoxes", async function () {
-    await  setupDevBox();
+    await setupDevBox();
     const devboxesListResponse = await client.path("/devboxes").get();
 
     if (isUnexpected(devboxesListResponse)) {
@@ -179,7 +179,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   it("GetAllDevBoxesByUser", async function () {
-    await  setupDevBox();
+    await setupDevBox();
     const devboxesListResponse = await client.path("/users/{userId}/devboxes", userId).get();
 
     if (isUnexpected(devboxesListResponse)) {
@@ -200,8 +200,10 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   it("GetDevBoxes", async function () {
-      await setupDevBox();
-      const devboxesListResponse = await client.path("/projects/{projectName}/users/{userId}/devboxes", projectName, userId).get();
+    await setupDevBox();
+    const devboxesListResponse = await client
+      .path("/projects/{projectName}/users/{userId}/devboxes", projectName, userId)
+      .get();
 
     if (isUnexpected(devboxesListResponse)) {
       throw devboxesListResponse.body.error;
@@ -221,7 +223,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   it("GetActions", async function () {
-    await  setupDevBox();
+    await setupDevBox();
     const actionsListResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions",
@@ -249,7 +251,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   it("GetAction", async function () {
-    await  setupDevBox();
+    await setupDevBox();
     const actionResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}",
@@ -267,9 +269,8 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     expect(actionResponse.body.name).to.equal("schedule-default");
   });
 
-
   it("DelayAction", async function () {
-    await  setupDevBox();
+    await setupDevBox();
     const delayActionParameters: DelayActionsParameters = {
       queryParameters: {
         until: "2024-04-29T02:10:00Z",
@@ -290,7 +291,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   it("DelayAllActions", async function () {
-    await  setupDevBox();
+    await setupDevBox();
     const delayActionsParameters: DelayActionsParameters = {
       queryParameters: {
         until: "2024-04-29T02:20:00Z",
@@ -321,7 +322,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   it("SkipAction", async function () {
-    await  setupDevBox();
+    await setupDevBox();
     const skipActionResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:skip",
@@ -336,7 +337,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   it("StartsStopsAndDeleteDevBox", async function () {
-    await  setupDevBox();
+    await setupDevBox();
     // Stop an already running Dev Box
     const stopDevBoxResponse = await client
       .path(
@@ -395,25 +396,26 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   async function setupDevBox() {
-
-    const devboxesListResponse = await client.path("/projects/{projectName}/users/{userId}/devboxes", projectName, userId).get();
+    const devboxesListResponse = await client
+      .path("/projects/{projectName}/users/{userId}/devboxes", projectName, userId)
+      .get();
 
     if (isUnexpected(devboxesListResponse)) {
-        throw devboxesListResponse.body.error;
+      throw devboxesListResponse.body.error;
     }
 
     const devBoxes: DevBoxOutput[] = [];
     console.log("Iterating through dev boxes results:");
 
     for await (const devBox of paginate(client, devboxesListResponse)) {
-        const { name } = devBox;
-        console.log(`Received DevBox "${name}"`);
-        devBoxes.push(devBox);
+      const { name } = devBox;
+      console.log(`Received DevBox "${name}"`);
+      devBoxes.push(devBox);
     }
 
     if (devBoxes.length >= 1) {
-        return;
-    };
+      return;
+    }
 
     const devBoxCreateParameters: CreateDevBoxParameters = {
       contentType: "application/json",
@@ -431,8 +433,8 @@ describe("DevCenter Dev Boxes Operations Test", () => {
       .put(devBoxCreateParameters);
 
     if (isUnexpected(devBoxCreateResponse)) {
-        console.log(`Unexpected ${JSON.stringify(devBoxCreateResponse)}`);
-        throw devBoxCreateResponse;
+      console.log(`Unexpected ${JSON.stringify(devBoxCreateResponse)}`);
+      throw devBoxCreateResponse;
     }
 
     assert.equal(devBoxCreateResponse.status, "201", "Dev Box creation should return 201 Created.");
@@ -444,8 +446,8 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     );
     const devBoxCreateResult = await devBoxCreatePoller.pollUntilDone();
 
-      if (isUnexpected(devBoxCreateResult)) {
-          throw devBoxCreateResult;
+    if (isUnexpected(devBoxCreateResult)) {
+      throw devBoxCreateResult;
     }
 
     assert.equal(
@@ -468,7 +470,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
       )
       .delete();
 
-      if (isUnexpected(devBoxDeleteResponse)) {
+    if (isUnexpected(devBoxDeleteResponse)) {
       throw new Error(devBoxDeleteResponse.body?.error.message);
     }
 
