@@ -22,24 +22,24 @@
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/1d001f80-ebdf-4a31-a357-5d373af8f0e9",
+      "source": "calling/callConnections/27002080-ac14-4422-a442-9cb3ec9167c3",
       "type": "Microsoft.Communication.CreateCallFailed",
       "data": {
-        "eventSource": "calling/callConnections/1d001f80-ebdf-4a31-a357-5d373af8f0e9",
+        "eventSource": "calling/callConnections/27002080-ac14-4422-a442-9cb3ec9167c3",
         "resultInformation": {
-          "code": 603,
-          "subCode": 0,
-          "message": "Decline. DiagCode: 603#0.@"
+          "code": 200,
+          "subCode": 5002,
+          "message": "The conversation has ended. DiagCode: 0#5002.@"
         },
         "version": "2023-10-03-preview",
-        "callConnectionId": "1d001f80-ebdf-4a31-a357-5d373af8f0e9",
+        "callConnectionId": "27002080-ac14-4422-a442-9cb3ec9167c3",
         "correlationId": "sanitized",
         "publicEventType": "Microsoft.Communication.CreateCallFailed"
       },
-      "time": "2024-05-01T22:19:49.5459436+00:00",
+      "time": "2024-05-02T20:55:48.5917885+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/1d001f80-ebdf-4a31-a357-5d373af8f0e9"
+      "subject": "calling/callConnections/27002080-ac14-4422-a442-9cb3ec9167c3"
     }
   ]
 ]
