@@ -76,7 +76,7 @@
     "@azure/core-util": "^1.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure/identity": "^4.0.1",
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-recorder": "^4.0.0",
     "@vitest/browser": "^1.3.1",
     "@vitest/coverage-istanbul": "^1.3.1",
     "playwright": "^1.41.2",
@@ -91,8 +91,8 @@
     "lint": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts --fix --fix-type [problem,suggestion]",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run build:test && dev-tool run test:vitest --no-test-proxy --browser",
-    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
+    "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
+    "unit-test:node": "dev-tool run test:vitest",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -108,6 +108,14 @@
     "build": "npm run clean && tshy && mkdirp ./review && dev-tool run extract-api",
     "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test"
+  },
+  "//sampleConfiguration": {
+    "productName": "Face API",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/identity-api-reference"
   },
   "exports": {
     "./package.json": "./package.json",

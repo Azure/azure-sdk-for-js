@@ -3,13 +3,15 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": { "@azure-rest/ai-vision-face": ["./src/index"] }
   },
   "include": [
     "./src/**/*.ts",
     "./src/**/*.mts",
     "./src/**/*.cts",
     "test/**/*.ts",
-    "./test/**/*.ts"
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts"
   ]
 }
