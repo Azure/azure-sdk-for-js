@@ -18,8 +18,6 @@ import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
 import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
 import { DeveloperSignOnClientId } from "../constants";
-import { MsalDeviceCode } from "../msal/nodeFlows/msalDeviceCode";
-import { MsalFlow } from "../msal/flows";
 
 const logger = credentialLogger("DeviceCodeCredential");
 
@@ -38,7 +36,6 @@ export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo):
 export class DeviceCodeCredential implements TokenCredential {
   private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
-  private msalFlow: MsalFlow;
   private disableAutomaticAuthentication?: boolean;
   private msalClient: MsalClient;
   private userPromptCallback: DeviceCodePromptCallback;
@@ -75,12 +72,6 @@ export class DeviceCodeCredential implements TokenCredential {
       ...options,
       tokenCredentialOptions: options || {},
     });
-    this.msalFlow = new MsalDeviceCode({
-      ...options,
-      logger,
-      userPromptCallback: options?.userPromptCallback || defaultDeviceCodePromptCallback,
-      tokenCredentialOptions: options || {},
-    });
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
 
@@ -113,10 +104,6 @@ export class DeviceCodeCredential implements TokenCredential {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,
         });
-        return this.msalFlow.getToken(arrayScopes, {
-          ...newOptions,
-          disableAutomaticAuthentication: this.disableAutomaticAuthentication,
-        });
       },
     );
   }
@@ -145,8 +132,6 @@ export class DeviceCodeCredential implements TokenCredential {
           disableAutomaticAuthentication: false, // this method should always allow user interaction
         });
         return this.msalClient.getActiveAccount();
-        // await this.msalFlow.getToken(arrayScopes, newOptions);
-        // return this.msalFlow.getActiveAccount();
       },
     );
   }
