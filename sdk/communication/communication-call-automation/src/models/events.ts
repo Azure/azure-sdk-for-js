@@ -79,7 +79,7 @@ export type CallAutomationEvent =
   | CreateCallFailed
   | AnswerFailed
   | HoldFailed
-  | MediaStreamingStarted  
+  | MediaStreamingStarted
   | MediaStreamingStopped
   | MediaStreamingFailed;
 

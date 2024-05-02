@@ -176,14 +176,14 @@ export function parseCallAutomationEvent(
       callbackEvent = { kind: "HoldFailed" } as HoldFailed;
       break;
     case "Microsoft.Communication.MediaStreamingStarted":
-        callbackEvent = { kind: "MediaStreamingStarted" } as MediaStreamingStarted;
-        break;
+      callbackEvent = { kind: "MediaStreamingStarted" } as MediaStreamingStarted;
+      break;
     case "Microsoft.Communication.MediaStreamingStopped":
-        callbackEvent = { kind: "MediaStreamingStopped" } as MediaStreamingStopped;
-        break;
+      callbackEvent = { kind: "MediaStreamingStopped" } as MediaStreamingStopped;
+      break;
     case "Microsoft.Communication.MediaStreamingFailed":
-        callbackEvent = { kind: "MediaStreamingFailed" } as MediaStreamingFailed;
-        break;
+      callbackEvent = { kind: "MediaStreamingFailed" } as MediaStreamingFailed;
+      break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);
   }
