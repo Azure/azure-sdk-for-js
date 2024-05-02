@@ -15,12 +15,24 @@ export interface CreateLivenessSessionContent {
   authTokenTimeToLiveInSeconds?: number;
 }
 
-export interface CreateLivenessWithVerifySessionContentParametersPartDescriptor {
+export interface ICreateLivenessWithVerifySessionContentParametersPartDescriptor {
   name: "Parameters";
   body: CreateLivenessSessionContentForMultipart;
 }
 
-export interface CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor {
+export class CreateLivenessWithVerifySessionContentParametersPartDescriptor {
+  get name(): string {
+    return "Parameters";
+  }
+
+  body: CreateLivenessSessionContentForMultipart;
+
+  constructor(descriptor: ICreateLivenessWithVerifySessionContentParametersPartDescriptor) {
+    this.body = descriptor.body;
+  }
+}
+
+export interface ICreateLivenessWithVerifySessionContentVerifyImagePartDescriptor {
   name: "VerifyImage";
   body:
     | string
@@ -30,6 +42,25 @@ export interface CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor
     | File;
   filename?: string;
   contentType?: string;
+}
+
+export class CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor {
+  get name(): string {
+    return "VerifyImage";
+  }
+
+  get contentType(): string {
+    return "application/octet-stream";
+  }
+
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+
+  filename: string;
+
+  constructor(descriptor: ICreateLivenessWithVerifySessionContentVerifyImagePartDescriptor) {
+    this.body = descriptor.body;
+    this.filename = descriptor.filename ?? "verify-image";
+  }
 }
 
 /** Dedicated parameter model for multipart/form-data. */
@@ -88,3 +119,26 @@ export type CreateLivenessWithVerifySessionContent =
     >;
 /** API versions for Azure AI Face API. */
 export type Versions = "v1.1-preview.1";
+
+export enum FaceAttributeTypeDetection01 {
+  ACCESSORIES = "accessories",
+  BLUR = "blur",
+  EXPOSURE = "exposure",
+  GLASSES = "glasses",
+  HEAD_POSE = "headPose",
+  NOISE = "noise",
+  OCCLUSION = "occlusion",
+}
+
+export enum FaceAttributeTypeDetection03 {
+  HEAD_POSE = "headPose",
+  MASK = "mask",
+}
+
+export enum FaceAttributeTypeRecognition03 {
+  QUALITY_FOR_RECOGNITION = "qualityForRecognition",
+}
+
+export enum FaceAttributeTypeRecognition04 {
+  QUALITY_FOR_RECOGNITION = "qualityForRecognition",
+}

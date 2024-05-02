@@ -19,11 +19,11 @@ export interface DetectFromUrlBodyParam {
 
 export interface DetectFromUrlQueryParamProperties {
   /** The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'. */
-  detectionModel?: DetectionModel;
+  detectionModel: DetectionModel;
   /** The 'recognitionModel' associated with the detected faceIds. Supported 'recognitionModel' values include 'recognition_01', 'recognition_02', 'recognition_03' or 'recognition_04'. The default value is 'recognition_01'. 'recognition_04' is recommended since its accuracy is improved on faces wearing masks compared with 'recognition_03', and its overall accuracy is improved compared with 'recognition_01' and 'recognition_02'. */
-  recognitionModel?: RecognitionModel;
+  recognitionModel: RecognitionModel;
   /** Return faceIds of the detected faces or not. The default value is true. */
-  returnFaceId?: boolean;
+  returnFaceId: boolean;
   /** Analyze and return the one or more specified face attributes in the comma-separated string like 'returnFaceAttributes=headPose,glasses'. Face attribute analysis has additional computational and time cost. */
   returnFaceAttributes?: FaceAttributeType[];
   /** Return face landmarks of the detected faces or not. The default value is false. */
@@ -63,11 +63,11 @@ export interface DetectBodyParam {
 
 export interface DetectQueryParamProperties {
   /** The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'. */
-  detectionModel?: DetectionModel;
+  detectionModel: DetectionModel;
   /** The 'recognitionModel' associated with the detected faceIds. Supported 'recognitionModel' values include 'recognition_01', 'recognition_02', 'recognition_03' or 'recognition_04'. The default value is 'recognition_01'. 'recognition_04' is recommended since its accuracy is improved on faces wearing masks compared with 'recognition_03', and its overall accuracy is improved compared with 'recognition_01' and 'recognition_02'. */
-  recognitionModel?: RecognitionModel;
+  recognitionModel: RecognitionModel;
   /** Return faceIds of the detected faces or not. The default value is true. */
-  returnFaceId?: boolean;
+  returnFaceId: boolean;
   /** Analyze and return the one or more specified face attributes in the comma-separated string like 'returnFaceAttributes=headPose,glasses'. Face attribute analysis has additional computational and time cost. */
   returnFaceAttributes?: FaceAttributeType[];
   /** Return face landmarks of the detected faces or not. The default value is false. */
