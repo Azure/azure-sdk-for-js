@@ -132,5 +132,12 @@
     }
   },
   "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts"
+  "types": "./dist/commonjs/index.d.ts",
+  "//sampleConfiguration": {
+    "productName": "Azure Developer DevCenter",
+    "productSlugs": [
+      "azure-developer-devcenter"
+    ]
+  }
+
 }
