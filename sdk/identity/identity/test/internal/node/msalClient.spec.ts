@@ -19,6 +19,7 @@ import { assert } from "@azure-tools/test-utils";
 import { credentialLogger } from "../../../src/util/logging";
 import { msalPlugins } from "../../../src/msal/nodeFlows/msalPlugins";
 import sinon from "sinon";
+import { DeveloperSignOnClientId } from "../../../src/constants";
 
 describe("MsalClient", function () {
   describe("recorded tests", function () {
@@ -45,6 +46,25 @@ describe("MsalClient", function () {
       });
 
       const accessToken = await client.getTokenByClientSecret(scopes, clientSecret);
+      assert.isNotEmpty(accessToken.token);
+      assert.isNotNaN(accessToken.expiresOnTimestamp);
+    });
+
+    it("supports getTokenByDeviceCode", async function () {
+      const scopes = ["https://vault.azure.net/.default"];
+      const clientId = DeveloperSignOnClientId;
+      const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
+
+      const clientOptions = recorder.configureClientOptions({});
+      const client = msalClient.createMsalClient(clientId, tenantId, {
+        tokenCredentialOptions: { additionalPolicies: clientOptions.additionalPolicies },
+      });
+
+      const accessToken = await client.getTokenByDeviceCode(scopes, (info) => {
+        console.log(
+          `To complete the test recording, please go to ${info.verificationUri} and use code ${info.userCode} to authenticate.`,
+        );
+      });
       assert.isNotEmpty(accessToken.token);
       assert.isNotNaN(accessToken.expiresOnTimestamp);
     });
