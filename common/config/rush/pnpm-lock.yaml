@@ -7842,13 +7842,6 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /magic-string@0.27.0:
-    resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
-    engines: {node: '>=12'}
-    dependencies:
-      '@jridgewell/sourcemap-codec': 1.4.15
-    dev: false
-
   /magic-string@0.30.10:
     resolution: {integrity: sha512-iIRwTIf0QKV3UAnYK4PU8uiEc4SRh5jX0mwpIwETPpHdhVM4f53RSwS/vXvN1JhGX+Cs7B8qIq3d6AH49O5fAQ==}
     dependencies:
@@ -11256,7 +11249,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-rH+Fxvb3IS+LUrMu3ZrLS9a6+RJ6rO8PzHPfgI7kdfRh3q6AhvQufZnpXtSnUtetceTSYH7Ce+ctRvxV1F2cjA==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-BnZwoIKgEedInQs8y1KvZdRx2ibo6d/DMLYehxOsxSm3Ot/FY6VEbHLlMTuWI7P06PmNTHoWkrZidGiFmdpdGg==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -11285,7 +11278,7 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
-      magic-string: 0.27.0
+      magic-string: 0.30.10
       mocha: 10.4.0
       nyc: 15.1.0
       prettier: 3.2.5
