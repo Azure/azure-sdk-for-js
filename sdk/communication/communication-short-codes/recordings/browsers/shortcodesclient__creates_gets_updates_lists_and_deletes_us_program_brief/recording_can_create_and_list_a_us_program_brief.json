@@ -2120,7 +2120,7 @@
           "isPoliticalCampaign": false,
           "name": "Contoso Loyalty Program",
           "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-          "url": "https://endpoint/loyalty-program",
+          "url": "REDACTED",
           "callToActionTypes": [
             "sms",
             "website"
@@ -2131,7 +2131,7 @@
         },
         "companyInformation": {
           "name": "Contoso",
-          "url": "https://contoso.com",
+          "url": "REDACTED",
           "address": "1 Contoso Way Redmond, WA 98052",
           "contactInformation": {
             "name": "Alex",
@@ -2241,7 +2241,7 @@
           "isPoliticalCampaign": false,
           "name": "Contoso Loyalty Program",
           "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-          "url": "https://endpoint/loyalty-program",
+          "url": "REDACTED",
           "callToActionTypes": [
             "sms",
             "website"
@@ -2357,7 +2357,7 @@
           "isPoliticalCampaign": false,
           "name": "Contoso Loyalty Program",
           "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-          "url": "https://endpoint/loyalty-program",
+          "url": "REDACTED",
           "callToActionTypes": [
             "sms",
             "website"
@@ -2368,7 +2368,7 @@
         },
         "companyInformation": {
           "name": "Contoso",
-          "url": "https://contoso.com",
+          "url": "REDACTED",
           "address": "1 Contoso Way Redmond, WA 98052",
           "contactInformation": {
             "name": "Alex",
@@ -2478,7 +2478,7 @@
           "isPoliticalCampaign": false,
           "name": "Contoso Loyalty Program",
           "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-          "url": "https://endpoint/loyalty-program",
+          "url": "REDACTED",
           "callToActionTypes": [
             "sms",
             "website"
@@ -4585,7 +4585,7 @@
               "isPoliticalCampaign": false,
               "name": "Contoso Loyalty Program",
               "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-              "url": "https://endpoint/loyalty-program",
+              "url": "REDACTED",
               "callToActionTypes": [
                 "sms",
                 "website"
@@ -4692,7 +4692,7 @@
               "isPoliticalCampaign": false,
               "name": "Contoso Loyalty Program",
               "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-              "url": "https://endpoint/loyalty-program",
+              "url": "REDACTED",
               "callToActionTypes": [
                 "sms",
                 "website"
@@ -6844,7 +6844,7 @@
               "isPoliticalCampaign": false,
               "name": "Contoso Loyalty Program",
               "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-              "url": "https://endpoint/loyalty-program",
+              "url": "REDACTED",
               "callToActionTypes": [
                 "sms",
                 "website"
@@ -6994,7 +6994,7 @@
               "isPoliticalCampaign": false,
               "name": "Contoso Loyalty Program",
               "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-              "url": "https://endpoint/loyalty-program",
+              "url": "REDACTED",
               "callToActionTypes": [
                 "sms",
                 "website"
