@@ -13,8 +13,10 @@ export default defineConfig({
       toFake: ["setTimeout", "Date"],
     },
     watch: false,
+    include: ["test/**/*.spec.ts"],
     exclude: ["test/**/browser/*.spec.ts"],
     coverage: {
+      enable: true,
       include: ["src/**/*.ts"],
       exclude: [
         "src/**/*-browser.mts",
@@ -23,7 +25,7 @@ export default defineConfig({
         "samples-dev/**/*.ts",
       ],
       provider: "istanbul",
-      reporter: ["text", "json", "html"],
+      reporter: ["text", "html", "cobertura"],
       reportsDirectory: "coverage",
     },
   },

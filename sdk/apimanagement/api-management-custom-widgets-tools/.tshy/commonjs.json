@@ -6,7 +6,9 @@
     "../src/**/*.tsx"
   ],
   "exclude": [
-    "../src/**/*.mts"
+    "../src/**/*.mts",
+    "../src/node/deploy-browser.mts",
+    "../src/node/readdir-browser.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/commonjs"
