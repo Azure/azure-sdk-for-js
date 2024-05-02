@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  GetLanguages200Response,
-  GetLanguagesDefaultResponse,
+  GetSupportedLanguages200Response,
+  GetSupportedLanguagesDefaultResponse,
   Translate200Response,
   TranslateDefaultResponse,
   Transliterate200Response,
@@ -14,7 +14,7 @@ import {
   LookupDictionaryEntriesDefaultResponse,
   LookupDictionaryExamples200Response,
   LookupDictionaryExamplesDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /languages": ["200"],
@@ -26,8 +26,8 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: GetLanguages200Response | GetLanguagesDefaultResponse,
-): response is GetLanguagesDefaultResponse;
+  response: GetSupportedLanguages200Response | GetSupportedLanguagesDefaultResponse,
+): response is GetSupportedLanguagesDefaultResponse;
 export function isUnexpected(
   response: Translate200Response | TranslateDefaultResponse,
 ): response is TranslateDefaultResponse;
@@ -45,8 +45,8 @@ export function isUnexpected(
 ): response is LookupDictionaryExamplesDefaultResponse;
 export function isUnexpected(
   response:
-    | GetLanguages200Response
-    | GetLanguagesDefaultResponse
+    | GetSupportedLanguages200Response
+    | GetSupportedLanguagesDefaultResponse
     | Translate200Response
     | TranslateDefaultResponse
     | Transliterate200Response
@@ -58,7 +58,7 @@ export function isUnexpected(
     | LookupDictionaryExamples200Response
     | LookupDictionaryExamplesDefaultResponse,
 ): response is
-  | GetLanguagesDefaultResponse
+  | GetSupportedLanguagesDefaultResponse
   | TranslateDefaultResponse
   | TransliterateDefaultResponse
   | FindSentenceBoundariesDefaultResponse

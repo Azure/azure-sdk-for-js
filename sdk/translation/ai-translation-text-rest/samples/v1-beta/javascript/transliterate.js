@@ -41,7 +41,7 @@ async function main() {
   const translations = transliterateResponse.body;
   for (const transliteration of translations) {
     console.log(
-      `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`
+      `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`,
     );
   }
 }

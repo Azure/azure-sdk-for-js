@@ -14,7 +14,7 @@ const endpoint = process.env["ENDPOINT"] || "https://api.cognitive.microsofttran
 async function main() {
   console.log("== List supported languages sample ==");
 
-  const translationClient = TextTranslationClient(endpoint, undefined, undefined);
+  const translationClient = TextTranslationClient(endpoint);
   const langResponse = await translationClient.path("/languages").get();
 
   if (isUnexpected(langResponse)) {
@@ -28,7 +28,7 @@ async function main() {
     for (const key in languages.translation) {
       const translationLanguage = languages.translation[key];
       console.log(
-        `${key} -- name: ${translationLanguage.name} (${translationLanguage.nativeName})`
+        `${key} -- name: ${translationLanguage.name} (${translationLanguage.nativeName})`,
       );
     }
   }
@@ -38,7 +38,7 @@ async function main() {
     for (const key in languages.transliteration) {
       const transliterationLanguage = languages.transliteration[key];
       console.log(
-        `${key} -- name: ${transliterationLanguage.name} (${transliterationLanguage.nativeName})`
+        `${key} -- name: ${transliterationLanguage.name} (${transliterationLanguage.nativeName})`,
       );
     }
   }
@@ -48,7 +48,7 @@ async function main() {
     for (const key in languages.dictionary) {
       const dictionaryLanguage = languages.dictionary[key];
       console.log(
-        `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`
+        `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`,
       );
     }
   }
