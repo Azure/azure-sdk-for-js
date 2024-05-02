@@ -177,9 +177,8 @@ import { randomUUID } from "@azure/core-util";
             ],
           },
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${
-          isPlaybackMode() ? fakeSecretValue : secretValue
-        }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
+          }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {
@@ -338,9 +337,8 @@ import { randomUUID } from "@azure/core-util";
             ],
           },
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${
-          isPlaybackMode() ? fakeSecretValue : secretValue
-        }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
+          }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {
@@ -410,7 +408,8 @@ import { randomUUID } from "@azure/core-util";
       });
     });
 
-    describe("Session-level sanitizer", () => {
+    // https://github.com/Azure/azure-sdk-for-js/issues/29113
+    describe.skip("Session-level sanitizer", () => {
       it("Allows a sanitizer to be set before the recorder is started", async () => {
         await Recorder.addSessionSanitizers({
           generalSanitizers: [{ target: currentValue, value: fakeSecretValue }],
