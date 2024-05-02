@@ -5,28 +5,28 @@ export enum EnvironmentVariableNamesForDalle {
   AZURE_API_KEY_DALLE = "AZURE_OPENAI_SWEDENCENTRAL_KEY",
   ENDPOINT_DALLE = "AZURE_OPENAI_SWEDENCENTRAL_ENDPOINT",
   ACCOUNT_NAME_DALLE = "ACCOUNT_NAME_DALLE",
-  DEPLOYMENT_NAME_DALLE = "dall-e-3"
+  DEPLOYMENT_NAME_DALLE = "dall-e-3",
 }
 
 export enum EnvironmentVariableNamesForWhisper {
   AZURE_API_KEY_WHISPER = "AZURE_OPENAI_NORTHCENTRALUS_KEY",
   ENDPOINT_WHISPER = "AZURE_OPENAI_NORTHCENTRALUS_ENDPOINT",
   ACCOUNT_NAME_WHISPER = "ACCOUNT_NAME_WHISPER",
-  DEPLOYMENT_NAME_WHISPER = "whisper"
+  DEPLOYMENT_NAME_WHISPER = "whisper",
 }
 
 export enum EnvironmentVariableNamesForCompletions {
   AZURE_API_KEY_COMPLETIONS = "AZURE_OPENAI_KEY",
   ENDPOINT_COMPLETIONS = "AZURE_OPENAI_ENDPOINT",
   ACCOUNT_NAME_COMPLETIONS = "ACCOUNT_NAME_COMPLETIONS",
-  DEPLOYMENT_NAME_COMPLETIONS = "gpt-35-turbo"
+  DEPLOYMENT_NAME_COMPLETIONS = "gpt-35-turbo",
 }
 
 export enum EnvironmentVariableNamesForEmbedding {
   AZURE_API_KEY_EMBEDDINGS = "AZURE_OPENAI_KEY",
   ENDPOINT_EMBEDDINGS = "AZURE_OPENAI_ENDPOINT",
   ACCOUNT_NAME_COMPLETIONS = "ACCOUNT_NAME",
-  DEPLOYMENT_NAME_EMBEDDINGS = "text-embedding-ada-002"
+  DEPLOYMENT_NAME_EMBEDDINGS = "text-embedding-ada-002",
 }
 
 export enum EnvironmentVariableNamesForAzureSearch {
@@ -43,3 +43,12 @@ export enum EnvironmentVariableNamesAzureCommon {
 export enum EnvironmentVariableNamesOpenAI {
   OPENAI_KEY = "OPENAI_KEY",
 }
+
+export const EnvironmentVariableNames = {
+  ...EnvironmentVariableNamesAzureCommon,
+  ...EnvironmentVariableNamesForAzureSearch,
+  ...EnvironmentVariableNamesForCompletions,
+  ...EnvironmentVariableNamesForWhisper,
+  ...EnvironmentVariableNamesForDalle,
+  ...EnvironmentVariableNamesOpenAI,
+};
