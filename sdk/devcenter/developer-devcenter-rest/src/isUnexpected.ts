@@ -6,16 +6,16 @@ import {
   ListProjectsDefaultResponse,
   GetProject200Response,
   GetProjectDefaultResponse,
-  ListAllDevBoxes200Response,
-  ListAllDevBoxesDefaultResponse,
-  ListAllDevBoxesByUser200Response,
-  ListAllDevBoxesByUserDefaultResponse,
   Get200Response,
   GetDefaultResponse,
   ListPools200Response,
   ListPoolsDefaultResponse,
   GetPool200Response,
   GetPoolDefaultResponse,
+  ListAllDevBoxes200Response,
+  ListAllDevBoxesDefaultResponse,
+  ListAllDevBoxesByUser200Response,
+  ListAllDevBoxesByUserDefaultResponse,
   ListSchedulesByPool200Response,
   ListSchedulesByPoolDefaultResponse,
   GetScheduleByPool200Response,
@@ -83,23 +83,23 @@ import {
 const responseMap: Record<string, string[]> = {
   "GET /projects": ["200"],
   "GET /projects/{projectName}": ["200"],
-  "GET /devboxes": ["200"],
-  "GET /users/{userId}/devboxes": ["200"],
   "GET /projects/{projectName}/operationstatuses/{operationId}": ["200"],
   "GET /projects/{projectName}/pools": ["200"],
   "GET /projects/{projectName}/pools/{poolName}": ["200"],
+  "GET /devboxes": ["200"],
+  "GET /users/{userId}/devboxes": ["200"],
   "GET /projects/{projectName}/pools/{poolName}/schedules": ["200"],
   "GET /projects/{projectName}/pools/{poolName}/schedules/{scheduleName}": ["200"],
   "GET /projects/{projectName}/users/{userId}/devboxes": ["200"],
   "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": ["200"],
   "PUT /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": ["200", "201"],
   "DELETE /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": ["202", "204"],
-  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start": ["202"],
   "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start": ["200", "202"],
-  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop": ["202"],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start": ["202"],
   "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop": ["200", "202"],
-  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:restart": ["202"],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop": ["202"],
   "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:restart": ["200", "202"],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:restart": ["202"],
   "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/remoteConnection": ["200"],
   "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions": ["200"],
   "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}": ["200"],
@@ -132,12 +132,6 @@ export function isUnexpected(
   response: GetProject200Response | GetProjectDefaultResponse,
 ): response is GetProjectDefaultResponse;
 export function isUnexpected(
-  response: ListAllDevBoxes200Response | ListAllDevBoxesDefaultResponse,
-): response is ListAllDevBoxesDefaultResponse;
-export function isUnexpected(
-  response: ListAllDevBoxesByUser200Response | ListAllDevBoxesByUserDefaultResponse,
-): response is ListAllDevBoxesByUserDefaultResponse;
-export function isUnexpected(
   response: Get200Response | GetDefaultResponse,
 ): response is GetDefaultResponse;
 export function isUnexpected(
@@ -146,6 +140,12 @@ export function isUnexpected(
 export function isUnexpected(
   response: GetPool200Response | GetPoolDefaultResponse,
 ): response is GetPoolDefaultResponse;
+export function isUnexpected(
+  response: ListAllDevBoxes200Response | ListAllDevBoxesDefaultResponse,
+): response is ListAllDevBoxesDefaultResponse;
+export function isUnexpected(
+  response: ListAllDevBoxesByUser200Response | ListAllDevBoxesByUserDefaultResponse,
+): response is ListAllDevBoxesByUserDefaultResponse;
 export function isUnexpected(
   response: ListSchedulesByPool200Response | ListSchedulesByPoolDefaultResponse,
 ): response is ListSchedulesByPoolDefaultResponse;
@@ -249,16 +249,16 @@ export function isUnexpected(
     | ListProjectsDefaultResponse
     | GetProject200Response
     | GetProjectDefaultResponse
-    | ListAllDevBoxes200Response
-    | ListAllDevBoxesDefaultResponse
-    | ListAllDevBoxesByUser200Response
-    | ListAllDevBoxesByUserDefaultResponse
     | Get200Response
     | GetDefaultResponse
     | ListPools200Response
     | ListPoolsDefaultResponse
     | GetPool200Response
     | GetPoolDefaultResponse
+    | ListAllDevBoxes200Response
+    | ListAllDevBoxesDefaultResponse
+    | ListAllDevBoxesByUser200Response
+    | ListAllDevBoxesByUserDefaultResponse
     | ListSchedulesByPool200Response
     | ListSchedulesByPoolDefaultResponse
     | GetScheduleByPool200Response
@@ -324,11 +324,11 @@ export function isUnexpected(
 ): response is
   | ListProjectsDefaultResponse
   | GetProjectDefaultResponse
-  | ListAllDevBoxesDefaultResponse
-  | ListAllDevBoxesByUserDefaultResponse
   | GetDefaultResponse
   | ListPoolsDefaultResponse
   | GetPoolDefaultResponse
+  | ListAllDevBoxesDefaultResponse
+  | ListAllDevBoxesByUserDefaultResponse
   | ListSchedulesByPoolDefaultResponse
   | GetScheduleByPoolDefaultResponse
   | ListDevBoxesByUserDefaultResponse

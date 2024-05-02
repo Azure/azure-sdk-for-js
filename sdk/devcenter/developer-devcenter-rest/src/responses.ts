@@ -6,10 +6,10 @@ import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
   PagedProjectOutput,
   ProjectOutput,
-  PagedDevBoxOutput,
   OperationStatusOutput,
   PagedPoolOutput,
   PoolOutput,
+  PagedDevBoxOutput,
   PagedScheduleOutput,
   ScheduleOutput,
   DevBoxOutput,
@@ -61,40 +61,6 @@ export interface GetProjectDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface ListAllDevBoxes200Response extends HttpResponse {
-  status: "200";
-  body: PagedDevBoxOutput;
-}
-
-export interface ListAllDevBoxesDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface ListAllDevBoxesDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ListAllDevBoxesDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface ListAllDevBoxesByUser200Response extends HttpResponse {
-  status: "200";
-  body: PagedDevBoxOutput;
-}
-
-export interface ListAllDevBoxesByUserDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface ListAllDevBoxesByUserDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ListAllDevBoxesByUserDefaultHeaders;
-}
-
-/** The request has succeeded. */
 export interface Get200Response extends HttpResponse {
   status: "200";
   body: OperationStatusOutput;
@@ -143,6 +109,40 @@ export interface GetPoolDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & GetPoolDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface ListAllDevBoxes200Response extends HttpResponse {
+  status: "200";
+  body: PagedDevBoxOutput;
+}
+
+export interface ListAllDevBoxesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface ListAllDevBoxesDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & ListAllDevBoxesDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface ListAllDevBoxesByUser200Response extends HttpResponse {
+  status: "200";
+  body: PagedDevBoxOutput;
+}
+
+export interface ListAllDevBoxesByUserDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface ListAllDevBoxesByUserDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & ListAllDevBoxesByUserDefaultHeaders;
 }
 
 /** The request has succeeded. */

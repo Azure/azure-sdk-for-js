@@ -4,11 +4,11 @@
 import {
   ListProjectsParameters,
   GetProjectParameters,
-  ListAllDevBoxesParameters,
-  ListAllDevBoxesByUserParameters,
   GetParameters,
   ListPoolsParameters,
   GetPoolParameters,
+  ListAllDevBoxesParameters,
+  ListAllDevBoxesByUserParameters,
   ListSchedulesByPoolParameters,
   GetScheduleByPoolParameters,
   ListDevBoxesByUserParameters,
@@ -41,16 +41,16 @@ import {
   ListProjectsDefaultResponse,
   GetProject200Response,
   GetProjectDefaultResponse,
-  ListAllDevBoxes200Response,
-  ListAllDevBoxesDefaultResponse,
-  ListAllDevBoxesByUser200Response,
-  ListAllDevBoxesByUserDefaultResponse,
   Get200Response,
   GetDefaultResponse,
   ListPools200Response,
   ListPoolsDefaultResponse,
   GetPool200Response,
   GetPoolDefaultResponse,
+  ListAllDevBoxes200Response,
+  ListAllDevBoxesDefaultResponse,
+  ListAllDevBoxesByUser200Response,
+  ListAllDevBoxesByUserDefaultResponse,
   ListSchedulesByPool200Response,
   ListSchedulesByPoolDefaultResponse,
   GetScheduleByPool200Response,
@@ -123,6 +123,23 @@ export interface GetProject {
   ): StreamableMethod<GetProject200Response | GetProjectDefaultResponse>;
 }
 
+export interface Get {
+  /** Get the status of an operation. */
+  get(options?: GetParameters): StreamableMethod<Get200Response | GetDefaultResponse>;
+}
+
+export interface ListPools {
+  /** Lists available pools. */
+  get(
+    options?: ListPoolsParameters,
+  ): StreamableMethod<ListPools200Response | ListPoolsDefaultResponse>;
+}
+
+export interface GetPool {
+  /** Gets a pool. */
+  get(options?: GetPoolParameters): StreamableMethod<GetPool200Response | GetPoolDefaultResponse>;
+}
+
 export interface ListAllDevBoxes {
   /** Lists Dev Boxes that the caller has access to in the DevCenter. */
   get(
@@ -137,25 +154,8 @@ export interface ListAllDevBoxesByUser {
   ): StreamableMethod<ListAllDevBoxesByUser200Response | ListAllDevBoxesByUserDefaultResponse>;
 }
 
-export interface Get {
-  /** Get the status of an operation. */
-  get(options?: GetParameters): StreamableMethod<Get200Response | GetDefaultResponse>;
-}
-
-export interface ListPools {
-  /** Lists available pools */
-  get(
-    options?: ListPoolsParameters,
-  ): StreamableMethod<ListPools200Response | ListPoolsDefaultResponse>;
-}
-
-export interface GetPool {
-  /** Gets a pool */
-  get(options?: GetPoolParameters): StreamableMethod<GetPool200Response | GetPoolDefaultResponse>;
-}
-
 export interface ListSchedulesByPool {
-  /** Lists available schedules for a pool. */
+  /** Lists all schedules within a pool that are configured by your project administrator. */
   get(
     options?: ListSchedulesByPoolParameters,
   ): StreamableMethod<ListSchedulesByPool200Response | ListSchedulesByPoolDefaultResponse>;
@@ -176,7 +176,7 @@ export interface ListDevBoxesByUser {
 }
 
 export interface GetDevBoxByUser {
-  /** Gets a Dev Box */
+  /** Gets a Dev Box. */
   get(
     options?: GetDevBoxByUserParameters,
   ): StreamableMethod<GetDevBoxByUser200Response | GetDevBoxByUserDefaultResponse>;
@@ -195,28 +195,28 @@ export interface GetDevBoxByUser {
 }
 
 export interface StartDevBox {
-  /** Starts a Dev Box */
+  /** Starts a Dev Box. */
   post(
     options?: StartDevBoxParameters,
   ): StreamableMethod<StartDevBox202Response | StartDevBoxDefaultResponse>;
 }
 
 export interface StopDevBox {
-  /** Stops a Dev Box */
+  /** Stops a Dev Box. */
   post(
     options?: StopDevBoxParameters,
   ): StreamableMethod<StopDevBox202Response | StopDevBoxDefaultResponse>;
 }
 
 export interface RestartDevBox {
-  /** Restarts a Dev Box */
+  /** Restarts a Dev Box. */
   post(
     options?: RestartDevBoxParameters,
   ): StreamableMethod<RestartDevBox202Response | RestartDevBoxDefaultResponse>;
 }
 
 export interface GetRemoteConnection {
-  /** Gets RDP Connection info */
+  /** Gets RDP Connection info. */
   get(
     options?: GetRemoteConnectionParameters,
   ): StreamableMethod<GetRemoteConnection200Response | GetRemoteConnectionDefaultResponse>;
@@ -272,7 +272,7 @@ export interface ListEnvironmentsByUser {
 }
 
 export interface GetEnvironmentByUser {
-  /** Gets an environment */
+  /** Gets an environment. */
   get(
     options?: GetEnvironmentByUserParameters,
   ): StreamableMethod<GetEnvironmentByUser200Response | GetEnvironmentByUserDefaultResponse>;
@@ -298,7 +298,7 @@ export interface ListCatalogsByProject {
 }
 
 export interface GetCatalog {
-  /** Gets the specified catalog within the project */
+  /** Gets the specified catalog within the project. */
   get(
     options?: GetCatalogParameters,
   ): StreamableMethod<GetCatalog200Response | GetCatalogDefaultResponse>;
@@ -345,10 +345,6 @@ export interface Routes {
   (path: "/projects"): ListProjects;
   /** Resource for '/projects/\{projectName\}' has methods for the following verbs: get */
   (path: "/projects/{projectName}", projectName: string): GetProject;
-  /** Resource for '/devboxes' has methods for the following verbs: get */
-  (path: "/devboxes"): ListAllDevBoxes;
-  /** Resource for '/users/\{userId\}/devboxes' has methods for the following verbs: get */
-  (path: "/users/{userId}/devboxes", userId: string): ListAllDevBoxesByUser;
   /** Resource for '/projects/\{projectName\}/operationstatuses/\{operationId\}' has methods for the following verbs: get */
   (
     path: "/projects/{projectName}/operationstatuses/{operationId}",
@@ -363,6 +359,10 @@ export interface Routes {
     projectName: string,
     poolName: string,
   ): GetPool;
+  /** Resource for '/devboxes' has methods for the following verbs: get */
+  (path: "/devboxes"): ListAllDevBoxes;
+  /** Resource for '/users/\{userId\}/devboxes' has methods for the following verbs: get */
+  (path: "/users/{userId}/devboxes", userId: string): ListAllDevBoxesByUser;
   /** Resource for '/projects/\{projectName\}/pools/\{poolName\}/schedules' has methods for the following verbs: get */
   (
     path: "/projects/{projectName}/pools/{poolName}/schedules",

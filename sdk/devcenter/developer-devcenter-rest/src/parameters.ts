@@ -6,11 +6,11 @@ import { DevBox, Environment } from "./models.js";
 
 export type ListProjectsParameters = RequestParameters;
 export type GetProjectParameters = RequestParameters;
-export type ListAllDevBoxesParameters = RequestParameters;
-export type ListAllDevBoxesByUserParameters = RequestParameters;
 export type GetParameters = RequestParameters;
 export type ListPoolsParameters = RequestParameters;
 export type GetPoolParameters = RequestParameters;
+export type ListAllDevBoxesParameters = RequestParameters;
+export type ListAllDevBoxesByUserParameters = RequestParameters;
 export type ListSchedulesByPoolParameters = RequestParameters;
 export type GetScheduleByPoolParameters = RequestParameters;
 export type ListDevBoxesByUserParameters = RequestParameters;
