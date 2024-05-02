@@ -31,16 +31,13 @@ import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredential
  */
 const msalLogger = credentialLogger("MsalClient");
 
-/**
- * Options for acquiring a token using the MSAL client via the Device Code Flow.
- */
-export interface GetTokenByDeviceCodeOptions extends GetTokenOptions {
+export interface GetTokenWithSilentAuthOptions extends GetTokenOptions {
   /**
    * Disables automatic authentication. If set to true, the method will throw an error if the user needs to authenticate.
    *
    * @remarks
    *
-   * This option will be set to `false` when the user calls {@link DeviceCodeCredential.authenticate} directly.
+   * This option will be set to `false` when the user calls `authenticate` directly on a credential that supports it.
    */
   disableAutomaticAuthentication?: boolean;
 }
@@ -52,7 +49,7 @@ export interface MsalClient {
   getTokenByDeviceCode(
     arrayScopes: string[],
     userPromptCallback: DeviceCodePromptCallback,
-    options?: GetTokenByDeviceCodeOptions,
+    options?: GetTokenWithSilentAuthOptions,
   ): Promise<AccessToken>;
   /**
    * Retrieves an access token by using a client certificate.
@@ -336,7 +333,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   async function withSilentAuthentication(
     msalApp: msal.ConfidentialClientApplication | msal.PublicClientApplication,
     scopes: Array<string>,
-    options: GetTokenOptions,
+    options: GetTokenWithSilentAuthOptions,
     onAuthenticationRequired: () => Promise<msal.AuthenticationResult | null>,
   ): Promise<AccessToken> {
     let response: msal.AuthenticationResult | null = null;
@@ -345,6 +342,14 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     } catch (e: any) {
       if (e.name !== "AuthenticationRequiredError") {
         throw e;
+      }
+      if (options.disableAutomaticAuthentication) {
+        throw new AuthenticationRequiredError({
+          scopes,
+          getTokenOptions: options,
+          message:
+            "Automatic authentication has been disabled. You may call the authentication() method.",
+        });
       }
     }
 
@@ -380,14 +385,24 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
     const msalApp = await getConfidentialApp(options);
 
-    return withSilentAuthentication(msalApp, scopes, options, () =>
-      msalApp.acquireTokenByClientCredential({
+    try {
+      const response = await msalApp.acquireTokenByClientCredential({
         scopes,
         authority: state.msalConfig.auth.authority,
         azureRegion: calculateRegionalAuthority(),
         claims: options?.claims,
-      }),
-    );
+      });
+      ensureValidMsalToken(scopes, response, options);
+
+      msalLogger.getToken.info(formatSuccess(scopes));
+
+      return {
+        token: response.accessToken,
+        expiresOnTimestamp: response.expiresOn.getTime(),
+      };
+    } catch (err: any) {
+      throw handleMsalError(scopes, err, options);
+    }
   }
 
   async function getTokenByClientAssertion(
@@ -401,15 +416,25 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
     const msalApp = await getConfidentialApp(options);
 
-    return withSilentAuthentication(msalApp, scopes, options, () =>
-      msalApp.acquireTokenByClientCredential({
+    try {
+      const response = await msalApp.acquireTokenByClientCredential({
         scopes,
         authority: state.msalConfig.auth.authority,
         azureRegion: calculateRegionalAuthority(),
         claims: options?.claims,
         clientAssertion,
-      }),
-    );
+      });
+      ensureValidMsalToken(scopes, response, options);
+
+      msalLogger.getToken.info(formatSuccess(scopes));
+
+      return {
+        token: response.accessToken,
+        expiresOnTimestamp: response.expiresOn.getTime(),
+      };
+    } catch (err: any) {
+      throw handleMsalError(scopes, err, options);
+    }
   }
 
   async function getTokenByClientCertificate(
@@ -422,36 +447,36 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     state.msalConfig.auth.clientCertificate = certificate;
 
     const msalApp = await getConfidentialApp(options);
-
-    return withSilentAuthentication(msalApp, scopes, options, () =>
-      msalApp.acquireTokenByClientCredential({
+    try {
+      const response = await msalApp.acquireTokenByClientCredential({
         scopes,
-        azureRegion: calculateRegionalAuthority(),
         authority: state.msalConfig.auth.authority,
+        azureRegion: calculateRegionalAuthority(),
         claims: options?.claims,
-      }),
-    );
+      });
+      ensureValidMsalToken(scopes, response, options);
+
+      msalLogger.getToken.info(formatSuccess(scopes));
+
+      return {
+        token: response.accessToken,
+        expiresOnTimestamp: response.expiresOn.getTime(),
+      };
+    } catch (err: any) {
+      throw handleMsalError(scopes, err, options);
+    }
   }
 
   async function getTokenByDeviceCode(
     scopes: string[],
     deviceCodeCallback: DeviceCodePromptCallback,
-    options: GetTokenByDeviceCodeOptions = {},
+    options: GetTokenWithSilentAuthOptions = {},
   ): Promise<AccessToken> {
     msalLogger.getToken.info(`Attempting to acquire token using device code`);
 
     const msalApp = await getPublicApp(options);
 
     return withSilentAuthentication(msalApp, scopes, options, () => {
-      if (options.disableAutomaticAuthentication) {
-        throw new AuthenticationRequiredError({
-          scopes,
-          getTokenOptions: options,
-          message:
-            "Automatic authentication has been disabled. You may call the authentication() method.",
-        });
-      }
-
       const requestOptions: msal.DeviceCodeRequest = {
         scopes,
         cancel: false,
@@ -465,6 +490,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
           requestOptions.cancel = true;
         });
       }
+
       return deviceCodeRequest;
     });
   }
