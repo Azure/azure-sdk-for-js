@@ -15,6 +15,8 @@ import { StatsbeatFeature, StatsbeatInstrumentation } from "../../../src/types";
 import { getOsPrefix } from "../../../src/utils/common";
 import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
+import { registerInstrumentations } from "@opentelemetry/instrumentation";
+import { FsInstrumentation } from "@opentelemetry/instrumentation-fs";
 
 describe("Main functions", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -174,6 +176,24 @@ describe("Main functions", () => {
     assert.ok(instrumentations & StatsbeatInstrumentation.REDIS, "REDIS not set");
     assert.strictEqual(instrumentations, 31);
   });
+
+  it("should monkey patch OpenTelemetry instrumentations and update statsbeat env var", () => {
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    registerInstrumentations({
+      instrumentations: [
+        new FsInstrumentation(),
+      ]
+    });
+    let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const instrumentations = Number(output["instrumentation"]);
+    assert.ok(instrumentations & StatsbeatInstrumentation.FS, "FS not set");
+    assert.strictEqual(instrumentations, StatsbeatInstrumentation.FS);
+  })
 
   it("should capture the app service SDK prefix correctly", () => {
     const os = getOsPrefix();
