@@ -134,6 +134,7 @@ describe("Main functions", () => {
     let config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        disableOfflineStorage: true,
       },
       enableLiveMetrics: true,
       instrumentationOptions: {
@@ -162,6 +163,7 @@ describe("Main functions", () => {
     assert.ok(!(features & StatsbeatFeature.DISK_RETRY), "DISK_RETRY is set");
     assert.ok(!(features & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO is not set");
+    assert.strictEqual(features, 8);
     assert.ok(
       instrumentations & StatsbeatInstrumentation.AZURE_CORE_TRACING,
       "AZURE_CORE_TRACING not set",
@@ -170,29 +172,7 @@ describe("Main functions", () => {
     assert.ok(instrumentations & StatsbeatInstrumentation.MYSQL, "MYSQL not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.POSTGRES, "POSTGRES not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.REDIS, "REDIS not set");
-  });
-
-  it("should use statsbeat features if already available", () => {
-    const env = <{ [id: string]: string }>{};
-    let current = 0;
-    current |= StatsbeatFeature.AAD_HANDLING;
-    current |= StatsbeatFeature.DISK_RETRY;
-    current |= StatsbeatFeature.LIVE_METRICS;
-    env.AZURE_MONITOR_STATSBEAT_FEATURES = current.toString();
-    process.env = env;
-    let config: AzureMonitorOpenTelemetryOptions = {
-      azureMonitorExporterOptions: {
-        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
-      },
-    };
-    useAzureMonitor(config);
-    let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
-    const numberOutput = Number(output["feature"]);
-    assert.ok(numberOutput & StatsbeatFeature.AAD_HANDLING, "AAD_HANDLING not set");
-    assert.ok(numberOutput & StatsbeatFeature.DISK_RETRY, "DISK_RETRY not set");
-    assert.ok(numberOutput & StatsbeatFeature.DISTRO, "DISTRO not set");
-    assert.ok(!(numberOutput & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
-    assert.ok(numberOutput & StatsbeatFeature.LIVE_METRICS, "LIVE_METRICS is not set");
+    assert.strictEqual(instrumentations, 31);
   });
 
   it("should capture the app service SDK prefix correctly", () => {

@@ -14,7 +14,8 @@ import {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
   BrowserSdkLoaderOptions,
-  StatsbeatOptions,
+  StatsbeatInstrumentations,
+  StatsbeatFeatures,
 } from "./types";
 import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader";
 import { setSdkPrefix } from "./metrics/quickpulse/utils";
@@ -36,20 +37,24 @@ let browserSdkLoader: BrowserSdkLoader | undefined;
  */
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   const config = new InternalConfig(options);
-  const statsbeatOptions: StatsbeatOptions = {
-    // Instrumentations
+  // Monkey patches for OTel instrumentations - return an object mapping instrumentation: boolean (ex: { azureSdk: true, http: false })
+  // @ts-ignore
+  const openTelemetryInstrumentations: InstrumentationOptions = monkeyPatchInstrumentations();
+  const statsbeatInstrumentations: StatsbeatInstrumentations = {
     azureSdk: config.instrumentationOptions?.azureSdk?.enabled,
     mongoDb: config.instrumentationOptions?.mongoDb?.enabled,
     mySql: config.instrumentationOptions?.mySql?.enabled,
     postgreSql: config.instrumentationOptions?.postgreSql?.enabled,
     redis: config.instrumentationOptions?.redis?.enabled,
     bunyan: config.instrumentationOptions?.bunyan?.enabled,
-    // Features
-    browserSdkLoader: config.browserSdkLoaderOptions.enabled,
-    aadHandling: !!config.azureMonitorExporterOptions?.credential,
-    diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
   };
-  getInstance().setStatsbeatFeatures(statsbeatOptions);
+  const statsbeatFeatures: StatsbeatFeatures = {
+    diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
+    aadHandling: !!config.azureMonitorExporterOptions?.credential,
+    browserSdkLoader: config.browserSdkLoaderOptions.enabled,
+    distro: true,
+  };
+  getInstance().setStatsbeatFeatures(statsbeatFeatures, statsbeatInstrumentations);
 
   if (config.browserSdkLoaderOptions.enabled) {
     browserSdkLoader = new BrowserSdkLoader(config);
@@ -126,4 +131,26 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
 export function shutdownAzureMonitor(): Promise<void> {
   browserSdkLoader?.dispose();
   return sdk?.shutdown();
+}
+
+function monkeyPatchInstrumentations() {
+  let instrumentations: InstrumentationOptions = {};
+  // mySql2
+  try {
+    require.resolve('@opentelemetry/instrumentation-mysql2');
+    const { MySQL2Instrumentation } = require('@opentelemetry/instrumentation-mysql2');
+    const originalInit = MySQL2Instrumentation.prototype.init;
+    MySQL2Instrumentation.prototype.init = function() {
+      /* 
+        TODO: Populate the environment variable we already use for statsbeat features with the instrumentations collected here.
+        Then make sure to read that environment variable in the statsbeat code before setting anything else and use it to set the instrumentation options.
+        Make sure to add tests for this process.
+      */
+      return originalInit.apply(this, arguments);
+    };
+  } catch (error) {
+    // do nothing
+  }
+
+  return instrumentations;
 }

@@ -4,8 +4,10 @@
 import {
   AZURE_MONITOR_STATSBEAT_FEATURES,
   StatsbeatFeature,
+  StatsbeatFeatures,
   StatsbeatInstrumentation,
-  StatsbeatOptions,
+  StatsbeatInstrumentations,
+  StatsbeatOption,
 } from "../types";
 import { Logger as InternalLogger } from "../shared/logging";
 
@@ -13,48 +15,39 @@ let instance: StatsbeatConfiguration;
 
 class StatsbeatConfiguration {
   // Initial Statsbeat options
-  private currentStatsbeatOptions: StatsbeatOptions = {};
+  private currentStatsbeatInstrumentations: StatsbeatInstrumentations = {};
+  private currentStatsbeatFeatures: StatsbeatFeatures = {};
 
-  public setStatsbeatFeatures = (statsbeatOptions: StatsbeatOptions) => {
+  public setStatsbeatFeatures = (statsbeatFeatures?: StatsbeatFeatures, statsbeatInstrumentations?: StatsbeatInstrumentations) => {
     // Merge old statsbeat options with new statsbeat options overriding any common properties
-    this.currentStatsbeatOptions = { ...this.currentStatsbeatOptions, ...statsbeatOptions };
-
+    this.currentStatsbeatInstrumentations = { ...this.currentStatsbeatInstrumentations, ...statsbeatInstrumentations };
+    this.currentStatsbeatFeatures = { ...this.currentStatsbeatFeatures, ...statsbeatFeatures };
     let instrumentationBitMap = StatsbeatInstrumentation.NONE;
-    if (statsbeatOptions.azureSdk === true) {
-      instrumentationBitMap |= StatsbeatInstrumentation.AZURE_CORE_TRACING;
-    }
-    if (statsbeatOptions.mongoDb === true) {
-      instrumentationBitMap |= StatsbeatInstrumentation.MONGODB;
-    }
-    if (statsbeatOptions.mySql === true) {
-      instrumentationBitMap |= StatsbeatInstrumentation.MYSQL;
-    }
-    if (statsbeatOptions.postgreSql === true) {
-      instrumentationBitMap |= StatsbeatInstrumentation.POSTGRES;
-    }
-    if (statsbeatOptions.redis === true) {
-      instrumentationBitMap |= StatsbeatInstrumentation.REDIS;
-    }
-    if (statsbeatOptions.bunyan === true) {
-      instrumentationBitMap |= StatsbeatInstrumentation.BUNYAN;
-    }
-
     let featureBitMap = StatsbeatFeature.NONE;
-    featureBitMap |= StatsbeatFeature.DISTRO;
+    
+    const instrumentationArray: Array<StatsbeatOption> = Object.entries(this.currentStatsbeatInstrumentations).map(entry => {
+      return { option: entry[0], value: entry[1] }
+    });
 
-    if (statsbeatOptions.browserSdkLoader === true) {
-      featureBitMap |= StatsbeatFeature.BROWSER_SDK_LOADER;
+    // Map the instrumentation options to a bit map
+    for (let i = 0; i < instrumentationArray.length; i++) {
+      if (instrumentationArray[i].value) {
+        instrumentationBitMap |= 2 ** i;
+      }
     }
-    // Determines if the customer has activated the Live Metrics feature
-    if (statsbeatOptions.liveMetrics === true) {
-      featureBitMap |= StatsbeatFeature.LIVE_METRICS;
+
+    const featureArray: Array<StatsbeatOption> = Object.entries(this.currentStatsbeatFeatures).map(entry => {
+      return { option: entry[0], value: entry[1] }
+    });
+
+    // Map the feature options to a bit map
+    for (let i = 0; i < featureArray.length; i++) {
+      if (featureArray[i].value) {
+        featureBitMap |= 2 ** i;
+      }
     }
 
     try {
-      const currentFeaturesBitMap = Number(process.env[AZURE_MONITOR_STATSBEAT_FEATURES]);
-      if (!isNaN(currentFeaturesBitMap)) {
-        featureBitMap |= currentFeaturesBitMap;
-      }
       process.env[AZURE_MONITOR_STATSBEAT_FEATURES] = JSON.stringify({
         instrumentation: instrumentationBitMap,
         feature: featureBitMap,
