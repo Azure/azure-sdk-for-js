@@ -3,7 +3,12 @@
 
 import * as msalClient from "../../../src/msal/nodeFlows/msalClient";
 
-import { AuthenticationResult, ConfidentialClientApplication } from "@azure/msal-node";
+import {
+  AuthenticationResult,
+  ClientApplication,
+  ConfidentialClientApplication,
+  PublicClientApplication,
+} from "@azure/msal-node";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, env } from "@azure-tools/test-recorder";
 
@@ -219,11 +224,14 @@ describe("MsalClient", function () {
     });
   });
 
-  describe("#getTokenByClientSecret", function () {
+  describe("#getTokenByDeviceCode", function () {
     let sandbox: sinon.SinonSandbox;
 
     const clientId = "client-id";
     const tenantId = "tenant-id";
+    const deviceCodeCallback: () => void = () => {
+      // no-op
+    };
 
     afterEach(async function () {
       sandbox.restore();
@@ -248,16 +256,15 @@ describe("MsalClient", function () {
         });
 
         const silentAuthSpy = sandbox
-          .stub(ConfidentialClientApplication.prototype, "acquireTokenSilent")
+          .stub(ClientApplication.prototype, "acquireTokenSilent")
           .resolves({
             accessToken: "token",
             expiresOn: new Date(),
           } as AuthenticationResult);
 
         const scopes = ["https://vault.azure.net/.default"];
-        const clientSecret = process.env.AZURE_CLIENT_SECRET!;
 
-        await client.getTokenByClientSecret(scopes, clientSecret);
+        await client.getTokenByDeviceCode(scopes, deviceCodeCallback);
 
         assert.equal(silentAuthSpy.callCount, 1);
         assert.deepEqual(silentAuthSpy.firstCall.firstArg.account, {
@@ -269,14 +276,14 @@ describe("MsalClient", function () {
 
       it("attempts silent authentication without AuthenticationRecord", async function () {
         const silentAuthStub = sandbox
-          .stub(ConfidentialClientApplication.prototype, "acquireTokenSilent")
+          .stub(ClientApplication.prototype, "acquireTokenSilent")
           .resolves({
             accessToken: "token",
             expiresOn: new Date(),
           } as AuthenticationResult);
 
         const clientCredentialAuthStub = sandbox
-          .stub(ConfidentialClientApplication.prototype, "acquireTokenByClientCredential")
+          .stub(PublicClientApplication.prototype, "acquireTokenByDeviceCode")
           .resolves({
             accessToken: "token",
             expiresOn: new Date(Date.now() + 3600 * 1000),
@@ -290,12 +297,11 @@ describe("MsalClient", function () {
           } as AuthenticationResult);
 
         const scopes = ["https://vault.azure.net/.default"];
-        const clientSecret = process.env.AZURE_CLIENT_SECRET!;
 
         const client = msalClient.createMsalClient(clientId, tenantId);
 
-        await client.getTokenByClientSecret(scopes, clientSecret);
-        await client.getTokenByClientSecret(scopes, clientSecret);
+        await client.getTokenByDeviceCode(scopes, deviceCodeCallback);
+        await client.getTokenByDeviceCode(scopes, deviceCodeCallback);
 
         assert.equal(
           clientCredentialAuthStub.callCount,
@@ -322,21 +328,24 @@ describe("MsalClient", function () {
         });
 
         sandbox
-          .stub(ConfidentialClientApplication.prototype, "acquireTokenSilent")
+          .stub(ClientApplication.prototype, "acquireTokenSilent")
           .rejects(new AbortError("operation has been aborted")); // AbortErrors should get re-thrown
 
         const scopes = ["https://vault.azure.net/.default"];
-        const clientSecret = process.env.AZURE_CLIENT_SECRET!;
 
         await assert.isRejected(
-          client.getTokenByClientSecret(scopes, clientSecret),
+          client.getTokenByDeviceCode(scopes, deviceCodeCallback),
           "operation has been aborted",
         );
       });
 
       it("throws when silentAuthentication fails and disableAutomaticAuthentication is true", async function () {
+        const scopes = ["https://vault.azure.net/.default"];
+        sandbox
+          .stub(ClientApplication.prototype, "acquireTokenSilent")
+          .rejects(new AuthenticationRequiredError({ scopes }));
+
         const client = msalClient.createMsalClient(clientId, tenantId, {
-          disableAutomaticAuthentication: true,
           // An authentication record will get us to try the silent flow
           authenticationRecord: {
             authority: "https://login.microsoftonline.com/tenant-id",
@@ -347,15 +356,14 @@ describe("MsalClient", function () {
           },
         });
 
-        const scopes = ["https://vault.azure.net/.default"];
-        sandbox
-          .stub(ConfidentialClientApplication.prototype, "acquireTokenSilent")
-          .rejects(new AuthenticationRequiredError({ scopes }));
-
-        const clientSecret = process.env.AZURE_CLIENT_SECRET!;
-
         await assert.isRejected(
-          client.getTokenByClientSecret(scopes, clientSecret),
+          client.getTokenByDeviceCode(
+            scopes,
+            () => {
+              // no-op
+            },
+            { disableAutomaticAuthentication: true },
+          ),
           /Automatic authentication has been disabled/,
         );
       });

@@ -13,13 +13,13 @@ import {
   DeviceCodePromptCallback,
 } from "./deviceCodeCredentialOptions";
 import { AuthenticationRecord } from "../msal/types";
-import { MsalDeviceCode } from "../msal/nodeFlows/msalDeviceCode";
-import { MsalFlow } from "../msal/flows";
 import { credentialLogger } from "../util/logging";
 import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
 import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
 import { DeveloperSignOnClientId } from "../constants";
+import { MsalDeviceCode } from "../msal/nodeFlows/msalDeviceCode";
+import { MsalFlow } from "../msal/flows";
 
 const logger = credentialLogger("DeviceCodeCredential");
 
@@ -70,7 +70,7 @@ export class DeviceCodeCredential implements TokenCredential {
     );
     const clientId = options?.clientId ?? DeveloperSignOnClientId;
     const tenantId = resolveTenantId(logger, options?.tenantId, clientId);
-    this.userPromptCallback = options?.userPromptCallback || defaultDeviceCodePromptCallback;
+    this.userPromptCallback = options?.userPromptCallback ?? defaultDeviceCodePromptCallback;
     this.msalClient = createMsalClient(clientId, tenantId, {
       ...options,
       tokenCredentialOptions: options || {},
@@ -109,11 +109,10 @@ export class DeviceCodeCredential implements TokenCredential {
         );
 
         const arrayScopes = ensureScopes(scopes);
-        return this.msalClient.getTokenByDeviceCode(
-          arrayScopes,
-          this.userPromptCallback,
-          newOptions,
-        );
+        return this.msalClient.getTokenByDeviceCode(arrayScopes, this.userPromptCallback, {
+          ...newOptions,
+          disableAutomaticAuthentication: this.disableAutomaticAuthentication,
+        });
         return this.msalFlow.getToken(arrayScopes, {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,
@@ -141,8 +140,13 @@ export class DeviceCodeCredential implements TokenCredential {
       options,
       async (newOptions) => {
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-        await this.msalFlow.getToken(arrayScopes, newOptions);
-        return this.msalFlow.getActiveAccount();
+        await this.msalClient.getTokenByDeviceCode(arrayScopes, this.userPromptCallback, {
+          ...newOptions,
+          disableAutomaticAuthentication: false, // this method should always allow user interaction
+        });
+        return this.msalClient.getActiveAccount();
+        // await this.msalFlow.getToken(arrayScopes, newOptions);
+        // return this.msalFlow.getActiveAccount();
       },
     );
   }

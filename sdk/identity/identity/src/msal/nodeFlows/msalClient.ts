@@ -13,11 +13,12 @@ import {
   getKnownAuthorities,
   getMSALLogLevel,
   handleMsalError,
+  msalToPublic,
   publicToMsal,
 } from "../utils";
 
 import { AuthenticationRequiredError } from "../../errors";
-import { CertificateParts } from "../types";
+import { AuthenticationRecord, CertificateParts } from "../types";
 import { IdentityClient } from "../../client/identityClient";
 import { MsalNodeOptions } from "./msalNodeCommon";
 import { calculateRegionalAuthority } from "../../regionalAuthority";
@@ -31,13 +32,27 @@ import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredential
 const msalLogger = credentialLogger("MsalClient");
 
 /**
+ * Options for acquiring a token using the MSAL client via the Device Code Flow.
+ */
+export interface GetTokenByDeviceCodeOptions extends GetTokenOptions {
+  /**
+   * Disables automatic authentication. If set to true, the method will throw an error if the user needs to authenticate.
+   *
+   * @remarks
+   *
+   * This option will be set to `false` when the user calls {@link DeviceCodeCredential.authenticate} directly.
+   */
+  disableAutomaticAuthentication?: boolean;
+}
+
+/**
  * Represents a client for interacting with the Microsoft Authentication Library (MSAL).
  */
 export interface MsalClient {
   getTokenByDeviceCode(
     arrayScopes: string[],
     userPromptCallback: DeviceCodePromptCallback,
-    options?: GetTokenOptions,
+    options?: GetTokenByDeviceCodeOptions,
   ): Promise<AccessToken>;
   /**
    * Retrieves an access token by using a client certificate.
@@ -80,12 +95,21 @@ export interface MsalClient {
     clientSecret: string,
     options?: GetTokenOptions,
   ): Promise<AccessToken>;
+
+  /**
+   * Retrieves the last authenticated account. This method expects an authentication record to have been previously loaded.
+   *
+   * An authentication record could be loaded by calling the `getToken` method, or by providing an `authenticationRecord` when creating a credential.
+   */
+  getActiveAccount(): AuthenticationRecord | undefined;
 }
 
 /**
  * Options for creating an instance of the MsalClient.
  */
-export type MsalClientOptions = Partial<Omit<MsalNodeOptions, "clientId" | "tenantId">>;
+export type MsalClientOptions = Partial<
+  Omit<MsalNodeOptions, "clientId" | "tenantId" | "disableAutomaticAuthentication">
+>;
 
 /**
  * Generates the configuration for MSAL (Microsoft Authentication Library).
@@ -319,16 +343,10 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     try {
       response = await getTokenSilent(msalApp, scopes, options);
     } catch (e: any) {
+      console.log("error from getTokenSilent");
+      console.error(e);
       if (e.name !== "AuthenticationRequiredError") {
         throw e;
-      }
-      if (createMsalClientOptions.disableAutomaticAuthentication) {
-        throw new AuthenticationRequiredError({
-          scopes,
-          getTokenOptions: options,
-          message:
-            "Automatic authentication has been disabled. You may call the authentication() method.",
-        });
       }
     }
 
@@ -337,6 +355,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       try {
         response = await onAuthenticationRequired();
       } catch (err: any) {
+        console.error(err);
         throw handleMsalError(scopes, err, options);
       }
     }
@@ -420,13 +439,22 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   async function getTokenByDeviceCode(
     scopes: string[],
     deviceCodeCallback: DeviceCodePromptCallback,
-    options: GetTokenOptions = {},
+    options: GetTokenByDeviceCodeOptions = {},
   ): Promise<AccessToken> {
     msalLogger.getToken.info(`Attempting to acquire token using device code`);
 
     const msalApp = await getPublicApp(options);
 
     return withSilentAuthentication(msalApp, scopes, options, () => {
+      if (options.disableAutomaticAuthentication) {
+        throw new AuthenticationRequiredError({
+          scopes,
+          getTokenOptions: options,
+          message:
+            "Automatic authentication has been disabled. You may call the authentication() method.",
+        });
+      }
+
       const requestOptions: msal.DeviceCodeRequest = {
         scopes,
         cancel: false,
@@ -444,7 +472,15 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     });
   }
 
+  function getActiveAccount(): AuthenticationRecord | undefined {
+    if (!state.cachedAccount) {
+      return undefined;
+    }
+    return msalToPublic(clientId, state.cachedAccount);
+  }
+
   return {
+    getActiveAccount,
     getTokenByClientSecret,
     getTokenByClientAssertion,
     getTokenByClientCertificate,
