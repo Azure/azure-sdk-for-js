@@ -824,12 +824,6 @@ export function isUnexpected(response: ListProjects200Response | ListProjectsDef
 export function isUnexpected(response: GetProject200Response | GetProjectDefaultResponse): response is GetProjectDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ListAllDevBoxes200Response | ListAllDevBoxesDefaultResponse): response is ListAllDevBoxesDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: ListAllDevBoxesByUser200Response | ListAllDevBoxesByUserDefaultResponse): response is ListAllDevBoxesByUserDefaultResponse;
-
-// @public (undocumented)
 export function isUnexpected(response: Get200Response | GetDefaultResponse): response is GetDefaultResponse;
 
 // @public (undocumented)
@@ -837,6 +831,12 @@ export function isUnexpected(response: ListPools200Response | ListPoolsDefaultRe
 
 // @public (undocumented)
 export function isUnexpected(response: GetPool200Response | GetPoolDefaultResponse): response is GetPoolDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ListAllDevBoxes200Response | ListAllDevBoxesDefaultResponse): response is ListAllDevBoxesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ListAllDevBoxesByUser200Response | ListAllDevBoxesByUserDefaultResponse): response is ListAllDevBoxesByUserDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: ListSchedulesByPool200Response | ListSchedulesByPoolDefaultResponse): response is ListSchedulesByPoolDefaultResponse;
@@ -1326,20 +1326,20 @@ export type LocalAdminStatus = "Enabled" | "Disabled" | string;
 export type LocalAdminStatusOutput = "Enabled" | "Disabled" | string;
 
 // @public
+export type OperationStateOutput = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
+
+// @public
 export interface OperationStatusOutput {
     endTime?: string;
     error?: ErrorModel;
     readonly id: string;
-    name?: string;
+    readonly name: string;
     percentComplete?: number;
     properties?: any;
     resourceId?: string;
     startTime?: string;
-    status: OperationStatusValueOutput;
+    status: OperationStateOutput;
 }
-
-// @public
-export type OperationStatusValueOutput = string | "Running" | "Completed" | "Canceled" | "Failed";
 
 // @public
 export interface OsDisk {
@@ -1490,11 +1490,11 @@ export type RestartDevBoxParameters = RequestParameters;
 export interface Routes {
     (path: "/projects"): ListProjects;
     (path: "/projects/{projectName}", projectName: string): GetProject;
-    (path: "/devboxes"): ListAllDevBoxes;
-    (path: "/users/{userId}/devboxes", userId: string): ListAllDevBoxesByUser;
     (path: "/projects/{projectName}/operationstatuses/{operationId}", projectName: string, operationId: string): Get;
     (path: "/projects/{projectName}/pools", projectName: string): ListPools;
     (path: "/projects/{projectName}/pools/{poolName}", projectName: string, poolName: string): GetPool;
+    (path: "/devboxes"): ListAllDevBoxes;
+    (path: "/users/{userId}/devboxes", userId: string): ListAllDevBoxesByUser;
     (path: "/projects/{projectName}/pools/{poolName}/schedules", projectName: string, poolName: string): ListSchedulesByPool;
     (path: "/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}", projectName: string, poolName: string, scheduleName: string): GetScheduleByPool;
     (path: "/projects/{projectName}/users/{userId}/devboxes", projectName: string, userId: string): ListDevBoxesByUser;
