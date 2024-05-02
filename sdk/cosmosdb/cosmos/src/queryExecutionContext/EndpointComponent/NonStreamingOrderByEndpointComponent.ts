@@ -1,0 +1,67 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import PriorityQueue from "priorityqueuejs";
+import { RUConsumedManager } from "../../common/RUConsumedManager";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { QueryOperationOptions, Response } from "../../request";
+import { ExecutionContext } from "../ExecutionContext";
+import { OrderByComparator } from "../orderByComparator";
+export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
+  private nonStreamingOrderByPQ: PriorityQueue<any>;
+
+  /**
+   * Represents an endpoint in handling an non-streaming order by query. For each processed orderby
+   * result it returns 'payload' item of the result
+   *
+   * @param executionContext - Underlying Execution Context
+   * @hidden
+   */
+  constructor(
+    private executionContext: ExecutionContext,
+    private sortOrders: any[],
+  ) {
+    const comparator = new OrderByComparator(this.sortOrders);
+    this.nonStreamingOrderByPQ = new PriorityQueue<unknown>((a: unknown, b: unknown) => {
+      return comparator.compareItems(a, b);
+    });
+  }
+
+  public async nextItem(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: QueryOperationOptions,
+    ruConsumedManager?: RUConsumedManager,
+  ): Promise<Response<any>> {
+    if (!this.executionContext.hasMoreResults() && this.nonStreamingOrderByPQ.size() !== 0) {
+      const item =
+        this.nonStreamingOrderByPQ.deq() !== undefined
+          ? this.nonStreamingOrderByPQ.deq().payload
+          : undefined;
+      return {
+        result: item,
+        headers: {},
+      };
+    }
+
+    if (this.executionContext.hasMoreResults()) {
+      const { result: item, headers } = await this.executionContext.nextItem(
+        diagnosticNode,
+        operationOptions,
+        ruConsumedManager,
+      );
+      // Add the item to the priority queue
+      this.nonStreamingOrderByPQ.enq(item);
+      return {
+        result: {},
+        headers,
+      };
+    }
+  }
+
+  /**
+   * Determine if there are still remaining resources to processs.
+   * @returns true if there is other elements to process in the OrderByEndpointComponent.
+   */
+  public hasMoreResults(): boolean {
+    return this.executionContext.hasMoreResults() || this.nonStreamingOrderByPQ.size() !== 0;
+  }
+}

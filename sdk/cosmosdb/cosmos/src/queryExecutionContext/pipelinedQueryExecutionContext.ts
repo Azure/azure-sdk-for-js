@@ -18,6 +18,7 @@ import { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { RUCapPerOperationExceededErrorCode } from "../request/RUCapPerOperationExceededError";
 import { RUConsumedManager } from "../common";
+import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -47,7 +48,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
 
     if (nonStreamingOrderBy) {
-      //TODO: if non order by, throw error.
+      // TODO: if non order by, throw error.
       const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
       const context: ExecutionContext = new ParallelQueryExecutionContext(
         this.clientContext,
@@ -58,8 +59,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         correlatedActivityId,
       );
 
-      if (distinctType == "None") {
-        // this.endpoint = new NonStreamingOrderByEndpointComponent();
+      if (distinctType === "None") {
+        this.endpoint = new NonStreamingOrderByEndpointComponent(context, sortOrders);
       } else {
         // this.endpoint = new NonStreamingOrderByDistinctEndpointComponent(context, partitionedQueryExecutionInfo.queryInfo);
       }
