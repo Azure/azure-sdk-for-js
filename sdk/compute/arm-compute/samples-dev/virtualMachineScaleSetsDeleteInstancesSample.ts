@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes virtual machines in a VM scale set.
  *
  * @summary Deletes virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetDeleteInstancesMaximumSetGen() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function virtualMachineScaleSetDeleteInstancesMaximumSetGen() {
  * This sample demonstrates how to Deletes virtual machines in a VM scale set.
  *
  * @summary Deletes virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetDeleteInstancesMinimumSetGen() {
   const subscriptionId =

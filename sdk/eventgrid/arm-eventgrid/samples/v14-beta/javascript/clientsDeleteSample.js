@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete an existing client.
  *
  * @summary Delete an existing client.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Clients_Delete.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Clients_Delete.json
  */
 async function clientsDelete() {
   const subscriptionId =

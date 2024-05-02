@@ -117,6 +117,7 @@ export default leafCommand(commandInfo, async ({ paths, service, task }) => {
 
   const projects = await getProjects(service);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let func: any;
   if (task) {
     func = (await import(task)).default;

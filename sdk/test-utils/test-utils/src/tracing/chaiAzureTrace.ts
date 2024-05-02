@@ -64,6 +64,7 @@ export async function supportsTracing<
   } finally {
     // By resetting the instrumenter to undefined, we force the next call to instantiate the
     // no-op instrumenter and prevent test pollution.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     useInstrumenter(<any>undefined);
   }
 }

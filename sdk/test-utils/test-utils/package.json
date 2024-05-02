@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/test-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "sdk-type": "utility",
   "description": "Test utilities library for the Azure SDK for JavaScript and TypeScript",
   "type": "module",
@@ -47,7 +47,6 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/test-utils/test-utils/README.md",
   "sideEffects": false,
-  "private": true,
   "dependencies": {
     "@azure-tools/test-recorder": "^4.0.0",
     "@azure/abort-controller": "^2.0.0",

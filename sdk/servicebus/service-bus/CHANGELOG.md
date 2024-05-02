@@ -1,8 +1,10 @@
 # Release History
 
-## 7.9.5 (Unreleased)
+## 7.10.0 (Unreleased)
 
 ### Features Added
+
+- Adds `deleteMessages` which deletes messages from the queue.
 
 ### Breaking Changes
 

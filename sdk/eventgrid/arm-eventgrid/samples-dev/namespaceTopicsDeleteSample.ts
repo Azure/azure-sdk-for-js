@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete existing namespace topic.
  *
  * @summary Delete existing namespace topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/NamespaceTopics_Delete.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/NamespaceTopics_Delete.json
  */
 async function namespaceTopicsDelete() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function namespaceTopicsDelete() {
   const result = await client.namespaceTopics.beginDeleteAndWait(
     resourceGroupName,
     namespaceName,
-    topicName
+    topicName,
   );
   console.log(result);
 }
