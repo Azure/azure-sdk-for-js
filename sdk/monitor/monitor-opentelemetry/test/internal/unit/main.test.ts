@@ -185,15 +185,13 @@ describe("Main functions", () => {
     };
     useAzureMonitor(config);
     registerInstrumentations({
-      instrumentations: [
-        new FsInstrumentation(),
-      ]
+      instrumentations: [new FsInstrumentation()],
     });
     let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
     const instrumentations = Number(output["instrumentation"]);
     assert.ok(instrumentations & StatsbeatInstrumentation.FS, "FS not set");
     assert.strictEqual(instrumentations, StatsbeatInstrumentation.FS);
-  })
+  });
 
   it("should capture the app service SDK prefix correctly", () => {
     const os = getOsPrefix();
