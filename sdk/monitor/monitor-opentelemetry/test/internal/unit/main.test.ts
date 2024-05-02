@@ -15,6 +15,8 @@ import { StatsbeatFeature, StatsbeatInstrumentation } from "../../../src/types";
 import { getOsPrefix } from "../../../src/utils/common";
 import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
+import { registerInstrumentations } from "@opentelemetry/instrumentation";
+import { FsInstrumentation } from "@opentelemetry/instrumentation-fs";
 
 describe("Main functions", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -134,6 +136,7 @@ describe("Main functions", () => {
     let config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        disableOfflineStorage: true,
       },
       enableLiveMetrics: true,
       instrumentationOptions: {
@@ -162,6 +165,7 @@ describe("Main functions", () => {
     assert.ok(!(features & StatsbeatFeature.DISK_RETRY), "DISK_RETRY is set");
     assert.ok(!(features & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO is not set");
+    assert.strictEqual(features, 8);
     assert.ok(
       instrumentations & StatsbeatInstrumentation.AZURE_CORE_TRACING,
       "AZURE_CORE_TRACING not set",
@@ -170,29 +174,23 @@ describe("Main functions", () => {
     assert.ok(instrumentations & StatsbeatInstrumentation.MYSQL, "MYSQL not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.POSTGRES, "POSTGRES not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.REDIS, "REDIS not set");
+    assert.strictEqual(instrumentations, 31);
   });
 
-  it("should use statsbeat features if already available", () => {
-    const env = <{ [id: string]: string }>{};
-    let current = 0;
-    current |= StatsbeatFeature.AAD_HANDLING;
-    current |= StatsbeatFeature.DISK_RETRY;
-    current |= StatsbeatFeature.LIVE_METRICS;
-    env.AZURE_MONITOR_STATSBEAT_FEATURES = current.toString();
-    process.env = env;
+  it("should monkey patch OpenTelemetry instrumentations and update statsbeat env var", () => {
     let config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
     };
     useAzureMonitor(config);
+    registerInstrumentations({
+      instrumentations: [new FsInstrumentation()],
+    });
     let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
-    const numberOutput = Number(output["feature"]);
-    assert.ok(numberOutput & StatsbeatFeature.AAD_HANDLING, "AAD_HANDLING not set");
-    assert.ok(numberOutput & StatsbeatFeature.DISK_RETRY, "DISK_RETRY not set");
-    assert.ok(numberOutput & StatsbeatFeature.DISTRO, "DISTRO not set");
-    assert.ok(!(numberOutput & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
-    assert.ok(numberOutput & StatsbeatFeature.LIVE_METRICS, "LIVE_METRICS is not set");
+    const instrumentations = Number(output["instrumentation"]);
+    assert.ok(instrumentations & StatsbeatInstrumentation.FS, "FS not set");
+    assert.strictEqual(instrumentations, StatsbeatInstrumentation.FS);
   });
 
   it("should capture the app service SDK prefix correctly", () => {

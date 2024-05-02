@@ -14,7 +14,8 @@ import {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
   BrowserSdkLoaderOptions,
-  StatsbeatOptions,
+  StatsbeatInstrumentations,
+  StatsbeatFeatures,
 } from "./types";
 import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader";
 import { setSdkPrefix } from "./metrics/quickpulse/utils";
@@ -22,6 +23,7 @@ import { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { getInstance } from "./utils/statsbeat";
+import { patchOpenTelemetryInstrumentations } from "./utils/opentelemetryInstrumentationPatcher";
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
 
@@ -36,20 +38,22 @@ let browserSdkLoader: BrowserSdkLoader | undefined;
  */
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   const config = new InternalConfig(options);
-  const statsbeatOptions: StatsbeatOptions = {
-    // Instrumentations
+  patchOpenTelemetryInstrumentations();
+  const statsbeatInstrumentations: StatsbeatInstrumentations = {
     azureSdk: config.instrumentationOptions?.azureSdk?.enabled,
     mongoDb: config.instrumentationOptions?.mongoDb?.enabled,
     mySql: config.instrumentationOptions?.mySql?.enabled,
     postgreSql: config.instrumentationOptions?.postgreSql?.enabled,
     redis: config.instrumentationOptions?.redis?.enabled,
     bunyan: config.instrumentationOptions?.bunyan?.enabled,
-    // Features
-    browserSdkLoader: config.browserSdkLoaderOptions.enabled,
-    aadHandling: !!config.azureMonitorExporterOptions?.credential,
-    diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
   };
-  getInstance().setStatsbeatFeatures(statsbeatOptions);
+  const statsbeatFeatures: StatsbeatFeatures = {
+    diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
+    aadHandling: !!config.azureMonitorExporterOptions?.credential,
+    browserSdkLoader: config.browserSdkLoaderOptions.enabled,
+    distro: true,
+  };
+  getInstance().setStatsbeatFeatures(statsbeatFeatures, statsbeatInstrumentations);
 
   if (config.browserSdkLoaderOptions.enabled) {
     browserSdkLoader = new BrowserSdkLoader(config);
