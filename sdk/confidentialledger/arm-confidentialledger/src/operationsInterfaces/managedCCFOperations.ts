@@ -17,7 +17,14 @@ import {
   ManagedCCFDeleteOptionalParams,
   ManagedCCFCreateOptionalParams,
   ManagedCCFCreateResponse,
-  ManagedCCFUpdateOptionalParams
+  ManagedCCFUpdateOptionalParams,
+  ManagedCCFUpdateResponse,
+  ManagedCCFBackup,
+  ManagedCCFBackupOptionalParams,
+  ManagedCCFBackupOperationResponse,
+  ManagedCCFRestore,
+  ManagedCCFRestoreOptionalParams,
+  ManagedCCFRestoreOperationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,14 +37,14 @@ export interface ManagedCCFOperations {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ManagedCCFListByResourceGroupOptionalParams
+    options?: ManagedCCFListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ManagedCCF>;
   /**
    * Retrieves the properties of all Managed CCF.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ManagedCCFListBySubscriptionOptionalParams
+    options?: ManagedCCFListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ManagedCCF>;
   /**
    * Retrieves the properties of a Managed CCF app.
@@ -48,7 +55,7 @@ export interface ManagedCCFOperations {
   get(
     resourceGroupName: string,
     appName: string,
-    options?: ManagedCCFGetOptionalParams
+    options?: ManagedCCFGetOptionalParams,
   ): Promise<ManagedCCFGetResponse>;
   /**
    * Deletes an existing Managed CCF.
@@ -59,7 +66,7 @@ export interface ManagedCCFOperations {
   beginDelete(
     resourceGroupName: string,
     appName: string,
-    options?: ManagedCCFDeleteOptionalParams
+    options?: ManagedCCFDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Managed CCF.
@@ -70,7 +77,7 @@ export interface ManagedCCFOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     appName: string,
-    options?: ManagedCCFDeleteOptionalParams
+    options?: ManagedCCFDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Creates a Managed CCF with the specified Managed CCF parameters.
@@ -83,7 +90,7 @@ export interface ManagedCCFOperations {
     resourceGroupName: string,
     appName: string,
     managedCCF: ManagedCCF,
-    options?: ManagedCCFCreateOptionalParams
+    options?: ManagedCCFCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedCCFCreateResponse>,
@@ -101,7 +108,7 @@ export interface ManagedCCFOperations {
     resourceGroupName: string,
     appName: string,
     managedCCF: ManagedCCF,
-    options?: ManagedCCFCreateOptionalParams
+    options?: ManagedCCFCreateOptionalParams,
   ): Promise<ManagedCCFCreateResponse>;
   /**
    * Updates properties of Managed CCF
@@ -114,8 +121,13 @@ export interface ManagedCCFOperations {
     resourceGroupName: string,
     appName: string,
     managedCCF: ManagedCCF,
-    options?: ManagedCCFUpdateOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: ManagedCCFUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedCCFUpdateResponse>,
+      ManagedCCFUpdateResponse
+    >
+  >;
   /**
    * Updates properties of Managed CCF
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -127,6 +139,68 @@ export interface ManagedCCFOperations {
     resourceGroupName: string,
     appName: string,
     managedCCF: ManagedCCF,
-    options?: ManagedCCFUpdateOptionalParams
-  ): Promise<void>;
+    options?: ManagedCCFUpdateOptionalParams,
+  ): Promise<ManagedCCFUpdateResponse>;
+  /**
+   * Backs up a Managed CCF Resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param appName Name of the Managed CCF
+   * @param managedCCF Managed CCF Backup Request Body
+   * @param options The options parameters.
+   */
+  beginBackup(
+    resourceGroupName: string,
+    appName: string,
+    managedCCF: ManagedCCFBackup,
+    options?: ManagedCCFBackupOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedCCFBackupOperationResponse>,
+      ManagedCCFBackupOperationResponse
+    >
+  >;
+  /**
+   * Backs up a Managed CCF Resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param appName Name of the Managed CCF
+   * @param managedCCF Managed CCF Backup Request Body
+   * @param options The options parameters.
+   */
+  beginBackupAndWait(
+    resourceGroupName: string,
+    appName: string,
+    managedCCF: ManagedCCFBackup,
+    options?: ManagedCCFBackupOptionalParams,
+  ): Promise<ManagedCCFBackupOperationResponse>;
+  /**
+   * Restores a Managed CCF Resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param appName Name of the Managed CCF
+   * @param managedCCF Managed CCF Restore Request Body
+   * @param options The options parameters.
+   */
+  beginRestore(
+    resourceGroupName: string,
+    appName: string,
+    managedCCF: ManagedCCFRestore,
+    options?: ManagedCCFRestoreOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedCCFRestoreOperationResponse>,
+      ManagedCCFRestoreOperationResponse
+    >
+  >;
+  /**
+   * Restores a Managed CCF Resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param appName Name of the Managed CCF
+   * @param managedCCF Managed CCF Restore Request Body
+   * @param options The options parameters.
+   */
+  beginRestoreAndWait(
+    resourceGroupName: string,
+    appName: string,
+    managedCCF: ManagedCCFRestore,
+    options?: ManagedCCFRestoreOptionalParams,
+  ): Promise<ManagedCCFRestoreOperationResponse>;
 }

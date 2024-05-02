@@ -52,8 +52,8 @@ export default leafCommand(commandInfo, async (options) => {
   // Only set if we didn't provide a config file path
   if (
     options["browser"] &&
-    updatedArgs?.indexOf("-c") !== -1 &&
-    updatedArgs?.indexOf("--config") !== -1
+    updatedArgs?.indexOf("-c") === -1 &&
+    updatedArgs?.indexOf("--config") === -1
   ) {
     args = "-c vitest.browser.config.ts";
   }

@@ -1,16 +1,14 @@
 # Release History
 
-## 4.2.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.2.2 (2024-05-02)
 
 ### Bugs Fixed
 
 - Handle translation of ErrorEvent properly [PR #29297](https://github.com/Azure/azure-sdk-for-js/pull/29297)
 
 ### Other Changes
+
+- Add support for the `deleteMessages` operation in @azure/service-bus.
 
 ## 4.2.1 (2024-03-04)
 

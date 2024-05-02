@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Shuts down the virtual machine, moves it to a new node, and powers it back on.
  *
  * @summary Shuts down the virtual machine, moves it to a new node, and powers it back on.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExamples/VirtualMachine_Redeploy_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_Redeploy_MaximumSet_Gen.json
  */
 async function virtualMachineRedeployMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -32,7 +32,7 @@ async function virtualMachineRedeployMaximumSetGen() {
  * This sample demonstrates how to Shuts down the virtual machine, moves it to a new node, and powers it back on.
  *
  * @summary Shuts down the virtual machine, moves it to a new node, and powers it back on.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExamples/VirtualMachine_Redeploy_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_Redeploy_MinimumSet_Gen.json
  */
 async function virtualMachineRedeployMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

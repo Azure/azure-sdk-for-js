@@ -3,7 +3,13 @@
 
 import { ConnectionContext } from "../connectionContext";
 import { MessageHandlers, ReceiveMessagesOptions, ServiceBusReceivedMessage } from "..";
-import { PeekMessagesOptions, GetMessageIteratorOptions, SubscribeOptions } from "../models";
+import {
+  PeekMessagesOptions,
+  GetMessageIteratorOptions,
+  SubscribeOptions,
+  DeleteMessagesOptions,
+  PurgeMessagesOptions,
+} from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
   getAlreadyReceivingErrorMsg,
@@ -25,7 +31,11 @@ import {
   getMessageIterator,
   wrapProcessErrorHandler,
 } from "./receiverCommon";
-import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
+import {
+  defaultMaxTimeAfterFirstMessageForBatchingMs,
+  MaxDeleteMessageCount,
+  ServiceBusReceiver,
+} from "./receiver";
 import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
 import {
@@ -402,6 +412,47 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       abortSignal: options?.abortSignal,
     };
     return retry<ServiceBusReceivedMessage[]>(config);
+  }
+
+  async deleteMessages(options: DeleteMessagesOptions): Promise<number> {
+    this._throwIfReceiverOrConnectionClosed();
+
+    const deleteMessagesOperationPromise = (): Promise<number> => {
+      return this._context
+        .getManagementClient(this.entityPath)
+        .deleteMessages(options.maxMessageCount, options?.beforeEnqueueTime, this.sessionId, {
+          ...options,
+          associatedLinkName: this._messageSession.name,
+          requestName: "deleteMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs,
+        });
+    };
+    const config: RetryConfig<number> = {
+      operation: deleteMessagesOperationPromise,
+      connectionId: this._context.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal,
+    };
+    return retry<number>(config);
+  }
+
+  async purgeMessages(options?: PurgeMessagesOptions): Promise<number> {
+    let deletedCount = await this.deleteMessages({
+      maxMessageCount: MaxDeleteMessageCount,
+      beforeEnqueueTime: options?.beforeEnqueueTime,
+    });
+    if (deletedCount === MaxDeleteMessageCount) {
+      let batchCount = MaxDeleteMessageCount;
+      while (batchCount === MaxDeleteMessageCount) {
+        batchCount = await this.deleteMessages({
+          maxMessageCount: MaxDeleteMessageCount,
+          beforeEnqueueTime: options?.beforeEnqueueTime,
+        });
+        deletedCount += batchCount;
+      }
+    }
+    return deletedCount;
   }
 
   async receiveMessages(

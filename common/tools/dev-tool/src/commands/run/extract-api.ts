@@ -65,6 +65,7 @@ interface ExportEntry {
   suppressForgottenExportErrors?: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function buildExportConfiguration(packageJson: any, options: any): ExportEntry[] | undefined {
   const exports = packageJson["exports"];
   if (!exports) {
