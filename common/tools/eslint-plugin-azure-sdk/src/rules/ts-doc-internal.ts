@@ -88,7 +88,9 @@ export default createRule({
       if (!exported.includes(symbol) && tsNode.jsDoc !== undefined) {
         // fetch all tags
         let TSDocTags: string[] = [];
+        let hasDocComments = false;
         tsNode.jsDoc.forEach((TSDocComment: any): void => {
+          hasDocComments = true;
           TSDocTags = TSDocTags.concat(
             TSDocComment.tags !== undefined
               ? TSDocComment.tags.map((TSDocTag: any): string => TSDocTag.tagName.escapedText)
@@ -97,9 +99,12 @@ export default createRule({
         });
 
         // see if any match hidden or internal
-        if (!TSDocTags.some((TSDocTag: string): boolean => /(internal)|(hidden)/.test(TSDocTag))) {
+        if (
+          hasDocComments &&
+          !TSDocTags.some((TSDocTag: string): boolean => /(internal)|(hidden)/.test(TSDocTag))
+        ) {
           context.report({
-            node,
+            node: (node as any).id ?? node,
             messageId: "InternalShouldBeMarked",
           });
         }
