@@ -23,6 +23,7 @@ import { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { getInstance } from "./utils/statsbeat";
+import { patchOpenTelemetryInstrumentations } from "./utils/opentelemetryInstrumentationPatcher";
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
 
@@ -37,9 +38,7 @@ let browserSdkLoader: BrowserSdkLoader | undefined;
  */
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   const config = new InternalConfig(options);
-  // Monkey patches for OTel instrumentations - return an object mapping instrumentation: boolean (ex: { azureSdk: true, http: false })
-  // @ts-ignore
-  const openTelemetryInstrumentations: InstrumentationOptions = monkeyPatchInstrumentations();
+  patchOpenTelemetryInstrumentations();
   const statsbeatInstrumentations: StatsbeatInstrumentations = {
     azureSdk: config.instrumentationOptions?.azureSdk?.enabled,
     mongoDb: config.instrumentationOptions?.mongoDb?.enabled,
@@ -131,26 +130,4 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
 export function shutdownAzureMonitor(): Promise<void> {
   browserSdkLoader?.dispose();
   return sdk?.shutdown();
-}
-
-function monkeyPatchInstrumentations() {
-  let instrumentations: InstrumentationOptions = {};
-  // mySql2
-  try {
-    require.resolve('@opentelemetry/instrumentation-mysql2');
-    const { MySQL2Instrumentation } = require('@opentelemetry/instrumentation-mysql2');
-    const originalInit = MySQL2Instrumentation.prototype.init;
-    MySQL2Instrumentation.prototype.init = function() {
-      /* 
-        TODO: Populate the environment variable we already use for statsbeat features with the instrumentations collected here.
-        Then make sure to read that environment variable in the statsbeat code before setting anything else and use it to set the instrumentation options.
-        Make sure to add tests for this process.
-      */
-      return originalInit.apply(this, arguments);
-    };
-  } catch (error) {
-    // do nothing
-  }
-
-  return instrumentations;
 }

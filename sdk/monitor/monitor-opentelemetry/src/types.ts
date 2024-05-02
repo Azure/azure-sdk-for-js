@@ -95,7 +95,7 @@ export interface StatsbeatInstrumentations {
   ioredis?: boolean;
   knex?: boolean;
   koa?: boolean;
-  memcahed?: boolean;
+  memcached?: boolean;
   mysql2?: boolean;
   nestjsCore?: boolean;
   net?: boolean;
@@ -203,11 +203,16 @@ export enum StatsbeatInstrumentation {
   IOREDIS = 33554432,
   KNEX = 67108864,
   KOA = 134217728,
-  MEMCAHED = 268435456,
+  MEMCACHED = 268435456,
   MYSQL2 = 536870912,
   NESTJS_CORE = 1073741824,
   NET = 2147483648,
   PINO = 4294967296,
   RESTIFY = 8589934592,
   ROUTER = 17179869184,
+}
+
+export interface StatsbeatEnvironmentConfig {
+  instrumentation: StatsbeatInstrumentation;
+  feature: StatsbeatFeature;
 }
