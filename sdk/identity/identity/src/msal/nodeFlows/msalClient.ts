@@ -343,8 +343,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     try {
       response = await getTokenSilent(msalApp, scopes, options);
     } catch (e: any) {
-      console.log("error from getTokenSilent");
-      console.error(e);
       if (e.name !== "AuthenticationRequiredError") {
         throw e;
       }
@@ -355,7 +353,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       try {
         response = await onAuthenticationRequired();
       } catch (err: any) {
-        console.error(err);
         throw handleMsalError(scopes, err, options);
       }
     }
