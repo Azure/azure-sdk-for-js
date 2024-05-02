@@ -1892,6 +1892,10 @@ packages:
       to-fast-properties: 2.0.0
     dev: false
 
+  /@bcoe/v8-coverage@0.2.3:
+    resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
+    dev: false
+
   /@colors/colors@1.5.0:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
@@ -4157,6 +4161,29 @@ packages:
       istanbul-reports: 3.1.7
       magicast: 0.3.4
       picocolors: 1.0.0
+      test-exclude: 6.0.0
+      vitest: 1.5.3(@types/node@18.19.31)(@vitest/browser@1.5.3)
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@vitest/coverage-v8@1.5.3(vitest@1.5.3):
+    resolution: {integrity: sha512-DPyGSu/fPHOJuPxzFSQoT4N/Fu/2aJfZRtEpEp8GI7NHsXBGE94CQ+pbEGBUMFjatsHPDJw/+TAF9r4ens2CNw==}
+    peerDependencies:
+      vitest: 1.5.3
+    dependencies:
+      '@ampproject/remapping': 2.3.0
+      '@bcoe/v8-coverage': 0.2.3
+      debug: 4.3.4(supports-color@8.1.1)
+      istanbul-lib-coverage: 3.2.2
+      istanbul-lib-report: 3.0.1
+      istanbul-lib-source-maps: 5.0.4
+      istanbul-reports: 3.1.7
+      magic-string: 0.30.10
+      magicast: 0.3.4
+      picocolors: 1.0.0
+      std-env: 3.7.0
+      strip-literal: 2.1.0
       test-exclude: 6.0.0
       vitest: 1.5.3(@types/node@18.19.31)(@vitest/browser@1.5.3)
     transitivePeerDependencies:
@@ -23605,7 +23632,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-u4u9CDY3LLHpKg7655DGRsaWaieW93zWY7S0K3e+VOzqwMfGtVPCynsjQ0pfH+7yWl2YuR4HA6Frnitfauq4JQ==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-DZ9oPgv/Fx+46RnBIfphSl0ytvsG9VOZW5ZeqGv4NaNOn3mqgqkuL/HNlJ7thAEJMTikKFsLzUaUYdAOYBhDDA==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -23617,6 +23644,8 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
+      '@vitest/browser': 1.5.3(playwright@1.43.1)(vitest@1.5.3)
+      '@vitest/coverage-v8': 1.5.3(vitest@1.5.3)
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       chai-exclude: 2.1.0(chai@4.3.10)
@@ -23630,15 +23659,25 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      tshy: 1.14.0
       tslib: 2.6.2
       typescript: 5.4.5
+      vitest: 1.5.3(@types/node@18.19.31)(@vitest/browser@1.5.3)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
-      - debug
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - playwright
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/ts-http-runtime.tgz:
