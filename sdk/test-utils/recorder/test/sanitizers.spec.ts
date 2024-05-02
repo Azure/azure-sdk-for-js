@@ -177,8 +177,9 @@ import { randomUUID } from "@azure/core-util";
             ],
           },
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
-          }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${
+          isPlaybackMode() ? fakeSecretValue : secretValue
+        }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {
@@ -337,8 +338,9 @@ import { randomUUID } from "@azure/core-util";
             ],
           },
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
-          }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${
+          isPlaybackMode() ? fakeSecretValue : secretValue
+        }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {

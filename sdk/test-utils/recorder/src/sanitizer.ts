@@ -93,13 +93,13 @@ function makeBatchSanitizerBody(sanitizers: SanitizerOptions): SanitizerRequestB
     getSanitizerBodies(continuationSanitizers, makeContinuationSanitizerBody),
     removeHeaderSanitizer
       ? [
-        {
-          Name: "RemoveHeaderSanitizer",
-          Body: {
-            headersForRemoval: removeHeaderSanitizer.headersForRemoval.toString(),
+          {
+            Name: "RemoveHeaderSanitizer",
+            Body: {
+              headersForRemoval: removeHeaderSanitizer.headersForRemoval.toString(),
+            },
           },
-        },
-      ]
+        ]
       : [],
     oAuthResponseSanitizer ? [{ Name: "OAuthResponseSanitizer", Body: undefined }] : [],
     uriSubscriptionIdSanitizer
