@@ -117,6 +117,7 @@ export enum ConditionErrorNameMapper {
   /**
    * Error is thrown when the connection parameters are wrong and the server refused the connection.
    */
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   "com.microsoft:auth-failed" = "UnauthorizedError",
   /**
    * Error is thrown when the service is unavailable. The operation should be retried.
@@ -137,6 +138,7 @@ export enum ConditionErrorNameMapper {
   /**
    * Error is thrown when a condition that should have been met in order to execute an operation was not.
    */
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   "com.microsoft:precondition-failed" = "PreconditionFailedError",
   /**
    * Error is thrown when data could not be decoded.
@@ -581,6 +583,7 @@ export const retryableErrors: string[] = [
  * Maps some SystemErrors to amqp error conditions
  */
 export enum SystemErrorConditionMapper {
+  /* eslint-disable @typescript-eslint/no-duplicate-enum-values */
   ENOTFOUND = "amqp:not-found",
   EBUSY = "com.microsoft:server-busy",
   ECONNREFUSED = "amqp:connection:forced",
@@ -591,6 +594,7 @@ export enum SystemErrorConditionMapper {
   ENETRESET = "com.microsoft:timeout",
   ENETUNREACH = "com.microsoft:timeout",
   ENONET = "com.microsoft:timeout",
+  /* eslint-enable @typescript-eslint/no-duplicate-enum-values */
 }
 
 /**

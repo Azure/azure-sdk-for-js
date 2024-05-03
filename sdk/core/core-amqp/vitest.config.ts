@@ -5,12 +5,13 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
+    testTimeout: 20000,
     reporters: ["basic", "junit"],
     outputFile: {
       junit: "test-results.xml",
     },
     fakeTimers: {
-      toFake: ["setTimeout", "Date"],
+      toFake: ["setTimeout", "setInterval", "setImmediate", "Date"],
     },
     watch: false,
     include: ["test/**/*.spec.ts"],

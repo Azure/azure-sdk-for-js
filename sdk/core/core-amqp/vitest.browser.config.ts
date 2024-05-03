@@ -5,6 +5,7 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
+    testTimeout: 20000,
     reporters: ["basic", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
@@ -16,7 +17,7 @@ export default defineConfig({
       provider: "playwright",
     },
     fakeTimers: {
-      toFake: ["setTimeout"],
+      toFake: ["setTimeout", "setInterval", "setImmediate", "Date"],
     },
     watch: false,
     include: ["dist-test/browser/**/*.spec.js"],

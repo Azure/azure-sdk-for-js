@@ -13,7 +13,8 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "dist-esm/src"
   ],
   "scripts": {
     "bundle": "tshy && dev-tool run bundle --polyfill-node false --inject-node-polyfills true --ignore-missing-node-builtins true",
@@ -99,7 +100,7 @@
       }
     }
   },
-  "main": "./dist/commonjs/index.js",
+  "main": "dist/index.js",
   "browser": "./dist/browser/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "type": "module"

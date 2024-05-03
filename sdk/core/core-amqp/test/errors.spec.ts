@@ -69,13 +69,13 @@ describe("Errors", function () {
         },
       };
       const translatedError = Errors.translate(testError) as Errors.MessagingError;
-      translatedError.message.should.equal(testError.error.message);
-      should.equal(translatedError.name, "MessagingError");
-      should.equal(translatedError.code, "ENOTFOUND");
-      translatedError.code!.should.equal(testError.error.code);
-      translatedError.message.should.equal(testError.error.message);
-      translatedError.stack!.should.equal(testError.error.stack);
-      translatedError.retryable.should.equal(false);
+      assert.equal(testError.error.message, translatedError.message);
+      assert.equal(translatedError.name, "MessagingError");
+      assert.equal(translatedError.code, "ENOTFOUND");
+      assert.equal(translatedError.code, testError.error.code);
+      assert.equal(translatedError.message, testError.error.message);
+      assert.equal(translatedError.stack, testError.error.stack);
+      assert.equal(translatedError.retryable, false);
     });
 
     it("Sets retryable to true, if input is custom error and name is OperationTimeoutError", function () {
