@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   LtrBackupRequest,
-  PostgreSQLManagementFlexibleServerClient
+  PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Start the Long Term Retention Backup operation
  *
  * @summary Start the Long Term Retention Backup operation
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/LongTermRetentionBackup.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/LongTermRetentionBackup.json
  */
 async function sampleExecuteBackup() {
   const subscriptionId =
@@ -32,17 +32,17 @@ async function sampleExecuteBackup() {
   const serverName = "pgsqlltrtestserver";
   const parameters: LtrBackupRequest = {
     backupSettings: { backupName: "backup1" },
-    targetDetails: { sasUriList: ["sasuri"] }
+    targetDetails: { sasUriList: ["sasuri"] },
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.flexibleServer.beginStartLtrBackupAndWait(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

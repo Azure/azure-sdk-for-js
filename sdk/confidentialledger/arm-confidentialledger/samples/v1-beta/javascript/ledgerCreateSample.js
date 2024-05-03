@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a  Confidential Ledger with the specified ledger parameters.
  *
  * @summary Creates a  Confidential Ledger with the specified ledger parameters.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ConfidentialLedger_Create.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ConfidentialLedger_Create.json
  */
 async function confidentialLedgerCreate() {
   const subscriptionId =
@@ -40,6 +40,7 @@ async function confidentialLedgerCreate() {
           ledgerRoleName: "Reader",
         },
       ],
+      ledgerSku: "Standard",
       ledgerType: "Public",
     },
     tags: { additionalProps1: "additional properties" },
@@ -49,7 +50,7 @@ async function confidentialLedgerCreate() {
   const result = await client.ledger.beginCreateAndWait(
     resourceGroupName,
     ledgerName,
-    confidentialLedger
+    confidentialLedger,
   );
   console.log(result);
 }

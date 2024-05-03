@@ -302,11 +302,11 @@ export class MockEventHub implements IMockEventHub {
           entityComponents.partitionId,
           event.sender,
         );
-      } catch (err: any) {
+      } catch (err: unknown) {
         // Probably should close the sender at this point.
         event.sender.close({
           condition: "amqp:internal-error",
-          description: err?.message ?? "",
+          description: err instanceof Error ? err.message : "",
         });
       }
     }

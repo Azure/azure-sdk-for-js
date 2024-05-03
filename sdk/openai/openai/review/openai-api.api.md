@@ -7,12 +7,13 @@
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
-import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
+import { RestErrorOptions } from '@azure/core-rest-pipeline';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -43,7 +44,10 @@ export function getEmbeddings(context: OpenAIContext, deploymentId: string, inpu
 // @public
 export function getImageGenerations(context: OpenAIContext, deploymentId: string, prompt: string, options?: GetImagesOptions): Promise<ImageGenerations>;
 
-// @public (undocumented)
+// @public
+export function isOpenAIError(e: unknown): e is OpenAIError;
+
+// @public
 export interface OpenAIClientOptions extends ClientOptions {
 }
 

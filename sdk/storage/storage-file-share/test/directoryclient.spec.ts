@@ -6,7 +6,7 @@ import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src"
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
-import { assert, getYieldedValue } from "@azure/test-utils";
+import { assert, getYieldedValue } from "@azure-tools/test-utils";
 import { isBrowser } from "@azure/core-util";
 import { Context } from "mocha";
 

@@ -16,7 +16,7 @@ import { EventGridManagementClient } from "../eventGridManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -40,7 +40,7 @@ import {
   PartnerTopicsDeactivateOptionalParams,
   PartnerTopicsDeactivateResponse,
   PartnerTopicsListBySubscriptionNextResponse,
-  PartnerTopicsListByResourceGroupNextResponse
+  PartnerTopicsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,7 +61,7 @@ export class PartnerTopicsImpl implements PartnerTopics {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: PartnerTopicsListBySubscriptionOptionalParams
+    options?: PartnerTopicsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PartnerTopic> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -76,13 +76,13 @@ export class PartnerTopicsImpl implements PartnerTopics {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: PartnerTopicsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PartnerTopic[]> {
     let result: PartnerTopicsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class PartnerTopicsImpl implements PartnerTopics {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: PartnerTopicsListBySubscriptionOptionalParams
+    options?: PartnerTopicsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<PartnerTopic> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -117,7 +117,7 @@ export class PartnerTopicsImpl implements PartnerTopics {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: PartnerTopicsListByResourceGroupOptionalParams
+    options?: PartnerTopicsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PartnerTopic> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -134,16 +134,16 @@ export class PartnerTopicsImpl implements PartnerTopics {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: PartnerTopicsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PartnerTopic[]> {
     let result: PartnerTopicsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -158,7 +158,7 @@ export class PartnerTopicsImpl implements PartnerTopics {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -169,11 +169,11 @@ export class PartnerTopicsImpl implements PartnerTopics {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: PartnerTopicsListByResourceGroupOptionalParams
+    options?: PartnerTopicsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<PartnerTopic> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -188,11 +188,11 @@ export class PartnerTopicsImpl implements PartnerTopics {
   get(
     resourceGroupName: string,
     partnerTopicName: string,
-    options?: PartnerTopicsGetOptionalParams
+    options?: PartnerTopicsGetOptionalParams,
   ): Promise<PartnerTopicsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, partnerTopicName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -207,11 +207,11 @@ export class PartnerTopicsImpl implements PartnerTopics {
     resourceGroupName: string,
     partnerTopicName: string,
     partnerTopicInfo: PartnerTopic,
-    options?: PartnerTopicsCreateOrUpdateOptionalParams
+    options?: PartnerTopicsCreateOrUpdateOptionalParams,
   ): Promise<PartnerTopicsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, partnerTopicName, partnerTopicInfo, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -224,25 +224,24 @@ export class PartnerTopicsImpl implements PartnerTopics {
   async beginDelete(
     resourceGroupName: string,
     partnerTopicName: string,
-    options?: PartnerTopicsDeleteOptionalParams
+    options?: PartnerTopicsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -251,8 +250,8 @@ export class PartnerTopicsImpl implements PartnerTopics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -260,19 +259,19 @@ export class PartnerTopicsImpl implements PartnerTopics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, partnerTopicName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -287,12 +286,12 @@ export class PartnerTopicsImpl implements PartnerTopics {
   async beginDeleteAndWait(
     resourceGroupName: string,
     partnerTopicName: string,
-    options?: PartnerTopicsDeleteOptionalParams
+    options?: PartnerTopicsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       partnerTopicName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -308,16 +307,16 @@ export class PartnerTopicsImpl implements PartnerTopics {
     resourceGroupName: string,
     partnerTopicName: string,
     partnerTopicUpdateParameters: PartnerTopicUpdateParameters,
-    options?: PartnerTopicsUpdateOptionalParams
+    options?: PartnerTopicsUpdateOptionalParams,
   ): Promise<PartnerTopicsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         partnerTopicName,
         partnerTopicUpdateParameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -326,11 +325,11 @@ export class PartnerTopicsImpl implements PartnerTopics {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: PartnerTopicsListBySubscriptionOptionalParams
+    options?: PartnerTopicsListBySubscriptionOptionalParams,
   ): Promise<PartnerTopicsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -341,11 +340,11 @@ export class PartnerTopicsImpl implements PartnerTopics {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: PartnerTopicsListByResourceGroupOptionalParams
+    options?: PartnerTopicsListByResourceGroupOptionalParams,
   ): Promise<PartnerTopicsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -358,11 +357,11 @@ export class PartnerTopicsImpl implements PartnerTopics {
   activate(
     resourceGroupName: string,
     partnerTopicName: string,
-    options?: PartnerTopicsActivateOptionalParams
+    options?: PartnerTopicsActivateOptionalParams,
   ): Promise<PartnerTopicsActivateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, partnerTopicName, options },
-      activateOperationSpec
+      activateOperationSpec,
     );
   }
 
@@ -375,11 +374,11 @@ export class PartnerTopicsImpl implements PartnerTopics {
   deactivate(
     resourceGroupName: string,
     partnerTopicName: string,
-    options?: PartnerTopicsDeactivateOptionalParams
+    options?: PartnerTopicsDeactivateOptionalParams,
   ): Promise<PartnerTopicsDeactivateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, partnerTopicName, options },
-      deactivateOperationSpec
+      deactivateOperationSpec,
     );
   }
 
@@ -390,11 +389,11 @@ export class PartnerTopicsImpl implements PartnerTopics {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: PartnerTopicsListBySubscriptionNextOptionalParams
+    options?: PartnerTopicsListBySubscriptionNextOptionalParams,
   ): Promise<PartnerTopicsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -407,11 +406,11 @@ export class PartnerTopicsImpl implements PartnerTopics {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: PartnerTopicsListByResourceGroupNextOptionalParams
+    options?: PartnerTopicsListByResourceGroupNextOptionalParams,
   ): Promise<PartnerTopicsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -419,37 +418,35 @@ export class PartnerTopicsImpl implements PartnerTopics {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerTopic
+      bodyMapper: Mappers.PartnerTopic,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerTopicName
+    Parameters.partnerTopicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerTopic
+      bodyMapper: Mappers.PartnerTopic,
     },
     201: {
-      bodyMapper: Mappers.PartnerTopic
+      bodyMapper: Mappers.PartnerTopic,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.partnerTopicInfo,
   queryParameters: [Parameters.apiVersion],
@@ -457,15 +454,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerTopicName
+    Parameters.partnerTopicName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -473,20 +469,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerTopicName
+    Parameters.partnerTopicName,
   ],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}",
   httpMethod: "PATCH",
   responses: {
     200: {},
     201: {
-      bodyMapper: Mappers.PartnerTopic
+      bodyMapper: Mappers.PartnerTopic,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.partnerTopicUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -494,118 +489,114 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerTopicName
+    Parameters.partnerTopicName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/partnerTopics",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/partnerTopics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerTopicsListResult
+      bodyMapper: Mappers.PartnerTopicsListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerTopicsListResult
+      bodyMapper: Mappers.PartnerTopicsListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const activateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/activate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/activate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerTopic
+      bodyMapper: Mappers.PartnerTopic,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerTopicName
+    Parameters.partnerTopicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deactivateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/deactivate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/deactivate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerTopic
+      bodyMapper: Mappers.PartnerTopic,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerTopicName
+    Parameters.partnerTopicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerTopicsListResult
+      bodyMapper: Mappers.PartnerTopicsListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerTopicsListResult
+      bodyMapper: Mappers.PartnerTopicsListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

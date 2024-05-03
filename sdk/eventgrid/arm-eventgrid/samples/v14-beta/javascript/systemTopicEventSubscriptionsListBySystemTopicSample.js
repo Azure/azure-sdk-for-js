@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List event subscriptions that belong to a specific system topic.
  *
  * @summary List event subscriptions that belong to a specific system topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/SystemTopicEventSubscriptions_ListBySystemTopic.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/SystemTopicEventSubscriptions_ListBySystemTopic.json
  */
 async function systemTopicEventSubscriptionsListBySystemTopic() {
   const subscriptionId =

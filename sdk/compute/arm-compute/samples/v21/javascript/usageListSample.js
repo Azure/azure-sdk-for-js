@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
  *
  * @summary Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/computeRPCommonExamples/Usage_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/computeRPCommonExamples/Usage_List_MaximumSet_Gen.json
  */
 async function usageListMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -34,7 +34,7 @@ async function usageListMaximumSetGen() {
  * This sample demonstrates how to Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
  *
  * @summary Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/computeRPCommonExamples/Usage_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/computeRPCommonExamples/Usage_List_MinimumSet_Gen.json
  */
 async function usageListMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

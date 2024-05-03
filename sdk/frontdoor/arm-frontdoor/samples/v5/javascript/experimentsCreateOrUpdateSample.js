@@ -35,7 +35,7 @@ async function createsAnExperiment() {
     resourceGroupName,
     profileName,
     experimentName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

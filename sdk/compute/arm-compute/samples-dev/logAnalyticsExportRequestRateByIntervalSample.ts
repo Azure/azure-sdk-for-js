@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
  *
  * @summary Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/logAnalyticExamples/LogAnalytics_RequestRateByInterval.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/logAnalyticExamples/LogAnalytics_RequestRateByInterval.json
  */
 async function exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals() {
   const subscriptionId =

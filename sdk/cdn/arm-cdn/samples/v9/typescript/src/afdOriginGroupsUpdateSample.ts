@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AFDOriginGroupUpdateParameters,
-  CdnManagementClient
+  CdnManagementClient,
 } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing origin group within a profile.
  *
  * @summary Updates an existing origin group within a profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDOriginGroups_Update.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDOriginGroups_Update.json
  */
 async function afdOriginGroupsUpdate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -33,14 +33,14 @@ async function afdOriginGroupsUpdate() {
       probeIntervalInSeconds: 10,
       probePath: "/path2",
       probeProtocol: "NotSet",
-      probeRequestType: "NotSet"
+      probeRequestType: "NotSet",
     },
     loadBalancingSettings: {
       additionalLatencyInMilliseconds: 1000,
       sampleSize: 3,
-      successfulSamplesRequired: 3
+      successfulSamplesRequired: 3,
     },
-    trafficRestorationTimeToHealedOrNewEndpointsInMinutes: 5
+    trafficRestorationTimeToHealedOrNewEndpointsInMinutes: 5,
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -48,7 +48,7 @@ async function afdOriginGroupsUpdate() {
     resourceGroupName,
     profileName,
     originGroupName,
-    originGroupUpdateProperties
+    originGroupUpdateProperties,
   );
   console.log(result);
 }

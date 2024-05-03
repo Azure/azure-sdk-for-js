@@ -1,7 +1,7 @@
 {
   "name": "@azure/core-amqp",
   "sdk-type": "client",
-  "version": "4.2.2",
+  "version": "4.3.0",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -18,12 +18,12 @@
   "scripts": {
     "bundle": "tshy && dev-tool run bundle --polyfill-node false --inject-node-polyfills true --ignore-missing-node-builtins true",
     "build:samples": "echo Obsolete",
-    "build:test": "npm run clean && tshy && dev-tool run build-test",
-    "build": "npm run clean && tshy && api-extractor run --local",
+    "build:test": "echo skipped. actual commands inlined in browser test scripts",
+    "build": "npm run clean && tshy &&  dev-tool run build-test && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types coverage coverage-browser .nyc_output *.tgz *.log test*.xml",
     "execute:samples": "echo skipped",
-    "extract-api": "tshy && api-extractor run --local",
+    "extract-api": "tshy && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -34,7 +34,7 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tshy && npm run unit-test:node && npm run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "npm run build:test && dev-tool run test:vitest --no-test-proxy --browser",
+    "unit-test:browser": "npm run clean && tshy &&  dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
