@@ -204,7 +204,10 @@ async function identifyPersons() {
 
     // We have to wait for the face operations to be finished before calling Identify.
     // An optimization is to wait till the last added face is finished processing in a series as all faces for person are processed in series.
-    await Promise.all([ron, gill, anna].map(person => poll(client, person.faces[person.faces.length - 1])));
+    await Promise.all([ron, gill, anna]
+        .map(person => [person.person, person.faces[person.faces.length - 1]]) // get person operation and the last face operation
+        .flat()
+        .map(response => poll(client, response)));
 
     // Identify.
     await identify(client, id_gill, { personIds: [ron, gill, anna].map(person => person.person.body.personId) });
