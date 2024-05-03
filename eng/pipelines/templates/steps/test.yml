@@ -50,7 +50,7 @@ steps:
 
   - ${{ if eq(parameters.TestProxy, true) }}:
     - pwsh: |
-        cat $(Build.SourcesDirectory)/test-proxy.log
+        copy $(Build.SourcesDirectory)/test-proxy.log $(Build.ArtifactStagingDirectory)
       displayName: 'Dump Test Proxy logs'
       condition: succeededOrFailed()
       
