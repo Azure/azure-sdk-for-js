@@ -10,10 +10,10 @@ Use the package of Azure Developer Signing to:
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/developer-signing/azure-developer-signing-rest)
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/developer-signing)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/developer-signing?view=azure-node-preview)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/developer-signing/azure-developer-signing-rest/samples)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/trustedsigning/azure-developer-signing-rest)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/trustedsigning)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/trustedsigning?view=azure-node-preview)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/trustedsigning/azure-developer-signing-rest/samples)
 
 ## Getting started
 
@@ -28,12 +28,12 @@ Key links:
 - You must have confirmed your identity using the Identity Validation resource.
 - You must have an existing Certificate Profile created.
 
-### Install the `@azure-rest/developer-signing` package
+### Install the `@azure/trustedsigning` package
 
 Install the Azure Signing REST client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure-rest/developer-signing
+npm install @azure/trustedsigning
 ```
 
 ### Create and authenticate a `SigningClient`
