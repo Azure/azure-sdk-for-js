@@ -141,11 +141,6 @@ describe("KeyVaultBackupClient", () => {
     });
 
     it("selectiveKeyRestore completes successfully", async function () {
-      // This test can only be run in playback mode because running a backup
-      // or restore puts the instance in a bad state (tracked in IcM).
-      if (!isPlaybackMode()) {
-        this.skip();
-      }
       const keyName = "rsa1";
       await keyClient.createRsaKey(keyName);
       const backupPoller = await client.beginBackup(
@@ -187,6 +182,13 @@ describe("KeyVaultBackupClient", () => {
       await selectiveKeyRestorePoller.pollUntilDone();
       const operationState = selectiveKeyRestorePoller.getOperationState();
       assert.equal(operationState.isCompleted, true);
+
+      if (!isPlaybackMode()) {
+        // When testing against live resource sometimes we need to wait a moment
+        // before we get the key, even after the operation completes, otherwise
+        // the service may return saying that a restore operation is still in progress.
+        await delay(5000);
+      }
 
       await keyClient.getKey(keyName);
     });
