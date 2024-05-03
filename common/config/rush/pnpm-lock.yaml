@@ -18706,7 +18706,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-Ud8LIjsav1X/kYyi63hrwffC4Eq9X+rS1cr5lOQz1tug9bRrg7zbbVxfWVtBn482dW2IPUuX1gO5yWxXOtQAgg==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-N1TW9xs7zjhhmXOxnBlFrFJJCwm6Ee64UfhhZBhODbuH3hv/4uc+yb5t8QnaQZ0TJKsR2ai7D3rDOGvCVaQapw==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -19464,7 +19464,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-jK6A1tRN+R7bL5h8mEZ4SXGuhRZuzABqHqeewOhrEMhLFTlNVF/6Is2c5n5Rqo8+ipheRrY9v1Flemx76YrVRg==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-lZBvrVpvgGUW6u9XdtTsqxbLonekvkr1eouKsHKEOqUjo0wy/H7jtZRwDIF4c5SXKBNuWllfz7W56VQWQ4QhBQ==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -19475,6 +19475,8 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/ws': 7.4.7
+      '@vitest/browser': 1.5.3(playwright@1.43.1)(vitest@1.5.3)
+      '@vitest/coverage-istanbul': 1.5.3(vitest@1.5.3)
       buffer: 6.0.3
       chai: 4.3.10
       cross-env: 7.0.3
@@ -19493,16 +19495,29 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      tshy: 1.14.0
       tslib: 2.6.2
       typescript: 5.4.5
       util: 0.12.5
+      vitest: 1.5.3(@types/node@18.19.31)(@vitest/browser@1.5.3)
       ws: 8.17.0
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - playwright
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/core-auth.tgz:

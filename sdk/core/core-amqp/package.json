@@ -67,14 +67,14 @@
     "@types/debug": "^4.1.12",
     "@types/node": "^18.0.0",
     "@types/ws": "^7.2.4",
-    "@vitest/browser": "^1.5.0",
-    "@vitest/coverage-istanbul": "^1.5.0",
+    "@vitest/browser": "^1.5.3",
+    "@vitest/coverage-istanbul": "^1.5.3",
     "debug": "^4.3.4",
     "eslint": "^8.57.0",
     "rimraf": "^5.0.5",
-    "tshy": "^1.13.1",
+    "tshy": "^1.14.0",
     "typescript": "~5.4.5",
-    "vitest": "^1.5.0",
+    "vitest": "^1.5.3",
     "ws": "^8.2.0"
   },
   "//metadata": {
