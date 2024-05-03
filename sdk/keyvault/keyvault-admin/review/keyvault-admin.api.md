@@ -80,6 +80,10 @@ export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: KeyVaultBackupClientOptions);
     beginBackup(blobStorageUri: string, sasToken: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
     beginBackup(blobStorageUri: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
+    beginPreBackup(blobStorageUri: string, sasToken: string, options?: KeyVaultBeginPreBackupOptions): Promise<PollerLike<KeyVaultPreBackupOperationState, KeyVaultPreBackupResult>>;
+    beginPreBackup(blobStorageUri: string, options?: KeyVaultBeginPreBackupOptions): Promise<PollerLike<KeyVaultPreBackupOperationState, KeyVaultPreBackupResult>>;
+    beginPreRestore(folderUri: string, sasToken: string, options?: KeyVaultBeginPreRestoreOptions): Promise<PollerLike<KeyVaultPreRestoreOperationState, KeyVaultPreRestoreResult>>;
+    beginPreRestore(folderUri: string, options?: KeyVaultBeginPreRestoreOptions): Promise<PollerLike<KeyVaultPreRestoreOperationState, KeyVaultPreRestoreResult>>;
     beginRestore(folderUri: string, sasToken: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
     beginRestore(folderUri: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
     beginSelectiveKeyRestore(keyName: string, folderUri: string, sasToken: string, options?: KeyVaultBeginSelectiveKeyRestoreOptions): Promise<PollerLike<KeyVaultSelectiveKeyRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>>;
@@ -114,6 +118,14 @@ export interface KeyVaultBeginBackupOptions extends KeyVaultBackupPollerOptions 
 }
 
 // @public
+export interface KeyVaultBeginPreBackupOptions extends KeyVaultBackupPollerOptions {
+}
+
+// @public
+export interface KeyVaultBeginPreRestoreOptions extends KeyVaultBackupPollerOptions {
+}
+
+// @public
 export interface KeyVaultBeginRestoreOptions extends KeyVaultBackupPollerOptions {
 }
 
@@ -130,6 +142,26 @@ export interface KeyVaultPermission {
     dataActions?: KeyVaultDataAction[];
     notActions?: string[];
     notDataActions?: KeyVaultDataAction[];
+}
+
+// @public
+export type KeyVaultPreBackupOperationState = KeyVaultAdminPollOperationState<KeyVaultBackupResult>;
+
+// @public
+export interface KeyVaultPreBackupResult {
+    endTime?: Date;
+    folderUri?: string;
+    startTime: Date;
+}
+
+// @public
+export interface KeyVaultPreRestoreOperationState extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {
+}
+
+// @public
+export interface KeyVaultPreRestoreResult {
+    endTime?: Date;
+    startTime: Date;
 }
 
 // @public

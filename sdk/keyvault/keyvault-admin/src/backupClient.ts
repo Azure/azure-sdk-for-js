@@ -9,6 +9,8 @@ import {
   KeyVaultBeginPreRestoreOptions,
   KeyVaultBeginRestoreOptions,
   KeyVaultBeginSelectiveKeyRestoreOptions,
+  KeyVaultPreBackupResult,
+  KeyVaultPreRestoreResult,
   KeyVaultRestoreResult,
   KeyVaultSelectiveKeyRestoreResult,
 } from "./backupClientModels";
@@ -30,12 +32,15 @@ import { mappings } from "./mappings";
 import { KeyVaultPreBackupPoller } from "./lro/preBackup/poller";
 import { KeyVaultPreRestoreOperationState } from "./lro/preRestore/operation";
 import { KeyVaultPreRestorePoller } from "./lro/preRestore/poller";
+import { KeyVaultPreBackupOperationState } from "./lro/preBackup/operation";
 
 export {
   KeyVaultBackupOperationState,
   KeyVaultRestoreOperationState,
   KeyVaultSelectiveKeyRestoreOperationState,
   KeyVaultAdminPollOperationState,
+  KeyVaultPreBackupOperationState,
+  KeyVaultPreRestoreOperationState,
 };
 
 /**
@@ -238,7 +243,7 @@ export class KeyVaultBackupClient {
     blobStorageUri: string,
     sasToken: string,
     options?: KeyVaultBeginPreBackupOptions,
-  ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
+  ): Promise<PollerLike<KeyVaultPreBackupOperationState, KeyVaultPreBackupResult>>;
 
   /**
    * Starts a pre-backup of an Azure Key Vault on the specified Storage Blob account, using a user-assigned Managed Identity
@@ -274,13 +279,13 @@ export class KeyVaultBackupClient {
   public async beginPreBackup(
     blobStorageUri: string,
     options?: KeyVaultBeginPreBackupOptions,
-  ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
+  ): Promise<PollerLike<KeyVaultPreBackupOperationState, KeyVaultPreBackupResult>>;
 
   public async beginPreBackup(
     blobStorageUri: string,
     sasTokenOrOptions: string | KeyVaultBeginPreBackupOptions = {},
     optionsWhenSasTokenSpecified: KeyVaultBeginPreBackupOptions = {},
-  ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>> {
+  ): Promise<PollerLike<KeyVaultPreBackupOperationState, KeyVaultPreBackupResult>> {
     const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
     const options =
       typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
@@ -550,7 +555,7 @@ export class KeyVaultBackupClient {
     folderUri: string,
     sasToken: string,
     options?: KeyVaultBeginPreRestoreOptions,
-  ): Promise<PollerLike<KeyVaultPreRestoreOperationState, KeyVaultRestoreResult>>;
+  ): Promise<PollerLike<KeyVaultPreRestoreOperationState, KeyVaultPreRestoreResult>>;
 
   /**
    * Starts a pre-restore of all key materials using the SAS token pointing to a previously stored Azure Blob storage
@@ -587,7 +592,7 @@ export class KeyVaultBackupClient {
   public async beginPreRestore(
     folderUri: string,
     options?: KeyVaultBeginPreRestoreOptions,
-  ): Promise<PollerLike<KeyVaultPreRestoreOperationState, KeyVaultRestoreResult>>;
+  ): Promise<PollerLike<KeyVaultPreRestoreOperationState, KeyVaultPreRestoreResult>>;
 
   public async beginPreRestore(
     folderUri: string,
