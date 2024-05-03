@@ -6,9 +6,9 @@ import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
 /**
- * Optional parameters for the {@link AzurePipelinesServiceConnectionCredential} class.
+ * Optional parameters for the {@link AzurePipelinesCredential} class.
  */
-export interface AzurePipelinesServiceConnectionCredentialOptions
+export interface AzurePipelinesCredentialOptions
   extends MultiTenantTokenCredentialOptions,
     CredentialPersistenceOptions,
     AuthorityValidationOptions {}

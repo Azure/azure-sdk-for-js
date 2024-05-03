@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Introducing a new credential `AzurePipelinesServiceConnectionCredential` for supporting workload identity in federation in ADO Pipelines with service connections.
+- Introducing a new credential `AzurePipelinesCredential` for supporting workload identity in federation in ADO Pipelines with service connections.
 
 ### Breaking Changes
 

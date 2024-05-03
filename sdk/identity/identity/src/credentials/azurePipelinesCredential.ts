@@ -11,9 +11,9 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { AzurePipelinesServiceConnectionCredentialOptions } from "./azurePipelinesServiceConnectionCredentialOptions";
+import { AzurePipelinesCredentialOptions } from "./azurePipelinesCredentialOptions";
 
-const credentialName = "AzurePipelinesServiceConnectionCredential";
+const credentialName = "AzurePipelinesCredential";
 const logger = credentialLogger(credentialName);
 const OIDC_API_VERSION = "7.1-preview.1";
 
@@ -21,11 +21,11 @@ const OIDC_API_VERSION = "7.1-preview.1";
  * This credential is designed to be used in Azure Pipelines with service connections
  * as a setup for workload identity federation.
  */
-export class AzurePipelinesServiceConnectionCredential implements TokenCredential {
+export class AzurePipelinesCredential implements TokenCredential {
   private clientAssertionCredential: ClientAssertionCredential | undefined;
 
   /**
-   * AzurePipelinesServiceConnectionCredential supports Federated Identity on Azure Pipelines through Service Connections.
+   * AzurePipelinesCredential supports Federated Identity on Azure Pipelines through Service Connections.
    * @param tenantId - tenantId associated with the service connection
    * @param clientId - clientId associated with the service connection
    * @param serviceConnectionId - id for the service connection, as found in the querystring's resourceId key
@@ -35,17 +35,17 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     tenantId: string,
     clientId: string,
     serviceConnectionId: string,
-    options?: AzurePipelinesServiceConnectionCredentialOptions,
+    options?: AzurePipelinesCredentialOptions
   ) {
     if (!clientId || !tenantId || !serviceConnectionId) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required parameters.`,
+        `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required parameters.`
       );
     }
 
     checkTenantId(logger, tenantId);
     logger.info(
-      `Invoking AzurePipelinesServiceConnectionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`,
+      `Invoking AzurePipelinesCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
     );
 
     if (clientId && tenantId && serviceConnectionId) {
@@ -53,13 +53,13 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
       const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=${OIDC_API_VERSION}&serviceConnectionId=${serviceConnectionId}`;
       const systemAccessToken = `${process.env.SYSTEM_ACCESSTOKEN}`;
       logger.info(
-        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`,
+        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
       );
       this.clientAssertionCredential = new ClientAssertionCredential(
         tenantId,
         clientId,
         this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
-        options,
+        options
       );
     }
   }
@@ -74,7 +74,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions,
+    options?: GetTokenOptions
   ): Promise<AccessToken> {
     if (!this.clientAssertionCredential) {
       const errorMessage = `${credentialName}: is unavailable. To use Federation Identity in Azure Pipelines, these are required as input parameters / env variables - 
@@ -102,7 +102,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
    */
   private async requestOidcToken(
     oidcRequestUrl: string,
-    systemAccessToken: string,
+    systemAccessToken: string
   ): Promise<string> {
     logger.info("Requesting OIDC token from Azure Pipelines...");
     logger.info(oidcRequestUrl);
@@ -124,12 +124,12 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
       logger.error(
         `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
           response.status
-        }. Complete response - ${JSON.stringify(response)}`,
+        }. Complete response - ${JSON.stringify(response)}`
       );
       throw new CredentialUnavailableError(
         `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
           response.status
-        }. Complete response - ${JSON.stringify(response)}`,
+        }. Complete response - ${JSON.stringify(response)}`
       );
     }
     const result = JSON.parse(text);
@@ -138,13 +138,13 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     } else {
       logger.error(
         `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
-          result,
-        )}`,
+          result
+        )}`
       );
       throw new CredentialUnavailableError(
         `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
-          result,
-        )}`,
+          result
+        )}`
       );
     }
   }
@@ -180,8 +180,8 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     if (missingEnvVars.length > 0) {
       throw new CredentialUnavailableError(
         `${credentialName}: is unavailable. Ensure that you're running this task in an Azure Pipeline, so that following missing system variable(s) can be defined- ${missingEnvVars.join(
-          ", ",
-        )}.${errorMessage}`,
+          ", "
+        )}.${errorMessage}`
       );
     }
   }
