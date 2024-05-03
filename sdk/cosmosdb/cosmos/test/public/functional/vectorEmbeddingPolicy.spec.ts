@@ -239,6 +239,7 @@ describe("Vector Search", async () => {
         id: containerName,
         vectorEmbeddingPolicy: vectorEmbeddingPolicy,
         indexingPolicy: indexingPolicy,
+        throughput: 10000,
       })
     ).container;
 
@@ -295,7 +296,6 @@ describe("Vector Search", async () => {
   //     }
   //   }
   // });
-
 
   after(async function () {
     await database.delete();

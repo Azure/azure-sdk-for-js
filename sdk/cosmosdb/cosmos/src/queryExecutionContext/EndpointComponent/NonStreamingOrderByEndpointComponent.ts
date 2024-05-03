@@ -32,10 +32,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     if (!this.executionContext.hasMoreResults() && this.nonStreamingOrderByPQ.size() !== 0) {
-      const item =
-        this.nonStreamingOrderByPQ.peek() !== undefined
-          ? this.nonStreamingOrderByPQ.deq().payload
-          : undefined;
+      const item = this.nonStreamingOrderByPQ.deq()?.payload;
       return {
         result: item,
         headers: {},
@@ -48,8 +45,6 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         operationOptions,
         ruConsumedManager,
       );
-      // Add the item to the priority queue
-      // add a check for empty item
       if (item !== undefined) {
         this.nonStreamingOrderByPQ.enq(item);
       }
