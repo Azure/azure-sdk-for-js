@@ -11,7 +11,7 @@ trigger:
       - feature/v4
   paths:
     include:
-      - sdk/developer-signing/
+      - sdk/trustedsigning/
 pr:
   branches:
     include:
@@ -23,11 +23,11 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/developer-signing/
+      - sdk/trustedsigning/
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: developer-signing
+    ServiceDirectory: trustedsigning
     Artifacts:
       - name: azure-rest-developer-signing
         safeName: azurerestdevelopersigning

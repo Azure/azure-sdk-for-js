@@ -24,7 +24,7 @@ Key links:
 ### Prerequisites
 
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
-- You must have an existing Azure Developer Signing account.
+- You must have an existing Trusted Signing account.
 - You must have confirmed your identity using the Identity Validation resource.
 - You must have an existing Certificate Profile created.
 
@@ -64,7 +64,6 @@ This library interacts with the Azure Developer Signing service using two princi
 - `Trusted Signing Accounts` – A Signing Account is the logical container holding certificate profiles and identity validations and is considered a Azure Developer Signing resource.
 - `Certificate Profile` – A Certificate Profile is the template with the information that is used in the issued certificates. It is a sub-resource to a Code Signing Account resource.
 - `Identity Validation` - An Identity Validation resource is the identity of the legal business or individual. This information will be in the Subject Name of the certificates and therefore is a pre-requisite resource to be able to create a Certificate Profile.
-
 
 ## Troubleshooting
 
