@@ -50,7 +50,7 @@ steps:
 
   - ${{ if eq(parameters.TestProxy, true) }}:
     - pwsh: |
-        copy $(Build.SourcesDirectory)/test-proxy.log $(Build.ArtifactStagingDirectory)
+        copy $(Build.SourcesDirectory)/test-proxy.log $(Build.ArtifactStagingDirectory)/test-proxy.$(Agent.JobName).log
       displayName: 'Dump Test Proxy logs'
       condition: succeededOrFailed()
       
@@ -90,3 +90,9 @@ steps:
       testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeTestVersion)]"
     condition: and(always(),eq(variables['TestType'], 'browser'))
     displayName: "Publish browser unit test results"
+
+  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)/test-proxy.$(Agent.JobName).log'
+      ArtifactName: 'test proxy logs $(Agent.JobName)'
+      SbomEnabled: false
