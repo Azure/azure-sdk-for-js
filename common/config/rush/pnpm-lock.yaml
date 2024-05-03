@@ -10151,6 +10151,17 @@ packages:
       fsevents: 2.3.3
     dev: false
 
+  /tsx@4.9.0:
+    resolution: {integrity: sha512-UY0UUhDPL6MkqkZU4xTEjEBOLfV+RIt4xeeJ1qwK73xai4/zveG+X6+tieILa7rjtegUW2LE4p7fw7gAoLuytA==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+    dependencies:
+      esbuild: 0.20.2
+      get-tsconfig: 4.7.3
+    optionalDependencies:
+      fsevents: 2.3.3
+    dev: false
+
   /tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
     dependencies:
@@ -18706,7 +18717,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-Ud8LIjsav1X/kYyi63hrwffC4Eq9X+rS1cr5lOQz1tug9bRrg7zbbVxfWVtBn482dW2IPUuX1gO5yWxXOtQAgg==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-N1TW9xs7zjhhmXOxnBlFrFJJCwm6Ee64UfhhZBhODbuH3hv/4uc+yb5t8QnaQZ0TJKsR2ai7D3rDOGvCVaQapw==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -23522,7 +23533,7 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-kz/XKYVWF3AAXmjsFChQqVhwqIxOk59pDRq9TqN62dr0v7IDE6TNyxYR8SPOsfUzlWz+mdzzgyTvsO7iiMMvTw==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-YVFxJ8xZIt7u7Vk57oByWEJaIfb1tIomG/TNH7qxe91gUym/YB/WLOV5T2o1o3IoWVZcYHslYBYL3CBqtUcKeA==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
@@ -23530,8 +23541,10 @@ packages:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
       eslint: 8.57.0
+      express: 4.19.2
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      tsx: 4.9.0
       typescript: 5.4.5
     transitivePeerDependencies:
       - '@swc/core'
