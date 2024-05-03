@@ -177,10 +177,6 @@ describe("Critical Result Inference Test", () => {
   });
 
   it("critical result inference test", async function () {
-    //    const dateString = Date.now();
-    //    const jobID = "jobId-" + dateString;
-    //    const result = await client.path("/radiology-insights/jobs/{id}", jobID).put(param);
-    // put in fixed ID for recording
     const result = await client
       .path("/radiology-insights/jobs/{id}", "jobId-1713879475346")
       .put(param);
