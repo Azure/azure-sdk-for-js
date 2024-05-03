@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 import { TokenCredential } from "@azure/core-auth";
-import { SigningClient } from "./clientDefinitions";
+import { SigningClient } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of `SigningClient`
@@ -15,9 +15,12 @@ import { SigningClient } from "./clientDefinitions";
 export default function createClient(
   region: string,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): SigningClient {
-  const baseUrl = options.baseUrl ?? `https://${region}.codesigning.azure.net/`;
+  const endpointUrl =
+    options.endpoint ??
+    options.baseUrl ??
+    `https://${region}.codesigning.azure.net/`;
   options.apiVersion = options.apiVersion ?? "2023-06-15-preview";
   const userAgentInfo = `azsdk-js-developer-signing-rest/1.0.0-beta.1`;
   const userAgentPrefix =
@@ -39,7 +42,7 @@ export default function createClient(
     },
   };
 
-  const client = getClient(baseUrl, credentials, options) as SigningClient;
+  const client = getClient(endpointUrl, credentials, options) as SigningClient;
 
   return client;
 }

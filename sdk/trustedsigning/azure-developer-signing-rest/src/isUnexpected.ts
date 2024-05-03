@@ -11,7 +11,7 @@ import {
   Sign202Response,
   SignLogicalResponse,
   SignDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /codesigningaccounts/{accountName}/certificateprofiles/{certificateProfile}/sign/{operationId}":
@@ -20,27 +20,27 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /codesigningaccounts/{accountName}/certificateprofiles/{certificateProfile}/sign/eku":
     ["200"],
-  "POST /codesigningaccounts/{accountName}/certificateprofiles/{certificateProfile}:sign":
-    ["202"],
   "GET /codesigningaccounts/{accountName}/certificateprofiles/{certificateProfile}:sign":
     ["200", "202"],
+  "POST /codesigningaccounts/{accountName}/certificateprofiles/{certificateProfile}:sign":
+    ["202"],
 };
 
 export function isUnexpected(
-  response: GetSigningStatus200Response | GetSigningStatusDefaultResponse
+  response: GetSigningStatus200Response | GetSigningStatusDefaultResponse,
 ): response is GetSigningStatusDefaultResponse;
 export function isUnexpected(
   response:
     | GetSignRootCertificate200Response
-    | GetSignRootCertificateDefaultResponse
+    | GetSignRootCertificateDefaultResponse,
 ): response is GetSignRootCertificateDefaultResponse;
 export function isUnexpected(
   response:
     | ListExtendedKeyUsages200Response
-    | ListExtendedKeyUsagesDefaultResponse
+    | ListExtendedKeyUsagesDefaultResponse,
 ): response is ListExtendedKeyUsagesDefaultResponse;
 export function isUnexpected(
-  response: Sign202Response | SignLogicalResponse | SignDefaultResponse
+  response: Sign202Response | SignLogicalResponse | SignDefaultResponse,
 ): response is SignDefaultResponse;
 export function isUnexpected(
   response:
@@ -52,7 +52,7 @@ export function isUnexpected(
     | ListExtendedKeyUsagesDefaultResponse
     | Sign202Response
     | SignLogicalResponse
-    | SignDefaultResponse
+    | SignDefaultResponse,
 ): response is
   | GetSigningStatusDefaultResponse
   | GetSignRootCertificateDefaultResponse
@@ -106,7 +106,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
         // {guid} ==> $
         // {guid}:export ==> :export$
         const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`
+          `${candidateParts[i]?.slice(start, end)}`,
         ).test(pathParts[j] || "");
 
         if (!isMatched) {

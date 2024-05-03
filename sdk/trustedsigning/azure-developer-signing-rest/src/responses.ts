@@ -7,7 +7,7 @@ import {
   OperationStatusOutput,
   PagedExtendedKeyUsageOutput,
   ResourceOperationStatusOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface GetSigningStatus200Response extends HttpResponse {

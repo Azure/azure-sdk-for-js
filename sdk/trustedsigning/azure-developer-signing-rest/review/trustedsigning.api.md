@@ -147,11 +147,14 @@ export interface ListExtendedKeyUsagesDefaultResponse extends HttpResponse {
 export type ListExtendedKeyUsagesParameters = RequestParameters;
 
 // @public
+export type OperationStateOutput = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
+
+// @public
 export interface OperationStatusOutput {
     error?: ErrorModel;
     id: string;
     result?: SignResultOutput;
-    status: string;
+    status: OperationStateOutput;
 }
 
 // @public
@@ -177,7 +180,7 @@ export interface ResourceOperationStatusOutput {
     error?: ErrorResponse;
     id: string;
     result?: SignResultOutput;
-    status: string;
+    status: OperationStateOutput;
 }
 
 // @public (undocumented)
@@ -208,6 +211,9 @@ export interface Sign202Response extends HttpResponse {
     // (undocumented)
     status: "202";
 }
+
+// @public
+export type SignatureAlgorithm = string | "RS256" | "RS384" | "RS512" | "PS256" | "PS384" | "PS512" | "ES256" | "ES384" | "ES512" | "ES256K";
 
 // @public (undocumented)
 export interface SignBodyParam {
@@ -252,7 +258,7 @@ export interface SigningPayloadOptions {
     authenticodeHashList?: string[];
     digest: string;
     fileHashList?: string[];
-    signatureAlgorithm: string;
+    signatureAlgorithm: SignatureAlgorithm;
 }
 
 // @public

@@ -3,7 +3,7 @@
 
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
-import { SigningPayloadOptions } from "./models";
+import { SigningPayloadOptions } from "./models.js";
 
 export type GetSigningStatusParameters = RequestParameters;
 export type GetSignRootCertificateParameters = RequestParameters;
