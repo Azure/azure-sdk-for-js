@@ -1,15 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientSecretCredential, TokenCredentialOptions } from "@azure/identity";
-import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import { DefaultAzureCredential, TokenCredential, TokenCredentialOptions } from "@azure/identity";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "./noOpCredential";
-
-export interface CreateTestCredentialOptions {
-  tenantId?: string;
-  clientId?: string;
-  clientSecret?: string;
-}
 
 /**
  * ## Credential to be used in the tests.
@@ -22,18 +16,11 @@ export interface CreateTestCredentialOptions {
  *  - AAD traffic won't be recorded if this credential is used.
  */
 export function createTestCredential(
-  tokenCredentialOptions?: TokenCredentialOptions,
-  createTestCredentialOptions?: CreateTestCredentialOptions,
-) {
+  tokenCredentialOptions?: TokenCredentialOptions
+): TokenCredential {
   return isPlaybackMode()
     ? new NoOpCredential()
-    : new ClientSecretCredential(
-        createTestCredentialOptions?.tenantId ?? assertEnvironmentVariable("AZURE_TENANT_ID"),
-        createTestCredentialOptions?.clientId ?? assertEnvironmentVariable("AZURE_CLIENT_ID"),
-        createTestCredentialOptions?.clientSecret ??
-          assertEnvironmentVariable("AZURE_CLIENT_SECRET"),
-        tokenCredentialOptions,
-      );
+    : new DefaultAzureCredential(tokenCredentialOptions);
 }
 
 export { NoOpCredential };
