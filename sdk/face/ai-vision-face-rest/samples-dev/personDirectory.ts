@@ -141,8 +141,8 @@ const identify = async (client: FaceClient, faceIds: string[], body: IdentifyReq
 };
 
 async function verify() {
-    const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
-    const apikey = process.env['FACE_APIKEY'] || '<apikey>';
+    const endpoint = process.env['FACE_ENDPOINT'] ?? '<endpoint>';
+    const apikey = process.env['FACE_APIKEY'] ?? '<apikey>';
     const credential = new AzureKeyCredential(apikey);
     const client = createFaceClient(endpoint, credential);
 
@@ -180,8 +180,8 @@ async function verify() {
 }
 
 async function identifyPersons() {
-    const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
-    const apikey = process.env['FACE_APIKEY'] || '<apikey>';
+    const endpoint = process.env['FACE_ENDPOINT'] ?? '<endpoint>';
+    const apikey = process.env['FACE_APIKEY'] ?? '<apikey>';
     const credential = new AzureKeyCredential(apikey);
     const client = createFaceClient(endpoint, credential);
 
@@ -219,8 +219,8 @@ async function identifyPersons() {
 }
 
 async function identifyDynamicPersonGroup() {
-    const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
-    const apikey = process.env['FACE_APIKEY'] || '<apikey>';
+    const endpoint = process.env['FACE_ENDPOINT'] ?? '<endpoint>';
+    const apikey = process.env['FACE_APIKEY'] ?? '<apikey>';
     const credential = new AzureKeyCredential(apikey);
     const client = createFaceClient(endpoint, credential);
 

@@ -11,7 +11,7 @@ import createFaceClient, {
  * @summary creates a liveness detection session
  */
 async function main() {
-    const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
+    const endpoint = process.env['FACE_ENDPOINT'] ?? '<endpoint>';
     const credential = new DefaultAzureCredential();
     const client = createFaceClient(endpoint, credential);
 

@@ -122,8 +122,8 @@ const deleteLargePersonGroup = async (client: FaceClient, largePersonGroupId: st
 };
 
 const main = async () => {
-    const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
-    const apikey = process.env['FACE_APIKEY'] || '<apikey>';
+    const endpoint = process.env['FACE_ENDPOINT'] ?? '<endpoint>';
+    const apikey = process.env['FACE_APIKEY'] ?? '<apikey>';
     const credential = new AzureKeyCredential(apikey);
     const client = createFaceClient(endpoint, credential);
 
