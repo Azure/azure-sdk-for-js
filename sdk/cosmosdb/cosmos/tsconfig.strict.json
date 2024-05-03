@@ -65,6 +65,8 @@
     "src/queryExecutionContext/EndpointComponent/GroupByValueEndpointComponent.ts",
     "src/queryExecutionContext/EndpointComponent/OffsetLimitEndpointComponent.ts",
     "src/queryExecutionContext/EndpointComponent/OrderByEndpointComponent.ts",
+    "src/queryExecutionContext/EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.ts",
+    "src/queryExecutionContext/EndpointComponent/NonStreamingOrderByEndpointComponent.ts",
     "src/queryExecutionContext/EndpointComponent/OrderedDistinctEndpointComponent.ts",
     "src/queryExecutionContext/EndpointComponent/UnorderedDistinctEndpointComponent.ts",
     "src/queryExecutionContext/defaultQueryExecutionContext.ts",
