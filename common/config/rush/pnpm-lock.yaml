@@ -1909,6 +1909,14 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: false
 
+  /@esbuild-plugins/node-globals-polyfill@0.2.3(esbuild@0.20.2):
+    resolution: {integrity: sha512-r3MIryXDeXDOZh7ih1l/yE9ZLORCd5e8vWg02azWRGj5SPTuoh69A2AIyn0Z31V/kHBfZ4HgWJ+OK3GTTwLmnw==}
+    peerDependencies:
+      esbuild: '*'
+    dependencies:
+      esbuild: 0.20.2
+    dev: false
+
   /@esbuild/aix-ppc64@0.19.12:
     resolution: {integrity: sha512-bmoCYyWdEL3wDQIVbcyzRyeKLgk2WtWLTWz1ZIAZF/EGbNOwSA6ew3PftJ1PqMiOOGu0OyFMzG53L0zqIpPeNA==}
     engines: {node: '>=12'}
@@ -19464,10 +19472,11 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-lZBvrVpvgGUW6u9XdtTsqxbLonekvkr1eouKsHKEOqUjo0wy/H7jtZRwDIF4c5SXKBNuWllfz7W56VQWQ4QhBQ==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-mpegQnokpgJ1Jd2K2KpGwjCjtRnp5r/QPJQRT2rGccrzIZFu1CWs4VtNDNXLhK0aZlw/rDO5sJ+DKmgHXNSbsA==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
+      '@esbuild-plugins/node-globals-polyfill': 0.2.3(esbuild@0.20.2)
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/debug': 4.1.12
@@ -19481,6 +19490,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       debug: 4.3.4(supports-color@8.1.1)
+      esbuild: 0.20.2
       eslint: 8.57.0
       events: 3.3.0
       karma: 6.4.3(debug@4.3.4)
@@ -19488,6 +19498,7 @@ packages:
       karma-mocha: 2.0.1
       mocha: 10.4.0
       nyc: 15.1.0
+      playwright: 1.43.1
       process: 0.11.10
       puppeteer: 22.7.1(typescript@5.4.5)
       rhea: 3.0.2
@@ -19509,7 +19520,6 @@ packages:
       - jsdom
       - less
       - lightningcss
-      - playwright
       - safaridriver
       - sass
       - stylus

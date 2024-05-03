@@ -58,8 +58,7 @@
     "process": "^0.11.10",
     "rhea": "^3.0.0",
     "rhea-promise": "^3.0.0",
-    "tslib": "^2.6.2",
-    "util": "^0.12.5"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -72,6 +71,7 @@
     "@vitest/coverage-istanbul": "^1.5.3",
     "debug": "^4.3.4",
     "eslint": "^8.57.0",
+    "playwright": "^1.43.1",
     "rimraf": "^5.0.5",
     "tshy": "^1.14.0",
     "typescript": "~5.4.5",
@@ -100,7 +100,7 @@
       }
     }
   },
-  "main": "dist/index.js",
+  "main": "./dist/commonjs/index.js",
   "browser": "./dist/browser/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "type": "module"

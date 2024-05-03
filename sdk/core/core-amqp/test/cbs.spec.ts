@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { describe, it, assert, vi } from "vitest";
-import { CbsClient, TokenType, defaultCancellableLock } from "../src";
+import { CbsClient, TokenType, defaultCancellableLock } from "../src/index.js";
 import { Connection } from "rhea-promise";
-import { createConnectionStub } from "./utils/createConnectionStub";
+import { createConnectionStub } from "./utils/createConnectionStub.js";
 import { isError } from "@azure/core-util";
 
 describe("CbsClient", function () {
