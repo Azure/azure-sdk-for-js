@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DefaultAzureCredential, DefaultAzureCredentialClientIdOptions, TokenCredential } from "@azure/identity";
+import { DefaultAzureCredential, DefaultAzureCredentialClientIdOptions, DefaultAzureCredentialOptions, DefaultAzureCredentialResourceIdOptions, TokenCredential } from "@azure/identity";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "./noOpCredential";
 
@@ -16,7 +16,7 @@ import { NoOpCredential } from "./noOpCredential";
  *  - AAD traffic won't be recorded if this credential is used.
  */
 export function createTestCredential(
-  tokenCredentialOptions?: DefaultAzureCredentialClientIdOptions
+  tokenCredentialOptions?: DefaultAzureCredentialClientIdOptions | DefaultAzureCredentialResourceIdOptions | DefaultAzureCredentialOptions
 ): TokenCredential {
   return isPlaybackMode()
     ? new NoOpCredential()
