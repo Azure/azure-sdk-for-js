@@ -3,9 +3,8 @@
 /* eslint-disable eqeqeq */
 
 import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
-import { isDefined, isObjectWithProperties } from "@azure/core-util";
+import { isDefined, isError, isNodeLike, isObjectWithProperties } from "@azure/core-util";
 import { isNumber, isString } from "./util/utils.js";
-import { isError, isNodeLike } from "@azure/core-util";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.

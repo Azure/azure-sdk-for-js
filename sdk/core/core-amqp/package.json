@@ -100,6 +100,7 @@
     }
   },
   "main": "./dist/commonjs/index.js",
+  "browser": "./dist/browser/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "type": "module"
 }
