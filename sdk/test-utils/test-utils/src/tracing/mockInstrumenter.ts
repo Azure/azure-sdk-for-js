@@ -101,25 +101,25 @@ export class MockInstrumenter implements Instrumenter {
    *
    * @returns The current context.
    */
-  currentContext() {
+  currentContext(): TracingContext {
     return this.contextStack[this.contextStack.length - 1];
   }
 
   /**
    * Resets the state of the instrumenter to a clean slate.
    */
-  reset() {
+  reset(): void {
     this.contextStack = [new MockContext()];
     this.startedSpans = [];
     this.traceIdCounter = 0;
     this.spanIdCounter = 0;
   }
 
-  disable() {
+  disable(): void {
     this.isEnabled = false;
   }
 
-  enable() {
+  enable(): void {
     this.isEnabled = true;
   }
 }

@@ -7,7 +7,7 @@ import { MockInstrumenter } from "./mockInstrumenter.js";
 import { MockTracingSpan } from "./mockTracingSpan.js";
 import { assert } from "vitest";
 
-const instrumenter = new MockInstrumenter();
+const mockInstrumenter = new MockInstrumenter();
 
 /**
  * The supports Tracing function does the verification of whether the core-tracing is supported correctly with the client method
@@ -25,15 +25,15 @@ export async function supportsTracing<
   expectedSpanNames: string[],
   options?: Options,
   thisArg?: ThisParameterType<Callback>,
-) {
-  useInstrumenter(instrumenter);
-  instrumenter.reset();
+): Promise<void> {
+  useInstrumenter(mockInstrumenter);
+  mockInstrumenter.reset();
   try {
     const startSpanOptions = {
       packageName: "test",
       ...options,
     };
-    const { span: rootSpan, tracingContext } = instrumenter.startSpan("root", startSpanOptions);
+    const { span: rootSpan, tracingContext } = mockInstrumenter.startSpan("root", startSpanOptions);
 
     const newOptions = {
       ...options,
@@ -43,19 +43,19 @@ export async function supportsTracing<
     } as Options;
     await callback.call(thisArg, newOptions);
     rootSpan.end();
-    const spanGraph = getSpanGraph((rootSpan as MockTracingSpan).traceId, instrumenter);
+    const spanGraph = getSpanGraph((rootSpan as MockTracingSpan).traceId, mockInstrumenter);
     assert.equal(spanGraph.roots.length, 1, "There should be just one root span");
     assert.equal(spanGraph.roots[0].name, "root");
     assert.strictEqual(
       rootSpan,
-      instrumenter.startedSpans[0],
+      mockInstrumenter.startedSpans[0],
       "The root span should match what was passed in.",
     );
 
     const directChildren = spanGraph.roots[0].children.map((child) => child.name);
     assert.sameMembers(Array.from(new Set(directChildren)), expectedSpanNames);
     rootSpan.end();
-    const openSpans = instrumenter.startedSpans.filter((s) => !s.endCalled);
+    const openSpans = mockInstrumenter.startedSpans.filter((s) => !s.endCalled);
     assert.equal(
       openSpans.length,
       0,
