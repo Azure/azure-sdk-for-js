@@ -22,7 +22,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
   ) {
     const comparator = new OrderByComparator(this.sortOrders);
     this.nonStreamingOrderByPQ = new PriorityQueue<unknown>((a: unknown, b: unknown) => {
-      return comparator.compareItems(a, b);
+      return comparator.compareItems(b, a);
     });
   }
 
@@ -33,7 +33,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
   ): Promise<Response<any>> {
     if (!this.executionContext.hasMoreResults() && this.nonStreamingOrderByPQ.size() !== 0) {
       const item =
-        this.nonStreamingOrderByPQ.deq() !== undefined
+        this.nonStreamingOrderByPQ.peek() !== undefined
           ? this.nonStreamingOrderByPQ.deq().payload
           : undefined;
       return {
@@ -49,12 +49,20 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         ruConsumedManager,
       );
       // Add the item to the priority queue
-      this.nonStreamingOrderByPQ.enq(item);
+      // add a check for empty item
+      if (item !== undefined) {
+        this.nonStreamingOrderByPQ.enq(item);
+      }
       return {
         result: {},
         headers,
       };
     }
+
+    return {
+      result: undefined,
+      headers: {},
+    };
   }
 
   /**
