@@ -6,8 +6,20 @@ import { getImageDimensionsFromResponse } from "./images.js";
 import { stringToUint8Array } from "@azure/core-util";
 import { Recorder } from "@azure-tools/test-recorder";
 
-export function assertChatCompletions(completions: OpenAI.Chat.Completions.ChatCompletion): void {
-  assertNonEmptyArray(completions.choices, assertChoice);
+
+export function assertChatCompletions(
+  completions: OpenAI.Chat.Completions.ChatCompletion,
+  options: ChatCompletionTestOptions = {},
+): void {
+  assertChatCompletionsNoUsage(completions, options);
+  ifDefined(completions.usage, assertUsage);
+}
+
+function assertChatCompletionsNoUsage(completions: OpenAI.Chat.Completions.ChatCompletion,
+  { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions,): void {
+  if (!allowEmptyChoices || completions.choices.length > 0) {
+    assertNonEmptyArray(completions.choices, (choice) => assertChoice(choice, opts));
+  }
   assert.isNumber(completions.created);
   assert.isString(completions.id);
   assert.isString(completions.model);
@@ -16,26 +28,79 @@ export function assertChatCompletions(completions: OpenAI.Chat.Completions.ChatC
 }
 
 export function assertCompletions(completions: OpenAI.Completions.Completion): void {
-  assertNonEmptyArray(completions.choices, assertCompletionsChoice);
+  assertCompletionsNoUsage(completions);
+  ifDefined(completions.usage, assertUsage);
+  // TODO: add content filter results assertion
+  // assertContentFilterResultsForPrompt(completions.promptFilterResults ?? []);
+}
+
+function assertCompletionsNoUsage(
+  completions: Omit<OpenAI.Completions.Completion, "usage">,
+  { allowEmptyChoices }: CompletionTestOptions = {},
+): void {
+  if (!allowEmptyChoices || completions.choices.length > 0) {
+    assertNonEmptyArray(completions.choices, assertCompletionsChoice);
+  }
   assert.isNumber(completions.created);
   assert.isString(completions.id);
   assert.isString(completions.model);
   ifDefined(completions.system_fingerprint, assert.isString);
-  ifDefined(completions.usage, assertUsage);
 }
 
 function assertCompletionsChoice(choice: CompletionChoice): void {
-  assert.isDefined(choice.index);
+  assert.isNumber(choice.index);
   ifDefined(choice.logprobs, assertLogprobs);
   ifDefined(choice.finish_reason, assert.isString);
-  assert.isDefined(choice.text);
+  assert.isString(choice.text);
+  // TODO: add content filter results assertion
+  // ifDefined(choice.contentFilterResults, assertContentFilterResultsForChoice);
 }
 
-function assertChoice(choice: OpenAI.Chat.Completions.ChatCompletion.Choice): void {
+function assertChoice(choice: OpenAI.Chat.Completions.ChatCompletion.Choice, options: ChatCompletionTestOptions): void {
+  const stream = options.stream;
+  if (stream) {
+    // assertMessage(choice.delta, options);
+    assert.isUndefined(choice.message);
+  } else {
+    assertMessage(choice.message, options);
+    // assert.isUndefined(choice.delta);
+  }
   assert.isNumber(choice.index);
+  // TODO: enable the checks
+  // ifDefined(choice.contentFilterResults, assertContentFilterResultsForChoice);
+  // ifDefined(choice.enhancements, assertAzureChatEnhancements);
+  // ifDefined(choice.finishDetails, assertChatFinishDetails);
   ifDefined(choice.logprobs, assertLogProbability);
   ifDefined(choice.finish_reason, assert.isString);
-  assert.isDefined(choice.message.role);
+}
+
+export async function assertCompletionsStream(
+  stream: AsyncIterable<Omit<OpenAI.Completions.Completion, "usage">>,
+  options: CompletionTestOptions = {},
+): Promise<number> {
+  return assertAsyncIterable(stream, (item) => assertCompletionsNoUsage(item, options));
+}
+
+async function assertAsyncIterable<T>(
+  val: AsyncIterable<T>,
+  validate: (x: T) => void,
+): Promise<number> {
+  const items: T[] = [];
+  for await (const item of val) {
+    try {
+      validate(item);
+    } catch (e: any) {
+      throw new Error(
+        `Error validating item:\n ${JSON.stringify(item, undefined, 2)}\n\n${
+          e.message
+        }.\n\nPrevious items:\n\n${items
+          .map((x) => JSON.stringify(x, undefined, 2))
+          .join("\n")}\n\n Stack trace: ${e.stack}`,
+      );
+    }
+    items.push(item);
+  }
+  return items.length;
 }
 
 function assertLogprobs(logprobs: CompletionChoice.Logprobs): void {
@@ -66,6 +131,14 @@ function assertUsage(usage: OpenAI.Completions.CompletionUsage | undefined): voi
   assert.isNumber(castUsage.total_tokens);
 }
 
+function assertIf(condition: boolean, val: any, check: (x: any) => void): void {
+  if (condition) {
+    check(val);
+  } else {
+    ifDefined(val, check);
+  }
+}
+
 function ifDefined(
   val: any,
   validate: (x: any) => void,
@@ -75,6 +148,29 @@ function ifDefined(
     validate(val);
   } else if (defined) {
     throw new Error("Expected value to be defined");
+  }
+}
+
+function assertFunctionCall(
+  functionCall: OpenAI.Chat.Completions.ChatCompletionMessage.FunctionCall,
+  { stream }: ChatCompletionTestOptions,
+): void {
+  assertIf(!stream, functionCall.arguments, assert.isString);
+  assertIf(!stream, functionCall.name, assert.isString);
+}
+
+function assertToolCall(
+  toolCall: OpenAI.Chat.Completions.ChatCompletionMessageToolCall,
+  { stream }: ChatCompletionTestOptions,
+): void {
+  assertIf(!stream, toolCall.type, assert.isString);
+  assertIf(!stream, toolCall.id, assert.isString);
+  // TODO: change for stream
+  // assertIf(Boolean(stream), toolCall.index, assert.isNumber);
+  switch (toolCall.type) {
+    case "function":
+      assertFunctionCall(toolCall.function, { stream });
+      break;
   }
 }
 
@@ -130,7 +226,6 @@ export function assertImagesWithStrings(
   });
 }
 
-
 export function assertEmbeddings(embeddings: OpenAI.Embeddings.CreateEmbeddingResponse) {
   assert.isNotNull(embeddings.data);
   assert.equal(embeddings.data.length > 0, true);
@@ -167,4 +262,34 @@ export async function assertOpenAiError<T>(
       assert.isUndefined(e.code);
     }
   }
+}
+
+function assertMessage(
+  message: OpenAI.Chat.Completions.ChatCompletionMessage | undefined,
+  { functions, stream }: ChatCompletionTestOptions = {},
+): void {
+  assert.isDefined(message);
+  const msg = message as OpenAI.Chat.Completions.ChatCompletionMessage;
+  if (!functions) {
+    assertIf(!stream, msg.content, assert.isString);
+  }
+  assertIf(!stream, msg.role, assert.isString);
+  ifDefined(msg.function_call, (item) => assertFunctionCall(item, { stream }));
+  for (const item of msg.tool_calls ?? []) {
+    assertToolCall(item, { stream });
+  }
+  // TODO: enable these
+  // ifDefined(msg.context, assertContext);
+}
+
+interface CompletionTestOptions {
+  allowEmptyChoices?: boolean;
+}
+
+interface ChatCompletionTestOptions {
+  stream?: boolean;
+  allowEmptyChoices?: boolean;
+  functions?: boolean;
+  allowEmptyStream?: boolean;
+  allowEmptyId?: boolean;
 }

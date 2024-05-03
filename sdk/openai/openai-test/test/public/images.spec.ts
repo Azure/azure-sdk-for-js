@@ -82,7 +82,9 @@ describe("Images", function () {
                 imageGenerationModels,
               ),
               (deploymentName) =>
-                client.images.generate({model: deploymentName, prompt, 
+                client.images.generate({
+                  model: deploymentName,
+                  prompt,
                   n: numberOfImages,
                   size,
                   response_format: "b64_json",
