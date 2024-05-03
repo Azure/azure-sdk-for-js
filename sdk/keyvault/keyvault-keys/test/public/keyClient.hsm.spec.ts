@@ -77,12 +77,13 @@ onVersions({ minVer: "7.2" }).describe(
       });
     });
 
-    // Temporarily setting max version of 7.3 until resolution of https://github.com/Azure/azure-sdk-for-net/issues/32260
-    onVersions({ minVer: "7.3", maxVer: "7.3" }).describe("releaseKey", () => {
+    describe("releaseKey", () => {
       let attestation: string;
       let encodedReleasePolicy: Uint8Array;
 
       beforeEach(async () => {
+        await recorder.setMatcher("BodilessMatcher");
+
         const attestationUri = env.AZURE_KEYVAULT_ATTESTATION_URI;
         const releasePolicy = {
           anyOf: [
@@ -193,7 +194,10 @@ onVersions({ minVer: "7.2" }).describe(
           uint8ArrayToString(updatedKey.properties.releasePolicy!.encodedPolicy!),
         );
 
-        assert.equal(decodedReleasePolicy.anyOf[0].anyOf[0].equals, "false");
+        // This object gets sanitized in playback mode so cannot make assertion
+        if (!isPlaybackMode()) {
+          assert.equal(decodedReleasePolicy.anyOf[0].anyOf[0].equals, "false");
+        }
       });
 
       it("errors when key is exportable without a release policy", async () => {
