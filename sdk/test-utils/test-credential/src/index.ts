@@ -12,7 +12,7 @@ import { NoOpCredential } from "./noOpCredential";
  *  - returns the NoOpCredential (helps bypass the AAD traffic)
  *
  * ### In record/live modes
- *  - returns the ClientSecretCredential (expects AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET in your environment or in the .env file)
+ *  - returns the DefaultAzureCredential (expects that you used [`User Auth` or `Auth via development tools`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-users) credentials)
  *  - AAD traffic won't be recorded if this credential is used.
  */
 export function createTestCredential(
