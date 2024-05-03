@@ -10,7 +10,7 @@ import {
   PublicClientApplication,
 } from "@azure/msal-node";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 
 import { AbortError } from "@azure/abort-controller";
 import { AuthenticationRequiredError } from "../../../src/errors";
@@ -20,6 +20,7 @@ import { credentialLogger } from "../../../src/util/logging";
 import { msalPlugins } from "../../../src/msal/nodeFlows/msalPlugins";
 import sinon from "sinon";
 import { DeveloperSignOnClientId } from "../../../src/constants";
+import { Context } from "mocha";
 
 describe("MsalClient", function () {
   describe("recorded tests", function () {
@@ -50,7 +51,11 @@ describe("MsalClient", function () {
       assert.isNotNaN(accessToken.expiresOnTimestamp);
     });
 
-    it("supports getTokenByDeviceCode", async function () {
+    it("supports getTokenByDeviceCode", async function (this: Context) {
+      if (isLiveMode()) {
+        // Skip in CI live tests since this credential requires user interaction.
+        this.skip();
+      }
       const scopes = ["https://vault.azure.net/.default"];
       const clientId = DeveloperSignOnClientId;
       const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
