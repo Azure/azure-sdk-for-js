@@ -754,6 +754,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/trustedsigning",
+      "projectFolder": "sdk/trustedsigning/azure-developer-signing-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/iot-device-update",
       "projectFolder": "sdk/deviceupdate/iot-device-update-rest",
       "versionPolicyName": "client"
