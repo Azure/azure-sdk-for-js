@@ -18,6 +18,7 @@ import { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { RUCapPerOperationExceededErrorCode } from "../request/RUCapPerOperationExceededError";
 import { RUConsumedManager } from "../common";
+import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -38,7 +39,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (this.pageSize === undefined) {
       this.pageSize = PipelinedQueryExecutionContext.DEFAULT_PAGE_SIZE;
     }
-
     // Pick between Nonstreaming and streaming endpoints
     const nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo.hasNonStreamingOrderBy;
 
@@ -46,7 +46,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
 
     if (nonStreamingOrderBy) {
-      //TODO: if non order by, throw error.
+      // TODO: if non order by, throw error.
       const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
       const context: ExecutionContext = new ParallelQueryExecutionContext(
         this.clientContext,
@@ -56,8 +56,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.partitionedQueryExecutionInfo,
       );
 
-      if (distinctType == "None") {
-        // this.endpoint = new NonStreamingOrderByEndpointComponent();
+      if (distinctType === "None") {
+        this.endpoint = new NonStreamingOrderByEndpointComponent(context, sortOrders);
       } else {
         // this.endpoint = new NonStreamingOrderByDistinctEndpointComponent(context, partitionedQueryExecutionInfo.queryInfo);
       }
@@ -182,8 +182,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           return { result: temp, headers: this.fetchMoreRespHeaders };
         }
       } else {
-        // append the result
-        this.fetchBuffer.push(item);
+        if (Object.keys(item).length !== 0) {
+          // discard empty JSON and append the result
+          this.fetchBuffer.push(item);
+        }
         if (this.fetchBuffer.length >= this.pageSize) {
           // fetched enough results
           const temp = this.fetchBuffer.slice(0, this.pageSize);
