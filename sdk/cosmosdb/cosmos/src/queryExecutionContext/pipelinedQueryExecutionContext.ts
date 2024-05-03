@@ -169,7 +169,13 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     } else {
       this.fetchBuffer = [];
       this.fetchMoreRespHeaders = getInitialHeader();
-      return this.nonStreamingOrderBy ? this._nonStreamingFetchMoreImplementation(diagnosticNode, operationOptions, ruConsumedManager) : this._fetchMoreImplementation(diagnosticNode, operationOptions, ruConsumedManager);
+      return this.nonStreamingOrderBy
+        ? this._nonStreamingFetchMoreImplementation(
+            diagnosticNode,
+            operationOptions,
+            ruConsumedManager,
+          )
+        : this._fetchMoreImplementation(diagnosticNode, operationOptions, ruConsumedManager);
     }
   }
 
@@ -261,11 +267,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           this.fetchBuffer = this.fetchBuffer.splice(this.pageSize);
           return { result: temp, headers: this.fetchMoreRespHeaders };
         } else if (ruConsumed * 2 < operationOptions.ruCapPerOperation) {
-
           // recursively fetch more only if we have more than 50% RUs left.
-          return this._nonStreamingFetchMoreImplementation(diagnosticNode, operationOptions, ruConsumedManager);
+          return this._nonStreamingFetchMoreImplementation(
+            diagnosticNode,
+            operationOptions,
+            ruConsumedManager,
+          );
         } else {
-          console.log("we are in else")
+          console.log("we are in else");
           return { result: [], headers: this.fetchMoreRespHeaders };
         }
       }
