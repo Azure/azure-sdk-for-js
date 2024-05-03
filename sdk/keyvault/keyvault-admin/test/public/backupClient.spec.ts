@@ -67,6 +67,37 @@ describe("KeyVaultBackupClient", () => {
     });
   });
 
+  describe.skip("beginPreBackup", function () {
+    it("operation works", async function () {
+      const backupPoller = await client.beginBackup(
+        blobStorageUri,
+        blobSasToken,
+        testPollerProperties,
+      );
+      await backupPoller.poll();
+
+      // A poller can be serialized and then resumed
+      const resumedPoller = await client.beginPreBackup(blobStorageUri, blobSasToken, {
+        resumeFrom: backupPoller.toString(),
+        ...testPollerProperties,
+      });
+
+      assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
+      assert.equal(resumedPoller.getOperationState().jobId, backupPoller.getOperationState().jobId);
+
+      const backupResult = await backupPoller.pollUntilDone();
+      assert.isTrue(backupPoller.getOperationState().isCompleted);
+      assert.notExists(backupResult.folderUri);
+    });
+
+    it("throws when polling errors", async function () {
+      await assert.isRejected(
+        client.beginBackup(blobStorageUri, "invalid_sas_token", testPollerProperties),
+        /SAS token/,
+      );
+    });
+  });
+
   describe("beginRestore", function () {
     it("full restore completes successfully", async function () {
       const backupPoller = await client.beginBackup(
@@ -163,6 +194,54 @@ describe("KeyVaultBackupClient", () => {
     it("throws when polling errors", async function () {
       await assert.isRejected(
         client.beginRestore(blobStorageUri, "bad_token", testPollerProperties),
+        /SAS token is malformed/,
+      );
+    });
+  });
+
+  describe.skip("beginPreRestore", function () {
+    it("preRestore completes successfully", async function () {
+      const backupPoller = await client.beginBackup(
+        blobStorageUri,
+        blobSasToken,
+        testPollerProperties,
+      );
+      const backupResult = await backupPoller.pollUntilDone();
+      assert.exists(backupResult.folderUri);
+
+      const restorePoller = await client.beginPreRestore(
+        backupResult.folderUri!,
+        blobSasToken,
+        testPollerProperties,
+      );
+      await restorePoller.poll();
+
+      // A poller can be serialized and then resumed
+      const resumedPoller = await client.beginPreRestore(backupResult.folderUri!, blobSasToken, {
+        ...testPollerProperties,
+        resumeFrom: restorePoller.toString(),
+      });
+      assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
+      assert.equal(
+        resumedPoller.getOperationState().jobId,
+        restorePoller.getOperationState().jobId,
+      );
+
+      await restorePoller.pollUntilDone();
+      const operationState = restorePoller.getOperationState();
+      assert.equal(operationState.isCompleted, true);
+      assert.notExists(operationState.error);
+      // Restore is eventually consistent so while we work
+      // through the retry operations adding a delay here allows
+      // tests to pass the 5s polling delay.
+      if (!isPlaybackMode()) {
+        await delay(5000);
+      }
+    });
+
+    it("throws when polling errors", async function () {
+      await assert.isRejected(
+        client.beginPreRestore(blobStorageUri, "bad_token", testPollerProperties),
         /SAS token is malformed/,
       );
     });

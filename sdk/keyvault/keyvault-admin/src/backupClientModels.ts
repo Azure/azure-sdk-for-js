@@ -41,11 +41,15 @@ export interface KeyVaultBackupPollerOptions extends OperationOptions {
  */
 export interface KeyVaultBeginBackupOptions extends KeyVaultBackupPollerOptions {}
 
+export interface KeyVaultBeginPreBackupOptions extends KeyVaultBackupPollerOptions {}
+
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link beginRestore}
  */
 export interface KeyVaultBeginRestoreOptions extends KeyVaultBackupPollerOptions {}
+
+export interface KeyVaultBeginPreRestoreOptions extends KeyVaultBackupPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
