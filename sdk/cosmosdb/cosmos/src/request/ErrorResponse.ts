@@ -67,3 +67,5 @@ export class ErrorResponse extends Error {
   [key: string]: any;
   diagnostics?: CosmosDiagnostics;
 }
+
+export const nonStreamingEndpointEmptyResult = { result: "empty response" };

@@ -290,7 +290,7 @@ export class QueryIterator<T> {
       const { result, headers } = response;
       // concatenate the results and fetch more
       mergeHeaders(this.fetchAllLastResHeaders, headers);
-
+      //TODO: check for empty response for nonStreaming
       if (result !== undefined) {
         this.fetchAllTempResources.push(result);
       }
