@@ -1,14 +1,27 @@
 trigger: none
 
 extends:
-    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
-    parameters:
-      PackageName: "@azure/search-documents"
-      ServiceDirectory: search
-      TimeoutInMinutes: 90
-      # TODO: change 'Preview' cloud back to public after search RP fixes deletion metadata issue
-      Clouds: "Preview"
-      SupportedClouds: "Preview,UsGov,China"
-      CloudConfig:
-        Preview:
-          Location: "westcentralus"
+  template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+  parameters:
+    PackageName: "@azure/search-documents"
+    ServiceDirectory: search
+    TimeoutInMinutes: 90
+    # TODO: change 'Preview' cloud back to public after search RP fixes deletion metadata issue
+    Clouds: "Preview"
+    SupportedClouds: "Preview,UsGov,China"
+    CloudConfig:
+      Public:
+        SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+      Preview:
+        SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+        Location: "westcentralus"
+      Canary:
+        SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+        Location: "centraluseuap"
+        MatrixFilters:
+          - OSVmImage=.*Ubuntu.*
+          - DependencyVersion=^$
+      UsGov:
+        SubscriptionConfiguration: $(sub-config-gov-test-resources)
+      China:
+        SubscriptionConfiguration: $(sub-config-cn-test-resources)
