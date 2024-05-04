@@ -5,8 +5,8 @@
  * @summary Demonstrates the SearchIndexingBufferedSender with Manual Flush.
  */
 
+import { DefaultAzureCredential } from "@azure/identity";
 import {
-  AzureKeyCredential,
   GeographyPoint,
   SearchClient,
   SearchIndexClient,
@@ -24,18 +24,17 @@ dotenv.config();
  * wants to call the flush manually.
  */
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-6";
 
 export async function main(): Promise<void> {
-  if (!endpoint || !apiKey) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
 
   console.log(`Running SearchIndexingBufferedSender-uploadDocuments-Without AutoFlush Sample`);
 
-  const credential = new AzureKeyCredential(apiKey);
+  const credential = new DefaultAzureCredential();
   const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
     endpoint,
     TEST_INDEX_NAME,
