@@ -6,6 +6,7 @@ import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal
 import { QueryOperationOptions, Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { OrderByComparator } from "../orderByComparator";
+import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
 export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
   private nonStreamingOrderByPQ: PriorityQueue<any>;
 
@@ -21,9 +22,11 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     private sortOrders: any[],
   ) {
     const comparator = new OrderByComparator(this.sortOrders);
-    this.nonStreamingOrderByPQ = new PriorityQueue<unknown>((a: unknown, b: unknown) => {
-      return comparator.compareItems(b, a);
-    });
+    this.nonStreamingOrderByPQ = new PriorityQueue<NonStreamingOrderByResult>(
+      (a: NonStreamingOrderByResult, b: NonStreamingOrderByResult) => {
+        return comparator.compareItems(b, a);
+      },
+    );
   }
 
   public async nextItem(

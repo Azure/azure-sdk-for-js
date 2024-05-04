@@ -2,23 +2,13 @@
 // Licensed under the MIT license.
 import { QueryInfo, QueryOperationOptions, Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
-import { CosmosHeaders } from "../CosmosHeaders";
 import { getInitialHeader } from "../headerUtils";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import PriorityQueue from "priorityqueuejs";
 import { hashObject } from "../../utils/hashObject";
 import { RUConsumedManager } from "../../common";
-// import { nonStreamingEndpointEmptyResult } from "../../request/ErrorResponse";
-
-interface NonStreamingOrderByResponse {
-  result: NonStreamingOrderByResult;
-  headers: CosmosHeaders;
-}
-
-interface NonStreamingOrderByResult {
-  orderByItems: [];
-  payload: any;
-}
+import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
+import { NonStreamingOrderByResponse } from "../nonStreamingOrderByResponse";
 
 /** @hidden */
 export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionContext {
@@ -47,7 +37,6 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     }
 
     let resHeaders = getInitialHeader();
-
     if (!this.isCompleted && this.executionContext.hasMoreResults()) {
       // Grab the next result
       const { result, headers } = (await this.executionContext.nextItem(

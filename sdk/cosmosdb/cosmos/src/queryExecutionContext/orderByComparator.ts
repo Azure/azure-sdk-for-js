@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { NonStreamingOrderByResult } from "./nonStreamingOrderByResult";
+
 /** @hidden */
 const TYPEORDCOMPARATOR: {
   [type: string]: { ord: number; compFunc?: (a: any, b: any) => number };
@@ -35,7 +37,7 @@ const TYPEORDCOMPARATOR: {
 export class OrderByComparator {
   constructor(public sortOrder: string[]) {}
 
-  public compareItems(item1: unknown, item2: unknown): number {
+  public compareItems(item1: NonStreamingOrderByResult, item2: NonStreamingOrderByResult): number {
     const orderByItemsRes1 = this.getOrderByItems(item1);
     const orderByItemsRes2 = this.getOrderByItems(item2);
 
