@@ -167,6 +167,7 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
     this.dedicatedGatewayMaxAge = 0;
     await container.read(this.dedicatedGatewayMaxAge);
   });
+  await database.delete();
 });
 
 // This test has to be run against sqlx endpoint

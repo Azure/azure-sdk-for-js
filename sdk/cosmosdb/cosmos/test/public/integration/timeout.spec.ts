@@ -61,6 +61,7 @@ describe("Timeout", function () {
     } catch (e: any) {
       assert.equal(e.code, "TimeoutError");
     }
+    await clientA.database(dbId).delete();
   });
 });
 
