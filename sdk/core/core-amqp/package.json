@@ -32,7 +32,7 @@
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:browser": "npm run clean && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tshy && npm run unit-test:node && npm run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "npm run clean && tshy &&  dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
