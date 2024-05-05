@@ -59,7 +59,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         partitionedQueryExecutionInfo.queryInfo,
       );
 
-      //TODO: if non order by, throw error.
+      // TODO: if non order by, throw error.
       const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
       const context: ExecutionContext = new ParallelQueryExecutionContext(
         this.clientContext,
