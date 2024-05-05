@@ -21,7 +21,7 @@ import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueE
 import { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { RUCapPerOperationExceededErrorCode } from "../request/RUCapPerOperationExceededError";
-import { RUConsumedManager } from "../common";
+import { Constants, RUConsumedManager } from "../common";
 import { NonStreamingOrderByDistinctEndpointComponent } from "./EndpointComponent/NonStreamingOrderByDistinctEndpointComponent";
 import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent";
 
@@ -70,7 +70,11 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       );
 
       if (distinctType === "None") {
-        this.endpoint = new NonStreamingOrderByEndpointComponent(context, sortOrders);
+        this.endpoint = new NonStreamingOrderByEndpointComponent(
+          context,
+          sortOrders,
+          this.vectorSearchBufferSize,
+        );
       } else {
         this.endpoint = new NonStreamingOrderByDistinctEndpointComponent(
           context,
@@ -260,13 +264,18 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       } else {
         // append the result
         const ruConsumed = await ruConsumedManager.getRUConsumed();
+        // TODO:
+        const maxRUAllowed =
+          operationOptions && operationOptions.ruCapPerOperation
+            ? operationOptions.ruCapPerOperation
+            : Constants.NonStreamingQueryDefaultRUThreshold;
         if (Object.keys(item).length !== 0) this.fetchBuffer.push(item);
         if (this.fetchBuffer.length >= this.pageSize) {
           // fetched enough results
           const temp = this.fetchBuffer.slice(0, this.pageSize);
           this.fetchBuffer = this.fetchBuffer.splice(this.pageSize);
           return { result: temp, headers: this.fetchMoreRespHeaders };
-        } else if (ruConsumed * 2 < operationOptions.ruCapPerOperation) {
+        } else if (ruConsumed * 2 < maxRUAllowed) {
           // recursively fetch more only if we have more than 50% RUs left.
           return this._nonStreamingFetchMoreImplementation(
             diagnosticNode,
