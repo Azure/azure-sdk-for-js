@@ -285,7 +285,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             ruConsumedManager,
           );
         } else {
-          console.log("we are in else");
           return { result: [], headers: this.fetchMoreRespHeaders };
         }
       }
