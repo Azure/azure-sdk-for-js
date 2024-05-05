@@ -3,13 +3,13 @@ page_type: sample
 languages:
   - javascript
 products:
-  - azure-developer-devcenter
+  - azure-devcenter
 urlFragment: developer-devcenter-javascript
 ---
 
-# Azure Developer DevCenter client library samples for JavaScript
+# Azure DevCenter client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Developer DevCenter in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure DevCenter in some common scenarios.
 
 | **File Name**                                         | **Description**                                                           |
 | ----------------------------------------------------- | ------------------------------------------------------------------------- |

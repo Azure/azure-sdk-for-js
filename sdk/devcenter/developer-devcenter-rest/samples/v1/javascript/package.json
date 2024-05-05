@@ -2,7 +2,7 @@
   "name": "@azure-samples/developer-devcenter-js",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Developer DevCenter client library samples for JavaScript",
+  "description": "Azure DevCenter client library samples for JavaScript",
   "engines": {
     "node": ">=18.0.0"
   },
