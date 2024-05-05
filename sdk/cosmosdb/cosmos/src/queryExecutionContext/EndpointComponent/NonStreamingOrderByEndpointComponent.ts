@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import PriorityQueue from "priorityqueuejs";
 import { RUConsumedManager } from "../../common/RUConsumedManager";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { QueryOperationOptions, Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { OrderByComparator } from "../orderByComparator";
 import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
+import { NonStreamingOrderByPriorityQueue } from "../../utils/nonStreamingOrderByPriorityQueue";
 export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
-  private nonStreamingOrderByPQ: PriorityQueue<any>;
+  private nonStreamingOrderByPQ: NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>;
 
   /**
    * Represents an endpoint in handling an non-streaming order by query. For each processed orderby
@@ -20,12 +20,14 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,
     private sortOrders: any[],
+    private priorityQueueBufferSize: number = 2000,
   ) {
     const comparator = new OrderByComparator(this.sortOrders);
-    this.nonStreamingOrderByPQ = new PriorityQueue<NonStreamingOrderByResult>(
+    this.nonStreamingOrderByPQ = new NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>(
       (a: NonStreamingOrderByResult, b: NonStreamingOrderByResult) => {
         return comparator.compareItems(b, a);
       },
+      this.priorityQueueBufferSize,
     );
   }
 
@@ -35,7 +37,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     if (!this.executionContext.hasMoreResults() && this.nonStreamingOrderByPQ.size() !== 0) {
-      const item = this.nonStreamingOrderByPQ.deq()?.payload;
+      const item = this.nonStreamingOrderByPQ.dequeue()?.payload;
       return {
         result: item,
         headers: {},
@@ -49,7 +51,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         ruConsumedManager,
       );
       if (item !== undefined) {
-        this.nonStreamingOrderByPQ.enq(item);
+        this.nonStreamingOrderByPQ.enqueue(item);
       }
       return {
         result: {},

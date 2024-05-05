@@ -4,16 +4,16 @@ import { QueryInfo, QueryOperationOptions, Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { getInitialHeader } from "../headerUtils";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import PriorityQueue from "priorityqueuejs";
 import { hashObject } from "../../utils/hashObject";
 import { RUConsumedManager } from "../../common";
 import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
 import { NonStreamingOrderByResponse } from "../nonStreamingOrderByResponse";
+import { NonStreamingOrderByPriorityQueue } from "../../utils/nonStreamingOrderByPriorityQueue";
 
 /** @hidden */
 export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionContext {
   private aggregateMap: Map<string, NonStreamingOrderByResult>;
-  private resultsPQ: PriorityQueue<NonStreamingOrderByResult>;
+  private resultsPQ: NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>;
   private sortOrder: string;
   private isInitialized: boolean = false;
   private isCompleted: boolean = false;
@@ -32,7 +32,11 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     if (!this.isInitialized) {
       this.aggregateMap = new Map();
       this.sortOrder = this.queryInfo.orderBy[0];
-      this.resultsPQ = new PriorityQueue<NonStreamingOrderByResult>(this.compare);
+      // TODO: update compare function
+      this.resultsPQ = new NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>(
+        this.compare,
+        this.pqMaxSize,
+      );
       this.isInitialized = true;
     }
 
@@ -67,7 +71,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     if (this.isCompleted) {
       if (this.resultsPQ.size() > 0) {
         return {
-          result: this.resultsPQ.deq().payload,
+          result: this.resultsPQ.dequeue().payload,
           headers: resHeaders,
         };
       } else {
@@ -86,21 +90,8 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
 
   private async buildResultPQ(): Promise<void> {
     for (const [key, value] of this.aggregateMap) {
-      await this.updateResultPQ(value);
+      this.resultsPQ.enqueue(value);
       this.aggregateMap.delete(key);
-    }
-  }
-
-  private async updateResultPQ(result: NonStreamingOrderByResult) {
-    if (this.resultsPQ.size() < this.pqMaxSize) {
-      this.resultsPQ.enq(result);
-    } else {
-      const top = this.resultsPQ.peek();
-      const compare = this.compare(top, result);
-      if (compare <= 0) {
-        this.resultsPQ.deq();
-        this.resultsPQ.enq(result);
-      }
     }
   }
 
@@ -122,9 +113,9 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     const firstOrder = res1.orderByItems.find((x) => x !== undefined)["item"];
     const secondOrder = res2.orderByItems.find((x) => x !== undefined)["item"];
     if (this.sortOrder === "Ascending") {
-      Math.abs(firstOrder) > Math.abs(secondOrder) ? true : false;
+      return Math.abs(firstOrder) > Math.abs(secondOrder) ? true : false;
     } else {
-      Math.abs(firstOrder) > Math.abs(secondOrder) ? false : true;
+      return Math.abs(firstOrder) > Math.abs(secondOrder) ? false : true;
     }
     return false;
   }

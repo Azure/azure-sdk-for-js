@@ -182,10 +182,11 @@ export class QueryIterator<T> {
    */
   public async fetchNext(options?: QueryOperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      let ruConsumedManager: RUConsumedManager | undefined;
-      if (options && options.ruCapPerOperation) {
-        ruConsumedManager = new RUConsumedManager();
-      }
+      // Enabling RU metrics count for all the fetchNext operations
+      const ruConsumedManager: RUConsumedManager = new RUConsumedManager();
+      // TODO: clean this comment
+      // if (options && options.ruCapPerOperation) {
+      // }
       this.queryPlanPromise = withMetadataDiagnostics(
         async (metadataNode: DiagnosticNodeInternal) => {
           return this.fetchQueryPlan(metadataNode);
