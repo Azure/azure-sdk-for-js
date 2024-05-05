@@ -3,13 +3,13 @@ page_type: sample
 languages:
   - typescript
 products:
-  - azure-developer-devcenter
+  - azure-devcenter
 urlFragment: developer-devcenter-typescript
 ---
 
-# Azure Developer DevCenter client library samples for TypeScript
+# Azure DevCenter client library samples for TypeScript
 
-These sample programs show how to use the TypeScript client libraries for Azure Developer DevCenter in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure DevCenter in some common scenarios.
 
 | **File Name**                                         | **Description**                                                           |
 | ----------------------------------------------------- | ------------------------------------------------------------------------- |
