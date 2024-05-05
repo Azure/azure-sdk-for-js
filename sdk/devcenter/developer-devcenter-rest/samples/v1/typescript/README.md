@@ -68,7 +68,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [samplecreatedevbox]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devcenter/developer-devcenter-rest/samples/v1/typescript/src/sampleCreateDevBox.ts
 [samplecreateenvironment]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devcenter/developer-devcenter-rest/samples/v1/typescript/src/sampleCreateEnvironment.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/developer-devcenter
+[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/developer-devcenter
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devcenter/developer-devcenter-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

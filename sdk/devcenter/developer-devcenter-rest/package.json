@@ -134,9 +134,10 @@
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "//sampleConfiguration": {
-    "productName": "Azure Developer DevCenter",
+    "productName": "Azure DevCenter",
     "productSlugs": [
-      "azure-developer-devcenter"
-    ]
+      "azure-devcenter"
+    ],
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/developer-devcenter"
   }
 }
