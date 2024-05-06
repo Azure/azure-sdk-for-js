@@ -3,61 +3,73 @@
 
 /**
  * @file Rule to force package.json's 'sdk-type' value to be valid (and exist)
- * @author Arpan Laha
- * @author Ben Zhang
+ *
+ *
  */
 
-import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
-import { Property } from "estree";
-import { Rule } from "eslint";
+import { TSESTree } from "@typescript-eslint/utils";
+import { VerifierMessages, createRule, getVerifiers, stripPath } from "../utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
-  meta: getRuleMetaData(
-    "ts-package-json-sdktype",
-    "force package.json's sdk-type to exist and for its value to be 'client' or 'mgmt'",
-    "code",
-  ),
-  create: (context: Rule.RuleContext): Rule.RuleListener => {
+export default createRule({
+  name: "ts-package-json-sdktype",
+  meta: {
+    type: "suggestion",
+    docs: {
+      description:
+        "force package.json's sdk-type to exist and for its value to be 'client' or 'mgmt'",
+      recommended: "recommended",
+    },
+    messages: {
+      ...VerifierMessages,
+      SdkTypeNotString: "sdk-type is not set to a string",
+      SdkTypeNotValid:
+        "unrecognized sdk-type value: {{actual}}. Expected one of 'client', 'mgmt', or 'utility.'",
+    },
+    schema: [],
+    fixable: "code",
+  },
+  defaultOptions: [],
+  create(context) {
     const verifiers = getVerifiers(context, {
       outer: "sdk-type",
     });
-    return stripPath(context.filename) === "package.json"
-      ? ({
-          // callback functions
+    if (stripPath(context.filename) !== "package.json") {
+      return {};
+    }
+    return {
+      // check to see if package.json includes 'sdk-type'
+      "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
 
-          // check to see if package.json includes 'sdk-type'
-          "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
+      // check the node corresponding to sdk-type to see if its value contains "client" or "mgmt"
+      "ExpressionStatement > ObjectExpression > Property[key.value='sdk-type']": (
+        node: TSESTree.Property,
+      ): void => {
+        const { value } = node;
 
-          // check the node corresponding to sdk-type to see if its value contains "client" or "mgmt"
-          "ExpressionStatement > ObjectExpression > Property[key.value='sdk-type']": (
-            node: Property,
-          ): void => {
-            const { value } = node;
+        // check for valid type
+        if (value.type !== "Literal" || typeof value.value !== "string") {
+          return context.report({
+            node: node.value,
+            messageId: "SdkTypeNotString",
+          });
+        }
 
-            // check for valid type
-            if (value.type !== "Literal" || typeof value.value !== "string") {
-              context.report({
-                node: node.value,
-                message: "sdk-type is not set to a string",
-              });
-              return;
-            }
+        const strValue = stripPath(value.value);
 
-            const strValue = stripPath(value.value);
-
-            if (!["client", "mgmt", "utility"].includes(strValue)) {
-              context.report({
-                node: node.value,
-                message: `unrecognized sdk-type value: ${strValue}. Expected either "client", "mgmt", or "utility."`,
-              });
-              return;
-            }
-          },
-        } as Rule.RuleListener)
-      : {};
+        if (!["client", "mgmt", "utility"].includes(strValue)) {
+          return context.report({
+            node: node.value,
+            messageId: "SdkTypeNotValid",
+            data: {
+              actual: strValue,
+            },
+          });
+        }
+      },
+    };
   },
-};
+});
