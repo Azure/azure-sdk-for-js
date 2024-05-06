@@ -393,5 +393,23 @@ describe("MsalClient", function () {
         );
       });
     });
+
+    it("supports cancellation", async function (this: Context) {
+      const client = msalClient.createMsalClient(clientId, tenantId);
+
+      const scopes = ["https://vault.azure.net/.default"];
+      // we expect the request to be aborted immediately without trying to reach the network
+      const abortSignal = AbortSignal.abort();
+      const request = client.getTokenByDeviceCode(
+        scopes,
+        () => {
+          // no-op
+        },
+        {
+          abortSignal,
+        },
+      );
+      await assert.isRejected(request, AbortError);
+    });
   });
 });

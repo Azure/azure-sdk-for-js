@@ -479,7 +479,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     return withSilentAuthentication(msalApp, scopes, options, () => {
       const requestOptions: msal.DeviceCodeRequest = {
         scopes,
-        cancel: false,
+        cancel: options?.abortSignal?.aborted ?? false,
         deviceCodeCallback,
         authority: state.msalConfig.auth.authority,
         claims: options?.claims,
