@@ -5,6 +5,7 @@ import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context, Suite } from "mocha";
 
+import { delay } from "@azure/core-util";
 import { OpenAIClient } from "@azure/openai";
 import {
   AutocompleteResult,
@@ -13,47 +14,53 @@ import {
   KnownQueryLanguage,
   KnownSpeller,
   SearchClient,
+  SearchIndex,
   SearchIndexClient,
   SelectFields,
 } from "../../../src";
 import { SearchFieldArray, SelectArray } from "../../../src/indexModels";
-import { delay, serviceVersions } from "../../../src/serviceUtils";
+import { defaultServiceVersion } from "../../../src/serviceUtils";
 import { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
 
-const [stableServiceVersion, previewServiceVersion] = [
-  serviceVersions.find((v) => !v.toLowerCase().includes("preview"))!,
-  serviceVersions.find((v) => v.toLowerCase().includes("preview"))!,
-];
-
 describe("SearchClient", function (this: Suite) {
-  this.timeout(99999);
+  this.timeout(20_000);
 
   describe("constructor", function () {
     const credential = new AzureKeyCredential("key");
 
     describe("Passing serviceVersion", () => {
+      const [correctServiceVersion, incorrectServiceVersion] = ["correct", "incorrect"];
       it("supports passing serviceVersion", () => {
         const client = new SearchClient<Hotel>("", "", credential, {
-          serviceVersion: stableServiceVersion,
+          serviceVersion: correctServiceVersion,
         });
-        assert.equal(stableServiceVersion, client.serviceVersion);
-        assert.equal(stableServiceVersion, client.apiVersion);
+        assert.equal(correctServiceVersion, client.serviceVersion);
+        assert.equal(correctServiceVersion, client.apiVersion);
       });
 
       it("supports passing the deprecated apiVersion", () => {
         const client = new SearchClient<Hotel>("", "", credential, {
-          apiVersion: stableServiceVersion,
+          apiVersion: correctServiceVersion,
         });
-        assert.equal(stableServiceVersion, client.serviceVersion);
-        assert.equal(stableServiceVersion, client.apiVersion);
+        assert.equal(correctServiceVersion, client.serviceVersion);
+        assert.equal(correctServiceVersion, client.apiVersion);
+      });
+
+      it("prioritizes `serviceVersion` over `apiVersion", () => {
+        const client = new SearchClient<Hotel>("", "", credential, {
+          apiVersion: incorrectServiceVersion,
+          serviceVersion: correctServiceVersion,
+        });
+        assert.equal(correctServiceVersion, client.serviceVersion);
+        assert.equal(correctServiceVersion, client.apiVersion);
       });
 
       it("defaults to the current apiVersion", () => {
         const client = new SearchClient<Hotel>("", "", credential);
-        assert.equal(previewServiceVersion, client.serviceVersion);
-        assert.equal(previewServiceVersion, client.apiVersion);
+        assert.equal(defaultServiceVersion, client.serviceVersion);
+        assert.equal(defaultServiceVersion, client.apiVersion);
       });
     });
   });
@@ -73,8 +80,8 @@ describe("SearchClient", function (this: Suite) {
         indexClient,
         indexName: TEST_INDEX_NAME,
         openAIClient,
-      } = await createClients<Hotel>(stableServiceVersion, recorder, TEST_INDEX_NAME));
-      await createIndex(indexClient, TEST_INDEX_NAME, stableServiceVersion);
+      } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
+      await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
       await delay(WAIT_TIME);
       await populateIndex(searchClient, openAIClient);
     });
@@ -82,9 +89,7 @@ describe("SearchClient", function (this: Suite) {
     afterEach(async function () {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
       await delay(WAIT_TIME);
-      if (recorder) {
-        await recorder.stop();
-      }
+      await recorder?.stop();
     });
 
     it("count returns the correct document count", async function () {
@@ -417,6 +422,7 @@ describe("SearchClient", function (this: Suite) {
     let indexClient: SearchIndexClient;
     let openAIClient: OpenAIClient;
     let TEST_INDEX_NAME: string;
+    let indexDefinition: SearchIndex;
 
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
@@ -426,8 +432,8 @@ describe("SearchClient", function (this: Suite) {
         indexClient,
         indexName: TEST_INDEX_NAME,
         openAIClient,
-      } = await createClients<Hotel>(previewServiceVersion, recorder, TEST_INDEX_NAME));
-      await createIndex(indexClient, TEST_INDEX_NAME, previewServiceVersion);
+      } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
+      indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
       await delay(WAIT_TIME);
       await populateIndex(searchClient, openAIClient);
     });
@@ -435,9 +441,7 @@ describe("SearchClient", function (this: Suite) {
     afterEach(async function () {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
       await delay(WAIT_TIME);
-      if (recorder) {
-        await recorder.stop();
-      }
+      await recorder?.stop();
     });
 
     it("search with speller", async function () {
@@ -458,7 +462,11 @@ describe("SearchClient", function (this: Suite) {
         includeTotalCount: true,
         queryLanguage: KnownQueryLanguage.EnUs,
         queryType: "semantic",
-        semanticSearchOptions: { configurationName: "semantic-configuration-name" },
+        semanticSearchOptions: {
+          configurationName:
+            indexDefinition.semanticSearch?.configurations?.[0].name ??
+            assert.fail("No semantic configuration in index."),
+        },
       });
       assert.equal(searchResults.count, 1);
     });
@@ -468,7 +476,9 @@ describe("SearchClient", function (this: Suite) {
         queryLanguage: KnownQueryLanguage.EnUs,
         queryType: "semantic",
         semanticSearchOptions: {
-          configurationName: "semantic-configuration-name",
+          configurationName:
+            indexDefinition.semanticSearch?.configurations?.[0].name ??
+            assert.fail("No semantic configuration in index."),
           errorMode: "fail",
           debugMode: "semantic",
         },
@@ -513,7 +523,9 @@ describe("SearchClient", function (this: Suite) {
         queryLanguage: KnownQueryLanguage.EnUs,
         queryType: "semantic",
         semanticSearchOptions: {
-          configurationName: "semantic-configuration-name",
+          configurationName:
+            indexDefinition.semanticSearch?.configurations?.[0].name ??
+            assert.fail("No semantic configuration in index."),
           answers: { answerType: "extractive", count: 3, threshold: 0.7 },
         },
         top: 3,
@@ -532,7 +544,9 @@ describe("SearchClient", function (this: Suite) {
         queryLanguage: KnownQueryLanguage.EnUs,
         queryType: "semantic",
         semanticSearchOptions: {
-          configurationName: "semantic-configuration-name",
+          configurationName:
+            indexDefinition.semanticSearch?.configurations?.[0].name ??
+            assert.fail("No semantic configuration in index."),
           errorMode: "partial",
         },
         select: ["hotelId"],
@@ -576,7 +590,7 @@ describe("SearchClient", function (this: Suite) {
       for await (const result of searchResults.results) {
         resultIds.push(result.document.hotelId);
       }
-      assert.deepEqual(["1", "3", "4"], resultIds);
+      assert.deepEqual(resultIds, ["1", "3", "4"]);
     });
 
     it("multi-vector search", async function () {
@@ -616,7 +630,7 @@ describe("SearchClient", function (this: Suite) {
       for await (const result of searchResults.results) {
         resultIds.push(result.document.hotelId);
       }
-      assert.deepEqual(["1", "3", "4"], resultIds);
+      assert.deepEqual(resultIds, ["1", "3", "4"]);
     });
 
     it("oversampling compressed vectors", async function () {
@@ -651,7 +665,7 @@ describe("SearchClient", function (this: Suite) {
       for await (const result of searchResults.results) {
         resultIds.push(result.document.hotelId);
       }
-      assert.deepEqual(["1", "3", "4"], resultIds);
+      assert.deepEqual(resultIds, ["1", "3", "4"]);
     });
   });
 });

@@ -2,9 +2,11 @@
 // Licensed under the MIT license.
 
 import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { delay } from "@azure/core-util";
 import { assert } from "chai";
 import { Context, Suite } from "mocha";
 import {
+  AzureKeyCredential,
   AzureOpenAIVectorizer,
   SearchIndex,
   SearchIndexClient,
@@ -12,7 +14,7 @@ import {
   VectorSearchAlgorithmConfiguration,
   VectorSearchProfile,
 } from "../../../src";
-import { delay, serviceVersions } from "../../../src/serviceUtils";
+import { defaultServiceVersion } from "../../../src/serviceUtils";
 import { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
 import {
@@ -23,13 +25,46 @@ import {
   WAIT_TIME,
 } from "../utils/setup";
 
-const [stableServiceVersion, previewServiceVersion] = [
-  serviceVersions.find((v) => !v.toLowerCase().includes("preview"))!,
-  serviceVersions.find((v) => v.toLowerCase().includes("preview"))!,
-];
-
 describe("SearchIndexClient", function (this: Suite) {
-  this.timeout(99999);
+  this.timeout(20_000);
+
+  describe("constructor", function () {
+    const credential = new AzureKeyCredential("key");
+
+    describe("Passing serviceVersion", () => {
+      const [correctServiceVersion, incorrectServiceVersion] = ["correct", "incorrect"];
+      it("supports passing serviceVersion", () => {
+        const client = new SearchIndexClient("", credential, {
+          serviceVersion: correctServiceVersion,
+        });
+        assert.equal(correctServiceVersion, client.serviceVersion);
+        assert.equal(correctServiceVersion, client.apiVersion);
+      });
+
+      it("supports passing the deprecated apiVersion", () => {
+        const client = new SearchIndexClient("", credential, {
+          apiVersion: correctServiceVersion,
+        });
+        assert.equal(correctServiceVersion, client.serviceVersion);
+        assert.equal(correctServiceVersion, client.apiVersion);
+      });
+
+      it("prioritizes `serviceVersion` over `apiVersion", () => {
+        const client = new SearchIndexClient("", credential, {
+          apiVersion: incorrectServiceVersion,
+          serviceVersion: correctServiceVersion,
+        });
+        assert.equal(correctServiceVersion, client.serviceVersion);
+        assert.equal(correctServiceVersion, client.apiVersion);
+      });
+
+      it("defaults to the current apiVersion", () => {
+        const client = new SearchIndexClient("", credential);
+        assert.equal(defaultServiceVersion, client.serviceVersion);
+        assert.equal(defaultServiceVersion, client.apiVersion);
+      });
+    });
+  });
 
   describe("stable", function () {
     let recorder: Recorder;
@@ -40,7 +75,7 @@ describe("SearchIndexClient", function (this: Suite) {
       recorder = new Recorder(this.currentTest);
       TEST_INDEX_NAME = createRandomIndexName();
       ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
-        stableServiceVersion,
+        defaultServiceVersion,
         recorder,
         TEST_INDEX_NAME,
       ));
@@ -54,9 +89,7 @@ describe("SearchIndexClient", function (this: Suite) {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
       await delay(WAIT_TIME);
       await deleteSynonymMaps(indexClient);
-      if (recorder) {
-        await recorder.stop();
-      }
+      await recorder?.stop();
     });
 
     describe("#synonymmaps", function () {
@@ -245,7 +278,7 @@ describe("SearchIndexClient", function (this: Suite) {
       recorder = new Recorder(this.currentTest);
       TEST_INDEX_NAME = createRandomIndexName();
       ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
-        previewServiceVersion,
+        defaultServiceVersion,
         recorder,
         TEST_INDEX_NAME,
       ));
@@ -259,9 +292,7 @@ describe("SearchIndexClient", function (this: Suite) {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
       await delay(WAIT_TIME);
       await deleteSynonymMaps(indexClient);
-      if (recorder) {
-        await recorder.stop();
-      }
+      await recorder?.stop();
     });
 
     it("creates the index object vector fields", async function () {

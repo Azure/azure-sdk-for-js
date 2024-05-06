@@ -113,6 +113,8 @@ import {
   WebApiSkill,
 } from "./serviceModels";
 
+export const defaultServiceVersion = "2024-03-01-Preview";
+
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
   if (!skills) {
     return skills;
@@ -831,19 +833,6 @@ export function getRandomIntegerInclusive(min: number, max: number): number {
   const offset = Math.floor(Math.random() * (max - min + 1));
   return offset + min;
 }
-
-/**
- * A wrapper for setTimeout that resolves a promise after timeInMs milliseconds.
- * @param timeInMs - The number of milliseconds to be delayed.
- * @returns Promise that is resolved after timeInMs
- */
-export function delay(timeInMs: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
-}
-
-export const serviceVersions = ["2023-11-01", "2024-03-01-Preview"];
-
-export const defaultServiceVersion = "2024-03-01-Preview";
 
 function convertKnowledgeStoreToPublic(
   knowledgeStore: BaseSearchIndexerKnowledgeStore | undefined,
