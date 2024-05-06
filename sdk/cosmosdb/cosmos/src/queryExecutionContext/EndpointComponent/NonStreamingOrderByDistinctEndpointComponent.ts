@@ -9,19 +9,22 @@ import { RUConsumedManager } from "../../common";
 import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
 import { NonStreamingOrderByResponse } from "../nonStreamingOrderByResponse";
 import { NonStreamingOrderByPriorityQueue } from "../../utils/nonStreamingOrderByPriorityQueue";
+import { OrderByComparator } from "../orderByComparator";
 
 /** @hidden */
 export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionContext {
   private aggregateMap: Map<string, NonStreamingOrderByResult>;
-  private resultsPQ: NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>;
-  private sortOrder: string;
+  private nonStreamingOrderByPQ: NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>;
+  private finalResultArray: NonStreamingOrderByResult[];
+  private sortOrders: string[];
   private isInitialized: boolean = false;
   private isCompleted: boolean = false;
+  private comparator: OrderByComparator;
 
   constructor(
     private executionContext: ExecutionContext,
     private queryInfo: QueryInfo,
-    private pqMaxSize: number,
+    private priorityQueueBufferSize: number,
   ) {}
 
   public async nextItem(
@@ -31,13 +34,22 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
   ): Promise<Response<any>> {
     if (!this.isInitialized) {
       this.aggregateMap = new Map();
-      this.sortOrder = this.queryInfo.orderBy[0];
-      // TODO: update compare function
-      this.resultsPQ = new NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>(
-        this.compare,
-        this.pqMaxSize,
+      this.sortOrders = this.queryInfo.orderBy;
+      this.comparator = new OrderByComparator(this.sortOrders);
+      this.nonStreamingOrderByPQ = new NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>(
+        (a: NonStreamingOrderByResult, b: NonStreamingOrderByResult) => {
+          return this.comparator.compareItems(b, a);
+        },
+        this.priorityQueueBufferSize,
       );
       this.isInitialized = true;
+    }
+
+    if (this.priorityQueueBufferSize === 0) {
+      return {
+        result: undefined,
+        headers: getInitialHeader(),
+      };
     }
 
     let resHeaders = getInitialHeader();
@@ -64,14 +76,14 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
 
       if (!this.executionContext.hasMoreResults()) {
         this.isCompleted = true;
-        await this.buildResultPQ();
+        await this.buildFinalResultArray();
       }
     }
 
     if (this.isCompleted) {
-      if (this.resultsPQ.size() > 0) {
+      if (this.finalResultArray.length > 0) {
         return {
-          result: this.resultsPQ.dequeue().payload,
+          result: this.finalResultArray.shift(),
           headers: resHeaders,
         };
       } else {
@@ -88,39 +100,34 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     }
   }
 
-  private async buildResultPQ(): Promise<void> {
+  private async buildFinalResultArray(): Promise<void> {
     for (const [key, value] of this.aggregateMap) {
-      this.resultsPQ.enqueue(value);
+      this.nonStreamingOrderByPQ.enqueue(value);
       this.aggregateMap.delete(key);
     }
-  }
 
-  private compare(doc1: NonStreamingOrderByResult, doc2: NonStreamingOrderByResult): number {
-    let firstOrder: any = doc1?.orderByItems.find((x) => x !== undefined);
-    let secondOrder: any = doc2?.orderByItems.find((x) => x !== undefined);
+    const offSet = this.queryInfo.offset ? this.queryInfo.offset : 0;
+    const queueSize = this.nonStreamingOrderByPQ.size();
+    const finalArraySize = queueSize - offSet;
+    this.finalResultArray = new Array(finalArraySize);
 
-    firstOrder = firstOrder ? firstOrder : { item: 0 };
-    secondOrder = secondOrder ? secondOrder : { item: 0 };
-    const order = firstOrder["item"] - secondOrder["item"];
-    if (this.sortOrder === "Ascending") return -1 * order;
-    else return order;
+    for (let count = finalArraySize - 1; count >= 0; count--) {
+      this.finalResultArray[count] = this.nonStreamingOrderByPQ.dequeue();
+    }
   }
 
   private replaceResults(
     res1: NonStreamingOrderByResult,
     res2: NonStreamingOrderByResult,
   ): boolean {
-    const firstOrder = res1.orderByItems.find((x) => x !== undefined)["item"];
-    const secondOrder = res2.orderByItems.find((x) => x !== undefined)["item"];
-    if (this.sortOrder === "Ascending") {
-      return Math.abs(firstOrder) > Math.abs(secondOrder) ? true : false;
-    } else {
-      return Math.abs(firstOrder) > Math.abs(secondOrder) ? false : true;
-    }
+    const res = this.comparator.compareItems(res1, res2);
+    if (res < 0) return true;
+
     return false;
   }
 
   public hasMoreResults(): boolean {
-    return this.executionContext.hasMoreResults() || this.resultsPQ.size() > 0;
+    if (this.priorityQueueBufferSize === 0) return false;
+    return this.executionContext.hasMoreResults() || this.finalResultArray.length > 0;
   }
 }
