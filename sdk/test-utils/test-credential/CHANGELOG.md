@@ -4,7 +4,7 @@
 
 ### Breaking Changes
 
-Updates the `createTestCredential` method to consume `DefaultAzureCredential` instead of `ClientSecretCredential` in order to offer autonomy to the devs and to move away from clietn secrets in environment varaibles.
+Updates the `createTestCredential` method to consume `DefaultAzureCredential` instead of `ClientSecretCredential` in order to offer autonomy to the devs and to move away from client secrets in environment varaibles.
 
 - `NoOpCredential` is offered for playback and `DefaultAzureCredential` in record/live modes.
 - [`User Auth` and `Auth via development tools`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-users) are preferred in record mode to record the tests.
