@@ -3,11 +3,13 @@
 
 import { createTracingClient, TracingClient, useInstrumenter } from "@azure/core-tracing";
 import { MockTracingSpan, MockInstrumenter } from "../../src/index.js";
-import { describe, it, beforeEach, chai } from "vitest";
-import { chaiAzure } from "../../src/chaiAzure.js";
+import { describe, it, assert, expect, beforeEach } from "vitest";
 import { MockContext } from "../../src/tracing/mockContext.js";
 import { OperationTracingOptions } from "@azure/core-tracing";
-const { assert, expect } = chai.use(chaiAzure);
+import { toSupportTracing } from "../../src/azureMatchers.js";
+
+// Add support for tracing to the assertion library
+expect.extend({ toSupportTracing });
 
 describe("TestInstrumenter", function () {
   let instrumenter: MockInstrumenter;
@@ -94,13 +96,9 @@ describe("Test supportsTracing plugin functionality", function () {
     client = new MockClientToTest();
   });
 
-  it("supportsTracing with assert", async function () {
-    await assert.supportsTracing((options) => client.method(options), ["MockClientToTest.method"]);
-  });
-
   it("supportsTracing with expect", async function () {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await expect((options: any) => client.method(options)).to.supportTracing([
+    await expect((options: any) => client.method(options)).toSupportTracing([
       "MockClientToTest.method",
     ]);
   });
@@ -123,7 +121,9 @@ export class MockClientToTest {
     });
   }
 
-  async method<Options extends { tracingOptions?: OperationTracingOptions }>(options?: Options) {
+  async method<Options extends { tracingOptions?: OperationTracingOptions }>(
+    options?: Options,
+  ): Promise<number> {
     return this.tracingClient.withSpan("MockClientToTest.method", options || {}, () => 42, {
       spanKind: "consumer",
     });
