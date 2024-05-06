@@ -46,9 +46,9 @@ export class OrderByComparator {
       const compRes = this.compareOrderByItem(orderByItemsRes1[i], orderByItemsRes2[i]);
       if (compRes !== 0) {
         if (this.sortOrder[i] === "Ascending") {
-          return compRes;
-        } else if (this.sortOrder[i] === "Descending") {
           return -compRes;
+        } else if (this.sortOrder[i] === "Descending") {
+          return compRes;
         }
       }
     }
