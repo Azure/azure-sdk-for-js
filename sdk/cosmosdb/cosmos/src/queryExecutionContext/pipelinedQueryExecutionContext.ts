@@ -285,7 +285,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             ruConsumedManager,
           );
         } else {
-          console.log("we are in else");
           return { result: [], headers: this.fetchMoreRespHeaders };
         }
       }
@@ -302,9 +301,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   private calculateVectorSearchBufferSize(queryInfo: QueryInfo): number {
+    if (queryInfo.top === 0 || queryInfo.limit === 0) return 0;
     return queryInfo.top
       ? queryInfo.top
-      : queryInfo.offset && queryInfo.limit
+      : queryInfo.limit
         ? queryInfo.offset + queryInfo.limit
         : PipelinedQueryExecutionContext.DEFAULT_VECTOR_SEARCH_BUFFER_SIZE;
   }
