@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete an existing event subscription.
  *
  * @summary Delete an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_DeleteForCustomTopic.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_DeleteForCustomTopic.json
  */
 async function eventSubscriptionsDeleteForCustomTopic() {
   const scope =
@@ -32,7 +32,7 @@ async function eventSubscriptionsDeleteForCustomTopic() {
  * This sample demonstrates how to Delete an existing event subscription.
  *
  * @summary Delete an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_DeleteForResource.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_DeleteForResource.json
  */
 async function eventSubscriptionsDeleteForResource() {
   const scope =
@@ -48,7 +48,7 @@ async function eventSubscriptionsDeleteForResource() {
  * This sample demonstrates how to Delete an existing event subscription.
  *
  * @summary Delete an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_DeleteForResourceGroup.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_DeleteForResourceGroup.json
  */
 async function eventSubscriptionsDeleteForResourceGroup() {
   const scope = "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg";
@@ -63,7 +63,7 @@ async function eventSubscriptionsDeleteForResourceGroup() {
  * This sample demonstrates how to Delete an existing event subscription.
  *
  * @summary Delete an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_DeleteForSubscription.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_DeleteForSubscription.json
  */
 async function eventSubscriptionsDeleteForSubscription() {
   const scope = "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40";

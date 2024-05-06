@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get all the topic spaces under a namespace.
  *
  * @summary Get all the topic spaces under a namespace.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/TopicSpaces_ListByNamespace.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/TopicSpaces_ListByNamespace.json
  */
 async function topicSpacesListByNamespace() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function topicSpacesListByNamespace() {
   const resArray = new Array();
   for await (let item of client.topicSpaces.listByNamespace(
     resourceGroupName,
-    namespaceName
+    namespaceName,
   )) {
     resArray.push(item);
   }

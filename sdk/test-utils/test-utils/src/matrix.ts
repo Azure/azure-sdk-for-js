@@ -40,6 +40,7 @@ export function matrix<T extends ReadonlyArray<readonly unknown[]>>(
     (handler as () => Promise<void>)();
   } else {
     for (const v of values[0]) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       matrix(values.slice(1), (...args) => (handler as any)(v, ...args));
     }
   }
