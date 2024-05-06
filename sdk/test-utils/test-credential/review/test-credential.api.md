@@ -8,14 +8,13 @@ import { AccessToken } from '@azure/core-auth';
 import { DefaultAzureCredentialClientIdOptions } from '@azure/identity';
 import { DefaultAzureCredentialOptions } from '@azure/identity';
 import { DefaultAzureCredentialResourceIdOptions } from '@azure/identity';
-import { TokenCredential } from '@azure/identity';
-import { TokenCredential as TokenCredential_2 } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export function createTestCredential(tokenCredentialOptions?: DefaultAzureCredentialClientIdOptions | DefaultAzureCredentialResourceIdOptions | DefaultAzureCredentialOptions): TokenCredential;
 
 // @public
-export class NoOpCredential implements TokenCredential_2 {
+export class NoOpCredential implements TokenCredential {
     // (undocumented)
     getToken(): Promise<AccessToken>;
 }

@@ -6,10 +6,10 @@ import {
   DefaultAzureCredentialClientIdOptions,
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialResourceIdOptions,
-  TokenCredential,
 } from "@azure/identity";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "./noOpCredential";
+import { TokenCredential } from "@azure/core-auth";
 
 /**
  * ## Credential to be used in the tests.
