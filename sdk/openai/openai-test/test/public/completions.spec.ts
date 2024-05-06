@@ -47,7 +47,7 @@ describe("Completions", function () {
       });
 
       describe("completions", function () {
-        it.only("returns completions across all models", async function () {
+        it("returns completions across all models", async function () {
           const prompt = ["What is Azure OpenAI?"];
           await withDeployments(
             authMethod === "OpenAIKey" ? models : deployments,

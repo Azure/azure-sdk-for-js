@@ -63,7 +63,7 @@ describe("Embeddings", function () {
           );
         });
 
-        it.only("embeddings request with dimensions", async function () {
+        it("embeddings request with dimensions", async function () {
           const prompt = ["This is text to be embedded"];
           deploymentName = "text-embedding-3-small";
           const embeddings = await client.embeddings.create({
