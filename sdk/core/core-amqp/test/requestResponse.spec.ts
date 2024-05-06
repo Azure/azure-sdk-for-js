@@ -20,7 +20,7 @@ import {
 } from "../src/requestResponseLink.js";
 import EventEmitter from "events";
 import { createConnectionStub } from "./utils/createConnectionStub.js";
-import { isError } from "@azure/core-util";
+import { isBrowser, isError } from "@azure/core-util";
 
 const assertItemsLengthInResponsesMap = (
   _responsesMap: Map<string, DeferredPromiseWithCallback>,
@@ -33,7 +33,9 @@ const assertItemsLengthInResponsesMap = (
   );
 };
 
-describe("RequestResponseLink", function () {
+// TODO: importMock is not implemented in browser environment yet.
+// https://github.com/vitest-dev/vitest/issues/3046
+describe.skipIf(isBrowser)("RequestResponseLink", function () {
   const TEST_FAILURE = "Test failure";
 
   describe("#create", function () {
