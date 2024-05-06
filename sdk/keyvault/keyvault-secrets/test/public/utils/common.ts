@@ -32,6 +32,7 @@ export const serviceVersions: readonly NonNullable<ServiceVersion>[] = [
   "7.3",
   "7.4",
   "7.5",
+  "7.6-preview.1",
 ] as const;
 
 /**

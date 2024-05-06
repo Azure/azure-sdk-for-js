@@ -215,20 +215,20 @@ export type DeletedSecretItem = SecretItem & {
   readonly deletedDate?: Date;
 };
 
-/** Known values of {@link ApiVersion75} that the service accepts. */
-export enum KnownApiVersion75 {
-  /** Api Version '7.5' */
-  Seven5 = "7.5"
+/** Known values of {@link ApiVersion76Preview1} that the service accepts. */
+export enum KnownApiVersion76Preview1 {
+  /** Api Version '7.6-preview.1' */
+  Seven6Preview1 = "7.6-preview.1"
 }
 
 /**
- * Defines values for ApiVersion75. \
- * {@link KnownApiVersion75} can be used interchangeably with ApiVersion75,
+ * Defines values for ApiVersion76Preview1. \
+ * {@link KnownApiVersion76Preview1} can be used interchangeably with ApiVersion76Preview1,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **7.5**: Api Version '7.5'
+ * **7.6-preview.1**: Api Version '7.6-preview.1'
  */
-export type ApiVersion75 = string;
+export type ApiVersion76Preview1 = string;
 
 /** Known values of {@link DeletionRecoveryLevel} that the service accepts. */
 export enum KnownDeletionRecoveryLevel {

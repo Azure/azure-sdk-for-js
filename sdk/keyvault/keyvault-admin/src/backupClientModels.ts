@@ -43,9 +43,21 @@ export interface KeyVaultBeginBackupOptions extends KeyVaultBackupPollerOptions 
 
 /**
  * An interface representing the optional parameters that can be
+ * passed to {@link beginPreBackup}
+ */
+export interface KeyVaultBeginPreBackupOptions extends KeyVaultBackupPollerOptions {}
+
+/**
+ * An interface representing the optional parameters that can be
  * passed to {@link beginRestore}
  */
 export interface KeyVaultBeginRestoreOptions extends KeyVaultBackupPollerOptions {}
+
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link beginPreRestore}
+ */
+export interface KeyVaultBeginPreRestoreOptions extends KeyVaultBackupPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
@@ -57,6 +69,26 @@ export interface KeyVaultBeginSelectiveKeyRestoreOptions extends KeyVaultBackupP
  * An interface representing the result of a backup operation.
  */
 export interface KeyVaultBackupResult {
+  /**
+   * The location of the full backup.
+   */
+  folderUri?: string;
+
+  /**
+   * The start time of the backup operation.
+   */
+  startTime: Date;
+
+  /**
+   * The end time of the backup operation.
+   */
+  endTime?: Date;
+}
+
+/**
+ * An interface representing the result of a pre-backup operation.
+ */
+export interface KeyVaultPreBackupResult {
   /**
    * The location of the full backup.
    */
@@ -99,6 +131,21 @@ export interface KeyVaultSelectiveKeyRestoreResult {
 
   /**
    * The end time of the selective key restore operation.
+   */
+  endTime?: Date;
+}
+
+/**
+ * An interface representing the result of a pre-restore operation.
+ */
+export interface KeyVaultPreRestoreResult {
+  /**
+   * The start time of the restore operation.
+   */
+  startTime: Date;
+
+  /**
+   * The end time of the restore operation.
    */
   endTime?: Date;
 }

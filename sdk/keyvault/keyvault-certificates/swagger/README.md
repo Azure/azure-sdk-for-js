@@ -16,11 +16,11 @@ generate-metadata: false
 add-credentials: false
 core-http-compat-mode: true
 license-header: MICROSOFT_MIT_NO_VERSION
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7452e1cc7db72fbc6cd9539b390d8b8e5c2a1864/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.5/certificates.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/8af9817c15d688c941cda106758045b5deb9a069/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.6-preview.1/certificates.json
 output-folder: ../
 source-code-folder-path: ./src/generated
 hide-clients: true
-package-version: 4.8.1
+package-version: 4.9.0-beta.1
 openapi-type: data-plane
 ```
 

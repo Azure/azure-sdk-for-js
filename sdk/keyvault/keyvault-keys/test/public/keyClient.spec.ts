@@ -418,7 +418,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     }
   });
 
-  onVersions({ minVer: "7.3" }).describe("releaseKey", () => {
+  describe("releaseKey", () => {
     let attestation: string;
     let encodedReleasePolicy: Uint8Array;
 
