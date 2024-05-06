@@ -28,6 +28,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 - You need an [Azure subscription](https://azure.microsoft.com/free/) to use this package and either
   - an [Azure Face account](https://portal.azure.com/#blade/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/Face) or
   - an [Azure Cognitive Service account](https://portal.azure.com/#view/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/~/AllInOne)
+- Your Azure account must have a `Cognitive Services Contributor` role assigned in order for you to agree to the responsible AI terms and create a resource. To get this role assigned to your account, follow the steps in the [Assign roles](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-steps) documentation, or contact your administrator.
 
 ### Create a Face or a Cognitive Services resource
 
