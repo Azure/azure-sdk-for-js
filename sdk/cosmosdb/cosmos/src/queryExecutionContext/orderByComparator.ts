@@ -45,10 +45,10 @@ export class OrderByComparator {
       // compares the orderby items one by one
       const compRes = this.compareOrderByItem(orderByItemsRes1[i], orderByItemsRes2[i]);
       if (compRes !== 0) {
-        if (this.sortOrder[i] === "Ascending") {
-          return -compRes;
-        } else if (this.sortOrder[i] === "Descending") {
+        if (this.sortOrder[i] === "Descending") {
           return compRes;
+        } else if (this.sortOrder[i] === "Ascending") {
+          return -compRes;
         }
       }
     }
@@ -87,7 +87,7 @@ export class OrderByComparator {
     return type;
   }
 
-  public compareValue(item1: unknown, type1: string, item2: unknown, type2: string): number {
+  private compareValue(item1: unknown, type1: string, item2: unknown, type2: string): number {
     if (type1 === "object" || type2 === "object") {
       throw new Error("Tried to compare an object type");
     }

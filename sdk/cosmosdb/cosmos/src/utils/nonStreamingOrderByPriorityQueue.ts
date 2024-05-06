@@ -18,7 +18,7 @@ export class NonStreamingOrderByPriorityQueue<T> {
       this.pq.enq(item);
     } else {
       const topItem = this.pq.peek();
-      if (this.compareFn(item, topItem) <= 0) {
+      if (this.compareFn(topItem, item) > 0) {
         this.pq.deq();
         this.pq.enq(item);
       }
@@ -47,5 +47,18 @@ export class NonStreamingOrderByPriorityQueue<T> {
       elements.unshift(this.pq.deq());
     }
     return elements;
+  }
+
+  // Create a new instance of NonStreamingOrderByPriorityQueue with a reversed compare function and the same maximum size.
+  // Enqueue all elements from the current priority queue into the reverse priority queue.
+  public reverse(): NonStreamingOrderByPriorityQueue<T> {
+    const reversePQ = new NonStreamingOrderByPriorityQueue<T>(
+      (a: T, b: T) => -this.compareFn(a, b),
+      this.pqMaxSize,
+    );
+    while (!this.pq.isEmpty()) {
+      reversePQ.enqueue(this.pq.deq());
+    }
+    return reversePQ;
   }
 }

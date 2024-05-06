@@ -54,13 +54,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
     // Pick between parallel vs order by execution context
     const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
-
+    // TODO: Currently we don't get any field from backend to determine streaming queries
     if (this.nonStreamingOrderBy) {
       this.vectorSearchBufferSize = this.calculateVectorSearchBufferSize(
         partitionedQueryExecutionInfo.queryInfo,
       );
 
-      // TODO: if non order by, throw error.
       const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
       const context: ExecutionContext = new ParallelQueryExecutionContext(
         this.clientContext,
