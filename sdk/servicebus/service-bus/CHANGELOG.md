@@ -1,16 +1,10 @@
 # Release History
 
-## 7.10.0 (Unreleased)
+## 7.10.0-beta.1 (2024-05-07)
 
 ### Features Added
 
-- Adds `deleteMessages` which deletes messages from the queue.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Add support to delete messages from an entity in batches using receiver method `deleteMessages()`. The target messages can be constrained to a fixed count, limited to only those earlier than a given date, or unconstrained such that all messages are deleted.
 
 ## 7.9.4 (2024-02-06)
 

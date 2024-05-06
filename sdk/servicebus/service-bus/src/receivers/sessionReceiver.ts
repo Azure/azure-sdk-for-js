@@ -442,16 +442,25 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       maxMessageCount: MaxDeleteMessageCount,
       beforeEnqueueTime: options?.beforeEnqueueTime,
     });
-    if (deletedCount === MaxDeleteMessageCount) {
-      let batchCount = MaxDeleteMessageCount;
-      while (batchCount === MaxDeleteMessageCount) {
+    logger.verbose(
+      `${this.logPrefix} receiver '${this.identifier}' deleted ${deletedCount} messages.`,
+    );
+    if (deletedCount > 0) {
+      let batchCount = deletedCount;
+      while (batchCount > 0) {
         batchCount = await this.deleteMessages({
           maxMessageCount: MaxDeleteMessageCount,
           beforeEnqueueTime: options?.beforeEnqueueTime,
         });
+        logger.verbose(
+          `${this.logPrefix} receiver '${this.identifier}' deleted ${batchCount} messages.`,
+        );
         deletedCount += batchCount;
       }
     }
+    logger.verbose(
+      `${this.logPrefix} receiver '${this.identifier}' purged ${deletedCount} messages.`,
+    );
     return deletedCount;
   }
 

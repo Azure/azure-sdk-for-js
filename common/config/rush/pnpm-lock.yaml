@@ -1332,6 +1332,25 @@ packages:
       - encoding
     dev: false
 
+  /@azure/core-amqp@4.2.2:
+    resolution: {integrity: sha512-Cb0j2zCD/TIStKZk6NmLmdUS2DaznMqrq2zG8q2eUuE0CD0hRcvV9YehCimDNN2qa18wYSLZ0RK48L6a2IwCTw==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.7.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      buffer: 6.0.3
+      events: 3.3.0
+      process: 0.11.10
+      rhea: 3.0.2
+      rhea-promise: 3.0.1
+      tslib: 2.6.2
+      util: 0.12.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/core-auth@1.7.2:
     resolution: {integrity: sha512-Igm/S3fDYmnMq1uKS38Ae1/m37B3zigdlZw+kocwEhh5GjyKjPrXKO2J6rzpC1wAxrNil/jX9BJRqBshyjnF3g==}
     engines: {node: '>=18.0.0'}
@@ -1465,6 +1484,14 @@ packages:
     engines: {node: '>=18.0.0'}
     dependencies:
       '@azure/abort-controller': 2.1.2
+      tslib: 2.6.2
+    dev: false
+
+  /@azure/core-xml@1.4.2:
+    resolution: {integrity: sha512-CW3MZhApe/S4iikbYKE7s83fjDBPIr2kpidX+hlGRwh7N4o1nIpQ/PfJTeioqhfqdMvRtheEl+ft64fyTaLNaA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      fast-xml-parser: 4.3.6
       tslib: 2.6.2
     dev: false
 
@@ -1628,6 +1655,32 @@ packages:
       '@azure/core-tracing': 1.1.2
       '@azure/logger': 1.1.2
       events: 3.3.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/service-bus@7.9.4:
+    resolution: {integrity: sha512-LxFx6gVpMmxfVpTUEN4++CfXejGCCFvuFNSBovz70upmvZ/urBmqQoPOriXwezEQtaEo/NlFMIjR9AnJDmQIdA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-amqp': 4.2.2
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.15.2
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/core-xml': 1.4.2
+      '@azure/logger': 1.1.2
+      '@types/is-buffer': 2.0.2
+      buffer: 6.0.3
+      is-buffer: 2.0.5
+      jssha: 3.3.1
+      long: 5.2.3
+      process: 0.11.10
+      rhea-promise: 3.0.1
       tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
@@ -18760,7 +18813,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-N1TW9xs7zjhhmXOxnBlFrFJJCwm6Ee64UfhhZBhODbuH3hv/4uc+yb5t8QnaQZ0TJKsR2ai7D3rDOGvCVaQapw==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-qCQpRAUKq+4lLHR+Ne17+oYW+LwZevP7HgHyIG/X2ufEUD/oMw/uEv2BhIR/xS8qIOqowC3GFTEm49L6BSg/pQ==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -18768,6 +18821,7 @@ packages:
       '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@azure/communication-phone-numbers': 1.2.0
+      '@azure/service-bus': 7.9.4
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -20350,13 +20404,14 @@ packages:
     dev: false
 
   file:projects/eventgrid-namespaces.tgz:
-    resolution: {integrity: sha512-A6gojPEuuV0hMY/VThrmK6iAMB62Z9nPCNGcJrb+hj14kDdAKw96mMBHbQVqxJuuWDj6KwdqWusSZIsDPZw2DA==, tarball: file:projects/eventgrid-namespaces.tgz}
+    resolution: {integrity: sha512-mgQpbmmvxMYeGQLaSFYc2vMnfP5ifAwmZWH4gZkdjZvTe3TM8cDZS3GKzygC3Sr63iB0RO5uSsQ0Yjv2zBBVYg==, tarball: file:projects/eventgrid-namespaces.tgz}
     name: '@rush-temp/eventgrid-namespaces'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-recorder': 3.2.0
       '@azure/identity': 4.1.0
+      '@azure/service-bus': 7.9.4
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/chai-as-promised': 7.1.8
@@ -20397,11 +20452,12 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-INb+sHWvcAk8sJ5zM4eG8I66I8pYIHL2xj+RnUsSchCVKOKrtOkTwOdFMxgcJFEIbQ4t7Iu5u/l7UXD59znXhw==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-/OcPAJfu9OSA1fm79GxYklSw4b0qETs/2N2bzspoCzRwZZF6DfMOqXCr1KcG7qUwAHQxN+pKqoSPtRrf6qLg4g==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 3.2.0
+      '@azure/service-bus': 7.9.4
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/chai-as-promised': 7.1.8
@@ -22299,10 +22355,11 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-X95Hh6NnKKUcwXClbV9iQIxP+1FeXIRs0AvD3NXMctlvTTHFwCmy8MrjwSbOZmbzedg6oVE+8rEBdl4nQpeyZQ==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-7qy4UZMc5BUASFCQTg34XfhlolSCL6ocm7lI5tuMsMVMwQ/Ay6z1f/k3eWo5Z2kIc29BRu55gxYN6kqqPDbrPA==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
+      '@azure/service-bus': 7.9.4
       '@types/node': 18.19.31
       '@types/uuid': 8.3.4
       dotenv: 16.4.5
