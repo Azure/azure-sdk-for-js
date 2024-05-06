@@ -1909,6 +1909,24 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: false
 
+  /@esbuild-plugins/node-globals-polyfill@0.2.3(esbuild@0.20.2):
+    resolution: {integrity: sha512-r3MIryXDeXDOZh7ih1l/yE9ZLORCd5e8vWg02azWRGj5SPTuoh69A2AIyn0Z31V/kHBfZ4HgWJ+OK3GTTwLmnw==}
+    peerDependencies:
+      esbuild: '*'
+    dependencies:
+      esbuild: 0.20.2
+    dev: false
+
+  /@esbuild-plugins/node-modules-polyfill@0.2.2(esbuild@0.20.2):
+    resolution: {integrity: sha512-LXV7QsWJxRuMYvKbiznh+U1ilIop3g2TeKRzUxOG5X3YITc8JyyTa90BmLwqqv0YnX4v32CSlG+vsziZp9dMvA==}
+    peerDependencies:
+      esbuild: '*'
+    dependencies:
+      esbuild: 0.20.2
+      escape-string-regexp: 4.0.0
+      rollup-plugin-node-polyfills: 0.2.1
+    dev: false
+
   /@esbuild/aix-ppc64@0.19.12:
     resolution: {integrity: sha512-bmoCYyWdEL3wDQIVbcyzRyeKLgk2WtWLTWz1ZIAZF/EGbNOwSA6ew3PftJ1PqMiOOGu0OyFMzG53L0zqIpPeNA==}
     engines: {node: '>=12'}
@@ -6037,6 +6055,10 @@ packages:
     engines: {node: '>=4.0'}
     dev: false
 
+  /estree-walker@0.6.1:
+    resolution: {integrity: sha512-SqmZANLWS0mnatqbSfRP5g8OXZC12Fgg1IwNtLsyHDzJizORW4khDfjPqJZsemPWBB2uqykUah5YpQ6epsqC/w==}
+    dev: false
+
   /estree-walker@2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
     dev: false
@@ -7842,6 +7864,12 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
+  /magic-string@0.25.9:
+    resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
+    dependencies:
+      sourcemap-codec: 1.4.8
+    dev: false
+
   /magic-string@0.30.10:
     resolution: {integrity: sha512-iIRwTIf0QKV3UAnYK4PU8uiEc4SRh5jX0mwpIwETPpHdhVM4f53RSwS/vXvN1JhGX+Cs7B8qIq3d6AH49O5fAQ==}
     dependencies:
@@ -9221,6 +9249,21 @@ packages:
       glob: 10.3.12
     dev: false
 
+  /rollup-plugin-inject@3.0.2:
+    resolution: {integrity: sha512-ptg9PQwzs3orn4jkgXJ74bfs5vYz1NCZlSQMBUA0wKcGp5i5pA1AO3fOUEte8enhGUC+iapTCzEWw2jEFFUO/w==}
+    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-inject.
+    dependencies:
+      estree-walker: 0.6.1
+      magic-string: 0.25.9
+      rollup-pluginutils: 2.8.2
+    dev: false
+
+  /rollup-plugin-node-polyfills@0.2.1:
+    resolution: {integrity: sha512-4kCrKPTJ6sK4/gLL/U5QzVT8cxJcofO0OU74tnB19F40cmuAKSzH5/siithxlofFEjwvw1YAhPmbvGNA6jEroA==}
+    dependencies:
+      rollup-plugin-inject: 3.0.2
+    dev: false
+
   /rollup-plugin-polyfill-node@0.13.0(rollup@4.17.1):
     resolution: {integrity: sha512-FYEvpCaD5jGtyBuBFcQImEGmTxDTPbiHjJdrYIp+mFIwgXiXabxvKUK7ZT9P31ozu2Tqm9llYQMRWsfvTMTAOw==}
     peerDependencies:
@@ -9245,6 +9288,12 @@ packages:
       rollup: 4.17.1
       source-map: 0.7.4
       yargs: 17.7.2
+    dev: false
+
+  /rollup-pluginutils@2.8.2:
+    resolution: {integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==}
+    dependencies:
+      estree-walker: 0.6.1
     dev: false
 
   /rollup@4.17.1:
@@ -9590,6 +9639,11 @@ packages:
   /source-map@0.7.4:
     resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
     engines: {node: '>= 8'}
+    dev: false
+
+  /sourcemap-codec@1.4.8:
+    resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
+    deprecated: Please use @jridgewell/sourcemap-codec instead
     dev: false
 
   /spawn-command@0.0.2:
@@ -18706,7 +18760,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-Ud8LIjsav1X/kYyi63hrwffC4Eq9X+rS1cr5lOQz1tug9bRrg7zbbVxfWVtBn482dW2IPUuX1gO5yWxXOtQAgg==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-N1TW9xs7zjhhmXOxnBlFrFJJCwm6Ee64UfhhZBhODbuH3hv/4uc+yb5t8QnaQZ0TJKsR2ai7D3rDOGvCVaQapw==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -19464,10 +19518,12 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-jK6A1tRN+R7bL5h8mEZ4SXGuhRZuzABqHqeewOhrEMhLFTlNVF/6Is2c5n5Rqo8+ipheRrY9v1Flemx76YrVRg==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-i1LGRyYVHbNoLWAxXnEWE5ot826Ng4ooSHEbvwsmGOVET3FZ7eLFnJsEeeqrg/wY+UaA/0IssusZsvBZs8uHcw==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
+      '@esbuild-plugins/node-globals-polyfill': 0.2.3(esbuild@0.20.2)
+      '@esbuild-plugins/node-modules-polyfill': 0.2.2(esbuild@0.20.2)
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/debug': 4.1.12
@@ -19475,10 +19531,13 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/ws': 7.4.7
+      '@vitest/browser': 1.5.3(playwright@1.43.1)(vitest@1.5.3)
+      '@vitest/coverage-istanbul': 1.5.3(vitest@1.5.3)
       buffer: 6.0.3
       chai: 4.3.10
       cross-env: 7.0.3
       debug: 4.3.4(supports-color@8.1.1)
+      esbuild: 0.20.2
       eslint: 8.57.0
       events: 3.3.0
       karma: 6.4.3(debug@4.3.4)
@@ -19486,6 +19545,7 @@ packages:
       karma-mocha: 2.0.1
       mocha: 10.4.0
       nyc: 15.1.0
+      playwright: 1.43.1
       process: 0.11.10
       puppeteer: 22.7.1(typescript@5.4.5)
       rhea: 3.0.2
@@ -19493,16 +19553,28 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      tshy: 1.14.0
       tslib: 2.6.2
       typescript: 5.4.5
       util: 0.12.5
+      vitest: 1.5.3(@types/node@18.19.31)(@vitest/browser@1.5.3)
       ws: 8.17.0
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/core-auth.tgz:
