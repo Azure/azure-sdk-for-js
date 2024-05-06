@@ -1,5 +1,20 @@
 # Release History
 
+## 2.1.0 (Unreleased)
+
+### Breaking Changes
+
+Updates the `createTestCredential` method to consume `DefaultAzureCredential` instead of `ClientSecretCredential` in order to offer autonomy to the devs and to move away from client secrets in environment varaibles.
+
+- `NoOpCredential` is offered for playback and `DefaultAzureCredential` in record/live modes.
+- [`User Auth` and `Auth via development tools`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-users) are preferred in record mode to record the tests.
+
+## 2.0.0 (2024-04-09)
+
+### Features Added
+
+Updates the dependency `@azure-tools/test-recorder` to version `^4.0.0`, needed to support env with the vitest.
+
 ## 1.0.4 (2024-04-01)
 
 ### Bugs Fixed
