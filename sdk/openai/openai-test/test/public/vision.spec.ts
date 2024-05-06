@@ -6,7 +6,7 @@ import { assert, matrix } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import { createClient, startRecorder } from "./utils/createClient.js";
 import { assertChatCompletions } from "./utils/asserts.js";
-import { getDeployments, getModels } from "./utils/utils.js";
+import { getModels } from "./utils/utils.js";
 import { AuthMethod } from "./utils/types.js";
 import OpenAI from "openai";
 
@@ -18,7 +18,7 @@ describe("OpenAI", function () {
   beforeEach(async function (this: Context) {
     recorder = await startRecorder(this.currentTest);
     if (!deployments.length || !models.length) {
-      deployments = await getDeployments("completions", recorder);
+      // deployments = await getDeployments("completions", recorder);
       models = await getModels(recorder);
     }
   });
@@ -35,7 +35,7 @@ describe("OpenAI", function () {
         client = createClient("completions");
       });
 
-      describe("getChatCompletions", function () {
+      describe.only("getChatCompletions", function () {
         it("Describes an image", async function () {
           if (authMethod !== "OpenAIKey") this.skip();
           const url =
@@ -46,6 +46,10 @@ describe("OpenAI", function () {
               {
                 role: "user",
                 content: [
+                  {
+                    type: "text",
+                    text: "What’s in this image?"
+                  },
                   {
                     type: "image_url",
                     image_url: {

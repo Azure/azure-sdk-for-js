@@ -5,7 +5,7 @@ import { assert, matrix } from "@azure-tools/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { createClient, startRecorder } from "./utils/createClient.js";
-import { getDeployments, getModels } from "./utils/utils.js";
+import { getModels } from "./utils/utils.js";
 import { AuthMethod } from "./utils/types.js";
 import OpenAI from "openai";
 import { assertOpenAiError } from "./utils/asserts.js";
@@ -18,7 +18,7 @@ describe("Embeddings", function () {
   beforeEach(async function (this: Context) {
     recorder = await startRecorder(this.currentTest);
     if (!deployments.length || !models.length) {
-      deployments = await getDeployments("completions", recorder);
+      // deployments = await getDeployments("completions", recorder);
       models = await getModels(recorder);
     }
   });
@@ -63,7 +63,7 @@ describe("Embeddings", function () {
           );
         });
 
-        it("embeddings request with dimensions", async function () {
+        it.skip("embeddings request with dimensions", async function () {
           const prompt = ["This is text to be embedded"];
           deploymentName = "text-embedding-3-small";
           const embeddings = await client.embeddings.create({

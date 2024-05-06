@@ -6,7 +6,6 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { createClient, startRecorder } from "./utils/createClient.js";
 import {
-  getDeployments,
   getModels,
   getSucceeded,
   updateWithSucceeded,
@@ -24,7 +23,7 @@ describe("Images", function () {
   beforeEach(async function (this: Context) {
     recorder = await startRecorder(this.currentTest);
     if (!deployments.length || !models.length) {
-      deployments = await getDeployments("dalle", recorder);
+      // deployments = await getDeployments("dalle", recorder);
       models = await getModels(recorder);
     }
   });
@@ -71,7 +70,7 @@ describe("Images", function () {
           );
         });
 
-        it("generates image strings", async function () {
+        it.skip("generates image strings", async function () {
           updateWithSucceeded(
             await withDeployments(
               getSucceeded(

@@ -7,7 +7,7 @@ import {
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
-import OpenAI from "openai";
+import { AzureOpenAI } from "openai";
 import { ClientOptions } from "openai";
 import {
   EnvironmentVariableNames,
@@ -62,12 +62,10 @@ const apiVersion = "2024-02-15-preview";
 
 // TODO update client to Azure client
 export function createClient(resourceType: DeploymentType, clientOptions?: ClientOptions): OpenAI {
-  const { endpoint, azureApiKey, deployment } = getEndpointAndAPIKeyFromResourceType(resourceType);
-  return new OpenAI({
+  const { endpoint, azureApiKey } = getEndpointAndAPIKeyFromResourceType(resourceType);
+  return new AzureOpenAI({
     apiKey: clientOptions?.apiKey ?? azureApiKey,
-    baseURL: `${endpoint}/openai/deployments/${deployment}`,
-    defaultQuery: { "api-version": apiVersion },
-    defaultHeaders: { "api-key": azureApiKey },
+    endpoint,
     dangerouslyAllowBrowser: true,
     ...clientOptions,
   });
@@ -76,7 +74,6 @@ export function createClient(resourceType: DeploymentType, clientOptions?: Clien
 function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
   endpoint: string;
   azureApiKey: string;
-  deployment: string;
 } {
   switch (resourceType) {
     case "dalle":
@@ -87,8 +84,6 @@ function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
         azureApiKey: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_DALLE,
         ),
-        // TODO: remove deployment once the client is not tied to a specific one
-        deployment: environmentVariableNamesForResourceType[resourceType].DEPLOYMENT_NAME_DALLE,
       };
     case "whisper":
       return {
@@ -98,7 +93,6 @@ function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
         azureApiKey: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_WHISPER,
         ),
-        deployment: environmentVariableNamesForResourceType[resourceType].DEPLOYMENT_NAME_WHISPER,
       };
     case "completions":
       return {
@@ -108,8 +102,6 @@ function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
         azureApiKey: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_COMPLETIONS,
         ),
-        deployment:
-          environmentVariableNamesForResourceType[resourceType].DEPLOYMENT_NAME_COMPLETIONS,
       };
     case "embedding":
       return {
@@ -118,9 +110,7 @@ function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
         ),
         azureApiKey: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_EMBEDDINGS,
-        ),
-        deployment:
-          environmentVariableNamesForResourceType[resourceType].DEPLOYMENT_NAME_EMBEDDINGS,
+        ), 
       };
   }
 }

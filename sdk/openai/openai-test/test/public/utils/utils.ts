@@ -91,8 +91,7 @@ export async function sendRequestWithRecorder(
 }
 
 async function listOpenAIModels(cred: KeyCredential, recorder: Recorder): Promise<string[]> {
-  console.log(JSON.stringify(cred))
-  console.log(JSON.stringify(cred.key))
+
   const request = createPipelineRequest({
     url: "https://api.openai.com/v1/models",
     headers: createHttpHeaders({
@@ -104,9 +103,7 @@ async function listOpenAIModels(cred: KeyCredential, recorder: Recorder): Promis
     requestId: randomUUID(),
   });
   const response = await sendRequestWithRecorder(request, recorder);
-console.log(JSON.stringify(response, null, 2))
   const body = JSON.parse(response.bodyAsText as string);
-  console.log(JSON.stringify(body))
   type Model = { id: string; owned_by: string };
   const models = (body.data as Model[])
     .filter(({ owned_by }) => ["system", "openai"].includes(owned_by))

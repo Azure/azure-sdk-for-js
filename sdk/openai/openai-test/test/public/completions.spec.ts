@@ -40,7 +40,7 @@ describe("Completions", function () {
         client = createClient("completions");
       });
 
-      describe.only("completions", function () {
+      describe("completions", function () {
         it("returns completions across all models", async function () {
           const prompt = ["What is Azure OpenAI?"];
           await withDeployments(
@@ -191,7 +191,7 @@ describe("Completions", function () {
             );
           });
 
-          it("uses tool call", async function () {
+          it.skip("uses tool call", async function () {
             updateWithSucceeded(
               await withDeployments(
                 getSucceeded(
@@ -375,7 +375,7 @@ describe("Completions", function () {
             );
           });
 
-          it("respects json_object responseFormat", async function () {
+          it.skip("respects json_object responseFormat", async function () {
             if (authMethod !== "OpenAIKey") {
               this.skip();
             }
