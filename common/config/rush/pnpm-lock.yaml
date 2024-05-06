@@ -1378,7 +1378,7 @@ packages:
       '@azure/core-auth': 1.7.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/core-util': 1.9.0
-      '@azure/logger': 1.0.4
+      '@azure/logger': 1.1.2
       '@types/node-fetch': 2.6.11
       '@types/tunnel': 0.0.3
       form-data: 4.0.0
@@ -1503,6 +1503,28 @@ packages:
 
   /@azure/identity@4.1.0:
     resolution: {integrity: sha512-BhYkF8Xr2gXjyDxocm0pc9RI5J5a1jw8iW0dw6Bx95OGdYbuMyFZrrwNw4eYSqQ2BB6FZOqpJP3vjsAqRcvDhw==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-rest-pipeline': 1.15.2
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      '@azure/msal-browser': 3.13.0
+      '@azure/msal-node': 2.7.0
+      events: 3.3.0
+      jws: 4.0.0
+      open: 8.4.2
+      stoppable: 1.1.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/identity@4.2.0:
+    resolution: {integrity: sha512-ve3aYv79qXOJ8wRxQ5jO0eIz2DZ4o0TyME4m4vlGV5YyePddVZ+pFMzusAMODNAflYAAv1cBIhKnd4xytmXyig==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -8482,8 +8504,8 @@ packages:
       is-wsl: 2.2.0
     dev: false
 
-  /openai@4.39.1:
-    resolution: {integrity: sha512-Qe3HXHrCMjwAHXWPywUwzI4PHf9r14uyiRRuMmiJjsfv1tREYMHtgIHXNlb54ZxtYJaIj19RHYMq6UQ2hgrIJQ==}
+  /openai@4.42.0:
+    resolution: {integrity: sha512-xbiQQ2YNqdkE6cHqeWKa7lsAvdYfgp84XiNFOVkAMa6+9KpmOL4hCWCRR6e6I/clpaens/T9XeLVtyC5StXoRw==}
     hasBin: true
     dependencies:
       '@types/node': 18.19.31
@@ -21818,12 +21840,13 @@ packages:
     dev: false
 
   file:projects/openai-test.tgz:
-    resolution: {integrity: sha512-cq+z3C+0mJdghAT8TKNR+lr4W81WqQLs/cvm/U6bvUL3m2KyTzidSVv++6SJHdyW61spv6VHOAZm1P1Spk+qSQ==, tarball: file:projects/openai-test.tgz}
+    resolution: {integrity: sha512-8Zb/pCTnYVqAEJd1DZuqP6a9vEyXEKywD4wqJhPCp0Jn0IolpPsFpdrAwYc85JNsgB0kQOsiErEFZOXcsB0/ag==, tarball: file:projects/openai-test.tgz}
     name: '@rush-temp/openai-test'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.2.0
+      '@azure/identity': 4.2.0
       '@types/node': 18.19.31
       c8: 8.0.1
       cross-env: 7.0.3
@@ -21842,7 +21865,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       nyc: 15.1.0
-      openai: 4.39.1
+      openai: 4.42.0
       rimraf: 5.0.5
       tslib: 2.6.2
       typescript: 5.3.3

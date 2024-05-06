@@ -91,7 +91,6 @@ export async function sendRequestWithRecorder(
 }
 
 async function listOpenAIModels(cred: KeyCredential, recorder: Recorder): Promise<string[]> {
-
   const request = createPipelineRequest({
     url: "https://api.openai.com/v1/models",
     headers: createHttpHeaders({

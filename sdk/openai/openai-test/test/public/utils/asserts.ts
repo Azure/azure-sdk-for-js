@@ -6,7 +6,6 @@ import { getImageDimensionsFromResponse } from "./images.js";
 import { stringToUint8Array } from "@azure/core-util";
 import { Recorder } from "@azure-tools/test-recorder";
 
-
 export function assertChatCompletions(
   completions: OpenAI.Chat.Completions.ChatCompletion,
   options: ChatCompletionTestOptions = {},
@@ -15,8 +14,10 @@ export function assertChatCompletions(
   ifDefined(completions.usage, assertUsage);
 }
 
-function assertChatCompletionsNoUsage(completions: OpenAI.Chat.Completions.ChatCompletion,
-  { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions,): void {
+function assertChatCompletionsNoUsage(
+  completions: OpenAI.Chat.Completions.ChatCompletion,
+  { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions,
+): void {
   if (!allowEmptyChoices || completions.choices.length > 0) {
     assertNonEmptyArray(completions.choices, (choice) => assertChoice(choice, opts));
   }
@@ -56,7 +57,10 @@ function assertCompletionsChoice(choice: CompletionChoice): void {
   // ifDefined(choice.contentFilterResults, assertContentFilterResultsForChoice);
 }
 
-function assertChoice(choice: OpenAI.Chat.Completions.ChatCompletion.Choice, options: ChatCompletionTestOptions): void {
+function assertChoice(
+  choice: OpenAI.Chat.Completions.ChatCompletion.Choice,
+  options: ChatCompletionTestOptions,
+): void {
   const stream = options.stream;
   if (stream) {
     // assertMessage(choice.delta, options);
@@ -204,7 +208,7 @@ export function assertImagesWithURLs(
   });
 }
 
-export function assertImagesWithStrings(
+export function assertImagesWithJSON(
   image: OpenAI.Images.ImagesResponse,
   height: number,
   width: number,
@@ -214,7 +218,7 @@ export function assertImagesWithStrings(
   assert.isArray(image.data);
   image.data.forEach((img) => {
     ifDefined(img.revised_prompt, assert.isString);
-    assert.isUndefined(img.b64_json);
+    assert.isUndefined(img.url);
     ifDefined(img.b64_json, async (data) => {
       assert.isString(data);
       const arr = stringToUint8Array(data, "base64");

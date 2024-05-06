@@ -6,14 +6,15 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { createClient, startRecorder } from "./utils/createClient.js";
 import {
+  getDeployments,
   getModels,
   getSucceeded,
   updateWithSucceeded,
   withDeployments,
 } from "./utils/utils.js";
 import { AuthMethod } from "./utils/types.js";
-import OpenAI from "openai";
-import { assertImagesWithStrings, assertImagesWithURLs } from "./utils/asserts.js";
+import { assertImagesWithJSON, assertImagesWithURLs } from "./utils/asserts.js";
+import { AzureOpenAI } from "openai";
 
 describe("Images", function () {
   let recorder: Recorder;
@@ -23,17 +24,17 @@ describe("Images", function () {
   beforeEach(async function (this: Context) {
     recorder = await startRecorder(this.currentTest);
     if (!deployments.length || !models.length) {
-      // deployments = await getDeployments("dalle", recorder);
+      deployments = await getDeployments("dalle", recorder);
       models = await getModels(recorder);
     }
   });
 
-  matrix([["OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
+  matrix([["AzureAPIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
-      let client: OpenAI;
+      let client: AzureOpenAI;
 
       beforeEach(async function (this: Context) {
-        client = createClient("dalle");
+        client = createClient(authMethod, "dalle");
       });
 
       describe("getImages", function () {
@@ -70,7 +71,7 @@ describe("Images", function () {
           );
         });
 
-        it.skip("generates image strings", async function () {
+        it("generates image strings", async function () {
           updateWithSucceeded(
             await withDeployments(
               getSucceeded(
@@ -88,7 +89,7 @@ describe("Images", function () {
                   size,
                   response_format: "b64_json",
                 }),
-              (item) => assertImagesWithStrings(item, height, width),
+              (item) => assertImagesWithJSON(item, height, width),
             ),
             imageGenerationDeployments,
             imageGenerationModels,

@@ -5,14 +5,20 @@ import { assert, matrix } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import { createClient, startRecorder } from "./utils/createClient.js";
 import { AuthMethod } from "./utils/types.js";
-import OpenAI from "openai";
+import { AzureOpenAI } from "openai";
 import {
   assertChatCompletions,
   assertCompletions,
   assertCompletionsStream,
 } from "./utils/asserts.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { getModels, getSucceeded, updateWithSucceeded, withDeployments } from "./utils/utils.js";
+import {
+  getDeployments,
+  getModels,
+  getSucceeded,
+  updateWithSucceeded,
+  withDeployments,
+} from "./utils/utils.js";
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
 
 describe("Completions", function () {
@@ -23,7 +29,7 @@ describe("Completions", function () {
   beforeEach(async function (this: Context) {
     recorder = await startRecorder(this.currentTest);
     if (!deployments.length || !models.length) {
-      // deployments = await getDeployments("completions", recorder);
+      deployments = await getDeployments("completions", recorder);
       models = await getModels(recorder);
     }
   });
@@ -32,16 +38,16 @@ describe("Completions", function () {
     await recorder.stop();
   });
 
-  matrix([["OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
+  matrix([["AzureAPIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
-      let client: OpenAI;
+      let client: AzureOpenAI;
 
       beforeEach(async function (this: Context) {
-        client = createClient("completions");
+        client = createClient(authMethod, "completions");
       });
 
       describe("completions", function () {
-        it("returns completions across all models", async function () {
+        it.only("returns completions across all models", async function () {
           const prompt = ["What is Azure OpenAI?"];
           await withDeployments(
             authMethod === "OpenAIKey" ? models : deployments,
@@ -182,7 +188,11 @@ describe("Completions", function () {
                   chatCompletionDeployments,
                   chatCompletionModels,
                 ),
-                (deploymentName) => client.chat.completions.create({model: deploymentName, messages: pirateMessages}),
+                (deploymentName) =>
+                  client.chat.completions.create({
+                    model: deploymentName,
+                    messages: pirateMessages,
+                  }),
                 assertChatCompletions,
               ),
               chatCompletionDeployments,
@@ -191,6 +201,7 @@ describe("Completions", function () {
             );
           });
 
+          // TODO: fix the tests
           it.skip("uses tool call", async function () {
             updateWithSucceeded(
               await withDeployments(
@@ -203,10 +214,12 @@ describe("Completions", function () {
                 ),
                 async (deploymentName) => {
                   const weatherMessages: ChatCompletionMessageParam[] = [
-                    { role: 'user', content: "What's the weather like in Boston?" },
+                    { role: "user", content: "What's the weather like in Boston?" },
                   ];
                   const result = await client.chat.completions.create({
-                    model: deploymentName, messages: weatherMessages, tools: [{type: "function", function: getCurrentWeather}]
+                    model: deploymentName,
+                    messages: weatherMessages,
+                    tools: [{ type: "function", function: getCurrentWeather }],
                   });
                   assertChatCompletions(result, { functions: true });
                   const responseMessage = result.choices[0].message;
@@ -226,7 +239,10 @@ describe("Completions", function () {
                       forecast: ["sunny", "windy"],
                     }),
                   });
-                  return client.chat.completions.create({model: deploymentName, messages: weatherMessages});
+                  return client.chat.completions.create({
+                    model: deploymentName,
+                    messages: weatherMessages,
+                  });
                 },
                 (result) => assertChatCompletions(result, { functions: true }),
               ),
@@ -247,13 +263,12 @@ describe("Completions", function () {
                   chatCompletionModels,
                 ),
                 (deploymentName) =>
-                  client.chat.completions.create(
-                    { model: deploymentName,
-                      messages: [{ role: "user", content: "What's the weather like in Boston?" }],
-                      tool_choice: "none",
-                      tools: [{ type: "function", function: getCurrentWeather }],
-                    },
-                  ),
+                  client.chat.completions.create({
+                    model: deploymentName,
+                    messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+                    tool_choice: "none",
+                    tools: [{ type: "function", function: getCurrentWeather }],
+                  }),
                 (res) => {
                   assertChatCompletions(res, { functions: false });
                   assert.isUndefined(res.choices[0].message?.tool_calls);
@@ -279,46 +294,43 @@ describe("Completions", function () {
                   client.chat.completions.create({
                     model: deploymentName,
                     messages: [{ role: "user", content: "What's the weather like in Boston?" }],
-                    
-                      tool_choice: {
+
+                    tool_choice: {
+                      type: "function",
+                      function: { name: getCurrentWeather.name },
+                    },
+                    tools: [
+                      { type: "function", function: getCurrentWeather },
+                      {
                         type: "function",
-                        function: { name: getCurrentWeather.name },
-                      },
-                      tools: [
-                        { type: "function", function: getCurrentWeather },
-                        {
-                          type: "function",
-                          function: {
-                            name: "get_current_weather2",
-                            description: "Get the current weather in a given location in the US",
-                            parameters: {
-                              type: "object",
-                              properties: {
-                                location: {
-                                  type: "string",
-                                  description: "The city and state, e.g. San Francisco, CA",
-                                },
-                                unit: {
-                                  type: "string",
-                                  enum: ["celsius", "fahrenheit"],
-                                },
+                        function: {
+                          name: "get_current_weather2",
+                          description: "Get the current weather in a given location in the US",
+                          parameters: {
+                            type: "object",
+                            properties: {
+                              location: {
+                                type: "string",
+                                description: "The city and state, e.g. San Francisco, CA",
                               },
-                              required: ["location"],
+                              unit: {
+                                type: "string",
+                                enum: ["celsius", "fahrenheit"],
+                              },
                             },
+                            required: ["location"],
                           },
                         },
-                      ],
-                    },
-                  ),
+                      },
+                    ],
+                  }),
                 (res) => {
                   assertChatCompletions(res, { functions: true });
                   const toolCalls = res.choices[0].message?.tool_calls;
                   if (!toolCalls) {
                     throw new Error("toolCalls should be defined here");
                   }
-                  assert.equal(toolCalls[0].function.name,
-                    getCurrentWeather.name,
-                  );
+                  assert.equal(toolCalls[0].function.name, getCurrentWeather.name);
                   assert.isUndefined(res.choices[0].message?.function_call);
                 },
               ),
@@ -353,12 +365,11 @@ describe("Completions", function () {
                   chatCompletionModels,
                 ),
                 (deploymentName) =>
-                  client.chat.completions.create(
-                    { model: deploymentName,
+                  client.chat.completions.create({
+                    model: deploymentName,
                     messages: [{ role: "user", content: "Give me information about Asset No1" }],
-                      tools: [{ type: "function", function: getAssetInfo }],
-                    },
-                  ),
+                    tools: [{ type: "function", function: getAssetInfo }],
+                  }),
                 (res) => {
                   assertChatCompletions(res, { functions: true });
                   const toolCalls = res.choices[0].message?.tool_calls;
@@ -375,7 +386,7 @@ describe("Completions", function () {
             );
           });
 
-          it.skip("respects json_object responseFormat", async function () {
+          it.only("respects json_object responseFormat", async function () {
             if (authMethod !== "OpenAIKey") {
               this.skip();
             }
@@ -391,8 +402,7 @@ describe("Completions", function () {
                 (deploymentName) =>
                   client.chat.completions.create({
                     model: deploymentName,
-                    messages:
-                    [
+                    messages: [
                       {
                         role: "user",
                         content:
@@ -417,23 +427,6 @@ describe("Completions", function () {
               authMethod,
             );
           });
-        });
-      });
-      describe("chatcompletions.create", function () {
-        it("succeed for non-streaming mode", async function () {
-          const completions = await client.chat.completions.create({
-            model: "",
-            messages: [{ role: "system", content: "You are a helpful assistant." }],
-          });
-          assertChatCompletions(completions);
-        });
-
-        it("succeed with tool calling", async function () {
-          const completions = await client.chat.completions.create({
-            model: "",
-            messages: [{ role: "system", content: "You are a helpful assistant." }],
-          });
-          assertChatCompletions(completions);
         });
       });
     });

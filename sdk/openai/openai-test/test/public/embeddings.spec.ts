@@ -5,9 +5,9 @@ import { assert, matrix } from "@azure-tools/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { createClient, startRecorder } from "./utils/createClient.js";
-import { getModels } from "./utils/utils.js";
+import { getDeployments, getModels } from "./utils/utils.js";
 import { AuthMethod } from "./utils/types.js";
-import OpenAI from "openai";
+import { AzureOpenAI } from "openai";
 import { assertOpenAiError } from "./utils/asserts.js";
 
 describe("Embeddings", function () {
@@ -18,7 +18,7 @@ describe("Embeddings", function () {
   beforeEach(async function (this: Context) {
     recorder = await startRecorder(this.currentTest);
     if (!deployments.length || !models.length) {
-      // deployments = await getDeployments("completions", recorder);
+      deployments = await getDeployments("completions", recorder);
       models = await getModels(recorder);
     }
   });
@@ -27,13 +27,13 @@ describe("Embeddings", function () {
     await recorder.stop();
   });
 
-  matrix([["OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
+  matrix([["AzureAPIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
-      let client: OpenAI;
+      let client: AzureOpenAI;
       let deploymentName: string;
 
       beforeEach(async function (this: Context) {
-        client = createClient("embedding");
+        client = createClient(authMethod, "embedding");
         deploymentName = "text-embedding-ada-002";
       });
 
@@ -63,7 +63,7 @@ describe("Embeddings", function () {
           );
         });
 
-        it.skip("embeddings request with dimensions", async function () {
+        it.only("embeddings request with dimensions", async function () {
           const prompt = ["This is text to be embedded"];
           deploymentName = "text-embedding-3-small";
           const embeddings = await client.embeddings.create({

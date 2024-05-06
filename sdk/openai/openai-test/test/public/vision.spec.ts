@@ -27,15 +27,15 @@ describe("OpenAI", function () {
     await recorder.stop();
   });
 
-  matrix([["OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
+  matrix([["AzureAPIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
       let client: OpenAI;
 
       beforeEach(async function (this: Context) {
-        client = createClient("completions");
+        client = createClient(authMethod, "completions");
       });
 
-      describe.only("getChatCompletions", function () {
+      describe("getChatCompletions", function () {
         it("Describes an image", async function () {
           if (authMethod !== "OpenAIKey") this.skip();
           const url =
@@ -48,7 +48,7 @@ describe("OpenAI", function () {
                 content: [
                   {
                     type: "text",
-                    text: "What’s in this image?"
+                    text: "What’s in this image?",
                   },
                   {
                     type: "image_url",

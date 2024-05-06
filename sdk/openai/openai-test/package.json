@@ -38,7 +38,7 @@
   "autoPublish": false,
   "dependencies": {},
   "devDependencies": {
-    "openai": "latest",
+    "openai": "^4.41.1",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-utils": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.13.0",
@@ -48,6 +48,7 @@
     "@azure-tools/test-credential": "^1.0.0",
     "@types/node": "^18.0.0",
     "@azure/dev-tool": "^1.0.0",
+    "@azure/identity": "^4.2.0",
     "c8": "^8.0.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",

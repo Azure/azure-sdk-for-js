@@ -7,8 +7,8 @@ import {
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
-import { AzureOpenAI } from "openai";
-import { ClientOptions } from "openai";
+import { AzureClientOptions, AzureOpenAI } from "openai";
+import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
 import {
   EnvironmentVariableNames,
   EnvironmentVariableNamesForEmbedding,
@@ -17,7 +17,10 @@ import {
   EnvironmentVariableNamesForWhisper,
 } from "./envVars.js";
 
+export type AuthMethod = "AzureAPIKey" | "OpenAIKey" | "AAD" | "DummyAPIKey";
 type DeploymentType = "dalle" | "whisper" | "completions" | "embedding";
+
+const scope = "https://cognitiveservices.azure.com/.default";
 
 const envSetupForPlayback: { [k: string]: string } = {
   [EnvironmentVariableNames.OPENAI_KEY]: "openai_api_key",
@@ -61,14 +64,54 @@ const environmentVariableNamesForResourceType = {
 const apiVersion = "2024-02-15-preview";
 
 // TODO update client to Azure client
-export function createClient(resourceType: DeploymentType, clientOptions?: ClientOptions): OpenAI {
+export function createClient(
+  authMethod: AuthMethod,
+  resourceType: DeploymentType,
+  clientOptions?: AzureClientOptions,
+): AzureOpenAI {
   const { endpoint, azureApiKey } = getEndpointAndAPIKeyFromResourceType(resourceType);
-  return new AzureOpenAI({
-    apiKey: clientOptions?.apiKey ?? azureApiKey,
-    endpoint,
-    dangerouslyAllowBrowser: true,
-    ...clientOptions,
-  });
+
+  switch (authMethod) {
+    case "AzureAPIKey": {
+      return new AzureOpenAI({
+        apiKey: clientOptions?.apiKey ?? azureApiKey,
+        apiVersion,
+        endpoint,
+        dangerouslyAllowBrowser: true,
+        ...clientOptions,
+      });
+    }
+    case "OpenAIKey": {
+      throw Error("client not enabled");
+      // TODO: enable OpenAI client
+      // return new OpenAI({
+      //   apiKey: clientOptions?.apiKey ?? azureApiKey,
+      //   ...clientOptions,}
+      // );
+    }
+    case "AAD": {
+      const credential = new DefaultAzureCredential();
+      return new AzureOpenAI({
+        azureADTokenProvider: getBearerTokenProvider(credential, scope),
+        apiVersion,
+        endpoint,
+        dangerouslyAllowBrowser: true,
+        ...clientOptions,
+      });
+    }
+    case "DummyAPIKey": {
+      return new AzureOpenAI({
+        apiKey: clientOptions?.apiKey ?? azureApiKey,
+        apiVersion,
+        endpoint,
+        dangerouslyAllowBrowser: true,
+        ...clientOptions,
+      });
+    }
+    default: {
+      throw Error(`Unsupported authentication method: ${authMethod}`);
+    }
+  }
 }
 
 function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
@@ -110,7 +153,7 @@ function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
         ),
         azureApiKey: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_EMBEDDINGS,
-        ), 
+        ),
       };
   }
 }
