@@ -13,8 +13,7 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE",
-    "dist-esm/src"
+    "LICENSE"
   ],
   "scripts": {
     "bundle": "tshy && dev-tool run bundle --polyfill-node false --inject-node-polyfills true --ignore-missing-node-builtins true",
@@ -63,6 +62,8 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
+    "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@microsoft/api-extractor": "^7.43.1",
     "@types/debug": "^4.1.12",
     "@types/node": "^18.0.0",
@@ -70,6 +71,7 @@
     "@vitest/browser": "^1.5.3",
     "@vitest/coverage-istanbul": "^1.5.3",
     "debug": "^4.3.4",
+    "esbuild": "^0.20.2",
     "eslint": "^8.57.0",
     "playwright": "^1.43.1",
     "rimraf": "^5.0.5",
