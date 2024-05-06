@@ -44,13 +44,6 @@ const replaceableVariables: Record<string, string> = {
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
-  // sanitizerOptions: {
-  //   bodySanitizers: [{
-  //     regex: true,
-  //     value: `fakeKey`,
-  //     target: `adminPassword:([^"]+)`
-  //   }],
-  // }
 };
 
 export const testPollingOptions = {
@@ -61,11 +54,7 @@ export const testPollingOptionsForNetwork = {
 };
 
 export function createTestCredential() {
-  return isPlaybackMode()
-    ? new NoOpCredential()
-    : new
-      DefaultAzureCredential()
-    ;
+  return isPlaybackMode() ? new NoOpCredential() : new DefaultAzureCredential();
 }
 
 describe("Compute test", () => {
