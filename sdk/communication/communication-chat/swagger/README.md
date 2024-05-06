@@ -11,7 +11,7 @@ description: Chat Client
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2024-06-05-preview
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/62d645d940d7bb6a8137b7340cb410de821cf0c9/specification/communication/data-plane/Chat/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e704ce4d6ed7b5f6225446e373d2eda376fc5580/specification/communication/data-plane/Chat/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 add-credentials: false

@@ -307,7 +307,7 @@ export interface ChatThreadProperties {
 
 /** Messaging policy for a chat thread. */
 export interface MessagingPolicy {
-  /** Allow text only chat with no message with attachment, if `textOnlyPolicy` is undefined assumed `false`. */
+  /** Allow text only chat with no message with attachment, if `textOnlyChat` is undefined assumed `false`. */
   textOnlyChat?: boolean;
 }
 
@@ -476,7 +476,7 @@ export type ChatMessageType =
 /** Defines values for ChatAttachmentType. */
 export type ChatAttachmentType = "image" | "file";
 /** Defines values for PolicyViolationMessageState. */
-export type PolicyViolationMessageState = "none" | "contentBlocked" | "warning";
+export type PolicyViolationMessageState = "contentBlocked" | "warning";
 /** Defines values for RetentionPolicyKind. */
 export type RetentionPolicyKind = "threadCreationDate" | "none";
 

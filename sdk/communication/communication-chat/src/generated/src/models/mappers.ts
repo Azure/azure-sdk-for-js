@@ -615,7 +615,7 @@ export const PolicyViolation: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: ["none", "contentBlocked", "warning"],
+          allowedValues: ["contentBlocked", "warning"],
         },
       },
     },
