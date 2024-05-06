@@ -13,9 +13,9 @@ import { OrderByComparator } from "../orderByComparator";
 
 /** @hidden */
 export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionContext {
-  private aggregateMap: Map<string, NonStreamingOrderByResult>;
-  private nonStreamingOrderByPQ: NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>;
-  private finalResultArray: NonStreamingOrderByResult[];
+  private aggregateMap: Map<string, NonStreamingOrderByResult>; //map to store distinct values before storing in pq.
+  private nonStreamingOrderByPQ: NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>; // pq to compute final orderBy results
+  private finalResultArray: NonStreamingOrderByResult[]; //result array to store final sorted and orderBy results.
   private sortOrders: string[];
   private isInitialized: boolean = false;
   private isCompleted: boolean = false;
@@ -33,6 +33,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     if (!this.isInitialized) {
+      // initialize all the internal components
       this.aggregateMap = new Map();
       this.sortOrders = this.queryInfo.orderBy;
       this.comparator = new OrderByComparator(this.sortOrders);
@@ -44,7 +45,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       );
       this.isInitialized = true;
     }
-
+    // if size is 0, just return undefined. Valid if query is TOP 0 or LIMIT 0
     if (this.priorityQueueBufferSize === 0) {
       return {
         result: undefined,
@@ -63,6 +64,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       resHeaders = headers;
 
       if (result) {
+        // make hash of result object and update the map if required.
         const key = await hashObject(result.payload);
         if (!this.aggregateMap.has(key)) {
           this.aggregateMap.set(key, result);
@@ -79,8 +81,8 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         await this.buildFinalResultArray();
       }
     }
-
     if (this.isCompleted) {
+      // start returning the results if final result is computed.
       if (this.finalResultArray.length > 0) {
         return {
           result: this.finalResultArray.shift(),
@@ -93,13 +95,16 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         };
       }
     } else {
+      // keep returning empty till final results are getting computed.
       return {
         result: {},
         headers: resHeaders,
       };
     }
   }
-
+  /**
+   * Build final sorted result array from which responses will be served.
+   */
   private async buildFinalResultArray(): Promise<void> {
     for (const [key, value] of this.aggregateMap) {
       this.nonStreamingOrderByPQ.enqueue(value);
@@ -112,10 +117,12 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     this.finalResultArray = new Array(finalArraySize);
 
     for (let count = finalArraySize - 1; count >= 0; count--) {
-      this.finalResultArray[count] = this.nonStreamingOrderByPQ.dequeue();
+      this.finalResultArray[count] = this.nonStreamingOrderByPQ.dequeue().payload;
     }
   }
-
+  /**
+   * Compare results inside the map and update based on comparator
+   */
   private replaceResults(
     res1: NonStreamingOrderByResult,
     res2: NonStreamingOrderByResult,
