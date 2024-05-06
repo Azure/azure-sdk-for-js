@@ -30,7 +30,8 @@ import { testLogger } from "./utils/misc";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
-const assert = chai.assert;
+
+const assert: typeof chai.assert = chai.assert;
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();

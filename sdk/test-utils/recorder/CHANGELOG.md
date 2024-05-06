@@ -1,5 +1,9 @@
 # Release History
 
+## 3.3.0 (2024-05-03)
+
+- Added support for the TestProxy/addSanitizers API, which improves the recording of tests by reducing flakiness and timeouts caused by concurrent requests. This helps to speed up the recording process and reduces the burden on the test proxy.
+
 ## 3.2.0 (2024-04-17)
 
 ### Features Added

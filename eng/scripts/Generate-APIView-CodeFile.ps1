@@ -37,7 +37,7 @@ Write-Host "Setting working directory to $($installedPath)"
 Set-Location $installedPath
 npm install
 npm run-script build
-$apiFiles = Get-ChildItem -Path $ArtifactPath -Recurse -Filter "*.api.json"
+$apiFiles = @(Get-ChildItem -Path $ArtifactPath -Recurse -Filter "*.api.json")
 foreach ($apiPkgFile in $apiFiles)
 {
   $apiFilePath = $apiPkgFile.FullName
