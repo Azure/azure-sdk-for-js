@@ -5,9 +5,24 @@ import { OperationTracingOptions, useInstrumenter } from "@azure/core-tracing";
 import { SpanGraph, SpanGraphNode } from "./spanGraphModel.js";
 import { MockInstrumenter } from "./mockInstrumenter.js";
 import { MockTracingSpan } from "./mockTracingSpan.js";
-import { assert } from "vitest";
 
 const mockInstrumenter = new MockInstrumenter();
+
+/**
+ * The result of the assertion test.
+ */
+export interface ExpectationResult {
+  /** Whether the condition passes. */
+  pass: boolean;
+  /** The message for the conditions. */
+  message?: string;
+
+  /** The expected value. */
+  expected?: unknown;
+
+  /** The actual value. */
+  actual?: unknown;
+}
 
 /**
  * The supports Tracing function does the verification of whether the core-tracing is supported correctly with the client method
@@ -25,7 +40,7 @@ export async function supportsTracing<
   expectedSpanNames: string[],
   options?: Options,
   thisArg?: ThisParameterType<Callback>,
-): Promise<void> {
+): Promise<ExpectationResult> {
   useInstrumenter(mockInstrumenter);
   mockInstrumenter.reset();
   try {
@@ -44,23 +59,52 @@ export async function supportsTracing<
     await callback.call(thisArg, newOptions);
     rootSpan.end();
     const spanGraph = getSpanGraph((rootSpan as MockTracingSpan).traceId, mockInstrumenter);
-    assert.equal(spanGraph.roots.length, 1, "There should be just one root span");
-    assert.equal(spanGraph.roots[0].name, "root");
-    assert.strictEqual(
-      rootSpan,
-      mockInstrumenter.startedSpans[0],
-      "The root span should match what was passed in.",
-    );
+    if (spanGraph.roots.length !== 1) {
+      return {
+        pass: false,
+        message: "There should be just one root span",
+        expected: 1,
+        actual: spanGraph.roots.length,
+      };
+    }
+
+    if (spanGraph.roots[0].name !== "root") {
+      return {
+        pass: false,
+        message: "The root span should be named 'root'",
+        expected: "root",
+        actual: spanGraph.roots[0].name,
+      };
+    }
+    if (rootSpan !== mockInstrumenter.startedSpans[0]) {
+      return {
+        pass: false,
+        message: "The root span should match what was passed in.",
+        expected: rootSpan,
+        actual: mockInstrumenter.startedSpans[0],
+      };
+    }
 
     const directChildren = spanGraph.roots[0].children.map((child) => child.name);
-    assert.sameMembers(Array.from(new Set(directChildren)), expectedSpanNames);
+    if (!sameArrayMembers(Array.from(new Set(directChildren)), expectedSpanNames)) {
+      return {
+        pass: false,
+        message: "The direct children of the root span should match the expected span names.",
+        expected: expectedSpanNames,
+        actual: directChildren,
+      };
+    }
     rootSpan.end();
     const openSpans = mockInstrumenter.startedSpans.filter((s) => !s.endCalled);
-    assert.equal(
-      openSpans.length,
-      0,
-      `All spans should have been closed, but found ${openSpans.map((s) => s.name)} open spans.`,
-    );
+    if (openSpans.length !== 0) {
+      return {
+        pass: false,
+        message: `All spans should have been closed, but found ${openSpans.map((s) => s.name)} open spans.`,
+        expected: 0,
+        actual: openSpans.length,
+      };
+    }
+    return { pass: true };
   } finally {
     // By resetting the instrumenter to undefined, we force the next call to instantiate the
     // no-op instrumenter and prevent test pollution.
@@ -107,4 +151,20 @@ function getSpanGraph(traceId: string, instrumenter: MockInstrumenter): SpanGrap
   return {
     roots,
   };
+}
+
+function sameArrayMembers<T>(expected: T[], actual: T[]): boolean {
+  expected = expected.sort();
+  actual = actual.sort();
+  if (expected.length !== actual.length) {
+    return false;
+  }
+
+  for (const item of expected) {
+    if (!actual.includes(item)) {
+      return false;
+    }
+  }
+
+  return true;
 }

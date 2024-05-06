@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { chaiAzure } from "./chaiAzure.js";
+export * from "./azureMatchers.js";
 export { matrix } from "./matrix.js";
 export { getYieldedValue } from "./getYieldedValue.js";
 export { TestSpan } from "./tracing/testSpan.js";

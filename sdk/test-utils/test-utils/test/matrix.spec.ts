@@ -8,7 +8,6 @@ describe("matrix test support", () => {
   it("should call handler with correct argument", () => {
     const handler = vi.fn();
     matrix([[true, false]] as const, handler);
-
     expect(handler).toBeCalledWith(true);
     expect(handler).toBeCalledWith(false);
   });
