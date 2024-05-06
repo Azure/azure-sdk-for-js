@@ -50,7 +50,7 @@ const recorderOptions: RecorderStartOptions = {
     bodySanitizers: [{
       regex: true,
       value: `fakeKey`,
-      target: `adminPassword":\s*"([^"]+)`
+      target: `adminPassword:([^"]+)`
     }],
   }
 };
