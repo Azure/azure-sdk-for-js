@@ -9,19 +9,22 @@ import { RUConsumedManager } from "../../common";
 import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
 import { NonStreamingOrderByResponse } from "../nonStreamingOrderByResponse";
 import { NonStreamingOrderByPriorityQueue } from "../../utils/nonStreamingOrderByPriorityQueue";
+import { OrderByComparator } from "../orderByComparator";
 
 /** @hidden */
 export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionContext {
-  private aggregateMap: Map<string, NonStreamingOrderByResult>;
-  private resultsPQ: NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>;
-  private sortOrder: string;
+  private aggregateMap: Map<string, NonStreamingOrderByResult>; //map to store distinct values before storing in pq.
+  private nonStreamingOrderByPQ: NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>; // pq to compute final orderBy results
+  private finalResultArray: NonStreamingOrderByResult[]; //result array to store final sorted and orderBy results.
+  private sortOrders: string[];
   private isInitialized: boolean = false;
   private isCompleted: boolean = false;
+  private comparator: OrderByComparator;
 
   constructor(
     private executionContext: ExecutionContext,
     private queryInfo: QueryInfo,
-    private pqMaxSize: number,
+    private priorityQueueBufferSize: number,
   ) {}
 
   public async nextItem(
@@ -30,14 +33,24 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     if (!this.isInitialized) {
+      // initialize all the internal components
       this.aggregateMap = new Map();
-      this.sortOrder = this.queryInfo.orderBy[0];
-      // TODO: update compare function
-      this.resultsPQ = new NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>(
-        this.compare,
-        this.pqMaxSize,
+      this.sortOrders = this.queryInfo.orderBy;
+      this.comparator = new OrderByComparator(this.sortOrders);
+      this.nonStreamingOrderByPQ = new NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>(
+        (a: NonStreamingOrderByResult, b: NonStreamingOrderByResult) => {
+          return this.comparator.compareItems(b, a);
+        },
+        this.priorityQueueBufferSize,
       );
       this.isInitialized = true;
+    }
+    // if size is 0, just return undefined. Valid if query is TOP 0 or LIMIT 0
+    if (this.priorityQueueBufferSize === 0) {
+      return {
+        result: undefined,
+        headers: getInitialHeader(),
+      };
     }
 
     let resHeaders = getInitialHeader();
@@ -51,6 +64,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       resHeaders = headers;
 
       if (result) {
+        // make hash of result object and update the map if required.
         const key = await hashObject(result.payload);
         if (!this.aggregateMap.has(key)) {
           this.aggregateMap.set(key, result);
@@ -64,14 +78,14 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
 
       if (!this.executionContext.hasMoreResults()) {
         this.isCompleted = true;
-        await this.buildResultPQ();
+        await this.buildFinalResultArray();
       }
     }
-
     if (this.isCompleted) {
-      if (this.resultsPQ.size() > 0) {
+      // start returning the results if final result is computed.
+      if (this.finalResultArray.length > 0) {
         return {
-          result: this.resultsPQ.dequeue().payload,
+          result: this.finalResultArray.shift(),
           headers: resHeaders,
         };
       } else {
@@ -81,46 +95,46 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         };
       }
     } else {
+      // keep returning empty till final results are getting computed.
       return {
         result: {},
         headers: resHeaders,
       };
     }
   }
-
-  private async buildResultPQ(): Promise<void> {
+  /**
+   * Build final sorted result array from which responses will be served.
+   */
+  private async buildFinalResultArray(): Promise<void> {
     for (const [key, value] of this.aggregateMap) {
-      this.resultsPQ.enqueue(value);
+      this.nonStreamingOrderByPQ.enqueue(value);
       this.aggregateMap.delete(key);
     }
+
+    const offSet = this.queryInfo.offset ? this.queryInfo.offset : 0;
+    const queueSize = this.nonStreamingOrderByPQ.size();
+    const finalArraySize = queueSize - offSet;
+    this.finalResultArray = new Array(finalArraySize);
+
+    for (let count = finalArraySize - 1; count >= 0; count--) {
+      this.finalResultArray[count] = this.nonStreamingOrderByPQ.dequeue().payload;
+    }
   }
-
-  private compare(doc1: NonStreamingOrderByResult, doc2: NonStreamingOrderByResult): number {
-    let firstOrder: any = doc1?.orderByItems.find((x) => x !== undefined);
-    let secondOrder: any = doc2?.orderByItems.find((x) => x !== undefined);
-
-    firstOrder = firstOrder ? firstOrder : { item: 0 };
-    secondOrder = secondOrder ? secondOrder : { item: 0 };
-    const order = firstOrder["item"] - secondOrder["item"];
-    if (this.sortOrder === "Ascending") return -1 * order;
-    else return order;
-  }
-
+  /**
+   * Compare results inside the map and update based on comparator
+   */
   private replaceResults(
     res1: NonStreamingOrderByResult,
     res2: NonStreamingOrderByResult,
   ): boolean {
-    const firstOrder = res1.orderByItems.find((x) => x !== undefined)["item"];
-    const secondOrder = res2.orderByItems.find((x) => x !== undefined)["item"];
-    if (this.sortOrder === "Ascending") {
-      return Math.abs(firstOrder) > Math.abs(secondOrder) ? true : false;
-    } else {
-      return Math.abs(firstOrder) > Math.abs(secondOrder) ? false : true;
-    }
+    const res = this.comparator.compareItems(res1, res2);
+    if (res < 0) return true;
+
     return false;
   }
 
   public hasMoreResults(): boolean {
-    return this.executionContext.hasMoreResults() || this.resultsPQ.size() > 0;
+    if (this.priorityQueueBufferSize === 0) return false;
+    return this.executionContext.hasMoreResults() || this.finalResultArray.length > 0;
   }
 }
