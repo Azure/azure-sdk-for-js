@@ -18,7 +18,7 @@ export class NonStreamingOrderByPriorityQueue<T> {
       this.pq.enq(item);
     } else {
       const topItem = this.pq.peek();
-      if (this.compareFn(item, topItem) > 0) {
+      if (this.compareFn(item, topItem) <= 0) {
         this.pq.deq();
         this.pq.enq(item);
       }
