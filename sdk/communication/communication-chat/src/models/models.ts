@@ -28,6 +28,8 @@ export interface ChatThreadProperties {
   metadata?: Record<string, string>;
   /** Data retention policy for auto deletion. */
   retentionPolicy?: ChatRetentionPolicy;
+  /** Messaging policy for a chat thread. */
+  messagingPolicy?: MessagingPolicy;
 }
 
 /** Thread retention policy based on thread creation date. */
@@ -71,6 +73,8 @@ export interface ChatMessage {
   editedOn?: Date;
   /** metadata */
   metadata?: Record<string, string>;
+  /** Policy Violation of a chat message. */
+  policyViolation?: PolicyViolation;
 }
 
 /** Content of a chat message. */
@@ -157,3 +161,17 @@ export interface UploadChatImageResult {
 
 /** Type of Supported Attachments. */
 export type ChatAttachmentType = "image" | "file" | "unknown";
+
+/** State of Policy Violation message. */
+export type PolicyViolationMessageState = "none" | "contentBlocked" | "warning";
+
+/** Policy violation of a message (if applicable). */
+export interface PolicyViolation {
+  /** State of Policy Violation message. */
+  state: PolicyViolationMessageState;
+}
+
+/** Messaging policy of a chat thread. */
+export interface MessagingPolicy {
+  textOnlyChat?: boolean;
+}
