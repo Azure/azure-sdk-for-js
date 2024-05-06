@@ -55,6 +55,7 @@ jobs:
 
     variables:
       - template: ../variables/globals.yml
+      jobSuffix: $[split(variables['Agent.JobName'], ' ')[1]]
 
     steps:
       - template: ../steps/common.yml
