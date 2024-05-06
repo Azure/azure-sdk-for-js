@@ -276,7 +276,7 @@ export interface PolicyViolation {
 }
 
 // @public
-export type PolicyViolationMessageState = "none" | "contentBlocked" | "warning";
+export type PolicyViolationMessageState = "contentBlocked" | "warning";
 
 export { ReadReceiptReceivedEvent }
 
