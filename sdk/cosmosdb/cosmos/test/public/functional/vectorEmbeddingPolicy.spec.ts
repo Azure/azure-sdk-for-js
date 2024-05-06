@@ -200,7 +200,9 @@ describe.skip("VectorEmbeddingPolicy", async () => {
 
 describe("Vector Search", async () => {
   let database: Database;
-  let container: Container;
+  let container1: Container;
+  // let container2: Container;
+
   before(async function () {
     database = await getTestDatabase("vector search database");
     const indexingPolicy: IndexingPolicy = {
@@ -232,43 +234,71 @@ describe("Vector Search", async () => {
         },
       ],
     };
-    const containerName = "vector embedding container";
+    const containerName1 = "vector embedding container 1";
+    // const containerName2 = "vector embedding container 2";
     // create container
-    container = (
+    container1 = (
       await database.containers.createIfNotExists({
-        id: containerName,
+        id: containerName1,
         vectorEmbeddingPolicy: vectorEmbeddingPolicy,
         indexingPolicy: indexingPolicy,
         throughput: 10000,
       })
     ).container;
-
     // insert some items
-    await container.items.create({
+    await container1.items.create({
       id: "1",
       vector1: [0.056419, -0.021141],
       vector2: [0, -1],
       vector3: [1, 2],
     });
-    await container.items.create({
+    await container1.items.create({
       id: "2",
       vector1: [0.066419, -0.031141],
       vector2: [1, 0],
       vector3: [2, 3],
     });
-    await container.items.create({
+    await container1.items.create({
       id: "3",
       vector1: [0.076419, -0.041141],
       vector2: [2, 1],
       vector3: [3, 4],
     });
+
+    // create another container
+    // container2 = (
+    //   await database.containers.createIfNotExists({
+    //     id: containerName2,
+    //     vectorEmbeddingPolicy: vectorEmbeddingPolicy,
+    //     indexingPolicy: indexingPolicy,
+    //     throughput: 10000,
+    //   })
+    // ).container;
+
+    // insert some items
+    // for (let i = 0; i < 3000; i++) {
+    //   await container2.items.create({
+    //     id: i.toString(),
+    //     vector1: [getRandomDecimal(), getRandomDecimal()],
+    //     vector2: [getRandomInteger(), getRandomInteger()],
+
+    //     function getRandomInteger() {
+    //       return Math.floor(Math.random() * 100);
+    //     }
+    //     vector3: [1, 2],
+    //   });
+
+    //   function getRandomDecimal() {
+    //     return Math.random() * 2 - 1;
+    //   }
+    // }
   });
 
   it("should execute vector search query", async function () {
     // create a queryiterator to run vector search query
     const query =
       "SELECT c.id AS Id  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) asc";
-    const iterator = container.items.query(query);
+    const iterator = container1.items.query(query);
     // execute order by query on it
     let id = 1;
     while (iterator.hasMoreResults()) {
@@ -280,22 +310,27 @@ describe("Vector Search", async () => {
     }
   });
 
-  // it("should execute vector search query with multiple vectors", async function () {
-  //   // create a queryiterator to run vector search query
-  //   const query =
-  //     "SELECT c.id AS Id  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) asc, VectorDistance([0, -1], c.vector2, true, {distanceFunction:'dotproduct'}) asc";
-  //   const iterator = container.items.query(query);
-  //   // execute order by query on it
-  //   let id = 0;
-  //   while (iterator.hasMoreResults()) {
-  //     const { resources: result } = await iterator.fetchNext();
-  //     console.log(result);
-  //     if (result !== undefined) {
-  //       assert.equal(result[0].Id, id.toString());
-  //       id++;
-  //     }
-  //   }
-  // });
+  it("should execute vector search query with limit in query", async function () {
+    // create a queryiterator to run vector search query
+    const query =
+      "SELECT c.id AS Id  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) desc OFFSET 0 LIMIT 2";
+    const iterator = container1.items.query(query);
+    // execute order by query on it
+    let id = 3;
+    const limit = 2;
+    let count = 0;
+    while (iterator.hasMoreResults()) {
+      const { resources: result } = await iterator.fetchNext();
+      if (result !== undefined) {
+        console.log(result);
+        assert.equal(result[0].Id, id.toString());
+        id--;
+        count++;
+      }
+    }
+    // The query should return 2 items
+    assert.equal(count, limit);
+  });
 
   after(async function () {
     await database.delete();

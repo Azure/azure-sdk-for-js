@@ -48,4 +48,17 @@ export class NonStreamingOrderByPriorityQueue<T> {
     }
     return elements;
   }
+
+  // Create a new instance of NonStreamingOrderByPriorityQueue with a reversed compare function and the same maximum size.
+  // Enqueue all elements from the current priority queue into the reverse priority queue.
+  public reverse(): NonStreamingOrderByPriorityQueue<T> {
+    const reversePQ = new NonStreamingOrderByPriorityQueue<T>(
+      (a: T, b: T) => -this.compareFn(a, b),
+      this.pqMaxSize,
+    );
+    while (!this.pq.isEmpty()) {
+      reversePQ.enqueue(this.pq.deq());
+    }
+    return reversePQ;
+  }
 }

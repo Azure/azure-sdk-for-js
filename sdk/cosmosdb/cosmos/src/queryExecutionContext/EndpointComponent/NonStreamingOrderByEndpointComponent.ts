@@ -7,9 +7,11 @@ import { ExecutionContext } from "../ExecutionContext";
 import { OrderByComparator } from "../orderByComparator";
 import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
 import { NonStreamingOrderByPriorityQueue } from "../../utils/nonStreamingOrderByPriorityQueue";
+import { getInitialHeader } from "../headerUtils";
+import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
 export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
   private nonStreamingOrderByPQ: NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>;
-
+  private isCompleted: boolean = false;
   /**
    * Represents an endpoint in handling an non-streaming order by query. For each processed orderby
    * result it returns 'payload' item of the result
@@ -36,33 +38,60 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     operationOptions?: QueryOperationOptions,
     ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
-    if (!this.executionContext.hasMoreResults() && this.nonStreamingOrderByPQ.size() !== 0) {
+    if (
+      this.priorityQueueBufferSize <= 0 ||
+      (this.isCompleted && this.nonStreamingOrderByPQ.isEmpty())
+    ) {
+      return {
+        result: undefined,
+        headers: getInitialHeader(),
+      };
+    }
+
+    if (this.isCompleted && !this.nonStreamingOrderByPQ.isEmpty()) {
       const item = this.nonStreamingOrderByPQ.dequeue()?.payload;
       return {
         result: item,
         headers: {},
       };
     }
-
-    if (this.executionContext.hasMoreResults()) {
-      const { result: item, headers } = await this.executionContext.nextItem(
-        diagnosticNode,
-        operationOptions,
-        ruConsumedManager,
-      );
-      if (item !== undefined) {
-        this.nonStreamingOrderByPQ.enqueue(item);
+    try {
+      if (this.executionContext.hasMoreResults()) {
+        const { result: item, headers } = await this.executionContext.nextItem(
+          diagnosticNode,
+          operationOptions,
+          ruConsumedManager,
+        );
+        if (item !== undefined) {
+          this.nonStreamingOrderByPQ.enqueue(item);
+        }
+        return {
+          result: {},
+          headers,
+        };
+      } else {
+        this.isCompleted = true;
+        // Reverse the priority queue to get the results in the correct order
+        this.nonStreamingOrderByPQ = this.nonStreamingOrderByPQ.reverse();
+        if (this.nonStreamingOrderByPQ.size() !== 0) {
+          const item = this.nonStreamingOrderByPQ.dequeue()?.payload;
+          return {
+            result: item,
+            headers: {},
+          };
+        } else {
+          return {
+            result: undefined,
+            headers: getInitialHeader(),
+          };
+        }
       }
-      return {
-        result: {},
-        headers,
-      };
+    } catch (err) {
+      if (err.code === RUCapPerOperationExceededErrorCode) {
+        err.fetchedResults = undefined;
+      }
+      throw err;
     }
-
-    return {
-      result: undefined,
-      headers: {},
-    };
   }
 
   /**
@@ -70,6 +99,9 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
    * @returns true if there is other elements to process in the OrderByEndpointComponent.
    */
   public hasMoreResults(): boolean {
-    return this.executionContext.hasMoreResults() || this.nonStreamingOrderByPQ.size() !== 0;
+    return (
+      this.priorityQueueBufferSize > 0 &&
+      (this.executionContext.hasMoreResults() || this.nonStreamingOrderByPQ.size() !== 0)
+    );
   }
 }
