@@ -9,7 +9,7 @@ The Azure AI Face service provides AI algorithms that detect, recognize, and ana
   - Face identification ("one-to-many" matching)
 - Find similar faces
 - Group faces
-[Product documentation](https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-identity)
+[Product documentation](https://learn.microsoft.com/azure/ai-services/computer-vision/overview-identity)
 | [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/face/ai-vision-face-rest)
 | [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-vision-face)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/face/ai-vision-face-rest/samples)
@@ -28,13 +28,13 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 - You need an [Azure subscription](https://azure.microsoft.com/free/) to use this package and either
   - an [Azure Face account](https://portal.azure.com/#blade/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/Face) or
   - an [Azure Cognitive Service account](https://portal.azure.com/#view/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/~/AllInOne)
-- Your Azure account must have a `Cognitive Services Contributor` role assigned in order for you to agree to the responsible AI terms and create a resource. To get this role assigned to your account, follow the steps in the [Assign roles](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-steps) documentation, or contact your administrator.
+- Your Azure account must have a `Cognitive Services Contributor` role assigned in order for you to agree to the responsible AI terms and create a resource. To get this role assigned to your account, follow the steps in the [Assign roles](https://learn.microsoft.com/azure/role-based-access-control/role-assignments-steps) documentation, or contact your administrator.
 
 ### Create a Face or a Cognitive Services resource
 
-Azure AI Face supports both [multi-service](https://learn.microsoft.com/en-us/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal#supported-services-with-a-multi-service-resource) and single-service access. Create a Cognitive Services resource if you plan to access multiple cognitive services under a single endpoint/key. For Face access only, create a Face resource. Please note that you will need a single-service resource if you intend to use [Azure Active Directory authentication](#create-the-client-with-an-azure-active-directory-credential).
+Azure AI Face supports both [multi-service](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal#supported-services-with-a-multi-service-resource) and single-service access. Create a Cognitive Services resource if you plan to access multiple cognitive services under a single endpoint/key. For Face access only, create a Face resource. Please note that you will need a single-service resource if you intend to use [Azure Active Directory authentication](#create-the-client-with-an-azure-active-directory-credential).
 
-- To create a new Face or Cognitive Services account, you can use [Azure Portal](https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesFace), [Azure PowerShell](https://learn.microsoft.com/en-us/azure/ai-services/multi-service-resource?tabs=windows&pivots=azpowershell), or [Azure CLI](https://learn.microsoft.com/en-us/azure/ai-services/multi-service-resource?tabs=windows&pivots=azcli).
+- To create a new Face or Cognitive Services account, you can use [Azure Portal](https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesFace), [Azure PowerShell](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azpowershell), or [Azure CLI](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azcli).
 
 ### Install the package
 
@@ -51,7 +51,7 @@ An **endpoint** and **credential** are necessary to instantiate the client objec
 
 #### Get the endpoint and API keys
 
-You can find the endpoint and keys for your Face resource using the [Azure Portal](https://learn.microsoft.com/en-us/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal#get-the-keys-for-your-resource) or [Azure CLI](https://learn.microsoft.com/en-us/azure/ai-services/multi-service-resource?tabs=windows&pivots=azcli#get-the-keys-for-your-resource):
+You can find the endpoint and keys for your Face resource using the [Azure Portal](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal#get-the-keys-for-your-resource) or [Azure CLI](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azcli#get-the-keys-for-your-resource):
 
 ```bash
 # Get the endpoint for the Face resource
@@ -76,7 +76,7 @@ az cognitiveservices account keys list --name "<resource-name>" --resource-group
 
 #### Create the client with AzureKeyCredential
 
-To use an API key as the `credential` parameter, pass the key as a string into an instance of [AzureKeyCredential](https://learn.microsoft.com/en-us/javascript/api/@azure/core-auth/azurekeycredential?view=azure-node-latest).
+To use an API key as the `credential` parameter, pass the key as a string into an instance of [AzureKeyCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/azurekeycredential?view=azure-node-latest).
 
 ```js
 import { AzureKeyCredential } from '@azure/core-auth';
@@ -90,10 +90,10 @@ const client = createFaceClient(endpoint, credential);
 
 #### Create the client with an Azure Active Directory credential
 
-`AzureKeyCredential` authentication is used in the examples in this getting started guide, but you can also authenticate with Azure Active Directory using the [@azure/identity](https://learn.microsoft.com/en-us/javascript/api/@azure/identity/?view=azure-node-latest) library.
+`AzureKeyCredential` authentication is used in the examples in this getting started guide, but you can also authenticate with Azure Active Directory using the [@azure/identity](https://learn.microsoft.com/javascript/api/@azure/identity/?view=azure-node-latest) library.
 Note that regional endpoints do not support AAD authentication. Create a [custom subdomain](https://docs.microsoft.com/azure/cognitive-services/authentication#create-a-resource-with-a-custom-subdomain) name for your resource in order to use this type of authentication.
 
-To use the [DefaultAzureCredential](https://learn.microsoft.com/en-us/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest) type shown below, or other credential types provided with the Azure SDK, please install the `@azure/identity` package:
+To use the [DefaultAzureCredential](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest) type shown below, or other credential types provided with the Azure SDK, please install the `@azure/identity` package:
 
 ```
 npm install --save @azure/identity
@@ -297,10 +297,10 @@ liveness detection result and audit logs anytime untill the session is deleted.
 
 The Liveness detection operation can not only confirm if the input is live or spoof, but also verify whether the input
 belongs to the expected person's face, which is called **liveness detection with face verification**. For the detail
-information, please refer to the [tutorial](https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/tutorials/liveness).
+information, please refer to the [tutorial](https://learn.microsoft.com/azure/ai-services/computer-vision/tutorials/liveness).
 
 We'll only demonstrates how to create, query, delete a session and get the audit logs here. For how to perform a
-liveness detection, please see the sample of [mobile applications](https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/tutorials/liveness#integrate-liveness-into-mobile-application).
+liveness detection, please see the sample of [mobile applications](https://learn.microsoft.com/azure/ai-services/computer-vision/tutorials/liveness#integrate-liveness-into-mobile-application).
 
 Here is an example to create and get the liveness detection result of a session.
 
@@ -411,7 +411,7 @@ See the [Sample README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/
 
 ### Additional documentation
 
-For more extensive documentation on Azure AI Face, see the [Face documentation](https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-identity) on learn.microsoft.com.
+For more extensive documentation on Azure AI Face, see the [Face documentation](https://learn.microsoft.com/azure/ai-services/computer-vision/overview-identity) on learn.microsoft.com.
 
 ## Contributing
 

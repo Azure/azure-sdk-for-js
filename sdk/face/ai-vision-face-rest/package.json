@@ -115,7 +115,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/identity-api-reference"
+    "apiRefLink": "https://aka.ms/azsdk-javascript-face-ref"
   },
   "exports": {
     "./package.json": "./package.json",

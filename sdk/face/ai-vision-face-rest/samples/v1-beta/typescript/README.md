@@ -75,7 +75,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [persondirectory]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/face/ai-vision-face-rest/samples/v1-beta/typescript/src/personDirectory.ts
 [persongroup]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/face/ai-vision-face-rest/samples/v1-beta/typescript/src/personGroup.ts
 [verify]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/face/ai-vision-face-rest/samples/v1-beta/typescript/src/verify.ts
-[apiref]: https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/identity-api-reference
+[apiref]: https://aka.ms/azsdk-javascript-face-ref
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/face/ai-vision-face-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
