@@ -50,7 +50,7 @@ steps:
 
   - ${{ if eq(parameters.TestProxy, true) }}:
     - pwsh: |
-        copy $(Build.SourcesDirectory)/test-proxy.log $(Build.ArtifactStagingDirectory)/test-proxy.$(jobSuffix).log
+        copy $(Build.SourcesDirectory)/test-proxy.log $(Build.ArtifactStagingDirectory)
       displayName: 'Dump Test Proxy logs'
       condition: succeededOrFailed()
       
@@ -93,6 +93,6 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
     parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)/test-proxy.$(jobSuffix).log'
-      ArtifactName: 'test proxy logs $(jobSuffix)'
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)/test-proxy.log'
+      ArtifactName: 'test proxy logs $(Agent.JobName)'
       SbomEnabled: false
