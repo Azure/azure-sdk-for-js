@@ -29,7 +29,6 @@
     "unit-test": "npm run unit-test:node",
     "unit-test:node": "vitest",
     "unit-test:browser": "echo skipped",
-    
     "test": "echo Skipped."
   },
   "repository": "github:Azure/azure-sdk-for-js",

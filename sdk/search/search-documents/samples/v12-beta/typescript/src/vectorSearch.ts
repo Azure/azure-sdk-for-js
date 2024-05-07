@@ -6,10 +6,10 @@
  */
 
 import {
-  AzureKeyCredential,
-  GeographyPoint,
-  SearchClient,
-  SearchIndexClient,
+    AzureKeyCredential,
+    GeographyPoint,
+    SearchClient,
+    SearchIndexClient
 } from "@azure/search-documents";
 import { Hotel } from "./interfaces";
 import { createIndex, delay, WAIT_TIME } from "./setup";

@@ -97,8 +97,11 @@ const makeGetMessage =
     });
 
 const createWorkerUtils = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sendMessage: (message: any) => void,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onMessage: (callback: (message: any) => void) => void,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   offMessage: (callback: (message: any) => void) => void,
   workerData: WorkerData,
 ): WorkerMulticoreUtils => ({
@@ -206,5 +209,6 @@ export const multicoreUtils: MulticoreUtils = (() => {
 })();
 
 const isWorker = (x: WorkerLike): x is workerThreads.Worker => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return typeof (x as unknown as any).postMessage === "function";
 };

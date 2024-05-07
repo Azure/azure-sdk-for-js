@@ -13,7 +13,7 @@ import { AbortError } from "@azure/abort-controller";
 import { assertThrows } from "../../public/utils/testUtils";
 
 chai.use(chaiAsPromised);
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 describe("StreamingReceiver unit tests", () => {
   const createTestStreamingReceiver = addTestStreamingReceiver();

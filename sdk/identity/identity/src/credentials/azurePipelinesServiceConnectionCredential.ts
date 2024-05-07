@@ -18,7 +18,7 @@ const logger = credentialLogger(credentialName);
 const OIDC_API_VERSION = "7.1-preview.1";
 
 /**
- * This credential is designed to be used in ADO Pipelines with service connections
+ * This credential is designed to be used in Azure Pipelines with service connections
  * as a setup for workload identity federation.
  */
 export class AzurePipelinesServiceConnectionCredential implements TokenCredential {
@@ -28,7 +28,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
    * AzurePipelinesServiceConnectionCredential supports Federated Identity on Azure Pipelines through Service Connections.
    * @param tenantId - tenantId associated with the service connection
    * @param clientId - clientId associated with the service connection
-   * @param serviceConnectionId - id for the service connection
+   * @param serviceConnectionId - id for the service connection, as found in the querystring's resourceId key
    * @param options - The identity client options to use for authentication.
    */
   constructor(

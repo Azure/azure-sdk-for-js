@@ -3,6 +3,7 @@
 
 function hasPackageCache<T extends Record<string, unknown>>(
   obj: T,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): obj is T & { packageCache: Map<string, { data: any }> } {
   return "packageCache" in obj;
 }

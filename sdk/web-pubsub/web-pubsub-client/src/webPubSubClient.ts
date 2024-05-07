@@ -541,7 +541,8 @@ export class WebPubSubClient {
       return;
     }
     const [isUpdated, seqId] = this._sequenceId.tryGetSequenceId();
-    if (isUpdated && seqId) {
+    if (isUpdated && seqId !== null && seqId !== undefined) {
+      // seqId can be 0
       const message: SequenceAckMessage = {
         kind: "sequenceAck",
         sequenceId: seqId!,
