@@ -249,9 +249,12 @@ export class QueryIterator<T> {
       const { result, headers } = response;
       // concatenate the results and fetch more
       mergeHeaders(this.fetchAllLastResHeaders, headers);
-
       if (result !== undefined) {
-        if (this.nonStreamingOrderBy && Object.keys(result).length === 0) {
+        if (
+          this.nonStreamingOrderBy &&
+          typeof result === "object" &&
+          Object.keys(result).length === 0
+        ) {
           // ignore empty results from NonStreamingOrderBy Endpoint components.
         } else this.fetchAllTempResources.push(result);
       }
