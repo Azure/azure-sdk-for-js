@@ -75,6 +75,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           context,
           sortOrders,
           this.vectorSearchBufferSize,
+          partitionedQueryExecutionInfo.queryInfo.offset,
         );
       } else {
         this.endpoint = new NonStreamingOrderByDistinctEndpointComponent(

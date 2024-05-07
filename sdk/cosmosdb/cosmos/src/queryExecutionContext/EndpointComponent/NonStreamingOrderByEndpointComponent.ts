@@ -23,6 +23,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     private executionContext: ExecutionContext,
     private sortOrders: any[],
     private priorityQueueBufferSize: number = 2000,
+    private offset: number = 0,
   ) {
     const comparator = new OrderByComparator(this.sortOrders);
     this.nonStreamingOrderByPQ = new NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>(
@@ -73,6 +74,13 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         this.isCompleted = true;
         // Reverse the priority queue to get the results in the correct order
         this.nonStreamingOrderByPQ = this.nonStreamingOrderByPQ.reverse();
+        // For offset limit case we set the size of priority queue to offset + limit
+        // and we drain offset number of items from the priority queue
+        while (this.offset < this.priorityQueueBufferSize && this.offset > 0) {
+          this.nonStreamingOrderByPQ.dequeue();
+          this.offset--;
+        }
+
         if (this.nonStreamingOrderByPQ.size() !== 0) {
           const item = this.nonStreamingOrderByPQ.dequeue()?.payload;
           return {
