@@ -43,7 +43,7 @@ steps:
     condition: and(succeeded(), eq(variables['TestType'], 'browser'))
 
   - pwsh: |
-      Start-Process "dev-tool" -ArgumentList "run start-browser-relay" -NoNewWindow
+      Start-Process "npx" -ArgumentList "dev-tool run start-browser-relay" -NoNewWindow
       for ($i = 0; $i -lt 10; $i++) {
           try {
               Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
