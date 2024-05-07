@@ -13,16 +13,12 @@ import {
   delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { NoOpCredential } from "@azure-tools/test-credential";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { StandbyPoolManagementClient } from "../src/standbyPoolManagementClient";
-import { DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
@@ -33,14 +29,6 @@ const recorderOptions: RecorderStartOptions = {
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
-
-export function createTestCredential() {
-  return isPlaybackMode()
-    ? new NoOpCredential()
-    : new
-      DefaultAzureCredential()
-    ;
-}
 
 describe("StandbyPool test", () => {
   let recorder: Recorder;
