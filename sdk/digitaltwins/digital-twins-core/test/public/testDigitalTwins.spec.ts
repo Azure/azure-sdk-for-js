@@ -13,7 +13,7 @@ import { delay } from "@azure/core-util";
 import chai from "chai";
 import { isRestError } from "@azure/core-rest-pipeline";
 
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 const should = chai.should();
 
 const BUILDING_MODEL_ID = "dtmi:samples:DTTestBuilding;1";
