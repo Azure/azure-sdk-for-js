@@ -6,10 +6,10 @@
  */
 
 import {
-  AzureKeyCredential,
-  SearchIndex,
-  SearchIndexClient,
-  SearchIndexStatistics,
+    AzureKeyCredential,
+    SearchIndex,
+    SearchIndexClient,
+    SearchIndexStatistics
 } from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
