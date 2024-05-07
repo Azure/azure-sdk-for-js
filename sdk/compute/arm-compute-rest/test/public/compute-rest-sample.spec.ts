@@ -36,7 +36,7 @@ import {
   VirtualNetwork,
 } from "@azure/arm-network";
 import { createTestComputeManagementClient } from "./utils/recordedClient";
-import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { TokenCredential, DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id",
