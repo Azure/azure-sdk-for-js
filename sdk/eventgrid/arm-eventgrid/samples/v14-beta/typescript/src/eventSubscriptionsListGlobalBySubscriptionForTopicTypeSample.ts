@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all global event subscriptions under an Azure subscription for a topic type.
  *
  * @summary List all global event subscriptions under an Azure subscription for a topic type.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_ListGlobalBySubscriptionForTopicType.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_ListGlobalBySubscriptionForTopicType.json
  */
 async function eventSubscriptionsListGlobalBySubscriptionForTopicType() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function eventSubscriptionsListGlobalBySubscriptionForTopicType() {
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.eventSubscriptions.listGlobalBySubscriptionForTopicType(
-    topicTypeName
+    topicTypeName,
   )) {
     resArray.push(item);
   }

@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 'use strict';
 
-var inquirer = require('inquirer');
 var Parser = require('yargs-parser');
 var assert = require('assert');
 var path = require('path');
@@ -9,10 +8,32 @@ var fs = require('fs');
 var util = require('util');
 var url = require('url');
 var chalk = require('chalk');
+var node_path = require('node:path');
+var node_url = require('node:url');
+var fs$1 = require('node:fs/promises');
 var glob = require('glob');
 var mustache = require('mustache');
 
 var _documentCurrentScript = typeof document !== 'undefined' ? document.currentScript : null;
+function _interopNamespaceDefault(e) {
+    var n = Object.create(null);
+    if (e) {
+        Object.keys(e).forEach(function (k) {
+            if (k !== 'default') {
+                var d = Object.getOwnPropertyDescriptor(e, k);
+                Object.defineProperty(n, k, d.get ? d : {
+                    enumerable: true,
+                    get: function () { return e[k]; }
+                });
+            }
+        });
+    }
+    n.default = e;
+    return Object.freeze(n);
+}
+
+var fs__namespace = /*#__PURE__*/_interopNamespaceDefault(fs$1);
+
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /**
@@ -109,76 +130,88 @@ const validateMiscConfig = {
         return validateUrl(fieldIdToName.openUrl)(input);
     },
 };
-const promptWidgetConfig = (partial) => inquirer.prompt([
-    {
-        name: "displayName",
-        type: "input",
-        message: fieldIdToName.displayName,
-        validate: validateWidgetConfig.displayName,
-    },
-    {
-        name: "technology",
-        type: "list",
-        message: fieldIdToName.technology,
-        choices: [
-            { name: "React", value: "react" },
-            { name: "Vue", value: "vue" },
-            { name: "TypeScript", value: "typescript" },
-        ],
-    },
-], partial);
-const promptServiceInformation = (partial) => inquirer.prompt([
-    {
-        name: "resourceId",
-        type: "input",
-        message: fieldIdToName.resourceId,
-        validate: validateDeployConfig.resourceId,
-    },
-    {
-        name: "managementApiEndpoint",
-        type: "list",
-        message: fieldIdToName.managementApiEndpoint,
-        choices: [
-            {
-                name: "management.azure.com (if you're not sure what to select, use this option)",
-                value: "management.azure.com",
-            },
-            { name: "management.usgovcloudapi.net", value: "management.usgovcloudapi.net" },
-            { name: "management.chinacloudapi.cn", value: "management.chinacloudapi.cn" },
-        ],
-        transformer: prefixUrlProtocol,
-        validate: validateDeployConfig.managementApiEndpoint,
-    },
-    {
-        name: "apiVersion",
-        type: "input",
-        message: fieldIdToName.apiVersion + " (optional; e.g., 2021-08-01)",
-    },
-], partial);
-const promptMiscConfig = (partial) => inquirer.prompt([
-    {
-        name: "openUrl",
-        type: "input",
-        message: fieldIdToName.openUrl +
-            " for widget development and testing (optional; e.g., https://contoso.developer.azure-api.net/ or http://localhost:8080)",
-        transformer: prefixUrlProtocol,
-        validate: validateMiscConfig.openUrl,
-    },
-    {
-        name: "configAdvancedTenantId",
-        type: "input",
-        message: fieldIdToName.configAdvancedTenantId +
-            " to be used in Azure Identity InteractiveBrowserCredential class (optional)",
-        validate: validateMiscConfig.openUrl,
-    },
-    {
-        name: "configAdvancedRedirectUri",
-        type: "input",
-        message: fieldIdToName.configAdvancedRedirectUri +
-            " to be used in Azure Identity InteractiveBrowserCredential class (optional; default is http://localhost:1337)",
-        validate: validateMiscConfig.openUrl,
-    },
-], partial);
+const promptWidgetConfig = async (partial) => {
+    const inquirerImport = await import('inquirer');
+    const inquirer = inquirerImport.default;
+    return inquirer.prompt([
+        {
+            name: "displayName",
+            type: "input",
+            message: fieldIdToName.displayName,
+            validate: validateWidgetConfig.displayName,
+        },
+        {
+            name: "technology",
+            type: "list",
+            message: fieldIdToName.technology,
+            choices: [
+                { name: "React", value: "react" },
+                { name: "Vue", value: "vue" },
+                { name: "TypeScript", value: "typescript" },
+            ],
+        },
+    ], partial);
+};
+const promptServiceInformation = async (partial) => {
+    const inquirerImport = await import('inquirer');
+    const inquirer = inquirerImport.default;
+    return inquirer.prompt([
+        {
+            name: "resourceId",
+            type: "input",
+            message: fieldIdToName.resourceId,
+            validate: validateDeployConfig.resourceId,
+        },
+        {
+            name: "managementApiEndpoint",
+            type: "list",
+            message: fieldIdToName.managementApiEndpoint,
+            choices: [
+                {
+                    name: "management.azure.com (if you're not sure what to select, use this option)",
+                    value: "management.azure.com",
+                },
+                { name: "management.usgovcloudapi.net", value: "management.usgovcloudapi.net" },
+                { name: "management.chinacloudapi.cn", value: "management.chinacloudapi.cn" },
+            ],
+            transformer: prefixUrlProtocol,
+            validate: validateDeployConfig.managementApiEndpoint,
+        },
+        {
+            name: "apiVersion",
+            type: "input",
+            message: fieldIdToName.apiVersion + " (optional; e.g., 2021-08-01)",
+        },
+    ], partial);
+};
+const promptMiscConfig = async (partial) => {
+    const inquirerImport = await import('inquirer');
+    const inquirer = inquirerImport.default;
+    return inquirer.prompt([
+        {
+            name: "openUrl",
+            type: "input",
+            message: fieldIdToName.openUrl +
+                " for widget development and testing (optional; e.g., https://contoso.developer.azure-api.net/ or http://localhost:8080)",
+            transformer: prefixUrlProtocol,
+            validate: validateMiscConfig.openUrl,
+        },
+        {
+            name: "configAdvancedTenantId",
+            type: "input",
+            message: fieldIdToName.configAdvancedTenantId +
+                " to be used in Azure Identity InteractiveBrowserCredential class (optional)",
+            validate: validateMiscConfig.openUrl,
+        },
+        {
+            name: "configAdvancedRedirectUri",
+            type: "input",
+            message: fieldIdToName.configAdvancedRedirectUri +
+                " to be used in Azure Identity InteractiveBrowserCredential class (optional; default is http://localhost:1337)",
+            validate: validateMiscConfig.openUrl,
+        },
+    ], partial);
+};
 
 class YError extends Error {
     constructor(msg) {
@@ -752,7 +785,7 @@ const REQUIRE_DIRECTORY_ERROR = 'loading a directory of commands is not supporte
 
 let __dirname$1;
 try {
-  __dirname$1 = url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.src || new URL('execute.js', document.baseURI).href)));
+  __dirname$1 = url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.src || new URL('execute.cjs', document.baseURI).href)));
 } catch (e) {
   __dirname$1 = process.cwd();
 }
@@ -850,9 +883,15 @@ const buildGetConfig = (gray, red) => {
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const sourceDir = node_path.dirname(node_url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.src || new URL('execute.cjs', document.baseURI).href))));
+
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 async function getTemplates(template) {
-    const sharedFiles = await getFiles(path.join(__dirname, "templates", "_shared", "**", "**", "*.*"));
-    const templateFiles = await getFiles(path.join(__dirname, "templates", template, "**", "**", "*.*"));
+    const sharedFiles = await getFiles(node_path.join(sourceDir, "..", "templates", "_shared", "**", "**", "*.*"));
+    const templateFiles = await getFiles(node_path.join(sourceDir, "..", "templates", template, "**", "**", "*.*"));
     return [...sharedFiles, ...templateFiles];
 }
 async function getFiles(path) {
@@ -896,7 +935,7 @@ async function generateProject(widgetConfig, deploymentConfig, options = {}) {
     const renderTemplate = async (file) => {
         const isTemplate = file.endsWith(templateSuffix);
         const encoding = file.endsWith(".ttf") ? "binary" : "utf8";
-        let fileData = await fs.promises.readFile(file, { encoding });
+        let fileData = await fs__namespace.readFile(file, { encoding });
         if (isTemplate) {
             fileData = mustache.render(fileData, {
                 name,
@@ -908,17 +947,17 @@ async function generateProject(widgetConfig, deploymentConfig, options = {}) {
             });
         }
         let relativePath = file;
-        if (__dirname.includes("\\")) {
+        if (sourceDir.includes("\\")) {
             relativePath = relativePath.replace(/\//g, "\\");
         }
         relativePath = relativePath
-            .replace(path.join(__dirname, "templates", "_shared"), "")
-            .replace(path.join(__dirname, "templates", widgetConfig.technology), "")
+            .replace(node_path.join(sourceDir, "..", "templates", "_shared"), "")
+            .replace(node_path.join(sourceDir, "..", "templates", widgetConfig.technology), "")
             .replace(templateSuffix, "");
-        const newFilePath = path.join(process.cwd(), widgetFolderName(name), relativePath);
-        const dir = path.parse(newFilePath).dir;
-        await fs.promises.mkdir(dir, { recursive: true });
-        await fs.promises.writeFile(newFilePath, fileData, { encoding });
+        const newFilePath = node_path.join(process.cwd(), widgetFolderName(name), relativePath);
+        const dir = node_path.parse(newFilePath).dir;
+        await fs__namespace.mkdir(dir, { recursive: true });
+        await fs__namespace.writeFile(newFilePath, fileData, { encoding });
     };
     const templates = await getTemplates(widgetConfig.technology);
     for (const file of Object.values(templates)) {
@@ -964,3 +1003,4 @@ main()
     console.error(err);
     process.exit(1);
 });
+//# sourceMappingURL=execute.cjs.map

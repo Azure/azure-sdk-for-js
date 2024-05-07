@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -45,7 +45,7 @@ import {
   ExtensionTopicsImpl,
   TopicSpacesImpl,
   TopicTypesImpl,
-  VerifiedPartnersImpl
+  VerifiedPartnersImpl,
 } from "./operations";
 import {
   CaCertificates,
@@ -78,7 +78,7 @@ import {
   ExtensionTopics,
   TopicSpaces,
   TopicTypes,
-  VerifiedPartners
+  VerifiedPartners,
 } from "./operationsInterfaces";
 import { EventGridManagementClientOptionalParams } from "./models";
 
@@ -97,16 +97,16 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: EventGridManagementClientOptionalParams
+    options?: EventGridManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: EventGridManagementClientOptionalParams
+    options?: EventGridManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?: EventGridManagementClientOptionalParams | string,
-    options?: EventGridManagementClientOptionalParams
+    options?: EventGridManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -126,10 +126,10 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     }
     const defaults: EventGridManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-eventgrid/14.2.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-eventgrid/14.2.0-beta.5`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -139,20 +139,21 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -162,7 +163,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -172,9 +173,9 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -182,7 +183,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-12-15-preview";
+    this.apiVersion = options.apiVersion || "2024-06-01-preview";
     this.caCertificates = new CaCertificatesImpl(this);
     this.channels = new ChannelsImpl(this);
     this.clientGroups = new ClientGroupsImpl(this);
@@ -190,20 +191,18 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     this.domains = new DomainsImpl(this);
     this.domainTopics = new DomainTopicsImpl(this);
     this.domainTopicEventSubscriptions = new DomainTopicEventSubscriptionsImpl(
-      this
+      this,
     );
     this.topicEventSubscriptions = new TopicEventSubscriptionsImpl(this);
     this.domainEventSubscriptions = new DomainEventSubscriptionsImpl(this);
     this.eventSubscriptions = new EventSubscriptionsImpl(this);
     this.systemTopicEventSubscriptions = new SystemTopicEventSubscriptionsImpl(
-      this
+      this,
     );
-    this.namespaceTopicEventSubscriptions = new NamespaceTopicEventSubscriptionsImpl(
-      this
-    );
-    this.partnerTopicEventSubscriptions = new PartnerTopicEventSubscriptionsImpl(
-      this
-    );
+    this.namespaceTopicEventSubscriptions =
+      new NamespaceTopicEventSubscriptionsImpl(this);
+    this.partnerTopicEventSubscriptions =
+      new PartnerTopicEventSubscriptionsImpl(this);
     this.namespaces = new NamespacesImpl(this);
     this.namespaceTopics = new NamespaceTopicsImpl(this);
     this.operations = new OperationsImpl(this);
@@ -212,9 +211,8 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     this.partnerNamespaces = new PartnerNamespacesImpl(this);
     this.partnerRegistrations = new PartnerRegistrationsImpl(this);
     this.partnerTopics = new PartnerTopicsImpl(this);
-    this.networkSecurityPerimeterConfigurations = new NetworkSecurityPerimeterConfigurationsImpl(
-      this
-    );
+    this.networkSecurityPerimeterConfigurations =
+      new NetworkSecurityPerimeterConfigurationsImpl(this);
     this.permissionBindings = new PermissionBindingsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -236,7 +234,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -250,7 +248,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

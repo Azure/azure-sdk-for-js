@@ -16,7 +16,7 @@ import { EventGridManagementClient } from "../eventGridManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -35,7 +35,7 @@ import {
   PartnerRegistrationUpdateParameters,
   PartnerRegistrationsUpdateOptionalParams,
   PartnerRegistrationsListBySubscriptionNextResponse,
-  PartnerRegistrationsListByResourceGroupNextResponse
+  PartnerRegistrationsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +56,7 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: PartnerRegistrationsListBySubscriptionOptionalParams
+    options?: PartnerRegistrationsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PartnerRegistration> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -71,13 +71,13 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: PartnerRegistrationsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PartnerRegistration[]> {
     let result: PartnerRegistrationsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: PartnerRegistrationsListBySubscriptionOptionalParams
+    options?: PartnerRegistrationsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<PartnerRegistration> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -112,7 +112,7 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: PartnerRegistrationsListByResourceGroupOptionalParams
+    options?: PartnerRegistrationsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PartnerRegistration> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -129,16 +129,16 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: PartnerRegistrationsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PartnerRegistration[]> {
     let result: PartnerRegistrationsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -153,7 +153,7 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -164,11 +164,11 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: PartnerRegistrationsListByResourceGroupOptionalParams
+    options?: PartnerRegistrationsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<PartnerRegistration> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -183,11 +183,11 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
   get(
     resourceGroupName: string,
     partnerRegistrationName: string,
-    options?: PartnerRegistrationsGetOptionalParams
+    options?: PartnerRegistrationsGetOptionalParams,
   ): Promise<PartnerRegistrationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, partnerRegistrationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -202,7 +202,7 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
     resourceGroupName: string,
     partnerRegistrationName: string,
     partnerRegistrationInfo: PartnerRegistration,
-    options?: PartnerRegistrationsCreateOrUpdateOptionalParams
+    options?: PartnerRegistrationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PartnerRegistrationsCreateOrUpdateResponse>,
@@ -211,21 +211,20 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PartnerRegistrationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -234,8 +233,8 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -243,8 +242,8 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -254,16 +253,16 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
         resourceGroupName,
         partnerRegistrationName,
         partnerRegistrationInfo,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PartnerRegistrationsCreateOrUpdateResponse,
       OperationState<PartnerRegistrationsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -280,13 +279,13 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
     resourceGroupName: string,
     partnerRegistrationName: string,
     partnerRegistrationInfo: PartnerRegistration,
-    options?: PartnerRegistrationsCreateOrUpdateOptionalParams
+    options?: PartnerRegistrationsCreateOrUpdateOptionalParams,
   ): Promise<PartnerRegistrationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       partnerRegistrationName,
       partnerRegistrationInfo,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -300,25 +299,24 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
   async beginDelete(
     resourceGroupName: string,
     partnerRegistrationName: string,
-    options?: PartnerRegistrationsDeleteOptionalParams
+    options?: PartnerRegistrationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -327,8 +325,8 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -336,19 +334,19 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, partnerRegistrationName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -363,12 +361,12 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
   async beginDeleteAndWait(
     resourceGroupName: string,
     partnerRegistrationName: string,
-    options?: PartnerRegistrationsDeleteOptionalParams
+    options?: PartnerRegistrationsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       partnerRegistrationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -384,25 +382,24 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
     resourceGroupName: string,
     partnerRegistrationName: string,
     partnerRegistrationUpdateParameters: PartnerRegistrationUpdateParameters,
-    options?: PartnerRegistrationsUpdateOptionalParams
+    options?: PartnerRegistrationsUpdateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -411,8 +408,8 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -420,8 +417,8 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -431,13 +428,13 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
         resourceGroupName,
         partnerRegistrationName,
         partnerRegistrationUpdateParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -454,13 +451,13 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
     resourceGroupName: string,
     partnerRegistrationName: string,
     partnerRegistrationUpdateParameters: PartnerRegistrationUpdateParameters,
-    options?: PartnerRegistrationsUpdateOptionalParams
+    options?: PartnerRegistrationsUpdateOptionalParams,
   ): Promise<void> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       partnerRegistrationName,
       partnerRegistrationUpdateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -470,11 +467,11 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: PartnerRegistrationsListBySubscriptionOptionalParams
+    options?: PartnerRegistrationsListBySubscriptionOptionalParams,
   ): Promise<PartnerRegistrationsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -485,11 +482,11 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: PartnerRegistrationsListByResourceGroupOptionalParams
+    options?: PartnerRegistrationsListByResourceGroupOptionalParams,
   ): Promise<PartnerRegistrationsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -500,11 +497,11 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: PartnerRegistrationsListBySubscriptionNextOptionalParams
+    options?: PartnerRegistrationsListBySubscriptionNextOptionalParams,
   ): Promise<PartnerRegistrationsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -517,11 +514,11 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: PartnerRegistrationsListByResourceGroupNextOptionalParams
+    options?: PartnerRegistrationsListByResourceGroupNextOptionalParams,
   ): Promise<PartnerRegistrationsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -529,43 +526,41 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerRegistration
+      bodyMapper: Mappers.PartnerRegistration,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerRegistrationName
+    Parameters.partnerRegistrationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerRegistration
+      bodyMapper: Mappers.PartnerRegistration,
     },
     201: {
-      bodyMapper: Mappers.PartnerRegistration
+      bodyMapper: Mappers.PartnerRegistration,
     },
     202: {
-      bodyMapper: Mappers.PartnerRegistration
+      bodyMapper: Mappers.PartnerRegistration,
     },
     204: {
-      bodyMapper: Mappers.PartnerRegistration
+      bodyMapper: Mappers.PartnerRegistration,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.partnerRegistrationInfo,
   queryParameters: [Parameters.apiVersion],
@@ -573,15 +568,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerRegistrationName
+    Parameters.partnerRegistrationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -589,13 +583,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerRegistrationName
+    Parameters.partnerRegistrationName,
   ],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}",
   httpMethod: "PATCH",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   requestBody: Parameters.partnerRegistrationUpdateParameters,
@@ -604,78 +597,76 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerRegistrationName
+    Parameters.partnerRegistrationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/partnerRegistrations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/partnerRegistrations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerRegistrationsListResult
+      bodyMapper: Mappers.PartnerRegistrationsListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerRegistrationsListResult
+      bodyMapper: Mappers.PartnerRegistrationsListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerRegistrationsListResult
+      bodyMapper: Mappers.PartnerRegistrationsListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerRegistrationsListResult
+      bodyMapper: Mappers.PartnerRegistrationsListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

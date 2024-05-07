@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all event subscriptions that have been created for a specific topic.
  *
  * @summary List all event subscriptions that have been created for a specific topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/TopicEventSubscriptions_List.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/TopicEventSubscriptions_List.json
  */
 async function topicEventSubscriptionsList() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function topicEventSubscriptionsList() {
   const resArray = new Array();
   for await (let item of client.topicEventSubscriptions.list(
     resourceGroupName,
-    topicName
+    topicName,
   )) {
     resArray.push(item);
   }

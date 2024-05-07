@@ -14,7 +14,8 @@ describe("State Manager", function () {
     try {
       manager.state = "started";
       throw new Error("should not have reached here, previous assignment should have failed");
-    } catch (error: any) {
+    } catch (error: unknown) {
+      expect(error instanceof RecorderError).to.equal(true);
       expect((error as RecorderError).name).to.equal("RecorderError");
       expect((error as RecorderError).message).to.equal(
         "Already started, should not have called start again.",
@@ -27,7 +28,8 @@ describe("State Manager", function () {
     try {
       manager.state = "stopped";
       throw new Error("should not have reached here, previous assignment should have failed");
-    } catch (error: any) {
+    } catch (error: unknown) {
+      expect(error instanceof RecorderError).to.equal(true);
       expect((error as RecorderError).name).to.equal("RecorderError");
       expect((error as RecorderError).message).to.equal(
         "Already stopped, should not have called stop again.",

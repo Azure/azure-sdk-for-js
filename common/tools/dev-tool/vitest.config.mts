@@ -13,11 +13,12 @@ export default defineConfig({
       toFake: ["setTimeout", "Date"],
     },
     watch: false,
-    include: ["tests/**/*.ts"],
-    exclude: ["tests/ruleTester.ts"],
+    include: ["test/**/*.spec.ts", "test/*.spec.ts"],
     coverage: {
       include: ["src/**/*.ts"],
-      exclude: ["vitest*.config.ts"],
+      exclude: [
+        "vitest*.config.ts",
+      ],
       provider: "istanbul",
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage",

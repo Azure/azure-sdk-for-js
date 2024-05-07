@@ -23,7 +23,7 @@ import {
   PartnerNamespacesListSharedAccessKeysResponse,
   PartnerNamespaceRegenerateKeyRequest,
   PartnerNamespacesRegenerateKeyOptionalParams,
-  PartnerNamespacesRegenerateKeyResponse
+  PartnerNamespacesRegenerateKeyResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface PartnerNamespaces {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: PartnerNamespacesListBySubscriptionOptionalParams
+    options?: PartnerNamespacesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PartnerNamespace>;
   /**
    * List all the partner namespaces under a resource group.
@@ -43,7 +43,7 @@ export interface PartnerNamespaces {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: PartnerNamespacesListByResourceGroupOptionalParams
+    options?: PartnerNamespacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PartnerNamespace>;
   /**
    * Get properties of a partner namespace.
@@ -54,7 +54,7 @@ export interface PartnerNamespaces {
   get(
     resourceGroupName: string,
     partnerNamespaceName: string,
-    options?: PartnerNamespacesGetOptionalParams
+    options?: PartnerNamespacesGetOptionalParams,
   ): Promise<PartnerNamespacesGetResponse>;
   /**
    * Asynchronously creates a new partner namespace with the specified parameters.
@@ -67,7 +67,7 @@ export interface PartnerNamespaces {
     resourceGroupName: string,
     partnerNamespaceName: string,
     partnerNamespaceInfo: PartnerNamespace,
-    options?: PartnerNamespacesCreateOrUpdateOptionalParams
+    options?: PartnerNamespacesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PartnerNamespacesCreateOrUpdateResponse>,
@@ -85,7 +85,7 @@ export interface PartnerNamespaces {
     resourceGroupName: string,
     partnerNamespaceName: string,
     partnerNamespaceInfo: PartnerNamespace,
-    options?: PartnerNamespacesCreateOrUpdateOptionalParams
+    options?: PartnerNamespacesCreateOrUpdateOptionalParams,
   ): Promise<PartnerNamespacesCreateOrUpdateResponse>;
   /**
    * Delete existing partner namespace.
@@ -96,7 +96,7 @@ export interface PartnerNamespaces {
   beginDelete(
     resourceGroupName: string,
     partnerNamespaceName: string,
-    options?: PartnerNamespacesDeleteOptionalParams
+    options?: PartnerNamespacesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete existing partner namespace.
@@ -107,7 +107,7 @@ export interface PartnerNamespaces {
   beginDeleteAndWait(
     resourceGroupName: string,
     partnerNamespaceName: string,
-    options?: PartnerNamespacesDeleteOptionalParams
+    options?: PartnerNamespacesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Asynchronously updates a partner namespace with the specified parameters.
@@ -120,7 +120,7 @@ export interface PartnerNamespaces {
     resourceGroupName: string,
     partnerNamespaceName: string,
     partnerNamespaceUpdateParameters: PartnerNamespaceUpdateParameters,
-    options?: PartnerNamespacesUpdateOptionalParams
+    options?: PartnerNamespacesUpdateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Asynchronously updates a partner namespace with the specified parameters.
@@ -133,7 +133,7 @@ export interface PartnerNamespaces {
     resourceGroupName: string,
     partnerNamespaceName: string,
     partnerNamespaceUpdateParameters: PartnerNamespaceUpdateParameters,
-    options?: PartnerNamespacesUpdateOptionalParams
+    options?: PartnerNamespacesUpdateOptionalParams,
   ): Promise<void>;
   /**
    * List the two keys used to publish to a partner namespace.
@@ -144,7 +144,7 @@ export interface PartnerNamespaces {
   listSharedAccessKeys(
     resourceGroupName: string,
     partnerNamespaceName: string,
-    options?: PartnerNamespacesListSharedAccessKeysOptionalParams
+    options?: PartnerNamespacesListSharedAccessKeysOptionalParams,
   ): Promise<PartnerNamespacesListSharedAccessKeysResponse>;
   /**
    * Regenerate a shared access key for a partner namespace.
@@ -157,6 +157,6 @@ export interface PartnerNamespaces {
     resourceGroupName: string,
     partnerNamespaceName: string,
     regenerateKeyRequest: PartnerNamespaceRegenerateKeyRequest,
-    options?: PartnerNamespacesRegenerateKeyOptionalParams
+    options?: PartnerNamespacesRegenerateKeyOptionalParams,
   ): Promise<PartnerNamespacesRegenerateKeyResponse>;
 }

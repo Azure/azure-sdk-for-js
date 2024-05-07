@@ -14,22 +14,21 @@ import {
 import { AzurePipelinesServiceConnectionCredentialOptions } from "./azurePipelinesServiceConnectionCredentialOptions";
 
 const credentialName = "AzurePipelinesServiceConnectionCredential";
-const OIDC_API_VERSION = "7.1";
 const logger = credentialLogger(credentialName);
+const OIDC_API_VERSION = "7.1-preview.1";
 
 /**
- * This credential is designed to be used in ADO Pipelines with service connections
+ * This credential is designed to be used in Azure Pipelines with service connections
  * as a setup for workload identity federation.
  */
 export class AzurePipelinesServiceConnectionCredential implements TokenCredential {
   private clientAssertionCredential: ClientAssertionCredential | undefined;
-  private serviceConnectionId: string | undefined;
 
   /**
    * AzurePipelinesServiceConnectionCredential supports Federated Identity on Azure Pipelines through Service Connections.
    * @param tenantId - tenantId associated with the service connection
    * @param clientId - clientId associated with the service connection
-   * @param serviceConnectionId - id for the service connection
+   * @param serviceConnectionId - id for the service connection, as found in the querystring's resourceId key
    * @param options - The identity client options to use for authentication.
    */
   constructor(
@@ -51,7 +50,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
 
     if (clientId && tenantId && serviceConnectionId) {
       this.ensurePipelinesSystemVars();
-      const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=${OIDC_API_VERSION}&serviceConnectionId=${this.serviceConnectionId}`;
+      const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=${OIDC_API_VERSION}&serviceConnectionId=${serviceConnectionId}`;
       const systemAccessToken = `${process.env.SYSTEM_ACCESSTOKEN}`;
       logger.info(
         `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`,
@@ -78,8 +77,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     options?: GetTokenOptions,
   ): Promise<AccessToken> {
     if (!this.clientAssertionCredential) {
-      const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required parameters. 
-      To use Federation Identity in Azure Pipelines, these are required as inputs / env variables - 
+      const errorMessage = `${credentialName}: is unavailable. To use Federation Identity in Azure Pipelines, these are required as input parameters / env variables - 
       tenantId,
       clientId,
       serviceConnectionId,
@@ -123,17 +121,27 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     const response = await httpClient.sendRequest(request);
     const text = response.bodyAsText;
     if (!text) {
-      throw new AuthenticationError(
-        response.status,
-        `${credentialName}: Authenticated Failed. Received null token from OIDC request.`,
+      logger.error(
+        `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
+          response.status
+        }. Complete response - ${JSON.stringify(response)}`,
+      );
+      throw new CredentialUnavailableError(
+        `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
+          response.status
+        }. Complete response - ${JSON.stringify(response)}`,
       );
     }
     const result = JSON.parse(text);
     if (result?.oidcToken) {
       return result.oidcToken;
     } else {
-      throw new AuthenticationError(
-        response.status,
+      logger.error(
+        `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
+          result,
+        )}`,
+      );
+      throw new CredentialUnavailableError(
         `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
           result,
         )}`,

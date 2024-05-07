@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the namespace topics under a namespace.
  *
  * @summary List all the namespace topics under a namespace.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/NamespaceTopics_ListByNamespace.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/NamespaceTopics_ListByNamespace.json
  */
 async function namespaceTopicsListByNamespace() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function namespaceTopicsListByNamespace() {
   const resArray = new Array();
   for await (let item of client.namespaceTopics.listByNamespace(
     resourceGroupName,
-    namespaceName
+    namespaceName,
   )) {
     resArray.push(item);
   }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PartnerConfiguration,
-  EventGridManagementClient
+  EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Synchronously creates or updates a partner configuration with the specified parameters.
  *
  * @summary Synchronously creates or updates a partner configuration with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerConfigurations_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerConfigurations_CreateOrUpdate.json
  */
 async function partnerConfigurationsCreateOrUpdate() {
   const subscriptionId =
@@ -34,27 +34,29 @@ async function partnerConfigurationsCreateOrUpdate() {
       authorizedPartnersList: [
         {
           authorizationExpirationTimeInUtc: new Date(
-            "2022-01-28T01:20:55.142Z"
+            "2022-01-28T01:20:55.142Z",
           ),
           partnerName: "Contoso.Finance",
-          partnerRegistrationImmutableId: "941892bc-f5d0-4d1c-8fb5-477570fc2b71"
+          partnerRegistrationImmutableId:
+            "941892bc-f5d0-4d1c-8fb5-477570fc2b71",
         },
         {
           authorizationExpirationTimeInUtc: new Date(
-            "2022-02-20T01:00:00.142Z"
+            "2022-02-20T01:00:00.142Z",
           ),
           partnerName: "fabrikam.HR",
-          partnerRegistrationImmutableId: "5362bdb6-ce3e-4d0d-9a5b-3eb92c8aab38"
-        }
+          partnerRegistrationImmutableId:
+            "5362bdb6-ce3e-4d0d-9a5b-3eb92c8aab38",
+        },
       ],
-      defaultMaximumExpirationTimeInDays: 10
-    }
+      defaultMaximumExpirationTimeInDays: 10,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.partnerConfigurations.beginCreateOrUpdateAndWait(
     resourceGroupName,
-    partnerConfigurationInfo
+    partnerConfigurationInfo,
   );
   console.log(result);
 }
