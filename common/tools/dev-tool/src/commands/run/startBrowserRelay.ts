@@ -23,7 +23,7 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async (options) => {
-  await startRelayServer({
+  startRelayServer({
     listenHost: options.listenHost,
     port: Number(options.port),
   });

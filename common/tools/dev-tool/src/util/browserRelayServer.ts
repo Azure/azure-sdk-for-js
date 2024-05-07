@@ -5,6 +5,9 @@ import express from "express";
 import type { Express } from "express-serve-static-core";
 import { DefaultAzureCredential, type TokenCredential } from "@azure/identity";
 import { randomUUID } from "node:crypto";
+import { createPrinter } from "./printer";
+
+const printer = createPrinter("browser-relay");
 
 export interface TestCredentialServerOptions {
   /**
@@ -83,8 +86,15 @@ export async function isRelayAlive(options: TestCredentialServerOptions = {}): P
     const res = await fetch(
       `http://${options.listenHost ?? "localhost"}:${options.port ?? 4895}/health`,
     );
-    return res.ok;
+
+    if (res.ok) {
+      printer("Browser relay is already alive");
+      return true;
+    } else {
+      throw new Error(`Browser relay responded with an error: ${await res.text()}`);
+    }
   } catch (e) {
+    printer("Browser relay is not yet alive");
     return false;
   }
 }
@@ -98,6 +108,9 @@ export function startRelayServer(options: TestCredentialServerOptions = {}): () 
   const app = express();
   buildServer(app);
 
-  const server = app.listen(options.port ?? 4895, options.listenHost ?? "localhost");
+  const { listenHost = "localhost", port = 4895 } = options;
+
+  printer(`Starting browser relay on http://${listenHost}:${port}/`);
+  const server = app.listen(port, listenHost);
   return () => server.close();
 }
