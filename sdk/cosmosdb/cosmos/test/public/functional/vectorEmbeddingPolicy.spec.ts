@@ -421,6 +421,46 @@ describe("Vector Search Query large dataset", async () => {
     assert.equal(id, 1000);
   });
 
+  it("should execute vector search query with top in query, large data", async function () {
+    // create a queryiterator to run vector search query
+    const query =
+      "SELECT TOP 1000 c.id AS Id  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'euclidean'}) desc";
+    const iterator = container1.items.query(query);
+    // execute order by query on it
+    let id = 2000;
+    while (iterator.hasMoreResults()) {
+      const { resources: result } = await iterator.fetchNext();
+      if (result !== undefined) {
+        for (const item of result) {
+          assert.equal(item.Id, id.toString());
+          id--;
+        }
+      }
+    }
+    assert.equal(id, 1000);
+  });
+
+  it("should execute vector search query, large data with offset 1000 and limit 500", async function () {
+    // create a queryiterator to run vector search query
+    const query =
+      "SELECT c.id AS Id  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'euclidean'}) desc OFFSET 1000 LIMIT 500";
+    const iterator = container1.items.query(query);
+    // execute order by query on it
+    // offset is set to 1000, so id should start from 1000
+    let id = 1000;
+    while (iterator.hasMoreResults()) {
+      const { resources: result } = await iterator.fetchNext();
+      if (result !== undefined) {
+        for (const item of result) {
+          assert.equal(item.Id, id.toString());
+          id--;
+        }
+      }
+    }
+    // id should be 500 after fetching 500 items
+    assert.equal(id, 500);
+  });
+
   after(async function () {
     await database.delete();
   });
