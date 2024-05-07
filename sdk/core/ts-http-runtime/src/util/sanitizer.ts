@@ -162,7 +162,7 @@ export class Sanitizer {
     return sanitized;
   }
 
-  private sanitizeUrl(value: string): string {
+  public sanitizeUrl(value: string): string {
     if (typeof value !== "string" || value === null) {
       return value;
     }
