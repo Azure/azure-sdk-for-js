@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { assert } from "chai";
 import { createTableClient } from "./utils/recordedClient";
 import { isLiveMode } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 
 describe("SpecialCharacters", function () {
   before(function (this: Context) {
@@ -17,7 +17,7 @@ describe("SpecialCharacters", function () {
     }
   });
   let client: TableClient;
-  const suffix = isNode ? "Node" : "Browser";
+  const suffix = isNodeLike ? "Node" : "Browser";
   const tableName = `SpecialCharacterTest${suffix}`;
   const specialCharacters = [
     { char: `'`, name: "single quote" },
@@ -226,12 +226,12 @@ describe("SpecialCharacters", function () {
         }
 
         const hasEntity = results.some(
-          (e) => e.partitionKey === partitionKey && e.rowKey === rowKey && e.value === value
+          (e) => e.partitionKey === partitionKey && e.rowKey === rowKey && e.value === value,
         );
 
         assert.isTrue(
           hasEntity,
-          `Couldn't find entity with partitionKey: ${partitionKey} and rowKey: ${rowKey}`
+          `Couldn't find entity with partitionKey: ${partitionKey} and rowKey: ${rowKey}`,
         );
       });
     });

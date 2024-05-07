@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import { PollerStoppedError } from "@azure/core-lro";
 import { env, Recorder } from "@azure-tools/test-recorder";
@@ -35,12 +35,12 @@ describe("Certificates client - lro - delete", () => {
 
   it("can wait until a certificate is deleted", async function (this: Context) {
     const certificateName = testClient.formatName(
-      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`,
     );
     const createPoller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
     await createPoller.pollUntilDone();
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
@@ -64,12 +64,12 @@ describe("Certificates client - lro - delete", () => {
   it("can resume from a stopped poller", async function (this: Context) {
     this.retries(5);
     const certificateName = testClient.formatName(
-      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`,
     );
     const createPoller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
     await createPoller.pollUntilDone();
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);

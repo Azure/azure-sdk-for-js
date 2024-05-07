@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HealthcareApisManagementClient } from "../healthcareApisManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   IotConnector,
   IotConnectorsListByWorkspaceNextOptionalParams,
@@ -28,7 +32,7 @@ import {
   IotConnectorsUpdateOptionalParams,
   IotConnectorsUpdateResponse,
   IotConnectorsDeleteOptionalParams,
-  IotConnectorsListByWorkspaceNextResponse
+  IotConnectorsListByWorkspaceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,12 +57,12 @@ export class IotConnectorsImpl implements IotConnectors {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IotConnectorsListByWorkspaceOptionalParams
+    options?: IotConnectorsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<IotConnector> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +79,9 @@ export class IotConnectorsImpl implements IotConnectors {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +89,7 @@ export class IotConnectorsImpl implements IotConnectors {
     resourceGroupName: string,
     workspaceName: string,
     options?: IotConnectorsListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IotConnector[]> {
     let result: IotConnectorsListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +97,7 @@ export class IotConnectorsImpl implements IotConnectors {
       result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +109,7 @@ export class IotConnectorsImpl implements IotConnectors {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +121,12 @@ export class IotConnectorsImpl implements IotConnectors {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IotConnectorsListByWorkspaceOptionalParams
+    options?: IotConnectorsListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<IotConnector> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +141,11 @@ export class IotConnectorsImpl implements IotConnectors {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IotConnectorsListByWorkspaceOptionalParams
+    options?: IotConnectorsListByWorkspaceOptionalParams,
   ): Promise<IotConnectorsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -156,11 +160,11 @@ export class IotConnectorsImpl implements IotConnectors {
     resourceGroupName: string,
     workspaceName: string,
     iotConnectorName: string,
-    options?: IotConnectorsGetOptionalParams
+    options?: IotConnectorsGetOptionalParams,
   ): Promise<IotConnectorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, iotConnectorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -177,30 +181,29 @@ export class IotConnectorsImpl implements IotConnectors {
     workspaceName: string,
     iotConnectorName: string,
     iotConnector: IotConnector,
-    options?: IotConnectorsCreateOrUpdateOptionalParams
+    options?: IotConnectorsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IotConnectorsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotConnectorsCreateOrUpdateResponse>,
       IotConnectorsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IotConnectorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -209,8 +212,8 @@ export class IotConnectorsImpl implements IotConnectors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -218,25 +221,28 @@ export class IotConnectorsImpl implements IotConnectors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         iotConnectorName,
         iotConnector,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      IotConnectorsCreateOrUpdateResponse,
+      OperationState<IotConnectorsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -255,14 +261,14 @@ export class IotConnectorsImpl implements IotConnectors {
     workspaceName: string,
     iotConnectorName: string,
     iotConnector: IotConnector,
-    options?: IotConnectorsCreateOrUpdateOptionalParams
+    options?: IotConnectorsCreateOrUpdateOptionalParams,
   ): Promise<IotConnectorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
       iotConnectorName,
       iotConnector,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -280,30 +286,29 @@ export class IotConnectorsImpl implements IotConnectors {
     iotConnectorName: string,
     workspaceName: string,
     iotConnectorPatchResource: IotConnectorPatchResource,
-    options?: IotConnectorsUpdateOptionalParams
+    options?: IotConnectorsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IotConnectorsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotConnectorsUpdateResponse>,
       IotConnectorsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IotConnectorsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -312,8 +317,8 @@ export class IotConnectorsImpl implements IotConnectors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -321,25 +326,28 @@ export class IotConnectorsImpl implements IotConnectors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         iotConnectorName,
         workspaceName,
         iotConnectorPatchResource,
-        options
+        options,
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      IotConnectorsUpdateResponse,
+      OperationState<IotConnectorsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -358,14 +366,14 @@ export class IotConnectorsImpl implements IotConnectors {
     iotConnectorName: string,
     workspaceName: string,
     iotConnectorPatchResource: IotConnectorPatchResource,
-    options?: IotConnectorsUpdateOptionalParams
+    options?: IotConnectorsUpdateOptionalParams,
   ): Promise<IotConnectorsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       iotConnectorName,
       workspaceName,
       iotConnectorPatchResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -381,25 +389,24 @@ export class IotConnectorsImpl implements IotConnectors {
     resourceGroupName: string,
     iotConnectorName: string,
     workspaceName: string,
-    options?: IotConnectorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: IotConnectorsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -408,8 +415,8 @@ export class IotConnectorsImpl implements IotConnectors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -417,19 +424,19 @@ export class IotConnectorsImpl implements IotConnectors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, iotConnectorName, workspaceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, iotConnectorName, workspaceName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -446,13 +453,13 @@ export class IotConnectorsImpl implements IotConnectors {
     resourceGroupName: string,
     iotConnectorName: string,
     workspaceName: string,
-    options?: IotConnectorsDeleteOptionalParams
+    options?: IotConnectorsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       iotConnectorName,
       workspaceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -468,11 +475,11 @@ export class IotConnectorsImpl implements IotConnectors {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: IotConnectorsListByWorkspaceNextOptionalParams
+    options?: IotConnectorsListByWorkspaceNextOptionalParams,
   ): Promise<IotConnectorsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 }
@@ -480,38 +487,15 @@ export class IotConnectorsImpl implements IotConnectors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IotConnectorCollection
+      bodyMapper: Mappers.IotConnectorCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors/{iotConnectorName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IotConnector
+      bodyMapper: Mappers.ErrorDetails,
     },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -519,31 +503,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.iotConnectorName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors/{iotConnectorName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IotConnector,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.iotConnectorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors/{iotConnectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors/{iotConnectorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IotConnector
+      bodyMapper: Mappers.IotConnector,
     },
     201: {
-      bodyMapper: Mappers.IotConnector
+      bodyMapper: Mappers.IotConnector,
     },
     202: {
-      bodyMapper: Mappers.IotConnector
+      bodyMapper: Mappers.IotConnector,
     },
     204: {
-      bodyMapper: Mappers.IotConnector
+      bodyMapper: Mappers.IotConnector,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   requestBody: Parameters.iotConnector,
   queryParameters: [Parameters.apiVersion],
@@ -552,32 +556,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.iotConnectorName
+    Parameters.iotConnectorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors/{iotConnectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors/{iotConnectorName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.IotConnector
+      bodyMapper: Mappers.IotConnector,
     },
     201: {
-      bodyMapper: Mappers.IotConnector
+      bodyMapper: Mappers.IotConnector,
     },
     202: {
-      bodyMapper: Mappers.IotConnector
+      bodyMapper: Mappers.IotConnector,
     },
     204: {
-      bodyMapper: Mappers.IotConnector
+      bodyMapper: Mappers.IotConnector,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   requestBody: Parameters.iotConnectorPatchResource,
   queryParameters: [Parameters.apiVersion],
@@ -586,15 +589,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.iotConnectorName
+    Parameters.iotConnectorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors/{iotConnectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors/{iotConnectorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -602,8 +604,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -611,30 +613,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.iotConnectorName
+    Parameters.iotConnectorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IotConnectorCollection
+      bodyMapper: Mappers.IotConnectorCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

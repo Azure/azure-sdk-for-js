@@ -50,7 +50,7 @@ async function createExpressRouteCircuit() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
       subscriptionId,
       resourceGroupName,
-      circuitName
+      circuitName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -94,7 +94,7 @@ async function createExpressRouteCircuitOnExpressRoutePort() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
       subscriptionId,
       resourceGroupName,
-      circuitName
+      circuitName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

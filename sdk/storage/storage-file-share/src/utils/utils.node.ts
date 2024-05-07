@@ -19,7 +19,7 @@ export async function streamToBuffer(
   buffer: Buffer,
   offset: number,
   end: number,
-  encoding?: BufferEncoding
+  encoding?: BufferEncoding,
 ): Promise<void> {
   let pos = 0; // Position in stream
   const count = end - offset; // Total amount of data needed in stream
@@ -27,7 +27,7 @@ export async function streamToBuffer(
   return new Promise<void>((resolve, reject) => {
     const timeout = setTimeout(
       () => reject(new Error(`The operation cannot be completed in timeout.`)),
-      REQUEST_TIMEOUT
+      REQUEST_TIMEOUT,
     );
     stream.on("readable", () => {
       if (pos >= count) {
@@ -56,8 +56,8 @@ export async function streamToBuffer(
       if (pos < count) {
         reject(
           new Error(
-            `Stream drains before getting enough data needed. Data read: ${pos}, data need: ${count}`
-          )
+            `Stream drains before getting enough data needed. Data read: ${pos}, data need: ${count}`,
+          ),
         );
       }
       resolve();
@@ -80,7 +80,7 @@ export async function streamToBuffer(
  */
 export async function readStreamToLocalFile(
   rs: NodeJS.ReadableStream,
-  file: string
+  file: string,
 ): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const ws = fs.createWriteStream(file);

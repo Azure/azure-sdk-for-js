@@ -5,10 +5,11 @@
 
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, delay, env, isLiveMode } from "@azure-tools/test-recorder";
+
 import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
 import { UsernamePasswordCredential } from "../../../src";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 // https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/identity/Azure.Identity/src/Constants.cs#L9
 const DeveloperSignOnClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";
@@ -37,7 +38,7 @@ describe("UsernamePasswordCredential", function () {
       clientId,
       env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
       env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
 
     const token = await credential.getToken(scope);
@@ -53,7 +54,10 @@ describe("UsernamePasswordCredential", function () {
       tenantId,
       clientId,
       env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
-      env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!
+      env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
+      recorder.configureClientOptions({
+        authorityHost: "https://fake-authority.com",
+      }),
     );
 
     const controller = new AbortController();
@@ -85,12 +89,12 @@ describe("UsernamePasswordCredential", function () {
           clientId,
           env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
           env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
-          recorder.configureClientOptions({})
+          recorder.configureClientOptions({}),
         );
 
         await credential.getToken(scope, tracingOptions);
       },
-      ["UsernamePasswordCredential.getToken"]
+      ["UsernamePasswordCredential.getToken"],
     );
   });
 });

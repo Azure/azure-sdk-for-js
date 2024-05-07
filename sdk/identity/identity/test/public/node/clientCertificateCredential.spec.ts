@@ -4,13 +4,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import * as path from "path";
+
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, delay, env, isPlaybackMode } from "@azure-tools/test-recorder";
+
 import { AbortController } from "@azure/abort-controller";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
 import { PipelineResponse } from "@azure/core-rest-pipeline";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import fs from "fs";
 
 const ASSET_PATH = "assets";
@@ -37,7 +39,7 @@ describe("ClientCertificateCredential", function () {
       env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
       env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
       env.IDENTITY_SP_CERT_PEM || certificatePath!,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
 
     const token = await credential.getToken(scope);
@@ -53,29 +55,7 @@ describe("ClientCertificateCredential", function () {
         certificate:
           env.IDENTITY_PEM_CONTENTS || fs.readFileSync(certificatePath, { encoding: "utf-8" }),
       },
-      recorder.configureClientOptions({})
-    );
-
-    const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
-  });
-
-  it("authenticates with sendCertificateChain", async function (this: Context) {
-    if (isPlaybackMode()) {
-      // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
-      // This assertion could be provided as parameters, but we don't have that in the public API yet,
-      // and I'm trying to avoid having to generate one ourselves.
-      this.skip();
-    }
-
-    const credential = new ClientCertificateCredential(
-      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
-      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
-      recorder.configureClientOptions({
-        certificatePath: env.IDENTITY_SP_CERT_SNI_PEM || certificatePath,
-      }),
-      { sendCertificateChain: true }
+      recorder.configureClientOptions({}),
     );
 
     const token = await credential.getToken(scope);
@@ -94,13 +74,14 @@ describe("ClientCertificateCredential", function () {
       env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
       certificatePath,
       recorder.configureClientOptions({
+        authorityHost: "https://fake-authority.com",
         httpClient: {
           async sendRequest(): Promise<PipelineResponse> {
             await delay(100);
             throw new Error("Fake HTTP client.");
           },
         },
-      })
+      }),
     );
 
     const controller = new AbortController();
@@ -133,12 +114,12 @@ describe("ClientCertificateCredential", function () {
         const credential = new ClientCertificateCredential(
           env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
           env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
-          recorder.configureClientOptions({ certificatePath })
+          recorder.configureClientOptions({ certificatePath }),
         );
 
         await credential.getToken(scope, tracingOptions);
       },
-      ["ClientCertificateCredential.getToken"]
+      ["ClientCertificateCredential.getToken"],
     );
   });
 });

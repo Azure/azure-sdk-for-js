@@ -59,6 +59,7 @@ import {
   SendConfigurationSettingsOptions,
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
+  extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
   formatConfigurationSettingsFiltersAndSelect,
@@ -130,12 +131,12 @@ export class AppConfigurationClient {
   constructor(
     endpoint: string,
     tokenCredential: TokenCredential,
-    options?: AppConfigurationClientOptions
+    options?: AppConfigurationClientOptions,
   );
   constructor(
     connectionStringOrEndpoint: string,
     tokenCredentialOrOptions?: TokenCredential | AppConfigurationClientOptions,
-    options?: AppConfigurationClientOptions
+    options?: AppConfigurationClientOptions,
   ) {
     let appConfigOptions: InternalAppConfigurationClientOptions = {};
     let appConfigCredential: TokenCredential;
@@ -161,7 +162,7 @@ export class AppConfigurationClient {
       } else {
         throw new Error(
           `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.` +
-            ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`
+            ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`,
         );
       }
     }
@@ -180,7 +181,7 @@ export class AppConfigurationClient {
     this.client = new AppConfiguration(
       appConfigEndpoint,
       appConfigurationApiVersion,
-      internalClientPipelineOptions
+      internalClientPipelineOptions,
     );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
@@ -202,7 +203,7 @@ export class AppConfigurationClient {
       | AddConfigurationSettingParam
       | AddConfigurationSettingParam<FeatureFlagValue>
       | AddConfigurationSettingParam<SecretReferenceValue>,
-    options: AddConfigurationSettingOptions = {}
+    options: AddConfigurationSettingOptions = {},
   ): Promise<AddConfigurationSettingResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.addConfigurationSetting",
@@ -229,7 +230,7 @@ export class AppConfigurationClient {
           throw err;
         }
         throw new Error("Unreachable code");
-      }
+      },
     );
   }
 
@@ -245,7 +246,7 @@ export class AppConfigurationClient {
    */
   deleteConfigurationSetting(
     id: ConfigurationSettingId,
-    options: DeleteConfigurationSettingOptions = {}
+    options: DeleteConfigurationSettingOptions = {},
   ): Promise<DeleteConfigurationSettingResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.deleteConfigurationSetting",
@@ -265,7 +266,7 @@ export class AppConfigurationClient {
         const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -281,7 +282,7 @@ export class AppConfigurationClient {
    */
   async getConfigurationSetting(
     id: ConfigurationSettingId,
-    options: GetConfigurationSettingOptions = {}
+    options: GetConfigurationSettingOptions = {},
   ): Promise<GetConfigurationSettingResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.getConfigurationSetting",
@@ -314,7 +315,7 @@ export class AppConfigurationClient {
         }
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -329,24 +330,55 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   listConfigurationSettings(
-    options: ListConfigurationSettingsOptions = {}
+    options: ListConfigurationSettingsOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
+    const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
+    delete options.pageEtags;
+    const etag = pageEtags?.shift();
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
       {
         firstPageLink: undefined,
         getPage: async (pageLink: string | undefined) => {
-          const response = await this.sendConfigurationSettingsRequest(options, pageLink);
-          const currentResponse = {
-            ...response,
-            items: response.items != null ? response.items?.map(transformKeyValue) : [],
-            continuationToken: response.nextLink
-              ? extractAfterTokenFromNextLink(response.nextLink)
-              : undefined,
-          };
-          return {
-            page: currentResponse,
-            nextPageLink: currentResponse.continuationToken,
-          };
+          try {
+            const response = await this.sendConfigurationSettingsRequest(
+              { ...options, etag },
+              pageLink,
+            );
+            const currentResponse: ListConfigurationSettingPage = {
+              ...response,
+              items: response.items != null ? response.items?.map(transformKeyValue) : [],
+              continuationToken: response.nextLink
+                ? extractAfterTokenFromNextLink(response.nextLink)
+                : undefined,
+              _response: response._response,
+            };
+            return {
+              page: currentResponse,
+              nextPageLink: currentResponse.continuationToken,
+            };
+          } catch (error) {
+            const err = error as RestError;
+
+            const link = err.response?.headers?.get("link");
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+
+            if (err.statusCode === 304) {
+              err.message = `Status 304: No updates for this page`;
+              logger.info(
+                `[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
+              );
+              return {
+                page: {
+                  items: [],
+                  etag,
+                  _response: { ...err.response, status: 304 },
+                } as unknown as ListConfigurationSettingPage,
+                nextPageLink: continuationToken,
+              };
+            }
+
+            throw err;
+          }
         },
         toElements: (page) => page.items,
       };
@@ -365,7 +397,7 @@ export class AppConfigurationClient {
    */
   listConfigurationSettingsForSnapshot(
     snapshotName: string,
-    options: ListConfigurationSettingsForSnapshotOptions = {}
+    options: ListConfigurationSettingsForSnapshotOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
       {
@@ -373,7 +405,7 @@ export class AppConfigurationClient {
         getPage: async (pageLink: string | undefined) => {
           const response = await this.sendConfigurationSettingsRequest(
             { snapshotName, ...options },
-            pageLink
+            pageLink,
           );
           const currentResponse = {
             ...response,
@@ -394,7 +426,7 @@ export class AppConfigurationClient {
 
   private async sendConfigurationSettingsRequest(
     options: SendConfigurationSettingsOptions & PageSettings = {},
-    pageLink: string | undefined
+    pageLink: string | undefined,
   ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listConfigurationSettings",
@@ -404,12 +436,13 @@ export class AppConfigurationClient {
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatConfigurationSettingsFiltersAndSelect(options),
+          ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
           after: pageLink,
         });
 
         return response as GetKeyValuesResponse &
           HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
-      }
+      },
     );
   }
   /**
@@ -423,7 +456,7 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   listRevisions(
-    options?: ListRevisionsOptions
+    options?: ListRevisionsOptions,
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings> {
     const pagedResult: PagedResult<ListRevisionsPage, PageSettings, string | undefined> = {
       firstPageLink: undefined,
@@ -449,7 +482,7 @@ export class AppConfigurationClient {
 
   private async sendRevisionsRequest(
     options: ListConfigurationSettingsOptions & PageSettings = {},
-    pageLink: string | undefined
+    pageLink: string | undefined,
   ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listRevisions",
@@ -464,7 +497,7 @@ export class AppConfigurationClient {
 
         return response as GetRevisionsResponse &
           HttpResponseField<AppConfigurationGetRevisionsHeaders>;
-      }
+      },
     );
   }
 
@@ -484,7 +517,7 @@ export class AppConfigurationClient {
       | SetConfigurationSettingParam
       | SetConfigurationSettingParam<FeatureFlagValue>
       | SetConfigurationSettingParam<SecretReferenceValue>,
-    options: SetConfigurationSettingOptions = {}
+    options: SetConfigurationSettingOptions = {},
   ): Promise<SetConfigurationSettingResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.setConfigurationSetting",
@@ -498,11 +531,11 @@ export class AppConfigurationClient {
             label: configurationSetting.label,
             entity: keyValue,
             ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
-          })
+          }),
         );
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -513,7 +546,7 @@ export class AppConfigurationClient {
   async setReadOnly(
     id: ConfigurationSettingId,
     readOnly: boolean,
-    options: SetReadOnlyOptions = {}
+    options: SetReadOnlyOptions = {},
   ): Promise<SetReadOnlyResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.setReadOnly",
@@ -538,7 +571,7 @@ export class AppConfigurationClient {
         response = transformKeyValueResponse(response);
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -557,13 +590,13 @@ export class AppConfigurationClient {
    */
   beginCreateSnapshot(
     snapshot: SnapshotInfo,
-    options: CreateSnapshotOptions = {}
+    options: CreateSnapshotOptions = {},
   ): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>> {
     return tracingClient.withSpan(
       `${AppConfigurationClient.name}.beginCreateSnapshot`,
       options,
       (updatedOptions) =>
-        this.client.beginCreateSnapshot(snapshot.name, snapshot, { ...updatedOptions })
+        this.client.beginCreateSnapshot(snapshot.name, snapshot, { ...updatedOptions }),
     );
   }
 
@@ -573,13 +606,13 @@ export class AppConfigurationClient {
    */
   beginCreateSnapshotAndWait(
     snapshot: SnapshotInfo,
-    options: CreateSnapshotOptions = {}
+    options: CreateSnapshotOptions = {},
   ): Promise<CreateSnapshotResponse> {
     return tracingClient.withSpan(
       `${AppConfigurationClient.name}.beginCreateSnapshotAndWait`,
       options,
       (updatedOptions) =>
-        this.client.beginCreateSnapshotAndWait(snapshot.name, snapshot, { ...updatedOptions })
+        this.client.beginCreateSnapshotAndWait(snapshot.name, snapshot, { ...updatedOptions }),
     );
   }
 
@@ -605,7 +638,7 @@ export class AppConfigurationClient {
         const response = transformSnapshotResponse(originalResponse);
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -621,7 +654,7 @@ export class AppConfigurationClient {
    */
   recoverSnapshot(
     name: string,
-    options: UpdateSnapshotOptions = {}
+    options: UpdateSnapshotOptions = {},
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.recoverSnapshot",
@@ -635,14 +668,14 @@ export class AppConfigurationClient {
             ...updatedOptions,
             ...checkAndFormatIfAndIfNoneMatch(
               { etag: options.etag },
-              { onlyIfUnchanged: true, ...options }
+              { onlyIfUnchanged: true, ...options },
             ),
-          }
+          },
         );
         const response = transformSnapshotResponse(originalResponse);
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
   /**
@@ -657,7 +690,7 @@ export class AppConfigurationClient {
    */
   archiveSnapshot(
     name: string,
-    options: UpdateSnapshotOptions = {}
+    options: UpdateSnapshotOptions = {},
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.archiveSnapshot",
@@ -671,14 +704,14 @@ export class AppConfigurationClient {
             ...updatedOptions,
             ...checkAndFormatIfAndIfNoneMatch(
               { etag: options.etag },
-              { onlyIfUnchanged: true, ...options }
+              { onlyIfUnchanged: true, ...options },
             ),
-          }
+          },
         );
         const response = transformSnapshotResponse(originalResponse);
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -692,7 +725,7 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   listSnapshots(
-    options: ListSnapshotsOptions = {}
+    options: ListSnapshotsOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSnapshot, ListSnapshotsPage, PageSettings> {
     const pagedResult: PagedResult<ListSnapshotsPage, PageSettings, string | undefined> = {
       firstPageLink: undefined,
@@ -717,7 +750,7 @@ export class AppConfigurationClient {
 
   private async sendSnapShotsRequest(
     options: ListSnapshotsOptions & PageSettings = {},
-    pageLink: string | undefined
+    pageLink: string | undefined,
   ): Promise<GetSnapshotsResponse & HttpResponseField<AppConfigurationGetSnapshotsHeaders>> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listSnapshots",
@@ -731,7 +764,7 @@ export class AppConfigurationClient {
 
         return response as GetSnapshotsResponse &
           HttpResponseField<AppConfigurationGetSnapshotsHeaders>;
-      }
+      },
     );
   }
 }

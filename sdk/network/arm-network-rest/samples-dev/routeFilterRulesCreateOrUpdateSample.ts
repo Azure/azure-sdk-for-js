@@ -41,7 +41,7 @@ async function routeFilterRuleCreate() {
       subscriptionId,
       resourceGroupName,
       routeFilterName,
-      ruleName
+      ruleName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

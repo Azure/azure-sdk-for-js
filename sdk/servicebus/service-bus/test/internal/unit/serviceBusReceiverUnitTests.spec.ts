@@ -7,7 +7,7 @@ import { assertThrows } from "../../public/utils/testUtils";
 import { createConnectionContextForTests, getPromiseResolverForTest } from "./unittestUtils";
 import chai from "chai";
 import { InternalMessageHandlers } from "../../../src/models";
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 describe("ServiceBusReceiver unit tests", () => {
   let receiver: ServiceBusReceiverImpl;
@@ -18,7 +18,7 @@ describe("ServiceBusReceiver unit tests", () => {
       "entityPath",
       "peekLock",
       0,
-      false
+      false,
     );
   });
 
@@ -56,7 +56,7 @@ describe("ServiceBusReceiver unit tests", () => {
     await assertThrows(
       subscribeFn,
       expectedError,
-      "Trying to receive a separate way, in parallel, should throw"
+      "Trying to receive a separate way, in parallel, should throw",
     );
   });
 
@@ -84,7 +84,7 @@ describe("ServiceBusReceiver unit tests", () => {
     await assertThrows(
       () => receiver.receiveMessages(1),
       expectedError,
-      "Trying to receive a separate way, in parallel, should throw"
+      "Trying to receive a separate way, in parallel, should throw",
     );
   });
 });

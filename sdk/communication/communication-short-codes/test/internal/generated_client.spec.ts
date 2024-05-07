@@ -11,14 +11,14 @@ import { ShortCodesClient as ShortCodesGeneratedClient } from "../../src/generat
 import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import { createMockToken } from "../public/utils/recordedClient";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 import { parseClientArguments } from "@azure/communication-common";
 import sinon from "sinon";
 import { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,
-  parsedBody?: T
+  parsedBody?: T,
 ): HttpClient => {
   return {
     async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
@@ -34,12 +34,12 @@ export const createMockHttpClient = <T = Record<string, unknown>>(
 
 export const userAgentPolicy: (policyName: string, customHeader: string) => PipelinePolicy = (
   customHeader: string,
-  policyName: string
+  policyName: string,
 ) => {
   return {
     name: policyName,
     sendRequest: async (req, next) => {
-      const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
+      const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
       req.headers.set(userAgentHeader, customHeader);
       return next(req);
     },
@@ -99,15 +99,15 @@ describe("ShortCodesGeneratedClient - constructor", function () {
     // verify bearer token policy exists, after explicitly adding it
     assert.isDefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
-      "pipeline should have bearerTokenAuthenticationPolicyName"
+      "pipeline should have bearerTokenAuthenticationPolicyName",
     );
     assert.isDefined(
       policies.find((p) => p.name === customHeaderPolicyName),
-      "pipeline should have customHeaderPolicyName"
+      "pipeline should have customHeaderPolicyName",
     );
     assert.isDefined(
       policies.find((p) => p.name === "CustomApiVersionPolicy"),
-      "pipeline should have CustomApiVersionPolicy"
+      "pipeline should have CustomApiVersionPolicy",
     );
 
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -135,15 +135,15 @@ describe("ShortCodesGeneratedClient - constructor", function () {
     // verify bearer token policy exists, after explicitly adding it
     assert.isDefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
-      "pipeline should have bearerTokenAuthenticationPolicyName"
+      "pipeline should have bearerTokenAuthenticationPolicyName",
     );
     assert.isDefined(
       policies.find((p) => p.name === customHeaderPolicyName),
-      "pipeline should have customHeaderPolicyName"
+      "pipeline should have customHeaderPolicyName",
     );
     assert.isDefined(
       policies.find((p) => p.name === "CustomApiVersionPolicy"),
-      "pipeline should have CustomApiVersionPolicy"
+      "pipeline should have CustomApiVersionPolicy",
     );
 
     const spy = sinon.spy(mockHttpClient, "sendRequest");

@@ -16,7 +16,7 @@ export function isDefined<T>(thing: T | undefined | null): thing is T {
  */
 export function isObjectWithProperties<Thing, PropertyName extends string>(
   thing: Thing,
-  properties: PropertyName[]
+  properties: PropertyName[],
 ): thing is Thing & Record<PropertyName, unknown> {
   if (!isDefined(thing) || typeof thing !== "object") {
     return false;
@@ -38,7 +38,7 @@ export function isObjectWithProperties<Thing, PropertyName extends string>(
  */
 export function objectHasProperty<Thing, PropertyName extends string>(
   thing: Thing,
-  property: PropertyName
+  property: PropertyName,
 ): thing is Thing & Record<PropertyName, unknown> {
   return (
     isDefined(thing) && typeof thing === "object" && property in (thing as Record<string, unknown>)
@@ -53,7 +53,25 @@ export function isWebReadableStream(x: unknown): x is ReadableStream {
   return Boolean(
     x &&
       typeof (x as ReadableStream).getReader === "function" &&
-      typeof (x as ReadableStream).tee === "function"
+      typeof (x as ReadableStream).tee === "function",
+  );
+}
+
+export function isBinaryBody(
+  body: unknown,
+): body is
+  | Uint8Array
+  | NodeJS.ReadableStream
+  | ReadableStream<Uint8Array>
+  | (() => NodeJS.ReadableStream)
+  | (() => ReadableStream<Uint8Array>)
+  | Blob {
+  return (
+    body !== undefined &&
+    (body instanceof Uint8Array ||
+      isReadableStream(body) ||
+      typeof body === "function" ||
+      body instanceof Blob)
   );
 }
 

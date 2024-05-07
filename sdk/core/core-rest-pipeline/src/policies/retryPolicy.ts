@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { delay } from "../util/helpers";
-import { createClientLogger } from "@azure/logger";
-import { RetryStrategy } from "../retryStrategies/retryStrategy";
-import { RestError } from "../restError";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
+import { delay } from "../util/helpers.js";
+import { type AzureLogger, createClientLogger } from "@azure/logger";
+import type { RetryStrategy } from "../retryStrategies/retryStrategy.js";
+import type { RestError } from "../restError.js";
 import { AbortError } from "@azure/abort-controller";
-import { AzureLogger } from "@azure/logger";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
 
 const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
 
@@ -37,7 +36,7 @@ export interface RetryPolicyOptions {
  */
 export function retryPolicy(
   strategies: RetryStrategy[],
-  options: RetryPolicyOptions = { maxRetries: DEFAULT_RETRY_POLICY_COUNT }
+  options: RetryPolicyOptions = { maxRetries: DEFAULT_RETRY_POLICY_COUNT },
 ): PipelinePolicy {
   const logger = options.logger || retryPolicyLogger;
   return {
@@ -79,7 +78,7 @@ export function retryPolicy(
 
         if (retryCount >= (options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT)) {
           logger.info(
-            `Retry ${retryCount}: Maximum retries reached. Returning the last received response, or throwing the last received error.`
+            `Retry ${retryCount}: Maximum retries reached. Returning the last received response, or throwing the last received error.`,
           );
           if (responseError) {
             throw responseError;
@@ -112,14 +111,14 @@ export function retryPolicy(
           if (errorToThrow) {
             strategyLogger.error(
               `Retry ${retryCount}: Retry strategy ${strategy.name} throws error:`,
-              errorToThrow
+              errorToThrow,
             );
             throw errorToThrow;
           }
 
           if (retryAfterInMs || retryAfterInMs === 0) {
             strategyLogger.info(
-              `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${retryAfterInMs}`
+              `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${retryAfterInMs}`,
             );
             await delay(retryAfterInMs, undefined, { abortSignal: request.abortSignal });
             continue retryRequest;
@@ -127,7 +126,7 @@ export function retryPolicy(
 
           if (redirectTo) {
             strategyLogger.info(
-              `Retry ${retryCount}: Retry strategy ${strategy.name} redirects to ${redirectTo}`
+              `Retry ${retryCount}: Retry strategy ${strategy.name} redirects to ${redirectTo}`,
             );
             request.url = redirectTo;
             continue retryRequest;
@@ -136,13 +135,13 @@ export function retryPolicy(
 
         if (responseError) {
           logger.info(
-            `None of the retry strategies could work with the received error. Throwing it.`
+            `None of the retry strategies could work with the received error. Throwing it.`,
           );
           throw responseError;
         }
         if (response) {
           logger.info(
-            `None of the retry strategies could work with the received response. Returning it.`
+            `None of the retry strategies could work with the received response. Returning it.`,
           );
           return response;
         }

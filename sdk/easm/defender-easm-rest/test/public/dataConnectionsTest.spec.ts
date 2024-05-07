@@ -30,7 +30,7 @@ describe("Data Connections Test", () => {
       resource_group,
       workspace_name,
       credential,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
     data_connection_name = "sdktest-connection";
     new_data_connection_name = "sample-dc";

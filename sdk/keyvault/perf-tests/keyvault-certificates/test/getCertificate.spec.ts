@@ -1,4 +1,4 @@
-import { PerfTest } from "@azure/test-utils-perf";
+import { PerfTest } from "@azure-tools/test-perf";
 import { credential, keyVaultUri } from "./utils";
 import { CertificateClient, WellKnownIssuer } from "@azure/keyvault-certificates";
 import { v4 as uuid } from "uuid";
@@ -16,14 +16,14 @@ export abstract class CertificateTest extends PerfTest {
   async globalSetup() {
     const poller = await this.certificateClient.beginCreateCertificate(
       CertificateTest.certificateName,
-      { issuerName: WellKnownIssuer.Self, subject: "CN=Azure SDK" }
+      { issuerName: WellKnownIssuer.Self, subject: "CN=Azure SDK" },
     );
     await poller.pollUntilDone();
   }
 
   async globalCleanup() {
     const poller = await this.certificateClient.beginDeleteCertificate(
-      CertificateTest.certificateName
+      CertificateTest.certificateName,
     );
     const result = await poller.pollUntilDone();
     if (result.recoveryId) {

@@ -11,20 +11,25 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HealthcareApisManagementClient } from "../healthcareApisManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   IotConnectorFhirDestinationGetOptionalParams,
   IotConnectorFhirDestinationGetResponse,
   IotFhirDestination,
   IotConnectorFhirDestinationCreateOrUpdateOptionalParams,
   IotConnectorFhirDestinationCreateOrUpdateResponse,
-  IotConnectorFhirDestinationDeleteOptionalParams
+  IotConnectorFhirDestinationDeleteOptionalParams,
 } from "../models";
 
 /** Class containing IotConnectorFhirDestination operations. */
 export class IotConnectorFhirDestinationImpl
-  implements IotConnectorFhirDestination {
+  implements IotConnectorFhirDestination
+{
   private readonly client: HealthcareApisManagementClient;
 
   /**
@@ -48,7 +53,7 @@ export class IotConnectorFhirDestinationImpl
     workspaceName: string,
     iotConnectorName: string,
     fhirDestinationName: string,
-    options?: IotConnectorFhirDestinationGetOptionalParams
+    options?: IotConnectorFhirDestinationGetOptionalParams,
   ): Promise<IotConnectorFhirDestinationGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -56,9 +61,9 @@ export class IotConnectorFhirDestinationImpl
         workspaceName,
         iotConnectorName,
         fhirDestinationName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -78,30 +83,29 @@ export class IotConnectorFhirDestinationImpl
     iotConnectorName: string,
     fhirDestinationName: string,
     iotFhirDestination: IotFhirDestination,
-    options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams
+    options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IotConnectorFhirDestinationCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotConnectorFhirDestinationCreateOrUpdateResponse>,
       IotConnectorFhirDestinationCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IotConnectorFhirDestinationCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -110,8 +114,8 @@ export class IotConnectorFhirDestinationImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -119,26 +123,29 @@ export class IotConnectorFhirDestinationImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         iotConnectorName,
         fhirDestinationName,
         iotFhirDestination,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      IotConnectorFhirDestinationCreateOrUpdateResponse,
+      OperationState<IotConnectorFhirDestinationCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -160,7 +167,7 @@ export class IotConnectorFhirDestinationImpl
     iotConnectorName: string,
     fhirDestinationName: string,
     iotFhirDestination: IotFhirDestination,
-    options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams
+    options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams,
   ): Promise<IotConnectorFhirDestinationCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -168,7 +175,7 @@ export class IotConnectorFhirDestinationImpl
       iotConnectorName,
       fhirDestinationName,
       iotFhirDestination,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -186,25 +193,24 @@ export class IotConnectorFhirDestinationImpl
     workspaceName: string,
     iotConnectorName: string,
     fhirDestinationName: string,
-    options?: IotConnectorFhirDestinationDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: IotConnectorFhirDestinationDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -213,8 +219,8 @@ export class IotConnectorFhirDestinationImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -222,25 +228,25 @@ export class IotConnectorFhirDestinationImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         iotConnectorName,
         fhirDestinationName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -259,14 +265,14 @@ export class IotConnectorFhirDestinationImpl
     workspaceName: string,
     iotConnectorName: string,
     fhirDestinationName: string,
-    options?: IotConnectorFhirDestinationDeleteOptionalParams
+    options?: IotConnectorFhirDestinationDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       iotConnectorName,
       fhirDestinationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -275,16 +281,15 @@ export class IotConnectorFhirDestinationImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors/{iotConnectorName}/fhirdestinations/{fhirDestinationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors/{iotConnectorName}/fhirdestinations/{fhirDestinationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IotFhirDestination
+      bodyMapper: Mappers.IotFhirDestination,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -293,31 +298,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.iotConnectorName,
-    Parameters.fhirDestinationName
+    Parameters.fhirDestinationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors/{iotConnectorName}/fhirdestinations/{fhirDestinationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors/{iotConnectorName}/fhirdestinations/{fhirDestinationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IotFhirDestination
+      bodyMapper: Mappers.IotFhirDestination,
     },
     201: {
-      bodyMapper: Mappers.IotFhirDestination
+      bodyMapper: Mappers.IotFhirDestination,
     },
     202: {
-      bodyMapper: Mappers.IotFhirDestination
+      bodyMapper: Mappers.IotFhirDestination,
     },
     204: {
-      bodyMapper: Mappers.IotFhirDestination
+      bodyMapper: Mappers.IotFhirDestination,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   requestBody: Parameters.iotFhirDestination,
   queryParameters: [Parameters.apiVersion],
@@ -327,15 +331,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.iotConnectorName,
-    Parameters.fhirDestinationName
+    Parameters.fhirDestinationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors/{iotConnectorName}/fhirdestinations/{fhirDestinationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/iotconnectors/{iotConnectorName}/fhirdestinations/{fhirDestinationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -343,8 +346,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -353,8 +356,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.iotConnectorName,
-    Parameters.fhirDestinationName
+    Parameters.fhirDestinationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

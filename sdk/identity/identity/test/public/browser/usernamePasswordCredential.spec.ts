@@ -6,7 +6,7 @@ import { IdentityTestContext } from "../../httpRequests";
 import { UsernamePasswordCredential } from "../../../src";
 import { assert } from "chai";
 import { assertClientCredentials } from "../../authTestUtils";
-import { fakeTestPasswordPlaceholder } from "@azure/test-utils";
+import { fakeTestPasswordPlaceholder } from "@azure-tools/test-utils";
 
 describe("UsernamePasswordCredential", function () {
   let testContext: IdentityTestContextInterface;
@@ -38,7 +38,7 @@ describe("UsernamePasswordCredential", function () {
     assert.strictEqual(
       authRequest.body.indexOf(`password=${encodeURIComponent(password)}`) > -1,
       true,
-      "Request body doesn't contain expected password"
+      "Request body doesn't contain expected password",
     );
   });
 });

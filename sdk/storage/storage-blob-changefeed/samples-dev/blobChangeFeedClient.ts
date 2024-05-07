@@ -23,7 +23,7 @@ export async function main() {
   const changeFeedClient = new BlobChangeFeedClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   const start = new Date(Date.UTC(2020, 1, 21, 22, 30, 0)); // will be rounded down to 22:00

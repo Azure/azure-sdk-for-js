@@ -8,7 +8,7 @@
 
 import {
   BackupsGetVolumeRestoreStatusOptionalParams,
-  BackupsGetVolumeRestoreStatusResponse
+  BackupsGetVolumeRestoreStatusResponse,
 } from "../models";
 
 /** Interface representing a Backups. */
@@ -26,6 +26,6 @@ export interface Backups {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: BackupsGetVolumeRestoreStatusOptionalParams
+    options?: BackupsGetVolumeRestoreStatusOptionalParams,
   ): Promise<BackupsGetVolumeRestoreStatusResponse>;
 }

@@ -28,7 +28,7 @@ async function volumeGroupsDeleteMaximumSetGen() {
   const result = await client.volumeGroups.beginDeleteAndWait(
     resourceGroupName,
     elasticSanName,
-    volumeGroupName
+    volumeGroupName,
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function volumeGroupsDeleteMinimumSetGen() {
   const result = await client.volumeGroups.beginDeleteAndWait(
     resourceGroupName,
     elasticSanName,
-    volumeGroupName
+    volumeGroupName,
   );
   console.log(result);
 }

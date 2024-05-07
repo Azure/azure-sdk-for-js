@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to (INTERNAL - DO NOT USE) List all private endpoint connection proxies in a device update account.
  *
  * @summary (INTERNAL - DO NOT USE) List all private endpoint connection proxies in a device update account.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_ListByAccount.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_ListByAccount.json
  */
 async function privateEndpointConnectionProxyList() {
   const subscriptionId =

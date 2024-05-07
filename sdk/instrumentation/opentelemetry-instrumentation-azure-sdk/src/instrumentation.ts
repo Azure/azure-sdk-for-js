@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type * as coreTracing from "@azure/core-tracing";
 import {
   Instrumentation,
   InstrumentationBase,
@@ -25,7 +24,7 @@ class AzureSdkInstrumentation extends InstrumentationBase {
     super(
       "@azure/opentelemetry-instrumentation-azure-sdk",
       SDK_VERSION,
-      Object.assign({}, options)
+      Object.assign({}, options),
     );
   }
   /**
@@ -33,22 +32,18 @@ class AzureSdkInstrumentation extends InstrumentationBase {
    *
    * @returns The patched \@azure/core-tracing module after setting its instrumenter.
    */
-  protected init():
-    | void
-    | InstrumentationModuleDefinition<typeof coreTracing>
-    | InstrumentationModuleDefinition<typeof coreTracing>[] {
-    const result: InstrumentationModuleDefinition<typeof coreTracing> =
-      new InstrumentationNodeModuleDefinition(
-        "@azure/core-tracing",
-        ["^1.0.0-preview.14", "^1.0.0"],
-        (moduleExports) => {
-          if (typeof moduleExports.useInstrumenter === "function") {
-            moduleExports.useInstrumenter(new OpenTelemetryInstrumenter());
-          }
-
-          return moduleExports;
+  protected init(): void | InstrumentationModuleDefinition | InstrumentationModuleDefinition[] {
+    const result: InstrumentationModuleDefinition = new InstrumentationNodeModuleDefinition(
+      "@azure/core-tracing",
+      ["^1.0.0-preview.14", "^1.0.0"],
+      (moduleExports) => {
+        if (typeof moduleExports.useInstrumenter === "function") {
+          moduleExports.useInstrumenter(new OpenTelemetryInstrumenter());
         }
-      );
+
+        return moduleExports;
+      },
+    );
     // Needed to support 1.0.0-preview.14
     result.includePrerelease = true;
     return result;
@@ -75,7 +70,7 @@ class AzureSdkInstrumentation extends InstrumentationBase {
  * this instrumentation as early as possible and before loading any Azure Client Libraries.
  */
 export function createAzureSdkInstrumentation(
-  options: AzureSdkInstrumentationOptions = {}
+  options: AzureSdkInstrumentationOptions = {},
 ): Instrumentation {
   return new AzureSdkInstrumentation(options);
 }

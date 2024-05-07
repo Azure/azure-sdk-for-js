@@ -22,9 +22,9 @@ import {
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import { logToEnvelope } from "../../src/utils/logUtils";
-import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { SeverityNumber } from "@opentelemetry/api-logs";
 import { HrTime, TraceFlags } from "@opentelemetry/api";
+import { hrTimeToDate } from "../../src/utils/common";
 
 const context = getInstance();
 
@@ -36,7 +36,7 @@ function assertEnvelope(
   expectedProperties?: Properties,
   expectedMeasurements?: Measurements | undefined,
   expectedBaseData?: Partial<MonitorDomain>,
-  expectedTime?: Date
+  expectedTime?: Date,
 ): void {
   assert.ok(envelope);
   assert.strictEqual(envelope.name, name);
@@ -70,7 +70,7 @@ function assertEnvelope(
 const emptyMeasurements: Measurements = {};
 
 describe("logUtils.ts", () => {
-  let testLogRecord: any = {
+  const testLogRecord: any = {
     resource: new Resource({
       [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "testServiceInstanceID",
       [SemanticResourceAttributes.SERVICE_NAME]: "testServiceName",
@@ -98,7 +98,7 @@ describe("logUtils.ts", () => {
 
   describe("#logToEnvelope", () => {
     it("should create a Message Envelope for Logs", () => {
-      const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       testLogRecord.body = "Test message";
       testLogRecord.severityLevel = "Information";
       testLogRecord.attributes = {
@@ -114,7 +114,7 @@ describe("logUtils.ts", () => {
         severityLevel: `Information`,
         version: 2,
         properties: expectedProperties,
-        measurements: {},
+        measurements: emptyMeasurements,
       };
 
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
@@ -126,7 +126,7 @@ describe("logUtils.ts", () => {
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
-        expectedTime
+        expectedTime,
       );
     });
 
@@ -134,7 +134,7 @@ describe("logUtils.ts", () => {
       testLogRecord.body = "Test exception";
       testLogRecord.severityNumber = 22;
 
-      const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       testLogRecord.attributes = {
         "extra.attribute": "foo",
         [SemanticAttributes.EXCEPTION_TYPE]: "test exception type",
@@ -168,7 +168,7 @@ describe("logUtils.ts", () => {
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
-        expectedTime
+        expectedTime,
       );
     });
   });
@@ -178,6 +178,7 @@ describe("logUtils.ts", () => {
       const data: MessageData = {
         message: "testMessage",
         severityLevel: "Verbose",
+        measurements: { testMeasurement: 1 },
         version: 2,
       };
       testLogRecord.attributes = {
@@ -185,19 +186,22 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
       };
-      testLogRecord.body = JSON.stringify(data);
+      testLogRecord.body = data;
 
-      const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       const expectedProperties = {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      };
+      const expectedMeasurements: Measurements = {
+        testMeasurement: 1,
       };
       const expectedBaseData: Partial<MessageData> = {
         message: `testMessage`,
         severityLevel: `Verbose`,
         version: 2,
         properties: expectedProperties,
-        measurements: {},
+        measurements: expectedMeasurements,
       };
 
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
@@ -207,9 +211,9 @@ describe("logUtils.ts", () => {
         100,
         "MessageData",
         expectedProperties,
-        emptyMeasurements,
+        expectedMeasurements,
         expectedBaseData,
-        expectedTime
+        expectedTime,
       );
     });
 
@@ -231,8 +235,8 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
       };
-      testLogRecord.body = JSON.stringify(data);
-      const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
+      testLogRecord.body = data;
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       const expectedProperties = {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
@@ -261,7 +265,7 @@ describe("logUtils.ts", () => {
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
-        expectedTime
+        expectedTime,
       );
     });
 
@@ -280,8 +284,8 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
       };
-      testLogRecord.body = JSON.stringify(data);
-      const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
+      testLogRecord.body = data;
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       const expectedProperties = {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
@@ -307,7 +311,7 @@ describe("logUtils.ts", () => {
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
-        expectedTime
+        expectedTime,
       );
     });
 
@@ -325,8 +329,8 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
       };
-      testLogRecord.body = JSON.stringify(data);
-      const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
+      testLogRecord.body = data;
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       const expectedProperties = {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
@@ -351,7 +355,7 @@ describe("logUtils.ts", () => {
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
-        expectedTime
+        expectedTime,
       );
     });
 
@@ -365,8 +369,8 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
       };
-      testLogRecord.body = JSON.stringify(data);
-      const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
+      testLogRecord.body = data;
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       const expectedProperties = {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
@@ -387,7 +391,7 @@ describe("logUtils.ts", () => {
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
-        expectedTime
+        expectedTime,
       );
     });
   });
@@ -398,9 +402,12 @@ describe("logUtils.ts", () => {
       "extra.attribute": "foo",
       [SemanticAttributes.MESSAGE_TYPE]: "test message type",
     };
-    testLogRecord.body =
-      '{"message":{"nested":{"nested2":{"test":"test"}}},"severityLevel":"Information","version":2}';
-    const expectedTime = new Date(hrTimeToMilliseconds(testLogRecord.hrTime));
+    testLogRecord.body = {
+      message: { nested: { nested2: { test: "test" } } },
+      severityLevel: "Information",
+      version: 2,
+    };
+    const expectedTime = hrTimeToDate(testLogRecord.hrTime);
     const expectedProperties = {
       "extra.attribute": "foo",
       [SemanticAttributes.MESSAGE_TYPE]: "test message type",
@@ -414,7 +421,6 @@ describe("logUtils.ts", () => {
     };
 
     const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
-    console.log("TEST ENVELOPE!!!", envelope);
     assertEnvelope(
       envelope,
       "Microsoft.ApplicationInsights.Message",
@@ -423,7 +429,7 @@ describe("logUtils.ts", () => {
       expectedProperties,
       emptyMeasurements,
       expectedBaseData,
-      expectedTime
+      expectedTime,
     );
   });
 });

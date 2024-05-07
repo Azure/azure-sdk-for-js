@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
  *
  * @summary Creates a new CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Endpoints_Create.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Endpoints_Create.json
  */
 async function endpointsCreate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -28,8 +28,7 @@ async function endpointsCreate() {
   const endpoint: Endpoint = {
     contentTypesToCompress: ["text/html", "application/octet-stream"],
     defaultOriginGroup: {
-      id:
-        "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/originGroups/originGroup1"
+      id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/originGroups/originGroup1",
     },
     deliveryPolicy: {
       description: "Test description for a policy.",
@@ -43,8 +42,8 @@ async function endpointsCreate() {
                 cacheBehavior: "Override",
                 cacheDuration: "10:10:09",
                 cacheType: "All",
-                typeName: "DeliveryRuleCacheExpirationActionParameters"
-              }
+                typeName: "DeliveryRuleCacheExpirationActionParameters",
+              },
             },
             {
               name: "ModifyResponseHeader",
@@ -52,8 +51,8 @@ async function endpointsCreate() {
                 headerAction: "Overwrite",
                 headerName: "Access-Control-Allow-Origin",
                 typeName: "DeliveryRuleHeaderActionParameters",
-                value: "*"
-              }
+                value: "*",
+              },
             },
             {
               name: "ModifyRequestHeader",
@@ -61,9 +60,9 @@ async function endpointsCreate() {
                 headerAction: "Overwrite",
                 headerName: "Accept-Encoding",
                 typeName: "DeliveryRuleHeaderActionParameters",
-                value: "gzip"
-              }
-            }
+                value: "gzip",
+              },
+            },
           ],
           conditions: [
             {
@@ -72,13 +71,13 @@ async function endpointsCreate() {
                 matchValues: ["192.168.1.0/24", "10.0.0.0/24"],
                 negateCondition: true,
                 operator: "IPMatch",
-                typeName: "DeliveryRuleRemoteAddressConditionParameters"
-              }
-            }
+                typeName: "DeliveryRuleRemoteAddressConditionParameters",
+              },
+            },
           ],
-          order: 1
-        }
-      ]
+          order: 1,
+        },
+      ],
     },
     isCompressionEnabled: true,
     isHttpAllowed: true,
@@ -91,23 +90,21 @@ async function endpointsCreate() {
           probeIntervalInSeconds: 120,
           probePath: "/health.aspx",
           probeProtocol: "Http",
-          probeRequestType: "GET"
+          probeRequestType: "GET",
         },
         origins: [
           {
-            id:
-              "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin1"
+            id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin1",
           },
           {
-            id:
-              "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin2"
-          }
+            id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin2",
+          },
         ],
         responseBasedOriginErrorDetectionSettings: {
           responseBasedDetectedErrorTypes: "TcpErrorsOnly",
-          responseBasedFailoverThresholdPercentage: 10
-        }
-      }
+          responseBasedFailoverThresholdPercentage: 10,
+        },
+      },
     ],
     originHostHeader: "www.bing.com",
     originPath: "/photos",
@@ -120,7 +117,7 @@ async function endpointsCreate() {
         httpsPort: 443,
         originHostHeader: "www.someDomain1.net",
         priority: 1,
-        weight: 50
+        weight: 50,
       },
       {
         name: "origin2",
@@ -130,11 +127,11 @@ async function endpointsCreate() {
         httpsPort: 443,
         originHostHeader: "www.someDomain2.net",
         priority: 2,
-        weight: 50
-      }
+        weight: 50,
+      },
     ],
     queryStringCachingBehavior: "BypassCaching",
-    tags: { key1: "value1" }
+    tags: { key1: "value1" },
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -142,7 +139,7 @@ async function endpointsCreate() {
     resourceGroupName,
     profileName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }

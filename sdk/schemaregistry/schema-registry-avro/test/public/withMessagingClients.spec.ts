@@ -22,7 +22,7 @@ import { assertError } from "./utils/assertError";
 import { createEventHubsClient } from "./clients/eventHubs";
 import { createMockedMessagingClient } from "./clients/mocked";
 import { createTestSerializer } from "./utils/mockedSerializer";
-import { matrix } from "@azure/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import { testGroup } from "./utils/dummies";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { createPipelineWithCredential, removeSchemas } from "./utils/mockedRegistryClient";
@@ -57,7 +57,7 @@ describe("With messaging clients", function () {
         alreadyEnqueued,
         eventHubName: alreadyEnqueued ? inputEventHubName : eventHubName,
         eventHubsConnectionString,
-      })
+      }),
     );
     client.initialize();
     return client;
@@ -145,7 +145,7 @@ describe("With messaging clients", function () {
             await processMessage(
               serializer.deserialize(receivedMessage, {
                 schema: readerSchema,
-              })
+              }),
             );
           } catch (e: any) {
             errors.push({
@@ -158,7 +158,7 @@ describe("With messaging clients", function () {
         if (errors.length > 0) {
           throw new Error(
             "The following error(s) occurred:\n" +
-              errors.map(({ error, language }) => `${language}:\t${error.message}`).join("\n")
+              errors.map(({ error, language }) => `${language}:\t${error.message}`).join("\n"),
           );
         }
       }

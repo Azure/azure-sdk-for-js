@@ -598,8 +598,10 @@ export enum KnownRegionStorageToNetworkProximity {
 
 // @public
 export enum KnownRelationshipStatus {
+    Failed = "Failed",
     Idle = "Idle",
-    Transferring = "Transferring"
+    Transferring = "Transferring",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -675,7 +677,7 @@ export interface ManagedServiceIdentity {
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
+        [propertyName: string]: UserAssignedIdentity | null;
     };
 }
 
@@ -1585,7 +1587,6 @@ export interface VolumeGroupList {
 export interface VolumeGroupMetaData {
     applicationIdentifier?: string;
     applicationType?: ApplicationType;
-    deploymentSpecId?: string;
     globalPlacementRules?: PlacementKeyValuePairs[];
     groupDescription?: string;
     readonly volumesCount?: number;
@@ -1862,8 +1863,8 @@ export interface Volumes {
     beginReInitializeReplicationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesReInitializeReplicationOptionalParams): Promise<void>;
     beginRelocate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesRelocateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRelocateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesRelocateOptionalParams): Promise<void>;
-    beginResetCifsPassword(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesResetCifsPasswordOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginResetCifsPasswordAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesResetCifsPasswordOptionalParams): Promise<void>;
+    beginResetCifsPassword(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesResetCifsPasswordOptionalParams): Promise<SimplePollerLike<OperationState<VolumesResetCifsPasswordResponse>, VolumesResetCifsPasswordResponse>>;
+    beginResetCifsPasswordAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesResetCifsPasswordOptionalParams): Promise<VolumesResetCifsPasswordResponse>;
     beginResyncReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesResyncReplicationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResyncReplicationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesResyncReplicationOptionalParams): Promise<void>;
     beginRevert(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumeRevert, options?: VolumesRevertOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -2028,10 +2029,19 @@ export interface VolumesReplicationStatusOptionalParams extends coreClient.Opera
 export type VolumesReplicationStatusResponse = ReplicationStatus;
 
 // @public
+export interface VolumesResetCifsPasswordHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface VolumesResetCifsPasswordOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type VolumesResetCifsPasswordResponse = VolumesResetCifsPasswordHeaders;
 
 // @public
 export interface VolumesResyncReplicationOptionalParams extends coreClient.OperationOptions {

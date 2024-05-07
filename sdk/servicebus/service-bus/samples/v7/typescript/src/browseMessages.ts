@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the peekMessages() function can be used to browse a Service Bus message.
  *
  * See https://docs.microsoft.com/azure/service-bus-messaging/message-browsing to learn about message browsing.
  *
- * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
+ * Setup: Please run "sendMessages" sample before running this to populate the queue/topic
  *
  * @summary Demonstrates how to browse a Service Bus message
  */

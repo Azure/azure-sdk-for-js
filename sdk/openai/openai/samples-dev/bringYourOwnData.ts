@@ -12,6 +12,7 @@ import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+import { parseOpenAIError } from "./parseOpenAIError.js";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
@@ -36,7 +37,7 @@ export async function main() {
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "gpt-35-turbo";
-  const events = client.listChatCompletions(deploymentId, messages, {
+  const events = await client.streamChatCompletions(deploymentId, messages, {
     maxTokens: 128,
     /**
      * The `azureExtensionOptions` property is used to configure the
@@ -47,10 +48,13 @@ export async function main() {
     azureExtensionOptions: {
       extensions: [
         {
-          type: "AzureCognitiveSearch",
+          type: "azure_search",
           endpoint: azureSearchEndpoint,
-          key: azureSearchAdminKey,
           indexName: azureSearchIndexName,
+          authentication: {
+            type: "api_key",
+            key: azureSearchAdminKey,
+          },
         },
       ],
     },
@@ -64,5 +68,5 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.error("The sample encountered an error:", err);
+  parseOpenAIError(err);
 });

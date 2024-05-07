@@ -23,7 +23,7 @@ export class InMemoryCollectionRoutingMap {
         pkr[Constants.PartitionKeyRange.MinInclusive],
         pkr[Constants.PartitionKeyRange.MaxExclusive],
         true,
-        false
+        false,
       );
     });
     this.orderedPartitionInfo = orderedPartitionInfo;
@@ -64,7 +64,7 @@ export class InMemoryCollectionRoutingMap {
 
       if (minIndex < 0) {
         throw new Error(
-          "error in collection routing map, queried value is less than the start range."
+          "error in collection routing map, queried value is less than the start range.",
         );
       }
 
@@ -88,7 +88,7 @@ export class InMemoryCollectionRoutingMap {
 
       if (maxIndex > this.orderedRanges.length) {
         throw new Error(
-          "error in collection routing map, queried value is greater than the end range."
+          "error in collection routing map, queried value is greater than the end range.",
         );
       }
 
@@ -102,12 +102,12 @@ export class InMemoryCollectionRoutingMap {
     }
 
     const overlappingPartitionKeyRanges = Object.keys(minToPartitionRange).map(
-      (k) => minToPartitionRange[k]
+      (k) => minToPartitionRange[k],
     );
 
     return overlappingPartitionKeyRanges.sort((a, b) => {
       return a[Constants.PartitionKeyRange.MinInclusive].localeCompare(
-        b[Constants.PartitionKeyRange.MinInclusive]
+        b[Constants.PartitionKeyRange.MinInclusive],
       );
     });
   }

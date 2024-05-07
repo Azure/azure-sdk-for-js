@@ -33,7 +33,7 @@ async function loadBalancerOutboundRuleGet() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      outboundRuleName
+      outboundRuleName,
     )
     .get(options);
   console.log(result);

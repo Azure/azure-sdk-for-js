@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the receiveMessages() function can be used to receive Service Bus
  * messages in a loop.
  *
- * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
+ * Setup: Please run "sendMessages" sample before running this to populate the queue/topic
  *
  * @summary Demonstrates how to receive Service Bus messages in a loop
  */

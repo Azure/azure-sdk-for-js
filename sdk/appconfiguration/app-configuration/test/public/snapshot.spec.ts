@@ -121,7 +121,7 @@ describe("AppConfigurationClient snapshot", () => {
       await client.setConfigurationSetting({ ...configSetting1, value: "value2" });
 
       const snapshotConfigurationSettings = client.listConfigurationSettingsForSnapshot(
-        newSnapshot.name
+        newSnapshot.name,
       );
 
       for await (const setting of snapshotConfigurationSettings) {
@@ -142,7 +142,7 @@ describe("AppConfigurationClient snapshot", () => {
       assert.equal(
         archivedSnapshot.status,
         "archived",
-        "Unexpected status in result from archiveSnapshot()."
+        "Unexpected status in result from archiveSnapshot().",
       );
     });
 
@@ -167,7 +167,7 @@ describe("AppConfigurationClient snapshot", () => {
       assert.equal(
         unarchivedSnapshot.status,
         "ready",
-        "Unexpected status in result from archiveSnapshot()."
+        "Unexpected status in result from archiveSnapshot().",
       );
 
       await client.archiveSnapshot(newSnapshot.name);

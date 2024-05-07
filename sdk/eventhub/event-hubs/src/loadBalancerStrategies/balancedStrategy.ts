@@ -32,13 +32,13 @@ export class BalancedLoadBalancingStrategy implements LoadBalancingStrategy {
   public getPartitionsToClaim(
     ourOwnerId: string,
     claimedPartitionOwnershipMap: Map<string, PartitionOwnership>,
-    partitionIds: string[]
+    partitionIds: string[],
   ): string[] {
     const claimablePartitions = listAvailablePartitions(
       ourOwnerId,
       claimedPartitionOwnershipMap,
       partitionIds,
-      this._partitionOwnershipExpirationIntervalInMs
+      this._partitionOwnershipExpirationIntervalInMs,
     );
 
     if (!claimablePartitions.length) {

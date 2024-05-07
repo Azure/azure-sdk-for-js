@@ -3,7 +3,7 @@
 /* eslint-disable no-invalid-this */
 import { Recorder, isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { WebPubSubServiceClient, AzureKeyCredential } from "../src";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import recorderOptions from "./testEnv";
 import { FullOperationResponse } from "@azure/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -28,7 +28,7 @@ describe("HubClient", function () {
           "test-hub",
           {
             retryOptions: { maxRetries: 2 },
-          }
+          },
         );
       });
     });
@@ -41,7 +41,7 @@ describe("HubClient", function () {
           "test-hub",
           {
             retryOptions: { maxRetries: 2 },
-          }
+          },
         );
       });
     });
@@ -62,7 +62,7 @@ describe("HubClient", function () {
       client = new WebPubSubServiceClient(
         assertEnvironmentVariable("WPS_CONNECTION_STRING"),
         "simplechat",
-        recorder.configureClientOptions({})
+        recorder.configureClientOptions({}),
       );
     });
 
@@ -107,7 +107,7 @@ describe("HubClient", function () {
       assert.equal(error.statusCode, 400);
       assert.equal(
         JSON.parse(error.message).message,
-        "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')"
+        "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')",
       );
     });
 
@@ -116,7 +116,7 @@ describe("HubClient", function () {
         assertEnvironmentVariable("WPS_ENDPOINT"),
         credential,
         "simplechat",
-        recorder.configureClientOptions({})
+        recorder.configureClientOptions({}),
       );
 
       await dacClient.sendToAll("hello", { contentType: "text/plain", onResponse });
@@ -136,7 +136,7 @@ describe("HubClient", function () {
         "simplechat",
         recorder.configureClientOptions({
           reverseProxyEndpoint: assertEnvironmentVariable("WPS_REVERSE_PROXY_ENDPOINT"),
-        })
+        }),
       );
 
       await apimClient.sendToAll("hello", { contentType: "text/plain", onResponse });
@@ -189,7 +189,7 @@ describe("HubClient", function () {
       assert.equal(error.statusCode, 400);
       assert.equal(
         JSON.parse(error.message).message,
-        "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')"
+        "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')",
       );
     });
 
@@ -291,7 +291,7 @@ describe("HubClient", function () {
           "WebPubSubServiceClient.hasPermission",
           "WebPubSubServiceClient.revokePermission",
           "WebPubSubServiceClient.getClientAccessToken",
-        ]
+        ],
       );
     });
 

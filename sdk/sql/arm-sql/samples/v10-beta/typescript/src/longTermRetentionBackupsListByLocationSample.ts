@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the long term retention backups for a given location.
  *
  * @summary Lists the long term retention backups for a given location.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/LongTermRetentionBackupListByLocation.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/LongTermRetentionBackupListByLocation.json
  */
 async function getAllLongTermRetentionBackupsUnderTheLocation() {
   const subscriptionId =

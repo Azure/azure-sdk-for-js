@@ -44,7 +44,7 @@ async function createsOrUpdatesASqlVirtualMachineGroup() {
   const result = await client.sqlVirtualMachineGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     sqlVirtualMachineGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

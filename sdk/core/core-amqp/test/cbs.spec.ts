@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CbsClient, TokenType, defaultCancellableLock } from "../src";
+import { describe, it, assert, vi } from "vitest";
+import { CbsClient, TokenType, defaultCancellableLock } from "../src/index.js";
 import { Connection } from "rhea-promise";
-import { assert } from "chai";
-import { createConnectionStub } from "./utils/createConnectionStub";
+import { createConnectionStub } from "./utils/createConnectionStub.js";
 import { isError } from "@azure/core-util";
-import { stub } from "sinon";
 
 describe("CbsClient", function () {
   const TEST_FAILURE = "Test failure";
@@ -49,7 +48,7 @@ describe("CbsClient", function () {
             }, 0);
           });
         },
-        { abortSignal: undefined, timeoutInMs: undefined }
+        { abortSignal: undefined, timeoutInMs: undefined },
       );
 
       try {
@@ -64,7 +63,7 @@ describe("CbsClient", function () {
     it("honors abortSignal", async function () {
       const connectionStub = new Connection();
       // Stub 'open' because creating a real connection will fail.
-      stub(connectionStub, "open").resolves({} as any);
+      vi.spyOn(connectionStub, "open").mockResolvedValue({} as any);
 
       const cbsClient = new CbsClient(connectionStub, "lock");
 
@@ -95,7 +94,7 @@ describe("CbsClient", function () {
         assert.ok(isError(err));
         assert.equal(
           (err as Error).message,
-          "Attempted to negotiate a claim but the CBS link does not exist."
+          "Attempted to negotiate a claim but the CBS link does not exist.",
         );
       }
     });

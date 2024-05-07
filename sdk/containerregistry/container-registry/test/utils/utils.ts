@@ -9,7 +9,8 @@ import {
   ContainerRegistryClient,
   KnownContainerRegistryAudience,
 } from "../../src";
-import { createXhrHttpClient, isNode } from "@azure/test-utils";
+import { createXhrHttpClient } from "@azure-tools/test-utils";
+import { isNodeLike } from "@azure/core-util";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -93,12 +94,12 @@ export function createRegistryClient(
   endpoint: string,
   serviceVersion: string,
   recorder: Recorder,
-  options: { anonymous: boolean } = { anonymous: false }
+  options: { anonymous: boolean } = { anonymous: false },
 ): ContainerRegistryClient {
   const authorityHost = getAuthority(endpoint);
   const audience = getAudience(authorityHost);
   const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
-  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
+  const httpClient = isNodeLike || isLiveMode() ? undefined : createXhrHttpClient();
   const clientOptions = {
     audience,
     serviceVersion: serviceVersion as ContainerRegistryServiceVersions,
@@ -115,13 +116,13 @@ export function createRegistryClient(
       tenantId: env.CONTAINERREGISTRY_TENANT_ID,
       clientId: env.CONTAINERREGISTRY_CLIENT_ID,
       clientSecret: env.CONTAINERREGISTRY_CLIENT_SECRET,
-    }
+    },
   );
 
   return new ContainerRegistryClient(
     endpoint,
     credential,
-    recorder.configureClientOptions(clientOptions)
+    recorder.configureClientOptions(clientOptions),
   );
 }
 
@@ -129,7 +130,7 @@ export function createBlobClient(
   endpoint: string,
   repositoryName: string,
   serviceVersion: string,
-  recorder: Recorder
+  recorder: Recorder,
 ): ContainerRegistryContentClient {
   const authorityHost = getAuthority(endpoint);
   const audience = getAudience(authorityHost);
@@ -145,14 +146,14 @@ export function createBlobClient(
       tenantId: env.CONTAINERREGISTRY_TENANT_ID,
       clientId: env.CONTAINERREGISTRY_CLIENT_ID,
       clientSecret: env.CONTAINERREGISTRY_CLIENT_SECRET,
-    }
+    },
   );
 
   return new ContainerRegistryContentClient(
     endpoint,
     repositoryName,
     credential,
-    recorder.configureClientOptions(clientOptions)
+    recorder.configureClientOptions(clientOptions),
   );
 }
 

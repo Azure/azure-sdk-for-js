@@ -27,7 +27,7 @@ export function processEnvVars(supportedEnvVars: string[]): EnvironmentAccumulat
       }
       return acc;
     },
-    { missing: [], assigned: [] }
+    { missing: [], assigned: [] },
   );
 }
 
@@ -40,7 +40,7 @@ export function processEnvVars(supportedEnvVars: string[]): EnvironmentAccumulat
 export function logEnvVars(credentialName: string, supportedEnvVars: string[]): void {
   const { assigned } = processEnvVars(supportedEnvVars);
   logger.info(
-    `${credentialName} => Found the following environment variables: ${assigned.join(", ")}`
+    `${credentialName} => Found the following environment variables: ${assigned.join(", ")}`,
   );
 }
 
@@ -71,13 +71,7 @@ export interface CredentialLoggerInstance {
   info(message: string): void;
   warning(message: string): void;
   verbose(message: string): void;
-  /**
-   * The logging functions for warning and error are intentionally left out, since we want the identity logging to be at the info level.
-   * Otherwise, they would look like:
-   *
-   *   warning(message: string): void;
-   *   error(err: Error): void;
-   */
+  error(err: string): void;
 }
 
 /**
@@ -91,7 +85,7 @@ export interface CredentialLoggerInstance {
 export function credentialLoggerInstance(
   title: string,
   parent?: CredentialLoggerInstance,
-  log: AzureLogger = logger
+  log: AzureLogger = logger,
 ): CredentialLoggerInstance {
   const fullTitle = parent ? `${parent.fullTitle} ${title}` : title;
 
@@ -106,12 +100,18 @@ export function credentialLoggerInstance(
   function verbose(message: string): void {
     log.verbose(`${fullTitle} =>`, message);
   }
+
+  function error(message: string): void {
+    log.error(`${fullTitle} =>`, message);
+  }
+
   return {
     title,
     fullTitle,
     info,
     warning,
     verbose,
+    error,
   };
 }
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Asynchronously creates or updates a new domain with the specified parameters.
  *
  * @summary Asynchronously creates or updates a new domain with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Domains_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Domains_CreateOrUpdate.json
  */
 async function domainsCreateOrUpdate() {
   const subscriptionId =
@@ -30,18 +30,18 @@ async function domainsCreateOrUpdate() {
   const domainInfo: Domain = {
     inboundIpRules: [
       { action: "Allow", ipMask: "12.18.30.15" },
-      { action: "Allow", ipMask: "12.18.176.1" }
+      { action: "Allow", ipMask: "12.18.176.1" },
     ],
     location: "westus2",
     publicNetworkAccess: "Enabled",
-    tags: { tag1: "value1", tag2: "value2" }
+    tags: { tag1: "value1", tag2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.domains.beginCreateOrUpdateAndWait(
     resourceGroupName,
     domainName,
-    domainInfo
+    domainInfo,
   );
   console.log(result);
 }

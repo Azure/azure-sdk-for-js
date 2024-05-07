@@ -37,7 +37,7 @@ async function updateExtension() {
     configurationProtectedSettings: { omsagentSecretKey: "secretKeyValue01" },
     configurationSettings: {
       omsagentEnvClusterName: "clusterName1",
-      omsagentSecretWsid: "a38cef99-5a89-52ed-b6db-22095c23664b"
+      omsagentSecretWsid: "fakeTokenPlaceholder"
     },
     releaseTrain: "Preview"
   };

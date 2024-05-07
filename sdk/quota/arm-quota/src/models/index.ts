@@ -10,6 +10,512 @@ import * as coreClient from "@azure/core-client";
 
 export type LimitJsonObjectUnion = LimitJsonObject | LimitObject;
 
+/** Properties and filters for ShareQuota. The request parameter is optional, if there are no filters specified. */
+export interface GroupQuotasEntityBase {
+  /** Display name of the GroupQuota entity. */
+  displayName?: string;
+  /** Additional attributes to filter/restrict the subscriptions, which can be added to the subscriptionIds. */
+  additionalAttributes?: AdditionalAttributes;
+  /**
+   * Provisioning state of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: RequestState;
+}
+
+/** Additional attribute or filter to allow subscriptions meeting the requirements to be part of the GroupQuota. */
+export interface AdditionalAttributes {
+  /** The grouping Id for the group quota. It can be Billing Id or ServiceTreeId if applicable. */
+  groupId: GroupingId;
+  /** Environment name. */
+  environment?: EnvironmentType;
+}
+
+/** The grouping Id for the group quota. It can be Billing Id or ServiceTreeId if applicable. */
+export interface GroupingId {
+  /** GroupingId type. It is a required property. More types of groupIds can be supported in future. */
+  groupingIdType?: GroupingIdType;
+  /** GroupId value based on the groupingType selected - Billing Id or ServiceTreeId. */
+  value?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export interface LROResponseProperties {
+  /**
+   * Request status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: RequestState;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Properties and filters for ShareQuota. The request parameter is optional, if there are no filters specified. */
+export interface GroupQuotasEntityBasePatch {
+  /** Display name of the GroupQuota entity. */
+  displayName?: string;
+  /** Additional attributes to filter/restrict the subscriptions, which can be added to the subscriptionIds. */
+  additionalAttributes?: AdditionalAttributesPatch;
+  /**
+   * Provisioning state of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: RequestState;
+}
+
+/** Additional attribute or filter to allow subscriptions meeting the requirements to be part of the GroupQuota. */
+export interface AdditionalAttributesPatch {
+  /** The grouping Id for the group quota. It can be Billing Id or ServiceTreeId if applicable. */
+  groupId?: GroupingId;
+  /** Environment name. */
+  environment?: EnvironmentType;
+}
+
+/** List of Group Quotas at MG level. */
+export interface GroupQuotaList {
+  /** List of Group Quotas at MG level. */
+  value?: GroupQuotasEntity[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+export interface GroupQuotaSubscriptionIdProperties {
+  /**
+   * An Azure subscriptionId.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * Status of this subscriptionId being associated with the GroupQuotasEntity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: RequestState;
+}
+
+/** List of GroupQuotaSubscriptionIds */
+export interface GroupQuotaSubscriptionIdList {
+  /** List of GroupQuotaSubscriptionIds */
+  value?: GroupQuotaSubscriptionId[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of GroupQuotaSubscriptionRequests Status */
+export interface GroupQuotaSubscriptionRequestStatusList {
+  /** List of GroupQuotaSubscriptionRequests Status */
+  value?: GroupQuotaSubscriptionRequestStatus[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+export interface GroupQuotaSubscriptionRequestStatusProperties {
+  /** The subscription Id */
+  subscriptionId?: string;
+  /** The request submission time. The date conforms to the following format specified by the ISO 8601 standard: yyyy-MM-ddTHH:mm:ssZ */
+  requestSubmitTime?: Date;
+  /**
+   * Status of this subscriptionId being associated with the GroupQuotasEntity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: RequestState;
+}
+
+/** Group Quota details. */
+export interface GroupQuotaDetails {
+  /** Location/Azure region for the quota requested for resource. */
+  region?: string;
+  /** The current Group Quota Limit at the parentId level. */
+  limit?: number;
+  /** Any comment related to quota request. */
+  comment?: string;
+  /**
+   * Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: GroupQuotaDetailsName;
+  /**
+   *  The usages units, such as Count and Bytes. When requesting quota, use the **unit** value returned in the GET response in the request body of your PUT operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unit?: string;
+  /**
+   * The available Group Quota Limit at the MG level. This Group quota can be allocated to subscription(s).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availableLimit?: number;
+  /**
+   * Quota allocated to subscriptions
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allocatedToSubscriptions?: AllocatedQuotaToSubscriptionList;
+}
+
+/** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
+export interface GroupQuotaDetailsName {
+  /**
+   * Resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+  /**
+   * Resource display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly localizedValue?: string;
+}
+
+/** Quota allocated to subscriptions */
+export interface AllocatedQuotaToSubscriptionList {
+  /** List of Group Quota Limit allocated to subscriptions. */
+  value?: AllocatedToSubscription[];
+}
+
+/** SubscriptionIds and quota allocated to subscriptions from the GroupQuota. */
+export interface AllocatedToSubscription {
+  /** An Azure subscriptionId. */
+  subscriptionId?: string;
+  /** The amount of quota allocated to this subscriptionId from the GroupQuotasEntity. */
+  quotaAllocated?: number;
+}
+
+/** List of Group Quota Limit details. */
+export interface GroupQuotaLimitList {
+  /** List of Group Quota Limit details. */
+  value?: GroupQuotaLimit[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+export interface SubmittedResourceRequestStatusProperties {
+  /** Requested Resource. */
+  requestedResource?: GroupQuotaRequestBase;
+  /**
+   * The request submission time. The date conforms to the following format specified by the ISO 8601 standard: yyyy-MM-ddTHH:mm:ssZ
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requestSubmitTime?: Date;
+  /**
+   * Request status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: RequestState;
+  /**
+   * Details of the failure.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly faultCode?: string;
+}
+
+/** The new GroupQuota limit requested. */
+export interface GroupQuotaRequestBase {
+  properties?: GroupQuotaRequestBaseProperties;
+}
+
+export interface GroupQuotaRequestBaseProperties {
+  /** The new quota limit for the subscription. The incremental quota will be allocated from pre-approved group quota. */
+  limit?: number;
+  /**
+   * Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: GroupQuotaRequestBasePropertiesName;
+  /** Location/Azure region for the quota requested for resource. */
+  region?: string;
+  /** GroupQuota Request comments and details for request. This is optional paramter to provide more details related to the requested resource. */
+  comments?: string;
+}
+
+/** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
+export interface GroupQuotaRequestBasePropertiesName {
+  /**
+   * Resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+  /**
+   * Resource display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly localizedValue?: string;
+}
+
+/** Share Quota Entity list. */
+export interface SubmittedResourceRequestStatusList {
+  /** Subscription groupQuotaRequests list. */
+  value?: SubmittedResourceRequestStatus[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Subscription quota list. */
+export interface SubscriptionQuotaAllocationsList {
+  /** Subscription quota list. */
+  value?: SubscriptionQuotaAllocations[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Subscription Quota details. */
+export interface SubscriptionQuotaDetails {
+  /** Location/Azure region for the quota requested for resource. */
+  region?: string;
+  /** The total quota limit for the subscription. */
+  limit?: number;
+  /**
+   * The shareable quota for the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly shareableQuota?: number;
+  /**
+   * Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: SubscriptionQuotaDetailsName;
+}
+
+/** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
+export interface SubscriptionQuotaDetailsName {
+  /**
+   * Resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+  /**
+   * Resource display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly localizedValue?: string;
+}
+
+export interface QuotaAllocationRequestStatusProperties {
+  /** The new quota request allocated to subscription. */
+  requestedResource?: QuotaAllocationRequestBase;
+  /**
+   * The request submission time. The date conforms to the following format specified by the ISO 8601 standard: yyyy-MM-ddTHH:mm:ssZ
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requestSubmitTime?: Date;
+  /**
+   * Request status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: RequestState;
+  /**
+   * Details of the failure.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly faultCode?: string;
+}
+
+/** The new quota request allocated to subscription. */
+export interface QuotaAllocationRequestBase {
+  properties?: QuotaAllocationRequestBaseProperties;
+}
+
+export interface QuotaAllocationRequestBaseProperties {
+  /** The new quota limit for the subscription. The incremental quota will be allocated from pre-approved group quota. */
+  limit?: number;
+  /**
+   * Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: QuotaAllocationRequestBasePropertiesName;
+  /** The location for which the subscription is allocated */
+  region?: string;
+}
+
+/** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
+export interface QuotaAllocationRequestBasePropertiesName {
+  /**
+   * Resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+  /**
+   * Resource display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly localizedValue?: string;
+}
+
+/** List of QuotaAllocation Request Status */
+export interface QuotaAllocationRequestStatusList {
+  /** List of QuotaAllocation Request Status */
+  value?: QuotaAllocationRequestStatus[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of resource usages and quotas for GroupQuota. */
+export interface ResourceUsageList {
+  /** List of resource usages at Group Quotas. */
+  value?: ResourceUsages[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Resource details with usages and GroupQuota. */
+export interface GroupQuotaUsagesBase {
+  /** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
+  name?: GroupQuotaUsagesBaseName;
+  /** Quota/limits for the resource. */
+  limit?: number;
+  /** Usages for the resource. */
+  usages?: number;
+  /**
+   * Representing the units of the usage quota. Possible values are: Count, Bytes, Seconds, Percent, CountPerSecond, BytesPerSecond. Based on - https://armwiki.azurewebsites.net/api_contracts/UsagesAPIContract.html?q=usages . Different RPs may have different units, Count, type as int64 should work for most of the integer values.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unit?: string;
+}
+
+/** Name of the resource provided by the resource provider. This property is already included in the request URI, so it is a readonly property returned in the response. */
+export interface GroupQuotaUsagesBaseName {
+  /** Resource name. */
+  value?: string;
+  /**
+   * Resource display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly localizedValue?: string;
+}
+
+export interface GroupQuotasEnforcementResponseProperties {
+  /** Is the GroupQuota Enforcement enabled for the Azure region. */
+  enforcementEnabled?: EnforcementState;
+  /**
+   * Request status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: RequestState;
+  /**
+   * Details of the failure.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly faultCode?: string;
+}
+
+/** List of Azure regions, where the group quotas is enabled for enforcement. */
+export interface GroupQuotasEnforcementListResponse {
+  /** List of Azure Regions. */
+  value?: GroupQuotasEnforcementResponse[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Resource usage. */
 export interface CurrentUsagesBase {
   /**
@@ -293,6 +799,57 @@ export interface OperationDisplay {
   description?: string;
 }
 
+/** List of Allocated Group Quota to the subscriptions. */
+export interface SubscriptionQuotaAllocationRequestList {
+  /** Allocated Group Quota to subscriptions. */
+  value?: QuotaAllocationRequestStatus[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** MGId the source of group quota. */
+export interface SubscriptionGroupQuotaAssignment {
+  /** The group quota id of the quota source. */
+  groupQuotaId?: string;
+  /** The amount of quota allocated to this subscriptionId from the quota source. */
+  quotaAllocated?: number;
+}
+
+/** Subscription quota allocation requests status list. */
+export interface SubscriptionQuotaAllocationsStatusList {
+  /** Subscription quota allocation status list. */
+  value?: SubmittedResourceRequestStatus[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Resource definition with the requested quota. */
+export interface ResourceBaseRequest {
+  /**
+   * The resource name, such as SKU name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceName?: string;
+  /** Quota requested for the resource. */
+  limit?: number;
+  /**
+   * Representing the units of the usage quota. Possible values are: Count, Bytes, Seconds, Percent, CountPerSecond, BytesPerSecond. Based on - https://armwiki.azurewebsites.net/api_contracts/UsagesAPIContract.html?q=usages . Different RPs may have different units, Count, type as int64 should work for most of the integer values.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unit?: string;
+}
+
+/** A Billing Account Id. */
+export interface BillingAccountId {
+  id?: string;
+}
+
 /** Resource properties. */
 export interface CommonResourceProperties {
   /**
@@ -472,6 +1029,9 @@ export interface QuotaRequestStatusDetails {
   properties?: Record<string, unknown>;
 }
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
 /** The resource quota limit value. */
 export interface LimitObject extends LimitJsonObject {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -480,6 +1040,306 @@ export interface LimitObject extends LimitJsonObject {
   value: number;
   /** The quota or usages limit types. */
   limitType?: QuotaLimitTypes;
+}
+
+/** Properties and filters for ShareQuota. The request parameter is optional, if there are no filters specified. */
+export interface GroupQuotasEntity extends ProxyResource {
+  /** Properties and filters for ShareQuota. The request parameter is optional, if there are no filters specified. */
+  properties?: GroupQuotasEntityBase;
+}
+
+/** The provisioning state for the operation. */
+export interface LROResponse extends ProxyResource {
+  properties?: LROResponseProperties;
+}
+
+/** Properties and filters for ShareQuota. The request parameter is optional, if there are no filters specified. */
+export interface GroupQuotasEntityPatch extends ProxyResource {
+  /** Properties and filters for ShareQuota. The request parameter is optional, if there are no filters specified. */
+  properties?: GroupQuotasEntityBasePatch;
+}
+
+/** This represents a Azure subscriptionId that is associated with a GroupQuotasEntity. */
+export interface GroupQuotaSubscriptionId extends ProxyResource {
+  properties?: GroupQuotaSubscriptionIdProperties;
+}
+
+/** The new quota limit request status. */
+export interface GroupQuotaSubscriptionRequestStatus extends ProxyResource {
+  properties?: GroupQuotaSubscriptionRequestStatusProperties;
+}
+
+/** Group Quota limit. */
+export interface GroupQuotaLimit extends ProxyResource {
+  /** Group Quota properties for the specified resource. */
+  properties?: GroupQuotaDetails;
+}
+
+/** Status of a single GroupQuota request. */
+export interface SubmittedResourceRequestStatus extends ProxyResource {
+  properties?: SubmittedResourceRequestStatusProperties;
+}
+
+/** Quota allocated to a subscription for the specific Resource Provider, Location, ResourceName. This will include the GroupQuota and total quota allocated to the subscription. Only the Group quota allocated to the subscription can be allocated back to the MG Group Quota. */
+export interface SubscriptionQuotaAllocations extends ProxyResource {
+  /** Quota properties for the specified resource. */
+  properties?: SubscriptionQuotaDetails;
+}
+
+/** The subscription quota allocation status. */
+export interface QuotaAllocationRequestStatus extends ProxyResource {
+  properties?: QuotaAllocationRequestStatusProperties;
+}
+
+/** Resource details with usages and GroupQuota. */
+export interface ResourceUsages extends ProxyResource {
+  /** Resource details with usages and GroupQuota. */
+  properties?: GroupQuotaUsagesBase;
+}
+
+/** The GroupQuota Enforcement status for a Azure Location/Region. */
+export interface GroupQuotasEnforcementResponse extends ProxyResource {
+  properties?: GroupQuotasEnforcementResponseProperties;
+}
+
+/** Defines headers for GroupQuotas_createOrUpdate operation. */
+export interface GroupQuotasCreateOrUpdateHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers.  New guidelines - https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md#131-resource-based-long-running-operations-relo
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for GroupQuotas_update operation. */
+export interface GroupQuotasUpdateHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for GroupQuotas_delete operation. */
+export interface GroupQuotasDeleteHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for GroupQuotaSubscriptions_createOrUpdate operation. */
+export interface GroupQuotaSubscriptionsCreateOrUpdateHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers.  New guidelines - https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md#131-resource-based-long-running-operations-relo
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for GroupQuotaSubscriptions_update operation. */
+export interface GroupQuotaSubscriptionsUpdateHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for GroupQuotaSubscriptions_delete operation. */
+export interface GroupQuotaSubscriptionsDeleteHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for GroupQuotaLimitsRequest_createOrUpdate operation. */
+export interface GroupQuotaLimitsRequestCreateOrUpdateHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers.  New guidelines - https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md#131-resource-based-long-running-operations-relo
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for GroupQuotaLimitsRequest_update operation. */
+export interface GroupQuotaLimitsRequestUpdateHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers.  New guidelines - https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md#131-resource-based-long-running-operations-relo
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for GroupQuotaSubscriptionAllocationRequest_createOrUpdate operation. */
+export interface GroupQuotaSubscriptionAllocationRequestCreateOrUpdateHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for GroupQuotaSubscriptionAllocationRequest_update operation. */
+export interface GroupQuotaSubscriptionAllocationRequestUpdateHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for GroupQuotaLocationSettings_createOrUpdate operation. */
+export interface GroupQuotaLocationSettingsCreateOrUpdateHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers.  New guidelines - https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md#131-resource-based-long-running-operations-relo
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for GroupQuotaLocationSettings_update operation. */
+export interface GroupQuotaLocationSettingsUpdateHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
 }
 
 /** Defines headers for Usages_get operation. */
@@ -518,12 +1378,126 @@ export interface QuotaListNextHeaders {
   eTag?: string;
 }
 
+/** Known values of {@link GroupingIdType} that the service accepts. */
+export enum KnownGroupingIdType {
+  /** ServiceTreeId */
+  ServiceTreeId = "ServiceTreeId",
+  /** BillingId */
+  BillingId = "BillingId",
+}
+
+/**
+ * Defines values for GroupingIdType. \
+ * {@link KnownGroupingIdType} can be used interchangeably with GroupingIdType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServiceTreeId** \
+ * **BillingId**
+ */
+export type GroupingIdType = string;
+
+/** Known values of {@link EnvironmentType} that the service accepts. */
+export enum KnownEnvironmentType {
+  /** NonProduction */
+  NonProduction = "NonProduction",
+  /** Production */
+  Production = "Production",
+}
+
+/**
+ * Defines values for EnvironmentType. \
+ * {@link KnownEnvironmentType} can be used interchangeably with EnvironmentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NonProduction** \
+ * **Production**
+ */
+export type EnvironmentType = string;
+
+/** Known values of {@link RequestState} that the service accepts. */
+export enum KnownRequestState {
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Created */
+  Created = "Created",
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for RequestState. \
+ * {@link KnownRequestState} can be used interchangeably with RequestState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted** \
+ * **Created** \
+ * **Invalid** \
+ * **Succeeded** \
+ * **Failed** \
+ * **InProgress** \
+ * **Canceled**
+ */
+export type RequestState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link EnforcementState} that the service accepts. */
+export enum KnownEnforcementState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** NotAvailable */
+  NotAvailable = "NotAvailable",
+}
+
+/**
+ * Defines values for EnforcementState. \
+ * {@link KnownEnforcementState} can be used interchangeably with EnforcementState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled** \
+ * **NotAvailable**
+ */
+export type EnforcementState = string;
+
 /** Known values of {@link UsagesTypes} that the service accepts. */
 export enum KnownUsagesTypes {
   /** Individual */
   Individual = "Individual",
   /** Combined */
-  Combined = "Combined"
+  Combined = "Combined",
 }
 
 /**
@@ -539,7 +1513,7 @@ export type UsagesTypes = string;
 /** Known values of {@link LimitType} that the service accepts. */
 export enum KnownLimitType {
   /** LimitValue */
-  LimitValue = "LimitValue"
+  LimitValue = "LimitValue",
 }
 
 /**
@@ -562,7 +1536,7 @@ export enum KnownQuotaRequestState {
   /** Failed */
   Failed = "Failed",
   /** InProgress */
-  InProgress = "InProgress"
+  InProgress = "InProgress",
 }
 
 /**
@@ -583,7 +1557,7 @@ export enum KnownQuotaLimitTypes {
   /** Independent */
   Independent = "Independent",
   /** Shared */
-  Shared = "Shared"
+  Shared = "Shared",
 }
 
 /**
@@ -595,6 +1569,367 @@ export enum KnownQuotaLimitTypes {
  * **Shared**
  */
 export type QuotaLimitTypes = string;
+
+/** Optional parameters. */
+export interface GroupQuotasCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The GroupQuota body details for creation or update of a GroupQuota entity. */
+  groupQuotaPutRequestBody?: GroupQuotasEntity;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GroupQuotasCreateOrUpdateResponse = GroupQuotasEntity;
+
+/** Optional parameters. */
+export interface GroupQuotasUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The  GroupQuotas Patch Request. */
+  groupQuotasPatchRequestBody?: GroupQuotasEntityPatch;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type GroupQuotasUpdateResponse = GroupQuotasEntity;
+
+/** Optional parameters. */
+export interface GroupQuotasGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GroupQuotasGetResponse = GroupQuotasEntity;
+
+/** Optional parameters. */
+export interface GroupQuotasDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type GroupQuotasDeleteResponse = GroupQuotasDeleteHeaders;
+
+/** Optional parameters. */
+export interface GroupQuotasListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GroupQuotasListResponse = GroupQuotaList;
+
+/** Optional parameters. */
+export interface GroupQuotasListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GroupQuotasListNextResponse = GroupQuotaList;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GroupQuotaSubscriptionsCreateOrUpdateResponse =
+  GroupQuotaSubscriptionId;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type GroupQuotaSubscriptionsUpdateResponse = GroupQuotaSubscriptionId;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type GroupQuotaSubscriptionsDeleteResponse =
+  GroupQuotaSubscriptionsDeleteHeaders;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GroupQuotaSubscriptionsGetResponse = GroupQuotaSubscriptionId;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GroupQuotaSubscriptionsListResponse = GroupQuotaSubscriptionIdList;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GroupQuotaSubscriptionsListNextResponse =
+  GroupQuotaSubscriptionIdList;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionRequestsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GroupQuotaSubscriptionRequestsListResponse =
+  GroupQuotaSubscriptionRequestStatusList;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionRequestsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GroupQuotaSubscriptionRequestsGetResponse =
+  GroupQuotaSubscriptionRequestStatus;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionRequestsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GroupQuotaSubscriptionRequestsListNextResponse =
+  GroupQuotaSubscriptionRequestStatusList;
+
+/** Optional parameters. */
+export interface GroupQuotaLimitsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GroupQuotaLimitsGetResponse = GroupQuotaLimit;
+
+/** Optional parameters. */
+export interface GroupQuotaLimitsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GroupQuotaLimitsListResponse = GroupQuotaLimitList;
+
+/** Optional parameters. */
+export interface GroupQuotaLimitsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GroupQuotaLimitsListNextResponse = GroupQuotaLimitList;
+
+/** Optional parameters. */
+export interface GroupQuotaLimitsRequestCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The GroupQuotaRequest body details for specific resourceProvider/location/resources. */
+  groupQuotaRequest?: SubmittedResourceRequestStatus;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GroupQuotaLimitsRequestCreateOrUpdateResponse =
+  SubmittedResourceRequestStatus;
+
+/** Optional parameters. */
+export interface GroupQuotaLimitsRequestUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The GroupQuotaRequest body details for specific resourceProvider/location/resources. */
+  groupQuotaRequest?: SubmittedResourceRequestStatus;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type GroupQuotaLimitsRequestUpdateResponse =
+  SubmittedResourceRequestStatus;
+
+/** Optional parameters. */
+export interface GroupQuotaLimitsRequestGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GroupQuotaLimitsRequestGetResponse = SubmittedResourceRequestStatus;
+
+/** Optional parameters. */
+export interface GroupQuotaLimitsRequestListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GroupQuotaLimitsRequestListResponse =
+  SubmittedResourceRequestStatusList;
+
+/** Optional parameters. */
+export interface GroupQuotaLimitsRequestListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GroupQuotaLimitsRequestListNextResponse =
+  SubmittedResourceRequestStatusList;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionAllocationListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GroupQuotaSubscriptionAllocationListResponse =
+  SubscriptionQuotaAllocationsList;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionAllocationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GroupQuotaSubscriptionAllocationGetResponse =
+  SubscriptionQuotaAllocations;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionAllocationListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GroupQuotaSubscriptionAllocationListNextResponse =
+  SubscriptionQuotaAllocationsList;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionAllocationRequestGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GroupQuotaSubscriptionAllocationRequestGetResponse =
+  QuotaAllocationRequestStatus;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionAllocationRequestListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GroupQuotaSubscriptionAllocationRequestListResponse =
+  QuotaAllocationRequestStatusList;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse =
+  QuotaAllocationRequestStatus;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type GroupQuotaSubscriptionAllocationRequestUpdateResponse =
+  QuotaAllocationRequestStatus;
+
+/** Optional parameters. */
+export interface GroupQuotaSubscriptionAllocationRequestListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GroupQuotaSubscriptionAllocationRequestListNextResponse =
+  QuotaAllocationRequestStatusList;
+
+/** Optional parameters. */
+export interface GroupQuotaUsagesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GroupQuotaUsagesListResponse = ResourceUsageList;
+
+/** Optional parameters. */
+export interface GroupQuotaUsagesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GroupQuotaUsagesListNextResponse = ResourceUsageList;
+
+/** Optional parameters. */
+export interface GroupQuotaLocationSettingsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The GroupQuota body details for creation or update of a GroupQuota entity. */
+  locationSettings?: GroupQuotasEnforcementResponse;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GroupQuotaLocationSettingsCreateOrUpdateResponse =
+  GroupQuotasEnforcementResponse;
+
+/** Optional parameters. */
+export interface GroupQuotaLocationSettingsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The GroupQuota body details for creation or update of a GroupQuota entity. */
+  locationSettings?: GroupQuotasEnforcementResponse;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type GroupQuotaLocationSettingsUpdateResponse =
+  GroupQuotasEnforcementResponse;
+
+/** Optional parameters. */
+export interface GroupQuotaLocationSettingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GroupQuotaLocationSettingsGetResponse =
+  GroupQuotasEnforcementResponse;
+
+/** Optional parameters. */
+export interface GroupQuotaLocationSettingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GroupQuotaLocationSettingsListResponse =
+  GroupQuotasEnforcementListResponse;
+
+/** Optional parameters. */
+export interface GroupQuotaLocationSettingsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GroupQuotaLocationSettingsListNextResponse =
+  GroupQuotasEnforcementListResponse;
 
 /** Optional parameters. */
 export interface UsagesGetOptionalParams extends coreClient.OperationOptions {}

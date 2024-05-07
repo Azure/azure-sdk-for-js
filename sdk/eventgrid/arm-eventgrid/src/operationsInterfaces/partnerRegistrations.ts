@@ -18,7 +18,7 @@ import {
   PartnerRegistrationsCreateOrUpdateResponse,
   PartnerRegistrationsDeleteOptionalParams,
   PartnerRegistrationUpdateParameters,
-  PartnerRegistrationsUpdateOptionalParams
+  PartnerRegistrationsUpdateOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface PartnerRegistrations {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: PartnerRegistrationsListBySubscriptionOptionalParams
+    options?: PartnerRegistrationsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PartnerRegistration>;
   /**
    * List all the partner registrations under a resource group.
@@ -38,7 +38,7 @@ export interface PartnerRegistrations {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: PartnerRegistrationsListByResourceGroupOptionalParams
+    options?: PartnerRegistrationsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PartnerRegistration>;
   /**
    * Gets a partner registration with the specified parameters.
@@ -49,7 +49,7 @@ export interface PartnerRegistrations {
   get(
     resourceGroupName: string,
     partnerRegistrationName: string,
-    options?: PartnerRegistrationsGetOptionalParams
+    options?: PartnerRegistrationsGetOptionalParams,
   ): Promise<PartnerRegistrationsGetResponse>;
   /**
    * Creates a new partner registration with the specified parameters.
@@ -62,7 +62,7 @@ export interface PartnerRegistrations {
     resourceGroupName: string,
     partnerRegistrationName: string,
     partnerRegistrationInfo: PartnerRegistration,
-    options?: PartnerRegistrationsCreateOrUpdateOptionalParams
+    options?: PartnerRegistrationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PartnerRegistrationsCreateOrUpdateResponse>,
@@ -80,7 +80,7 @@ export interface PartnerRegistrations {
     resourceGroupName: string,
     partnerRegistrationName: string,
     partnerRegistrationInfo: PartnerRegistration,
-    options?: PartnerRegistrationsCreateOrUpdateOptionalParams
+    options?: PartnerRegistrationsCreateOrUpdateOptionalParams,
   ): Promise<PartnerRegistrationsCreateOrUpdateResponse>;
   /**
    * Deletes a partner registration with the specified parameters.
@@ -91,7 +91,7 @@ export interface PartnerRegistrations {
   beginDelete(
     resourceGroupName: string,
     partnerRegistrationName: string,
-    options?: PartnerRegistrationsDeleteOptionalParams
+    options?: PartnerRegistrationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a partner registration with the specified parameters.
@@ -102,7 +102,7 @@ export interface PartnerRegistrations {
   beginDeleteAndWait(
     resourceGroupName: string,
     partnerRegistrationName: string,
-    options?: PartnerRegistrationsDeleteOptionalParams
+    options?: PartnerRegistrationsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a partner registration with the specified parameters.
@@ -115,7 +115,7 @@ export interface PartnerRegistrations {
     resourceGroupName: string,
     partnerRegistrationName: string,
     partnerRegistrationUpdateParameters: PartnerRegistrationUpdateParameters,
-    options?: PartnerRegistrationsUpdateOptionalParams
+    options?: PartnerRegistrationsUpdateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Updates a partner registration with the specified parameters.
@@ -128,6 +128,6 @@ export interface PartnerRegistrations {
     resourceGroupName: string,
     partnerRegistrationName: string,
     partnerRegistrationUpdateParameters: PartnerRegistrationUpdateParameters,
-    options?: PartnerRegistrationsUpdateOptionalParams
+    options?: PartnerRegistrationsUpdateOptionalParams,
   ): Promise<void>;
 }

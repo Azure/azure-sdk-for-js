@@ -9,12 +9,7 @@ import {
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { createClientLogger } from "@azure/logger";
-import {
-  LogsQueryClient,
-  LogsTable,
-  MetricsQueryClient,
-  MetricsBatchQueryClient,
-} from "../../../src";
+import { LogsQueryClient, LogsTable, MetricsQueryClient, MetricsClient } from "../../../src";
 import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
 export const loggerForTest = createClientLogger("test");
 const replacementForLogsResourceId = env["LOGS_RESOURCE_ID"]?.startsWith("/")
@@ -45,7 +40,7 @@ export interface RecorderAndMetricsClient {
 }
 
 export interface RecorderAndMetricsBatchQueryClient {
-  client: MetricsBatchQueryClient;
+  client: MetricsClient;
   // recorder: Recorder;
 }
 
@@ -54,7 +49,7 @@ export async function createRecorderAndMetricsBatchQueryClient(): Promise<Record
   const testCredential = createTestCredential();
   const batchEndPoint =
     env["AZURE_MONITOR_BATCH_ENDPOINT"] ?? "https://eastus.metrics.monitor.azure.com/";
-  const client = new MetricsBatchQueryClient(batchEndPoint, testCredential);
+  const client = new MetricsClient(batchEndPoint, testCredential);
 
   return {
     client: client,
@@ -86,12 +81,12 @@ export const testEnv = new Proxy(envSetupForPlayback, {
 });
 
 export async function createRecorderAndMetricsClient(
-  recorder: Recorder
+  recorder: Recorder,
 ): Promise<RecorderAndMetricsClient> {
   await recorder.start(recorderOptions);
   const client = new MetricsQueryClient(
     createTestCredential(),
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
 
   return {
@@ -102,7 +97,7 @@ export async function createRecorderAndMetricsClient(
 
 export async function createRecorderAndLogsClient(
   recorder: Recorder,
-  retryOptions?: ExponentialRetryPolicyOptions
+  retryOptions?: ExponentialRetryPolicyOptions,
 ): Promise<RecorderAndLogsClient> {
   await recorder.start(recorderOptions);
   await recorder.addSanitizers(
@@ -116,12 +111,12 @@ export async function createRecorderAndLogsClient(
         },
       ],
     },
-    ["playback", "record"]
+    ["playback", "record"],
   );
 
   const client = new LogsQueryClient(
     createTestCredential(),
-    recorder.configureClientOptions({ retryOptions })
+    recorder.configureClientOptions({ retryOptions }),
   );
 
   return {
@@ -143,14 +138,14 @@ export function getLogsArmResourceId(): string {
 }
 export function getAppInsightsConnectionString(): string {
   let appInsightsConnectionString = assertEnvironmentVariable(
-    "MQ_APPLICATIONINSIGHTS_CONNECTION_STRING"
+    "MQ_APPLICATIONINSIGHTS_CONNECTION_STRING",
   );
 
   // TODO: this is a workaround for now - adding in an endpoint causes the Monitor endpoint to return a 308 (ie: permanent redirect)
   // Removing for now until we get fix the exporter.
   appInsightsConnectionString = appInsightsConnectionString.replace(
     /IngestionEndpoint=.+?(;|$)/,
-    ""
+    "",
   );
 
   return appInsightsConnectionString;
@@ -177,7 +172,7 @@ export function assertQueryTable(
     columns: string[];
     rows: LogsTable["rows"];
   },
-  message: string
+  message: string,
 ): void {
   if (table == null) {
     throw new Error(`${message}: Table was null/undefined`);
@@ -190,6 +185,6 @@ export function assertQueryTable(
       columns: table.columnDescriptors.map((c) => c.name),
     },
     expectedTable,
-    `${message}: tables weren't equal`
+    `${message}: tables weren't equal`,
   );
 }

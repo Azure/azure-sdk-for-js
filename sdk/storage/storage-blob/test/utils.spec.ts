@@ -24,17 +24,17 @@ describe("Utility Helpers", () => {
     assert.equal(
       "SASConnString",
       connectionStringParts.kind,
-      "extractConnectionStringParts().kind is different than expected."
+      "extractConnectionStringParts().kind is different than expected.",
     );
     assert.equal(
       blobEndpoint,
       connectionStringParts.url,
-      "extractConnectionStringParts().url is different than expected."
+      "extractConnectionStringParts().url is different than expected.",
     );
     assert.equal(
       accountName,
       connectionStringParts.accountName,
-      "extractConnectionStringParts().accountName is different than expected."
+      "extractConnectionStringParts().accountName is different than expected.",
     );
   }
 
@@ -42,35 +42,35 @@ describe("Utility Helpers", () => {
     assert.equal(setURLParameter("http://test.com/", "a", "b"), "http://test.com/?a=b");
     assert.equal(
       setURLParameter("http://test.com/container/blob", "a", "b"),
-      "http://test.com/container/blob?a=b"
+      "http://test.com/container/blob?a=b",
     );
     assert.equal(
       setURLParameter("http://test.com/container/blob?a=b", "a", ""),
-      "http://test.com/container/blob"
+      "http://test.com/container/blob",
     );
     assert.equal(
       setURLParameter("http://test.com/container/blob?a=b", "a"),
-      "http://test.com/container/blob"
+      "http://test.com/container/blob",
     );
     assert.equal(
       setURLParameter("http://test.com/container/blob?a=b", "a", "c"),
-      "http://test.com/container/blob?a=c"
+      "http://test.com/container/blob?a=c",
     );
     assert.equal(
       setURLParameter("http://test.com/container/blob?a=b", "c", "d"),
-      "http://test.com/container/blob?a=b&c=d"
+      "http://test.com/container/blob?a=b&c=d",
     );
     assert.equal(
       setURLParameter("http://test.com/container/blob?a=b", "c", ""),
-      "http://test.com/container/blob?a=b"
+      "http://test.com/container/blob?a=b",
     );
     assert.equal(
       setURLParameter(
         "http://test.com/container/blob",
         "versionid",
-        "2022-12-10T19:55:31.5767937Z"
+        "2022-12-10T19:55:31.5767937Z",
       ),
-      "http://test.com/container/blob?versionid=2022-12-10T19%3A55%3A31.5767937Z"
+      "http://test.com/container/blob?versionid=2022-12-10T19%3A55%3A31.5767937Z",
     );
   });
 
@@ -91,20 +91,20 @@ describe("Utility Helpers", () => {
     const sanitized = sanitizeHeaders(headers);
     assert.ok(
       sanitized.get("x-ms-copy-source")!.indexOf("sasstring") === -1,
-      "Expecting SAS string to be redacted."
+      "Expecting SAS string to be redacted.",
     );
     assert.ok(
       sanitized.get("x-ms-copy-source")!.indexOf("*****") !== -1,
-      "Expecting SAS string to be redacted."
+      "Expecting SAS string to be redacted.",
     );
     assert.ok(
       sanitized.get("authorization")! === "*****",
-      "Expecting authorization header value to be redacted."
+      "Expecting authorization header value to be redacted.",
     );
 
     assert.ok(
       sanitized.get("otherheader")!.indexOf("sasstring") !== -1,
-      "Other header should not be changed."
+      "Other header should not be changed.",
     );
   });
 
@@ -112,7 +112,7 @@ describe("Utility Helpers", () => {
     verifySASConnectionString(
       `BlobEndpoint=${blobEndpoint};
         FileEndpoint=https://storagesample.file.core.windows.net;
-        SharedAccessSignature=${sharedAccessSignature}`
+        SharedAccessSignature=${sharedAccessSignature}`,
     );
   });
 
@@ -120,7 +120,7 @@ describe("Utility Helpers", () => {
     verifySASConnectionString(
       `BlobEndpoint=${blobEndpoint};
         FileEndpoint=https://storagesample.file.core.windows.net;
-        SharedAccessSignature=${sharedAccessSignature}`
+        SharedAccessSignature=${sharedAccessSignature}`,
     );
   });
 
@@ -131,17 +131,17 @@ describe("Utility Helpers", () => {
     assert.equal(
       "SASConnString",
       connectionStringParts.kind,
-      "extractConnectionStringParts().kind is different than expected."
+      "extractConnectionStringParts().kind is different than expected.",
     );
     assert.equal(
       customDomainBlobEndpoint,
       connectionStringParts.url,
-      "extractConnectionStringParts().url is different than expected."
+      "extractConnectionStringParts().url is different than expected.",
     );
     assert.equal(
       "",
       connectionStringParts.accountName,
-      "extractConnectionStringParts().accountName is different than expected."
+      "extractConnectionStringParts().accountName is different than expected.",
     );
   });
 
@@ -153,17 +153,17 @@ describe("Utility Helpers", () => {
     assert.equal(
       "SASConnString",
       connectionStringParts.kind,
-      "extractConnectionStringParts().kind is different than expected."
+      "extractConnectionStringParts().kind is different than expected.",
     );
     assert.equal(
       localDomain,
       connectionStringParts.url,
-      "extractConnectionStringParts().url is different than expected."
+      "extractConnectionStringParts().url is different than expected.",
     );
     assert.equal(
       "devstoreaccount1",
       connectionStringParts.accountName,
-      "extractConnectionStringParts().accountName is different than expected."
+      "extractConnectionStringParts().accountName is different than expected.",
     );
   });
 
@@ -175,17 +175,17 @@ describe("Utility Helpers", () => {
     assert.equal(
       "SASConnString",
       connectionStringParts.kind,
-      "extractConnectionStringParts().kind is different than expected."
+      "extractConnectionStringParts().kind is different than expected.",
     );
     assert.equal(
       localDomain,
       connectionStringParts.url,
-      "extractConnectionStringParts().url is different than expected."
+      "extractConnectionStringParts().url is different than expected.",
     );
     assert.equal(
       "",
       connectionStringParts.accountName,
-      "extractConnectionStringParts().accountName is different than expected."
+      "extractConnectionStringParts().accountName is different than expected.",
     );
   });
 
@@ -198,36 +198,36 @@ describe("Utility Helpers", () => {
     assert.equal(
       "SASConnString",
       connectionStringParts.kind,
-      "extractConnectionStringParts().kind is different than expected."
+      "extractConnectionStringParts().kind is different than expected.",
     );
     assert.equal(
       localDomain,
       connectionStringParts.url,
-      "extractConnectionStringParts().url is different than expected."
+      "extractConnectionStringParts().url is different than expected.",
     );
     assert.equal(
       localAccountName,
       connectionStringParts.accountName,
-      "extractConnectionStringParts().accountName is different than expected."
+      "extractConnectionStringParts().accountName is different than expected.",
     );
   });
 
   it("isIpEndpointStyle", async function () {
     assert.equal(
       isIpEndpointStyle(new URL("https://192.0.0.10:1900/accountName/containerName/blobName")),
-      true
+      true,
     );
     assert.equal(
       isIpEndpointStyle(
         new URL(
-          "https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/accountName/containerName/blobName"
-        )
+          "https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/accountName/containerName/blobName",
+        ),
       ),
-      true
+      true,
     );
     assert.equal(
       isIpEndpointStyle(new URL("https://localhost:80/accountName/containerName/blobName")),
-      true
+      true,
     );
 
     assert.equal(isIpEndpointStyle(new URL("https://192.0.0.10:1900/")), true);
@@ -235,9 +235,9 @@ describe("Utility Helpers", () => {
 
     assert.equal(
       isIpEndpointStyle(
-        new URL("https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]/accountName/containerName")
+        new URL("https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]/accountName/containerName"),
       ),
-      true
+      true,
     );
     assert.equal(isIpEndpointStyle(new URL("https://[::1]")), true);
     assert.equal(isIpEndpointStyle(new URL("https://a.b.c.d")), false);

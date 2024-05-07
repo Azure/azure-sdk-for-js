@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AddVCenterRequest,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to create a vCenter object..
  *
  * @summary The operation to create a vCenter object..
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationvCenters_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationvCenters_Create.json
  */
 async function addVCenter() {
   const subscriptionId =
@@ -38,8 +38,8 @@ async function addVCenter() {
       ipAddress: "inmtest78",
       port: "443",
       processServerId: "5A720CAB-39CB-F445-BD1662B0B33164B5",
-      runAsAccountId: "2"
-    }
+      runAsAccountId: "2",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -48,7 +48,7 @@ async function addVCenter() {
     resourceGroupName,
     fabricName,
     vcenterName,
-    addVCenterRequest
+    addVCenterRequest,
   );
   console.log(result);
 }

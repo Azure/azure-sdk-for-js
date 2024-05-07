@@ -52,6 +52,7 @@ export interface ChatTranscriptsListResult {
 // @public
 export interface ChatTranscriptsNoSubscription {
     get(supportTicketName: string, chatTranscriptName: string, options?: ChatTranscriptsNoSubscriptionGetOptionalParams): Promise<ChatTranscriptsNoSubscriptionGetResponse>;
+    list(supportTicketName: string, options?: ChatTranscriptsNoSubscriptionListOptionalParams): PagedAsyncIterableIterator<ChatTranscriptDetails>;
 }
 
 // @public
@@ -60,6 +61,20 @@ export interface ChatTranscriptsNoSubscriptionGetOptionalParams extends coreClie
 
 // @public
 export type ChatTranscriptsNoSubscriptionGetResponse = ChatTranscriptDetails;
+
+// @public
+export interface ChatTranscriptsNoSubscriptionListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ChatTranscriptsNoSubscriptionListNextResponse = ChatTranscriptsListResult;
+
+// @public
+export interface ChatTranscriptsNoSubscriptionListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ChatTranscriptsNoSubscriptionListResponse = ChatTranscriptsListResult;
 
 // @public
 export interface CheckNameAvailabilityInput {
@@ -76,14 +91,14 @@ export interface CheckNameAvailabilityOutput {
 
 // @public
 export interface CommunicationDetails {
-    body?: string;
+    body: string;
     readonly communicationDirection?: CommunicationDirection;
     readonly communicationType?: CommunicationType;
     readonly createdDate?: Date;
     readonly id?: string;
     readonly name?: string;
     sender?: string;
-    subject?: string;
+    subject: string;
     readonly type?: string;
 }
 
@@ -150,6 +165,7 @@ export interface CommunicationsNoSubscription {
     beginCreateAndWait(supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsNoSubscriptionCreateOptionalParams): Promise<CommunicationsNoSubscriptionCreateResponse>;
     checkNameAvailability(supportTicketName: string, checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: CommunicationsNoSubscriptionCheckNameAvailabilityOptionalParams): Promise<CommunicationsNoSubscriptionCheckNameAvailabilityResponse>;
     get(supportTicketName: string, communicationName: string, options?: CommunicationsNoSubscriptionGetOptionalParams): Promise<CommunicationsNoSubscriptionGetResponse>;
+    list(supportTicketName: string, options?: CommunicationsNoSubscriptionListOptionalParams): PagedAsyncIterableIterator<CommunicationDetails>;
 }
 
 // @public
@@ -180,6 +196,22 @@ export interface CommunicationsNoSubscriptionGetOptionalParams extends coreClien
 
 // @public
 export type CommunicationsNoSubscriptionGetResponse = CommunicationDetails;
+
+// @public
+export interface CommunicationsNoSubscriptionListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommunicationsNoSubscriptionListNextResponse = CommunicationsListResult;
+
+// @public
+export interface CommunicationsNoSubscriptionListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type CommunicationsNoSubscriptionListResponse = CommunicationsListResult;
 
 // @public
 export type CommunicationType = string;
@@ -367,6 +399,9 @@ export type FileWorkspacesNoSubscriptionGetResponse = FileWorkspaceDetails;
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export type IsTemporaryTicket = string;
+
+// @public
 export enum KnownCommunicationDirection {
     Inbound = "inbound",
     Outbound = "outbound"
@@ -390,6 +425,12 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownIsTemporaryTicket {
+    No = "No",
+    Yes = "Yes"
 }
 
 // @public
@@ -424,7 +465,7 @@ export enum KnownUserConsent {
 
 // @public
 export interface MessageProperties {
-    body: string;
+    body?: string;
     readonly communicationDirection?: CommunicationDirection;
     readonly contentType?: TranscriptContentType;
     readonly createdDate?: Date;
@@ -463,10 +504,6 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
     services: Services;
     // (undocumented)
     subscriptionId?: string;
-    // (undocumented)
-    supportTicketChatTranscriptsNoSubscription: SupportTicketChatTranscriptsNoSubscription;
-    // (undocumented)
-    supportTicketCommunicationsNoSubscription: SupportTicketCommunicationsNoSubscription;
     // (undocumented)
     supportTickets: SupportTickets;
     // (undocumented)
@@ -638,67 +675,28 @@ export interface SupportEngineer {
 }
 
 // @public
-export interface SupportTicketChatTranscriptsNoSubscription {
-    list(supportTicketName: string, options?: SupportTicketChatTranscriptsNoSubscriptionListOptionalParams): PagedAsyncIterableIterator<ChatTranscriptDetails>;
-}
-
-// @public
-export interface SupportTicketChatTranscriptsNoSubscriptionListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SupportTicketChatTranscriptsNoSubscriptionListNextResponse = ChatTranscriptsListResult;
-
-// @public
-export interface SupportTicketChatTranscriptsNoSubscriptionListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SupportTicketChatTranscriptsNoSubscriptionListResponse = ChatTranscriptsListResult;
-
-// @public
-export interface SupportTicketCommunicationsNoSubscription {
-    list(supportTicketName: string, options?: SupportTicketCommunicationsNoSubscriptionListOptionalParams): PagedAsyncIterableIterator<CommunicationDetails>;
-}
-
-// @public
-export interface SupportTicketCommunicationsNoSubscriptionListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SupportTicketCommunicationsNoSubscriptionListNextResponse = CommunicationsListResult;
-
-// @public
-export interface SupportTicketCommunicationsNoSubscriptionListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
-}
-
-// @public
-export type SupportTicketCommunicationsNoSubscriptionListResponse = CommunicationsListResult;
-
-// @public
 export interface SupportTicketDetails {
-    advancedDiagnosticConsent?: Consent;
-    contactDetails?: ContactProfile;
+    advancedDiagnosticConsent: Consent;
+    contactDetails: ContactProfile;
     readonly createdDate?: Date;
-    description?: string;
-    readonly enrollmentId?: string;
+    description: string;
+    enrollmentId?: string;
     fileWorkspaceName?: string;
     readonly id?: string;
+    readonly isTemporaryTicket?: IsTemporaryTicket;
     readonly modifiedDate?: Date;
     readonly name?: string;
     readonly problemClassificationDisplayName?: string;
-    problemClassificationId?: string;
+    problemClassificationId: string;
     problemScopingQuestions?: string;
     problemStartTime?: Date;
     quotaTicketDetails?: QuotaTicketDetails;
     require24X7Response?: boolean;
     secondaryConsent?: SecondaryConsent[];
     readonly serviceDisplayName?: string;
-    serviceId?: string;
+    serviceId: string;
     serviceLevelAgreement?: ServiceLevelAgreement;
-    severity?: SeverityLevel;
+    severity: SeverityLevel;
     readonly status?: string;
     supportEngineer?: SupportEngineer;
     readonly supportPlanDisplayName?: string;
@@ -706,7 +704,7 @@ export interface SupportTicketDetails {
     readonly supportPlanType?: string;
     supportTicketId?: string;
     technicalTicketDetails?: TechnicalTicketDetails;
-    title?: string;
+    title: string;
     readonly type?: string;
 }
 

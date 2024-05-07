@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
 import { LATEST_API_VERSION } from "../../src/constants";
@@ -47,7 +47,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
     credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID || "tenant",
       env.AZURE_CLIENT_ID || "client",
-      env.AZURE_CLIENT_SECRET || "secret"
+      env.AZURE_CLIENT_SECRET || "secret",
     );
     sandbox = createSandbox();
   });

@@ -9,41 +9,50 @@ import {
 } from "@opentelemetry/semantic-conventions";
 import {
   MetricDependencyDimensions,
+  MetricDimensionTypeKeys,
   MetricRequestDimensions,
   StandardMetricBaseDimensions,
+  StandardMetricIds,
+  StandardMetricPropertyNames,
 } from "./types";
 import { LogRecord } from "@opentelemetry/sdk-logs";
 import { Resource } from "@opentelemetry/resources";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);
-  dimensions.metricId = "requests/duration";
+  dimensions.metricId = StandardMetricIds.REQUEST_DURATION;
   const statusCode = String(span.attributes["http.status_code"]);
   dimensions.requestResultCode = statusCode;
   dimensions.requestSuccess = statusCode === "200" ? "True" : "False";
-  return dimensions as Attributes;
+  if (isSyntheticLoad(span)) {
+    dimensions.operationSynthetic = "True";
+  }
+  return convertDimensions(dimensions) as Attributes;
 }
 
 export function getDependencyDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricDependencyDimensions = getBaseDimensions(span.resource);
-  dimensions.metricId = "dependencies/duration";
+  dimensions.metricId = StandardMetricIds.DEPENDENCIES_DURATION;
   const statusCode = String(span.attributes["http.status_code"]);
   dimensions.dependencyTarget = getDependencyTarget(span.attributes);
   dimensions.dependencyResultCode = statusCode;
   dimensions.dependencyType = "http";
   dimensions.dependencySuccess = statusCode === "200" ? "True" : "False";
-  return dimensions as Attributes;
+  if (isSyntheticLoad(span)) {
+    dimensions.operationSynthetic = "True";
+  }
+  return convertDimensions(dimensions) as Attributes;
 }
 
 export function getExceptionDimensions(resource: Resource): Attributes {
   const dimensions: StandardMetricBaseDimensions = getBaseDimensions(resource);
-  dimensions.metricId = "exceptions/count";
+  dimensions.metricId = StandardMetricIds.EXCEPTIONS_COUNT;
   return dimensions as Attributes;
 }
 
 export function getTraceDimensions(resource: Resource): Attributes {
   const dimensions: StandardMetricBaseDimensions = getBaseDimensions(resource);
-  dimensions.metricId = "traces/count";
+  dimensions.metricId = StandardMetricIds.TRACES_COUNT;
   return dimensions as Attributes;
 }
 
@@ -117,4 +126,21 @@ export function isTraceTelemetry(logRecord: LogRecord) {
     return true;
   }
   return false;
+}
+
+export function isSyntheticLoad(record: LogRecord | ReadableSpan): boolean {
+  const userAgent = String(record.attributes[SemanticAttributes.HTTP_USER_AGENT]);
+  return userAgent !== null && userAgent.includes("AlwaysOn") ? true : false;
+}
+
+export function convertDimensions(
+  dimensions: MetricDependencyDimensions | MetricRequestDimensions,
+): Attributes {
+  let convertedDimensions: any = {};
+  for (let dim in dimensions) {
+    convertedDimensions[StandardMetricPropertyNames[dim as MetricDimensionTypeKeys]] = (
+      dimensions as any
+    )[dim];
+  }
+  return convertedDimensions as Attributes;
 }

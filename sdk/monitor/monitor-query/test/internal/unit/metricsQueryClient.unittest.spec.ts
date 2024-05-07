@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { Durations, MetricsQueryClient } from "../../../src";
 
 it("verify tracing", async () => {
@@ -11,7 +11,7 @@ it("verify tracing", async () => {
   const tokenCredential: TokenCredential = {
     async getToken(
       scopes: string | string[],
-      _options?: GetTokenOptions
+      _options?: GetTokenOptions,
     ): Promise<AccessToken | null> {
       if (Array.isArray(scopes)) {
         scopesPassed.push(...scopes);
@@ -43,6 +43,6 @@ it("verify tracing", async () => {
       "MetricsQueryClient.queryResource",
       "MetricsQueryClient.listSegmentOfMetricNamespaces",
       "MetricsQueryClient.listSegmentOfMetricDefinitions",
-    ]
+    ],
   );
 });

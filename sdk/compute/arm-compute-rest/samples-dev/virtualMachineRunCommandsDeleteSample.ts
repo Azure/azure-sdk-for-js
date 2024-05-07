@@ -34,7 +34,7 @@ async function deleteARunCommand() {
       subscriptionId,
       resourceGroupName,
       vmName,
-      runCommandName
+      runCommandName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

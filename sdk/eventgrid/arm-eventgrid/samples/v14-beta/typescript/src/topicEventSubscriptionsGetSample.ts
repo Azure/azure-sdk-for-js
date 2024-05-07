@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get properties of an event subscription of a topic.
  *
  * @summary Get properties of an event subscription of a topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/TopicEventSubscriptions_Get.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/TopicEventSubscriptions_Get.json
  */
 async function topicEventSubscriptionsGet() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function topicEventSubscriptionsGet() {
   const result = await client.topicEventSubscriptions.get(
     resourceGroupName,
     topicName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

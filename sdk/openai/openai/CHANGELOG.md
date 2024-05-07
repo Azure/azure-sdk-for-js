@@ -1,14 +1,74 @@
 # Release History
 
-## 1.0.0-beta.9 (Unreleased)
+## 1.0.0-beta.13 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
+- Create a new `OpenAIError` model to represent the error model returned.
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix a bug where `ChatCompletions` did not expose the `model` property.
+
+## 1.0.0-beta.12 (2024-04-01)
+
+### Features Added
+
+- Adds a new property `logprobs` in `ChatChoice` to support log probabilities for this chat choice
+- Adds new properties `logprobs` and `topLogprobs` in `ChatCompletionsOptions` class to support log probabilities for chat completions
+- Adds `dimensions` in `GetEmbeddingsOptions`.
+when using Azure OpenAI, specifies the input type to use for embedding search.
+- Updates the default service API version to `2024-03-01-preview`
+- Returns content filter results and prompt filter results for image generations through `contentFilterResults` and `promptFilterResults` properties
+
+### Breaking Changes
+
+- `AzureChatExtensionConfiguration`, `OnYourDataAuthenticationOptions`, `OnYourDataVectorizationSource`, `OnYourDataVectorizationSourceType`, `ChatCompletionsNamedToolSelection`, `ChatCompletionsToolDefinition`, `ChatCompletionsToolCall`, `ChatMessageContentItem`, `ChatRequestMessage`, `ChatFinishDetails` are renamed with `Union` postfix.
+- `AzureCognitiveSearchQueryType`, `ChatMessageImageDetailLevel`, `ElasticsearchQueryType`, `FunctionCallPreset`, `ImageGenerationQuality`, `ImageGenerationResponseFormat`, `ImageSize`, `ImageGenerationStyle`, `OnYourDataAuthenticationType`, `OnYourDataVectorizationSourceType`  union types no longer have fixed values.
+- `prompFilterResults` property in `ChatCompletions`, `prompFilterResults` property in `Choice`, `toolCalls` in `ChatResponseMessage` are now optional
+
+Changes to "bring your own data" features:
+- Introduces a new type: `AzureChatExtensionDataSourceResponseCitation`
+- For `AzureChatExtensionsMessageContext`, replaced `messages` property with `citations` and added `intent` as a string
+- Rename `AzureCognitiveSearch` to `AzureSearch`
+- `embeddingDependency` is a required property for `AzureCosmosDBChatExtensionConfiguration`
+- All extension configuration `type` properties are changed into snake casing. For example, type `AzureCosmosDB` is changed into `azure_cosmos_db`in `AzureCosmosDBChatExtensionConfiguration`
+- All authentication `type` properties are changed into snake casing. For example, type `ConnectionString` is changed into `connection_string`in `OnYourDataConnectionStringAuthenticationOptions`
+- New properties are added to `AzureCosmosDBFieldMappingOptions`: `contentFields`, `contentFieldsSeparator`, `filepathField`, `titleField`, and `urlField`.
+- Adds additional support for different authentication options, including access token and encoded API key authentication
+- `embeddingDependency` is required in `PineconeChatExtensionConfiguration`
+- `contentField` is required in `PineconeFieldMappingOptions`
+
+### Bugs Fixed
+
+- Fix a bug where `ChatCompletionsFunctionToolCall` did not expose the `index` property for the streaming mode.
+
+## 1.0.0-beta.11 (2024-01-25)
+
+### Bugs Fixed
+
+- Fix a bug where `toolChoice` field in the input options to chat completion methods wasn't defined correctly.
+- Fix a bug where the service returns undefined `choices` in chat completion methods.
+- Fix a bug in chat completion methods where the returned stream was causing an error in Bun.
+
+## 1.0.0-beta.10 (2024-01-03)
+
+### Bugs Fixed
+
+- Fix `responseFormat` behavior in `getAudioTranscription` and `getAudioTranslation` methods where request wasn't properly formed if it wasn't specified.
+
+## 1.0.0-beta.9 (2024-01-02)
+
+### Breaking Changes
+
+- `listChatCompletions` and `listCompletions` are renamed to `streamChatCompletions` and `streamCompletions` respectively and their return types are updated to be a `ReadableStream`. For example, `streamChatCompletions` can be used as follows:
+
+```js
+  const events = await client.streamChatCompletions(deploymentId, messages);
+  for await (const event of events) {
+    // use event ...
+  }
+```
 
 ## 1.0.0-beta.8 (2023-12-07)
 

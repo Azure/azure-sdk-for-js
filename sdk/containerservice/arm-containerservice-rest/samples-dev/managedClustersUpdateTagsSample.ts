@@ -36,7 +36,7 @@ async function updateManagedClusterTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .patch(parameters);
   const poller = getLongRunningPoller(client, initialResponse);

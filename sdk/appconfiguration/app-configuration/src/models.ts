@@ -41,7 +41,7 @@ export interface ConfigurationSettingId {
  * Necessary fields for updating or creating a new configuration setting
  */
 export type ConfigurationSettingParam<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string
+  T extends string | FeatureFlagValue | SecretReferenceValue = string,
 > = ConfigurationSettingId & {
   /**
    * The content type of the setting's value
@@ -71,7 +71,7 @@ export type ConfigurationSettingParam<
  * its etag, whether it is currently readOnly and when it was last modified.
  */
 export type ConfigurationSetting<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string
+  T extends string | FeatureFlagValue | SecretReferenceValue = string,
 > = ConfigurationSettingParam<T> & {
   /**
    * Whether or not the setting is read-only
@@ -118,14 +118,14 @@ export interface HttpResponseField<HeadersT> {
  * Parameters for adding a new configuration setting
  */
 export type AddConfigurationSettingParam<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string
+  T extends string | FeatureFlagValue | SecretReferenceValue = string,
 > = ConfigurationSettingParam<T>;
 
 /**
  * Parameters for creating or updating a new configuration setting
  */
 export type SetConfigurationSettingParam<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string
+  T extends string | FeatureFlagValue | SecretReferenceValue = string,
 > = ConfigurationSettingParam<T>;
 
 /**
@@ -318,7 +318,12 @@ export interface ListConfigurationSettingsForSnapshotOptions
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {}
+export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
+  /**
+   * etag
+   */
+  pageEtags?: string[];
+}
 
 /**
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
@@ -355,11 +360,22 @@ export interface PageSettings {
 }
 
 /**
+ * Entity with etag.
+ */
+export interface EtagEntity {
+  /**
+   * The etag for this entity
+   */
+  etag?: string;
+}
+
+/**
  * A page of configuration settings and the corresponding HTTP response
  */
 export interface ListConfigurationSettingPage
   extends HttpResponseField<SyncTokenHeaderField>,
-    PageSettings {
+    PageSettings,
+    EtagEntity {
   /**
    * The configuration settings for this page of results.
    */

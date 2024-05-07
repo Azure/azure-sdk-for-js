@@ -76,7 +76,7 @@ async function hubVirtualNetworkConnectionPut() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      connectionName
+      connectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

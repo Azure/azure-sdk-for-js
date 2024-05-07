@@ -48,12 +48,12 @@ async function RunTest(
   entityPath: string,
   maxMsgCount: number,
   messages: number,
-  isReceiveAndDelete: boolean
+  isReceiveAndDelete: boolean,
 ): Promise<void> {
   const ns = new ServiceBusClient(connectionString);
   const receiver = ns.createReceiver(
     entityPath,
-    isReceiveAndDelete ? { receiveMode: "receiveAndDelete" } : {}
+    isReceiveAndDelete ? { receiveMode: "receiveAndDelete" } : {},
   );
 
   while (_messages < messages) {
@@ -97,7 +97,7 @@ async function WriteResults(messages: number): Promise<void> {
       currentMessages,
       currentElapsed,
       maxMessages,
-      maxElapsed
+      maxElapsed,
     );
   } while (_messages < messages);
 }
@@ -108,7 +108,7 @@ function WriteResult(
   currentMessages: number,
   currentElapsed: number,
   maxMessages: number,
-  maxElapsed: number
+  maxElapsed: number,
 ): void {
   const memoryUsage = process.memoryUsage();
   log(
@@ -117,7 +117,7 @@ function WriteResult(
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
       `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
       `\tRSS\t${memoryUsage.rss}` +
-      `\tHeapUsed\t${memoryUsage.heapUsed}`
+      `\tHeapUsed\t${memoryUsage.heapUsed}`,
   );
 }
 

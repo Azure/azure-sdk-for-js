@@ -10,7 +10,7 @@ export function createRecordedClient(recorder: Recorder): DeviceUpdateClient {
   const client = DeviceUpdate(
     assertEnvironmentVariable("ENDPOINT"),
     credential,
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
   return client;
 }

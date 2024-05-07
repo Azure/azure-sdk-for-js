@@ -74,6 +74,7 @@ export const Constants = {
   minDurationValue: -922337203685477,
   // https://github.com/Azure/azure-amqp/blob/master/Microsoft.Azure.Amqp/Amqp/AmqpConstants.cs#L47
   maxAbsoluteExpiryTime: new Date("9999-12-31T07:59:59.000Z").getTime(),
+  maxUint32Value: 4294967295,
   aadTokenValidityMarginInMs: 5000,
   connectionReconnectDelay: 300,
   defaultMaxRetries: 3,
@@ -84,6 +85,7 @@ export const Constants = {
   dispositionStatus: "disposition-status",
   fromSequenceNumber: "from-sequence-number",
   messageCount: "message-count",
+  enqueuedTimeUtc: "enqueued-time-utc",
   lockTokens: "lock-tokens",
   messageIdMapKey: "message-id",
   sequenceNumberMapKey: "sequence-number",
@@ -104,6 +106,7 @@ export const Constants = {
     renewLock: "com.microsoft:renew-lock",
     peekMessage: "com.microsoft:peek-message",
     receiveBySequenceNumber: "com.microsoft:receive-by-sequence-number",
+    deleteMessages: "com.microsoft:batch-delete-messages",
     updateDisposition: "com.microsoft:update-disposition",
     renewSessionLock: "com.microsoft:renew-session-lock",
     setSessionState: "com.microsoft:set-session-state",

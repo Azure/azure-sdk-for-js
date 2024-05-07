@@ -99,6 +99,7 @@ describe("Test supportsTracing plugin functionality", function () {
   });
 
   it("supportsTracing with expect", async function () {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await expect((options: any) => client.method(options)).to.supportTracing([
       "MockClientToTest.method",
     ]);

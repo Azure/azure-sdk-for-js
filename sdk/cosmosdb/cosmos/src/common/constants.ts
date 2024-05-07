@@ -73,9 +73,11 @@ export const Constants = {
     ContinuationToken: "x-ms-continuation-token",
     PageSize: "x-ms-max-item-count",
     ItemCount: "x-ms-item-count",
+    ChangeFeedWireFormatVersion: "x-ms-cosmos-changefeed-wire-format-version",
 
     // Request sender generated. Simply echoed by backend.
     ActivityId: "x-ms-activity-id",
+    CorrelatedActivityId: "x-ms-cosmos-correlated-activityid",
     PreTriggerInclude: "x-ms-documentdb-pre-trigger-include",
     PreTriggerExclude: "x-ms-documentdb-pre-trigger-exclude",
     PostTriggerInclude: "x-ms-documentdb-post-trigger-include",
@@ -173,6 +175,7 @@ export const Constants = {
 
     // Dedicated Gateway Headers
     DedicatedGatewayPerRequestCacheStaleness: "x-ms-dedicatedgateway-max-age",
+    DedicatedGatewayPerRequestBypassCache: "x-ms-dedicatedgateway-bypass-cache",
 
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh",
@@ -258,6 +261,9 @@ export const Constants = {
     MinimumInclusiveEffectivePartitionKey: "",
     MaximumExclusiveEffectivePartitionKey: "FF",
   },
+  // Changefeed AllVersionsAndDeletesMode formatting version
+  AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15",
+  ChangeFeedIfNoneMatchStartFromNowHeader: "*",
 };
 
 /**

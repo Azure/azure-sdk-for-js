@@ -60,7 +60,7 @@ async function vpnSiteCreate() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
       subscriptionId,
       resourceGroupName,
-      vpnSiteName
+      vpnSiteName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Update the requiredInputs or additional information needed to execute the solution
  *
  * @summary Update the requiredInputs or additional information needed to execute the solution
- * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2023-09-01-preview/examples/Solution_Update.json
+ * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/Solution_Update.json
  */
 async function solutionUpdate() {
   const scope =
@@ -28,7 +28,7 @@ async function solutionUpdate() {
   const client = new HelpRP(credential);
   const result = await client.solution.beginUpdateAndWait(
     scope,
-    solutionResourceName
+    solutionResourceName,
   );
   console.log(result);
 }

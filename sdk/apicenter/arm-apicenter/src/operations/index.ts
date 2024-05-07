@@ -8,3 +8,10 @@
 
 export * from "./operations";
 export * from "./services";
+export * from "./metadataSchemas";
+export * from "./workspaces";
+export * from "./apis";
+export * from "./deployments";
+export * from "./apiVersions";
+export * from "./apiDefinitions";
+export * from "./environments";

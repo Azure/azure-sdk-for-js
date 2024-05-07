@@ -10,7 +10,7 @@
  */
 
 import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential";
+import { NoOpCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import {
@@ -36,11 +36,9 @@ import {
   VirtualNetwork,
 } from "@azure/arm-network";
 import { createTestComputeManagementClient } from "./utils/recordedClient";
+import { TokenCredential, DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
@@ -54,6 +52,10 @@ export const testPollingOptions = {
 export const testPollingOptionsForNetwork = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
+
+export function createTestCredential(): TokenCredential {
+  return isPlaybackMode() ? new NoOpCredential() : new DefaultAzureCredential();
+}
 
 describe("Compute test", () => {
   let recorder: Recorder;
@@ -78,7 +80,7 @@ describe("Compute test", () => {
     network_client = new NetworkManagementClient(
       credential,
       subscriptionId,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
     location = "eastus";
     resourceGroupName = "myjstest";
@@ -106,7 +108,7 @@ describe("Compute test", () => {
         resourceGroupName,
         network_name,
         parameter,
-        testPollingOptionsForNetwork
+        testPollingOptionsForNetwork,
       );
     console.log(virtualNetworks_create_info);
     const subnet_parameter: Subnet = {
@@ -117,7 +119,7 @@ describe("Compute test", () => {
       network_name,
       subnet_name,
       subnet_parameter,
-      testPollingOptionsForNetwork
+      testPollingOptionsForNetwork,
     );
     console.log(subnet__create_info);
   }
@@ -147,7 +149,7 @@ describe("Compute test", () => {
       group_name,
       nic_name,
       parameter,
-      testPollingOptionsForNetwork
+      testPollingOptionsForNetwork,
     );
     console.log(nic_info);
   }
@@ -165,7 +167,7 @@ describe("Compute test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
         subscriptionId,
         resourceGroupName,
-        availabilitySetName
+        availabilitySetName,
       )
       .put(options);
     if (isUnexpected(result)) {
@@ -186,7 +188,7 @@ describe("Compute test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
         subscriptionId,
         resourceGroupName,
-        availabilitySetName
+        availabilitySetName,
       )
       .patch(options);
     if (isUnexpected(result)) {
@@ -204,7 +206,7 @@ describe("Compute test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
         subscriptionId,
         resourceGroupName,
-        availabilitySetName
+        availabilitySetName,
       )
       .get(options);
     if (isUnexpected(result)) {
@@ -221,7 +223,7 @@ describe("Compute test", () => {
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets",
         subscriptionId,
-        resourceGroupName
+        resourceGroupName,
       )
       .get(options);
     const pageData = paginate(client, initialResponse);
@@ -241,7 +243,7 @@ describe("Compute test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
         subscriptionId,
         resourceGroupName,
-        availabilitySetName
+        availabilitySetName,
       )
       .delete(deleteOptions);
     if (isUnexpected(deleteResponse)) {
@@ -254,7 +256,7 @@ describe("Compute test", () => {
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets",
         subscriptionId,
-        resourceGroupName
+        resourceGroupName,
       )
       .get(options);
     const pageData = paginate(client, initialResponse);
@@ -337,7 +339,7 @@ describe("Compute test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
         subscriptionId,
         resourceGroupName,
-        virtual_machine_name
+        virtual_machine_name,
       )
       .put(options);
     if (isUnexpected(initialResponse)) {
@@ -357,7 +359,7 @@ describe("Compute test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
         subscriptionId,
         resourceGroupName,
-        virtual_machine_name
+        virtual_machine_name,
       )
       .get(options);
     if (isUnexpected(result)) {
@@ -376,7 +378,7 @@ describe("Compute test", () => {
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines",
         subscriptionId,
-        resourceGroupName
+        resourceGroupName,
       )
       .get(options);
     const pageData = paginate(client, initialResponse);
@@ -416,7 +418,7 @@ describe("Compute test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
         subscriptionId,
         resourceGroupName,
-        virtual_machine_name
+        virtual_machine_name,
       )
       .patch(options);
     const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
@@ -436,7 +438,7 @@ describe("Compute test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
         subscriptionId,
         resourceGroupName,
-        virtual_machine_name
+        virtual_machine_name,
       )
       .delete(deleteOptions);
     const poller = getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
@@ -453,7 +455,7 @@ describe("Compute test", () => {
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines",
         subscriptionId,
-        resourceGroupName
+        resourceGroupName,
       )
       .get(options);
     const pageData = paginate(client, initialResponse);

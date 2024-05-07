@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue, isNode } from "@azure/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils";
 import { assert } from "chai";
 import { Context } from "mocha";
-
+import { isNodeLike } from "@azure/core-util";
 import {
   DataLakeServiceClient,
   DataLakeServiceProperties,
@@ -106,11 +106,11 @@ describe("DataLakeServiceClient", () => {
     assert.deepStrictEqual(serviceProperties.minuteMetrics, properties.minuteMetrics);
     assert.deepStrictEqual(
       serviceProperties.deleteRetentionPolicy?.days,
-      properties.deleteRetentionPolicy?.days
+      properties.deleteRetentionPolicy?.days,
     );
     assert.deepStrictEqual(
       serviceProperties.deleteRetentionPolicy?.enabled,
-      properties.deleteRetentionPolicy?.enabled
+      properties.deleteRetentionPolicy?.enabled,
     );
 
     // Cleanup
@@ -121,17 +121,17 @@ describe("DataLakeServiceClient", () => {
     assert.deepStrictEqual(previousProperties.cors, properties.cors);
     assert.deepStrictEqual(
       previousProperties.blobAnalyticsLogging,
-      properties.blobAnalyticsLogging
+      properties.blobAnalyticsLogging,
     );
     assert.deepStrictEqual(previousProperties.hourMetrics, properties.hourMetrics);
     assert.deepStrictEqual(previousProperties.minuteMetrics, properties.minuteMetrics);
     assert.deepStrictEqual(
       previousProperties.deleteRetentionPolicy?.days,
-      properties.deleteRetentionPolicy?.days
+      properties.deleteRetentionPolicy?.days,
     );
     assert.deepStrictEqual(
       previousProperties.deleteRetentionPolicy?.enabled,
-      properties.deleteRetentionPolicy?.enabled
+      properties.deleteRetentionPolicy?.enabled,
     );
   });
 
@@ -237,7 +237,7 @@ describe("DataLakeServiceClient", () => {
 
   it("ListFileSystems with all parameters configured", async function (this: Context) {
     // Skip browser mock test because of account name replacement issue with recorded requests
-    if (!isNode && !isLiveMode()) {
+    if (!isNodeLike && !isLiveMode()) {
       this.skip();
     }
 
@@ -371,7 +371,7 @@ describe("DataLakeServiceClient", () => {
 
   it("Verify PagedAsyncIterableIterator(byPage()) for ListFileSystems", async function (this: Context) {
     // Skip browser mock test because of account name replacement issue with recorded requests
-    if (!isNode && !isLiveMode()) {
+    if (!isNodeLike && !isLiveMode()) {
       this.skip();
     }
 
@@ -412,7 +412,7 @@ describe("DataLakeServiceClient", () => {
 
   it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for ListFileSystems", async function (this: Context) {
     // Skip browser mock test because of account name replacement issue with recorded requests
-    if (!isNode && !isLiveMode()) {
+    if (!isNodeLike && !isLiveMode()) {
       this.skip();
     }
 
@@ -534,7 +534,7 @@ describe("DataLakeServiceClient", () => {
         retryOptions: {
           maxTries: 1,
         },
-      }
+      },
     );
     configureStorageClient(recorder, newClient);
 
@@ -622,7 +622,7 @@ describe("DataLakeServiceClient", () => {
 
         const restoreRes = await serviceClient.undeleteFileSystem(
           fileSystemName,
-          fileSystemItem.versionId!
+          fileSystemItem.versionId!,
         );
         assert.equal(restoreRes.fileSystemClient.name, fileSystemName);
         await restoreRes.fileSystemClient.delete();

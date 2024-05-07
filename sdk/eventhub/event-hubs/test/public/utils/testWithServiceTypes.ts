@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TestFunctionWrapper, isNode, versionsToTest } from "@azure/test-utils";
+import { TestFunctionWrapper, versionsToTest } from "@azure-tools/test-utils";
 import { getEnvVarValue } from "./testUtils";
 import { Suite } from "mocha";
+import { isNodeLike } from "@azure/core-util";
 
 export type SupportedTargets = "mock" | "live";
 const serviceVersions: SupportedTargets[] = ["mock", "live"];
@@ -11,8 +12,8 @@ const testTarget = getEnvVarValue("TEST_TARGET") || "live";
 export function testWithServiceTypes(
   handler: (
     serviceVersion: SupportedTargets,
-    onVersions: (supported: SupportedTargets[]) => TestFunctionWrapper
-  ) => void
+    onVersions: (supported: SupportedTargets[]) => TestFunctionWrapper,
+  ) => void,
 ): void {
   // Wrap within an empty `describe` so that nested functions get the mocha
   // context object for the current suite being ran.
@@ -29,14 +30,14 @@ export function testWithServiceTypes(
             return;
           }
 
-          if (serviceVersion === "mock" && !isNode) {
+          if (serviceVersion === "mock" && !isNodeLike) {
             // We don't currently support running tests aginst the mock service in browsers.
             // This can be revisted once the mock service supports websockets.
             return;
           }
 
           handler(serviceVersion as SupportedTargets, ...rest);
-        }
+        },
       );
     });
   });

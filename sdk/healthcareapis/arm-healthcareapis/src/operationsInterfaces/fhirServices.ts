@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FhirService,
   FhirServicesListByWorkspaceOptionalParams,
@@ -18,7 +18,7 @@ import {
   FhirServicePatchResource,
   FhirServicesUpdateOptionalParams,
   FhirServicesUpdateResponse,
-  FhirServicesDeleteOptionalParams
+  FhirServicesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface FhirServices {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FhirServicesListByWorkspaceOptionalParams
+    options?: FhirServicesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<FhirService>;
   /**
    * Gets the properties of the specified FHIR Service.
@@ -46,7 +46,7 @@ export interface FhirServices {
     resourceGroupName: string,
     workspaceName: string,
     fhirServiceName: string,
-    options?: FhirServicesGetOptionalParams
+    options?: FhirServicesGetOptionalParams,
   ): Promise<FhirServicesGetResponse>;
   /**
    * Creates or updates a FHIR Service resource with the specified parameters.
@@ -61,10 +61,10 @@ export interface FhirServices {
     workspaceName: string,
     fhirServiceName: string,
     fhirservice: FhirService,
-    options?: FhirServicesCreateOrUpdateOptionalParams
+    options?: FhirServicesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<FhirServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FhirServicesCreateOrUpdateResponse>,
       FhirServicesCreateOrUpdateResponse
     >
   >;
@@ -81,7 +81,7 @@ export interface FhirServices {
     workspaceName: string,
     fhirServiceName: string,
     fhirservice: FhirService,
-    options?: FhirServicesCreateOrUpdateOptionalParams
+    options?: FhirServicesCreateOrUpdateOptionalParams,
   ): Promise<FhirServicesCreateOrUpdateResponse>;
   /**
    * Patch FHIR Service details.
@@ -96,10 +96,10 @@ export interface FhirServices {
     fhirServiceName: string,
     workspaceName: string,
     fhirservicePatchResource: FhirServicePatchResource,
-    options?: FhirServicesUpdateOptionalParams
+    options?: FhirServicesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<FhirServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FhirServicesUpdateResponse>,
       FhirServicesUpdateResponse
     >
   >;
@@ -116,7 +116,7 @@ export interface FhirServices {
     fhirServiceName: string,
     workspaceName: string,
     fhirservicePatchResource: FhirServicePatchResource,
-    options?: FhirServicesUpdateOptionalParams
+    options?: FhirServicesUpdateOptionalParams,
   ): Promise<FhirServicesUpdateResponse>;
   /**
    * Deletes a FHIR Service.
@@ -129,8 +129,8 @@ export interface FhirServices {
     resourceGroupName: string,
     fhirServiceName: string,
     workspaceName: string,
-    options?: FhirServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: FhirServicesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a FHIR Service.
    * @param resourceGroupName The name of the resource group that contains the service instance.
@@ -142,6 +142,6 @@ export interface FhirServices {
     resourceGroupName: string,
     fhirServiceName: string,
     workspaceName: string,
-    options?: FhirServicesDeleteOptionalParams
+    options?: FhirServicesDeleteOptionalParams,
   ): Promise<void>;
 }

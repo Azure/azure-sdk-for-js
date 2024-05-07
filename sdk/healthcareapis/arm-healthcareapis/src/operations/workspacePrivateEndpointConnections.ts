@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HealthcareApisManagementClient } from "../healthcareApisManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PrivateEndpointConnectionDescription,
   WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams,
@@ -22,13 +26,14 @@ import {
   WorkspacePrivateEndpointConnectionsGetResponse,
   WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse,
-  WorkspacePrivateEndpointConnectionsDeleteOptionalParams
+  WorkspacePrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkspacePrivateEndpointConnections operations. */
 export class WorkspacePrivateEndpointConnectionsImpl
-  implements WorkspacePrivateEndpointConnections {
+  implements WorkspacePrivateEndpointConnections
+{
   private readonly client: HealthcareApisManagementClient;
 
   /**
@@ -48,12 +53,12 @@ export class WorkspacePrivateEndpointConnectionsImpl
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams
+    options?: WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnectionDescription> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +75,9 @@ export class WorkspacePrivateEndpointConnectionsImpl
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,13 +85,13 @@ export class WorkspacePrivateEndpointConnectionsImpl
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<PrivateEndpointConnectionDescription[]> {
     let result: WorkspacePrivateEndpointConnectionsListByWorkspaceResponse;
     result = await this._listByWorkspace(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -94,12 +99,12 @@ export class WorkspacePrivateEndpointConnectionsImpl
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams
+    options?: WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<PrivateEndpointConnectionDescription> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -114,11 +119,11 @@ export class WorkspacePrivateEndpointConnectionsImpl
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams
+    options?: WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams,
   ): Promise<WorkspacePrivateEndpointConnectionsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -134,16 +139,16 @@ export class WorkspacePrivateEndpointConnectionsImpl
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: WorkspacePrivateEndpointConnectionsGetOptionalParams
+    options?: WorkspacePrivateEndpointConnectionsGetOptionalParams,
   ): Promise<WorkspacePrivateEndpointConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
         privateEndpointConnectionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -161,32 +166,29 @@ export class WorkspacePrivateEndpointConnectionsImpl
     workspaceName: string,
     privateEndpointConnectionName: string,
     properties: PrivateEndpointConnectionDescription,
-    options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>,
       WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -195,8 +197,8 @@ export class WorkspacePrivateEndpointConnectionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -204,25 +206,28 @@ export class WorkspacePrivateEndpointConnectionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         privateEndpointConnectionName,
         properties,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse,
+      OperationState<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -242,14 +247,14 @@ export class WorkspacePrivateEndpointConnectionsImpl
     workspaceName: string,
     privateEndpointConnectionName: string,
     properties: PrivateEndpointConnectionDescription,
-    options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
       privateEndpointConnectionName,
       properties,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -266,25 +271,24 @@ export class WorkspacePrivateEndpointConnectionsImpl
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -293,8 +297,8 @@ export class WorkspacePrivateEndpointConnectionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -302,24 +306,24 @@ export class WorkspacePrivateEndpointConnectionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         privateEndpointConnectionName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -337,13 +341,13 @@ export class WorkspacePrivateEndpointConnectionsImpl
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams
+    options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       privateEndpointConnectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -352,38 +356,36 @@ export class WorkspacePrivateEndpointConnectionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/privateEndpointConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResultDescription
+      bodyMapper: Mappers.PrivateEndpointConnectionListResultDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionDescription
+      bodyMapper: Mappers.PrivateEndpointConnectionDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -391,31 +393,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateEndpointConnectionName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionDescription
+      bodyMapper: Mappers.PrivateEndpointConnectionDescription,
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnectionDescription
+      bodyMapper: Mappers.PrivateEndpointConnectionDescription,
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnectionDescription
+      bodyMapper: Mappers.PrivateEndpointConnectionDescription,
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnectionDescription
+      bodyMapper: Mappers.PrivateEndpointConnectionDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
@@ -424,15 +425,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateEndpointConnectionName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -440,8 +440,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -449,8 +449,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateEndpointConnectionName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { randomUUID } from "@azure/core-util";
-import { PerfOptionDictionary, executeParallel } from "@azure/test-utils-perf";
+import { PerfOptionDictionary, executeParallel } from "@azure-tools/test-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 interface StorageBlobListTestOptions {
   count: number;
@@ -25,7 +25,7 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
         await this.containerClient.uploadBlockBlob(randomUUID(), Buffer.alloc(0), 0);
       },
       this.parsedOptions.count.value!,
-      32
+      32,
     );
   }
 

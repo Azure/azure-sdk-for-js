@@ -58,6 +58,8 @@ registerInstrumentations({
 // Continue to import any Azure SDK client libraries after registering the instrumentation.
 
 const { KeyClient } = require("@azure/keyvault-keys");
+const { DefaultAzureCredential } = require("@azure/identity"); 
+
 const keyClient = new KeyClient(url, new DefaultAzureCredential()); 
 
 async function main() {
@@ -107,4 +109,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [otel_instrumentation]: https://www.npmjs.com/package/@opentelemetry/instrumentation
-[otel_documentation]: https://opentelemetry.io/docs/js/
+[otel_documentation]: https://opentelemetry.io/docs/languages/js/

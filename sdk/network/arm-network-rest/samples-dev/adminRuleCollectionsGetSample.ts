@@ -35,7 +35,7 @@ async function getsSecurityAdminRuleCollection() {
       resourceGroupName,
       networkManagerName,
       configurationName,
-      ruleCollectionName
+      ruleCollectionName,
     )
     .get(options);
   console.log(result);

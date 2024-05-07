@@ -33,7 +33,7 @@ export interface AttestationPolicyToken extends AttestationToken {}
 export function createAttestationPolicyToken(
   policy: string,
   privateKey?: string,
-  certificate?: string
+  certificate?: string,
 ): AttestationPolicyToken {
   const token = AttestationTokenImpl.create({
     body: new StoredAttestationPolicy(policy).serialize(),

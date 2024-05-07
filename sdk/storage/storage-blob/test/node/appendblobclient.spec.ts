@@ -52,7 +52,7 @@ describe("AppendBlobClient Node.js only", () => {
           ],
         },
       },
-      ["playback", "record"]
+      ["playback", "record"],
     );
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -113,7 +113,7 @@ describe("AppendBlobClient Node.js only", () => {
     const newClient = new AppendBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
-      blobName
+      blobName,
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -130,7 +130,7 @@ describe("AppendBlobClient Node.js only", () => {
         retryOptions: {
           maxTries: 5,
         },
-      }
+      },
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -160,7 +160,7 @@ describe("AppendBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     await appendBlobClient.appendBlock(content, content.length);
@@ -192,7 +192,7 @@ describe("AppendBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     const tokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
@@ -203,7 +203,7 @@ describe("AppendBlobClient Node.js only", () => {
     await tokenAppendBlobClient.appendBlockFromURL(
       `${blockBlobClient.url}?${sas}`,
       0,
-      content.length
+      content.length,
     );
 
     const downloadResponse = await appendBlobClient.download(0);
@@ -256,7 +256,7 @@ describe("AppendBlobClient Node.js only", () => {
 
   it("conditional tags for appendBlockFromURL's destination blob", async () => {
     const newBlobClient = containerClient.getAppendBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob"))
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
     const tags2 = {
       tag: "val",
@@ -278,7 +278,7 @@ describe("AppendBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     let exceptionCaught = false;
@@ -319,7 +319,7 @@ describe("AppendBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     const aResp = await appendBlobClient.appendBlock(content, content.length, {
@@ -331,7 +331,7 @@ describe("AppendBlobClient Node.js only", () => {
       `${blobClient.url}?${sas}`,
       0,
       content.length,
-      { customerProvidedKey: Test_CPK_INFO }
+      { customerProvidedKey: Test_CPK_INFO },
     );
     assert.equal(aResp2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 

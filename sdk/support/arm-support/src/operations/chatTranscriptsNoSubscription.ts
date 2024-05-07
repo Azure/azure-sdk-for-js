@@ -6,19 +6,28 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ChatTranscriptsNoSubscription } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftSupport } from "../microsoftSupport";
 import {
+  ChatTranscriptDetails,
+  ChatTranscriptsNoSubscriptionListNextOptionalParams,
+  ChatTranscriptsNoSubscriptionListOptionalParams,
+  ChatTranscriptsNoSubscriptionListResponse,
   ChatTranscriptsNoSubscriptionGetOptionalParams,
-  ChatTranscriptsNoSubscriptionGetResponse
+  ChatTranscriptsNoSubscriptionGetResponse,
+  ChatTranscriptsNoSubscriptionListNextResponse,
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing ChatTranscriptsNoSubscription operations. */
 export class ChatTranscriptsNoSubscriptionImpl
-  implements ChatTranscriptsNoSubscription {
+  implements ChatTranscriptsNoSubscription
+{
   private readonly client: MicrosoftSupport;
 
   /**
@@ -30,6 +39,83 @@ export class ChatTranscriptsNoSubscriptionImpl
   }
 
   /**
+   * Lists all chat transcripts for a support ticket
+   * @param supportTicketName Support ticket name
+   * @param options The options parameters.
+   */
+  public list(
+    supportTicketName: string,
+    options?: ChatTranscriptsNoSubscriptionListOptionalParams,
+  ): PagedAsyncIterableIterator<ChatTranscriptDetails> {
+    const iter = this.listPagingAll(supportTicketName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(supportTicketName, options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    supportTicketName: string,
+    options?: ChatTranscriptsNoSubscriptionListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ChatTranscriptDetails[]> {
+    let result: ChatTranscriptsNoSubscriptionListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(supportTicketName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        supportTicketName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    supportTicketName: string,
+    options?: ChatTranscriptsNoSubscriptionListOptionalParams,
+  ): AsyncIterableIterator<ChatTranscriptDetails> {
+    for await (const page of this.listPagingPage(supportTicketName, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all chat transcripts for a support ticket
+   * @param supportTicketName Support ticket name
+   * @param options The options parameters.
+   */
+  private _list(
+    supportTicketName: string,
+    options?: ChatTranscriptsNoSubscriptionListOptionalParams,
+  ): Promise<ChatTranscriptsNoSubscriptionListResponse> {
+    return this.client.sendOperationRequest(
+      { supportTicketName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
    * Returns chatTranscript details for a no subscription support ticket.
    * @param supportTicketName Support ticket name.
    * @param chatTranscriptName ChatTranscript name.
@@ -38,35 +124,86 @@ export class ChatTranscriptsNoSubscriptionImpl
   get(
     supportTicketName: string,
     chatTranscriptName: string,
-    options?: ChatTranscriptsNoSubscriptionGetOptionalParams
+    options?: ChatTranscriptsNoSubscriptionGetOptionalParams,
   ): Promise<ChatTranscriptsNoSubscriptionGetResponse> {
     return this.client.sendOperationRequest(
       { supportTicketName, chatTranscriptName, options },
-      getOperationSpec
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * ListNext
+   * @param supportTicketName Support ticket name
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    supportTicketName: string,
+    nextLink: string,
+    options?: ChatTranscriptsNoSubscriptionListNextOptionalParams,
+  ): Promise<ChatTranscriptsNoSubscriptionListNextResponse> {
+    return this.client.sendOperationRequest(
+      { supportTicketName, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Support/supportTickets/{supportTicketName}/chatTranscripts/{chatTranscriptName}",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Support/supportTickets/{supportTicketName}/chatTranscripts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChatTranscriptDetails
+      bodyMapper: Mappers.ChatTranscriptsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.supportTicketName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Support/supportTickets/{supportTicketName}/chatTranscripts/{chatTranscriptName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ChatTranscriptDetails,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.supportTicketName,
-    Parameters.chatTranscriptName
+    Parameters.chatTranscriptName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ChatTranscriptsListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.supportTicketName,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

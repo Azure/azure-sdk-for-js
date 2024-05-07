@@ -15,11 +15,11 @@ import { DocumentIntelligenceClient } from "./clientDefinitions";
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential | KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): DocumentIntelligenceClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/documentintelligence`;
-  options.apiVersion = options.apiVersion ?? "2023-10-31-preview";
-  const userAgentInfo = `azsdk-js-ai-document-intelligence-rest/1.0.0-beta.2`;
+  options.apiVersion = options.apiVersion ?? "2024-02-29-preview";
+  const userAgentInfo = `azsdk-js-ai-document-intelligence-rest/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

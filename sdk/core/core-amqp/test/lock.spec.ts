@@ -1,21 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as chai from "chai";
+import { describe, it, assert, beforeEach } from "vitest";
 import { AbortError } from "@azure/abort-controller";
-import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock";
+import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock.js";
 import { OperationTimeoutError } from "rhea-promise";
-import { delay } from "../src";
-import { settleAllTasks } from "./utils/utils";
-
-const should = chai.should();
+import { delay } from "../src/index.js";
+import { settleAllTasks } from "./utils/utils.js";
 
 describe("CancellableAsyncLock", function () {
   const TEST_FAILURE = "Test failure";
 
   describe(".acquire", function () {
     let lock: CancellableAsyncLock;
-    beforeEach("create lock", () => {
+    beforeEach(() => {
       lock = new CancellableAsyncLockImpl();
     });
 
@@ -28,12 +26,12 @@ describe("CancellableAsyncLock", function () {
           lock.acquire("lock", async () => val, {
             timeoutInMs: undefined,
             abortSignal: undefined,
-          })
+          }),
         );
       }
 
       const results = await Promise.all(tasks);
-      results.should.deep.equal(expectedValues, "Unexpected value returned from tasks.");
+      assert.deepEqual(results, expectedValues, "Unexpected value returned from tasks.");
     });
 
     it("forwards error from task", async () => {
@@ -43,12 +41,12 @@ describe("CancellableAsyncLock", function () {
           async () => {
             throw new Error("I break things!");
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         );
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        should.equal(true, err instanceof Error);
-        should.equal((err as Error).message, "I break things!");
+        assert.instanceOf(err, Error);
+        assert.equal((err as Error).message, "I break things!");
       }
     });
 
@@ -66,19 +64,19 @@ describe("CancellableAsyncLock", function () {
               await delay(taskCount - i);
               return i;
             },
-            { timeoutInMs: undefined, abortSignal: undefined }
-          )
+            { timeoutInMs: undefined, abortSignal: undefined },
+          ),
         );
       }
 
       // verify order
       for (let i = 0; i < taskCount; i++) {
         const result = await Promise.race(tasks);
-        should.equal(result, i, "Tasks ran out of order.");
+        assert.equal(result, i, "Tasks ran out of order.");
         // Since tasks should be completed in order, remove head task.
         tasks.shift();
       }
-      should.equal(tasks.length, 0, "There are still tasks pending.");
+      assert.equal(tasks.length, 0, "There are still tasks pending.");
     });
 
     it("keys are isolated", async () => {
@@ -102,7 +100,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "1",
@@ -110,7 +108,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 2;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "2",
@@ -118,7 +116,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "1",
@@ -126,7 +124,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
       ];
 
@@ -149,7 +147,7 @@ describe("CancellableAsyncLock", function () {
         await Promise.race(queue);
       }
 
-      results.should.deep.equal([0, 1, 2, 3], "Tasks completed out of order.");
+      assert.deepEqual(results, [0, 1, 2, 3], "Tasks completed out of order.");
     });
 
     it("supports timeouts", async () => {
@@ -160,7 +158,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -168,7 +166,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -176,7 +174,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 2;
           },
-          { timeoutInMs: 0, abortSignal: undefined }
+          { timeoutInMs: 0, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -184,7 +182,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -192,21 +190,21 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 4;
           },
-          { timeoutInMs: 0, abortSignal: undefined }
+          { timeoutInMs: 0, abortSignal: undefined },
         ),
       ];
 
       const results = await settleAllTasks(tasks);
-      results.length.should.equal(5, "Unexpected number of tasks completed.");
+      assert.equal(results.length, 5, "Unexpected number of tasks completed.");
 
       const expectedResults = [0, 1, OperationTimeoutError, 3, OperationTimeoutError];
       for (let i = 0; i < results.length; i++) {
         const value = results[i];
         const expectedResult = expectedResults[i];
         if (typeof expectedResult === "number") {
-          should.equal(value, expectedResult, "Unexpected task value.");
+          assert.equal(value, expectedResult, "Unexpected task value.");
         } else {
-          should.equal(value instanceof expectedResult, true, "Unexpected task value.");
+          assert.instanceOf(value, expectedResult, "Unexpected task value.");
         }
       }
     });
@@ -222,7 +220,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -230,7 +228,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -238,7 +236,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 2;
           },
-          { abortSignal, timeoutInMs: undefined }
+          { abortSignal, timeoutInMs: undefined },
         ),
         lock.acquire(
           "lock",
@@ -246,7 +244,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -254,7 +252,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 4;
           },
-          { abortSignal, timeoutInMs: undefined }
+          { abortSignal, timeoutInMs: undefined },
         ),
       ];
 
@@ -280,8 +278,8 @@ describe("CancellableAsyncLock", function () {
         }
       }
 
-      tasks.length.should.equal(0, "Queue of tasks not empty.");
-      results.length.should.equal(5, "Unexpected number of tasks completed.");
+      assert.equal(tasks.length, 0, "Queue of tasks not empty.");
+      assert.equal(results.length, 5, "Unexpected number of tasks completed.");
 
       const expectedResults = [AbortError, AbortError, 0, 1, 3];
 
@@ -289,9 +287,9 @@ describe("CancellableAsyncLock", function () {
         const value = results[i];
         const expectedResult = expectedResults[i];
         if (typeof expectedResult === "number") {
-          should.equal(value, expectedResult, "Unexpected task value.");
+          assert.equal(value, expectedResult, "Unexpected task value.");
         } else {
-          should.equal(value.name, expectedResult.name, "Unexpected task value.");
+          assert.equal(value.name, expectedResult.name, "Unexpected task value.");
         }
       }
     });
@@ -307,7 +305,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -315,7 +313,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -323,7 +321,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 2;
           },
-          { abortSignal, timeoutInMs: undefined }
+          { abortSignal, timeoutInMs: undefined },
         ),
         lock.acquire(
           "lock",
@@ -331,7 +329,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -339,7 +337,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 4;
           },
-          { abortSignal, timeoutInMs: undefined }
+          { abortSignal, timeoutInMs: undefined },
         ),
       ];
 
@@ -365,8 +363,8 @@ describe("CancellableAsyncLock", function () {
         }
       }
 
-      tasks.length.should.equal(0, "Queue of tasks not empty.");
-      results.length.should.equal(5, "Unexpected number of tasks completed.");
+      assert.equal(tasks.length, 0, "Queue of tasks not empty.");
+      assert.equal(results.length, 5, "Unexpected number of tasks completed.");
 
       const expectedResults = [AbortError, AbortError, 0, 1, 3];
 
@@ -374,9 +372,9 @@ describe("CancellableAsyncLock", function () {
         const value = results[i];
         const expectedResult = expectedResults[i];
         if (typeof expectedResult === "number") {
-          should.equal(value, expectedResult, "Unexpected task value.");
+          assert.equal(value, expectedResult, "Unexpected task value.");
         } else {
-          should.equal(value.name, expectedResult.name, "Unexpected task value.");
+          assert.equal(value.name, expectedResult.name, "Unexpected task value.");
         }
       }
     });

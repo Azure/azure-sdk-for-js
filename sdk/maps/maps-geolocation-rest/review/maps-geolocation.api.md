@@ -5,6 +5,7 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { AzureSASCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
@@ -86,6 +87,9 @@ function MapsGeolocation(credential: AzureKeyCredential, options?: ClientOptions
 
 // @public
 function MapsGeolocation(credential: TokenCredential, mapsAccountClientId: string, options?: ClientOptions): MapsGeolocationClient;
+
+// @public
+function MapsGeolocation(credential: AzureSASCredential, options?: ClientOptions): MapsGeolocationClient;
 export default MapsGeolocation;
 
 // @public (undocumented)

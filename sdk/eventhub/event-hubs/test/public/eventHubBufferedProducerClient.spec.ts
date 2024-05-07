@@ -13,7 +13,7 @@ import chai from "chai";
 import { createMockServer } from "./utils/mockService";
 import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 type ResultError = { type: "error"; context: OnSendEventsErrorContext };
 type ResultSuccess = { type: "success"; context: OnSendEventsSuccessContext };
@@ -43,11 +43,11 @@ testWithServiceTypes((serviceVersion) => {
     before(() => {
       assert.exists(
         connectionString,
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       assert.exists(
         eventHubName,
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -193,7 +193,7 @@ testWithServiceTypes((serviceVersion) => {
         assert.deepEqual(
           resultEnqueued,
           testEvents,
-          "Expected enqueued events to match test events."
+          "Expected enqueued events to match test events.",
         );
         assert.deepEqual(resultSuccess, testEvents, "Expected sent events to match test events.");
       });

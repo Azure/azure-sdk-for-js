@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock";
+import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock.js";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { WebSocketImpl } from "rhea-promise";
 import { delay as wrapperDelay } from "@azure/core-util";
@@ -52,14 +52,6 @@ export interface WebSocketOptions {
 }
 
 /**
- * @internal
- *
- * A constant that indicates whether the environment is node.js or browser based.
- */
-export const isNode =
-  typeof process !== "undefined" && Boolean(process.version) && Boolean(process.versions?.node);
-
-/**
  * Defines an object with possible properties defined in T.
  */
 export type ParsedOutput<T> = { [P in keyof T]: T[P] };
@@ -93,7 +85,7 @@ export function parseConnectionString<T>(connectionString: string): ParsedOutput
     const splitIndex = part.indexOf("=");
     if (splitIndex === -1) {
       throw new Error(
-        "Connection string malformed: each part of the connection string must have an `=` assignment."
+        "Connection string malformed: each part of the connection string must have an `=` assignment.",
       );
     }
 
@@ -177,7 +169,7 @@ export async function delay<T>(
   delayInMs: number,
   abortSignal?: AbortSignalLike,
   abortErrorMsg?: string,
-  value?: T
+  value?: T,
 ): Promise<T | void> {
   await wrapperDelay(delayInMs, {
     abortSignal: abortSignal,
@@ -222,7 +214,7 @@ export type Func<T, V> = (a: T) => V;
  */
 export function executePromisesSequentially(
   promiseFactories: Array<any>,
-  kickstart?: unknown
+  kickstart?: unknown,
 ): Promise<any> {
   let result = Promise.resolve(kickstart);
   promiseFactories.forEach((promiseFactory) => {

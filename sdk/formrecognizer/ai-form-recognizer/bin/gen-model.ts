@@ -130,7 +130,7 @@ async function main(): Promise<void> {
           "no authentication method is available;",
           "provide an API key or install and configure the `@azure/identity` package",
           "(`npm i --save-dev @azure/identity`)",
-        ].join(" ")
+        ].join(" "),
       );
     }
   }
@@ -143,7 +143,7 @@ async function main(): Promise<void> {
 
   const file = await writeModelCode(modelInfo, test);
 
-  const data = Buffer.from(format(file, { parser: "typescript" }), "utf-8");
+  const data = Buffer.from(await format(file, { parser: "typescript" }), "utf-8");
 
   if (output !== undefined) {
     // output is only refined in this context, so assigning it to "path" preserves that

@@ -23,7 +23,7 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
     public state: RecoverDeletedKeyPollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private operationOptions: OperationOptions = {}
+    private operationOptions: OperationOptions = {},
   ) {
     super(state, { cancelMessage: "Canceling the recovery of a deleted key is not supported." });
   }
@@ -41,10 +41,10 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
           this.vaultUrl,
           name,
           updatedOptions?.version || "",
-          updatedOptions
+          updatedOptions,
         );
         return getKeyFromKeyBundle(response);
-      }
+      },
     );
   }
 
@@ -54,7 +54,7 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
    */
   private async recoverDeletedKey(
     name: string,
-    options: RecoverDeletedKeyOptions = {}
+    options: RecoverDeletedKeyOptions = {},
   ): Promise<KeyVaultKey> {
     return tracingClient.withSpan(
       "RecoverDeletedKeyPoller.recoverDeleteKey",
@@ -62,7 +62,7 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
       async (updatedOptions) => {
         const response = await this.client.recoverDeletedKey(this.vaultUrl, name, updatedOptions);
         return getKeyFromKeyBundle(response);
-      }
+      },
     );
   }
 
@@ -73,7 +73,7 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
     options: {
       abortSignal?: AbortSignalLike;
       fireProgress?: (state: RecoverDeletedKeyPollOperationState) => void;
-    } = {}
+    } = {},
   ): Promise<RecoverDeletedKeyPollOperation> {
     const state = this.state;
     const { name } = state;

@@ -36,7 +36,7 @@ async function getExpressRouteCrossConnectionsArpTable() {
       resourceGroupName,
       crossConnectionName,
       peeringName,
-      devicePath
+      devicePath,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

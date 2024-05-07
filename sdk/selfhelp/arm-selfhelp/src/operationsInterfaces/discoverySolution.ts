@@ -9,29 +9,25 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SolutionMetadataResource,
-  DiscoverySolutionListOptionalParams
+  DiscoverySolutionListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DiscoverySolution. */
 export interface DiscoverySolution {
   /**
-   * Lists the relevant Azure diagnostics and solutions using [problemClassification
+   * Lists the relevant Azure Diagnostics, Solutions and Troubleshooters using [problemClassification
    * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) AND
    * resourceUri or resourceType.<br/> Discovery Solutions is the initial entry point within Help API,
-   * which identifies relevant Azure diagnostics and solutions. We will do our best to return the most
-   * effective solutions based on the type of inputs, in the request URL  <br/><br/> Mandatory input :
+   * which identifies relevant Azure diagnostics and solutions. <br/><br/> Required Input :
    * problemClassificationId (Use the [problemClassification
    * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP))
    * <br/>Optional input: resourceUri OR resource Type <br/><br/> <b>Note: </b>  ‘requiredInputs’ from
    * Discovery solutions response must be passed via ‘additionalParameters’ as an input to Diagnostics
    * and Solutions API.
-   * @param scope This is an extension resource provider and only resource level extension is supported
-   *              at the moment.
    * @param options The options parameters.
    */
   list(
-    scope: string,
-    options?: DiscoverySolutionListOptionalParams
+    options?: DiscoverySolutionListOptionalParams,
   ): PagedAsyncIterableIterator<SolutionMetadataResource>;
 }

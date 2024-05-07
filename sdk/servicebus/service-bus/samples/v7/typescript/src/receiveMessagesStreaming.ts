@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the receive() function can be used to receive Service Bus messages
  * in a stream.
  *
- * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
+ * Setup: Please run "sendMessages" sample before running this to populate the queue/topic
  *
  * @summary Demonstrates how to receive Service Bus messages in a stream
  */
@@ -59,7 +59,7 @@ export async function main() {
               // what is considered fatal for your program.
               console.log(
                 `An unrecoverable error occurred. Stopping processing. ${args.error.code}`,
-                args.error
+                args.error,
               );
               await subscription.close();
               break;

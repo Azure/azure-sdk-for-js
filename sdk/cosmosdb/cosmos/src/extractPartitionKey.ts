@@ -24,7 +24,7 @@ const logger: AzureLogger = createClientLogger("extractPartitionKey");
  */
 export function extractPartitionKeys(
   document: unknown,
-  partitionKeyDefinition?: PartitionKeyDefinition
+  partitionKeyDefinition?: PartitionKeyDefinition,
 ): PartitionKeyInternal | undefined {
   if (
     partitionKeyDefinition &&
@@ -81,7 +81,7 @@ function extractPartitionKey(path: string, obj: unknown): any {
  * @hidden
  */
 export function undefinedPartitionKey(
-  partitionKeyDefinition: PartitionKeyDefinition
+  partitionKeyDefinition: PartitionKeyDefinition,
 ): PartitionKeyInternal {
   if (partitionKeyDefinition.systemKey === true) {
     return [];

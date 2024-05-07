@@ -8,14 +8,14 @@ import { AbortSignalLike } from "@azure/abort-controller";
  * number of times.
  */
 export function createCountdownAbortSignal(
-  numTimesTillAborted: number
+  numTimesTillAborted: number,
 ): ReturnType<typeof createAbortSignalForTest> {
   const countdownFn = (): boolean => {
     --numTimesTillAborted;
 
     if (numTimesTillAborted < 0) {
       throw new Error(
-        "We're checking abortSignal more than we thought. Our count is probably incorrect."
+        "We're checking abortSignal more than we thought. Our count is probably incorrect.",
       );
     }
 
@@ -30,7 +30,7 @@ export function createCountdownAbortSignal(
  * custom function passed via isAborted.
  */
 export function createAbortSignalForTest(
-  isAborted: boolean | (() => boolean) = false
+  isAborted: boolean | (() => boolean) = false,
 ): AbortSignalLike & {
   removeWasCalled: boolean;
   addWasCalled: boolean;

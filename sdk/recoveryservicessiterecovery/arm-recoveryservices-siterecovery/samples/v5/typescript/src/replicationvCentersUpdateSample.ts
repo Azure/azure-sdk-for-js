@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   UpdateVCenterRequest,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update a registered vCenter.
  *
  * @summary The operation to update a registered vCenter.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationvCenters_Update.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationvCenters_Update.json
  */
 async function updateVCenterOperation() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function updateVCenterOperation() {
   const fabricName = "MadhaviFabric";
   const vcenterName = "esx-78";
   const updateVCenterRequest: UpdateVCenterRequest = {
-    properties: { ipAddress: "10.150.109.25" }
+    properties: { ipAddress: "10.150.109.25" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -42,7 +42,7 @@ async function updateVCenterOperation() {
     resourceGroupName,
     fabricName,
     vcenterName,
-    updateVCenterRequest
+    updateVCenterRequest,
   );
   console.log(result);
 }

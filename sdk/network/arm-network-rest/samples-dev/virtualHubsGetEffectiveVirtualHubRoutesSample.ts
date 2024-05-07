@@ -37,7 +37,7 @@ async function effectiveRoutesForAConnectionResource() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/effectiveRoutes",
       subscriptionId,
       resourceGroupName,
-      virtualHubName
+      virtualHubName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -71,7 +71,7 @@ async function effectiveRoutesForARouteTableResource() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/effectiveRoutes",
       subscriptionId,
       resourceGroupName,
-      virtualHubName
+      virtualHubName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -101,7 +101,7 @@ async function effectiveRoutesForTheVirtualHub() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/effectiveRoutes",
       subscriptionId,
       resourceGroupName,
-      virtualHubName
+      virtualHubName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

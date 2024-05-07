@@ -14,7 +14,7 @@ export async function bodyToString(
     blobBody?: Promise<Blob>;
   },
   // tslint:disable-next-line:variable-name
-  _length?: number
+  _length?: number,
 ): Promise<string> {
   const blob = await response.blobBody!;
   return blobToString(blob);

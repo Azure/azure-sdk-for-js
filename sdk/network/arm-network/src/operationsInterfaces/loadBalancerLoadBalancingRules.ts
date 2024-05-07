@@ -11,7 +11,7 @@ import {
   LoadBalancingRule,
   LoadBalancerLoadBalancingRulesListOptionalParams,
   LoadBalancerLoadBalancingRulesGetOptionalParams,
-  LoadBalancerLoadBalancingRulesGetResponse
+  LoadBalancerLoadBalancingRulesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface LoadBalancerLoadBalancingRules {
   list(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancerLoadBalancingRulesListOptionalParams
+    options?: LoadBalancerLoadBalancingRulesListOptionalParams,
   ): PagedAsyncIterableIterator<LoadBalancingRule>;
   /**
    * Gets the specified load balancer load balancing rule.
@@ -39,6 +39,6 @@ export interface LoadBalancerLoadBalancingRules {
     resourceGroupName: string,
     loadBalancerName: string,
     loadBalancingRuleName: string,
-    options?: LoadBalancerLoadBalancingRulesGetOptionalParams
+    options?: LoadBalancerLoadBalancingRulesGetOptionalParams,
   ): Promise<LoadBalancerLoadBalancingRulesGetResponse>;
 }

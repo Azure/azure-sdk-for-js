@@ -33,7 +33,7 @@ import {
   MongoClustersCheckNameAvailabilityOptionalParams,
   MongoClustersCheckNameAvailabilityResponse,
   MongoClustersListConnectionStringsOptionalParams,
-  MongoClustersListConnectionStringsResponse
+  MongoClustersListConnectionStringsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export interface MongoClusters {
    * @param options The options parameters.
    */
   list(
-    options?: MongoClustersListOptionalParams
+    options?: MongoClustersListOptionalParams,
   ): PagedAsyncIterableIterator<MongoCluster>;
   /**
    * List all the mongo clusters in a given resource group.
@@ -53,7 +53,7 @@ export interface MongoClusters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: MongoClustersListByResourceGroupOptionalParams
+    options?: MongoClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<MongoCluster>;
   /**
    * List all the firewall rules in a given mongo cluster.
@@ -64,7 +64,7 @@ export interface MongoClusters {
   listFirewallRules(
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: MongoClustersListFirewallRulesOptionalParams
+    options?: MongoClustersListFirewallRulesOptionalParams,
   ): PagedAsyncIterableIterator<FirewallRule>;
   /**
    * Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify
@@ -78,7 +78,7 @@ export interface MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     parameters: MongoCluster,
-    options?: MongoClustersCreateOrUpdateOptionalParams
+    options?: MongoClustersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoClustersCreateOrUpdateResponse>,
@@ -97,7 +97,7 @@ export interface MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     parameters: MongoCluster,
-    options?: MongoClustersCreateOrUpdateOptionalParams
+    options?: MongoClustersCreateOrUpdateOptionalParams,
   ): Promise<MongoClustersCreateOrUpdateResponse>;
   /**
    * Gets information about a mongo cluster.
@@ -108,7 +108,7 @@ export interface MongoClusters {
   get(
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: MongoClustersGetOptionalParams
+    options?: MongoClustersGetOptionalParams,
   ): Promise<MongoClustersGetResponse>;
   /**
    * Deletes a mongo cluster.
@@ -119,7 +119,7 @@ export interface MongoClusters {
   beginDelete(
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: MongoClustersDeleteOptionalParams
+    options?: MongoClustersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoClustersDeleteResponse>,
@@ -135,7 +135,7 @@ export interface MongoClusters {
   beginDeleteAndWait(
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: MongoClustersDeleteOptionalParams
+    options?: MongoClustersDeleteOptionalParams,
   ): Promise<MongoClustersDeleteResponse>;
   /**
    * Updates an existing mongo cluster. The request body can contain one to many of the properties
@@ -149,7 +149,7 @@ export interface MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     parameters: MongoClusterUpdate,
-    options?: MongoClustersUpdateOptionalParams
+    options?: MongoClustersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoClustersUpdateResponse>,
@@ -168,7 +168,7 @@ export interface MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     parameters: MongoClusterUpdate,
-    options?: MongoClustersUpdateOptionalParams
+    options?: MongoClustersUpdateOptionalParams,
   ): Promise<MongoClustersUpdateResponse>;
   /**
    * Creates a new firewall rule or updates an existing firewall rule on a mongo cluster.
@@ -183,7 +183,7 @@ export interface MongoClusters {
     mongoClusterName: string,
     firewallRuleName: string,
     parameters: FirewallRule,
-    options?: MongoClustersCreateOrUpdateFirewallRuleOptionalParams
+    options?: MongoClustersCreateOrUpdateFirewallRuleOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoClustersCreateOrUpdateFirewallRuleResponse>,
@@ -203,7 +203,7 @@ export interface MongoClusters {
     mongoClusterName: string,
     firewallRuleName: string,
     parameters: FirewallRule,
-    options?: MongoClustersCreateOrUpdateFirewallRuleOptionalParams
+    options?: MongoClustersCreateOrUpdateFirewallRuleOptionalParams,
   ): Promise<MongoClustersCreateOrUpdateFirewallRuleResponse>;
   /**
    * Deletes a mongo cluster firewall rule.
@@ -216,7 +216,7 @@ export interface MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     firewallRuleName: string,
-    options?: MongoClustersDeleteFirewallRuleOptionalParams
+    options?: MongoClustersDeleteFirewallRuleOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoClustersDeleteFirewallRuleResponse>,
@@ -234,7 +234,7 @@ export interface MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     firewallRuleName: string,
-    options?: MongoClustersDeleteFirewallRuleOptionalParams
+    options?: MongoClustersDeleteFirewallRuleOptionalParams,
   ): Promise<MongoClustersDeleteFirewallRuleResponse>;
   /**
    * Gets information about a mongo cluster firewall rule.
@@ -247,7 +247,7 @@ export interface MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     firewallRuleName: string,
-    options?: MongoClustersGetFirewallRuleOptionalParams
+    options?: MongoClustersGetFirewallRuleOptionalParams,
   ): Promise<MongoClustersGetFirewallRuleResponse>;
   /**
    * Check the availability of name for resource
@@ -258,7 +258,7 @@ export interface MongoClusters {
   checkNameAvailability(
     location: string,
     parameters: CheckNameAvailabilityRequest,
-    options?: MongoClustersCheckNameAvailabilityOptionalParams
+    options?: MongoClustersCheckNameAvailabilityOptionalParams,
   ): Promise<MongoClustersCheckNameAvailabilityResponse>;
   /**
    * List mongo cluster connection strings. This includes the default connection string using
@@ -270,6 +270,6 @@ export interface MongoClusters {
   listConnectionStrings(
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: MongoClustersListConnectionStringsOptionalParams
+    options?: MongoClustersListConnectionStringsOptionalParams,
   ): Promise<MongoClustersListConnectionStringsResponse>;
 }

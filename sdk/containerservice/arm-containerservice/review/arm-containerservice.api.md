@@ -19,6 +19,7 @@ export interface AbsoluteMonthlySchedule {
 // @public
 export interface AgentPool extends SubResource {
     availabilityZones?: string[];
+    capacityReservationGroupID?: string;
     count?: number;
     creationData?: CreationData;
     readonly currentOrchestratorVersion?: string;
@@ -36,6 +37,7 @@ export interface AgentPool extends SubResource {
     maxPods?: number;
     minCount?: number;
     mode?: AgentPoolMode;
+    networkProfile?: AgentPoolNetworkProfile;
     readonly nodeImageVersion?: string;
     nodeLabels?: {
         [propertyName: string]: string;
@@ -62,6 +64,7 @@ export interface AgentPool extends SubResource {
     upgradeSettings?: AgentPoolUpgradeSettings;
     vmSize?: string;
     vnetSubnetID?: string;
+    windowsProfile?: AgentPoolWindowsProfile;
     workloadRuntime?: WorkloadRuntime;
 }
 
@@ -88,6 +91,13 @@ export interface AgentPoolListResult {
 
 // @public
 export type AgentPoolMode = string;
+
+// @public
+export interface AgentPoolNetworkProfile {
+    allowedHostPorts?: PortRange[];
+    applicationSecurityGroups?: string[];
+    nodePublicIPTags?: IPTag[];
+}
 
 // @public
 export interface AgentPools {
@@ -213,6 +223,12 @@ export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
 export interface AgentPoolUpgradeSettings {
     drainTimeoutInMinutes?: number;
     maxSurge?: string;
+    nodeSoakDurationInMinutes?: number;
+}
+
+// @public
+export interface AgentPoolWindowsProfile {
+    disableOutboundNat?: boolean;
 }
 
 // @public
@@ -222,6 +238,9 @@ export interface AzureKeyVaultKms {
     keyVaultNetworkAccess?: KeyVaultNetworkAccessTypes;
     keyVaultResourceId?: string;
 }
+
+// @public
+export type BackendPoolType = string;
 
 // @public
 export interface CloudError {
@@ -423,6 +442,12 @@ export type GPUInstanceProfile = string;
 export type IpFamily = string;
 
 // @public
+export interface IPTag {
+    ipTagType?: string;
+    tag?: string;
+}
+
+// @public
 export interface IstioCertificateAuthority {
     plugin?: IstioPluginCertificateAuthority;
 }
@@ -436,9 +461,6 @@ export interface IstioComponents {
 // @public
 export interface IstioEgressGateway {
     enabled: boolean;
-    nodeSelector?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -479,6 +501,12 @@ export enum KnownAgentPoolMode {
 export enum KnownAgentPoolType {
     AvailabilitySet = "AvailabilitySet",
     VirtualMachineScaleSets = "VirtualMachineScaleSets"
+}
+
+// @public
+export enum KnownBackendPoolType {
+    NodeIP = "NodeIP",
+    NodeIPConfiguration = "NodeIPConfiguration"
 }
 
 // @public
@@ -672,6 +700,12 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
 }
 
 // @public
+export enum KnownProtocol {
+    TCP = "TCP",
+    UDP = "UDP"
+}
+
+// @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -779,6 +813,7 @@ export type KubernetesSupportPlan = string;
 // @public
 export interface KubernetesVersion {
     capabilities?: KubernetesVersionCapabilities;
+    isDefault?: boolean;
     isPreview?: boolean;
     patchVersions?: {
         [propertyName: string]: KubernetesPatchVersion;
@@ -901,9 +936,11 @@ export interface ManagedCluster extends TrackedResource {
     identityProfile?: {
         [propertyName: string]: UserAssignedIdentity;
     };
+    ingressProfile?: ManagedClusterIngressProfile;
     kubernetesVersion?: string;
     linuxProfile?: ContainerServiceLinuxProfile;
     readonly maxAgentPools?: number;
+    metricsProfile?: ManagedClusterMetricsProfile;
     networkProfile?: ContainerServiceNetworkProfile;
     nodeResourceGroup?: string;
     oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
@@ -962,6 +999,7 @@ export interface ManagedClusterAgentPoolProfile extends ManagedClusterAgentPoolP
 // @public
 export interface ManagedClusterAgentPoolProfileProperties {
     availabilityZones?: string[];
+    capacityReservationGroupID?: string;
     count?: number;
     creationData?: CreationData;
     readonly currentOrchestratorVersion?: string;
@@ -979,6 +1017,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     maxPods?: number;
     minCount?: number;
     mode?: AgentPoolMode;
+    networkProfile?: AgentPoolNetworkProfile;
     readonly nodeImageVersion?: string;
     nodeLabels?: {
         [propertyName: string]: string;
@@ -1005,6 +1044,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     upgradeSettings?: AgentPoolUpgradeSettings;
     vmSize?: string;
     vnetSubnetID?: string;
+    windowsProfile?: AgentPoolWindowsProfile;
     workloadRuntime?: WorkloadRuntime;
 }
 
@@ -1041,6 +1081,11 @@ export interface ManagedClusterAzureMonitorProfileMetrics {
 }
 
 // @public
+export interface ManagedClusterCostAnalysis {
+    enabled?: boolean;
+}
+
+// @public
 export interface ManagedClusterHttpProxyConfig {
     httpProxy?: string;
     httpsProxy?: string;
@@ -1062,6 +1107,18 @@ export interface ManagedClusterIdentity {
 }
 
 // @public
+export interface ManagedClusterIngressProfile {
+    webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
+}
+
+// @public
+export interface ManagedClusterIngressProfileWebAppRouting {
+    dnsZoneResourceIds?: string[];
+    enabled?: boolean;
+    readonly identity?: UserAssignedIdentity;
+}
+
+// @public
 export interface ManagedClusterListResult {
     readonly nextLink?: string;
     value?: ManagedCluster[];
@@ -1070,6 +1127,7 @@ export interface ManagedClusterListResult {
 // @public
 export interface ManagedClusterLoadBalancerProfile {
     allocatedOutboundPorts?: number;
+    backendPoolType?: BackendPoolType;
     effectiveOutboundIPs?: ResourceReference[];
     enableMultipleStandardLoadBalancers?: boolean;
     idleTimeoutInMinutes?: number;
@@ -1097,6 +1155,11 @@ export interface ManagedClusterLoadBalancerProfileOutboundIPs {
 // @public
 export interface ManagedClusterManagedOutboundIPProfile {
     count?: number;
+}
+
+// @public
+export interface ManagedClusterMetricsProfile {
+    costAnalysis?: ManagedClusterCostAnalysis;
 }
 
 // @public
@@ -1773,6 +1836,13 @@ export interface OutboundEnvironmentEndpointCollection {
 export type OutboundType = string;
 
 // @public
+export interface PortRange {
+    portEnd?: number;
+    portStart?: number;
+    protocol?: Protocol;
+}
+
+// @public
 export interface PowerState {
     code?: Code;
 }
@@ -1868,6 +1938,9 @@ export interface PrivateLinkServiceConnectionState {
     description?: string;
     status?: ConnectionStatus;
 }
+
+// @public
+export type Protocol = string;
 
 // @public
 export interface ProxyResource extends Resource {

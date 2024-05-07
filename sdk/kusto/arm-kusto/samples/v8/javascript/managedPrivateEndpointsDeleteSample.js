@@ -29,7 +29,7 @@ async function managedPrivateEndpointsDelete() {
   const result = await client.managedPrivateEndpoints.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    managedPrivateEndpointName
+    managedPrivateEndpointName,
   );
   console.log(result);
 }

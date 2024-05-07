@@ -79,7 +79,7 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint {
 }
 
 export function createAppConfigurationClientForTests(
-  options?: AppConfigurationClientOptions
+  options?: AppConfigurationClientOptions,
 ): AppConfigurationClient {
   const connectionString = env["APPCONFIG_CONNECTION_STRING"];
 
@@ -95,7 +95,7 @@ export function createAppConfigurationClientForTests(
 
 export async function deleteKeyCompletely(
   keys: string[],
-  client: AppConfigurationClient
+  client: AppConfigurationClient,
 ): Promise<void> {
   const settingsIterator = client.listConfigurationSettings({
     keyFilter: keys.join(","),
@@ -125,7 +125,7 @@ export async function toSortedArray(
     ConfigurationSetting,
     ListConfigurationSettingPage | ListRevisionsPage
   >,
-  compareFn?: (a: ConfigurationSetting, b: ConfigurationSetting) => number
+  compareFn?: (a: ConfigurationSetting, b: ConfigurationSetting) => number,
 ): Promise<ConfigurationSetting[]> {
   const settings: ConfigurationSetting[] = [];
 
@@ -145,7 +145,7 @@ export async function toSortedArray(
   settings.sort((a, b) =>
     compareFn
       ? compareFn(a, b)
-      : `${a.key}-${a.label}-${a.value}`.localeCompare(`${b.key}-${b.label}-${b.value}`)
+      : `${a.key}-${a.label}-${a.value}`.localeCompare(`${b.key}-${b.label}-${b.value}`),
   );
 
   return settings;
@@ -153,7 +153,7 @@ export async function toSortedArray(
 
 export async function toSortedSnapshotArray(
   pagedIterator: PagedAsyncIterableIterator<ConfigurationSnapshot, ListSnapshotsPage>,
-  compareFn?: (a: ConfigurationSnapshot, b: ConfigurationSnapshot) => number
+  compareFn?: (a: ConfigurationSnapshot, b: ConfigurationSnapshot) => number,
 ): Promise<ConfigurationSnapshot[]> {
   const snapshots: ConfigurationSnapshot[] = [];
 
@@ -173,14 +173,16 @@ export async function toSortedSnapshotArray(
   snapshots.sort((a, b) =>
     compareFn
       ? compareFn(a, b)
-      : `${a.name}-${a.itemCount}-${a.status}`.localeCompare(`${b.name}-${b.itemCount}-${b.status}`)
+      : `${a.name}-${a.itemCount}-${a.status}`.localeCompare(
+          `${b.name}-${b.itemCount}-${b.status}`,
+        ),
   );
   return snapshots;
 }
 
 export function assertEqualSettings(
   expected: Pick<ConfigurationSetting, "key" | "value" | "label" | "isReadOnly">[],
-  actual: ConfigurationSetting[]
+  actual: ConfigurationSetting[],
 ): void {
   actual = actual.map((setting) => {
     return {
@@ -197,7 +199,7 @@ export function assertEqualSettings(
 export async function assertThrowsRestError(
   testFunction: () => Promise<any>,
   expectedStatusCode: number,
-  message: string = ""
+  message: string = "",
 ): Promise<Error> {
   try {
     await testFunction();
@@ -220,7 +222,7 @@ export async function assertThrowsRestError(
 
 export async function assertThrowsAbortError(
   testFunction: () => Promise<any>,
-  message = ""
+  message = "",
 ): Promise<Error> {
   try {
     await testFunction();
@@ -243,17 +245,17 @@ export async function assertThrowsAbortError(
  */
 export function assertEqualSnapshot(
   snapshot1: ConfigurationSnapshot,
-  snapshot2: ConfigurationSnapshot
+  snapshot2: ConfigurationSnapshot,
 ): void {
   assert.equal(snapshot1.name, snapshot2.name, "Unexpected name in result from getSnapshot().");
   assert.equal(
     snapshot1.retentionPeriodInSeconds,
     snapshot2.retentionPeriodInSeconds,
-    "Unexpected retentionPeriod in result from getSnapshot()."
+    "Unexpected retentionPeriod in result from getSnapshot().",
   );
   assert.deepEqual(
     snapshot1.filters,
     snapshot2.filters,
-    "Unexpected filters in result from getSnapshot()."
+    "Unexpected filters in result from getSnapshot().",
   );
 }

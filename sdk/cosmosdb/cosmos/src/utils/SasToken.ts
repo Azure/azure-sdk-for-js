@@ -13,7 +13,7 @@ import { hmac } from "./hmac";
 
 export async function createAuthorizationSasToken(
   masterKey: string,
-  sasTokenProperties: SasTokenProperties
+  sasTokenProperties: SasTokenProperties,
 ): Promise<string> {
   let resourcePrefixPath = "";
   if (
@@ -97,7 +97,7 @@ export async function createAuthorizationSasToken(
 
   if (
     typeof sasTokenProperties.keyType !== "number" ||
-    typeof sasTokenProperties.keyType === undefined
+    typeof sasTokenProperties.keyType === "undefined"
   ) {
     switch (sasTokenProperties.keyType) {
       case CosmosKeyType.PrimaryMaster:

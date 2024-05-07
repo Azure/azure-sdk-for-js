@@ -35,7 +35,7 @@ async function globalReachConnectionsCreateOrUpdate() {
     resourceGroupName,
     privateCloudName,
     globalReachConnectionName,
-    globalReachConnection
+    globalReachConnection,
   );
   console.log(result);
 }

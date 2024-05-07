@@ -31,7 +31,7 @@ async function getSwapResource() {
       subscriptionId,
       groupName,
       resourceName,
-      singletonResource
+      singletonResource,
     )
     .get(options);
   console.log(result);

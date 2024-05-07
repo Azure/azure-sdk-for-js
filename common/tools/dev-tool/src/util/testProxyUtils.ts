@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ChildProcess, exec, spawn, SpawnOptions } from "child_process";
+import { ChildProcess, exec, spawn, SpawnOptions } from "node:child_process";
 import { createPrinter } from "./printer";
 import { ProjectInfo, resolveProject, resolveRoot } from "./resolveProject";
 import fs from "fs-extra";
-import path from "path";
+import path from "node:path";
 import decompress from "decompress";
 import envPaths from "env-paths";
-import { promisify } from "util";
+import { promisify } from "node:util";
 
 const log = createPrinter("test-proxy");
 const downloadLocation = path.join(envPaths("azsdk-dev-tool").cache, "test-proxy");
@@ -292,28 +292,39 @@ export async function isProxyToolActive(): Promise<boolean> {
       }\n`,
     );
     return true;
-  } catch (error: any) {
+  } catch (error: unknown) {
     return false;
   }
 }
 
 async function getTargetVersion() {
   // Grab the tag from the `/eng/common/testproxy/target_version.txt` file [..is used to control the default version]
+  //
+  // In times of longer lived version override, the file eng/target_proxy_version.txt can be used to override this version
+  // in both CI and local development.
   // Example content:
   //
   // 1.0.0-dev.20220224.2
   // (Bot regularly updates the tag in the file above.)
   try {
-    const contentInVersionFile = await fs.readFile(
-      `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
-      "utf-8",
-    );
+    let contentInVersionFile: string;
+    const overrideFile = `${path.join(await resolveRoot(), "eng/target_proxy_version.txt")}`;
+    const overrideExists = await fs.exists(overrideFile);
+
+    if (overrideExists) {
+      contentInVersionFile = await fs.readFile(overrideFile, "utf-8");
+    } else {
+      contentInVersionFile = await fs.readFile(
+        `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
+        "utf-8",
+      );
+    }
 
     const tag = contentInVersionFile.trim();
 
     log.info(`Image tag obtained from the powershell script => ${tag}\n`);
     return tag;
-  } catch (_: any) {
+  } catch (_: unknown) {
     log.warn(
       `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`,
     );

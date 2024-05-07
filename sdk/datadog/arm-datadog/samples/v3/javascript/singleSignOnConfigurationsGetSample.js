@@ -29,7 +29,7 @@ async function singleSignOnConfigurationsGet() {
   const result = await client.singleSignOnConfigurations.get(
     resourceGroupName,
     monitorName,
-    configurationName
+    configurationName,
   );
   console.log(result);
 }

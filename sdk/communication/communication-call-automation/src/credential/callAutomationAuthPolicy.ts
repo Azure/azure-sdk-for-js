@@ -19,7 +19,7 @@ import { createCommunicationAuthPolicy } from "@azure/communication-common";
  */
 export function createCallAutomationAuthPolicy(
   credential: KeyCredential | TokenCredential,
-  acsUrl: string
+  acsUrl: string,
 ): PipelinePolicy {
   if (isTokenCredential(credential)) {
     const policyOptions: BearerTokenAuthenticationPolicyOptions = {
@@ -43,7 +43,7 @@ export function createCallAutomationAuthPolicy(
 export function createCustomCallAutomationApiClient(
   credential: KeyCredential | TokenCredential,
   internalPipelineOptions: CallAutomationApiClientOptionalParams | undefined,
-  url: string
+  url: string,
 ): CallAutomationApiClient {
   // read environment variable for callAutomation auth
   const customEnabled = process.env.COMMUNICATION_CUSTOM_ENDPOINT_ENABLED;

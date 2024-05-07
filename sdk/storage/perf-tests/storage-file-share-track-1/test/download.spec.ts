@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfOptionDictionary, drainStream } from "@azure/test-utils-perf";
+import { PerfOptionDictionary, drainStream } from "@azure-tools/test-perf";
 import { Aborter, FileURL } from "@azure/storage-file";
 import { StorageFileShareTest } from "./storageTest";
-import { generateUuid } from "@azure/core-http";
+import { generateUuid } from "@azure/core-util";
 
 interface StorageFileShareDownloadTestOptions {
   size: number;

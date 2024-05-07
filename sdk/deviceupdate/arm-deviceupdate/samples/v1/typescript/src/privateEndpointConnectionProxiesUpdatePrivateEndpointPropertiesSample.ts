@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to (INTERNAL - DO NOT USE) Updates a private endpoint inside the private endpoint connection proxy object.
  *
  * @summary (INTERNAL - DO NOT USE) Updates a private endpoint inside the private endpoint connection proxy object.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_PrivateEndpointUpdate.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_PrivateEndpointUpdate.json
  */
 async function privateEndpointConnectionProxyPrivateEndpointUpdate() {
   const subscriptionId =

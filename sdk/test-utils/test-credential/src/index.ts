@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientSecretCredential, TokenCredentialOptions } from "@azure/identity";
-import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import {
+  DefaultAzureCredential,
+  DefaultAzureCredentialClientIdOptions,
+  DefaultAzureCredentialOptions,
+  DefaultAzureCredentialResourceIdOptions,
+} from "@azure/identity";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "./noOpCredential";
-
-export interface CreateTestCredentialOptions {
-  tenantId?: string;
-  clientId?: string;
-  clientSecret?: string;
-}
+import { TokenCredential } from "@azure/core-auth";
 
 /**
  * ## Credential to be used in the tests.
@@ -18,22 +18,18 @@ export interface CreateTestCredentialOptions {
  *  - returns the NoOpCredential (helps bypass the AAD traffic)
  *
  * ### In record/live modes
- *  - returns the ClientSecretCredential (expects AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET in your environment or in the .env file)
+ *  - returns the DefaultAzureCredential (expects that you used [`User Auth` or `Auth via development tools`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-users) credentials)
  *  - AAD traffic won't be recorded if this credential is used.
  */
 export function createTestCredential(
-  tokenCredentialOptions?: TokenCredentialOptions,
-  createTestCredentialOptions?: CreateTestCredentialOptions
-) {
+  tokenCredentialOptions?:
+    | DefaultAzureCredentialClientIdOptions
+    | DefaultAzureCredentialResourceIdOptions
+    | DefaultAzureCredentialOptions,
+): TokenCredential {
   return isPlaybackMode()
     ? new NoOpCredential()
-    : new ClientSecretCredential(
-        createTestCredentialOptions?.tenantId ?? assertEnvironmentVariable("AZURE_TENANT_ID"),
-        createTestCredentialOptions?.clientId ?? assertEnvironmentVariable("AZURE_CLIENT_ID"),
-        createTestCredentialOptions?.clientSecret ??
-          assertEnvironmentVariable("AZURE_CLIENT_SECRET"),
-        tokenCredentialOptions
-      );
+    : new DefaultAzureCredential(tokenCredentialOptions);
 }
 
 export { NoOpCredential };

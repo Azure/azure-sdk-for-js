@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { ContainerRegistryClient, ContainerRepository } from "../../src";
-import { versionsToTest } from "@azure/test-utils";
+import { versionsToTest } from "@azure-tools/test-utils";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
 import { createRegistryClient, recorderStartOptions, serviceVersions } from "../utils/utils";
@@ -31,7 +31,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       registryClient = createRegistryClient(
         assertEnvironmentVariable("CONTAINER_REGISTRY_ENDPOINT"),
         serviceVersion,
-        recorder
+        recorder,
       );
       repository = registryClient.getRepository(repositoryName);
     });
@@ -99,7 +99,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
     it("sets manifest properties", async () => {
       const artifact = repository.getArtifact(artifactDigest);
       assert.isTrue(
-        artifact.fullyQualifiedReference.endsWith(`${repositoryName}@${artifactDigest}`)
+        artifact.fullyQualifiedReference.endsWith(`${repositoryName}@${artifactDigest}`),
       );
       const original = await artifact.getManifestProperties();
 
