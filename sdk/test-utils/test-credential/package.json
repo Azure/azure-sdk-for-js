@@ -32,7 +32,6 @@
     "test": "npm run clean && npm run build && npm run unit-test"
   },
   "files": [
-    "bin/",
     "dist/",
     "dist-esm/src/",
     "types/tools-test-credential.d.ts",

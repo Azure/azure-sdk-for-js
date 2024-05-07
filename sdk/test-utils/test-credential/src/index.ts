@@ -13,12 +13,23 @@ import { TokenCredential } from "@azure/core-auth";
 import { isBrowser } from "@azure/core-util";
 import { createBrowserRelayCredential } from "./browserRelayCredential";
 
+/**
+ * Alias of the different possible options shapes for the DefaultAzureCredential constructor.
+ */
 export type DefaultAzureCredentialCombinedOptions =
   | DefaultAzureCredentialClientIdOptions
   | DefaultAzureCredentialResourceIdOptions
   | DefaultAzureCredentialOptions;
 
+/**
+ * Options to be passed to createTestCredential.
+ * These options are the same as DefaultAzureCredential, with the addition of an option for the relay server
+ * URL used in browser tests.
+ */
 export type CreateTestCredentialOptions = DefaultAzureCredentialCombinedOptions & {
+  /**
+   * URL of the relay server for the browser relay credential used in browser tests.
+   */
   browserRelayServerUrl?: string;
 };
 

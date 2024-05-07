@@ -574,7 +574,8 @@
       "packageName": "@azure/dev-tool",
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility",
-      "cyclicDependencyProjects": [
+      // Add Identity to decoupledLocalDependencies so that dev-tool uses the package from npm, avoiding a cyclic dependency.
+      "decoupledLocalDependencies": [
         "@azure/identity"
       ]
     },
