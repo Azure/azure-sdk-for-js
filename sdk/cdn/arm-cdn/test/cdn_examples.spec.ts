@@ -158,7 +158,7 @@ describe("CDN test", () => {
 
   });
 
-  it.only("endpoints delete test", async function () {
+  it("endpoints delete test", async function () {
     const res = await client.endpoints.beginDeleteAndWait(resourceGroup, profileName, endpointName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.endpoints.listByProfile(resourceGroup, profileName)) {
@@ -167,7 +167,7 @@ describe("CDN test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it.only("profiles delete test", async function () {
+  it("profiles delete test", async function () {
     const res = await client.profiles.beginDeleteAndWait(resourceGroup, profileName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.profiles.listByResourceGroup(resourceGroup)) {
