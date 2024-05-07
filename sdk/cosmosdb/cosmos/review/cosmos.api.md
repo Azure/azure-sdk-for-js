@@ -556,6 +556,9 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
+    AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
+    ChangeFeedIfNoneMatchStartFromNowHeader: string;
+    NonStreamingQueryDefaultRUThreshold: number;
 };
 
 // @public
@@ -1017,6 +1020,8 @@ export interface FeedOptions extends SharedOptions {
     populateIndexMetrics?: boolean;
     populateQueryMetrics?: boolean;
     useIncrementalFeed?: boolean;
+    // (undocumented)
+    vectorSearchBufferSize?: number;
 }
 
 // @public
@@ -1605,6 +1610,8 @@ export interface QueryInfo {
     groupByAliasToAggregateType: GroupByAliasToAggregateType;
     // (undocumented)
     groupByExpressions?: GroupByExpressions;
+    // (undocumented)
+    hasNonStreamingOrderBy: boolean;
     // (undocumented)
     hasSelectValue: boolean;
     // (undocumented)
