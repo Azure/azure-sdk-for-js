@@ -323,6 +323,8 @@ export interface SolutionsDiagnostic {
   statusDetails?: string;
   /** Place holder used in HTML Content replace control with the content */
   replacementKey?: string;
+  /** Diagnostics estimated completion time in minutes */
+  estimatedCompletionTime?: string;
   /** Required parameters of this item */
   requiredParameters?: string[];
   /** Diagnostic insights */
@@ -397,7 +399,7 @@ export interface Section {
   replacementMaps?: ReplacementMaps;
 }
 
-/** Solution response */
+/** Solution PatchRequest body */
 export interface SolutionPatchRequestBody {
   /** Solution request trigger criteria */
   triggerCriteria?: TriggerCriterion[];
@@ -435,6 +437,12 @@ export interface SolutionPatchRequestBody {
   readonly sections?: Section[];
 }
 
+/** Solution WarmUpRequest body */
+export interface SolutionWarmUpRequestBody {
+  /** Dictionary of <string> */
+  parameters?: { [propertyName: string]: string };
+}
+
 /** Troubleshooter step */
 export interface Step {
   /** Unique step id. */
@@ -467,6 +475,8 @@ export interface StepInput {
   questionId?: string;
   /** Type of Question */
   questionType?: QuestionType;
+  /** Question title */
+  questionTitle?: string;
   /** User question content. */
   questionContent?: string;
   /** Default is Text. */
@@ -486,6 +496,8 @@ export interface StepInput {
 export interface ResponseValidationProperties {
   /** Regex used for the input validation. */
   regex?: string;
+  /** Validation scope */
+  validationScope?: ValidationScope;
   /** Default True */
   isRequired?: boolean;
   /** Validation Error Message. */
@@ -504,6 +516,10 @@ export interface ResponseOption {
 
 /** Only for AutomatedStep type */
 export interface AutomatedCheckResult {
+  /** Version for automated check result */
+  version?: string;
+  /** Status for automated check result */
+  status?: string;
   /** Insight Article Content */
   result?: string;
   /** Type of Result. */
@@ -534,6 +550,60 @@ export interface RestartTroubleshooterResponse {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly troubleshooterResourceName?: string;
+}
+
+/** Solution replacement maps. */
+export interface ReplacementMapsSelfHelp {
+  /** Solution AzureKB results */
+  webResults?: WebResult[];
+  /** Video solutions, which have the power to engage the customer by stimulating their senses */
+  videos?: Video[];
+  /** Group of Videos */
+  videoGroups?: VideoGroup[];
+}
+
+/** Part of the solution and are dividers in the solution rendering. */
+export interface SectionSelfHelp {
+  /** Solution sections title. */
+  title?: string;
+  /** Solution sections content. */
+  content?: string;
+  /** Solution replacement maps. */
+  replacementMaps?: ReplacementMapsSelfHelp;
+}
+
+/** Discover NLP request. */
+export interface DiscoveryNlpRequest {
+  /** Natural language description of the issue. */
+  issueSummary: string;
+  /** ARM resource Id of the resource that is having the issue. */
+  resourceId?: string;
+  /** ARM service Id of the service that is having the issue. For more information on service Id see https://learn.microsoft.com/rest/api/support/services/list?tabs=HTTP. */
+  serviceId?: string;
+  /** Additional information in the form of a string. */
+  additionalContext?: string;
+}
+
+/** Successfully fetched list of solution metadata. */
+export interface DiscoveryNlpResponse {
+  /** The list of solution metadata. */
+  value?: SolutionNlpMetadataResource[];
+}
+
+/** Service Classification result object. */
+export interface ClassificationService {
+  /**
+   * Azure resource Id of the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceId?: string;
+  /**
+   * Localized name of the azure service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /** List of applicable ARM resource types for this service. */
+  resourceTypes?: string[];
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
@@ -612,6 +682,34 @@ export interface SolutionResource extends ProxyResource {
   readonly sections?: Section[];
 }
 
+/** Simplified Solutions response. */
+export interface SimplifiedSolutionsResource extends ProxyResource {
+  /** Solution Id to identify single Simplified Solution. */
+  solutionId?: string;
+  /** Client input parameters to run Simplified Solutions */
+  parameters?: { [propertyName: string]: string };
+  /**
+   * The title.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly title?: string;
+  /**
+   * Additional parameter response for Simplified Solutions
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly appendix?: { [propertyName: string]: string };
+  /**
+   * The HTML content that needs to be rendered and shown to customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly content?: string;
+  /**
+   * Status of Simplified Solution provisioning.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: SolutionProvisioningState;
+}
+
 /** Troubleshooter response. */
 export interface TroubleshooterResource extends ProxyResource {
   /** Solution Id to identify single troubleshooter. */
@@ -628,6 +726,51 @@ export interface TroubleshooterResource extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly steps?: Step[];
+}
+
+/** Self Help Solution response. */
+export interface SolutionResourceSelfHelp extends ProxyResource {
+  /**
+   * SolutionId is a unique id to identify a solution. You can retrieve the solution id using the Discovery api - https://learn.microsoft.com/en-us/rest/api/help/discovery-solution/list?view=rest-help-2023-09-01-preview&tabs=HTTP
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly solutionId?: string;
+  /**
+   * The title.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly title?: string;
+  /**
+   * The HTML content that needs to be rendered and shown to customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly content?: string;
+  /**
+   * Solution replacement maps.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replacementMaps?: ReplacementMapsSelfHelp;
+  /**
+   * List of section object.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sections?: SectionSelfHelp[];
+}
+
+/** Nlp Metadata resource */
+export interface SolutionNlpMetadataResource extends ProxyResource {
+  /** Title of the problem classification. */
+  problemTitle?: string;
+  /** Description of the problem classification. */
+  problemDescription?: string;
+  /** Id of the service (https://learn.microsoft.com/en-us/rest/api/support/services?view=rest-support-2020-04-01) that may be used to create a support ticket. */
+  serviceId?: string;
+  /** Id of the ProblemClassification (https://learn.microsoft.com/en-us/rest/api/support/problem-classifications?view=rest-support-2020-04-01) that may be used to create a support ticket. */
+  problemClassificationId?: string;
+  /** The list of solution metadata. */
+  solutions?: SolutionMetadataProperties[];
+  /** The set of services that are most likely related to the request. If relatedServices is included in the response then solutions may not be discovered until the client calls a second time specifying one of the service Ids in the relatedServices object. */
+  relatedServices?: ClassificationService[];
 }
 
 /** Defines headers for Solution_update operation. */
@@ -657,7 +800,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -674,7 +817,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -697,7 +840,7 @@ export enum KnownDiagnosticProvisioningState {
   /** All Diagnostics are still running. */
   Running = "Running",
   /** When Diagnostic request gets canceled. */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -724,7 +867,7 @@ export enum KnownStatus {
   /** Diagnostic creation succeeded. */
   Succeeded = "Succeeded",
   /** Diagnostic was timed out. */
-  Timeout = "Timeout"
+  Timeout = "Timeout",
 }
 
 /**
@@ -747,7 +890,7 @@ export enum KnownImportanceLevel {
   /** A warning insight has been found after running the diagnostic. */
   Warning = "Warning",
   /** An information insight has been found after running the diagnostic. */
-  Information = "Information"
+  Information = "Information",
 }
 
 /**
@@ -770,7 +913,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -790,7 +933,11 @@ export enum KnownSolutionType {
   /** Diagnostics resource type. */
   Diagnostics = "Diagnostics",
   /** Solutions resource type. */
-  Solutions = "Solutions"
+  Solutions = "Solutions",
+  /** Troubleshooters resource type. */
+  Troubleshooters = "Troubleshooters",
+  /** SelfHelp resource type. */
+  SelfHelp = "SelfHelp",
 }
 
 /**
@@ -799,7 +946,9 @@ export enum KnownSolutionType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Diagnostics**: Diagnostics resource type. \
- * **Solutions**: Solutions resource type.
+ * **Solutions**: Solutions resource type. \
+ * **Troubleshooters**: Troubleshooters resource type. \
+ * **SelfHelp**: SelfHelp resource type.
  */
 export type SolutionType = string;
 
@@ -810,7 +959,7 @@ export enum KnownName {
   /** ProblemClassificationId */
   ProblemClassificationId = "ProblemClassificationId",
   /** ReplacementKey */
-  ReplacementKey = "ReplacementKey"
+  ReplacementKey = "ReplacementKey",
 }
 
 /**
@@ -835,7 +984,7 @@ export enum KnownSolutionProvisioningState {
   /** All Solutions are still running. */
   Running = "Running",
   /** When Solutions request gets canceled. */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -858,7 +1007,7 @@ export enum KnownConfidence {
   /** Medium */
   Medium = "Medium",
   /** High */
-  High = "High"
+  High = "High",
 }
 
 /**
@@ -877,7 +1026,7 @@ export enum KnownResultType {
   /** Community */
   Community = "Community",
   /** Documentation */
-  Documentation = "Documentation"
+  Documentation = "Documentation",
 }
 
 /**
@@ -901,7 +1050,7 @@ export enum KnownAggregationType {
   /** Min */
   Min = "Min",
   /** Max */
-  Max = "Max"
+  Max = "Max",
 }
 
 /**
@@ -928,7 +1077,7 @@ export enum KnownTroubleshooterProvisioningState {
   /** Running */
   Running = "Running",
   /** AutoContinue */
-  AutoContinue = "AutoContinue"
+  AutoContinue = "AutoContinue",
 }
 
 /**
@@ -953,7 +1102,7 @@ export enum KnownExecutionStatus {
   /** Step execution failed */
   Failed = "Failed",
   /** Step execution warning */
-  Warning = "Warning"
+  Warning = "Warning",
 }
 
 /**
@@ -977,7 +1126,9 @@ export enum KnownType {
   /** Insight */
   Insight = "Insight",
   /** AutomatedCheck */
-  AutomatedCheck = "AutomatedCheck"
+  AutomatedCheck = "AutomatedCheck",
+  /** Input */
+  Input = "Input",
 }
 
 /**
@@ -988,7 +1139,8 @@ export enum KnownType {
  * **Decision** \
  * **Solution** \
  * **Insight** \
- * **AutomatedCheck**
+ * **AutomatedCheck** \
+ * **Input**
  */
 export type Type = string;
 
@@ -1001,7 +1153,11 @@ export enum KnownQuestionType {
   /** Text Input */
   TextInput = "TextInput",
   /** MultiLineInfoBox */
-  MultiLineInfoBox = "MultiLineInfoBox"
+  MultiLineInfoBox = "MultiLineInfoBox",
+  /** DateTime Picker */
+  DateTimePicker = "DateTimePicker",
+  /** Multi Select */
+  MultiSelect = "MultiSelect",
 }
 
 /**
@@ -1012,7 +1168,9 @@ export enum KnownQuestionType {
  * **RadioButton**: SingleChoice radio button \
  * **Dropdown**: SingleChoice dropdown. \
  * **TextInput**: Text Input \
- * **MultiLineInfoBox**: MultiLineInfoBox
+ * **MultiLineInfoBox**: MultiLineInfoBox \
+ * **DateTimePicker**: DateTime Picker \
+ * **MultiSelect**: Multi Select
  */
 export type QuestionType = string;
 
@@ -1023,7 +1181,7 @@ export enum KnownQuestionContentType {
   /** Html */
   Html = "Html",
   /** Markdown */
-  Markdown = "Markdown"
+  Markdown = "Markdown",
 }
 
 /**
@@ -1037,6 +1195,33 @@ export enum KnownQuestionContentType {
  */
 export type QuestionContentType = string;
 
+/** Known values of {@link ValidationScope} that the service accepts. */
+export enum KnownValidationScope {
+  /** None */
+  None = "None",
+  /** URLFormat */
+  URLFormat = "URLFormat",
+  /** GuidFormat */
+  GuidFormat = "GuidFormat",
+  /** IpAddressFormat */
+  IpAddressFormat = "IpAddressFormat",
+  /** NumberOnlyFormat */
+  NumberOnlyFormat = "NumberOnlyFormat",
+}
+
+/**
+ * Defines values for ValidationScope. \
+ * {@link KnownValidationScope} can be used interchangeably with ValidationScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **URLFormat** \
+ * **GuidFormat** \
+ * **IpAddressFormat** \
+ * **NumberOnlyFormat**
+ */
+export type ValidationScope = string;
+
 /** Known values of {@link AutomatedCheckResultType} that the service accepts. */
 export enum KnownAutomatedCheckResultType {
   /** Success */
@@ -1046,7 +1231,7 @@ export enum KnownAutomatedCheckResultType {
   /** Error */
   Error = "Error",
   /** Information */
-  Information = "Information"
+  Information = "Information",
 }
 
 /**
@@ -1161,6 +1346,34 @@ export interface SolutionUpdateOptionalParams
 export type SolutionUpdateResponse = SolutionUpdateHeaders & SolutionResource;
 
 /** Optional parameters. */
+export interface SolutionWarmUpOptionalParams
+  extends coreClient.OperationOptions {
+  /** The required request body for warming up a solution resource. */
+  solutionWarmUpRequestBody?: SolutionWarmUpRequestBody;
+}
+
+/** Optional parameters. */
+export interface SimplifiedSolutionsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The required request body for simplified Solutions resource creation. */
+  simplifiedSolutionsRequestBody?: SimplifiedSolutionsResource;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type SimplifiedSolutionsCreateResponse = SimplifiedSolutionsResource;
+
+/** Optional parameters. */
+export interface SimplifiedSolutionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SimplifiedSolutionsGetResponse = SimplifiedSolutionsResource;
+
+/** Optional parameters. */
 export interface TroubleshootersCreateOptionalParams
   extends coreClient.OperationOptions {
   /** The required request body for this Troubleshooter resource creation. */
@@ -1201,6 +1414,34 @@ export interface TroubleshootersRestartOptionalParams
 /** Contains response data for the restart operation. */
 export type TroubleshootersRestartResponse = TroubleshootersRestartHeaders &
   RestartTroubleshooterResponse;
+
+/** Optional parameters. */
+export interface SolutionSelfHelpGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SolutionSelfHelpGetResponse = SolutionResourceSelfHelp;
+
+/** Optional parameters. */
+export interface DiscoverySolutionNLPTenantScopePostOptionalParams
+  extends coreClient.OperationOptions {
+  /** Request body for discovering solutions using NLP. */
+  discoverSolutionRequest?: DiscoveryNlpRequest;
+}
+
+/** Contains response data for the post operation. */
+export type DiscoverySolutionNLPTenantScopePostResponse = DiscoveryNlpResponse;
+
+/** Optional parameters. */
+export interface DiscoverySolutionNLPSubscriptionScopePostOptionalParams
+  extends coreClient.OperationOptions {
+  /** Request body for discovering solutions using NLP. */
+  discoverSolutionRequest?: DiscoveryNlpRequest;
+}
+
+/** Contains response data for the post operation. */
+export type DiscoverySolutionNLPSubscriptionScopePostResponse =
+  DiscoveryNlpResponse;
 
 /** Optional parameters. */
 export interface HelpRPOptionalParams extends coreClient.ServiceClientOptions {

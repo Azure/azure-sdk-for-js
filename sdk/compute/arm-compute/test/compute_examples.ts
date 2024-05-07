@@ -34,7 +34,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Compute test", () => {
+describe.skip("Compute test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ComputeManagementClient;

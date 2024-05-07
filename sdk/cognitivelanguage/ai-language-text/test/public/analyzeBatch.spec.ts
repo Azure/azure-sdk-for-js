@@ -13,7 +13,7 @@ import {
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
 import { Context, Suite } from "mocha";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert, matrix } from "@azure/test-utils";
+import { assert, matrix } from "@azure-tools/test-utils";
 import { assertActionsResults, assertRestError } from "./utils/resultHelper";
 import {
   expectation10,

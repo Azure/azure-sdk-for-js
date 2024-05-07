@@ -11,7 +11,7 @@
 import {
   RestartParameter,
   ServersRestartOptionalParams,
-  PostgreSQLManagementFlexibleServerClient
+  PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Restarts a server.
  *
  * @summary Restarts a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerRestart.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerRestart.json
  */
 async function serverRestart() {
   const subscriptionId =
@@ -34,11 +34,11 @@ async function serverRestart() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.servers.beginRestartAndWait(
     resourceGroupName,
-    serverName
+    serverName,
   );
   console.log(result);
 }
@@ -47,7 +47,7 @@ async function serverRestart() {
  * This sample demonstrates how to Restarts a server.
  *
  * @summary Restarts a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerRestartWithFailover.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerRestartWithFailover.json
  */
 async function serverRestartWithFailover() {
   const subscriptionId =
@@ -58,18 +58,18 @@ async function serverRestartWithFailover() {
   const serverName = "testserver";
   const parameters: RestartParameter = {
     failoverMode: "ForcedFailover",
-    restartWithFailover: true
+    restartWithFailover: true,
   };
   const options: ServersRestartOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.servers.beginRestartAndWait(
     resourceGroupName,
     serverName,
-    options
+    options,
   );
   console.log(result);
 }

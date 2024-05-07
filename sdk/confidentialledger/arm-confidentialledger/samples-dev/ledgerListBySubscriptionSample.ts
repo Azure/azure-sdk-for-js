@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the properties of all Confidential Ledgers.
  *
  * @summary Retrieves the properties of all Confidential Ledgers.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ConfidentialLedger_ListBySub.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ConfidentialLedger_ListBySub.json
  */
 async function confidentialLedgerListBySub() {
   const subscriptionId =

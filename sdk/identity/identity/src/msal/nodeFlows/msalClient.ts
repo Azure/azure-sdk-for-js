@@ -20,6 +20,7 @@ import { AuthenticationRequiredError } from "../../errors";
 import { CertificateParts } from "../types";
 import { IdentityClient } from "../../client/identityClient";
 import { MsalNodeOptions } from "./msalNodeCommon";
+import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils";
 
@@ -180,10 +181,17 @@ export function createMsalClient(
 
     let confidentialClientApp = confidentialApps.get(appKey);
     if (confidentialClientApp) {
+      msalLogger.getToken.info(
+        "Existing ConfidentialClientApplication found in cache, returning it.",
+      );
       return confidentialClientApp;
     }
 
     // Initialize a new app and cache it
+    msalLogger.getToken.info(
+      `Creating new ConfidentialClientApplication with CAE ${options.enableCae ? "enabled" : "disabled"}.`,
+    );
+
     const cachePlugin = options.enableCae
       ? state.pluginConfiguration.cache.cachePluginCae
       : state.pluginConfiguration.cache.cachePlugin;
@@ -207,6 +215,9 @@ export function createMsalClient(
     options: GetTokenOptions = {},
   ): Promise<msal.AuthenticationResult> {
     if (state.cachedAccount === null) {
+      msalLogger.getToken.info(
+        "No cached account found in local state, attempting to load it from MSAL cache.",
+      );
       const cache = app.getTokenCache();
       const accounts = await cache.getAllAccounts();
 
@@ -231,14 +242,21 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       state.cachedClaims = options.claims;
     }
 
-    // TODO: port over changes for broker
-    // https://github.com/Azure/azure-sdk-for-js/blob/727a7208251961b5036d8e1d86edaa944c42e3d6/sdk/identity/identity/src/msal/nodeFlows/msalNodeCommon.ts#L383-L395
-    msalLogger.getToken.info("Attempting to acquire token silently");
-    return app.acquireTokenSilent({
+    const silentRequest: msal.SilentFlowRequest = {
       account: state.cachedAccount,
       scopes,
       claims: state.cachedClaims,
-    });
+    };
+
+    if (state.pluginConfiguration.broker.isEnabled) {
+      silentRequest.tokenQueryParameters ||= {};
+      if (state.pluginConfiguration.broker.enableMsaPassthrough) {
+        silentRequest.tokenQueryParameters["msal_request_type"] = "consumer_passthrough";
+      }
+    }
+
+    msalLogger.getToken.info("Attempting to acquire token silently");
+    return app.acquireTokenSilent(silentRequest);
   }
 
   /**
@@ -310,6 +328,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       msalApp.acquireTokenByClientCredential({
         scopes,
         authority: state.msalConfig.auth.authority,
+        azureRegion: calculateRegionalAuthority(),
         claims: options?.claims,
       }),
     );
@@ -330,6 +349,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       msalApp.acquireTokenByClientCredential({
         scopes,
         authority: state.msalConfig.auth.authority,
+        azureRegion: calculateRegionalAuthority(),
         claims: options?.claims,
         clientAssertion,
       }),
@@ -350,6 +370,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     return withSilentAuthentication(msalApp, scopes, options, () =>
       msalApp.acquireTokenByClientCredential({
         scopes,
+        azureRegion: calculateRegionalAuthority(),
         authority: state.msalConfig.auth.authority,
         claims: options?.claims,
       }),

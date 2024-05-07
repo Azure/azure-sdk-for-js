@@ -10,7 +10,7 @@ import { Recorder, env } from "@azure-tools/test-recorder";
 import { AbortError } from "@azure/abort-controller";
 import { AuthenticationRequiredError } from "../../../src/errors";
 import { IdentityClient } from "../../../src/client/identityClient";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { credentialLogger } from "../../../src/util/logging";
 import { msalPlugins } from "../../../src/msal/nodeFlows/msalPlugins";
 import sinon from "sinon";
@@ -144,6 +144,7 @@ describe("MsalClient", function () {
 
         sandbox.stub(msalPlugins, "generatePluginConfiguration").returns({
           broker: {
+            isEnabled: false,
             enableMsaPassthrough: false,
           },
           cache: {
@@ -187,6 +188,7 @@ describe("MsalClient", function () {
 
         sandbox.stub(msalPlugins, "generatePluginConfiguration").returns({
           broker: {
+            isEnabled: false,
             enableMsaPassthrough: false,
           },
           cache: {

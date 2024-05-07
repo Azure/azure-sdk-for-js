@@ -10,7 +10,7 @@ import {
   ReceivedEventData,
   SendBatchOptions,
 } from "../../src";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";

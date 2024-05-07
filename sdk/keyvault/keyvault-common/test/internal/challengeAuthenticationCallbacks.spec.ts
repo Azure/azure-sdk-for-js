@@ -8,7 +8,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { createKeyVaultChallengeCallbacks } from "../../src";
 import { parseWWWAuthenticateHeader } from "../../src/parseWWWAuthenticate";
 

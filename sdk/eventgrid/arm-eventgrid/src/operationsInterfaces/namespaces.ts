@@ -24,7 +24,9 @@ import {
   NamespacesListSharedAccessKeysResponse,
   NamespaceRegenerateKeyRequest,
   NamespacesRegenerateKeyOptionalParams,
-  NamespacesRegenerateKeyResponse
+  NamespacesRegenerateKeyResponse,
+  NamespacesValidateCustomDomainOwnershipOptionalParams,
+  NamespacesValidateCustomDomainOwnershipResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +37,7 @@ export interface Namespaces {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: NamespacesListBySubscriptionOptionalParams
+    options?: NamespacesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Namespace>;
   /**
    * List all the namespaces under a resource group.
@@ -44,7 +46,7 @@ export interface Namespaces {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NamespacesListByResourceGroupOptionalParams
+    options?: NamespacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Namespace>;
   /**
    * Get properties of a namespace.
@@ -55,7 +57,7 @@ export interface Namespaces {
   get(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesGetOptionalParams
+    options?: NamespacesGetOptionalParams,
   ): Promise<NamespacesGetResponse>;
   /**
    * Asynchronously creates or updates a new namespace with the specified parameters.
@@ -68,7 +70,7 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     namespaceInfo: Namespace,
-    options?: NamespacesCreateOrUpdateOptionalParams
+    options?: NamespacesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NamespacesCreateOrUpdateResponse>,
@@ -86,7 +88,7 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     namespaceInfo: Namespace,
-    options?: NamespacesCreateOrUpdateOptionalParams
+    options?: NamespacesCreateOrUpdateOptionalParams,
   ): Promise<NamespacesCreateOrUpdateResponse>;
   /**
    * Delete existing namespace.
@@ -97,7 +99,7 @@ export interface Namespaces {
   beginDelete(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesDeleteOptionalParams
+    options?: NamespacesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete existing namespace.
@@ -108,7 +110,7 @@ export interface Namespaces {
   beginDeleteAndWait(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesDeleteOptionalParams
+    options?: NamespacesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Asynchronously updates a namespace with the specified parameters.
@@ -121,7 +123,7 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     namespaceUpdateParameters: NamespaceUpdateParameters,
-    options?: NamespacesUpdateOptionalParams
+    options?: NamespacesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NamespacesUpdateResponse>,
@@ -139,7 +141,7 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     namespaceUpdateParameters: NamespaceUpdateParameters,
-    options?: NamespacesUpdateOptionalParams
+    options?: NamespacesUpdateOptionalParams,
   ): Promise<NamespacesUpdateResponse>;
   /**
    * List the two keys used to publish to a namespace.
@@ -150,7 +152,7 @@ export interface Namespaces {
   listSharedAccessKeys(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesListSharedAccessKeysOptionalParams
+    options?: NamespacesListSharedAccessKeysOptionalParams,
   ): Promise<NamespacesListSharedAccessKeysResponse>;
   /**
    * Regenerate a shared access key for a namespace.
@@ -163,7 +165,7 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     regenerateKeyRequest: NamespaceRegenerateKeyRequest,
-    options?: NamespacesRegenerateKeyOptionalParams
+    options?: NamespacesRegenerateKeyOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NamespacesRegenerateKeyResponse>,
@@ -181,6 +183,33 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     regenerateKeyRequest: NamespaceRegenerateKeyRequest,
-    options?: NamespacesRegenerateKeyOptionalParams
+    options?: NamespacesRegenerateKeyOptionalParams,
   ): Promise<NamespacesRegenerateKeyResponse>;
+  /**
+   * Performs ownership validation via checking TXT records for all custom domains in a namespace.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param namespaceName Name of the Namespace.
+   * @param options The options parameters.
+   */
+  beginValidateCustomDomainOwnership(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: NamespacesValidateCustomDomainOwnershipOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NamespacesValidateCustomDomainOwnershipResponse>,
+      NamespacesValidateCustomDomainOwnershipResponse
+    >
+  >;
+  /**
+   * Performs ownership validation via checking TXT records for all custom domains in a namespace.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param namespaceName Name of the Namespace.
+   * @param options The options parameters.
+   */
+  beginValidateCustomDomainOwnershipAndWait(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: NamespacesValidateCustomDomainOwnershipOptionalParams,
+  ): Promise<NamespacesValidateCustomDomainOwnershipResponse>;
 }

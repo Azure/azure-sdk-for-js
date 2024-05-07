@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List the two keys used to publish to a namespace.
  *
  * @summary List the two keys used to publish to a namespace.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Namespaces_ListSharedAccessKeys.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Namespaces_ListSharedAccessKeys.json
  */
 async function namespacesListSharedAccessKeys() {
   const subscriptionId =

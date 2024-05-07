@@ -1,9 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Configs, ServiceInformation, Options, TECHNOLOGIES, WidgetConfig } from "../scaffolding";
-
-import inquirer from "inquirer";
+import {
+  Configs,
+  ServiceInformation,
+  Options,
+  TECHNOLOGIES,
+  WidgetConfig,
+} from "../scaffolding.js";
 
 export const fieldIdToName: Record<
   keyof (WidgetConfig & ServiceInformation & Options) | string,
@@ -100,8 +104,10 @@ export const validateMiscConfig: Validate<Options> = {
   },
 };
 
-export const promptWidgetConfig = (partial: Partial<WidgetConfig>): Promise<WidgetConfig> =>
-  inquirer.prompt(
+export const promptWidgetConfig = async (partial: Partial<WidgetConfig>): Promise<WidgetConfig> => {
+  const inquirerImport = await import("inquirer");
+  const inquirer = inquirerImport.default;
+  return inquirer.prompt(
     [
       {
         name: "displayName",
@@ -122,11 +128,14 @@ export const promptWidgetConfig = (partial: Partial<WidgetConfig>): Promise<Widg
     ],
     partial,
   );
+};
 
-export const promptServiceInformation = (
+export const promptServiceInformation = async (
   partial: Partial<ServiceInformation>,
-): Promise<ServiceInformation> =>
-  inquirer.prompt(
+): Promise<ServiceInformation> => {
+  const inquirerImport = await import("inquirer");
+  const inquirer = inquirerImport.default;
+  return inquirer.prompt(
     [
       {
         name: "resourceId",
@@ -157,9 +166,12 @@ export const promptServiceInformation = (
     ],
     partial,
   );
+};
 
-export const promptMiscConfig = (partial: Partial<Options>): Promise<Options> =>
-  inquirer.prompt(
+export const promptMiscConfig = async (partial: Partial<Options>): Promise<Options> => {
+  const inquirerImport = await import("inquirer");
+  const inquirer = inquirerImport.default;
+  return inquirer.prompt(
     [
       {
         name: "openUrl",
@@ -189,3 +201,4 @@ export const promptMiscConfig = (partial: Partial<Options>): Promise<Options> =>
     ],
     partial,
   );
+};

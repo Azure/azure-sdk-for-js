@@ -4,6 +4,7 @@
 import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
 import { Instrumentation } from "@opentelemetry/instrumentation";
 import { BunyanInstrumentation } from "@opentelemetry/instrumentation-bunyan";
+import { WinstonInstrumentation } from "@opentelemetry/instrumentation-winston";
 import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { InternalConfig } from "../shared/config";
 import { MetricHandler } from "../metrics/handler";
@@ -57,6 +58,11 @@ export class LogHandler {
     if (this._config.instrumentationOptions.bunyan?.enabled) {
       this._instrumentations.push(
         new BunyanInstrumentation(this._config.instrumentationOptions.bunyan),
+      );
+    }
+    if (this._config.instrumentationOptions.winston?.enabled) {
+      this._instrumentations.push(
+        new WinstonInstrumentation(this._config.instrumentationOptions.winston),
       );
     }
   }

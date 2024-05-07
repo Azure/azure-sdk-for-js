@@ -18,7 +18,7 @@ import {
   createServiceBusClientForTests,
 } from "../public/utils/testutils2";
 chai.use(chaiAsPromised);
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 /**
  * A basic suite that exercises most of the core functionality.
