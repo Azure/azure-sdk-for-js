@@ -6,10 +6,7 @@ import { ClientAssertionCredential } from "./clientAssertionCredential";
 import { AuthenticationError, CredentialUnavailableError } from "../errors";
 import { credentialLogger } from "../util/logging";
 import { checkTenantId } from "../util/tenantIdUtils";
-import {
-  createHttpHeaders,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { AzurePipelinesCredentialOptions } from "./azurePipelinesCredentialOptions";
 import { IdentityClient } from "../client/identityClient";
 
@@ -36,17 +33,17 @@ export class AzurePipelinesCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     serviceConnectionId: string,
-    options?: AzurePipelinesCredentialOptions
+    options?: AzurePipelinesCredentialOptions,
   ) {
     if (!clientId || !tenantId || !serviceConnectionId) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required parameters.`
+        `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required parameters.`,
       );
     }
     this.identityClient = new IdentityClient(options);
     checkTenantId(logger, tenantId);
     logger.info(
-      `Invoking AzurePipelinesCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
+      `Invoking AzurePipelinesCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`,
     );
 
     if (clientId && tenantId && serviceConnectionId) {
@@ -54,13 +51,13 @@ export class AzurePipelinesCredential implements TokenCredential {
       const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=${OIDC_API_VERSION}&serviceConnectionId=${serviceConnectionId}`;
       const systemAccessToken = `${process.env.SYSTEM_ACCESSTOKEN}`;
       logger.info(
-        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
+        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`,
       );
       this.clientAssertionCredential = new ClientAssertionCredential(
         tenantId,
         clientId,
         this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
-        options
+        options,
       );
     }
   }
@@ -75,7 +72,7 @@ export class AzurePipelinesCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions
+    options?: GetTokenOptions,
   ): Promise<AccessToken> {
     if (!this.clientAssertionCredential) {
       const errorMessage = `${credentialName}: is unavailable. To use Federation Identity in Azure Pipelines, these are required as input parameters / env variables - 
@@ -103,10 +100,10 @@ export class AzurePipelinesCredential implements TokenCredential {
    */
   private async requestOidcToken(
     oidcRequestUrl: string,
-    systemAccessToken: string
+    systemAccessToken: string,
   ): Promise<string> {
     logger.info("Requesting OIDC token from Azure Pipelines...");
-    logger.info(oidcRequestUrl);   
+    logger.info(oidcRequestUrl);
     const request = createPipelineRequest({
       url: oidcRequestUrl,
       method: "POST",
@@ -115,18 +112,18 @@ export class AzurePipelinesCredential implements TokenCredential {
         Authorization: `Bearer ${systemAccessToken}`,
       }),
     });
-    const response = await this.identityClient.sendRequest(request)
+    const response = await this.identityClient.sendRequest(request);
     const text = response.bodyAsText;
     if (!text) {
       logger.error(
         `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
           response.status
-        }. Complete response - ${JSON.stringify(response)}`
+        }. Complete response - ${JSON.stringify(response)}`,
       );
       throw new CredentialUnavailableError(
         `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
           response.status
-        }. Complete response - ${JSON.stringify(response)}`
+        }. Complete response - ${JSON.stringify(response)}`,
       );
     }
     const result = JSON.parse(text);
@@ -135,13 +132,13 @@ export class AzurePipelinesCredential implements TokenCredential {
     } else {
       logger.error(
         `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
-          result
-        )}`
+          result,
+        )}`,
       );
       throw new CredentialUnavailableError(
         `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
-          result
-        )}`
+          result,
+        )}`,
       );
     }
   }
@@ -177,8 +174,8 @@ export class AzurePipelinesCredential implements TokenCredential {
     if (missingEnvVars.length > 0) {
       throw new CredentialUnavailableError(
         `${credentialName}: is unavailable. Ensure that you're running this task in an Azure Pipeline, so that following missing system variable(s) can be defined- ${missingEnvVars.join(
-          ", "
-        )}.${errorMessage}`
+          ", ",
+        )}.${errorMessage}`,
       );
     }
   }
