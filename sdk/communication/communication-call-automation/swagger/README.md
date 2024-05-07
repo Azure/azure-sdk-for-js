@@ -11,9 +11,9 @@ description: Call Automation Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2023-10-03-preview
+tag: package-2024-06-15-preview
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/2f0c2b15ba41419aec1a739307b50e03178e0d4d/specification/communication/data-plane/CallAutomation/readme.md
+  - https://github.com/Azure/azure-rest-api-specs/blob/109529fbfccebbacb0a731d433949c0eaed4e8b2/specification/communication/data-plane/CallAutomation/readme.md
 package-version: 1.2.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
@@ -57,111 +57,31 @@ directive:
       from: SsmlSource
       to: SsmlSourceInternal
   - rename-model:
-      from: AddParticipantSucceeded
-      to: RestAddParticipantSucceeded
-  - rename-model:
-      from: AddParticipantFailed
-      to: RestAddParticipantFailed
-  - rename-model:
-      from: RemoveParticipantSucceeded
-      to: RestRemoveParticipantSucceeded
-  - rename-model:
-      from: RemoveParticipantFailed
-      to: RestRemoveParticipantFailed
-  - rename-model:
-      from: CallConnected
-      to: RestCallConnected
-  - rename-model:
-      from: CallDisconnected
-      to: RestCallDisconnected
-  - rename-model:
-      from: CallTransferAccepted
-      to: RestCallTransferAccepted
-  - rename-model:
-      from: CallTransferFailed
-      to: RestCallTransferFailed
-  - rename-model:
-      from: RecordingStateChanged
-      to: RestRecordingStateChanged
-  - rename-model:
-      from: TeamsRecordingStateChanged
-      to: RestTeamsRecordingStateChanged
-  - rename-model:
-      from: TeamsComplianceRecordingStateChanged
-      to: RestTeamsComplianceRecordingStateChanged
-  - rename-model:
-      from: ParticipantsUpdated
-      to: RestParticipantsUpdated
-  - rename-model:
-      from: PlayCompleted
-      to: RestPlayCompleted
-  - rename-model:
-      from: PlayFailed
-      to: RestPlayFailed
-  - rename-model:
-      from: PlayCanceled
-      to: RestPlayCanceled
-  - rename-model:
-      from: RecognizeCompleted
-      to: RestRecognizeCompleted
-  - rename-model:
-      from: RecognizeFailed
-      to: RestRecognizeFailed
-  - rename-model:
-      from: RecognizeCanceled
-      to: RestRecognizeCanceled
-  - rename-model:
       from: ResultInformation
       to: RestResultInformation
   - rename-model:
-      from: ContinuousDtmfRecognitionToneReceived
-      to: RestContinuousDtmfRecognitionToneReceived
-  - rename-model:
-      from: ContinuousDtmfRecognitionToneFailed
-      to: RestContinuousDtmfRecognitionToneFailed
-  - rename-model:
-      from: ContinuousDtmfRecognitionStopped
-      to: RestContinuousDtmfRecognitionStopped
-  - rename-model:
-      from: SendDtmfTonesCompleted
-      to: RestSendDtmfTonesCompleted
-  - rename-model:
-      from: SendDtmfTonesFailed
-      to: RestSendDtmfTonesFailed
-  - rename-model:
       from: ToneInfo
       to: RestToneInfo
-  - rename-model:
-      from: CancelAddParticipantSucceeded
-      to: RestCancelAddParticipantSucceeded
-  - rename-model:
-      from: CancelAddParticipantFailed
-      to: RestCancelAddParticipantFailed
   - rename-model:
       from: CallIntelligenceOptions
       to: CallIntelligenceOptionsInternal
   - rename-model:
       from: CustomCallingContext
       to: CustomCallingContextInternal
-  - rename-model:
-      from: TranscriptionStarted
-      to: RestTranscriptionStarted
-  - rename-model:
-      from: TranscriptionStopped
-      to: RestTranscriptionStopped
-  - rename-model:
-      from: TranscriptionUpdated
-      to: RestTranscriptionUpdated
-  - rename-model:
-      from: TranscriptionFailed
-      to: RestTranscriptionFailed
-  - rename-model:
-      from: CreateCallFailed
-      to: RestCreateCallFailed
-  - rename-model:
-      from: AnswerFailed
-      to: RestAnswerFailed
-  - rename-model:
-      from: HoldFailed
-      to: RestHoldFailed
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.ExternalStorage"
+  transform: >
+    $["x-ms-client-name"] = "RecordingStorage";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.StartCallRecordingRequest.properties.externalStorage"
+  transform: >
+    $["x-ms-client-name"] = "recordingStorage";
 ```

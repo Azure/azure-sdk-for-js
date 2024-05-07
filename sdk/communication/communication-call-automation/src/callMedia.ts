@@ -18,8 +18,6 @@ import {
   SendDtmfTonesRequest,
   Tone,
   SpeechOptions,
-  StartHoldMusicRequest,
-  StopHoldMusicRequest,
   StartTranscriptionRequest,
   StopTranscriptionRequest,
   UpdateTranscriptionRequest,
@@ -49,19 +47,8 @@ import {
   UnholdOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  CancelAllMediaOperationsResult,
-  PlayResult,
-  SendDtmfTonesResult,
-  StartRecognizingResult,
-} from "./models/responses";
-import {
-  CancelAllMediaOperationsEventResult,
-  PlayEventResult,
-  SendDtmfEventResult,
-  StartRecognizingEventResult,
-} from "./eventprocessor/eventResponses";
-import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
+import { SendDtmfTonesResult } from "./models/responses";
+import { v4 as uuidv4 } from "uuid";
 import { randomUUID } from "@azure/core-util";
 import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
 
@@ -72,12 +59,10 @@ export class CallMedia {
   private readonly callConnectionId: string;
   private readonly callMedia: CallMediaImpl;
   private readonly callAutomationApiClient: CallAutomationApiClient;
-  private readonly callAutomationEventProcessor: CallAutomationEventProcessor;
   constructor(
     callConnectionId: string,
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    eventProcessor: CallAutomationEventProcessor,
     options?: CallAutomationApiClientOptionalParams,
   ) {
     this.callAutomationApiClient = createCustomCallAutomationApiClient(
@@ -86,7 +71,6 @@ export class CallMedia {
       endpoint,
     );
     this.callConnectionId = callConnectionId;
-    this.callAutomationEventProcessor = eventProcessor;
     this.callMedia = new CallMediaImpl(this.callAutomationApiClient);
   }
 
@@ -146,14 +130,14 @@ export class CallMedia {
     playSources: (FileSource | TextSource | SsmlSource)[],
     playTo: CommunicationIdentifier[],
     options: PlayOptions = { loop: false },
-  ): Promise<PlayResult> {
+  ): Promise<void> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
       playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
       playOptions: {
         loop: false,
       },
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
     };
 
@@ -161,42 +145,7 @@ export class CallMedia {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
       playRequest.playOptions.loop = options.loop;
     }
-    await this.callMedia.play(this.callConnectionId, playRequest, options);
-
-    const playResult: PlayResult = {
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const playEventResult: PlayEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "PlayCompleted" &&
-              event.operationContext === playRequest.operationContext
-            ) {
-              playEventResult.isSuccess = true;
-              playEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "PlayFailed" &&
-              event.operationContext === playRequest.operationContext
-            ) {
-              playEventResult.isSuccess = false;
-              playEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs,
-        );
-        return playEventResult;
-      },
-    };
-    return playResult;
+    return await this.callMedia.play(this.callConnectionId, playRequest, options);
   }
 
   /**
@@ -208,14 +157,14 @@ export class CallMedia {
   public async playToAll(
     playSources: (FileSource | TextSource | SsmlSource)[],
     options: PlayOptions = { loop: false },
-  ): Promise<PlayResult> {
+  ): Promise<void> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
       playTo: [],
       playOptions: {
         loop: false,
       },
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
     };
 
@@ -223,42 +172,7 @@ export class CallMedia {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
       playRequest.playOptions.loop = options.loop;
     }
-    await this.callMedia.play(this.callConnectionId, playRequest, options);
-
-    const playResult: PlayResult = {
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const playEventResult: PlayEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "PlayCompleted" &&
-              event.operationContext === playRequest.operationContext
-            ) {
-              playEventResult.isSuccess = true;
-              playEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "PlayFailed" &&
-              event.operationContext === playRequest.operationContext
-            ) {
-              playEventResult.isSuccess = false;
-              playEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs,
-        );
-        return playEventResult;
-      },
-    };
-    return playResult;
+    return await this.callMedia.play(this.callConnectionId, playRequest, options);
   }
 
   private createRecognizeRequest(
@@ -390,7 +304,7 @@ export class CallMedia {
     targetParticipant: CommunicationIdentifier,
     maxTonesToCollect: number,
     options: CallMediaRecognizeDtmfOptions,
-  ): Promise<StartRecognizingResult>;
+  ): Promise<void>;
 
   /**
    *  Recognize participant input.
@@ -404,7 +318,7 @@ export class CallMedia {
       | CallMediaRecognizeChoiceOptions
       | CallMediaRecognizeSpeechOptions
       | CallMediaRecognizeSpeechOrDtmfOptions,
-  ): Promise<StartRecognizingResult>;
+  ): Promise<void>;
   async startRecognizing(
     targetParticipant: CommunicationIdentifier,
     maxTonesOrOptions:
@@ -414,62 +328,26 @@ export class CallMedia {
       | CallMediaRecognizeSpeechOptions
       | CallMediaRecognizeSpeechOrDtmfOptions,
     options?: CallMediaRecognizeDtmfOptions,
-  ): Promise<StartRecognizingResult> {
+  ): Promise<void> {
     if (typeof maxTonesOrOptions === "number" && options) {
       // Old function signature logic
       console.warn(
         "Deprecated function signature used. Please use the new signature with targetParticipant and options params instead, and set maxTonesToCollect in options.",
       );
       options.maxTonesToCollect = maxTonesOrOptions;
-      await this.callMedia.recognize(
+      return await this.callMedia.recognize(
         this.callConnectionId,
         this.createRecognizeRequest(targetParticipant, options),
         {},
       );
     } else if (typeof maxTonesOrOptions !== "number" && !options) {
-      maxTonesOrOptions.operationContext = maxTonesOrOptions.operationContext
-        ? maxTonesOrOptions.operationContext
-        : randomUUID();
+      maxTonesOrOptions.operationContext = maxTonesOrOptions.operationContext;
       // New function signature logic
-      await this.callMedia.recognize(
+      return await this.callMedia.recognize(
         this.callConnectionId,
         this.createRecognizeRequest(targetParticipant, maxTonesOrOptions),
         {},
       );
-      const startRecognizingResult: StartRecognizingResult = {
-        waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-          const startRecognizingEventResult: StartRecognizingEventResult = {
-            isSuccess: false,
-          };
-          await this.callAutomationEventProcessor.waitForEventProcessor(
-            (event) => {
-              if (
-                event.callConnectionId === this.callConnectionId &&
-                event.kind === "RecognizeCompleted" &&
-                event.operationContext === maxTonesOrOptions.operationContext
-              ) {
-                startRecognizingEventResult.isSuccess = true;
-                startRecognizingEventResult.successResult = event;
-                return true;
-              } else if (
-                event.callConnectionId === this.callConnectionId &&
-                event.kind === "RecognizeFailed" &&
-                event.operationContext === maxTonesOrOptions.operationContext
-              ) {
-                startRecognizingEventResult.isSuccess = false;
-                startRecognizingEventResult.failureResult = event;
-                return true;
-              } else {
-                return false;
-              }
-            },
-            abortSignal,
-            timeoutInMs,
-          );
-          return startRecognizingEventResult;
-        },
-      };
-      return startRecognizingResult;
     }
     throw new Error("Invalid params");
   }
@@ -477,38 +355,8 @@ export class CallMedia {
   /**
    * Cancels all the queued media operations.
    */
-  public async cancelAllOperations(): Promise<CancelAllMediaOperationsResult> {
-    await this.callMedia.cancelAllMediaOperations(this.callConnectionId, {});
-
-    const cancelAllMediaOperationsResult: CancelAllMediaOperationsResult = {
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const cancelAllMediaOperationsEventResult: CancelAllMediaOperationsEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (event.callConnectionId === this.callConnectionId && event.kind === "PlayCanceled") {
-              cancelAllMediaOperationsEventResult.isSuccess = true;
-              cancelAllMediaOperationsEventResult.playCanceledSuccessResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "RecognizeCanceled"
-            ) {
-              cancelAllMediaOperationsEventResult.isSuccess = false;
-              cancelAllMediaOperationsEventResult.recognizeCanceledSuccessResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs,
-        );
-        return cancelAllMediaOperationsEventResult;
-      },
-    };
-    return cancelAllMediaOperationsResult;
+  public async cancelAllOperations(): Promise<void> {
+    return this.callMedia.cancelAllMediaOperations(this.callConnectionId, {});
   }
 
   /**
@@ -522,7 +370,7 @@ export class CallMedia {
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
     };
     return this.callMedia.startContinuousDtmfRecognition(
       this.callConnectionId,
@@ -566,43 +414,22 @@ export class CallMedia {
     const sendDtmfTonesRequest: SendDtmfTonesRequest = {
       tones: tones,
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
     };
-    await this.callMedia.sendDtmfTones(this.callConnectionId, sendDtmfTonesRequest, {});
 
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date(),
+      repeatabilityRequestID: uuidv4(),
+    };
+    const result = await this.callMedia.sendDtmfTones(
+      this.callConnectionId,
+      sendDtmfTonesRequest,
+      optionsInternal,
+    );
     const sendDtmfTonesResult: SendDtmfTonesResult = {
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const sendDtmfEventResult: SendDtmfEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "SendDtmfTonesCompleted" &&
-              event.operationContext === sendDtmfTonesResult.operationContext
-            ) {
-              sendDtmfEventResult.isSuccess = true;
-              sendDtmfEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "SendDtmfTonesFailed" &&
-              event.operationContext === sendDtmfTonesResult.operationContext
-            ) {
-              sendDtmfEventResult.isSuccess = false;
-              sendDtmfEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs,
-        );
-        return sendDtmfEventResult;
-      },
+      ...result,
     };
     return sendDtmfTonesResult;
   }
@@ -647,54 +474,6 @@ export class CallMedia {
         options.operationContext !== undefined ? options.operationContext : undefined,
     };
     return this.callMedia.unhold(this.callConnectionId, unholdRequest);
-  }
-
-  /**
-   * Put participant on hold while playing audio.
-   *
-   * @deprecated - This operations is deprecated, please use hold instead.
-   * @param targetParticipant - The targets to play to.
-   * @param playSource - A PlaySource representing the source to play.
-   * @param operationContext - Operation Context.
-   * @param operationCallbackUri - Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
-   */
-  public async startHoldMusic(
-    targetParticipant: CommunicationIdentifier,
-    playSource: FileSource | TextSource | SsmlSource | undefined = undefined,
-    loop?: boolean,
-    operationContext: string | undefined = undefined,
-    operationCallbackUri: string | undefined = undefined,
-  ): Promise<void> {
-    const holdRequest: StartHoldMusicRequest = {
-      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      playSourceInfo:
-        playSource !== undefined ? this.createPlaySourceInternal(playSource) : undefined,
-      operationContext: operationContext,
-      operationCallbackUri: operationCallbackUri,
-    };
-    if (loop) {
-      // Do nothing. Added since it needs to be backwards compatible.
-    }
-    return this.callMedia.startHoldMusic(this.callConnectionId, holdRequest);
-  }
-
-  /**
-   * Remove participant from hold.
-   *
-   * @deprecated - This operations is deprecated, please use unhold instead.
-   * @param targetParticipant - The targets to play to.
-   * @param operationContext - Operation Context.
-   */
-  public async stopHoldMusic(
-    targetParticipant: CommunicationIdentifier,
-    operationContext: string | undefined = undefined,
-  ): Promise<void> {
-    const unholdRequest: StopHoldMusicRequest = {
-      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: operationContext,
-    };
-
-    return this.callMedia.stopHoldMusic(this.callConnectionId, unholdRequest);
   }
 
   /**

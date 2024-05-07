@@ -35,7 +35,6 @@ import {
   loadPersistedEvents,
   persistEvents,
 } from "./utils/recordedClient";
-import { AnswerCallEventResult, CreateCallEventResult } from "../src/eventprocessor/eventResponses";
 import { randomUUID } from "@azure/core-util";
 
 describe("Call Automation Client Unit Tests", () => {
@@ -79,9 +78,6 @@ describe("Call Automation Client Unit Tests", () => {
     const createCallResultMock: CreateCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
-      waitForEventProcessor: async () => {
-        return {} as CreateCallEventResult;
-      },
     };
     client.createCall.returns(
       new Promise((resolve) => {
@@ -107,9 +103,6 @@ describe("Call Automation Client Unit Tests", () => {
     const createGroupCallResultMock: CreateCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
-      waitForEventProcessor: async () => {
-        return {} as CreateCallEventResult;
-      },
     };
     client.createGroupCall.returns(
       new Promise((resolve) => {
@@ -135,9 +128,6 @@ describe("Call Automation Client Unit Tests", () => {
     const answerCallResultMock: AnswerCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
-      waitForEventProcessor: async () => {
-        return {} as AnswerCallEventResult;
-      },
     };
     client.answerCall.returns(
       new Promise((resolve) => {
@@ -302,7 +292,7 @@ describe("Call Automation Main Client Live Tests", function () {
       await receiverCallAutomationClient.rejectCall(incomingCallContext);
     }
 
-    const createCallFailedEvent = await waitForEvent("CreateCallFailed", callConnectionId, 8000);
-    assert.isDefined(createCallFailedEvent);
+    const CallDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(CallDisconnectedEvent);
   }).timeout(60000);
 });

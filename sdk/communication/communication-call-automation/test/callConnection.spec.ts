@@ -17,10 +17,6 @@ import {
   RemoveParticipantResult,
   MuteParticipantResult,
   CancelAddParticipantOperationResult,
-  AddParticipantEventResult,
-  TransferCallToParticipantEventResult,
-  RemoveParticipantEventResult,
-  CancelAddParticipantEventResult,
   CancelAddParticipantSucceeded,
   CreateCallOptions,
   AnswerCallOptions,
@@ -167,11 +163,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("AddParticipant", async () => {
     // mocks
-    const addParticipantResultMock: AddParticipantResult = {
-      waitForEventProcessor: async () => {
-        return {} as AddParticipantEventResult;
-      },
-    };
+    const addParticipantResultMock: AddParticipantResult = {};
     callConnection.addParticipant.returns(
       new Promise((resolve) => {
         resolve(addParticipantResultMock);
@@ -193,11 +185,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("TransferCallToParticipant", async () => {
     // mocks
-    const transferCallResultMock: TransferCallResult = {
-      waitForEventProcessor: async () => {
-        return {} as TransferCallToParticipantEventResult;
-      },
-    };
+    const transferCallResultMock: TransferCallResult = {};
     callConnection.transferCallToParticipant.returns(
       new Promise((resolve) => {
         resolve(transferCallResultMock);
@@ -221,11 +209,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("TransferCallToParticipantWithTransferee", async () => {
     // mocks
-    const transferCallResultMock: TransferCallResult = {
-      waitForEventProcessor: async () => {
-        return {} as TransferCallToParticipantEventResult;
-      },
-    };
+    const transferCallResultMock: TransferCallResult = {};
     callConnection.transferCallToParticipant.returns(
       new Promise((resolve) => {
         resolve(transferCallResultMock);
@@ -253,11 +237,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("RemoveParticipant", async () => {
     // mocks
-    const removeParticipantResultMock: RemoveParticipantResult = {
-      waitForEventProcessor: async () => {
-        return {} as RemoveParticipantEventResult;
-      },
-    };
+    const removeParticipantResultMock: RemoveParticipantResult = {};
     callConnection.removeParticipant.returns(
       new Promise((resolve) => {
         resolve(removeParticipantResultMock);
@@ -299,17 +279,14 @@ describe("CallConnection Unit Tests", () => {
       .catch((error) => console.error(error));
   });
 
-  it("CancelAddParticipant", async () => {
+  it("cancelAddParticipantOperation", async () => {
     const invitationId = "invitationId";
-    const cancelAddParticipantResultMock: CancelAddParticipantOperationResult = {
+    const cancelAddParticipantOperationResultMock: CancelAddParticipantOperationResult = {
       invitationId,
-      waitForEventProcessor: async () => {
-        return {} as CancelAddParticipantEventResult;
-      },
     };
     callConnection.cancelAddParticipantOperation.returns(
       new Promise((resolve) => {
-        resolve(cancelAddParticipantResultMock);
+        resolve(cancelAddParticipantOperationResultMock);
       }),
     );
 
@@ -318,7 +295,7 @@ describe("CallConnection Unit Tests", () => {
       .then((result: CancelAddParticipantOperationResult) => {
         assert.isNotNull(result);
         assert.isTrue(callConnection.cancelAddParticipantOperation.calledWith(invitationId));
-        assert.equal(result, cancelAddParticipantResultMock);
+        assert.equal(result, cancelAddParticipantOperationResultMock);
         return;
       })
       .catch((error) => console.error(error));
@@ -345,6 +322,13 @@ describe("CallConnection Live Tests", function () {
 
   afterEach(async function (this: Context) {
     persistEvents(testName);
+    if (callConnection) {
+      try {
+        await callConnection.hangUp(true);
+      } catch (e) {
+        console.log("Call is terminated");
+      }
+    }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });
@@ -355,13 +339,6 @@ describe("CallConnection Live Tests", function () {
     serviceBusReceivers.clear();
     incomingCallContexts.clear();
     await recorder.stop();
-    if (callConnection) {
-      try {
-        await callConnection.hangUp(true);
-      } catch {
-        return;
-      }
-    }
   });
 
   it("List all participants", async function () {
@@ -516,7 +493,7 @@ describe("CallConnection Live Tests", function () {
   it("Mute a participant", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
-      : "mute_participant";
+      : "add_participant_and_get_call_props";
     await loadPersistedEvents(testName);
 
     const callInvite: CallInvite = { targetParticipant: testUser2 };

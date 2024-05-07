@@ -8,5 +8,4 @@
 
 export * from "./callConnection";
 export * from "./callMedia";
-export * from "./callDialog";
 export * from "./callRecording";
