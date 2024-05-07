@@ -33,22 +33,6 @@ steps:
 
   - ${{ if eq(parameters.TestProxy, true) }}:
     - template: /eng/common/testproxy/test-proxy-tool.yml
-
-  - pwsh: |
-      Start-Process "node" -ArgumentList "launch.js run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
-      for ($i = 0; $i -lt 10; $i++) {
-          try {
-              Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
-              exit 0
-          } catch {
-              Write-Warning "Failed to successfully connect to browser credential relay. Retrying..."
-              Start-Sleep 6
-          }
-      }
-      Write-Error "Could not connect to browser credential relay."
-      exit 1
-    displayName: "Start browser credential relay"
-    condition: and(succeeded(), eq(variables['TestType'], 'browser'))
   
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
