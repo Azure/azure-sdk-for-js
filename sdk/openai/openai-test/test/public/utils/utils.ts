@@ -22,6 +22,7 @@ import {
 } from "@azure-tools/test-recorder";
 import {
   EnvironmentVariableNamesAzureCommon,
+  EnvironmentVariableNamesForAzureSearch,
   EnvironmentVariableNamesForCompletions,
   EnvironmentVariableNamesForDalle,
   EnvironmentVariableNamesForWhisper,
@@ -221,14 +222,27 @@ export async function get(url: string, recorder: Recorder): Promise<PipelineResp
 }
 
 // TODO: Update this once we add Azure specific feature tests
-// export function createAzureSearchExtension(): AzureSearchChatExtensionConfiguration {
-//   return {
-//     type: "azure_search",
-//     endpoint: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_ENDPOINT),
-//     indexName: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_INDEX),
-//     authentication: {
-//       type: "api_key",
-//       key: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_KEY),
-//     },
-//   };
-// }
+export function createAzureSearchExtension(): {
+  type: string;
+  parameters: {
+    endpoint: string;
+    index_name: string;
+    authentication: { type: string; key: string };
+  };
+} {
+  return {
+    type: "azure_search",
+    parameters: {
+      endpoint: assertEnvironmentVariable(
+        EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_ENDPOINT,
+      ),
+      index_name: assertEnvironmentVariable(
+        EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_INDEX,
+      ),
+      authentication: {
+        type: "api_key",
+        key: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_KEY),
+      },
+    },
+  };
+}

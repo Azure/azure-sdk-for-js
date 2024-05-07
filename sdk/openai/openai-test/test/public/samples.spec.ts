@@ -5,7 +5,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import { createClient, startRecorder } from "./utils/createClient.js";
-import { AzureOpenAI } from "openai";
+import OpenAI, { AzureOpenAI } from "openai";
 import {
   ChatCompletionMessageParam,
   ChatCompletionMessageToolCall,
@@ -15,7 +15,7 @@ import {
 
 describe("README samples", () => {
   let recorder: Recorder;
-  let client: AzureOpenAI;
+  let client: AzureOpenAI | OpenAI;
 
   afterEach(async function () {
     await recorder.stop();
@@ -25,7 +25,7 @@ describe("README samples", () => {
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
       recorder = await startRecorder(this.currentTest);
-      client = createClient("AzureAPIKey", "completions");
+      client = createClient("AAD", "completions");
     });
 
     it("Generate Chatbot Response", async function () {
@@ -181,7 +181,7 @@ describe("README samples", () => {
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
       recorder = await startRecorder(this.currentTest);
-      client = createClient("AzureAPIKey", "dalle");
+      client = createClient("AAD", "dalle");
     });
 
     it("Generate Batch Image", async function () {

@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { createClient, startRecorder } from "./utils/createClient.js";
 import { getDeployments, getModels } from "./utils/utils.js";
 import { AuthMethod } from "./utils/types.js";
-import { AzureOpenAI } from "openai";
+import OpenAI, { AzureOpenAI } from "openai";
 import { assertOpenAiError } from "./utils/asserts.js";
 
 describe("Embeddings", function () {
@@ -27,13 +27,13 @@ describe("Embeddings", function () {
     await recorder.stop();
   });
 
-  matrix([["AzureAPIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
+  matrix([["AAD", "OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
-      let client: AzureOpenAI;
+      let client: AzureOpenAI | OpenAI;
       let deploymentName: string;
 
       beforeEach(async function (this: Context) {
-        client = createClient(authMethod, "embedding");
+        client = createClient(authMethod, "completions");
         deploymentName = "text-embedding-ada-002";
       });
 

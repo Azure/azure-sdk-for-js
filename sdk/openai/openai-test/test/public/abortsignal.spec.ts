@@ -4,11 +4,11 @@
 import { Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
 import { isLiveMode } from "@azure-tools/test-recorder";
-import { AzureOpenAI } from "openai";
+import OpenAI, { AzureOpenAI } from "openai";
 import { createClient } from "./utils/createClient.js";
 
 describe("AbortSignal", () => {
-  let client: AzureOpenAI;
+  let client: AzureOpenAI | OpenAI;
 
   beforeEach(async function (this: Context) {
     // Streaming doesn't work in the record/playback because stream chunks are part of a single response
@@ -16,10 +16,10 @@ describe("AbortSignal", () => {
     if (!isLiveMode()) {
       this.skip();
     }
-    // TODO: Enable the client
     client = createClient("OpenAIKey", "completions");
   });
 
+  // TODO: Fix the tests
   it.skip("Abort signal test for streaming method", async function () {
     const messages = [
       {
@@ -31,7 +31,7 @@ describe("AbortSignal", () => {
       { role: "user", content: "What's the best way to train a parrot?" } as const,
     ];
 
-    const deploymentName = "gpt-35-turbo";
+    const deploymentName = "gpt-3.5-turbo";
     let currentMessage = "";
     try {
       const events = await client.chat.completions.create({

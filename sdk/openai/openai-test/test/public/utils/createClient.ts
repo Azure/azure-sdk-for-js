@@ -7,18 +7,15 @@ import {
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
-import { AzureClientOptions, AzureOpenAI } from "openai";
+import OpenAI, { AzureClientOptions, AzureOpenAI } from "openai";
 import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
 import {
   EnvironmentVariableNames,
-  EnvironmentVariableNamesForEmbedding,
   EnvironmentVariableNamesForCompletions,
   EnvironmentVariableNamesForDalle,
   EnvironmentVariableNamesForWhisper,
 } from "./envVars.js";
-
-export type AuthMethod = "AzureAPIKey" | "OpenAIKey" | "AAD" | "DummyAPIKey";
-type DeploymentType = "dalle" | "whisper" | "completions" | "embedding";
+import { AuthMethod, DeploymentType } from "./types.js";
 
 const scope = "https://cognitiveservices.azure.com/.default";
 
@@ -57,37 +54,24 @@ const environmentVariableNamesForResourceType = {
   dalle: EnvironmentVariableNamesForDalle,
   whisper: EnvironmentVariableNamesForWhisper,
   completions: EnvironmentVariableNamesForCompletions,
-  embedding: EnvironmentVariableNamesForEmbedding,
 };
 
 // TODO: move apiVersion to the matrix, potentially test latest preview & stable versions
 const apiVersion = "2024-02-15-preview";
 
-// TODO update client to Azure client
 export function createClient(
   authMethod: AuthMethod,
   resourceType: DeploymentType,
   clientOptions?: AzureClientOptions,
-): AzureOpenAI {
-  const { endpoint, azureApiKey } = getEndpointAndAPIKeyFromResourceType(resourceType);
-
+): AzureOpenAI | OpenAI {
+  const { endpoint, apiKey: azureApiKey } = getEndpointAndAPIKeyFromResourceType(resourceType);
   switch (authMethod) {
-    case "AzureAPIKey": {
-      return new AzureOpenAI({
-        apiKey: clientOptions?.apiKey ?? azureApiKey,
-        apiVersion,
-        endpoint,
-        dangerouslyAllowBrowser: true,
+    case "OpenAIKey": {
+      const openaiKey = assertEnvironmentVariable(EnvironmentVariableNames.OPENAI_KEY);
+      return new OpenAI({
+        apiKey: openaiKey,
         ...clientOptions,
       });
-    }
-    case "OpenAIKey": {
-      throw Error("client not enabled");
-      // TODO: enable OpenAI client
-      // return new OpenAI({
-      //   apiKey: clientOptions?.apiKey ?? azureApiKey,
-      //   ...clientOptions,}
-      // );
     }
     case "AAD": {
       const credential = new DefaultAzureCredential();
@@ -116,7 +100,7 @@ export function createClient(
 
 function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
   endpoint: string;
-  azureApiKey: string;
+  apiKey: string;
 } {
   switch (resourceType) {
     case "dalle":
@@ -124,7 +108,7 @@ function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
         endpoint: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].ENDPOINT_DALLE,
         ),
-        azureApiKey: assertEnvironmentVariable(
+        apiKey: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_DALLE,
         ),
       };
@@ -133,7 +117,7 @@ function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
         endpoint: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].ENDPOINT_WHISPER,
         ),
-        azureApiKey: assertEnvironmentVariable(
+        apiKey: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_WHISPER,
         ),
       };
@@ -142,17 +126,8 @@ function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
         endpoint: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].ENDPOINT_COMPLETIONS,
         ),
-        azureApiKey: assertEnvironmentVariable(
+        apiKey: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_COMPLETIONS,
-        ),
-      };
-    case "embedding":
-      return {
-        endpoint: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].ENDPOINT_EMBEDDINGS,
-        ),
-        azureApiKey: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_EMBEDDINGS,
         ),
       };
   }

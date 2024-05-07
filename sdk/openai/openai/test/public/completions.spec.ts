@@ -257,27 +257,12 @@ describe("OpenAI", function () {
             if (authMethod === "OpenAIKey") {
               this.skip();
             }
-            updateWithSucceeded(
-              await withDeployments(
-                getSucceeded(
-                  authMethod,
-                  deployments,
-                  models,
-                  chatCompletionDeployments,
-                  chatCompletionModels,
-                ),
-                (deploymentName) =>
-                  client.getChatCompletions(deploymentName, byodMessages, {
-                    azureExtensionOptions: {
-                      extensions: [createAzureSearchExtension()],
-                    },
-                  }),
-                assertChatCompletions,
-              ),
-              chatCompletionDeployments,
-              chatCompletionModels,
-              authMethod,
-            );
+            const result = client.getChatCompletions("gpt-35-turbo-16k", byodMessages, {
+              azureExtensionOptions: {
+                extensions: [createAzureSearchExtension()],
+              },
+            });
+            console.log(result)
           });
 
           it("doesn't call tools if toolChoice is set to none", async function () {

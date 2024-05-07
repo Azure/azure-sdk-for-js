@@ -8,7 +8,7 @@ import { createClient, startRecorder } from "./utils/createClient.js";
 import { assertChatCompletions } from "./utils/asserts.js";
 import { getModels } from "./utils/utils.js";
 import { AuthMethod } from "./utils/types.js";
-import OpenAI from "openai";
+import OpenAI, { AzureOpenAI } from "openai";
 
 describe("OpenAI", function () {
   let recorder: Recorder;
@@ -27,9 +27,9 @@ describe("OpenAI", function () {
     await recorder.stop();
   });
 
-  matrix([["AzureAPIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
+  matrix([["AAD", "OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
-      let client: OpenAI;
+      let client: AzureOpenAI | OpenAI;
 
       beforeEach(async function (this: Context) {
         client = createClient(authMethod, "completions");

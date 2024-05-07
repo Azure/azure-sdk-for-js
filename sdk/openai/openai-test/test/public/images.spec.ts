@@ -14,7 +14,7 @@ import {
 } from "./utils/utils.js";
 import { AuthMethod } from "./utils/types.js";
 import { assertImagesWithJSON, assertImagesWithURLs } from "./utils/asserts.js";
-import { AzureOpenAI } from "openai";
+import OpenAI, { AzureOpenAI } from "openai";
 
 describe("Images", function () {
   let recorder: Recorder;
@@ -29,9 +29,9 @@ describe("Images", function () {
     }
   });
 
-  matrix([["AzureAPIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
+  matrix([["AAD", "OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
-      let client: AzureOpenAI;
+      let client: AzureOpenAI | OpenAI;
 
       beforeEach(async function (this: Context) {
         client = createClient(authMethod, "dalle");

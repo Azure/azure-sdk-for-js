@@ -5,6 +5,16 @@ import { ChatCompletionTokenLogprob, CompletionChoice } from "openai/resources/i
 import { getImageDimensionsFromResponse } from "./images.js";
 import { stringToUint8Array } from "@azure/core-util";
 import { Recorder } from "@azure-tools/test-recorder";
+import {
+  ContentFilterBlocklistIdResult,
+  ContentFilterCitedDetectionResult,
+  ContentFilterDetectionResult,
+  ContentFilterErrorResults,
+  ContentFilterResult,
+  ContentFilterResultDetailsForPrompt,
+  ContentFilterResultsForChoice,
+  ContentFilterResultsForPrompt,
+} from "./types.js";
 
 export function assertChatCompletions(
   completions: OpenAI.Chat.Completions.ChatCompletion,
@@ -21,18 +31,44 @@ function assertChatCompletionsNoUsage(
   if (!allowEmptyChoices || completions.choices.length > 0) {
     assertNonEmptyArray(completions.choices, (choice) => assertChoice(choice, opts));
   }
+  assertChatCompletionsProperties(completions);
+}
+
+function assertChatCompletionsChunkNoUsage(
+  completions: OpenAI.Chat.Completions.ChatCompletionChunk,
+  { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions,
+): void {
+  if (!allowEmptyChoices || completions.choices.length > 0) {
+    assertNonEmptyArray(completions.choices, (choice) => assertChoice(choice, opts));
+  }
+  assertChatCompletionsProperties(completions);
+}
+
+function assertChatCompletionsProperties(
+  completions:
+    | Omit<OpenAI.Chat.Completions.ChatCompletion, "choices">
+    | Omit<OpenAI.Chat.Completions.ChatCompletionChunk, "choices">,
+): void {
+  assertContentFilterResultsForPrompt((completions as any).prompt_filter_results ?? []);
   assert.isNumber(completions.created);
   assert.isString(completions.id);
   assert.isString(completions.model);
   ifDefined(completions.system_fingerprint, assert.isString);
-  ifDefined(completions.usage, assertUsage);
+}
+
+export function assertChatCompletionsList(
+  list: Array<OpenAI.Chat.Completions.ChatCompletionChunk>,
+  options: ChatCompletionTestOptions = {},
+): void {
+  assert.isNotEmpty(list);
+  list.map((item) => assertChatCompletionsChunkNoUsage(item, { ...options, stream: true }));
 }
 
 export function assertCompletions(completions: OpenAI.Completions.Completion): void {
   assertCompletionsNoUsage(completions);
   ifDefined(completions.usage, assertUsage);
   // TODO: add content filter results assertion
-  // assertContentFilterResultsForPrompt(completions.promptFilterResults ?? []);
+  assertContentFilterResultsForPrompt((completions as any).prompt_filter_results ?? []);
 }
 
 function assertCompletionsNoUsage(
@@ -53,21 +89,93 @@ function assertCompletionsChoice(choice: CompletionChoice): void {
   ifDefined(choice.logprobs, assertLogprobs);
   ifDefined(choice.finish_reason, assert.isString);
   assert.isString(choice.text);
-  // TODO: add content filter results assertion
-  // ifDefined(choice.contentFilterResults, assertContentFilterResultsForChoice);
+  ifDefined((choice as any).content_filter_results, assertContentFilterResultsForChoice);
+}
+
+function assertContentFilterResultsForChoice(cfr: ContentFilterResultsForChoice): void {
+  if (cfr.error) {
+    assertContentFilterErrorResults(cfr);
+  } else {
+    ifDefined(cfr.hate, assertContentFilterResult);
+    ifDefined(cfr.self_harm, assertContentFilterResult);
+    ifDefined(cfr.sexual, assertContentFilterResult);
+    ifDefined(cfr.violence, assertContentFilterResult);
+    ifDefined(cfr.profanity, assertContentFilterResult);
+    ifDefined(cfr.custom_blocklists, assertContentFilterBlocklistIdResult);
+    ifDefined(cfr.protected_material_code, assertContentFilterCitedDetectionResult);
+    ifDefined(cfr.protected_material_text, assertContentFilterDetectionResult);
+  }
+}
+
+function assertContentFilterResultsForPrompt(cfr: ContentFilterResultsForPrompt[]): void {
+  assert.isArray(cfr);
+  for (const item of cfr) {
+    assertContentFilterResultsForPromptItem(item);
+  }
+}
+
+function assertContentFilterCitedDetectionResult(val: ContentFilterCitedDetectionResult): void {
+  assert.isBoolean(val.detected);
+  assert.isBoolean(val.filtered);
+  assert.isString(val.license);
+  ifDefined(val.url, assert.isString);
+}
+
+function assertContentFilterResultsForPromptItem(cfr: ContentFilterResultsForPrompt): void {
+  assert.isNumber(cfr.prompt_index);
+  assertContentFilterResultDetailsForPrompt(cfr.content_filter_results);
+}
+
+function assertContentFilterResultDetailsForPrompt(cfr: ContentFilterResultDetailsForPrompt): void {
+  if (cfr.error) {
+    assertContentFilterErrorResults(cfr);
+  } else {
+    ifDefined(cfr.hate, assertContentFilterResult);
+    ifDefined(cfr.self_harm, assertContentFilterResult);
+    ifDefined(cfr.sexual, assertContentFilterResult);
+    ifDefined(cfr.violence, assertContentFilterResult);
+    ifDefined(cfr.profanity, assertContentFilterDetectionResult);
+    ifDefined(cfr.jailbreak, assertContentFilterDetectionResult);
+    ifDefined(cfr.custom_blocklists, (arr) =>
+      assertArray(arr, assertContentFilterBlocklistIdResult),
+    );
+  }
+}
+
+function assertContentFilterErrorResults(cfr: ContentFilterErrorResults): void {
+  assert.isDefined(cfr.error);
+  assert.isDefined(cfr.error.code);
+  assert.isDefined(cfr.error.message);
+}
+
+function assertContentFilterResult(val: ContentFilterResult): void {
+  assert.isBoolean(val.filtered);
+  assert.isString(val.severity);
+}
+
+function assertContentFilterDetectionResult(val: ContentFilterDetectionResult): void {
+  assert.isBoolean(val.detected);
+  assert.isBoolean(val.filtered);
+}
+
+function assertContentFilterBlocklistIdResult(val: ContentFilterBlocklistIdResult): void {
+  assert.isString(val.id);
+  assert.isBoolean(val.filtered);
 }
 
 function assertChoice(
-  choice: OpenAI.Chat.Completions.ChatCompletion.Choice,
+  choice:
+    | OpenAI.Chat.Completions.ChatCompletion.Choice
+    | OpenAI.Chat.Completions.ChatCompletionChunk.Choice,
   options: ChatCompletionTestOptions,
 ): void {
   const stream = options.stream;
   if (stream) {
-    // assertMessage(choice.delta, options);
-    assert.isUndefined(choice.message);
+    assertMessage((choice as any).delta, options);
+    assert.isUndefined((choice as any).message);
   } else {
-    assertMessage(choice.message, options);
-    // assert.isUndefined(choice.delta);
+    assertMessage((choice as any).message, options);
+    assert.isUndefined((choice as any).delta);
   }
   assert.isNumber(choice.index);
   // TODO: enable the checks
@@ -179,13 +287,16 @@ function assertToolCall(
 }
 
 export function assertNonEmptyArray<T>(val: T[], validate: (x: T) => void): void {
-  assert.isArray(val);
   assert.isNotEmpty(val);
+  assertArray(val, validate);
+}
+
+function assertArray<T>(val: T[], validate: (x: T) => void): void {
+  assert.isArray(val);
   for (const x of val) {
     validate(x);
   }
 }
-
 export function assertImagesWithURLs(
   image: OpenAI.Images.ImagesResponse,
   height: number,

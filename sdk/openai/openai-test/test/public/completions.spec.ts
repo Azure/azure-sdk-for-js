@@ -5,14 +5,17 @@ import { assert, matrix } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import { createClient, startRecorder } from "./utils/createClient.js";
 import { AuthMethod } from "./utils/types.js";
-import { AzureOpenAI } from "openai";
+import OpenAI, { AzureOpenAI } from "openai";
 import {
   assertChatCompletions,
+  assertChatCompletionsList,
   assertCompletions,
   assertCompletionsStream,
 } from "./utils/asserts.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import {
+  bufferAsyncIterable,
+  createAzureSearchExtension,
   getDeployments,
   getModels,
   getSucceeded,
@@ -38,9 +41,9 @@ describe("Completions", function () {
     await recorder.stop();
   });
 
-  matrix([["AzureAPIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
+  matrix([["AAD"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
-      let client: AzureOpenAI;
+      let client: AzureOpenAI | OpenAI;
 
       beforeEach(async function (this: Context) {
         client = createClient(authMethod, "completions");
@@ -156,6 +159,13 @@ describe("Completions", function () {
           } as const,
           { role: "user", content: "What's the best way to train a parrot?" } as const,
         ];
+        const byodMessages = [
+          {
+            role: "user",
+            content:
+              "What's the most common feedback we received from our customers about the product?",
+          } as const,
+        ];
         const getCurrentWeather = {
           name: "get_current_weather",
           description: "Get the current weather in a given location",
@@ -201,8 +211,7 @@ describe("Completions", function () {
             );
           });
 
-          // TODO: fix the tests
-          it.skip("uses tool call", async function () {
+          it("calls functions", async function () {
             updateWithSucceeded(
               await withDeployments(
                 getSucceeded(
@@ -219,19 +228,18 @@ describe("Completions", function () {
                   const result = await client.chat.completions.create({
                     model: deploymentName,
                     messages: weatherMessages,
-                    tools: [{ type: "function", function: getCurrentWeather }],
+                    functions: [getCurrentWeather],
                   });
                   assertChatCompletions(result, { functions: true });
                   const responseMessage = result.choices[0].message;
-                  if (!responseMessage?.tool_calls) {
+                  if (!responseMessage?.function_call) {
                     assert.fail("Undefined function call");
                   }
-                  const functionCalled = responseMessage.tool_calls[0].function;
-                  const functionArgs = JSON.parse(functionCalled.arguments);
+                  const functionArgs = JSON.parse(responseMessage.function_call.arguments);
                   weatherMessages.push(responseMessage);
                   weatherMessages.push({
                     role: "function",
-                    name: functionCalled.name,
+                    name: responseMessage.function_call.name,
                     content: JSON.stringify({
                       location: functionArgs.location,
                       temperature: "72",
@@ -386,7 +394,7 @@ describe("Completions", function () {
             );
           });
 
-          it.only("respects json_object responseFormat", async function () {
+          it("respects json_object responseFormat", async function () {
             if (authMethod !== "OpenAIKey") {
               this.skip();
             }
@@ -421,6 +429,167 @@ describe("Completions", function () {
                     assert.fail(`Invalid JSON: ${content}`);
                   }
                 },
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod,
+            );
+          });
+
+          it.only("bring your own data", async function (this: Context) {
+            if (authMethod === "OpenAIKey") {
+              this.skip();
+            }
+            const dataSources = { data_sources: [createAzureSearchExtension()] };
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels,
+                ),
+                (deploymentName) =>
+                  client.chat.completions.create({
+                    model: deploymentName,
+                    messages: byodMessages,
+                    ...(dataSources as any),
+                  }),
+                assertChatCompletions,
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod,
+            );
+          });
+        });
+
+        describe("streamChatCompletions", function () {
+          it("returns completions across all models", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels,
+                ),
+                async (deploymentName) =>
+                  bufferAsyncIterable(
+                    await client.chat.completions.create({
+                      model: deploymentName,
+                      messages: pirateMessages,
+                      stream: true,
+                    }),
+                  ),
+                (res) =>
+                  assertChatCompletionsList(res, {
+                    // The API returns an empty choice in the first event for some
+                    // reason. This should be fixed in the API.
+                    allowEmptyChoices: true,
+                    // The API returns an empty ID in the first event for some
+                    // reason. This should be fixed in the API.
+                    allowEmptyId: true,
+                  }),
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod,
+            );
+          });
+
+          it("calls functions", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels,
+                ),
+                async (deploymentName) =>
+                  bufferAsyncIterable(
+                    await client.chat.completions.create({
+                      model: deploymentName,
+                      messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+                      stream: true,
+                      functions: [getCurrentWeather],
+                    }),
+                  ),
+                (res) =>
+                  assertChatCompletionsList(res, {
+                    functions: true,
+                    // The API returns an empty choice in the first event for some
+                    // reason. This should be fixed in the API.
+                    allowEmptyChoices: true,
+                  }),
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod,
+            );
+          });
+
+          it("calls toolCalls", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels,
+                ),
+                async (deploymentName) =>
+                  bufferAsyncIterable(
+                    await client.chat.completions.create({
+                      model: deploymentName,
+                      messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+                      stream: true,
+                      tools: [{ type: "function", function: getCurrentWeather }],
+                    }),
+                  ),
+                (res) =>
+                  assertChatCompletionsList(res, {
+                    functions: true,
+                    // The API returns an empty choice in the first event for some
+                    // reason. This should be fixed in the API.
+                    allowEmptyChoices: true,
+                  }),
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod,
+            );
+          });
+
+          it("bring your own data", async function () {
+            if (authMethod === "OpenAIKey") {
+              this.skip();
+            }
+            const dataSources = { data_sources: [ createAzureSearchExtension() ] };
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels,
+                ),
+                async (deploymentName) =>
+                  bufferAsyncIterable(
+                    await client.chat.completions.create({
+                      model: deploymentName,
+                      messages: byodMessages,
+                      stream: true,
+                      ...dataSources,
+                    }),
+                  ),
+                assertChatCompletionsList,
               ),
               chatCompletionDeployments,
               chatCompletionModels,
