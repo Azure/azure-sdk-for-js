@@ -39,7 +39,7 @@ import { createTestComputeManagementClient } from "./utils/recordedClient";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
