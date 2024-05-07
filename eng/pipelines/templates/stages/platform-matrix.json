@@ -4,10 +4,6 @@
   },
   "matrix": {
     "Agent": {
-      "windows-2022": {
-        "OSVmImage": "env:WINDOWSVMIMAGE",
-        "Pool": "env:WINDOWSPOOL"
-      },
       "ubuntu-20.04": {
         "OSVmImage": "env:LINUXVMIMAGE",
         "Pool": "env:LINUXPOOL"
@@ -26,30 +22,6 @@
     "TestResultsFiles": "**/test-results.xml"
   },
   "include": [
-    {
-      "Agent": {
-        "windows-2022": {
-          "OSVmImage": "env:WINDOWSVMIMAGE",
-          "Pool": "env:WINDOWSPOOL"
-        }
-      },
-      "Scenario": {
-        "coverage": {
-          "TestType": "node",
-          "TestResultsFiles": "**/test-results.xml",
-          "PublishCodeCoverage": "true"
-        },
-        "sample": {
-          "TestType": "sample",
-          "TestResultsFiles": "**/test-results.xml"
-        },
-        "browser": {
-          "TestType": "browser",
-          "TestResultsFiles": "**/test-results.browser.xml"
-        }
-      },
-      "NodeTestVersion": "18.x"
-    },
     {
       "Agent": {
         "ubuntu-20.04": {
