@@ -947,23 +947,25 @@ export interface CreateLivenessWithVerifySessionBodyParam {
 export type CreateLivenessWithVerifySessionContent = FormData | Array<CreateLivenessWithVerifySessionContentParametersPartDescriptor | CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor>;
 
 // @public (undocumented)
-export interface CreateLivenessWithVerifySessionContentParametersPartDescriptor {
+export class CreateLivenessWithVerifySessionContentParametersPartDescriptor {
+    constructor(descriptor: ICreateLivenessWithVerifySessionContentParametersPartDescriptor);
     // (undocumented)
     body: CreateLivenessSessionContentForMultipart;
     // (undocumented)
-    name: "Parameters";
+    get name(): string;
 }
 
 // @public (undocumented)
-export interface CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor {
+export class CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor {
+    constructor(descriptor: ICreateLivenessWithVerifySessionContentVerifyImagePartDescriptor);
     // (undocumented)
     body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
     // (undocumented)
-    contentType?: string;
+    get contentType(): string;
     // (undocumented)
-    filename?: string;
+    filename: string;
     // (undocumented)
-    name: "VerifyImage";
+    get name(): string;
 }
 
 // @public (undocumented)
@@ -1731,11 +1733,11 @@ export interface DetectFromUrlQueryParam {
 
 // @public (undocumented)
 export interface DetectFromUrlQueryParamProperties {
-    detectionModel?: DetectionModel;
+    detectionModel: DetectionModel;
     faceIdTimeToLive?: number;
-    recognitionModel?: RecognitionModel;
+    recognitionModel: RecognitionModel;
     returnFaceAttributes?: FaceAttributeType[];
-    returnFaceId?: boolean;
+    returnFaceId: boolean;
     returnFaceLandmarks?: boolean;
     returnRecognitionModel?: boolean;
 }
@@ -1759,11 +1761,11 @@ export interface DetectQueryParam {
 
 // @public (undocumented)
 export interface DetectQueryParamProperties {
-    detectionModel?: DetectionModel;
+    detectionModel: DetectionModel;
     faceIdTimeToLive?: number;
-    recognitionModel?: RecognitionModel;
+    recognitionModel: RecognitionModel;
     returnFaceAttributes?: FaceAttributeType[];
-    returnFaceId?: boolean;
+    returnFaceId: boolean;
     returnFaceLandmarks?: boolean;
     returnRecognitionModel?: boolean;
 }
@@ -1803,6 +1805,44 @@ export interface FaceAttributesOutput {
 
 // @public
 export type FaceAttributeType = string | "headPose" | "glasses" | "occlusion" | "accessories" | "blur" | "exposure" | "noise" | "mask" | "qualityForRecognition" | "age" | "smile" | "facialHair" | "hair";
+
+// @public (undocumented)
+export enum FaceAttributeTypeDetection01 {
+    // (undocumented)
+    ACCESSORIES = "accessories",
+    // (undocumented)
+    BLUR = "blur",
+    // (undocumented)
+    EXPOSURE = "exposure",
+    // (undocumented)
+    GLASSES = "glasses",
+    // (undocumented)
+    HEAD_POSE = "headPose",
+    // (undocumented)
+    NOISE = "noise",
+    // (undocumented)
+    OCCLUSION = "occlusion"
+}
+
+// @public (undocumented)
+export enum FaceAttributeTypeDetection03 {
+    // (undocumented)
+    HEAD_POSE = "headPose",
+    // (undocumented)
+    MASK = "mask"
+}
+
+// @public (undocumented)
+export enum FaceAttributeTypeRecognition03 {
+    // (undocumented)
+    QUALITY_FOR_RECOGNITION = "qualityForRecognition"
+}
+
+// @public (undocumented)
+export enum FaceAttributeTypeRecognition04 {
+    // (undocumented)
+    QUALITY_FOR_RECOGNITION = "qualityForRecognition"
+}
 
 // @public (undocumented)
 export type FaceClient = Client & {
@@ -3309,6 +3349,26 @@ export interface HeadPoseOutput {
     pitch: number;
     roll: number;
     yaw: number;
+}
+
+// @public (undocumented)
+export interface ICreateLivenessWithVerifySessionContentParametersPartDescriptor {
+    // (undocumented)
+    body: CreateLivenessSessionContentForMultipart;
+    // (undocumented)
+    name: "Parameters";
+}
+
+// @public (undocumented)
+export interface ICreateLivenessWithVerifySessionContentVerifyImagePartDescriptor {
+    // (undocumented)
+    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+    // (undocumented)
+    contentType?: string;
+    // (undocumented)
+    filename?: string;
+    // (undocumented)
+    name: "VerifyImage";
 }
 
 // @public
