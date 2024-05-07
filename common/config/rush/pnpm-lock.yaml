@@ -23257,7 +23257,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-89z8WrK5sAcJlR3vbpLawQeLYOLg+u0mh8evusY6ZLnWT+0rEzVdpT6NV7qpP7eqOCW5O7Ea9YizWZyH8vngQg==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-cpaweq7Mdi0y0Bz0TQtolnE8iHiUiMt7xXj3Tvu9Ff7TfN11fCLX+xHEWSjLnYkbMct3tOaV6e2SL0Suy8AYGA==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -23271,6 +23271,7 @@ packages:
       '@types/sinon': 17.0.3
       '@vitest/browser': 1.6.0(playwright@1.43.1)(vitest@1.6.0)
       '@vitest/coverage-v8': 1.6.0(vitest@1.6.0)
+      '@vitest/expect': 1.6.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       chai-exclude: 2.1.0(chai@4.3.10)

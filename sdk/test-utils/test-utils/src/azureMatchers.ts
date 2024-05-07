@@ -4,15 +4,42 @@
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { supportsTracing } from "./tracing/azureTraceMatcher.js";
 
-/**
- * The result of the assertion test.
- */
-export interface ExpectationResult {
-  /** Whether the action passes. */
-  pass: boolean;
-  /** The message for the expectation. */
-  message: () => string;
+export interface MatcherState {
+  utils: MatcherUtils;
 }
+
+export interface MatcherUtils {
+  matcherHint(
+    matcherName: string,
+    received?: string,
+    expected?: string,
+    options?: MatcherHintOptions,
+  ): string;
+  printReceived(object: unknown): string;
+  printExpected(object: unknown): string;
+}
+
+export type MatcherHintColor = (arg: string) => string;
+
+export type MatcherHintOptions = {
+  comment?: string;
+  expectedColor?: MatcherHintColor;
+  isDirectExpectCall?: boolean;
+  isNot?: boolean;
+  promise?: string;
+  receivedColor?: MatcherHintColor;
+  secondArgument?: string;
+  secondArgumentColor?: MatcherHintColor;
+};
+
+export interface SyncExpectationResult {
+  pass: boolean;
+  message(): string;
+}
+
+export type AsyncExpectationResult = Promise<SyncExpectationResult>;
+
+export type ExpectationResult = SyncExpectationResult | AsyncExpectationResult;
 
 /**
  * The supports Tracing function does the verification of whether the core-tracing is supported correctly with the client method
@@ -23,18 +50,35 @@ export interface ExpectationResult {
  * @param thisArg - optional this parameter for the callback
  */
 export async function toSupportTracing<
+  ThisState extends MatcherState,
   Options extends { tracingOptions?: OperationTracingOptions },
   Callback extends (options: Options) => Promise<unknown>,
 >(
+  this: ThisState,
   callback: Callback,
   expectedSpanNames: string[],
   options?: Options,
   thisArg?: ThisParameterType<Callback>,
-): Promise<ExpectationResult> {
-  const result = await supportsTracing(callback, expectedSpanNames, options, thisArg);
-  // TODO: The message should contain expected and actual values.
+): AsyncExpectationResult {
+  const matcherName = "toSupportTracing";
+  const { pass, message, actual, expected } = await supportsTracing(
+    callback,
+    expectedSpanNames,
+    options,
+    thisArg,
+  );
+  const { matcherHint, printReceived, printExpected } = this.utils;
+
   return {
-    pass: result.pass,
-    message: () => result.message ?? "Assertion passed.",
+    pass: pass,
+    message: () =>
+      pass
+        ? matcherHint(matcherName) +
+          "\n\n" +
+          message +
+          `Expected ${printReceived(actual)} to equal ${printExpected(expected)}.`
+        : matcherHint(matcherName) +
+          "\n\n" +
+          `Expected spans to be generated: ${printExpected(expectedSpanNames)}`,
   };
 }

@@ -5,9 +5,11 @@ import { OperationTracingOptions } from "@azure/core-tracing";
 
 interface AzureMatchers<R> extends Record<string, any> {
   toSupportTracing<
+    ThisState extends MatcherState,
     Options extends { tracingOptions?: OperationTracingOptions },
     Callback extends (options: Options) => Promise<unknown>,
   >(
+    this: ThisState,
     expectedSpanNames: string[],
     options?: { tracingOptions?: OperationTracingOptions },
     thisArg?: ThisParameterType<Callback>,
