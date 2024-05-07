@@ -34,16 +34,8 @@ steps:
   - ${{ if eq(parameters.TestProxy, true) }}:
     - template: /eng/common/testproxy/test-proxy-tool.yml
 
-  # As of npm v7, "npm install -g" no longer installs local dependencies as part of the global install.
-  # As a workaround, we run "npm install --prod" before "npm install -g".
-  # https://github.com/npm/cli/issues/2968
-  - pwsh: npm install --prod; npm install -g
-    workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
-    displayName: Install dev-tool
-    condition: and(succeeded(), eq(variables['TestType'], 'browser'))
-
   - pwsh: |
-      Start-Process "npx" -ArgumentList "dev-tool run start-browser-relay" -NoNewWindow
+      Start-Process "node" -ArgumentList "launch.js run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
       for ($i = 0; $i -lt 10; $i++) {
           try {
               Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
