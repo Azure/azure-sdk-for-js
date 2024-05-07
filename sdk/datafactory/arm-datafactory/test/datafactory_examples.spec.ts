@@ -123,7 +123,7 @@ describe("Datafactory test", () => {
           connectionString: {
             type: "SecureString",
             value:
-              "DefaultEndpointsProtocol=https;AccountName=examplestorageaccount;AccountKey=<storage key>"
+              "DefaultEndpointsProtocol=https;AccountName=examplestorageaccount;"
           }
         }
       }
