@@ -3,7 +3,7 @@
 /* eslint-disable eqeqeq */
 
 import { MessageHeader as RheaMessageHeader } from "rhea-promise";
-import { logger } from "./log";
+import { logger } from "./log.js";
 
 /**
  * Describes the defined set of standard header properties of the message.

@@ -1,14 +1,11 @@
 # Release History
 
-## 4.2.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 4.3.0 (Unreleased)
 
 ### Other Changes
+
+- Moved to ESM core with builds for ESM, CommonJS, React-Native and Browser.
+- Moved unit tests from mocha to vitest.
 
 ## 4.2.2 (2024-05-02)
 

@@ -11,6 +11,7 @@ export const paths = {
   stop: "/stop",
   admin: "/admin",
   addSanitizer: "/addSanitizer",
+  addSanitizers: "/addSanitizers",
   info: "/info",
   available: "/available",
   active: "/active",

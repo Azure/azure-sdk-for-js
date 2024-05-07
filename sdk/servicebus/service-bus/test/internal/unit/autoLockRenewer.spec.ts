@@ -5,7 +5,7 @@ import { MessagingError } from "@azure/core-amqp";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 import * as sinon from "sinon";
 import { LockRenewer } from "../../../src/core/autoLockRenewer";
 import { ManagementClient, SendManagementRequestOptions } from "../../../src/core/managementClient";
