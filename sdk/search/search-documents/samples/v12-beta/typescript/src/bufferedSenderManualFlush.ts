@@ -6,11 +6,11 @@
  */
 
 import {
-  AzureKeyCredential,
-  GeographyPoint,
-  SearchClient,
-  SearchIndexClient,
-  SearchIndexingBufferedSender,
+    AzureKeyCredential,
+    GeographyPoint,
+    SearchClient,
+    SearchIndexClient,
+    SearchIndexingBufferedSender
 } from "@azure/search-documents";
 import { Hotel } from "./interfaces";
 import { createIndex, delay, documentKeyRetriever, WAIT_TIME } from "./setup";
