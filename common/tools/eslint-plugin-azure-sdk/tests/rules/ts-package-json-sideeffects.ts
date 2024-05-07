@@ -3,10 +3,10 @@
 
 /**
  * @file Testing the ts-package-json-sideeffects rule.
- * @author Arpan Laha
+ *
  */
 
-import { RuleTester } from "eslint";
+import { createRuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-package-json-sideeffects";
 
 //------------------------------------------------------------------------------
@@ -239,13 +239,7 @@ const examplePackageBad = `{
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-package-json-sideeffects", rule, {
   valid: [
