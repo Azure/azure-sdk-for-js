@@ -3,7 +3,7 @@
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { isModuleProject } from "../../util/resolveProject";
-import { startRelayServer } from "../../util/testCredentialRelayServer";
+import { isRelayAlive, startRelayServer } from "../../util/browserRelayServer";
 import { runTestsWithProxyTool } from "../../util/testUtils";
 
 export const commandInfo = makeCommandInfo(
@@ -23,7 +23,8 @@ export default leafCommand(commandInfo, async (options) => {
     ? options["--"].join(" ")
     : `${(await isModuleProject()) ? "karma.conf.cjs" : ""} --single-run`;
 
-  const stopRelay = options["relay-server"] ? startRelayServer() : undefined;
+  const stopRelay =
+    options["relay-server"] && !(await isRelayAlive()) ? startRelayServer() : undefined;
 
   try {
     const result = await runTestsWithProxyTool({

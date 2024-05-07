@@ -35,6 +35,10 @@ function buildServer(app: Express) {
     next();
   });
 
+  app.get("/health", (_req, res) => {
+    res.status(204).send();
+  });
+
   // Endpoint for creating a new credential
   app.put("/credential", (req, res) => {
     const id = randomUUID();
@@ -74,6 +78,17 @@ function buildServer(app: Express) {
   });
 }
 
+export async function isRelayAlive(options: TestCredentialServerOptions = {}): Promise<boolean> {
+  try {
+    const res = await fetch(
+      `http://${options.listenHost ?? "localhost"}:${options.port ?? 4895}/health`,
+    );
+    return res.ok;
+  } catch (e) {
+    return false;
+  }
+}
+
 /**
  * Create and start the relay server used by test credential to provide credentials to the browser tests.
  * @param options Options for the relay server.
@@ -83,6 +98,6 @@ export function startRelayServer(options: TestCredentialServerOptions = {}): () 
   const app = express();
   buildServer(app);
 
-  const server = app.listen(options.port ?? 4895);
+  const server = app.listen(options.port ?? 4895, options.listenHost ?? "localhost");
   return () => server.close();
 }
