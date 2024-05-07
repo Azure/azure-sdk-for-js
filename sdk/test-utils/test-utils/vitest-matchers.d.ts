@@ -8,7 +8,6 @@ interface AzureMatchers<R> extends Record<string, any> {
     Options extends { tracingOptions?: OperationTracingOptions },
     Callback extends (options: Options) => Promise<unknown>,
   >(
-    this: ThisState,
     expectedSpanNames: string[],
     options?: { tracingOptions?: OperationTracingOptions },
     thisArg?: ThisParameterType<Callback>,
