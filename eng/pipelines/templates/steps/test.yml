@@ -36,7 +36,7 @@ steps:
 
 
   - pwsh: |
-      Start-Process "npx" -ArgumentList "dev-tool", "run", "start-browser-relay"
+      Start-Process "npx" -ArgumentList "dev-tool run start-browser-relay" -NoNewWindow -PassThru
       for ($i = 0; $i -lt 10; $i++) {
           try {
               Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
@@ -46,6 +46,8 @@ steps:
               Start-Sleep 6
           }
       }
+      Write-Error "Could not connect to browser credential relay."
+      exit 1
     displayName: "Start browser credential relay"
     condition: and(succeeded(), eq(variables['TestType'], 'browser'))
   
