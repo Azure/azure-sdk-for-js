@@ -7,15 +7,15 @@ import { AuthenticationError, CredentialUnavailableError } from "../errors";
 import { credentialLogger } from "../util/logging";
 import { checkTenantId } from "../util/tenantIdUtils";
 import {
-  createDefaultHttpClient,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { AzurePipelinesCredentialOptions } from "./azurePipelinesCredentialOptions";
+import { IdentityClient } from "../client/identityClient";
 
 const credentialName = "AzurePipelinesCredential";
 const logger = credentialLogger(credentialName);
-const OIDC_API_VERSION = "7.1-preview.1";
+const OIDC_API_VERSION = "7.1";
 
 /**
  * This credential is designed to be used in Azure Pipelines with service connections
@@ -23,6 +23,7 @@ const OIDC_API_VERSION = "7.1-preview.1";
  */
 export class AzurePipelinesCredential implements TokenCredential {
   private clientAssertionCredential: ClientAssertionCredential | undefined;
+  private identityClient: IdentityClient;
 
   /**
    * AzurePipelinesCredential supports Federated Identity on Azure Pipelines through Service Connections.
@@ -42,7 +43,7 @@ export class AzurePipelinesCredential implements TokenCredential {
         `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required parameters.`
       );
     }
-
+    this.identityClient = new IdentityClient(options);
     checkTenantId(logger, tenantId);
     logger.info(
       `Invoking AzurePipelinesCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
@@ -105,10 +106,7 @@ export class AzurePipelinesCredential implements TokenCredential {
     systemAccessToken: string
   ): Promise<string> {
     logger.info("Requesting OIDC token from Azure Pipelines...");
-    logger.info(oidcRequestUrl);
-
-    const httpClient = createDefaultHttpClient();
-
+    logger.info(oidcRequestUrl);   
     const request = createPipelineRequest({
       url: oidcRequestUrl,
       method: "POST",
@@ -117,8 +115,7 @@ export class AzurePipelinesCredential implements TokenCredential {
         Authorization: `Bearer ${systemAccessToken}`,
       }),
     });
-
-    const response = await httpClient.sendRequest(request);
+    const response = await this.identityClient.sendRequest(request)
     const text = response.bodyAsText;
     if (!text) {
       logger.error(
