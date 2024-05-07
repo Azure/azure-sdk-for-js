@@ -75,6 +75,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           context,
           sortOrders,
           this.vectorSearchBufferSize,
+          partitionedQueryExecutionInfo.queryInfo.offset,
         );
       } else {
         this.endpoint = new NonStreamingOrderByDistinctEndpointComponent(
@@ -210,10 +211,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           return { result: temp, headers: this.fetchMoreRespHeaders };
         }
       } else {
-        if (Object.keys(item).length !== 0) {
-          // discard empty JSON and append the result
-          this.fetchBuffer.push(item);
-        }
+        this.fetchBuffer.push(item);
         if (this.fetchBuffer.length >= this.pageSize) {
           // fetched enough results
           const temp = this.fetchBuffer.slice(0, this.pageSize);
@@ -270,7 +268,11 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           operationOptions && operationOptions.ruCapPerOperation
             ? operationOptions.ruCapPerOperation
             : Constants.NonStreamingQueryDefaultRUThreshold;
-        if (Object.keys(item).length !== 0) this.fetchBuffer.push(item);
+        if (typeof item !== "object") {
+          this.fetchBuffer.push(item);
+        } else if (Object.keys(item).length !== 0) {
+          this.fetchBuffer.push(item);
+        }
         if (this.fetchBuffer.length >= this.pageSize) {
           // fetched enough results
           const temp = this.fetchBuffer.slice(0, this.pageSize);

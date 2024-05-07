@@ -3,7 +3,6 @@
 import assert from "assert";
 import { ExecutionContext } from "../../../../src/queryExecutionContext";
 import { NonStreamingOrderByEndpointComponent } from "../../../../src/queryExecutionContext/EndpointComponent/NonStreamingOrderByEndpointComponent";
-import { NonStreamingOrderByResult } from "../../../../src/queryExecutionContext/nonStreamingOrderByResult";
 
 describe("NonStreamingOrderByEndpointComponent", () => {
   it("should initialize correctly with sort orders and priority queue buffer size", () => {
@@ -22,48 +21,44 @@ describe("NonStreamingOrderByEndpointComponent", () => {
   });
 
   it("should handle nextItem method correctly", async () => {
+    let id = 1;
+    let item = 1;
     const mockExecutionContext: ExecutionContext = {
-      hasMoreResults: () => true,
-      nextItem: async () => ({ result: { payload: { id: 1 } }, headers: {} }),
+      hasMoreResults: () => {
+        if (id === 100) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      nextItem: async () => ({
+        result: {
+          orderByItems: [
+            {
+              item: item++,
+            },
+          ],
+          payload: { id: id++ },
+        },
+        headers: {},
+      }),
     } as ExecutionContext;
-    const sortOrders = ["Ascending", "Descending"];
+    const sortOrders = ["Ascending"];
     const component = new NonStreamingOrderByEndpointComponent(mockExecutionContext, sortOrders);
 
-    // Enqueue an item
-    component["nonStreamingOrderByPQ"].enqueue({
-      _rid: "9TY+AKa0T5MDAAAAAAAAAA==",
-      orderByItems: [
-        {
-          item: 26,
-        },
-      ],
-      payload: {
-        id: "3",
-      },
-    } as unknown as NonStreamingOrderByResult);
-
-    // Dequeue the item
-    const response = await component.nextItem({} as any);
-    assert.deepStrictEqual(response.result, { id: 3 });
-
+    let count = 1;
+    let result_id = 1;
+    // call nextItem, for first 100 items it will give empty result
+    while (component.hasMoreResults()) {
+      const response = await component.nextItem({} as any);
+      if (count < 100) {
+        assert.deepStrictEqual(response.result, {});
+      } else {
+        assert.deepStrictEqual(response.result, { id: result_id++ });
+      }
+      count++;
+    }
     // Queue should be empty after dequeueing
     assert.equal(component["nonStreamingOrderByPQ"].size(), 0);
-  });
-
-  it("should handle hasMoreResults method correctly", () => {
-    // const mockExecutionContext: ExecutionContext = {
-    //   hasMoreResults: jest.fn().mockReturnValue(false),
-    // } as ExecutionContext;
-    // const sortOrders = ["field1", "field2"];
-    // const component = new NonStreamingOrderByEndpointComponent(mockExecutionContext, sortOrders);
-    // // No more results in execution context and queue is empty
-    // expect(component.hasMoreResults()).toBe(false);
-    // // Mock execution context has more results but queue is empty
-    // mockExecutionContext.hasMoreResults = jest.fn().mockReturnValue(true);
-    // expect(component.hasMoreResults()).toBe(true);
-    // // Mock execution context has no more results but queue is not empty
-    // mockExecutionContext.hasMoreResults = jest.fn().mockReturnValue(false);
-    // component["nonStreamingOrderByPQ"].enqueue({} as NonStreamingOrderByResult);
-    // expect(component.hasMoreResults()).toBe(true);
   });
 });
