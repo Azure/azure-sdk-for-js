@@ -47,7 +47,7 @@ steps:
           }
       }
     displayName: "Start browser credential relay"
-    condition: and(succeeded(), eq(variables['TestType']), 'browser')
+    condition: and(succeeded(), eq(variables['TestType'], 'browser')
   
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
