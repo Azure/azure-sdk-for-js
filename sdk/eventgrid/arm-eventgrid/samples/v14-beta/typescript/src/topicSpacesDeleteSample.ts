@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete an existing topic space.
  *
  * @summary Delete an existing topic space.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/TopicSpaces_Delete.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/TopicSpaces_Delete.json
  */
 async function topicSpacesDelete() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function topicSpacesDelete() {
   const result = await client.topicSpaces.beginDeleteAndWait(
     resourceGroupName,
     namespaceName,
-    topicSpaceName
+    topicSpaceName,
   );
   console.log(result);
 }

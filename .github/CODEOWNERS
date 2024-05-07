@@ -81,7 +81,7 @@
 
 # PRLabel: %Communication - Alpha IDs
 # ServiceLabel: %Communication - Alpha IDs
-/sdk/communication/communication-alpha-ids/ @danielav7
+/sdk/communication/communication-alpha-ids/ @miguhern
 
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
@@ -113,7 +113,7 @@
 
 # PRLabel: %Communication - Short Codes
 # ServiceLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @danielav7
+/sdk/communication/communication-short-codes/ @miguhern
 
 # PRLabel: %Communication - Common
 # ServiceLabel: %Communication - Common

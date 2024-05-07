@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the partner configurations under a resource group.
  *
  * @summary List all the partner configurations under a resource group.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerConfigurations_ListByResourceGroup.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerConfigurations_ListByResourceGroup.json
  */
 async function partnerConfigurationsListByResourceGroup() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function partnerConfigurationsListByResourceGroup() {
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.partnerConfigurations.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get properties of a partner destination.
  *
  * @summary Get properties of a partner destination.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerDestinations_Get.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerDestinations_Get.json
  */
 async function partnerDestinationsGet() {
   const subscriptionId =
