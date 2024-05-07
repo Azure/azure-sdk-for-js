@@ -11,7 +11,15 @@ import { DefaultAzureCredentialResourceIdOptions } from '@azure/identity';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createTestCredential(tokenCredentialOptions?: DefaultAzureCredentialClientIdOptions | DefaultAzureCredentialResourceIdOptions | DefaultAzureCredentialOptions): TokenCredential;
+export function createTestCredential(tokenCredentialOptions?: CreateTestCredentialOptions): TokenCredential;
+
+// @public (undocumented)
+export type CreateTestCredentialOptions = DefaultAzureCredentialCombinedOptions & {
+    browserRelayServerUrl?: string;
+};
+
+// @public (undocumented)
+export type DefaultAzureCredentialCombinedOptions = DefaultAzureCredentialClientIdOptions | DefaultAzureCredentialResourceIdOptions | DefaultAzureCredentialOptions;
 
 // @public
 export class NoOpCredential implements TokenCredential {

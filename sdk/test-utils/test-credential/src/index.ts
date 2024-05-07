@@ -10,6 +10,17 @@ import {
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "./noOpCredential";
 import { TokenCredential } from "@azure/core-auth";
+import { isBrowser } from "@azure/core-util";
+import { createBrowserRelayCredential } from "./browserRelayCredential";
+
+export type DefaultAzureCredentialCombinedOptions =
+  | DefaultAzureCredentialClientIdOptions
+  | DefaultAzureCredentialResourceIdOptions
+  | DefaultAzureCredentialOptions;
+
+export type CreateTestCredentialOptions = DefaultAzureCredentialCombinedOptions & {
+  browserRelayServerUrl?: string;
+};
 
 /**
  * ## Credential to be used in the tests.
@@ -22,14 +33,16 @@ import { TokenCredential } from "@azure/core-auth";
  *  - AAD traffic won't be recorded if this credential is used.
  */
 export function createTestCredential(
-  tokenCredentialOptions?:
-    | DefaultAzureCredentialClientIdOptions
-    | DefaultAzureCredentialResourceIdOptions
-    | DefaultAzureCredentialOptions,
+  tokenCredentialOptions: CreateTestCredentialOptions = {},
 ): TokenCredential {
-  return isPlaybackMode()
-    ? new NoOpCredential()
-    : new DefaultAzureCredential(tokenCredentialOptions);
+  if (isPlaybackMode()) {
+    return new NoOpCredential();
+  } else if (isBrowser) {
+    return createBrowserRelayCredential(tokenCredentialOptions);
+  } else {
+    const { browserRelayServerUrl: _, ...dacOptions } = tokenCredentialOptions;
+    return new DefaultAzureCredential(dacOptions);
+  }
 }
 
 export { NoOpCredential };

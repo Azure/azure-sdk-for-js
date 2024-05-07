@@ -573,7 +573,10 @@
     {
       "packageName": "@azure/dev-tool",
       "projectFolder": "common/tools/dev-tool",
-      "versionPolicyName": "utility"
+      "versionPolicyName": "utility",
+      "cyclicDependencyProjects": [
+        "@azure/identity"
+      ]
     },
     {
       "packageName": "@azure/eventgrid",

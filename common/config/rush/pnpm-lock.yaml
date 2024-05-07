@@ -19542,12 +19542,13 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-wv4b96SUvfuzpl0qyHw0jKsgW2LsHlPulE2HCuH1vidt6j0JFt5hFLjBk/qy++5Tw6BlQjCwfzqWVPGCP1AeXQ==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-mf1EMMPr+3cw+PHiJF9hmKT/H5T6Xi5lwY7NG+UWQGabk7qPuduoRwkQpG207CwH56Yrs1pan2Qs9AGWI1s+JA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
       '@_ts/max': /typescript@5.4.5
       '@_ts/min': /typescript@4.2.4
+      '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.2(@types/node@18.19.32)
       '@rollup/plugin-commonjs': 25.0.7(rollup@4.17.2)
       '@rollup/plugin-inject': 5.0.5(rollup@4.17.2)
@@ -19556,6 +19557,8 @@ packages:
       '@rollup/plugin-node-resolve': 15.2.3(rollup@4.17.2)
       '@types/archiver': 6.0.2
       '@types/decompress': 4.2.7
+      '@types/express': 4.17.21
+      '@types/express-serve-static-core': 4.19.0
       '@types/fs-extra': 11.0.4
       '@types/minimist': 1.2.5
       '@types/node': 18.19.32
@@ -19571,6 +19574,7 @@ packages:
       dotenv: 16.4.5
       env-paths: 2.2.1
       eslint: 8.57.0
+      express: 4.19.2
       fs-extra: 11.2.0
       minimist: 1.2.8
       mkdirp: 3.0.1
@@ -23063,7 +23067,7 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-Ycx368nh59hRecDmJfnrGHD7+XORol7BHvg0UR3XkkDffKWUzNK1jNax12ATZrDGtWolOco3eXDrR3rN6GKQyg==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-cnqkP/8hJEC4wKnBQfZ4fJ7b5ycRsqA2iDWtEAYjJL90rRBIImhPwOGK5o2FMGQTyPeHPqtiL8oK4X7AOpwxKA==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
@@ -23071,9 +23075,9 @@ packages:
       '@microsoft/api-extractor': 7.43.2(@types/node@18.19.32)
       '@types/node': 18.19.32
       eslint: 8.57.0
-      express: 4.19.2
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.32)(typescript@5.4.5)
+      tslib: 2.6.2
       typescript: 5.4.5
     transitivePeerDependencies:
       - '@swc/core'
