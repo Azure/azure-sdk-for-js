@@ -1,45 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationTracingOptions } from "@azure/core-tracing";
+import type { OperationTracingOptions } from "@azure/core-tracing";
+import type {
+  AsyncExpectationResult,
+  MatcherState,
+} from "@vitest/expect" with { "resolution-mode": "import" };
 import { supportsTracing } from "./tracing/azureTraceMatcher.js";
-
-export interface MatcherState {
-  utils: MatcherUtils;
-}
-
-export interface MatcherUtils {
-  matcherHint(
-    matcherName: string,
-    received?: string,
-    expected?: string,
-    options?: MatcherHintOptions,
-  ): string;
-  printReceived(object: unknown): string;
-  printExpected(object: unknown): string;
-}
-
-export type MatcherHintColor = (arg: string) => string;
-
-export type MatcherHintOptions = {
-  comment?: string;
-  expectedColor?: MatcherHintColor;
-  isDirectExpectCall?: boolean;
-  isNot?: boolean;
-  promise?: string;
-  receivedColor?: MatcherHintColor;
-  secondArgument?: string;
-  secondArgumentColor?: MatcherHintColor;
-};
-
-export interface SyncExpectationResult {
-  pass: boolean;
-  message(): string;
-}
-
-export type AsyncExpectationResult = Promise<SyncExpectationResult>;
-
-export type ExpectationResult = SyncExpectationResult | AsyncExpectationResult;
 
 /**
  * The supports Tracing function does the verification of whether the core-tracing is supported correctly with the client method

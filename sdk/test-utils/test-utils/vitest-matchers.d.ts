@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationTracingOptions } from "@azure/core-tracing";
+import type { OperationTracingOptions } from "@azure/core-tracing";
 
 interface AzureMatchers<R> extends Record<string, any> {
   toSupportTracing<
-    ThisState extends MatcherState,
     Options extends { tracingOptions?: OperationTracingOptions },
     Callback extends (options: Options) => Promise<unknown>,
   >(

@@ -53,6 +53,7 @@
     "@azure/core-rest-pipeline": "^1.16.0",
     "@azure/core-tracing": "^1.1.2",
     "@opentelemetry/api": "^1.8.0",
+    "@vitest/expect": "^1.6.0",
     "tslib": "^2.6.2",
     "vitest": "^1.6.0"
   },
