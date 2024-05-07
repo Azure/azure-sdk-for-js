@@ -77,7 +77,7 @@ describe("ImageBuilder test", () => {
     await recorder.stop();
   });
 
-  it.only("create parameter for virtualMachineImageTemplates test", async function () {
+  it("create parameter for virtualMachineImageTemplates test", async function () {
     //create a userAssignedIdentities
     const msiCreate = await msi_client.userAssignedIdentities.createOrUpdate(resourceGroup, msiName, { location: location });
     //create a disk
