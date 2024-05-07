@@ -147,6 +147,7 @@ export class CallConnection {
         ? communicationIdentifierConverter(result.identifier)
         : undefined,
       isMuted: result.isMuted,
+      isOnHold: result.isOnHold,
     };
     return callParticipant;
   }
