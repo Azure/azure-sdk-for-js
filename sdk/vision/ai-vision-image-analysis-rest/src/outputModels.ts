@@ -203,9 +203,3 @@ export interface TagsResultOutput {
   /** A list of tags. */
   values: Array<DetectedTagOutput>;
 }
-
-/** An object holding the publicly reachable URL of an image to analyze. */
-export interface ImageUrlOutput {
-  /** Publicly reachable URL of an image to analyze. */
-  url: string;
-}

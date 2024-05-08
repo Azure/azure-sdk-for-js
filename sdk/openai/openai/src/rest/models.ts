@@ -6,8 +6,15 @@ export interface AudioTranscriptionOptions {
   /**
    * The audio data to transcribe. This must be the binary content of a file in one of the supported media formats:
    *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
+   *
+   * Value may contain any sequence of octets
    */
-  file: string;
+  file:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
   /** The optional filename or descriptive identifier to associate with with the audio data. */
   filename?: string;
   /** The requested format of the transcription response data, which will influence the content and detail of the result. */
@@ -38,8 +45,15 @@ export interface AudioTranslationOptions {
   /**
    * The audio data to translate. This must be the binary content of a file in one of the supported media formats:
    *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
+   *
+   * Value may contain any sequence of octets
    */
-  file: string;
+  file:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
   /** The optional filename or descriptive identifier to associate with with the audio data. */
   filename?: string;
   /** The requested format of the translation response data, which will influence the content and detail of the result. */
@@ -260,7 +274,9 @@ export interface ChatCompletionsOptions {
   /** The available tool definitions that the chat completions request can use, including caller-defined functions. */
   tools?: Array<ChatCompletionsToolDefinition>;
   /** If specified, the model will configure which of the provided tools it can use for the chat completions response. */
-  tool_choice?: ChatCompletionsToolSelectionPreset | ChatCompletionsNamedToolSelection;
+  tool_choice?:
+    | ChatCompletionsToolSelectionPreset
+    | ChatCompletionsNamedToolSelection;
 }
 
 /** An abstract representation of a chat message as provided in a request. */
@@ -297,7 +313,8 @@ export interface ChatMessageContentItemParent {
 }
 
 /** A structured chat content item containing plain text. */
-export interface ChatMessageTextContentItem extends ChatMessageContentItemParent {
+export interface ChatMessageTextContentItem
+  extends ChatMessageContentItemParent {
   /** The discriminated object type: always 'text' for this type. */
   type: "text";
   /** The content of the message. */
@@ -305,7 +322,8 @@ export interface ChatMessageTextContentItem extends ChatMessageContentItemParent
 }
 
 /** A structured chat content item containing an image reference. */
-export interface ChatMessageImageContentItem extends ChatMessageContentItemParent {
+export interface ChatMessageImageContentItem
+  extends ChatMessageContentItemParent {
   /** The discriminated object type: always 'image_url' for this type. */
   type: "image_url";
   /** An internet location, which must be accessible to the model,from which the image may be retrieved. */
@@ -357,7 +375,8 @@ export interface ChatCompletionsToolCallParent {
  * A tool call to a function tool, issued by the model in evaluation of a configured function tool, that represents
  * a function invocation needed for a subsequent chat completions request to resolve.
  */
-export interface ChatCompletionsFunctionToolCall extends ChatCompletionsToolCallParent {
+export interface ChatCompletionsFunctionToolCall
+  extends ChatCompletionsToolCallParent {
   /** The type of tool call, in this case always 'function'. */
   type: "function";
   /** The details of the function invocation requested by the tool call. */
@@ -572,7 +591,8 @@ export interface OnYourDataVectorizationSourceParent {
  * The details of a a vectorization source, used by Azure OpenAI On Your Data when applying vector search, that is based
  * on a public Azure OpenAI endpoint call for embeddings.
  */
-export interface OnYourDataEndpointVectorizationSource extends OnYourDataVectorizationSourceParent {
+export interface OnYourDataEndpointVectorizationSource
+  extends OnYourDataVectorizationSourceParent {
   /** The type of vectorization source to use. Always 'Endpoint' for this type. */
   type: "endpoint";
   /** Specifies the resource endpoint URL from which embeddings should be retrieved. It should be in the format of https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/embeddings. The api-version query parameter is not allowed. */
@@ -597,7 +617,8 @@ export interface OnYourDataDeploymentNameVectorizationSource
  * The details of a a vectorization source, used by Azure OpenAI On Your Data when applying vector search, that is based
  * on a search service model ID. Currently only supported by Elasticsearch®.
  */
-export interface OnYourDataModelIdVectorizationSource extends OnYourDataVectorizationSourceParent {
+export interface OnYourDataModelIdVectorizationSource
+  extends OnYourDataVectorizationSourceParent {
   /** The type of vectorization source to use. Always 'ModelId' for this type. */
   type: "model_id";
   /** The embedding model ID build inside the search service. Currently only supported by Elasticsearch®. */
@@ -776,7 +797,8 @@ export interface ElasticsearchIndexFieldMappingOptions {
  * A specific representation of configurable options for Pinecone when using it as an Azure OpenAI chat
  * extension.
  */
-export interface PineconeChatExtensionConfiguration extends AzureChatExtensionConfigurationParent {
+export interface PineconeChatExtensionConfiguration
+  extends AzureChatExtensionConfigurationParent {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Pinecone.
@@ -860,13 +882,15 @@ export interface ChatCompletionsResponseFormatParent {
  * The standard Chat Completions response format that can freely generate text and is not guaranteed to produce response
  * content that adheres to a specific schema.
  */
-export interface ChatCompletionsTextResponseFormat extends ChatCompletionsResponseFormatParent {
+export interface ChatCompletionsTextResponseFormat
+  extends ChatCompletionsResponseFormatParent {
   /** The discriminated object type, which is always 'text' for this format. */
   type: "text";
 }
 
 /** A response format for Chat Completions that restricts responses to emitting valid JSON objects. */
-export interface ChatCompletionsJsonResponseFormat extends ChatCompletionsResponseFormatParent {
+export interface ChatCompletionsJsonResponseFormat
+  extends ChatCompletionsResponseFormatParent {
   /** The discriminated object type, which is always 'json_object' for this format. */
   type: "json_object";
 }
@@ -877,7 +901,8 @@ export interface ChatCompletionsToolDefinitionParent {
 }
 
 /** The definition information for a chat completions function tool that can call a function in response to a tool call. */
-export interface ChatCompletionsFunctionToolDefinition extends ChatCompletionsToolDefinitionParent {
+export interface ChatCompletionsFunctionToolDefinition
+  extends ChatCompletionsToolDefinitionParent {
   /** The object name, which is always 'function'. */
   type: "function";
   /** The function definition details for the function tool. */
@@ -941,6 +966,20 @@ export interface ImageGenerationOptions {
   user?: string;
 }
 
+/** A representation of the request options that control the behavior of a text-to-speech operation. */
+export interface SpeechGenerationOptions {
+  /** The text to generate audio for. The maximum length is 4096 characters. */
+  input: string;
+  /** The voice to use for text-to-speech. */
+  voice: SpeechVoice;
+  /** The audio output format for the spoken text. By default, the MP3 format will be used. */
+  response_format?: SpeechGenerationResponseFormat;
+  /** The speed of speech for generated audio. Values are valid in the range from 0.25 to 4.0, with 1.0 the default and higher values corresponding to faster speech. */
+  speed?: number;
+  /** The model to use for this text-to-speech request. */
+  model?: string;
+}
+
 /**
  * The configuration information for an embeddings request.
  * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
@@ -962,30 +1001,16 @@ export interface EmbeddingsOptions {
    * Input texts to get embeddings for, encoded as a an array of strings.
    * Each input must not exceed 2048 tokens in length.
    *
-   * Unless you are embedding code, we suggest replacing newlines (\\n) in your input with a single space,
+   * Unless you are embedding code, we suggest replacing newlines (\n) in your input with a single space,
    * as we have observed inferior results when newlines are present.
    */
   input: string[];
+  /** The response encoding format to use for embedding data. */
+  encoding_format?: EmbeddingEncodingFormat;
   /** The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models. */
   dimensions?: number;
-}
-
-/** A response containing error details. */
-export interface ErrorResponse {
-  /** The error object. */
-  error: OpenAIErrorModel;
-}
-
-/** The error object. */
-export interface OpenAIErrorModel {
-  /** A human-readable representation of the error. */
-  message: string;
-  /** The parameters of the error. */
-  param: string | null;
-  /** Type of the error. */
-  type: string | null;
-  /** The error code. */
-  code: string | null;
+  /** When using Azure OpenAI, specifies the input type to use for embedding search. */
+  input_type?: string;
 }
 
 /** An abstract representation of a chat message as provided in a request. */
@@ -1053,11 +1078,29 @@ export type ChatCompletionsNamedToolSelection =
   | ChatCompletionsNamedToolSelectionParent
   | ChatCompletionsNamedFunctionToolSelection;
 /** Alias for AudioTranscriptionFormat */
-export type AudioTranscriptionFormat = string | "json" | "verbose_json" | "text" | "srt" | "vtt";
+export type AudioTranscriptionFormat =
+  | string
+  | "json"
+  | "verbose_json"
+  | "text"
+  | "srt"
+  | "vtt";
 /** Alias for AudioTranslationFormat */
-export type AudioTranslationFormat = string | "json" | "verbose_json" | "text" | "srt" | "vtt";
+export type AudioTranslationFormat =
+  | string
+  | "json"
+  | "verbose_json"
+  | "text"
+  | "srt"
+  | "vtt";
 /** Alias for ChatRole */
-export type ChatRole = string | "system" | "assistant" | "user" | "function" | "tool";
+export type ChatRole =
+  | string
+  | "system"
+  | "assistant"
+  | "user"
+  | "function"
+  | "tool";
 /** Alias for ChatMessageImageDetailLevel */
 export type ChatMessageImageDetailLevel = string | "auto" | "low" | "high";
 /** Alias for FunctionCallPreset */
@@ -1099,10 +1142,28 @@ export type ElasticsearchQueryType = string | "simple" | "vector";
 /** Alias for ChatCompletionsToolSelectionPreset */
 export type ChatCompletionsToolSelectionPreset = string | "auto" | "none";
 /** Alias for ImageSize */
-export type ImageSize = string | "256x256" | "512x512" | "1024x1024" | "1792x1024" | "1024x1792";
+export type ImageSize =
+  | string
+  | "256x256"
+  | "512x512"
+  | "1024x1024"
+  | "1792x1024"
+  | "1024x1792";
 /** Alias for ImageGenerationResponseFormat */
 export type ImageGenerationResponseFormat = string | "url" | "b64_json";
 /** Alias for ImageGenerationQuality */
 export type ImageGenerationQuality = string | "standard" | "hd";
 /** Alias for ImageGenerationStyle */
 export type ImageGenerationStyle = string | "natural" | "vivid";
+/** The available voices for text-to-speech. */
+export type SpeechVoice =
+  | "alloy"
+  | "echo"
+  | "fable"
+  | "onyx"
+  | "nova"
+  | "shimmer";
+/** The supported audio output formats for text-to-speech. */
+export type SpeechGenerationResponseFormat = "mp3" | "opus" | "aac" | "flac";
+/** Represents the available formats for embeddings data on responses. */
+export type EmbeddingEncodingFormat = "float" | "base64";

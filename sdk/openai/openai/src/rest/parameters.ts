@@ -8,6 +8,7 @@ import {
   CompletionsOptions,
   ChatCompletionsOptions,
   ImageGenerationOptions,
+  SpeechGenerationOptions,
   EmbeddingsOptions,
 } from "./models.js";
 
@@ -71,22 +72,33 @@ export interface GetCompletionsBodyParam {
   body?: CompletionsOptions;
 }
 
-export type GetCompletionsParameters = GetCompletionsBodyParam & RequestParameters;
+export type GetCompletionsParameters = GetCompletionsBodyParam &
+  RequestParameters;
 
 export interface GetChatCompletionsBodyParam {
   body?: ChatCompletionsOptions;
 }
 
-export type GetChatCompletionsParameters = GetChatCompletionsBodyParam & RequestParameters;
+export type GetChatCompletionsParameters = GetChatCompletionsBodyParam &
+  RequestParameters;
 
 export interface GetImageGenerationsBodyParam {
   body?: ImageGenerationOptions;
 }
 
-export type GetImageGenerationsParameters = GetImageGenerationsBodyParam & RequestParameters;
+export type GetImageGenerationsParameters = GetImageGenerationsBodyParam &
+  RequestParameters;
+
+export interface GenerateSpeechFromTextBodyParam {
+  body?: SpeechGenerationOptions;
+}
+
+export type GenerateSpeechFromTextParameters = GenerateSpeechFromTextBodyParam &
+  RequestParameters;
 
 export interface GetEmbeddingsBodyParam {
   body?: EmbeddingsOptions;
 }
 
-export type GetEmbeddingsParameters = GetEmbeddingsBodyParam & RequestParameters;
+export type GetEmbeddingsParameters = GetEmbeddingsBodyParam &
+  RequestParameters;

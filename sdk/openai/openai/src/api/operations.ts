@@ -2,25 +2,35 @@
 // Licensed under the MIT license.
 
 import {
+  AudioTranscriptionOptions,
+  AudioTranscription,
+  AudioTranslationOptions,
+  AudioTranslation,
   CompletionsOptions,
   Completions,
   ChatCompletionsOptions,
   ChatCompletions,
   ImageGenerationOptions,
   ImageGenerations,
+  SpeechGenerationOptions,
   EmbeddingsOptions,
   Embeddings,
-  ChatRequestMessageUnion,
-  EventStream,
-  ContentFilterResultsForChoice,
-  ContentFilterResultDetailsForPrompt,
-  ContentFilterResultsForPrompt,
 } from "../models/models.js";
 import {
   serializeChatRequestMessageUnion,
   serializeAzureChatExtensionConfigurationUnion,
 } from "../utils/serializeUtil.js";
 import {
+  GenerateSpeechFromText200Response,
+  GenerateSpeechFromTextDefaultResponse,
+  GetAudioTranscriptionAsPlainText200Response,
+  GetAudioTranscriptionAsPlainTextDefaultResponse,
+  GetAudioTranscriptionAsResponseObject200Response,
+  GetAudioTranscriptionAsResponseObjectDefaultResponse,
+  GetAudioTranslationAsPlainText200Response,
+  GetAudioTranslationAsPlainTextDefaultResponse,
+  GetAudioTranslationAsResponseObject200Response,
+  GetAudioTranslationAsResponseObjectDefaultResponse,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
   GetCompletions200Response,
@@ -31,228 +41,504 @@ import {
   GetImageGenerationsDefaultResponse,
   isUnexpected,
   OpenAIContext as Client,
-  ContentFilterResultsForChoiceOutput,
-  ContentFilterResultDetailsForPromptOutput,
-  ContentFilterResultsForPromptOutput,
-  ChatCompletionsOutput,
-  CompletionsOutput,
 } from "../rest/index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
-  ErrorModel,
+  createRestError,
 } from "@azure-rest/core-client";
+import { uint8ArrayToString } from "@azure/core-util";
 import {
-  GetCompletionsOptions,
-  GetChatCompletionsOptions,
-  GetEmbeddingsOptions,
-  GetImagesOptions,
-  GetImageGenerationsOptions,
-  GeneratedGetChatCompletionsOptions,
+  GetAudioTranscriptionAsPlainTextOptionalParams,
+  GetAudioTranscriptionAsResponseObjectOptionalParams,
+  GetAudioTranslationAsPlainTextOptionalParams,
+  GetAudioTranslationAsResponseObjectOptionalParams,
+  GetCompletionsOptionalParams,
+  GetChatCompletionsOptionalParams,
+  GetImageGenerationsOptionalParams,
+  GenerateSpeechFromTextOptionalParams,
+  GetEmbeddingsOptionalParams,
 } from "../models/options.js";
-import { getOaiSSEs } from "./oaiSse.js";
-import { createFile } from "@azure/core-rest-pipeline";
-import {
-  GetAudioTranscriptionOptions,
-  AudioResultSimpleJson,
-  AudioResultFormat,
-  AudioResult,
-  GetAudioTranslationOptions,
-} from "../models/audio.js";
-import { snakeCaseKeys, camelCaseKeys, createOpenAIError } from "./util.js";
 
-/**
- * Returns the transcription of an audio file in a simple JSON format.
- * @param context - The context containing the client to use for this request.
- * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
- * @param fileContent - The content of the audio file to transcribe.
- * @param options - The options for this audio transcription request.
- * @returns The audio transcription result in a simple JSON format.
- */
-export async function getAudioTranscription(
+export function _getAudioTranscriptionAsPlainTextSend(
   context: Client,
-  deploymentName: string,
-  fileContent: Uint8Array,
-  options?: GetAudioTranscriptionOptions,
-): Promise<AudioResultSimpleJson>;
-/**
- * Returns the transcription of an audio file.
- * @param context - The context containing the client to use for this request.
- * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
- * @param fileContent - The content of the audio file to transcribe.
- * @param format - The format of the result object. See {@link AudioResultFormat} for possible values.
- * @param options - The options for this audio transcription request.
- * @returns The audio transcription result in a format of your choice.
- */
-export async function getAudioTranscription<Format extends AudioResultFormat>(
-  context: Client,
-  deploymentName: string,
-  fileContent: Uint8Array,
-  format: Format,
-  options?: GetAudioTranscriptionOptions,
-): Promise<AudioResult<Format>>;
-// implementation
-export async function getAudioTranscription<Format extends AudioResultFormat>(
-  context: Client,
-  deploymentName: string,
-  fileContent: Uint8Array,
-  formatOrOptions?: Format | GetAudioTranscriptionOptions,
-  inputOptions?: GetAudioTranscriptionOptions,
-): Promise<AudioResult<Format>> {
-  const options =
-    inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
-  const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
-  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-  const { body, status } = await context
-    .pathUnchecked("deployments/{deploymentName}/audio/transcriptions", deploymentName)
+  deploymentId: string,
+  body: AudioTranscriptionOptions,
+  options: GetAudioTranscriptionAsPlainTextOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod<
+  | GetAudioTranscriptionAsPlainText200Response
+  | GetAudioTranscriptionAsPlainTextDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
     .post({
-      ...operationOptionsToRequestParameters({
-        abortSignal,
-        onResponse,
-        tracingOptions,
-        requestOptions,
-      }),
-      contentType: "multipart/form-data",
+      ...operationOptionsToRequestParameters(options),
+      contentType: (options.contentType as any) ?? "multipart/form-data",
       body: {
-        ...snakeCaseKeys(rest),
-        file: createFile(fileContent, "placeholder.wav"),
-        ...(response_format ? { response_format } : {}),
+        file: uint8ArrayToString(body["file"], "base64"),
+        filename: body["filename"],
+        response_format: body["responseFormat"],
+        language: body["language"],
+        prompt: body["prompt"],
+        temperature: body["temperature"],
+        model: body["model"],
       },
-    });
-  if (status !== "200") {
-    throw body.error;
+    }) as StreamableMethod<
+    | GetAudioTranscriptionAsPlainText200Response
+    | GetAudioTranscriptionAsPlainTextDefaultResponse
+  >;
+}
+
+export async function _getAudioTranscriptionAsPlainTextDeserialize(
+  result:
+    | GetAudioTranscriptionAsPlainText200Response
+    | GetAudioTranscriptionAsPlainTextDefaultResponse,
+): Promise<string> {
+  if (isUnexpected(result)) {
+    throw createRestError(result);
   }
-  return response_format !== "verbose_json"
-    ? body
-    : (camelCaseKeys(body) as unknown as AudioResult<Format>);
+
+  return result.body;
 }
 
 /**
- * Returns the translation of an audio file.
- * @param context - The context containing the client to use for this request.
- * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
- * @param fileContent - The content of the audio file to translate.
- * @param options - The options for this audio translation request.
- * @returns The audio translation result.
+ * Gets transcribed text and associated metadata from provided spoken audio data. Audio will be transcribed in the
+ * written language corresponding to the language it was spoken in.
  */
-export async function getAudioTranslation(
+export async function getAudioTranscriptionAsPlainText(
   context: Client,
-  deploymentName: string,
-  fileContent: Uint8Array,
-  options?: GetAudioTranslationOptions,
-): Promise<AudioResultSimpleJson>;
-/**
- * Returns the translation of an audio file.
- * @param context - The context containing the client to use for this request.
- * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
- * @param fileContent - The content of the audio file to translate.
- * @param format - The format of the result object. See {@link AudioResultFormat} for possible values.
- * @param options - The options for this audio translation request.
- * @returns The audio translation result.
- */
-export async function getAudioTranslation<Format extends AudioResultFormat>(
+  deploymentId: string,
+  body: AudioTranscriptionOptions,
+  options: GetAudioTranscriptionAsPlainTextOptionalParams = {
+    requestOptions: {},
+  },
+): Promise<string> {
+  const result = await _getAudioTranscriptionAsPlainTextSend(
+    context,
+    deploymentId,
+    body,
+    options,
+  );
+  return _getAudioTranscriptionAsPlainTextDeserialize(result);
+}
+
+export function _getAudioTranscriptionAsResponseObjectSend(
   context: Client,
-  deploymentName: string,
-  fileContent: Uint8Array,
-  format: Format,
-  options?: GetAudioTranslationOptions,
-): Promise<AudioResult<Format>>;
-// implementation
-export async function getAudioTranslation<Format extends AudioResultFormat>(
-  context: Client,
-  deploymentName: string,
-  fileContent: Uint8Array,
-  formatOrOptions?: Format | GetAudioTranslationOptions,
-  inputOptions?: GetAudioTranslationOptions,
-): Promise<AudioResult<Format>> {
-  const options =
-    inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
-  const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
-  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-  const { body, status } = await context
-    .pathUnchecked("deployments/{deploymentName}/audio/translations", deploymentName)
+  deploymentId: string,
+  body: AudioTranscriptionOptions,
+  options: GetAudioTranscriptionAsResponseObjectOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod<
+  | GetAudioTranscriptionAsResponseObject200Response
+  | GetAudioTranscriptionAsResponseObjectDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
     .post({
-      ...operationOptionsToRequestParameters({
-        abortSignal,
-        onResponse,
-        tracingOptions,
-        requestOptions,
-      }),
-      contentType: "multipart/form-data",
+      ...operationOptionsToRequestParameters(options),
+      contentType: (options.contentType as any) ?? "multipart/form-data",
       body: {
-        ...snakeCaseKeys(rest),
-        file: createFile(fileContent, "placeholder.wav"),
-        ...(response_format ? { response_format } : {}),
+        file: uint8ArrayToString(body["file"], "base64"),
+        filename: body["filename"],
+        response_format: body["responseFormat"],
+        language: body["language"],
+        prompt: body["prompt"],
+        temperature: body["temperature"],
+        model: body["model"],
       },
-    });
-  if (status !== "200") {
-    throw body.error;
+    }) as StreamableMethod<
+    | GetAudioTranscriptionAsResponseObject200Response
+    | GetAudioTranscriptionAsResponseObjectDefaultResponse
+  >;
+}
+
+export async function _getAudioTranscriptionAsResponseObjectDeserialize(
+  result:
+    | GetAudioTranscriptionAsResponseObject200Response
+    | GetAudioTranscriptionAsResponseObjectDefaultResponse,
+): Promise<AudioTranscription> {
+  if (isUnexpected(result)) {
+    throw createRestError(result);
   }
-  return response_format !== "verbose_json"
-    ? body
-    : (camelCaseKeys(body) as unknown as AudioResult<Format>);
+
+  return {
+    text: result.body["text"],
+    task: result.body["task"],
+    language: result.body["language"],
+    duration: result.body["duration"],
+    segments:
+      result.body["segments"] === undefined
+        ? result.body["segments"]
+        : result.body["segments"].map((p) => ({
+            id: p["id"],
+            start: p["start"],
+            end: p["end"],
+            text: p["text"],
+            temperature: p["temperature"],
+            avgLogprob: p["avg_logprob"],
+            compressionRatio: p["compression_ratio"],
+            noSpeechProb: p["no_speech_prob"],
+            tokens: p["tokens"],
+            seek: p["seek"],
+          })),
+  };
+}
+
+/**
+ * Gets transcribed text and associated metadata from provided spoken audio data. Audio will be transcribed in the
+ * written language corresponding to the language it was spoken in.
+ */
+export async function getAudioTranscriptionAsResponseObject(
+  context: Client,
+  deploymentId: string,
+  body: AudioTranscriptionOptions,
+  options: GetAudioTranscriptionAsResponseObjectOptionalParams = {
+    requestOptions: {},
+  },
+): Promise<AudioTranscription> {
+  const result = await _getAudioTranscriptionAsResponseObjectSend(
+    context,
+    deploymentId,
+    body,
+    options,
+  );
+  return _getAudioTranscriptionAsResponseObjectDeserialize(result);
+}
+
+export function _getAudioTranslationAsPlainTextSend(
+  context: Client,
+  deploymentId: string,
+  body: AudioTranslationOptions,
+  options: GetAudioTranslationAsPlainTextOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod<
+  | GetAudioTranslationAsPlainText200Response
+  | GetAudioTranslationAsPlainTextDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/audio/translations", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: (options.contentType as any) ?? "multipart/form-data",
+      body: {
+        file: uint8ArrayToString(body["file"], "base64"),
+        filename: body["filename"],
+        response_format: body["responseFormat"],
+        prompt: body["prompt"],
+        temperature: body["temperature"],
+        model: body["model"],
+      },
+    }) as StreamableMethod<
+    | GetAudioTranslationAsPlainText200Response
+    | GetAudioTranslationAsPlainTextDefaultResponse
+  >;
+}
+
+export async function _getAudioTranslationAsPlainTextDeserialize(
+  result:
+    | GetAudioTranslationAsPlainText200Response
+    | GetAudioTranslationAsPlainTextDefaultResponse,
+): Promise<string> {
+  if (isUnexpected(result)) {
+    throw createRestError(result);
+  }
+
+  return result.body;
+}
+
+/** Gets English language transcribed text and associated metadata from provided spoken audio data. */
+export async function getAudioTranslationAsPlainText(
+  context: Client,
+  deploymentId: string,
+  body: AudioTranslationOptions,
+  options: GetAudioTranslationAsPlainTextOptionalParams = {
+    requestOptions: {},
+  },
+): Promise<string> {
+  const result = await _getAudioTranslationAsPlainTextSend(
+    context,
+    deploymentId,
+    body,
+    options,
+  );
+  return _getAudioTranslationAsPlainTextDeserialize(result);
+}
+
+export function _getAudioTranslationAsResponseObjectSend(
+  context: Client,
+  deploymentId: string,
+  body: AudioTranslationOptions,
+  options: GetAudioTranslationAsResponseObjectOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod<
+  | GetAudioTranslationAsResponseObject200Response
+  | GetAudioTranslationAsResponseObjectDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/audio/translations", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: (options.contentType as any) ?? "multipart/form-data",
+      body: {
+        file: uint8ArrayToString(body["file"], "base64"),
+        filename: body["filename"],
+        response_format: body["responseFormat"],
+        prompt: body["prompt"],
+        temperature: body["temperature"],
+        model: body["model"],
+      },
+    }) as StreamableMethod<
+    | GetAudioTranslationAsResponseObject200Response
+    | GetAudioTranslationAsResponseObjectDefaultResponse
+  >;
+}
+
+export async function _getAudioTranslationAsResponseObjectDeserialize(
+  result:
+    | GetAudioTranslationAsResponseObject200Response
+    | GetAudioTranslationAsResponseObjectDefaultResponse,
+): Promise<AudioTranslation> {
+  if (isUnexpected(result)) {
+    throw createRestError(result);
+  }
+
+  return {
+    text: result.body["text"],
+    task: result.body["task"],
+    language: result.body["language"],
+    duration: result.body["duration"],
+    segments:
+      result.body["segments"] === undefined
+        ? result.body["segments"]
+        : result.body["segments"].map((p) => ({
+            id: p["id"],
+            start: p["start"],
+            end: p["end"],
+            text: p["text"],
+            temperature: p["temperature"],
+            avgLogprob: p["avg_logprob"],
+            compressionRatio: p["compression_ratio"],
+            noSpeechProb: p["no_speech_prob"],
+            tokens: p["tokens"],
+            seek: p["seek"],
+          })),
+  };
+}
+
+/** Gets English language transcribed text and associated metadata from provided spoken audio data. */
+export async function getAudioTranslationAsResponseObject(
+  context: Client,
+  deploymentId: string,
+  body: AudioTranslationOptions,
+  options: GetAudioTranslationAsResponseObjectOptionalParams = {
+    requestOptions: {},
+  },
+): Promise<AudioTranslation> {
+  const result = await _getAudioTranslationAsResponseObjectSend(
+    context,
+    deploymentId,
+    body,
+    options,
+  );
+  return _getAudioTranslationAsResponseObjectDeserialize(result);
 }
 
 export function _getCompletionsSend(
   context: Client,
   deploymentId: string,
   body: CompletionsOptions,
-  options: GetCompletionsOptions = { requestOptions: {} },
+  options: GetCompletionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse> {
-  return context.path("/deployments/{deploymentId}/completions", deploymentId).post({
-    ...operationOptionsToRequestParameters(options),
-    body: {
-      prompt: body["prompt"],
-      max_tokens: body["maxTokens"],
-      temperature: body["temperature"],
-      top_p: body["topP"],
-      logit_bias: body["logitBias"],
-      user: body["user"],
-      n: body["n"],
-      logprobs: body["logprobs"],
-      suffix: body["suffix"],
-      echo: body["echo"],
-      stop: body["stop"],
-      presence_penalty: body["presencePenalty"],
-      frequency_penalty: body["frequencyPenalty"],
-      best_of: body["bestOf"],
-      stream: body["stream"],
-      model: body["model"],
-    },
-  });
+  return context
+    .path("/deployments/{deploymentId}/completions", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        prompt: body["prompt"],
+        max_tokens: body["maxTokens"],
+        temperature: body["temperature"],
+        top_p: body["topP"],
+        logit_bias: body["logitBias"],
+        user: body["user"],
+        n: body["n"],
+        logprobs: body["logprobs"],
+        suffix: body["suffix"],
+        echo: body["echo"],
+        stop: body["stop"],
+        presence_penalty: body["presencePenalty"],
+        frequency_penalty: body["frequencyPenalty"],
+        best_of: body["bestOf"],
+        stream: body["stream"],
+        model: body["model"],
+      },
+    });
 }
 
 export async function _getCompletionsDeserialize(
   result: GetCompletions200Response | GetCompletionsDefaultResponse,
 ): Promise<Completions> {
   if (isUnexpected(result)) {
-    throw createOpenAIError(result);
+    throw createRestError(result);
   }
 
-  return getCompletionsResult(result.body);
-}
-
-export function getCompletionsResult(
-  body: CompletionsOutput & ContentFilterResultsForPromptX,
-): Completions {
-  const { created, choices, prompt_filter_results, prompt_annotations, ...rest } = body;
   return {
-    ...camelCaseKeys(rest),
-    created: new Date(created),
-    ...{
-      promptFilterResults: getContentFilterResultsForPrompt({
-        prompt_filter_results,
-        prompt_annotations,
-      }),
-    },
-    choices: choices.map(({ content_filter_results, ...choice }) => ({
-      ...camelCaseKeys(choice),
-      ...(!content_filter_results
-        ? {}
+    id: result.body["id"],
+    created: new Date(result.body["created"]),
+    promptFilterResults:
+      result.body["prompt_filter_results"] === undefined
+        ? result.body["prompt_filter_results"]
+        : result.body["prompt_filter_results"].map((p) => ({
+            promptIndex: p["prompt_index"],
+            contentFilterResults: {
+              sexual: !p.content_filter_results.sexual
+                ? undefined
+                : {
+                    severity: p.content_filter_results.sexual?.["severity"],
+                    filtered: p.content_filter_results.sexual?.["filtered"],
+                  },
+              violence: !p.content_filter_results.violence
+                ? undefined
+                : {
+                    severity: p.content_filter_results.violence?.["severity"],
+                    filtered: p.content_filter_results.violence?.["filtered"],
+                  },
+              hate: !p.content_filter_results.hate
+                ? undefined
+                : {
+                    severity: p.content_filter_results.hate?.["severity"],
+                    filtered: p.content_filter_results.hate?.["filtered"],
+                  },
+              selfHarm: !p.content_filter_results.self_harm
+                ? undefined
+                : {
+                    severity: p.content_filter_results.self_harm?.["severity"],
+                    filtered: p.content_filter_results.self_harm?.["filtered"],
+                  },
+              profanity: !p.content_filter_results.profanity
+                ? undefined
+                : {
+                    filtered: p.content_filter_results.profanity?.["filtered"],
+                    detected: p.content_filter_results.profanity?.["detected"],
+                  },
+              customBlocklists:
+                p.content_filter_results["custom_blocklists"] === undefined
+                  ? p.content_filter_results["custom_blocklists"]
+                  : p.content_filter_results["custom_blocklists"].map((p) => ({
+                      id: p["id"],
+                      filtered: p["filtered"],
+                    })),
+              error: !p.content_filter_results.error
+                ? undefined
+                : p.content_filter_results.error,
+              jailbreak: !p.content_filter_results.jailbreak
+                ? undefined
+                : {
+                    filtered: p.content_filter_results.jailbreak?.["filtered"],
+                    detected: p.content_filter_results.jailbreak?.["detected"],
+                  },
+            },
+          })),
+    choices: result.body["choices"].map((p) => ({
+      text: p["text"],
+      index: p["index"],
+      contentFilterResults: !p.content_filter_results
+        ? undefined
         : {
-            contentFilterResults: parseContentFilterResultsForChoiceOutput(content_filter_results),
-          }),
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+            profanity: !p.content_filter_results?.profanity
+              ? undefined
+              : {
+                  filtered: p.content_filter_results?.profanity?.["filtered"],
+                  detected: p.content_filter_results?.profanity?.["detected"],
+                },
+            customBlocklists:
+              p.content_filter_results?.["custom_blocklists"] === undefined
+                ? p.content_filter_results?.["custom_blocklists"]
+                : p.content_filter_results?.["custom_blocklists"].map((p) => ({
+                    id: p["id"],
+                    filtered: p["filtered"],
+                  })),
+            error: !p.content_filter_results?.error
+              ? undefined
+              : p.content_filter_results?.error,
+            protectedMaterialText: !p.content_filter_results
+              ?.protected_material_text
+              ? undefined
+              : {
+                  filtered:
+                    p.content_filter_results?.protected_material_text?.[
+                      "filtered"
+                    ],
+                  detected:
+                    p.content_filter_results?.protected_material_text?.[
+                      "detected"
+                    ],
+                },
+            protectedMaterialCode: !p.content_filter_results
+              ?.protected_material_code
+              ? undefined
+              : {
+                  filtered:
+                    p.content_filter_results?.protected_material_code?.[
+                      "filtered"
+                    ],
+                  detected:
+                    p.content_filter_results?.protected_material_code?.[
+                      "detected"
+                    ],
+                  url: p.content_filter_results?.protected_material_code?.[
+                    "URL"
+                  ],
+                  license:
+                    p.content_filter_results?.protected_material_code?.[
+                      "license"
+                    ],
+                },
+          },
+      logprobs:
+        p.logprobs === null
+          ? null
+          : {
+              tokens: p.logprobs["tokens"],
+              tokenLogprobs: p.logprobs["token_logprobs"],
+              topLogprobs: p.logprobs["top_logprobs"],
+              textOffset: p.logprobs["text_offset"],
+            },
+      finishReason: p["finish_reason"],
     })),
+    usage: {
+      completionTokens: result.body.usage["completion_tokens"],
+      promptTokens: result.body.usage["prompt_tokens"],
+      totalTokens: result.body.usage["total_tokens"],
+    },
   };
 }
 
@@ -264,135 +550,339 @@ export function getCompletionsResult(
 export async function getCompletions(
   context: Client,
   deploymentId: string,
-  prompt: string[],
-  options: GetCompletionsOptions = { requestOptions: {} },
+  body: CompletionsOptions,
+  options: GetCompletionsOptionalParams = { requestOptions: {} },
 ): Promise<Completions> {
-  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const result = await _getCompletionsSend(
     context,
     deploymentId,
-    { prompt, ...rest },
-    { abortSignal, onResponse, requestOptions, tracingOptions },
+    body,
+    options,
   );
   return _getCompletionsDeserialize(result);
-}
-
-export function streamCompletions(
-  context: Client,
-  deploymentName: string,
-  prompt: string[],
-  options: GetCompletionsOptions = { requestOptions: {} },
-): Promise<EventStream<Omit<Completions, "usage">>> {
-  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-  const response = _getCompletionsSend(
-    context,
-    deploymentName,
-    {
-      prompt,
-      ...rest,
-      stream: true,
-    },
-    { abortSignal, onResponse, requestOptions, tracingOptions },
-  );
-  return getOaiSSEs(response, getCompletionsResult);
 }
 
 export function _getChatCompletionsSend(
   context: Client,
   deploymentId: string,
   body: ChatCompletionsOptions,
-  options: GeneratedGetChatCompletionsOptions = { requestOptions: {} },
-): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
-  return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
-    ...operationOptionsToRequestParameters(options),
-    body: {
-      model: body["model"],
-      stream: body["stream"],
-      max_tokens: body["maxTokens"],
-      temperature: body["temperature"],
-      top_p: body["topP"],
-      logit_bias: body["logitBias"],
-      user: body["user"],
-      n: body["n"],
-      stop: body["stop"],
-      presence_penalty: body["presencePenalty"],
-      frequency_penalty: body["frequencyPenalty"],
-      data_sources:
-        body["dataSources"] === undefined
-          ? body["dataSources"]
-          : body["dataSources"].map((p) => serializeAzureChatExtensionConfigurationUnion(p)),
-      enhancements: !body.enhancements
-        ? undefined
-        : {
-            grounding: !body.enhancements?.grounding
-              ? undefined
-              : { enabled: body.enhancements?.grounding?.["enabled"] },
-            ocr: !body.enhancements?.ocr
-              ? undefined
-              : { enabled: body.enhancements?.ocr?.["enabled"] },
-          },
-      seed: body["seed"],
-      logprobs: body["logprobs"],
-      top_logprobs: body["topLogprobs"],
-      response_format: !body.responseFormat ? undefined : { type: body.responseFormat?.["type"] },
-      tool_choice: body["toolChoice"],
-      tools: body["tools"],
-      functions:
-        body["functions"] === undefined
-          ? body["functions"]
-          : body["functions"].map((p) => ({
-              name: p["name"],
-              description: p["description"],
-              parameters: p["parameters"],
-            })),
-      function_call: body["functionCall"],
-      messages: body["messages"].map((p) => serializeChatRequestMessageUnion(p)),
-    },
-  });
+  options: GetChatCompletionsOptionalParams = { requestOptions: {} },
+): StreamableMethod<
+  GetChatCompletions200Response | GetChatCompletionsDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/chat/completions", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        messages: body["messages"].map((p) =>
+          serializeChatRequestMessageUnion(p),
+        ),
+        functions:
+          body["functions"] === undefined
+            ? body["functions"]
+            : body["functions"].map((p) => ({
+                name: p["name"],
+                description: p["description"],
+                parameters: p["parameters"],
+              })),
+        function_call: body["functionCall"],
+        max_tokens: body["maxTokens"],
+        temperature: body["temperature"],
+        top_p: body["topP"],
+        logit_bias: body["logitBias"],
+        user: body["user"],
+        n: body["n"],
+        stop: body["stop"],
+        presence_penalty: body["presencePenalty"],
+        frequency_penalty: body["frequencyPenalty"],
+        stream: body["stream"],
+        model: body["model"],
+        data_sources:
+          body["dataSources"] === undefined
+            ? body["dataSources"]
+            : body["dataSources"].map((p) =>
+                serializeAzureChatExtensionConfigurationUnion(p),
+              ),
+        enhancements: !body.enhancements
+          ? undefined
+          : {
+              grounding: !body.enhancements?.grounding
+                ? undefined
+                : { enabled: body.enhancements?.grounding?.["enabled"] },
+              ocr: !body.enhancements?.ocr
+                ? undefined
+                : { enabled: body.enhancements?.ocr?.["enabled"] },
+            },
+        seed: body["seed"],
+        logprobs: body["logprobs"],
+        top_logprobs: body["topLogprobs"],
+        response_format: !body.responseFormat
+          ? undefined
+          : { type: body.responseFormat?.["type"] },
+        tools: body["tools"],
+        tool_choice: body["toolChoice"],
+      },
+    });
 }
 
 export async function _getChatCompletionsDeserialize(
   result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse,
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw createOpenAIError(result);
+    throw createRestError(result);
   }
-  return getChatCompletionsResult(result.body);
-}
 
-export function getChatCompletionsResult(
-  body: ChatCompletionsOutput & ContentFilterResultsForPromptX,
-): ChatCompletions {
-  const { created, choices, prompt_filter_results, prompt_annotations, usage, ...rest } = body;
   return {
-    ...camelCaseKeys(rest),
-    created: new Date(created),
-    ...{
-      promptFilterResults: getContentFilterResultsForPrompt({
-        prompt_filter_results,
-        prompt_annotations,
-      }),
-    },
-    ...(!usage
-      ? {}
-      : {
-          usage: {
-            completionTokens: usage["completion_tokens"],
-            promptTokens: usage["prompt_tokens"],
-            totalTokens: usage["total_tokens"],
+    id: result.body["id"],
+    created: new Date(result.body["created"]),
+    choices: result.body["choices"].map((p) => ({
+      message: !p.message
+        ? undefined
+        : {
+            role: p.message?.["role"],
+            content: p.message?.["content"],
+            toolCalls:
+              p.message?.["tool_calls"] === undefined
+                ? p.message?.["tool_calls"]
+                : p.message?.["tool_calls"],
+            functionCall: !p.message?.function_call
+              ? undefined
+              : {
+                  name: p.message?.function_call?.["name"],
+                  arguments: p.message?.function_call?.["arguments"],
+                },
+            context: !p.message?.context
+              ? undefined
+              : {
+                  citations:
+                    p.message?.context?.["citations"] === undefined
+                      ? p.message?.context?.["citations"]
+                      : p.message?.context?.["citations"].map((p) => ({
+                          content: p["content"],
+                          title: p["title"],
+                          url: p["url"],
+                          filepath: p["filepath"],
+                          chunkId: p["chunk_id"],
+                        })),
+                  intent: p.message?.context?.["intent"],
+                },
           },
-        }),
-    choices: !choices
-      ? []
-      : choices.map(({ content_filter_results, ...choice }) => ({
-          ...camelCaseKeys(choice),
-          ...(!content_filter_results
-            ? {}
-            : {
-                contentFilterResults:
-                  parseContentFilterResultsForChoiceOutput(content_filter_results),
-              }),
-        })),
+      logprobs:
+        p.logprobs === null
+          ? null
+          : {
+              content:
+                p.logprobs["content"] === null
+                  ? p.logprobs["content"]
+                  : p.logprobs["content"].map((p) => ({
+                      token: p["token"],
+                      logprob: p["logprob"],
+                      bytes: p["bytes"],
+                      topLogprobs:
+                        p["top_logprobs"] === null
+                          ? p["top_logprobs"]
+                          : p["top_logprobs"].map((p) => ({
+                              token: p["token"],
+                              logprob: p["logprob"],
+                              bytes: p["bytes"],
+                            })),
+                    })),
+            },
+      index: p["index"],
+      finishReason: p["finish_reason"],
+      finishDetails: !p.finish_details
+        ? undefined
+        : { type: p.finish_details?.["type"] },
+      delta: !p.delta
+        ? undefined
+        : {
+            role: p.delta?.["role"],
+            content: p.delta?.["content"],
+            toolCalls:
+              p.delta?.["tool_calls"] === undefined
+                ? p.delta?.["tool_calls"]
+                : p.delta?.["tool_calls"],
+            functionCall: !p.delta?.function_call
+              ? undefined
+              : {
+                  name: p.delta?.function_call?.["name"],
+                  arguments: p.delta?.function_call?.["arguments"],
+                },
+            context: !p.delta?.context
+              ? undefined
+              : {
+                  citations:
+                    p.delta?.context?.["citations"] === undefined
+                      ? p.delta?.context?.["citations"]
+                      : p.delta?.context?.["citations"].map((p) => ({
+                          content: p["content"],
+                          title: p["title"],
+                          url: p["url"],
+                          filepath: p["filepath"],
+                          chunkId: p["chunk_id"],
+                        })),
+                  intent: p.delta?.context?.["intent"],
+                },
+          },
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+            profanity: !p.content_filter_results?.profanity
+              ? undefined
+              : {
+                  filtered: p.content_filter_results?.profanity?.["filtered"],
+                  detected: p.content_filter_results?.profanity?.["detected"],
+                },
+            customBlocklists:
+              p.content_filter_results?.["custom_blocklists"] === undefined
+                ? p.content_filter_results?.["custom_blocklists"]
+                : p.content_filter_results?.["custom_blocklists"].map((p) => ({
+                    id: p["id"],
+                    filtered: p["filtered"],
+                  })),
+            error: !p.content_filter_results?.error
+              ? undefined
+              : p.content_filter_results?.error,
+            protectedMaterialText: !p.content_filter_results
+              ?.protected_material_text
+              ? undefined
+              : {
+                  filtered:
+                    p.content_filter_results?.protected_material_text?.[
+                      "filtered"
+                    ],
+                  detected:
+                    p.content_filter_results?.protected_material_text?.[
+                      "detected"
+                    ],
+                },
+            protectedMaterialCode: !p.content_filter_results
+              ?.protected_material_code
+              ? undefined
+              : {
+                  filtered:
+                    p.content_filter_results?.protected_material_code?.[
+                      "filtered"
+                    ],
+                  detected:
+                    p.content_filter_results?.protected_material_code?.[
+                      "detected"
+                    ],
+                  url: p.content_filter_results?.protected_material_code?.[
+                    "URL"
+                  ],
+                  license:
+                    p.content_filter_results?.protected_material_code?.[
+                      "license"
+                    ],
+                },
+          },
+      enhancements: !p.enhancements
+        ? undefined
+        : {
+            grounding: !p.enhancements?.grounding
+              ? undefined
+              : {
+                  lines: p.enhancements?.grounding?.["lines"].map((p) => ({
+                    text: p["text"],
+                    spans: p["spans"].map((p) => ({
+                      text: p["text"],
+                      offset: p["offset"],
+                      length: p["length"],
+                      polygon: p["polygon"].map((p) => ({
+                        x: p["x"],
+                        y: p["y"],
+                      })),
+                    })),
+                  })),
+                },
+          },
+    })),
+    promptFilterResults:
+      result.body["prompt_filter_results"] === undefined
+        ? result.body["prompt_filter_results"]
+        : result.body["prompt_filter_results"].map((p) => ({
+            promptIndex: p["prompt_index"],
+            contentFilterResults: {
+              sexual: !p.content_filter_results.sexual
+                ? undefined
+                : {
+                    severity: p.content_filter_results.sexual?.["severity"],
+                    filtered: p.content_filter_results.sexual?.["filtered"],
+                  },
+              violence: !p.content_filter_results.violence
+                ? undefined
+                : {
+                    severity: p.content_filter_results.violence?.["severity"],
+                    filtered: p.content_filter_results.violence?.["filtered"],
+                  },
+              hate: !p.content_filter_results.hate
+                ? undefined
+                : {
+                    severity: p.content_filter_results.hate?.["severity"],
+                    filtered: p.content_filter_results.hate?.["filtered"],
+                  },
+              selfHarm: !p.content_filter_results.self_harm
+                ? undefined
+                : {
+                    severity: p.content_filter_results.self_harm?.["severity"],
+                    filtered: p.content_filter_results.self_harm?.["filtered"],
+                  },
+              profanity: !p.content_filter_results.profanity
+                ? undefined
+                : {
+                    filtered: p.content_filter_results.profanity?.["filtered"],
+                    detected: p.content_filter_results.profanity?.["detected"],
+                  },
+              customBlocklists:
+                p.content_filter_results["custom_blocklists"] === undefined
+                  ? p.content_filter_results["custom_blocklists"]
+                  : p.content_filter_results["custom_blocklists"].map((p) => ({
+                      id: p["id"],
+                      filtered: p["filtered"],
+                    })),
+              error: !p.content_filter_results.error
+                ? undefined
+                : p.content_filter_results.error,
+              jailbreak: !p.content_filter_results.jailbreak
+                ? undefined
+                : {
+                    filtered: p.content_filter_results.jailbreak?.["filtered"],
+                    detected: p.content_filter_results.jailbreak?.["detected"],
+                  },
+            },
+          })),
+    systemFingerprint: result.body["system_fingerprint"],
+    usage: {
+      completionTokens: result.body.usage["completion_tokens"],
+      promptTokens: result.body.usage["prompt_tokens"],
+      totalTokens: result.body.usage["total_tokens"],
+    },
   };
 }
 
@@ -403,89 +893,49 @@ export function getChatCompletionsResult(
  */
 export async function getChatCompletions(
   context: Client,
-  deploymentName: string,
-  messages: ChatRequestMessageUnion[],
-  options: GetChatCompletionsOptions = { requestOptions: {} },
+  deploymentId: string,
+  body: ChatCompletionsOptions,
+  options: GetChatCompletionsOptionalParams = { requestOptions: {} },
 ): Promise<ChatCompletions> {
-  const result = await _getChatCompletionsSendX(context, deploymentName, messages, options);
-  return _getChatCompletionsDeserialize(result);
-}
-
-function _getChatCompletionsSendX(
-  context: Client,
-  deploymentName: string,
-  messages: ChatRequestMessageUnion[],
-  options: GetChatCompletionsOptions & { stream?: boolean } = { requestOptions: {} },
-): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
-  const {
-    azureExtensionOptions,
-    abortSignal,
-    onResponse,
-    requestOptions,
-    tracingOptions,
-    ...rest
-  } = options;
-  const coreOptions = {
-    abortSignal,
-    onResponse,
-    requestOptions,
-    tracingOptions,
-  };
-  const azure = {
-    ...(!azureExtensionOptions?.extensions
-      ? {}
-      : { dataSources: azureExtensionOptions.extensions }),
-    ...(!azureExtensionOptions?.enhancements
-      ? {}
-      : { enhancements: azureExtensionOptions.enhancements }),
-  };
-  return _getChatCompletionsSend(
+  const result = await _getChatCompletionsSend(
     context,
-    deploymentName,
-    { messages, ...rest, ...azure },
-    coreOptions,
+    deploymentId,
+    body,
+    options,
   );
-}
-
-export function streamChatCompletions(
-  context: Client,
-  deploymentName: string,
-  messages: ChatRequestMessageUnion[],
-  options: GetChatCompletionsOptions = { requestOptions: {} },
-): Promise<EventStream<ChatCompletions>> {
-  const response = _getChatCompletionsSendX(context, deploymentName, messages, {
-    ...options,
-    stream: true,
-  });
-  return getOaiSSEs(response, getChatCompletionsResult);
+  return _getChatCompletionsDeserialize(result);
 }
 
 export function _getImageGenerationsSend(
   context: Client,
   deploymentId: string,
   body: ImageGenerationOptions,
-  options: GetImageGenerationsOptions = { requestOptions: {} },
-): StreamableMethod<GetImageGenerations200Response | GetImageGenerationsDefaultResponse> {
-  return context.path("/deployments/{deploymentId}/images/generations", deploymentId).post({
-    ...operationOptionsToRequestParameters(options),
-    body: {
-      model: body["model"],
-      prompt: body["prompt"],
-      n: body["n"],
-      size: body["size"],
-      response_format: body["responseFormat"],
-      quality: body["quality"],
-      style: body["style"],
-      user: body["user"],
-    },
-  });
+  options: GetImageGenerationsOptionalParams = { requestOptions: {} },
+): StreamableMethod<
+  GetImageGenerations200Response | GetImageGenerationsDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/images/generations", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        model: body["model"],
+        prompt: body["prompt"],
+        n: body["n"],
+        size: body["size"],
+        response_format: body["responseFormat"],
+        quality: body["quality"],
+        style: body["style"],
+        user: body["user"],
+      },
+    });
 }
 
 export async function _getImageGenerationsDeserialize(
   result: GetImageGenerations200Response | GetImageGenerationsDefaultResponse,
 ): Promise<ImageGenerations> {
   if (isUnexpected(result)) {
-    throw createOpenAIError(result);
+    throw createRestError(result);
   }
 
   return {
@@ -570,41 +1020,94 @@ export async function _getImageGenerationsDeserialize(
 export async function getImageGenerations(
   context: Client,
   deploymentId: string,
-  prompt: string,
-  options: GetImagesOptions = { requestOptions: {} },
+  body: ImageGenerationOptions,
+  options: GetImageGenerationsOptionalParams = { requestOptions: {} },
 ): Promise<ImageGenerations> {
-  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const result = await _getImageGenerationsSend(
     context,
     deploymentId,
-    { prompt, ...rest },
-    { abortSignal, onResponse, requestOptions, tracingOptions },
+    body,
+    options,
   );
   return _getImageGenerationsDeserialize(result);
+}
+
+export function _generateSpeechFromTextSend(
+  context: Client,
+  deploymentId: string,
+  body: SpeechGenerationOptions,
+  options: GenerateSpeechFromTextOptionalParams = { requestOptions: {} },
+): StreamableMethod<
+  GenerateSpeechFromText200Response | GenerateSpeechFromTextDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/audio/speech", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        input: body["input"],
+        voice: body["voice"],
+        response_format: body["responseFormat"],
+        speed: body["speed"],
+        model: body["model"],
+      },
+    });
+}
+
+export async function _generateSpeechFromTextDeserialize(
+  result:
+    | GenerateSpeechFromText200Response
+    | GenerateSpeechFromTextDefaultResponse,
+): Promise<Uint8Array> {
+  if (isUnexpected(result)) {
+    throw createRestError(result);
+  }
+
+  return result.body;
+}
+
+/** Generates text-to-speech audio from the input text. */
+export async function generateSpeechFromText(
+  context: Client,
+  deploymentId: string,
+  body: SpeechGenerationOptions,
+  options: GenerateSpeechFromTextOptionalParams = { requestOptions: {} },
+): Promise<Uint8Array> {
+  const result = await _generateSpeechFromTextSend(
+    context,
+    deploymentId,
+    body,
+    options,
+  );
+  return _generateSpeechFromTextDeserialize(result);
 }
 
 export function _getEmbeddingsSend(
   context: Client,
   deploymentId: string,
   body: EmbeddingsOptions,
-  options: GetEmbeddingsOptions = { requestOptions: {} },
+  options: GetEmbeddingsOptionalParams = { requestOptions: {} },
 ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
-  return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
-    ...operationOptionsToRequestParameters(options),
-    body: {
-      user: body["user"],
-      model: body["model"],
-      input: body["input"],
-      dimensions: body["dimensions"],
-    },
-  });
+  return context
+    .path("/deployments/{deploymentId}/embeddings", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        user: body["user"],
+        model: body["model"],
+        input: body["input"],
+        encoding_format: body["encodingFormat"],
+        dimensions: body["dimensions"],
+        input_type: body["inputType"],
+      },
+    });
 }
 
 export async function _getEmbeddingsDeserialize(
   result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse,
 ): Promise<Embeddings> {
   if (isUnexpected(result)) {
-    throw createOpenAIError(result);
+    throw createRestError(result);
   }
 
   return {
@@ -623,61 +1126,9 @@ export async function _getEmbeddingsDeserialize(
 export async function getEmbeddings(
   context: Client,
   deploymentId: string,
-  input: string[],
-  options: GetEmbeddingsOptions = { requestOptions: {} },
+  body: EmbeddingsOptions,
+  options: GetEmbeddingsOptionalParams = { requestOptions: {} },
 ): Promise<Embeddings> {
-  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-  const result = await _getEmbeddingsSend(
-    context,
-    deploymentId,
-    { input, ...rest },
-    { abortSignal, onResponse, requestOptions, tracingOptions },
-  );
+  const result = await _getEmbeddingsSend(context, deploymentId, body, options);
   return _getEmbeddingsDeserialize(result);
-}
-
-type ContentFilterResultsForPromptX = {
-  prompt_filter_results?: Array<ContentFilterResultsForPromptOutput>;
-  prompt_annotations?: Array<ContentFilterResultsForPromptOutput>;
-};
-
-function getContentFilterResultsForPrompt({
-  prompt_annotations,
-  prompt_filter_results,
-}: ContentFilterResultsForPromptX): ContentFilterResultsForPrompt[] | undefined {
-  const res = prompt_filter_results ?? prompt_annotations;
-  return res?.map(({ content_filter_results, ...rest }) => ({
-    ...camelCaseKeys(rest),
-    contentFilterResults: parseContentFilterResultDetailsForPromptOutput(content_filter_results),
-  }));
-}
-
-function parseContentFilterResultDetailsForPromptOutput({
-  error,
-  ...rest
-}: ContentFilterResultDetailsForPromptOutput = {}): ContentFilterResultDetailsForPrompt {
-  return error ? parseError(error) : camelCaseKeys(rest);
-}
-
-function parseError(error: ErrorModel): { error: ErrorModel } {
-  return {
-    error: {
-      ...error,
-      details: error["details"] ?? [],
-    },
-  };
-}
-
-function parseContentFilterResultsForChoiceOutput({
-  error,
-  ...successResult
-}: ContentFilterResultsForChoiceOutput = {}): ContentFilterResultsForChoice {
-  return error
-    ? {
-        error: {
-          ...error,
-          details: error["details"] ?? [],
-        },
-      }
-    : camelCaseKeys(successResult);
 }

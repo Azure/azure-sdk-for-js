@@ -3,22 +3,12 @@
 
 import { ErrorModel } from "@azure-rest/core-client";
 
-/** A specific deployment */
-export interface DeploymentOutput {
-  /** Specifies either the model deployment name (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request. */
-  readonly deploymentId: string;
-}
-
 /** Result information for an operation that transcribed spoken audio into written text. */
 export interface AudioTranscriptionOutput {
   /** The transcribed text for the provided audio data. */
   text: string;
-  /**
-   * The label that describes which operation type generated the accompanying response data.
-   *
-   * Possible values: "transcribe", "translate"
-   */
-  task?: string;
+  /** The label that describes which operation type generated the accompanying response data. */
+  task?: AudioTaskLabelOutput;
   /**
    * The spoken language that was detected in the transcribed audio data.
    * This is expressed as a two-letter ISO-639-1 language code like 'en' or 'fr'.
@@ -68,12 +58,8 @@ export interface AudioTranscriptionSegmentOutput {
 export interface AudioTranslationOutput {
   /** The translated text for the provided audio data. */
   text: string;
-  /**
-   * The label that describes which operation type generated the accompanying response data.
-   *
-   * Possible values: "transcribe", "translate"
-   */
-  task?: string;
+  /** The label that describes which operation type generated the accompanying response data. */
+  task?: AudioTaskLabelOutput;
   /**
    * The spoken language that was detected in the translated audio data.
    * This is expressed as a two-letter ISO-639-1 language code like 'en' or 'fr'.
@@ -197,12 +183,8 @@ export interface ContentFilterResultDetailsForPromptOutput {
 
 /** Information about filtered content severity level and if it has been filtered or not. */
 export interface ContentFilterResultOutput {
-  /**
-   * Ratings for the intensity and risk level of filtered content.
-   *
-   * Possible values: "safe", "low", "medium", "high"
-   */
-  severity: string;
+  /** Ratings for the intensity and risk level of filtered content. */
+  severity: ContentFilterSeverityOutput;
   /** A value indicating whether or not the content has been filtered. */
   filtered: boolean;
 }
@@ -242,7 +224,7 @@ export interface ChoiceOutput {
   /** The log probabilities model for tokens associated with this completions choice. */
   logprobs: CompletionsLogProbabilityModelOutput | null;
   /** Reason for finishing */
-  finish_reason: string | null;
+  finish_reason: CompletionsFinishReasonOutput | null;
 }
 
 /** Information about content filtering evaluated against generated model output. */
@@ -406,7 +388,7 @@ export interface ChatChoiceOutput {
   /** The ordered index associated with this chat completions choice. */
   index: number;
   /** The reason that this chat completions choice completed its generated. */
-  finish_reason: string | null;
+  finish_reason: CompletionsFinishReasonOutput | null;
   /**
    * The reason the model stopped generating tokens, together with any applicable details.
    * This structured representation replaces 'finish_reason' for some models.
@@ -430,12 +412,8 @@ export interface ChatChoiceOutput {
 
 /** A representation of a chat message as received in a response. */
 export interface ChatResponseMessageOutput {
-  /**
-   * The chat role associated with the message.
-   *
-   * Possible values: "system", "assistant", "user", "function", "tool"
-   */
-  role: string;
+  /** The chat role associated with the message. */
+  role: ChatRoleOutput;
   /** The content of the message. */
   content: string | null;
   /**
@@ -587,53 +565,6 @@ export interface AzureGroundingEnhancementCoordinatePointOutput {
   y: number;
 }
 
-/** Represents the request data used to generate images. */
-export interface ImageGenerationOptionsOutput {
-  /**
-   * The model name or Azure OpenAI model deployment name to use for image generation. If not specified, dall-e-2 will be
-   * inferred as a default.
-   */
-  model?: string;
-  /** A description of the desired images. */
-  prompt: string;
-  /**
-   * The number of images to generate.
-   * Dall-e-2 models support values between 1 and 10.
-   * Dall-e-3 models only support a value of 1.
-   */
-  n?: number;
-  /**
-   * The desired dimensions for generated images.
-   * Dall-e-2 models support 256x256, 512x512, or 1024x1024.
-   * Dall-e-3 models support 1024x1024, 1792x1024, or 1024x1792.
-   *
-   * Possible values: "256x256", "512x512", "1024x1024", "1792x1024", "1024x1792"
-   */
-  size?: string;
-  /**
-   * The format in which image generation response items should be presented.
-   *
-   * Possible values: "url", "b64_json"
-   */
-  response_format?: string;
-  /**
-   * The desired image generation quality level to use.
-   * Only configurable with dall-e-3 models.
-   *
-   * Possible values: "standard", "hd"
-   */
-  quality?: string;
-  /**
-   * The desired image generation style to use.
-   * Only configurable with dall-e-3 models.
-   *
-   * Possible values: "natural", "vivid"
-   */
-  style?: string;
-  /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
-  user?: string;
-}
-
 /** The result of a successful image generation operation. */
 export interface ImageGenerationsOutput {
   /**
@@ -692,26 +623,6 @@ export interface EmbeddingsUsageOutput {
   total_tokens: number;
 }
 
-/** A polling status update or final response payload for an image operation. */
-export interface BatchImageGenerationOperationResponseOutput {
-  /** The ID of the operation. */
-  id: string;
-  /** A timestamp when this job or item was created (in unix epochs). */
-  created: number;
-  /** A timestamp when this operation and its associated images expire and will be deleted (in unix epochs). */
-  expires?: number;
-  /** The result of the operation if the operation succeeded. */
-  result?: ImageGenerationsOutput;
-  /**
-   * The status of the operation
-   *
-   * Possible values: "notRunning", "running", "succeeded", "canceled", "failed"
-   */
-  status: string;
-  /** The error if the operation failed. */
-  error?: ErrorModel;
-}
-
 /**
  * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
  * chat completion.
@@ -724,3 +635,21 @@ export type ChatFinishDetailsOutput =
   | ChatFinishDetailsOutputParent
   | StopFinishDetailsOutput
   | MaxTokensFinishDetailsOutput;
+/** Defines the possible descriptors for available audio operation responses. */
+export type AudioTaskLabelOutput = "transcribe" | "translate";
+/** Ratings for the intensity and risk level of harmful content. */
+export type ContentFilterSeverityOutput = "safe" | "low" | "medium" | "high";
+/** Representation of the manner in which a completions response concluded. */
+export type CompletionsFinishReasonOutput =
+  | "stop"
+  | "length"
+  | "content_filter"
+  | "function_call"
+  | "tool_calls";
+/** A description of the intended purpose of a message within a chat completions interaction. */
+export type ChatRoleOutput =
+  | "system"
+  | "assistant"
+  | "user"
+  | "function"
+  | "tool";

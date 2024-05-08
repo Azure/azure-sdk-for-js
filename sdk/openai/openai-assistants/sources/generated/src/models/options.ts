@@ -4,9 +4,9 @@
 import { OperationOptions } from "@azure-rest/core-client";
 import { ListSortOrder, FilePurpose } from "./models.js";
 
-export interface CreateAssistantOptions extends OperationOptions {}
+export interface CreateAssistantOptionalParams extends OperationOptions {}
 
-export interface ListAssistantsOptions extends OperationOptions {
+export interface ListAssistantsOptionalParams extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
@@ -17,15 +17,15 @@ export interface ListAssistantsOptions extends OperationOptions {
   before?: string;
 }
 
-export interface GetAssistantOptions extends OperationOptions {}
+export interface GetAssistantOptionalParams extends OperationOptions {}
 
-export interface UpdateAssistantRequestOptions extends OperationOptions {}
+export interface UpdateAssistantOptionalParams extends OperationOptions {}
 
-export interface DeleteAssistantOptions extends OperationOptions {}
+export interface DeleteAssistantOptionalParams extends OperationOptions {}
 
-export interface CreateAssistantFileOptions extends OperationOptions {}
+export interface CreateAssistantFileOptionalParams extends OperationOptions {}
 
-export interface ListAssistantFilesOptions extends OperationOptions {
+export interface ListAssistantFilesOptionalParams extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
@@ -36,29 +36,29 @@ export interface ListAssistantFilesOptions extends OperationOptions {
   before?: string;
 }
 
-export interface GetAssistantFileOptions extends OperationOptions {}
+export interface GetAssistantFileOptionalParams extends OperationOptions {}
 
-export interface DeleteAssistantFileOptions extends OperationOptions {}
+export interface DeleteAssistantFileOptionalParams extends OperationOptions {}
 
-export interface CreateThreadOptions extends OperationOptions {}
+export interface CreateThreadOptionalParams extends OperationOptions {}
 
-export interface GetThreadOptions extends OperationOptions {}
+export interface GetThreadOptionalParams extends OperationOptions {}
 
-export interface UpdateThreadOptions extends OperationOptions {
+export interface UpdateThreadOptionalParams extends OperationOptions {
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string>;
 }
 
-export interface DeleteThreadOptions extends OperationOptions {}
+export interface DeleteThreadOptionalParams extends OperationOptions {}
 
-export interface CreateMessageOptions extends OperationOptions {
+export interface CreateMessageOptionalParams extends OperationOptions {
   /** A list of up to 10 file IDs to associate with the message, as used by tools like 'code_interpreter' or 'retrieval' that can read files. */
   fileIds?: string[];
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string>;
 }
 
-export interface ListMessagesOptions extends OperationOptions {
+export interface ListMessagesOptionalParams extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
@@ -69,14 +69,14 @@ export interface ListMessagesOptions extends OperationOptions {
   before?: string;
 }
 
-export interface GetMessageOptions extends OperationOptions {}
+export interface GetMessageOptionalParams extends OperationOptions {}
 
-export interface UpdateMessageOptions extends OperationOptions {
+export interface UpdateMessageOptionalParams extends OperationOptions {
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string>;
 }
 
-export interface ListMessageFilesOptions extends OperationOptions {
+export interface ListMessageFilesOptionalParams extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
@@ -87,11 +87,11 @@ export interface ListMessageFilesOptions extends OperationOptions {
   before?: string;
 }
 
-export interface GetMessageFileOptions extends OperationOptions {}
+export interface GetMessageFileOptionalParams extends OperationOptions {}
 
-export interface CreateRunRequestOptions extends OperationOptions {}
+export interface CreateRunOptionalParams extends OperationOptions {}
 
-export interface ListRunsOptions extends OperationOptions {
+export interface ListRunsOptionalParams extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
@@ -102,22 +102,23 @@ export interface ListRunsOptions extends OperationOptions {
   before?: string;
 }
 
-export interface GetRunOptions extends OperationOptions {}
+export interface GetRunOptionalParams extends OperationOptions {}
 
-export interface UpdateRunOptions extends OperationOptions {
+export interface UpdateRunOptionalParams extends OperationOptions {
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string>;
 }
 
-export interface SubmitToolOutputsToRunOptions extends OperationOptions {}
+export interface SubmitToolOutputsToRunOptionalParams
+  extends OperationOptions {}
 
-export interface CancelRunOptions extends OperationOptions {}
+export interface CancelRunOptionalParams extends OperationOptions {}
 
-export interface CreateThreadAndRunOptions extends OperationOptions {}
+export interface CreateThreadAndRunOptionalParams extends OperationOptions {}
 
-export interface GetRunStepOptions extends OperationOptions {}
+export interface GetRunStepOptionalParams extends OperationOptions {}
 
-export interface ListRunStepsOptions extends OperationOptions {
+export interface ListRunStepsOptionalParams extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
@@ -128,18 +129,18 @@ export interface ListRunStepsOptions extends OperationOptions {
   before?: string;
 }
 
-export interface ListFilesOptions extends OperationOptions {
+export interface ListFilesOptionalParams extends OperationOptions {
   /** A value that, when provided, limits list results to files matching the corresponding purpose. */
   purpose?: FilePurpose;
 }
 
-export interface UploadFileOptions extends OperationOptions {
+export interface UploadFileOptionalParams extends OperationOptions {
   /** The 'content-type' header value, always 'multipart/format-data' for this operation. */
   contentType?: string;
   /** A filename to associate with the uploaded data. */
   filename?: string;
 }
 
-export interface DeleteFileOptions extends OperationOptions {}
+export interface DeleteFileOptionalParams extends OperationOptions {}
 
-export interface GetFileOptions extends OperationOptions {}
+export interface GetFileOptionalParams extends OperationOptions {}

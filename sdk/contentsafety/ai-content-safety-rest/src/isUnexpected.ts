@@ -23,7 +23,7 @@ import {
   GetTextBlocklistItemDefaultResponse,
   ListTextBlocklistItems200Response,
   ListTextBlocklistItemsDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /text:analyze": ["200"],
@@ -34,7 +34,9 @@ const responseMap: Record<string, string[]> = {
   "GET /text/blocklists": ["200"],
   "POST /text/blocklists/{blocklistName}:addOrUpdateBlocklistItems": ["200"],
   "POST /text/blocklists/{blocklistName}:removeBlocklistItems": ["204"],
-  "GET /text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}": ["200"],
+  "GET /text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}": [
+    "200",
+  ],
   "GET /text/blocklists/{blocklistName}/blocklistItems": ["200"],
 };
 
@@ -60,16 +62,24 @@ export function isUnexpected(
   response: ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse,
 ): response is ListTextBlocklistsDefaultResponse;
 export function isUnexpected(
-  response: AddOrUpdateBlocklistItems200Response | AddOrUpdateBlocklistItemsDefaultResponse,
+  response:
+    | AddOrUpdateBlocklistItems200Response
+    | AddOrUpdateBlocklistItemsDefaultResponse,
 ): response is AddOrUpdateBlocklistItemsDefaultResponse;
 export function isUnexpected(
-  response: RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse,
+  response:
+    | RemoveBlocklistItems204Response
+    | RemoveBlocklistItemsDefaultResponse,
 ): response is RemoveBlocklistItemsDefaultResponse;
 export function isUnexpected(
-  response: GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse,
+  response:
+    | GetTextBlocklistItem200Response
+    | GetTextBlocklistItemDefaultResponse,
 ): response is GetTextBlocklistItemDefaultResponse;
 export function isUnexpected(
-  response: ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse,
+  response:
+    | ListTextBlocklistItems200Response
+    | ListTextBlocklistItemsDefaultResponse,
 ): response is ListTextBlocklistItemsDefaultResponse;
 export function isUnexpected(
   response:
@@ -137,17 +147,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;

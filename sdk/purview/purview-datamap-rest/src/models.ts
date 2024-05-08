@@ -49,10 +49,8 @@ export interface AtlasEntity {
   /**
    * Status of the entity - can be active or deleted. Deleted entities are not
    * removed.
-   *
-   * Possible values: "ACTIVE", "DELETED"
    */
-  status?: string;
+  status?: EntityStatus;
   /** The update time of the record. */
   updateTime?: number;
   /** The user who updated the record. */
@@ -79,10 +77,8 @@ export interface AtlasClassification {
   /**
    * Status of the entity - can be active or deleted. Deleted entities are not
    * removed.
-   *
-   * Possible values: "ACTIVE", "DELETED"
    */
-  entityStatus?: string;
+  entityStatus?: EntityStatus;
   /** Determines if propagations will be removed on entity deletion. */
   removePropagationsOnEntityDelete?: boolean;
   /** An array of time boundaries indicating validity periods. */
@@ -113,12 +109,8 @@ export interface AtlasTermAssignmentHeader {
   expression?: string;
   /** The GUID of the relationship. */
   relationGuid?: string;
-  /**
-   * The status of terms assignment.
-   *
-   * Possible values: "DISCOVERED", "PROPOSED", "IMPORTED", "VALIDATED", "DEPRECATED", "OBSOLETE", "OTHER"
-   */
-  status?: string;
+  /** The status of terms assignment. */
+  status?: AtlasTermAssignmentStatus;
   /** The steward of the term. */
   steward?: string;
   /** The GUID of the term. */
@@ -160,10 +152,8 @@ export interface AtlasEntityHeader {
   /**
    * Status of the entity - can be active or deleted. Deleted entities are not
    * removed.
-   *
-   * Possible values: "ACTIVE", "DELETED"
    */
-  status?: string;
+  status?: EntityStatus;
 }
 
 /**
@@ -194,15 +184,16 @@ export interface AtlasEntityHeaders {
   guidHeaderMap?: Record<string, AtlasEntityHeader>;
 }
 
-/** Business metadata to send to the service */
-export interface BusinessMetadataOptions {
-  /**
-   * InputStream of file
-   *
-   * NOTE: The following type 'File' is part of WebAPI and available since Node 20. If your Node version is lower than Node 20.
-   * You could leverage our helpers 'createFile' or 'createFileFromStream' to create a File object. They could help you specify filename, type, and others.
-   */
-  file: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+export interface BusinessMetadataOptionsFilePartDescriptor {
+  name: "file";
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
+  filename?: string;
+  contentType?: string;
 }
 
 /** MoveEntitiesOptions */
@@ -269,12 +260,8 @@ export interface AtlasRelatedTermHeader {
   expression?: string;
   /** The GUID of the relationship. */
   relationGuid?: string;
-  /**
-   * The status of term relationship.
-   *
-   * Possible values: "DRAFT", "ACTIVE", "DEPRECATED", "OBSOLETE", "OTHER"
-   */
-  status?: string;
+  /** The status of term relationship. */
+  status?: AtlasTermRelationshipStatus;
   /** The steward of the term. */
   steward?: string;
   /** The GUID of the term. */
@@ -357,12 +344,8 @@ export interface AtlasGlossaryTerm {
   anchor?: AtlasGlossaryHeader;
   /** An array of related term headers as antonyms. */
   antonyms?: Array<AtlasRelatedTermHeader>;
-  /**
-   * Status of the AtlasGlossaryTerm
-   *
-   * Possible values: "Draft", "Approved", "Alert", "Expired"
-   */
-  status?: string;
+  /** Status of the AtlasGlossaryTerm */
+  status?: TermStatus;
   /** The nick name of the term. */
   nickName?: string;
   /** The hierarchy information of the term. */
@@ -455,10 +438,8 @@ export interface AtlasRelatedObjectId {
   /**
    * Status of the entity - can be active or deleted. Deleted entities are not
    * removed.
-   *
-   * Possible values: "ACTIVE", "DELETED"
    */
-  entityStatus?: string;
+  entityStatus?: EntityStatus;
   /** Relationship type */
   relationshipType?: string;
   /**
@@ -468,12 +449,8 @@ export interface AtlasRelatedObjectId {
   relationshipAttributes?: AtlasStruct;
   /** The GUID of the relationship. */
   relationshipGuid?: string;
-  /**
-   * The enum of relationship status.
-   *
-   * Possible values: "ACTIVE", "DELETED"
-   */
-  relationshipStatus?: string;
+  /** The enum of relationship status. */
+  relationshipStatus?: StatusAtlasRelationship;
 }
 
 /**
@@ -499,12 +476,8 @@ export interface AtlasTermCategorizationHeader {
   displayText?: string;
   /** The GUID of the relationship. */
   relationGuid?: string;
-  /**
-   * The status of term relationship.
-   *
-   * Possible values: "DRAFT", "ACTIVE", "DEPRECATED", "OBSOLETE", "OTHER"
-   */
-  status?: string;
+  /** The status of term relationship. */
+  status?: AtlasTermRelationshipStatus;
 }
 
 /** The search query of advanced search request. */
@@ -543,18 +516,10 @@ export interface SearchFacetItem {
 
 /** The sorting criteria */
 export interface SearchFacetSort {
-  /**
-   * Order by count
-   *
-   * Possible values: "asc", "desc"
-   */
-  count?: string;
-  /**
-   * Order by value
-   *
-   * Possible values: "asc", "desc"
-   */
-  value?: string;
+  /** Order by count */
+  count?: SearchSortOrder;
+  /** Order by value */
+  value?: SearchSortOrder;
 }
 
 /** Taxonomy setting for search request */
@@ -623,12 +588,8 @@ export interface AtlasRelationship {
   label?: string;
   /** Used to record the provenance of an instance of an entity or relationship */
   provenanceType?: number;
-  /**
-   * The enum of relationship status.
-   *
-   * Possible values: "ACTIVE", "DELETED"
-   */
-  status?: string;
+  /** The enum of relationship status. */
+  status?: StatusAtlasRelationship;
   /** The update time of the record. */
   updateTime?: number;
   /** The user who updated the record. */
@@ -649,12 +610,8 @@ export interface AtlasObjectId {
 
 /** class that captures details of a struct-type. */
 export interface AtlasBusinessMetadataDef {
-  /**
-   * The enum of type category.
-   *
-   * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
-   */
-  category?: string;
+  /** The enum of type category. */
+  category?: TypeCategory;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -735,12 +692,8 @@ export interface NumberFormat {
   parseIntegerOnly?: boolean;
   /** The number format. */
   percentInstance?: NumberFormat;
-  /**
-   * The enum of rounding mode.
-   *
-   * Possible values: "UP", "DOWN", "CEILING", "FLOOR", "HALF_UP", "HALF_DOWN", "HALF_EVEN", "UNNECESSARY"
-   */
-  roundingMode?: string;
+  /** The enum of rounding mode. */
+  roundingMode?: RoundingMode;
 }
 
 /** The timezone information. */
@@ -761,12 +714,8 @@ export interface TimeZone {
 
 /** class that captures details of a struct-attribute. */
 export interface AtlasAttributeDef {
-  /**
-   * single-valued attribute or multi-valued attribute.
-   *
-   * Possible values: "SINGLE", "LIST", "SET"
-   */
-  cardinality?: string;
+  /** single-valued attribute or multi-valued attribute. */
+  cardinality?: CardinalityValue;
   /** An array of constraints. */
   constraints?: Array<AtlasConstraintDef>;
   /** The default value of the attribute. */
@@ -803,12 +752,8 @@ export interface AtlasConstraintDef {
 
 /** class that captures details of a classification-type. */
 export interface AtlasClassificationDef {
-  /**
-   * The enum of type category.
-   *
-   * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
-   */
-  category?: string;
+  /** The enum of type category. */
+  category?: TypeCategory;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -870,12 +815,8 @@ export interface AtlasClassificationDef {
 
 /** class that captures details of a entity-type. */
 export interface AtlasEntityDef {
-  /**
-   * The enum of type category.
-   *
-   * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
-   */
-  category?: string;
+  /** The enum of type category. */
+  category?: TypeCategory;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -919,12 +860,8 @@ export interface AtlasEntityDef {
  * it  is the container end of the relationship.
  */
 export interface AtlasRelationshipAttributeDef {
-  /**
-   * single-valued attribute or multi-valued attribute.
-   *
-   * Possible values: "SINGLE", "LIST", "SET"
-   */
-  cardinality?: string;
+  /** single-valued attribute or multi-valued attribute. */
+  cardinality?: CardinalityValue;
   /** An array of constraints. */
   constraints?: Array<AtlasConstraintDef>;
   /** The default value of the attribute. */
@@ -957,12 +894,8 @@ export interface AtlasRelationshipAttributeDef {
 
 /** class that captures details of an enum-type. */
 export interface AtlasEnumDef {
-  /**
-   * The enum of type category.
-   *
-   * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
-   */
-  category?: string;
+  /** The enum of type category. */
+  category?: TypeCategory;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -1046,12 +979,8 @@ export interface AtlasEnumElementDef {
  * the entity instances
  */
 export interface AtlasRelationshipDef {
-  /**
-   * The enum of type category.
-   *
-   * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
-   */
-  category?: string;
+  /** The enum of type category. */
+  category?: TypeCategory;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -1103,10 +1032,8 @@ export interface AtlasRelationshipDef {
    * The difference being in the lifecycles of the container and its children.
    * In the COMPOSITION case, the children cannot exist without the container.
    * For AGGREGATION, the life cycles of the container and children are totally independent.
-   *
-   * Possible values: "ASSOCIATION", "AGGREGATION", "COMPOSITION"
    */
-  relationshipCategory?: string;
+  relationshipCategory?: RelationshipCategory;
   /** The label of the relationship. */
   relationshipLabel?: string;
 }
@@ -1118,12 +1045,8 @@ export interface AtlasRelationshipDef {
  * it  is the container end of the relationship.
  */
 export interface AtlasRelationshipEndDef {
-  /**
-   * single-valued attribute or multi-valued attribute.
-   *
-   * Possible values: "SINGLE", "LIST", "SET"
-   */
-  cardinality?: string;
+  /** single-valued attribute or multi-valued attribute. */
+  cardinality?: CardinalityValue;
   /** The description of the relationship end definition. */
   description?: string;
   /** Determines if it is container. */
@@ -1138,12 +1061,8 @@ export interface AtlasRelationshipEndDef {
 
 /** class that captures details of a struct-type. */
 export interface AtlasStructDef {
-  /**
-   * The enum of type category.
-   *
-   * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
-   */
-  category?: string;
+  /** The enum of type category. */
+  category?: TypeCategory;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -1194,12 +1113,8 @@ export interface AtlasTypesDef {
 
 /** Term template definition for glossary term. */
 export interface TermTemplateDef {
-  /**
-   * The enum of type category.
-   *
-   * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
-   */
-  category?: string;
+  /** The enum of type category. */
+  category?: TypeCategory;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -1229,3 +1144,65 @@ export interface TermTemplateDef {
   /** An array of attribute definitions. */
   attributeDefs?: Array<AtlasAttributeDef>;
 }
+
+/** Enum for business attribute update behavior */
+export type BusinessAttributeUpdateBehavior = "ignore" | "replace" | "merge";
+/** Status - can be active or deleted */
+export type EntityStatus = "ACTIVE" | "DELETED";
+/** Status for term assignment */
+export type AtlasTermAssignmentStatus =
+  | "DISCOVERED"
+  | "PROPOSED"
+  | "IMPORTED"
+  | "VALIDATED"
+  | "DEPRECATED"
+  | "OBSOLETE"
+  | "OTHER";
+/** Business metadata to send to the service */
+export type BusinessMetadataOptions =
+  | FormData
+  | Array<BusinessMetadataOptionsFilePartDescriptor>;
+/** Status for atlas term relationship */
+export type AtlasTermRelationshipStatus =
+  | "DRAFT"
+  | "ACTIVE"
+  | "DEPRECATED"
+  | "OBSOLETE"
+  | "OTHER";
+/** Status for term */
+export type TermStatus = "Draft" | "Approved" | "Alert" | "Expired";
+/** Status for atlas relationship */
+export type StatusAtlasRelationship = "ACTIVE" | "DELETED";
+/** Search sort order */
+export type SearchSortOrder = "asc" | "desc";
+/** Lineage direction */
+export type LineageDirection = "INPUT" | "OUTPUT" | "BOTH";
+/** Type Category */
+export type TypeCategory =
+  | "PRIMITIVE"
+  | "OBJECT_ID_TYPE"
+  | "ENUM"
+  | "STRUCT"
+  | "CLASSIFICATION"
+  | "ENTITY"
+  | "ARRAY"
+  | "MAP"
+  | "RELATIONSHIP"
+  | "TERM_TEMPLATE";
+/** Rounding Mode */
+export type RoundingMode =
+  | "UP"
+  | "DOWN"
+  | "CEILING"
+  | "FLOOR"
+  | "HALF_UP"
+  | "HALF_DOWN"
+  | "HALF_EVEN"
+  | "UNNECESSARY";
+/** Cardinality */
+export type CardinalityValue = "SINGLE" | "LIST" | "SET";
+/** Relationship Category */
+export type RelationshipCategory =
+  | "ASSOCIATION"
+  | "AGGREGATION"
+  | "COMPOSITION";

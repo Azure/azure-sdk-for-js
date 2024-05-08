@@ -5,7 +5,7 @@ export {
   createAssistants,
   AssistantsClientOptions,
   AssistantsContext,
-} from "./AssistantsContext.js";
+} from "./assistantsContext.js";
 export {
   createAssistant,
   listAssistants,

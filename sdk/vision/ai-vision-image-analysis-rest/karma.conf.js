@@ -52,8 +52,6 @@ module.exports = function (config) {
     },
 
     envPreprocessor: [
-      "VISION_KEY",
-      "VISION_ENDPOINT",
       "TEST_MODE",
       "ENDPOINT",
       "AZURE_CLIENT_SECRET",
