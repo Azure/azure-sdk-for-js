@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.2 (2024-05-01)
+
+### Bugs Fixed
+
+- Fix the bug that `sequenceAck` ping won't be sent if nothing has been received for a client
+
 ## 1.0.1 (2024-04-24)
 
 ### Other Changes

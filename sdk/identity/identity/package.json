@@ -24,6 +24,7 @@
     "./dist-esm/src/credentials/usernamePasswordCredential.js": "./dist-esm/src/credentials/usernamePasswordCredential.browser.js",
     "./dist-esm/src/credentials/azurePowerShellCredential.js": "./dist-esm/src/credentials/azurePowerShellCredential.browser.js",
     "./dist-esm/src/credentials/azureApplicationCredential.js": "./dist-esm/src/credentials/azureApplicationCredential.browser.js",
+    "./dist-esm/src/credentials/azurePipelinesCredential.js": "./dist-esm/src/credentials/azurePipelinesCredential.browser.js",
     "./dist-esm/src/credentials/onBehalfOfCredential.js": "./dist-esm/src/credentials/onBehalfOfCredential.browser.js",
     "./dist-esm/src/credentials/workloadIdentityCredential.js": "./dist-esm/src/credentials/workloadIdentityCredential.browser.js",
     "./dist-esm/src/msal/msal.js": "./dist-esm/src/msal/msal.browser.js",
