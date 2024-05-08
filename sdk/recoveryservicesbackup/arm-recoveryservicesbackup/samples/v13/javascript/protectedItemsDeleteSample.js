@@ -18,7 +18,7 @@ request, call the GetItemOperationResult API.
  *
  * @summary Used to disable backup of an item within a container. This is an asynchronous operation. To know the status of the
 request, call the GetItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/Common/ProtectedItem_Delete.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/ProtectedItem_Delete.json
  */
 async function deleteProtectionFromAzureVirtualMachine() {
   const subscriptionId =

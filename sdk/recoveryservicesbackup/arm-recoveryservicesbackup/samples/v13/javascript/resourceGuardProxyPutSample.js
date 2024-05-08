@@ -18,7 +18,7 @@ Secures vault critical operations
  *
  * @summary Add or Update ResourceGuardProxy under vault
 Secures vault critical operations
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ResourceGuardProxyCRUD/PutResourceGuardProxy.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ResourceGuardProxyCRUD/PutResourceGuardProxy.json
  */
 async function createResourceGuardProxy() {
   const subscriptionId =

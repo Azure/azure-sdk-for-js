@@ -22,6 +22,6 @@ export interface JobDetails {
     vaultName: string,
     resourceGroupName: string,
     jobName: string,
-    options?: JobDetailsGetOptionalParams
+    options?: JobDetailsGetOptionalParams,
   ): Promise<JobDetailsGetResponse>;
 }

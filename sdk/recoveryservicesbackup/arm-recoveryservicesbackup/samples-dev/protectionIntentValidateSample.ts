@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PreValidateEnableBackupRequest,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -27,7 +27,7 @@ dotenv.config();
 1. Vault capacity
 2. VM is already protected
 3. Any VM related configuration passed in properties.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/ProtectionIntent_Validate.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionIntent_Validate.json
  */
 async function validateEnableProtectionOnAzureVM() {
   const subscriptionId =
@@ -40,13 +40,13 @@ async function validateEnableProtectionOnAzureVM() {
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/arunaupgrade/providers/Microsoft.Compute/VirtualMachines/upgrade1",
     resourceType: "VM",
     vaultId:
-      "/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myRG/providers/Microsoft.RecoveryServices/Vaults/myVault"
+      "/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myRG/providers/Microsoft.RecoveryServices/Vaults/myVault",
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.protectionIntentOperations.validate(
     azureRegion,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets details of the specific container registered to your Recovery Services Vault.
  *
  * @summary Gets details of the specific container registered to your Recovery Services Vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureWorkload/ProtectionContainers_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureWorkload/ProtectionContainers_Get.json
  */
 async function getProtectionContainerDetails() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function getProtectionContainerDetails() {
     vaultName,
     resourceGroupName,
     fabricName,
-    containerName
+    containerName,
   );
   console.log(result);
 }

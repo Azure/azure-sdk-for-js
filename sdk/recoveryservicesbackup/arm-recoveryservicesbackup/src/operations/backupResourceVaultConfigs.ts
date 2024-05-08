@@ -18,12 +18,13 @@ import {
   BackupResourceVaultConfigsUpdateOptionalParams,
   BackupResourceVaultConfigsUpdateResponse,
   BackupResourceVaultConfigsPutOptionalParams,
-  BackupResourceVaultConfigsPutResponse
+  BackupResourceVaultConfigsPutResponse,
 } from "../models";
 
 /** Class containing BackupResourceVaultConfigs operations. */
 export class BackupResourceVaultConfigsImpl
-  implements BackupResourceVaultConfigs {
+  implements BackupResourceVaultConfigs
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -44,11 +45,11 @@ export class BackupResourceVaultConfigsImpl
   get(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupResourceVaultConfigsGetOptionalParams
+    options?: BackupResourceVaultConfigsGetOptionalParams,
   ): Promise<BackupResourceVaultConfigsGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -64,11 +65,11 @@ export class BackupResourceVaultConfigsImpl
     vaultName: string,
     resourceGroupName: string,
     parameters: BackupResourceVaultConfigResource,
-    options?: BackupResourceVaultConfigsUpdateOptionalParams
+    options?: BackupResourceVaultConfigsUpdateOptionalParams,
   ): Promise<BackupResourceVaultConfigsUpdateResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -84,11 +85,11 @@ export class BackupResourceVaultConfigsImpl
     vaultName: string,
     resourceGroupName: string,
     parameters: BackupResourceVaultConfigResource,
-    options?: BackupResourceVaultConfigsPutOptionalParams
+    options?: BackupResourceVaultConfigsPutOptionalParams,
   ): Promise<BackupResourceVaultConfigsPutResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, parameters, options },
-      putOperationSpec
+      putOperationSpec,
     );
   }
 }
@@ -96,38 +97,36 @@ export class BackupResourceVaultConfigsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupconfig/vaultconfig",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupconfig/vaultconfig",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupResourceVaultConfigResource
+      bodyMapper: Mappers.BackupResourceVaultConfigResource,
     },
     default: {
-      bodyMapper: Mappers.NewErrorResponse
-    }
+      bodyMapper: Mappers.NewErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupconfig/vaultconfig",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupconfig/vaultconfig",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupResourceVaultConfigResource
+      bodyMapper: Mappers.BackupResourceVaultConfigResource,
     },
     default: {
-      bodyMapper: Mappers.NewErrorResponse
-    }
+      bodyMapper: Mappers.NewErrorResponse,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
@@ -135,23 +134,26 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.xMsAuthorizationAuxiliary,
+  ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const putOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupconfig/vaultconfig",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupconfig/vaultconfig",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupResourceVaultConfigResource
+      bodyMapper: Mappers.BackupResourceVaultConfigResource,
     },
     default: {
-      bodyMapper: Mappers.NewErrorResponse
-    }
+      bodyMapper: Mappers.NewErrorResponse,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
@@ -159,9 +161,13 @@ const putOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.xMsAuthorizationAuxiliary,
+  ],
   mediaType: "json",
-  serializer
+  serializer,
 };

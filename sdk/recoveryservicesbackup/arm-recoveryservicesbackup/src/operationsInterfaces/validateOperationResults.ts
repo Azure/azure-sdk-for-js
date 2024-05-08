@@ -8,7 +8,7 @@
 
 import {
   ValidateOperationResultsGetOptionalParams,
-  ValidateOperationResultsGetResponse
+  ValidateOperationResultsGetResponse,
 } from "../models";
 
 /** Interface representing a ValidateOperationResults. */
@@ -25,6 +25,6 @@ export interface ValidateOperationResults {
     vaultName: string,
     resourceGroupName: string,
     operationId: string,
-    options?: ValidateOperationResultsGetOptionalParams
+    options?: ValidateOperationResultsGetOptionalParams,
   ): Promise<ValidateOperationResultsGetResponse>;
 }

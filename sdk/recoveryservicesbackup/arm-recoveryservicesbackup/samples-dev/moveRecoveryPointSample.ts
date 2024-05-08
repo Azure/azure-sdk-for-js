@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   MoveRPAcrossTiersRequest,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Move recovery point from one datastore to another store.
  *
  * @summary Move recovery point from one datastore to another store.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/TriggerRecoveryPointMove_Post.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TriggerRecoveryPointMove_Post.json
  */
 async function triggerRpMoveOperation() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function triggerRpMoveOperation() {
   const parameters: MoveRPAcrossTiersRequest = {
     objectType: "MoveRPAcrossTiersRequest",
     sourceTierType: "HardenedRP",
-    targetTierType: "ArchivedRP"
+    targetTierType: "ArchivedRP",
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -49,7 +49,7 @@ async function triggerRpMoveOperation() {
     containerName,
     protectedItemName,
     recoveryPointId,
-    parameters
+    parameters,
   );
   console.log(result);
 }

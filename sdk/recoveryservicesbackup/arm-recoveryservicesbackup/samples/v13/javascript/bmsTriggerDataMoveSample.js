@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Triggers Data Move Operation on target vault
  *
  * @summary Triggers Data Move Operation on target vault
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/BackupDataMove/TriggerDataMove_Post.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/BackupDataMove/TriggerDataMove_Post.json
  */
 async function triggerDataMove() {
   const subscriptionId =

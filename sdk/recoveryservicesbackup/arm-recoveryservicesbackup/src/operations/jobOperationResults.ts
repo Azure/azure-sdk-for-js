@@ -39,11 +39,11 @@ export class JobOperationResultsImpl implements JobOperationResults {
     resourceGroupName: string,
     jobName: string,
     operationId: string,
-    options?: JobOperationResultsGetOptionalParams
+    options?: JobOperationResultsGetOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, jobName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -51,16 +51,15 @@ export class JobOperationResultsImpl implements JobOperationResults {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs/{jobName}/operationResults/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs/{jobName}/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {},
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -69,8 +68,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.operationId,
-    Parameters.jobName
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

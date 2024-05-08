@@ -20,7 +20,7 @@ import {
   BackupEnginesListResponse,
   BackupEnginesGetOptionalParams,
   BackupEnginesGetResponse,
-  BackupEnginesListNextResponse
+  BackupEnginesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +46,7 @@ export class BackupEnginesImpl implements BackupEngines {
   public list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupEnginesListOptionalParams
+    options?: BackupEnginesListOptionalParams,
   ): PagedAsyncIterableIterator<BackupEngineBaseResource> {
     const iter = this.listPagingAll(vaultName, resourceGroupName, options);
     return {
@@ -64,9 +64,9 @@ export class BackupEnginesImpl implements BackupEngines {
           vaultName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -74,7 +74,7 @@ export class BackupEnginesImpl implements BackupEngines {
     vaultName: string,
     resourceGroupName: string,
     options?: BackupEnginesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BackupEngineBaseResource[]> {
     let result: BackupEnginesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class BackupEnginesImpl implements BackupEngines {
         vaultName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -102,12 +102,12 @@ export class BackupEnginesImpl implements BackupEngines {
   private async *listPagingAll(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupEnginesListOptionalParams
+    options?: BackupEnginesListOptionalParams,
   ): AsyncIterableIterator<BackupEngineBaseResource> {
     for await (const page of this.listPagingPage(
       vaultName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -123,11 +123,11 @@ export class BackupEnginesImpl implements BackupEngines {
   private _list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupEnginesListOptionalParams
+    options?: BackupEnginesListOptionalParams,
   ): Promise<BackupEnginesListResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -143,11 +143,11 @@ export class BackupEnginesImpl implements BackupEngines {
     vaultName: string,
     resourceGroupName: string,
     backupEngineName: string,
-    options?: BackupEnginesGetOptionalParams
+    options?: BackupEnginesGetOptionalParams,
   ): Promise<BackupEnginesGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, backupEngineName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -163,11 +163,11 @@ export class BackupEnginesImpl implements BackupEngines {
     vaultName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: BackupEnginesListNextOptionalParams
+    options?: BackupEnginesListNextOptionalParams,
   ): Promise<BackupEnginesListNextResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -175,76 +175,74 @@ export class BackupEnginesImpl implements BackupEngines {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEngines",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEngines",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupEngineBaseResourceList
+      bodyMapper: Mappers.BackupEngineBaseResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.vaultName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEngines/{backupEngineName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BackupEngineBaseResource
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.backupEngineName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEngines/{backupEngineName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BackupEngineBaseResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.skipToken,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.vaultName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.backupEngineName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupEngineBaseResourceList
+      bodyMapper: Mappers.BackupEngineBaseResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

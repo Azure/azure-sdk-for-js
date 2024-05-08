@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Provides a pageable list of all intents that are present within a vault.
  *
  * @summary Provides a pageable list of all intents that are present within a vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureWorkload/BackupProtectionIntent_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureWorkload/BackupProtectionIntent_List.json
  */
 async function listProtectionIntentWithBackupManagementTypeFilter() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function listProtectionIntentWithBackupManagementTypeFilter() {
   const resArray = new Array();
   for await (let item of client.backupProtectionIntent.list(
     vaultName,
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

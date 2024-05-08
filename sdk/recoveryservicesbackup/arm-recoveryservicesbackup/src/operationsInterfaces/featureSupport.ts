@@ -9,7 +9,7 @@
 import {
   FeatureSupportRequestUnion,
   FeatureSupportValidateOptionalParams,
-  FeatureSupportValidateResponse
+  FeatureSupportValidateResponse,
 } from "../models";
 
 /** Interface representing a FeatureSupport. */
@@ -23,6 +23,6 @@ export interface FeatureSupport {
   validate(
     azureRegion: string,
     parameters: FeatureSupportRequestUnion,
-    options?: FeatureSupportValidateOptionalParams
+    options?: FeatureSupportValidateOptionalParams,
   ): Promise<FeatureSupportValidateResponse>;
 }

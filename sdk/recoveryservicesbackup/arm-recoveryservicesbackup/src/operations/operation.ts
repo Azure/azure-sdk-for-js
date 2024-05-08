@@ -14,7 +14,7 @@ import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   ValidateOperationRequestResource,
   OperationValidateOptionalParams,
-  OperationValidateResponse
+  OperationValidateResponse,
 } from "../models";
 
 /** Class containing Operation operations. */
@@ -41,11 +41,11 @@ export class OperationImpl implements Operation {
     vaultName: string,
     resourceGroupName: string,
     parameters: ValidateOperationRequestResource,
-    options?: OperationValidateOptionalParams
+    options?: OperationValidateOptionalParams,
   ): Promise<OperationValidateResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, parameters, options },
-      validateOperationSpec
+      validateOperationSpec,
     );
   }
 }
@@ -53,16 +53,15 @@ export class OperationImpl implements Operation {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupValidateOperation",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupValidateOperation",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateOperationsResponse
+      bodyMapper: Mappers.ValidateOperationsResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
@@ -70,9 +69,9 @@ const validateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

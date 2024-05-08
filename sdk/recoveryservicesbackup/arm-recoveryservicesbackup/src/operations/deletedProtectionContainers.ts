@@ -18,13 +18,14 @@ import {
   DeletedProtectionContainersListNextOptionalParams,
   DeletedProtectionContainersListOptionalParams,
   DeletedProtectionContainersListResponse,
-  DeletedProtectionContainersListNextResponse
+  DeletedProtectionContainersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DeletedProtectionContainers operations. */
 export class DeletedProtectionContainersImpl
-  implements DeletedProtectionContainers {
+  implements DeletedProtectionContainers
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -45,7 +46,7 @@ export class DeletedProtectionContainersImpl
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: DeletedProtectionContainersListOptionalParams
+    options?: DeletedProtectionContainersListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionContainerResource> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -63,9 +64,9 @@ export class DeletedProtectionContainersImpl
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -73,7 +74,7 @@ export class DeletedProtectionContainersImpl
     resourceGroupName: string,
     vaultName: string,
     options?: DeletedProtectionContainersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProtectionContainerResource[]> {
     let result: DeletedProtectionContainersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +90,7 @@ export class DeletedProtectionContainersImpl
         resourceGroupName,
         vaultName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,12 +102,12 @@ export class DeletedProtectionContainersImpl
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: DeletedProtectionContainersListOptionalParams
+    options?: DeletedProtectionContainersListOptionalParams,
   ): AsyncIterableIterator<ProtectionContainerResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -122,11 +123,11 @@ export class DeletedProtectionContainersImpl
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: DeletedProtectionContainersListOptionalParams
+    options?: DeletedProtectionContainersListOptionalParams,
   ): Promise<DeletedProtectionContainersListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -142,11 +143,11 @@ export class DeletedProtectionContainersImpl
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: DeletedProtectionContainersListNextOptionalParams
+    options?: DeletedProtectionContainersListNextOptionalParams,
   ): Promise<DeletedProtectionContainersListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -154,45 +155,44 @@ export class DeletedProtectionContainersImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupDeletedProtectionContainers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupDeletedProtectionContainers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainerResourceList
+      bodyMapper: Mappers.ProtectionContainerResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainerResourceList
+      bodyMapper: Mappers.ProtectionContainerResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

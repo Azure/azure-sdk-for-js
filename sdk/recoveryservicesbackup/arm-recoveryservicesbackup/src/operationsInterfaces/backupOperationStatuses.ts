@@ -8,7 +8,7 @@
 
 import {
   BackupOperationStatusesGetOptionalParams,
-  BackupOperationStatusesGetResponse
+  BackupOperationStatusesGetResponse,
 } from "../models";
 
 /** Interface representing a BackupOperationStatuses. */
@@ -29,6 +29,6 @@ export interface BackupOperationStatuses {
     vaultName: string,
     resourceGroupName: string,
     operationId: string,
-    options?: BackupOperationStatusesGetOptionalParams
+    options?: BackupOperationStatusesGetOptionalParams,
   ): Promise<BackupOperationStatusesGetResponse>;
 }

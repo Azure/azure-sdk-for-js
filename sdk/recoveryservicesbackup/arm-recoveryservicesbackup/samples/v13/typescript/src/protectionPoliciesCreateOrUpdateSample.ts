@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ProtectionPolicyResource,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -23,7 +23,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hardened.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hardened.json
  */
 async function createOrUpdateAzureStorageVaultStandardProtectionPolicy() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function createOrUpdateAzureStorageVaultStandardProtectionPolicy() {
       schedulePolicy: {
         schedulePolicyType: "SimpleSchedulePolicy",
         scheduleRunFrequency: "Daily",
-        scheduleRunTimes: [new Date("2023-07-18T09:30:00.000Z")]
+        scheduleRunTimes: [new Date("2023-07-18T09:30:00.000Z")],
       },
       timeZone: "UTC",
       vaultRetentionPolicy: {
@@ -47,7 +47,7 @@ async function createOrUpdateAzureStorageVaultStandardProtectionPolicy() {
         vaultRetention: {
           dailySchedule: {
             retentionDuration: { count: 30, durationType: "Days" },
-            retentionTimes: [new Date("2023-07-18T09:30:00.000Z")]
+            retentionTimes: [new Date("2023-07-18T09:30:00.000Z")],
           },
           monthlySchedule: {
             retentionDuration: { count: 60, durationType: "Months" },
@@ -55,15 +55,15 @@ async function createOrUpdateAzureStorageVaultStandardProtectionPolicy() {
             retentionScheduleFormatType: "Weekly",
             retentionScheduleWeekly: {
               daysOfTheWeek: ["Sunday"],
-              weeksOfTheMonth: ["First"]
+              weeksOfTheMonth: ["First"],
             },
-            retentionTimes: [new Date("2023-07-18T09:30:00.000Z")]
+            retentionTimes: [new Date("2023-07-18T09:30:00.000Z")],
           },
           retentionPolicyType: "LongTermRetentionPolicy",
           weeklySchedule: {
             daysOfTheWeek: ["Sunday"],
             retentionDuration: { count: 12, durationType: "Weeks" },
-            retentionTimes: [new Date("2023-07-18T09:30:00.000Z")]
+            retentionTimes: [new Date("2023-07-18T09:30:00.000Z")],
           },
           yearlySchedule: {
             monthsOfYear: ["January"],
@@ -72,14 +72,14 @@ async function createOrUpdateAzureStorageVaultStandardProtectionPolicy() {
             retentionScheduleFormatType: "Weekly",
             retentionScheduleWeekly: {
               daysOfTheWeek: ["Sunday"],
-              weeksOfTheMonth: ["First"]
+              weeksOfTheMonth: ["First"],
             },
-            retentionTimes: [new Date("2023-07-18T09:30:00.000Z")]
-          }
-        }
+            retentionTimes: [new Date("2023-07-18T09:30:00.000Z")],
+          },
+        },
       },
-      workLoadType: "AzureFileShare"
-    }
+      workLoadType: "AzureFileShare",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -87,7 +87,7 @@ async function createOrUpdateAzureStorageVaultStandardProtectionPolicy() {
     vaultName,
     resourceGroupName,
     policyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -98,7 +98,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Daily.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Daily.json
  */
 async function createOrUpdateDailyAzureStorageProtectionPolicy() {
   const subscriptionId =
@@ -114,7 +114,7 @@ async function createOrUpdateDailyAzureStorageProtectionPolicy() {
       retentionPolicy: {
         dailySchedule: {
           retentionDuration: { count: 5, durationType: "Days" },
-          retentionTimes: [new Date("2021-09-29T08:00:00.000Z")]
+          retentionTimes: [new Date("2021-09-29T08:00:00.000Z")],
         },
         monthlySchedule: {
           retentionDuration: { count: 60, durationType: "Months" },
@@ -122,15 +122,15 @@ async function createOrUpdateDailyAzureStorageProtectionPolicy() {
           retentionScheduleFormatType: "Weekly",
           retentionScheduleWeekly: {
             daysOfTheWeek: ["Sunday"],
-            weeksOfTheMonth: ["First"]
+            weeksOfTheMonth: ["First"],
           },
-          retentionTimes: [new Date("2021-09-29T08:00:00.000Z")]
+          retentionTimes: [new Date("2021-09-29T08:00:00.000Z")],
         },
         retentionPolicyType: "LongTermRetentionPolicy",
         weeklySchedule: {
           daysOfTheWeek: ["Sunday"],
           retentionDuration: { count: 12, durationType: "Weeks" },
-          retentionTimes: [new Date("2021-09-29T08:00:00.000Z")]
+          retentionTimes: [new Date("2021-09-29T08:00:00.000Z")],
         },
         yearlySchedule: {
           monthsOfYear: ["January"],
@@ -139,19 +139,19 @@ async function createOrUpdateDailyAzureStorageProtectionPolicy() {
           retentionScheduleFormatType: "Weekly",
           retentionScheduleWeekly: {
             daysOfTheWeek: ["Sunday"],
-            weeksOfTheMonth: ["First"]
+            weeksOfTheMonth: ["First"],
           },
-          retentionTimes: [new Date("2021-09-29T08:00:00.000Z")]
-        }
+          retentionTimes: [new Date("2021-09-29T08:00:00.000Z")],
+        },
       },
       schedulePolicy: {
         schedulePolicyType: "SimpleSchedulePolicy",
         scheduleRunFrequency: "Daily",
-        scheduleRunTimes: [new Date("2021-09-29T08:00:00.000Z")]
+        scheduleRunTimes: [new Date("2021-09-29T08:00:00.000Z")],
       },
       timeZone: "UTC",
-      workLoadType: "AzureFileShare"
-    }
+      workLoadType: "AzureFileShare",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -159,7 +159,7 @@ async function createOrUpdateDailyAzureStorageProtectionPolicy() {
     vaultName,
     resourceGroupName,
     policyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -170,7 +170,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/V2Policy/IaaS_v2_hourly.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/V2Policy/IaaS_v2_hourly.json
  */
 async function createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup() {
   const subscriptionId =
@@ -188,7 +188,7 @@ async function createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup() {
       retentionPolicy: {
         dailySchedule: {
           retentionDuration: { count: 180, durationType: "Days" },
-          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")]
+          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")],
         },
         monthlySchedule: {
           retentionDuration: { count: 60, durationType: "Months" },
@@ -196,15 +196,15 @@ async function createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup() {
           retentionScheduleFormatType: "Weekly",
           retentionScheduleWeekly: {
             daysOfTheWeek: ["Sunday"],
-            weeksOfTheMonth: ["First"]
+            weeksOfTheMonth: ["First"],
           },
-          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")]
+          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")],
         },
         retentionPolicyType: "LongTermRetentionPolicy",
         weeklySchedule: {
           daysOfTheWeek: ["Sunday"],
           retentionDuration: { count: 12, durationType: "Weeks" },
-          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")]
+          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")],
         },
         yearlySchedule: {
           monthsOfYear: ["January"],
@@ -213,22 +213,23 @@ async function createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup() {
           retentionScheduleFormatType: "Weekly",
           retentionScheduleWeekly: {
             daysOfTheWeek: ["Sunday"],
-            weeksOfTheMonth: ["First"]
+            weeksOfTheMonth: ["First"],
           },
-          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")]
-        }
+          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")],
+        },
       },
       schedulePolicy: {
         hourlySchedule: {
           interval: 4,
           scheduleWindowDuration: 16,
-          scheduleWindowStartTime: new Date("2021-12-17T08:00:00Z")
+          scheduleWindowStartTime: new Date("2021-12-17T08:00:00Z"),
         },
         schedulePolicyType: "SimpleSchedulePolicyV2",
-        scheduleRunFrequency: "Hourly"
+        scheduleRunFrequency: "Hourly",
       },
-      timeZone: "India Standard Time"
-    }
+      snapshotConsistencyType: "OnlyCrashConsistent",
+      timeZone: "India Standard Time",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -236,7 +237,7 @@ async function createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup() {
     vaultName,
     resourceGroupName,
     policyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -247,7 +248,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/V2Policy/IaaS_v2_daily.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/V2Policy/IaaS_v2_daily.json
  */
 async function createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup() {
   const subscriptionId =
@@ -265,7 +266,7 @@ async function createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup() {
       retentionPolicy: {
         dailySchedule: {
           retentionDuration: { count: 180, durationType: "Days" },
-          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")]
+          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")],
         },
         monthlySchedule: {
           retentionDuration: { count: 60, durationType: "Months" },
@@ -273,15 +274,15 @@ async function createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup() {
           retentionScheduleFormatType: "Weekly",
           retentionScheduleWeekly: {
             daysOfTheWeek: ["Sunday"],
-            weeksOfTheMonth: ["First"]
+            weeksOfTheMonth: ["First"],
           },
-          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")]
+          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")],
         },
         retentionPolicyType: "LongTermRetentionPolicy",
         weeklySchedule: {
           daysOfTheWeek: ["Sunday"],
           retentionDuration: { count: 12, durationType: "Weeks" },
-          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")]
+          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")],
         },
         yearlySchedule: {
           monthsOfYear: ["January"],
@@ -290,18 +291,19 @@ async function createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup() {
           retentionScheduleFormatType: "Weekly",
           retentionScheduleWeekly: {
             daysOfTheWeek: ["Sunday"],
-            weeksOfTheMonth: ["First"]
+            weeksOfTheMonth: ["First"],
           },
-          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")]
-        }
+          retentionTimes: [new Date("2021-12-17T08:00:00+00:00")],
+        },
       },
       schedulePolicy: {
         dailySchedule: { scheduleRunTimes: [new Date("2018-01-24T10:00:00Z")] },
         schedulePolicyType: "SimpleSchedulePolicyV2",
-        scheduleRunFrequency: "Daily"
+        scheduleRunFrequency: "Daily",
       },
-      timeZone: "India Standard Time"
-    }
+      snapshotConsistencyType: "OnlyCrashConsistent",
+      timeZone: "India Standard Time",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -309,7 +311,7 @@ async function createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup() {
     vaultName,
     resourceGroupName,
     policyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -320,7 +322,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Complex.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Complex.json
  */
 async function createOrUpdateFullAzureVMProtectionPolicy() {
   const subscriptionId =
@@ -339,15 +341,15 @@ async function createOrUpdateFullAzureVMProtectionPolicy() {
           retentionScheduleFormatType: "Weekly",
           retentionScheduleWeekly: {
             daysOfTheWeek: ["Wednesday", "Thursday"],
-            weeksOfTheMonth: ["First", "Third"]
+            weeksOfTheMonth: ["First", "Third"],
           },
-          retentionTimes: [new Date("2018-01-24T10:00:00Z")]
+          retentionTimes: [new Date("2018-01-24T10:00:00Z")],
         },
         retentionPolicyType: "LongTermRetentionPolicy",
         weeklySchedule: {
           daysOfTheWeek: ["Monday", "Wednesday", "Thursday"],
           retentionDuration: { count: 1, durationType: "Weeks" },
-          retentionTimes: [new Date("2018-01-24T10:00:00Z")]
+          retentionTimes: [new Date("2018-01-24T10:00:00Z")],
         },
         yearlySchedule: {
           monthsOfYear: ["February", "November"],
@@ -355,19 +357,19 @@ async function createOrUpdateFullAzureVMProtectionPolicy() {
           retentionScheduleFormatType: "Weekly",
           retentionScheduleWeekly: {
             daysOfTheWeek: ["Monday", "Thursday"],
-            weeksOfTheMonth: ["Fourth"]
+            weeksOfTheMonth: ["Fourth"],
           },
-          retentionTimes: [new Date("2018-01-24T10:00:00Z")]
-        }
+          retentionTimes: [new Date("2018-01-24T10:00:00Z")],
+        },
       },
       schedulePolicy: {
         schedulePolicyType: "SimpleSchedulePolicy",
         scheduleRunDays: ["Monday", "Wednesday", "Thursday"],
         scheduleRunFrequency: "Weekly",
-        scheduleRunTimes: [new Date("2018-01-24T10:00:00Z")]
+        scheduleRunTimes: [new Date("2018-01-24T10:00:00Z")],
       },
-      timeZone: "Pacific Standard Time"
-    }
+      timeZone: "Pacific Standard Time",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -375,7 +377,7 @@ async function createOrUpdateFullAzureVMProtectionPolicy() {
     vaultName,
     resourceGroupName,
     policyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -386,7 +388,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureWorkload/ProtectionPolicies_CreateOrUpdate_Complex.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureWorkload/ProtectionPolicies_CreateOrUpdate_Complex.json
  */
 async function createOrUpdateFullAzureWorkloadProtectionPolicy() {
   const subscriptionId =
@@ -409,15 +411,15 @@ async function createOrUpdateFullAzureWorkloadProtectionPolicy() {
               retentionScheduleFormatType: "Weekly",
               retentionScheduleWeekly: {
                 daysOfTheWeek: ["Sunday"],
-                weeksOfTheMonth: ["Second"]
+                weeksOfTheMonth: ["Second"],
               },
-              retentionTimes: [new Date("2018-01-24T10:00:00Z")]
+              retentionTimes: [new Date("2018-01-24T10:00:00Z")],
             },
             retentionPolicyType: "LongTermRetentionPolicy",
             weeklySchedule: {
               daysOfTheWeek: ["Sunday", "Tuesday"],
               retentionDuration: { count: 2, durationType: "Weeks" },
-              retentionTimes: [new Date("2018-01-24T10:00:00Z")]
+              retentionTimes: [new Date("2018-01-24T10:00:00Z")],
             },
             yearlySchedule: {
               monthsOfYear: ["January", "June", "December"],
@@ -425,45 +427,45 @@ async function createOrUpdateFullAzureWorkloadProtectionPolicy() {
               retentionScheduleFormatType: "Weekly",
               retentionScheduleWeekly: {
                 daysOfTheWeek: ["Sunday"],
-                weeksOfTheMonth: ["Last"]
+                weeksOfTheMonth: ["Last"],
               },
-              retentionTimes: [new Date("2018-01-24T10:00:00Z")]
-            }
+              retentionTimes: [new Date("2018-01-24T10:00:00Z")],
+            },
           },
           schedulePolicy: {
             schedulePolicyType: "SimpleSchedulePolicy",
             scheduleRunDays: ["Sunday", "Tuesday"],
             scheduleRunFrequency: "Weekly",
-            scheduleRunTimes: [new Date("2018-01-24T10:00:00Z")]
-          }
+            scheduleRunTimes: [new Date("2018-01-24T10:00:00Z")],
+          },
         },
         {
           policyType: "Differential",
           retentionPolicy: {
             retentionDuration: { count: 8, durationType: "Days" },
-            retentionPolicyType: "SimpleRetentionPolicy"
+            retentionPolicyType: "SimpleRetentionPolicy",
           },
           schedulePolicy: {
             schedulePolicyType: "SimpleSchedulePolicy",
             scheduleRunDays: ["Friday"],
             scheduleRunFrequency: "Weekly",
-            scheduleRunTimes: [new Date("2018-01-24T10:00:00Z")]
-          }
+            scheduleRunTimes: [new Date("2018-01-24T10:00:00Z")],
+          },
         },
         {
           policyType: "Log",
           retentionPolicy: {
             retentionDuration: { count: 7, durationType: "Days" },
-            retentionPolicyType: "SimpleRetentionPolicy"
+            retentionPolicyType: "SimpleRetentionPolicy",
           },
           schedulePolicy: {
             scheduleFrequencyInMins: 60,
-            schedulePolicyType: "LogSchedulePolicy"
-          }
-        }
+            schedulePolicyType: "LogSchedulePolicy",
+          },
+        },
       ],
-      workLoadType: "SQLDataBase"
-    }
+      workLoadType: "SQLDataBase",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -471,7 +473,7 @@ async function createOrUpdateFullAzureWorkloadProtectionPolicy() {
     vaultName,
     resourceGroupName,
     policyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -482,7 +484,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hourly.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hourly.json
  */
 async function createOrUpdateHourlyAzureStorageProtectionPolicy() {
   const subscriptionId =
@@ -498,7 +500,7 @@ async function createOrUpdateHourlyAzureStorageProtectionPolicy() {
       retentionPolicy: {
         dailySchedule: {
           retentionDuration: { count: 5, durationType: "Days" },
-          retentionTimes: []
+          retentionTimes: [],
         },
         monthlySchedule: {
           retentionDuration: { count: 60, durationType: "Months" },
@@ -506,15 +508,15 @@ async function createOrUpdateHourlyAzureStorageProtectionPolicy() {
           retentionScheduleFormatType: "Weekly",
           retentionScheduleWeekly: {
             daysOfTheWeek: ["Sunday"],
-            weeksOfTheMonth: ["First"]
+            weeksOfTheMonth: ["First"],
           },
-          retentionTimes: []
+          retentionTimes: [],
         },
         retentionPolicyType: "LongTermRetentionPolicy",
         weeklySchedule: {
           daysOfTheWeek: ["Sunday"],
           retentionDuration: { count: 12, durationType: "Weeks" },
-          retentionTimes: []
+          retentionTimes: [],
         },
         yearlySchedule: {
           monthsOfYear: ["January"],
@@ -523,23 +525,23 @@ async function createOrUpdateHourlyAzureStorageProtectionPolicy() {
           retentionScheduleFormatType: "Weekly",
           retentionScheduleWeekly: {
             daysOfTheWeek: ["Sunday"],
-            weeksOfTheMonth: ["First"]
+            weeksOfTheMonth: ["First"],
           },
-          retentionTimes: []
-        }
+          retentionTimes: [],
+        },
       },
       schedulePolicy: {
         hourlySchedule: {
           interval: 4,
           scheduleWindowDuration: 12,
-          scheduleWindowStartTime: new Date("2021-09-29T08:00:00.000Z")
+          scheduleWindowStartTime: new Date("2021-09-29T08:00:00.000Z"),
         },
         schedulePolicyType: "SimpleSchedulePolicy",
-        scheduleRunFrequency: "Hourly"
+        scheduleRunFrequency: "Hourly",
       },
       timeZone: "UTC",
-      workLoadType: "AzureFileShare"
-    }
+      workLoadType: "AzureFileShare",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -547,7 +549,7 @@ async function createOrUpdateHourlyAzureStorageProtectionPolicy() {
     vaultName,
     resourceGroupName,
     policyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -558,7 +560,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Simple.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Simple.json
  */
 async function createOrUpdateSimpleAzureVMProtectionPolicy() {
   const subscriptionId =
@@ -574,17 +576,17 @@ async function createOrUpdateSimpleAzureVMProtectionPolicy() {
       retentionPolicy: {
         dailySchedule: {
           retentionDuration: { count: 1, durationType: "Days" },
-          retentionTimes: [new Date("2018-01-24T02:00:00Z")]
+          retentionTimes: [new Date("2018-01-24T02:00:00Z")],
         },
-        retentionPolicyType: "LongTermRetentionPolicy"
+        retentionPolicyType: "LongTermRetentionPolicy",
       },
       schedulePolicy: {
         schedulePolicyType: "SimpleSchedulePolicy",
         scheduleRunFrequency: "Daily",
-        scheduleRunTimes: [new Date("2018-01-24T02:00:00Z")]
+        scheduleRunTimes: [new Date("2018-01-24T02:00:00Z")],
       },
-      timeZone: "Pacific Standard Time"
-    }
+      timeZone: "Pacific Standard Time",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -592,7 +594,7 @@ async function createOrUpdateSimpleAzureVMProtectionPolicy() {
     vaultName,
     resourceGroupName,
     policyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   TieringCostOperationStatusGetOptionalParams,
-  TieringCostOperationStatusGetResponse
+  TieringCostOperationStatusGetResponse,
 } from "../models";
 
 /** Class containing TieringCostOperationStatus operations. */
 export class TieringCostOperationStatusImpl
-  implements TieringCostOperationStatus {
+  implements TieringCostOperationStatus
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -41,11 +42,11 @@ export class TieringCostOperationStatusImpl
     resourceGroupName: string,
     vaultName: string,
     operationId: string,
-    options?: TieringCostOperationStatusGetOptionalParams
+    options?: TieringCostOperationStatusGetOptionalParams,
   ): Promise<TieringCostOperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -53,16 +54,15 @@ export class TieringCostOperationStatusImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTieringCost/default/operationsStatus/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTieringCost/default/operationsStatus/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -70,8 +70,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.operationId,
-    Parameters.vaultName1
+    Parameters.vaultName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

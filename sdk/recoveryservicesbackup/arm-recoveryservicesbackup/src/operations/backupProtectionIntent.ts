@@ -18,7 +18,7 @@ import {
   BackupProtectionIntentListNextOptionalParams,
   BackupProtectionIntentListOptionalParams,
   BackupProtectionIntentListResponse,
-  BackupProtectionIntentListNextResponse
+  BackupProtectionIntentListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export class BackupProtectionIntentImpl implements BackupProtectionIntent {
   public list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupProtectionIntentListOptionalParams
+    options?: BackupProtectionIntentListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionIntentResource> {
     const iter = this.listPagingAll(vaultName, resourceGroupName, options);
     return {
@@ -62,9 +62,9 @@ export class BackupProtectionIntentImpl implements BackupProtectionIntent {
           vaultName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,7 +72,7 @@ export class BackupProtectionIntentImpl implements BackupProtectionIntent {
     vaultName: string,
     resourceGroupName: string,
     options?: BackupProtectionIntentListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProtectionIntentResource[]> {
     let result: BackupProtectionIntentListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class BackupProtectionIntentImpl implements BackupProtectionIntent {
         vaultName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -100,12 +100,12 @@ export class BackupProtectionIntentImpl implements BackupProtectionIntent {
   private async *listPagingAll(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupProtectionIntentListOptionalParams
+    options?: BackupProtectionIntentListOptionalParams,
   ): AsyncIterableIterator<ProtectionIntentResource> {
     for await (const page of this.listPagingPage(
       vaultName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -121,11 +121,11 @@ export class BackupProtectionIntentImpl implements BackupProtectionIntent {
   private _list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupProtectionIntentListOptionalParams
+    options?: BackupProtectionIntentListOptionalParams,
   ): Promise<BackupProtectionIntentListResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -141,11 +141,11 @@ export class BackupProtectionIntentImpl implements BackupProtectionIntent {
     vaultName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: BackupProtectionIntentListNextOptionalParams
+    options?: BackupProtectionIntentListNextOptionalParams,
   ): Promise<BackupProtectionIntentListNextResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -153,43 +153,42 @@ export class BackupProtectionIntentImpl implements BackupProtectionIntent {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectionIntents",
+  path: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectionIntents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionIntentResourceList
-    }
+      bodyMapper: Mappers.ProtectionIntentResourceList,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionIntentResourceList
-    }
+      bodyMapper: Mappers.ProtectionIntentResourceList,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

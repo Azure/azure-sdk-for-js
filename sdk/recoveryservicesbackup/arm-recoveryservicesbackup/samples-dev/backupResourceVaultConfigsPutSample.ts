@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BackupResourceVaultConfigResource,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates vault security config.
  *
  * @summary Updates vault security config.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/Common/BackupResourceVaultConfigs_Put.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/BackupResourceVaultConfigs_Put.json
  */
 async function updateVaultSecurityConfig() {
   const subscriptionId =
@@ -33,15 +33,15 @@ async function updateVaultSecurityConfig() {
   const parameters: BackupResourceVaultConfigResource = {
     properties: {
       enhancedSecurityState: "Enabled",
-      softDeleteFeatureState: "Enabled"
-    }
+      softDeleteFeatureState: "Enabled",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.backupResourceVaultConfigs.put(
     vaultName,
     resourceGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

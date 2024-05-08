@@ -18,7 +18,7 @@ parameters.
  *
  * @summary Provides a pageable list of workload item of a specific container according to the query filter and the pagination
 parameters.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureWorkload/BackupWorkloadItems_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureWorkload/BackupWorkloadItems_List.json
  */
 async function listWorkloadItemsInContainer() {
   const subscriptionId =

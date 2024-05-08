@@ -24,6 +24,6 @@ export interface ProtectionContainerRefreshOperationResults {
     resourceGroupName: string,
     fabricName: string,
     operationId: string,
-    options?: ProtectionContainerRefreshOperationResultsGetOptionalParams
+    options?: ProtectionContainerRefreshOperationResultsGetOptionalParams,
   ): Promise<void>;
 }

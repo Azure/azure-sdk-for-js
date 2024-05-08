@@ -8,7 +8,7 @@
 
 import {
   ProtectionContainerOperationResultsGetOptionalParams,
-  ProtectionContainerOperationResultsGetResponse
+  ProtectionContainerOperationResultsGetResponse,
 } from "../models";
 
 /** Interface representing a ProtectionContainerOperationResults. */
@@ -29,6 +29,6 @@ export interface ProtectionContainerOperationResults {
     fabricName: string,
     containerName: string,
     operationId: string,
-    options?: ProtectionContainerOperationResultsGetOptionalParams
+    options?: ProtectionContainerOperationResultsGetOptionalParams,
   ): Promise<ProtectionContainerOperationResultsGetResponse>;
 }

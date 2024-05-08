@@ -13,7 +13,7 @@ import {
   PrivateEndpointConnectionResource,
   PrivateEndpointConnectionPutOptionalParams,
   PrivateEndpointConnectionPutResponse,
-  PrivateEndpointConnectionDeleteOptionalParams
+  PrivateEndpointConnectionDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a PrivateEndpointConnectionOperations. */
@@ -30,7 +30,7 @@ export interface PrivateEndpointConnectionOperations {
     vaultName: string,
     resourceGroupName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionGetOptionalParams
+    options?: PrivateEndpointConnectionGetOptionalParams,
   ): Promise<PrivateEndpointConnectionGetResponse>;
   /**
    * Approve or Reject Private Endpoint requests. This call is made by Backup Admin.
@@ -46,7 +46,7 @@ export interface PrivateEndpointConnectionOperations {
     resourceGroupName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnectionResource,
-    options?: PrivateEndpointConnectionPutOptionalParams
+    options?: PrivateEndpointConnectionPutOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionPutResponse>,
@@ -67,7 +67,7 @@ export interface PrivateEndpointConnectionOperations {
     resourceGroupName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnectionResource,
-    options?: PrivateEndpointConnectionPutOptionalParams
+    options?: PrivateEndpointConnectionPutOptionalParams,
   ): Promise<PrivateEndpointConnectionPutResponse>;
   /**
    * Delete Private Endpoint requests. This call is made by Backup Admin.
@@ -81,7 +81,7 @@ export interface PrivateEndpointConnectionOperations {
     vaultName: string,
     resourceGroupName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionDeleteOptionalParams
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Private Endpoint requests. This call is made by Backup Admin.
@@ -95,6 +95,6 @@ export interface PrivateEndpointConnectionOperations {
     vaultName: string,
     resourceGroupName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionDeleteOptionalParams
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
   ): Promise<void>;
 }

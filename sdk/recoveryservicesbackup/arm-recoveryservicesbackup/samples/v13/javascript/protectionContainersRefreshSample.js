@@ -18,7 +18,7 @@ asynchronous operation. To know the status of the operation, call GetRefreshOper
  *
  * @summary Discovers all the containers in the subscription that can be backed up to Recovery Services Vault. This is an
 asynchronous operation. To know the status of the operation, call GetRefreshOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/Common/RefreshContainers.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/RefreshContainers.json
  */
 async function triggerAzureVMDiscovery() {
   const subscriptionId =

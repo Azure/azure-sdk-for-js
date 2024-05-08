@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ProtectionContainerResource,
-  DeletedProtectionContainersListOptionalParams
+  DeletedProtectionContainersListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,6 +25,6 @@ export interface DeletedProtectionContainers {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: DeletedProtectionContainersListOptionalParams
+    options?: DeletedProtectionContainersListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionContainerResource>;
 }

@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   ExportJobsOperationResultsGetOptionalParams,
-  ExportJobsOperationResultsGetResponse
+  ExportJobsOperationResultsGetResponse,
 } from "../models";
 
 /** Class containing ExportJobsOperationResults operations. */
 export class ExportJobsOperationResultsImpl
-  implements ExportJobsOperationResults {
+  implements ExportJobsOperationResults
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -44,11 +45,11 @@ export class ExportJobsOperationResultsImpl
     vaultName: string,
     resourceGroupName: string,
     operationId: string,
-    options?: ExportJobsOperationResultsGetOptionalParams
+    options?: ExportJobsOperationResultsGetOptionalParams,
   ): Promise<ExportJobsOperationResultsGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -56,19 +57,18 @@ export class ExportJobsOperationResultsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs/operationResults/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationResultInfoBaseResource
+      bodyMapper: Mappers.OperationResultInfoBaseResource,
     },
     202: {
-      bodyMapper: Mappers.OperationResultInfoBaseResource
+      bodyMapper: Mappers.OperationResultInfoBaseResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -76,8 +76,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

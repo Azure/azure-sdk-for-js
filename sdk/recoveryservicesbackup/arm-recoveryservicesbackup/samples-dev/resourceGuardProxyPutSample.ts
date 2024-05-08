@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ResourceGuardProxyBaseResource,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -23,7 +23,7 @@ Secures vault critical operations
  *
  * @summary Add or Update ResourceGuardProxy under vault
 Secures vault critical operations
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ResourceGuardProxyCRUD/PutResourceGuardProxy.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ResourceGuardProxyCRUD/PutResourceGuardProxy.json
  */
 async function createResourceGuardProxy() {
   const subscriptionId =
@@ -37,8 +37,8 @@ async function createResourceGuardProxy() {
   const parameters: ResourceGuardProxyBaseResource = {
     properties: {
       resourceGuardResourceId:
-        "/subscriptions/c999d45b-944f-418c-a0d8-c3fcfd1802c8/resourceGroups/vaultguardRGNew/providers/Microsoft.DataProtection/resourceGuards/VaultGuardTestNew"
-    }
+        "/subscriptions/c999d45b-944f-418c-a0d8-c3fcfd1802c8/resourceGroups/vaultguardRGNew/providers/Microsoft.DataProtection/resourceGuards/VaultGuardTestNew",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -46,7 +46,7 @@ async function createResourceGuardProxy() {
     vaultName,
     resourceGroupName,
     resourceGuardProxyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

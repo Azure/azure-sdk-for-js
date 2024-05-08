@@ -20,7 +20,7 @@ If operation has completed, this method returns the list of errors obtained whil
  * @summary Fetches the status of a triggered validate operation. The status can be in progress, completed
 or failed. You can refer to the OperationStatus enum for all the possible states of the operation.
 If operation has completed, this method returns the list of errors obtained while validating the operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/ValidateOperationStatus.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ValidateOperationStatus.json
  */
 async function getOperationStatusOfValidateOperation() {
   const subscriptionId =

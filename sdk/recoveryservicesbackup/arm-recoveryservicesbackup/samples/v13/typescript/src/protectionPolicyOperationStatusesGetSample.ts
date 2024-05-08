@@ -22,7 +22,7 @@ create jobs. This method returns the list of jobs associated with operation.
  * @summary Provides the status of the asynchronous operations like backup, restore. The status can be in progress, completed
 or failed. You can refer to the Operation Status enum for all the possible states of an operation. Some operations
 create jobs. This method returns the list of jobs associated with operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/ProtectionPolicyOperationStatuses_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionPolicyOperationStatuses_Get.json
  */
 async function getProtectionPolicyOperationStatus() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function getProtectionPolicyOperationStatus() {
     vaultName,
     resourceGroupName,
     policyName,
-    operationId
+    operationId,
   );
   console.log(result);
 }

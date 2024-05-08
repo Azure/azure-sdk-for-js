@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   WorkloadItemResource,
-  BackupWorkloadItemsListOptionalParams
+  BackupWorkloadItemsListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,6 +31,6 @@ export interface BackupWorkloadItems {
     resourceGroupName: string,
     fabricName: string,
     containerName: string,
-    options?: BackupWorkloadItemsListOptionalParams
+    options?: BackupWorkloadItemsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadItemResource>;
 }

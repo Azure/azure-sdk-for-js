@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ProtectableContainersListOptionalParams,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the containers that can be registered to Recovery Services Vault.
  *
  * @summary Lists the containers that can be registered to Recovery Services Vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureStorage/ProtectableContainers_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectableContainers_List.json
  */
 async function listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage(
     vaultName,
     resourceGroupName,
     fabricName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

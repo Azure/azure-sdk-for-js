@@ -12,7 +12,7 @@ import {
   BackupResourceConfigResource,
   BackupResourceStorageConfigsNonCRRUpdateOptionalParams,
   BackupResourceStorageConfigsNonCRRUpdateResponse,
-  BackupResourceStorageConfigsNonCRRPatchOptionalParams
+  BackupResourceStorageConfigsNonCRRPatchOptionalParams,
 } from "../models";
 
 /** Interface representing a BackupResourceStorageConfigsNonCRR. */
@@ -27,7 +27,7 @@ export interface BackupResourceStorageConfigsNonCRR {
   get(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupResourceStorageConfigsNonCRRGetOptionalParams
+    options?: BackupResourceStorageConfigsNonCRRGetOptionalParams,
   ): Promise<BackupResourceStorageConfigsNonCRRGetResponse>;
   /**
    * Updates vault storage model type.
@@ -41,7 +41,7 @@ export interface BackupResourceStorageConfigsNonCRR {
     vaultName: string,
     resourceGroupName: string,
     parameters: BackupResourceConfigResource,
-    options?: BackupResourceStorageConfigsNonCRRUpdateOptionalParams
+    options?: BackupResourceStorageConfigsNonCRRUpdateOptionalParams,
   ): Promise<BackupResourceStorageConfigsNonCRRUpdateResponse>;
   /**
    * Updates vault storage model type.
@@ -55,6 +55,6 @@ export interface BackupResourceStorageConfigsNonCRR {
     vaultName: string,
     resourceGroupName: string,
     parameters: BackupResourceConfigResource,
-    options?: BackupResourceStorageConfigsNonCRRPatchOptionalParams
+    options?: BackupResourceStorageConfigsNonCRRPatchOptionalParams,
   ): Promise<void>;
 }

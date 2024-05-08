@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ValidateOperationRequestResource,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Validate operation for specified backed up item in the form of an asynchronous operation. Returns tracking headers which can be tracked using GetValidateOperationResult API.
  *
  * @summary Validate operation for specified backed up item in the form of an asynchronous operation. Returns tracking headers which can be tracked using GetValidateOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/TriggerValidateOperation_RestoreDisk.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/TriggerValidateOperation_RestoreDisk.json
  */
 async function triggerValidateOperation() {
   const subscriptionId =
@@ -31,8 +31,7 @@ async function triggerValidateOperation() {
   const resourceGroupName =
     process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "testRG";
   const parameters: ValidateOperationRequestResource = {
-    id:
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testVault/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;testRG;testvmName/protectedItems/VM;iaasvmcontainerv2;testRG;testvmName/recoveryPoints/348916168024334",
+    id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testVault/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;testRG;testvmName/protectedItems/VM;iaasvmcontainerv2;testRG;testvmName/recoveryPoints/348916168024334",
     properties: {
       objectType: "ValidateIaasVMRestoreOperationRequest",
       restoreRequest: {
@@ -41,7 +40,7 @@ async function triggerValidateOperation() {
         identityInfo: {
           isSystemAssignedIdentity: false,
           managedIdentityResourceId:
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asmaskarRG1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asmaskartestmsi"
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asmaskarRG1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asmaskartestmsi",
         },
         objectType: "IaasVMRestoreRequest",
         originalStorageAccountOption: false,
@@ -51,16 +50,16 @@ async function triggerValidateOperation() {
         sourceResourceId:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
         storageAccountId:
-          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testingRg/providers/Microsoft.Storage/storageAccounts/testAccount"
-      }
-    }
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testingRg/providers/Microsoft.Storage/storageAccounts/testAccount",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.validateOperation.beginTriggerAndWait(
     vaultName,
     resourceGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

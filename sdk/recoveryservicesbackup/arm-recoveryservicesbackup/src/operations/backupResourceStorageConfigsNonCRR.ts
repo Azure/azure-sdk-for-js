@@ -17,12 +17,13 @@ import {
   BackupResourceConfigResource,
   BackupResourceStorageConfigsNonCRRUpdateOptionalParams,
   BackupResourceStorageConfigsNonCRRUpdateResponse,
-  BackupResourceStorageConfigsNonCRRPatchOptionalParams
+  BackupResourceStorageConfigsNonCRRPatchOptionalParams,
 } from "../models";
 
 /** Class containing BackupResourceStorageConfigsNonCRR operations. */
 export class BackupResourceStorageConfigsNonCRRImpl
-  implements BackupResourceStorageConfigsNonCRR {
+  implements BackupResourceStorageConfigsNonCRR
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -43,11 +44,11 @@ export class BackupResourceStorageConfigsNonCRRImpl
   get(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupResourceStorageConfigsNonCRRGetOptionalParams
+    options?: BackupResourceStorageConfigsNonCRRGetOptionalParams,
   ): Promise<BackupResourceStorageConfigsNonCRRGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -63,11 +64,11 @@ export class BackupResourceStorageConfigsNonCRRImpl
     vaultName: string,
     resourceGroupName: string,
     parameters: BackupResourceConfigResource,
-    options?: BackupResourceStorageConfigsNonCRRUpdateOptionalParams
+    options?: BackupResourceStorageConfigsNonCRRUpdateOptionalParams,
   ): Promise<BackupResourceStorageConfigsNonCRRUpdateResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -83,11 +84,11 @@ export class BackupResourceStorageConfigsNonCRRImpl
     vaultName: string,
     resourceGroupName: string,
     parameters: BackupResourceConfigResource,
-    options?: BackupResourceStorageConfigsNonCRRPatchOptionalParams
+    options?: BackupResourceStorageConfigsNonCRRPatchOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, parameters, options },
-      patchOperationSpec
+      patchOperationSpec,
     );
   }
 }
@@ -95,38 +96,36 @@ export class BackupResourceStorageConfigsNonCRRImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
+  path: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupResourceConfigResource
+      bodyMapper: Mappers.BackupResourceConfigResource,
     },
     default: {
-      bodyMapper: Mappers.NewErrorResponse
-    }
+      bodyMapper: Mappers.NewErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
+  path: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupResourceConfigResource
+      bodyMapper: Mappers.BackupResourceConfigResource,
     },
     default: {
-      bodyMapper: Mappers.NewErrorResponse
-    }
+      bodyMapper: Mappers.NewErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -134,21 +133,20 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const patchOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
+  path: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
   httpMethod: "PATCH",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.NewErrorResponse
-    }
+      bodyMapper: Mappers.NewErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -156,9 +154,9 @@ const patchOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete Private Endpoint requests. This call is made by Backup Admin.
  *
  * @summary Delete Private Endpoint requests. This call is made by Backup Admin.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/PrivateEndpointConnection/DeletePrivateEndpointConnection.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PrivateEndpointConnection/DeletePrivateEndpointConnection.json
  */
 async function deletePrivateEndpointConnection() {
   const subscriptionId =
@@ -31,11 +31,12 @@ async function deletePrivateEndpointConnection() {
     "gaallatestpe2.5704c932-249a-490b-a142-1396838cd3b";
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnectionOperations.beginDeleteAndWait(
-    vaultName,
-    resourceGroupName,
-    privateEndpointConnectionName
-  );
+  const result =
+    await client.privateEndpointConnectionOperations.beginDeleteAndWait(
+      vaultName,
+      resourceGroupName,
+      privateEndpointConnectionName,
+    );
   console.log(result);
 }
 

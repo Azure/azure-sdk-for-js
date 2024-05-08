@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ProtectionPolicyResource,
-  BackupPoliciesListOptionalParams
+  BackupPoliciesListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,6 +27,6 @@ export interface BackupPolicies {
   list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupPoliciesListOptionalParams
+    options?: BackupPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionPolicyResource>;
 }

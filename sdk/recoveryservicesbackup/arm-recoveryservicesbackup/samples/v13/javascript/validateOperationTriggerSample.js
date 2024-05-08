@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Validate operation for specified backed up item in the form of an asynchronous operation. Returns tracking headers which can be tracked using GetValidateOperationResult API.
  *
  * @summary Validate operation for specified backed up item in the form of an asynchronous operation. Returns tracking headers which can be tracked using GetValidateOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/TriggerValidateOperation_RestoreDisk.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/TriggerValidateOperation_RestoreDisk.json
  */
 async function triggerValidateOperation() {
   const subscriptionId =

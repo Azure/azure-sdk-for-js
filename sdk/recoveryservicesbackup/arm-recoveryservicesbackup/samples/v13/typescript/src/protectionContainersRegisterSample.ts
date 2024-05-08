@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ProtectionContainerResource,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ the operation.
  * @summary Registers the container with Recovery Services vault.
 This is an asynchronous operation. To track the operation status, use location header to call get latest status of
 the operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureStorage/ProtectionContainers_Register.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectionContainers_Register.json
  */
 async function registerAzureStorageProtectionContainers() {
   const subscriptionId =
@@ -43,8 +43,8 @@ async function registerAzureStorageProtectionContainers() {
       containerType: "StorageContainer",
       friendlyName: "swaggertestsa",
       sourceResourceId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/SwaggerTestRg/providers/Microsoft.Storage/storageAccounts/swaggertestsa"
-    }
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/SwaggerTestRg/providers/Microsoft.Storage/storageAccounts/swaggertestsa",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -53,7 +53,7 @@ async function registerAzureStorageProtectionContainers() {
     resourceGroupName,
     fabricName,
     containerName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

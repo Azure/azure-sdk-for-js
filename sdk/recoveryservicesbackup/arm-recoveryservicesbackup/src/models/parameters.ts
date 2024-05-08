@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   BackupResourceConfigResource as BackupResourceConfigResourceMapper,
@@ -34,7 +34,7 @@ import {
   ListRecoveryPointsRecommendedForMoveRequest as ListRecoveryPointsRecommendedForMoveRequestMapper,
   ResourceGuardProxyBaseResource as ResourceGuardProxyBaseResourceMapper,
   UnlockDeleteRequest as UnlockDeleteRequestMapper,
-  FetchTieringCostInfoRequest as FetchTieringCostInfoRequestMapper
+  FetchTieringCostInfoRequest as FetchTieringCostInfoRequestMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -44,9 +44,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -55,22 +55,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-01",
+    defaultValue: "2024-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const vaultName: OperationURLParameter = {
@@ -79,9 +79,9 @@ export const vaultName: OperationURLParameter = {
     serializedName: "vaultName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -90,9 +90,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -101,9 +101,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -113,19 +113,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BackupResourceConfigResourceMapper
+  mapper: BackupResourceConfigResourceMapper,
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PreValidateEnableBackupRequestMapper
+  mapper: PreValidateEnableBackupRequestMapper,
 };
 
 export const azureRegion: OperationURLParameter = {
@@ -134,9 +134,9 @@ export const azureRegion: OperationURLParameter = {
     serializedName: "azureRegion",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fabricName: OperationURLParameter = {
@@ -145,9 +145,9 @@ export const fabricName: OperationURLParameter = {
     serializedName: "fabricName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const intentObjectName: OperationURLParameter = {
@@ -156,24 +156,24 @@ export const intentObjectName: OperationURLParameter = {
     serializedName: "intentObjectName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ProtectionIntentResourceMapper
+  mapper: ProtectionIntentResourceMapper,
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BackupStatusRequestMapper
+  mapper: BackupStatusRequestMapper,
 };
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: FeatureSupportRequestMapper
+  mapper: FeatureSupportRequestMapper,
 };
 
 export const filter: OperationQueryParameter = {
@@ -181,9 +181,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skipToken: OperationQueryParameter = {
@@ -191,9 +191,9 @@ export const skipToken: OperationQueryParameter = {
   mapper: {
     serializedName: "$skipToken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -202,20 +202,30 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BackupResourceVaultConfigResourceMapper
+  mapper: BackupResourceVaultConfigResourceMapper,
+};
+
+export const xMsAuthorizationAuxiliary: OperationParameter = {
+  parameterPath: ["options", "xMsAuthorizationAuxiliary"],
+  mapper: {
+    serializedName: "x-ms-authorization-auxiliary",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BackupResourceEncryptionConfigResourceMapper
+  mapper: BackupResourceEncryptionConfigResourceMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -224,14 +234,14 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PrivateEndpointConnectionResourceMapper
+  mapper: PrivateEndpointConnectionResourceMapper,
 };
 
 export const operationId: OperationURLParameter = {
@@ -240,24 +250,24 @@ export const operationId: OperationURLParameter = {
     serializedName: "operationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PrepareDataMoveRequestMapper
+  mapper: PrepareDataMoveRequestMapper,
 };
 
 export const parameters9: OperationParameter = {
   parameterPath: "parameters",
-  mapper: TriggerDataMoveRequestMapper
+  mapper: TriggerDataMoveRequestMapper,
 };
 
 export const parameters10: OperationParameter = {
   parameterPath: "parameters",
-  mapper: MoveRPAcrossTiersRequestMapper
+  mapper: MoveRPAcrossTiersRequestMapper,
 };
 
 export const containerName: OperationURLParameter = {
@@ -266,9 +276,9 @@ export const containerName: OperationURLParameter = {
     serializedName: "containerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const protectedItemName: OperationURLParameter = {
@@ -277,9 +287,9 @@ export const protectedItemName: OperationURLParameter = {
     serializedName: "protectedItemName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const recoveryPointId: OperationURLParameter = {
@@ -288,19 +298,19 @@ export const recoveryPointId: OperationURLParameter = {
     serializedName: "recoveryPointId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters11: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ProtectedItemResourceMapper
+  mapper: ProtectedItemResourceMapper,
 };
 
 export const parameters12: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RestoreRequestResourceMapper
+  mapper: RestoreRequestResourceMapper,
 };
 
 export const policyName: OperationURLParameter = {
@@ -309,14 +319,14 @@ export const policyName: OperationURLParameter = {
     serializedName: "policyName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters13: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ProtectionPolicyResourceMapper
+  mapper: ProtectionPolicyResourceMapper,
 };
 
 export const jobName: OperationURLParameter = {
@@ -325,14 +335,14 @@ export const jobName: OperationURLParameter = {
     serializedName: "jobName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters14: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ValidateOperationRequestResourceMapper
+  mapper: ValidateOperationRequestResourceMapper,
 };
 
 export const backupEngineName: OperationURLParameter = {
@@ -341,34 +351,34 @@ export const backupEngineName: OperationURLParameter = {
     serializedName: "backupEngineName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters15: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ProtectionContainerResourceMapper
+  mapper: ProtectionContainerResourceMapper,
 };
 
 export const parameters16: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BackupRequestResourceMapper
+  mapper: BackupRequestResourceMapper,
 };
 
 export const parameters17: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ILRRequestResourceMapper
+  mapper: ILRRequestResourceMapper,
 };
 
 export const parameters18: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: SecurityPinBaseMapper
+  mapper: SecurityPinBaseMapper,
 };
 
 export const parameters19: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ListRecoveryPointsRecommendedForMoveRequestMapper
+  mapper: ListRecoveryPointsRecommendedForMoveRequestMapper,
 };
 
 export const resourceGuardProxyName: OperationURLParameter = {
@@ -377,24 +387,24 @@ export const resourceGuardProxyName: OperationURLParameter = {
     serializedName: "resourceGuardProxyName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters20: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ResourceGuardProxyBaseResourceMapper
+  mapper: ResourceGuardProxyBaseResourceMapper,
 };
 
 export const parameters21: OperationParameter = {
   parameterPath: "parameters",
-  mapper: UnlockDeleteRequestMapper
+  mapper: UnlockDeleteRequestMapper,
 };
 
 export const parameters22: OperationParameter = {
   parameterPath: "parameters",
-  mapper: FetchTieringCostInfoRequestMapper
+  mapper: FetchTieringCostInfoRequestMapper,
 };
 
 export const vaultName1: OperationURLParameter = {
@@ -403,12 +413,12 @@ export const vaultName1: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[A-Za-z][-A-Za-z0-9]*[A-Za-z0-9]$"),
       MaxLength: 50,
-      MinLength: 2
+      MinLength: 2,
     },
     serializedName: "vaultName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

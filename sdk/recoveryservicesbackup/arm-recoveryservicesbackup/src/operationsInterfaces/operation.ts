@@ -9,7 +9,7 @@
 import {
   ValidateOperationRequestResource,
   OperationValidateOptionalParams,
-  OperationValidateResponse
+  OperationValidateResponse,
 } from "../models";
 
 /** Interface representing a Operation. */
@@ -26,6 +26,6 @@ export interface Operation {
     vaultName: string,
     resourceGroupName: string,
     parameters: ValidateOperationRequestResource,
-    options?: OperationValidateOptionalParams
+    options?: OperationValidateOptionalParams,
   ): Promise<OperationValidateResponse>;
 }

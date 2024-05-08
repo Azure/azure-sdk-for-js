@@ -30,6 +30,6 @@ export interface Backups {
     containerName: string,
     protectedItemName: string,
     parameters: BackupRequestResource,
-    options?: BackupsTriggerOptionalParams
+    options?: BackupsTriggerOptionalParams,
   ): Promise<void>;
 }

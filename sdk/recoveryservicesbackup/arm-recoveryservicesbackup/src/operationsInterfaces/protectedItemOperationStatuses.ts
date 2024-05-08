@@ -8,7 +8,7 @@
 
 import {
   ProtectedItemOperationStatusesGetOptionalParams,
-  ProtectedItemOperationStatusesGetResponse
+  ProtectedItemOperationStatusesGetResponse,
 } from "../models";
 
 /** Interface representing a ProtectedItemOperationStatuses. */
@@ -35,6 +35,6 @@ export interface ProtectedItemOperationStatuses {
     containerName: string,
     protectedItemName: string,
     operationId: string,
-    options?: ProtectedItemOperationStatusesGetOptionalParams
+    options?: ProtectedItemOperationStatusesGetOptionalParams,
   ): Promise<ProtectedItemOperationStatusesGetResponse>;
 }

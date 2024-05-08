@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   ProtectionPolicyOperationResultsGetOptionalParams,
-  ProtectionPolicyOperationResultsGetResponse
+  ProtectionPolicyOperationResultsGetResponse,
 } from "../models";
 
 /** Class containing ProtectionPolicyOperationResults operations. */
 export class ProtectionPolicyOperationResultsImpl
-  implements ProtectionPolicyOperationResults {
+  implements ProtectionPolicyOperationResults
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -43,11 +44,11 @@ export class ProtectionPolicyOperationResultsImpl
     resourceGroupName: string,
     policyName: string,
     operationId: string,
-    options?: ProtectionPolicyOperationResultsGetOptionalParams
+    options?: ProtectionPolicyOperationResultsGetOptionalParams,
   ): Promise<ProtectionPolicyOperationResultsGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, policyName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -55,16 +56,15 @@ export class ProtectionPolicyOperationResultsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}/operationResults/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionPolicyResource
+      bodyMapper: Mappers.ProtectionPolicyResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -73,8 +73,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.operationId,
-    Parameters.policyName
+    Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

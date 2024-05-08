@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   ValidateOperationStatusesGetOptionalParams,
-  ValidateOperationStatusesGetResponse
+  ValidateOperationStatusesGetResponse,
 } from "../models";
 
 /** Class containing ValidateOperationStatuses operations. */
 export class ValidateOperationStatusesImpl
-  implements ValidateOperationStatuses {
+  implements ValidateOperationStatuses
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -44,11 +45,11 @@ export class ValidateOperationStatusesImpl
     vaultName: string,
     resourceGroupName: string,
     operationId: string,
-    options?: ValidateOperationStatusesGetOptionalParams
+    options?: ValidateOperationStatusesGetOptionalParams,
   ): Promise<ValidateOperationStatusesGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -56,16 +57,15 @@ export class ValidateOperationStatusesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupValidateOperationsStatuses/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupValidateOperationsStatuses/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -73,8 +73,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

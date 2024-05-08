@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   RestoreRequestResource,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -23,7 +23,7 @@ GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest.json
  */
 async function restoreDisksWithIaasVMRestoreRequest() {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function restoreDisksWithIaasVMRestoreRequest() {
       identityInfo: {
         isSystemAssignedIdentity: false,
         managedIdentityResourceId:
-          "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asmaskarRG1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asmaskartestmsi"
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asmaskarRG1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asmaskartestmsi",
       },
       objectType: "IaasVMRestoreRequest",
       originalStorageAccountOption: false,
@@ -58,9 +58,9 @@ async function restoreDisksWithIaasVMRestoreRequest() {
       targetDiskNetworkAccessSettings: {
         targetDiskAccessId:
           "/subscriptions/e7a191f5-713c-4bdb-b5e4-cf3dd90230ef/resourceGroups/arpja/providers/Microsoft.Compute/diskAccesses/arpja-diskaccess-ccy",
-        targetDiskNetworkAccessOption: "EnablePrivateAccessForAllDisks"
-      }
-    }
+        targetDiskNetworkAccessOption: "EnablePrivateAccessForAllDisks",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -71,7 +71,7 @@ async function restoreDisksWithIaasVMRestoreRequest() {
     containerName,
     protectedItemName,
     recoveryPointId,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -82,7 +82,7 @@ GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
  */
 async function restoreDisksWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails() {
   const subscriptionId =
@@ -102,12 +102,12 @@ async function restoreDisksWithIaasVMRestoreRequestWithIdentityBasedRestoreDetai
       encryptionDetails: { encryptionEnabled: false },
       identityBasedRestoreDetails: {
         targetStorageAccountId:
-          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testingRg/providers/Microsoft.Storage/storageAccounts/testAccount"
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testingRg/providers/Microsoft.Storage/storageAccounts/testAccount",
       },
       identityInfo: {
         isSystemAssignedIdentity: false,
         managedIdentityResourceId:
-          "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asmaskarRG1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asmaskartestmsi"
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asmaskarRG1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asmaskartestmsi",
       },
       objectType: "IaasVMRestoreRequest",
       originalStorageAccountOption: false,
@@ -115,8 +115,8 @@ async function restoreDisksWithIaasVMRestoreRequestWithIdentityBasedRestoreDetai
       recoveryType: "RestoreDisks",
       region: "southeastasia",
       sourceResourceId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1"
-    }
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -127,7 +127,7 @@ async function restoreDisksWithIaasVMRestoreRequestWithIdentityBasedRestoreDetai
     containerName,
     protectedItemName,
     recoveryPointId,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -138,7 +138,7 @@ GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreWithRehydrationRequest.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreWithRehydrationRequest.json
  */
 async function restoreDisksWithIaasVMRestoreWithRehydrationRequest() {
   const subscriptionId =
@@ -161,15 +161,15 @@ async function restoreDisksWithIaasVMRestoreWithRehydrationRequest() {
       recoveryPointId: "348916168024334",
       recoveryPointRehydrationInfo: {
         rehydrationPriority: "Standard",
-        rehydrationRetentionDuration: "P7D"
+        rehydrationRetentionDuration: "P7D",
       },
       recoveryType: "RestoreDisks",
       region: "southeastasia",
       sourceResourceId:
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
       storageAccountId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testingRg/providers/Microsoft.Storage/storageAccounts/testAccount"
-    }
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testingRg/providers/Microsoft.Storage/storageAccounts/testAccount",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -180,7 +180,7 @@ async function restoreDisksWithIaasVMRestoreWithRehydrationRequest() {
     containerName,
     protectedItemName,
     recoveryPointId,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -191,7 +191,7 @@ GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest.json
  */
 async function restoreToNewAzureIaasVMWithIaasVMRestoreRequest() {
   const subscriptionId =
@@ -226,8 +226,8 @@ async function restoreToNewAzureIaasVMWithIaasVMRestoreRequest() {
       targetVirtualMachineId:
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg2/providers/Microsoft.Compute/virtualmachines/RSMDALRVM981435",
       virtualNetworkId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRg/providers/Microsoft.Network/virtualNetworks/testNet"
-    }
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRg/providers/Microsoft.Network/virtualNetworks/testNet",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -238,7 +238,7 @@ async function restoreToNewAzureIaasVMWithIaasVMRestoreRequest() {
     containerName,
     protectedItemName,
     recoveryPointId,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -249,7 +249,7 @@ GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
  */
 async function restoreToNewAzureIaasVMWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails() {
   const subscriptionId =
@@ -269,7 +269,7 @@ async function restoreToNewAzureIaasVMWithIaasVMRestoreRequestWithIdentityBasedR
       encryptionDetails: { encryptionEnabled: false },
       identityBasedRestoreDetails: {
         targetStorageAccountId:
-          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRg/providers/Microsoft.Storage/storageAccounts/testingAccount"
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRg/providers/Microsoft.Storage/storageAccounts/testingAccount",
       },
       identityInfo: { isSystemAssignedIdentity: true },
       objectType: "IaasVMRestoreRequest",
@@ -286,8 +286,8 @@ async function restoreToNewAzureIaasVMWithIaasVMRestoreRequestWithIdentityBasedR
       targetVirtualMachineId:
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg2/providers/Microsoft.Compute/virtualmachines/RSMDALRVM981435",
       virtualNetworkId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRg/providers/Microsoft.Network/virtualNetworks/testNet"
-    }
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRg/providers/Microsoft.Network/virtualNetworks/testNet",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -298,7 +298,7 @@ async function restoreToNewAzureIaasVMWithIaasVMRestoreRequestWithIdentityBasedR
     containerName,
     protectedItemName,
     recoveryPointId,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -309,7 +309,7 @@ GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreWithRehydrationRequest.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreWithRehydrationRequest.json
  */
 async function restoreToNewAzureIaasVMWithIaasVMRestoreWithRehydrationRequest() {
   const subscriptionId =
@@ -332,7 +332,7 @@ async function restoreToNewAzureIaasVMWithIaasVMRestoreWithRehydrationRequest() 
       recoveryPointId: "348916168024334",
       recoveryPointRehydrationInfo: {
         rehydrationPriority: "High",
-        rehydrationRetentionDuration: "P7D"
+        rehydrationRetentionDuration: "P7D",
       },
       recoveryType: "AlternateLocation",
       region: "southeastasia",
@@ -347,8 +347,8 @@ async function restoreToNewAzureIaasVMWithIaasVMRestoreWithRehydrationRequest() 
       targetVirtualMachineId:
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg2/providers/Microsoft.Compute/virtualmachines/RSMDALRVM981435",
       virtualNetworkId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRg/providers/Microsoft.Network/virtualNetworks/testNet"
-    }
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRg/providers/Microsoft.Network/virtualNetworks/testNet",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -359,7 +359,7 @@ async function restoreToNewAzureIaasVMWithIaasVMRestoreWithRehydrationRequest() 
     containerName,
     protectedItemName,
     recoveryPointId,
-    parameters
+    parameters,
   );
   console.log(result);
 }

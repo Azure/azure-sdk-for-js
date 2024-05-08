@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ResourceGuardProxyBaseResource,
-  ResourceGuardProxiesGetOptionalParams
+  ResourceGuardProxiesGetOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,6 +25,6 @@ export interface ResourceGuardProxies {
   list(
     vaultName: string,
     resourceGroupName: string,
-    options?: ResourceGuardProxiesGetOptionalParams
+    options?: ResourceGuardProxiesGetOptionalParams,
   ): PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
 }

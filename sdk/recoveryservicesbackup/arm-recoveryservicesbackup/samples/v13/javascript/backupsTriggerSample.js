@@ -18,7 +18,7 @@ operation, call GetProtectedItemOperationResult API.
  *
  * @summary Triggers backup for specified backed up item. This is an asynchronous operation. To know the status of the
 operation, call GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/Common/TriggerBackup_Post.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/TriggerBackup_Post.json
  */
 async function triggerBackup() {
   const subscriptionId =

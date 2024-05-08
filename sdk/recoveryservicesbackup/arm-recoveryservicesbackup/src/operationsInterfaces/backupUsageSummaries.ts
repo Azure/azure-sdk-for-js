@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   BackupManagementUsage,
-  BackupUsageSummariesListOptionalParams
+  BackupUsageSummariesListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,6 +25,6 @@ export interface BackupUsageSummaries {
   list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupUsageSummariesListOptionalParams
+    options?: BackupUsageSummariesListOptionalParams,
   ): PagedAsyncIterableIterator<BackupManagementUsage>;
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ListRecoveryPointsRecommendedForMoveRequest,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the recovery points recommended for move to another tier
  *
  * @summary Lists the recovery points recommended for move to another tier
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/RecoveryPointsRecommendedForMove_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/RecoveryPointsRecommendedForMove_List.json
  */
 async function getProtectedAzureVMRecoveryPointsRecommendedForMove() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function getProtectedAzureVMRecoveryPointsRecommendedForMove() {
   const protectedItemName = "VM;iaasvmcontainerv2;rshhtestmdvmrg;rshmdvmsmall";
   const parameters: ListRecoveryPointsRecommendedForMoveRequest = {
     excludedRPList: ["348916168024334", "348916168024335"],
-    objectType: "ListRecoveryPointsRecommendedForMoveRequest"
+    objectType: "ListRecoveryPointsRecommendedForMoveRequest",
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -47,7 +47,7 @@ async function getProtectedAzureVMRecoveryPointsRecommendedForMove() {
     fabricName,
     containerName,
     protectedItemName,
-    parameters
+    parameters,
   )) {
     resArray.push(item);
   }

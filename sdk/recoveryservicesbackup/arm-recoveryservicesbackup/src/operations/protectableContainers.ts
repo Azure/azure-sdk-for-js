@@ -18,7 +18,7 @@ import {
   ProtectableContainersListNextOptionalParams,
   ProtectableContainersListOptionalParams,
   ProtectableContainersListResponse,
-  ProtectableContainersListNextResponse
+  ProtectableContainersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,13 +46,13 @@ export class ProtectableContainersImpl implements ProtectableContainers {
     vaultName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ProtectableContainersListOptionalParams
+    options?: ProtectableContainersListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectableContainerResource> {
     const iter = this.listPagingAll(
       vaultName,
       resourceGroupName,
       fabricName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class ProtectableContainersImpl implements ProtectableContainers {
           resourceGroupName,
           fabricName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +81,7 @@ export class ProtectableContainersImpl implements ProtectableContainers {
     resourceGroupName: string,
     fabricName: string,
     options?: ProtectableContainersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProtectableContainerResource[]> {
     let result: ProtectableContainersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class ProtectableContainersImpl implements ProtectableContainers {
         vaultName,
         resourceGroupName,
         fabricName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -103,7 +103,7 @@ export class ProtectableContainersImpl implements ProtectableContainers {
         resourceGroupName,
         fabricName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,13 +116,13 @@ export class ProtectableContainersImpl implements ProtectableContainers {
     vaultName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ProtectableContainersListOptionalParams
+    options?: ProtectableContainersListOptionalParams,
   ): AsyncIterableIterator<ProtectableContainerResource> {
     for await (const page of this.listPagingPage(
       vaultName,
       resourceGroupName,
       fabricName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class ProtectableContainersImpl implements ProtectableContainers {
     vaultName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ProtectableContainersListOptionalParams
+    options?: ProtectableContainersListOptionalParams,
   ): Promise<ProtectableContainersListResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, fabricName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -162,11 +162,11 @@ export class ProtectableContainersImpl implements ProtectableContainers {
     resourceGroupName: string,
     fabricName: string,
     nextLink: string,
-    options?: ProtectableContainersListNextOptionalParams
+    options?: ProtectableContainersListNextOptionalParams,
   ): Promise<ProtectableContainersListNextResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, fabricName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -174,16 +174,15 @@ export class ProtectableContainersImpl implements ProtectableContainers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectableContainers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectableContainers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectableContainerResourceList
+      bodyMapper: Mappers.ProtectableContainerResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -191,21 +190,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.fabricName
+    Parameters.fabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectableContainerResourceList
+      bodyMapper: Mappers.ProtectableContainerResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -213,8 +212,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

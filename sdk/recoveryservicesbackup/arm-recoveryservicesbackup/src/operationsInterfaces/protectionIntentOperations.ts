@@ -15,7 +15,7 @@ import {
   ProtectionIntentResource,
   ProtectionIntentCreateOrUpdateOptionalParams,
   ProtectionIntentCreateOrUpdateResponse,
-  ProtectionIntentDeleteOptionalParams
+  ProtectionIntentDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a ProtectionIntentOperations. */
@@ -32,7 +32,7 @@ export interface ProtectionIntentOperations {
   validate(
     azureRegion: string,
     parameters: PreValidateEnableBackupRequest,
-    options?: ProtectionIntentValidateOptionalParams
+    options?: ProtectionIntentValidateOptionalParams,
   ): Promise<ProtectionIntentValidateResponse>;
   /**
    * Provides the details of the protection intent up item. This is an asynchronous operation. To know
@@ -50,7 +50,7 @@ export interface ProtectionIntentOperations {
     resourceGroupName: string,
     fabricName: string,
     intentObjectName: string,
-    options?: ProtectionIntentGetOptionalParams
+    options?: ProtectionIntentGetOptionalParams,
   ): Promise<ProtectionIntentGetResponse>;
   /**
    * Create Intent for Enabling backup of an item. This is a synchronous operation.
@@ -68,7 +68,7 @@ export interface ProtectionIntentOperations {
     fabricName: string,
     intentObjectName: string,
     parameters: ProtectionIntentResource,
-    options?: ProtectionIntentCreateOrUpdateOptionalParams
+    options?: ProtectionIntentCreateOrUpdateOptionalParams,
   ): Promise<ProtectionIntentCreateOrUpdateResponse>;
   /**
    * Used to remove intent from an item
@@ -84,6 +84,6 @@ export interface ProtectionIntentOperations {
     resourceGroupName: string,
     fabricName: string,
     intentObjectName: string,
-    options?: ProtectionIntentDeleteOptionalParams
+    options?: ProtectionIntentDeleteOptionalParams,
   ): Promise<void>;
 }

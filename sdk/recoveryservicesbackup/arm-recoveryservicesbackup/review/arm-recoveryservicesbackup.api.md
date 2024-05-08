@@ -239,6 +239,8 @@ export interface AzureIaaSVMProtectionPolicy extends ProtectionPolicy {
     policyType?: IaasvmPolicyType;
     retentionPolicy?: RetentionPolicyUnion;
     schedulePolicy?: SchedulePolicyUnion;
+    // (undocumented)
+    snapshotConsistencyType?: IaasVMSnapshotConsistencyType;
     tieringPolicy?: {
         [propertyName: string]: TieringPolicy;
     };
@@ -1121,6 +1123,8 @@ export type BackupResourceVaultConfigsGetResponse = BackupResourceVaultConfigRes
 
 // @public
 export interface BackupResourceVaultConfigsPutOptionalParams extends coreClient.OperationOptions {
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public
@@ -1128,6 +1132,8 @@ export type BackupResourceVaultConfigsPutResponse = BackupResourceVaultConfigRes
 
 // @public
 export interface BackupResourceVaultConfigsUpdateOptionalParams extends coreClient.OperationOptions {
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public
@@ -1893,6 +1899,9 @@ export interface IaasVMRestoreWithRehydrationRequest extends IaasVMRestoreReques
 }
 
 // @public
+export type IaasVMSnapshotConsistencyType = string;
+
+// @public
 export interface IdentityBasedRestoreDetails {
     objectType?: string;
     targetStorageAccountId?: string;
@@ -2242,6 +2251,11 @@ export enum KnownIaasvmPolicyType {
     Invalid = "Invalid",
     V1 = "V1",
     V2 = "V2"
+}
+
+// @public
+export enum KnownIaasVMSnapshotConsistencyType {
+    OnlyCrashConsistent = "OnlyCrashConsistent"
 }
 
 // @public
@@ -3185,6 +3199,8 @@ export interface ProtectedItems {
 
 // @public
 export interface ProtectedItemsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public
@@ -3369,6 +3385,8 @@ export interface ProtectionPolicies {
 
 // @public
 export interface ProtectionPoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public
@@ -3824,6 +3842,7 @@ export type RestorePointType = string;
 // @public
 export interface RestoreRequest {
     objectType: "AzureFileShareRestoreRequest" | "AzureWorkloadRestoreRequest" | "AzureWorkloadPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSQLRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreRequest" | "IaasVMRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSAPHanaRestoreWithRehydrateRequest" | "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSQLRestoreWithRehydrateRequest" | "IaasVMRestoreWithRehydrationRequest";
+    resourceGuardOperationRequests?: string[];
 }
 
 // @public
@@ -3847,6 +3866,8 @@ export interface Restores {
 export interface RestoresTriggerOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public
@@ -3898,6 +3919,8 @@ export interface SecurityPINs {
 // @public
 export interface SecurityPINsGetOptionalParams extends coreClient.OperationOptions {
     parameters?: SecurityPinBase;
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public

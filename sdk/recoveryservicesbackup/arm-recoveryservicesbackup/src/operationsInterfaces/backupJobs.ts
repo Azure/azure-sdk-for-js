@@ -22,6 +22,6 @@ export interface BackupJobs {
   list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupJobsListOptionalParams
+    options?: BackupJobsListOptionalParams,
   ): PagedAsyncIterableIterator<JobResource>;
 }
