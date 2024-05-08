@@ -7,6 +7,9 @@ import viteConfig from "../../../vitest.browser.base.config.ts";
 export default mergeConfig(
   viteConfig,
   defineConfig({
+    define: {
+      "process.env": process.env,
+    },
     test: {
       include: ["dist-test/browser/**/*.spec.js"],
     },
