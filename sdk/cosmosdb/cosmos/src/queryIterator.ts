@@ -40,7 +40,6 @@ export class QueryIterator<T> {
   private queryExecutionContext: ExecutionContext;
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
-  private correlatedActivityId: string;
   private nonStreamingOrderBy: boolean = false;
   /**
    * @hidden

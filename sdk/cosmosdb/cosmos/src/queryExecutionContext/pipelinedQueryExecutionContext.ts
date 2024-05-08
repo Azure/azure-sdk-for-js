@@ -93,7 +93,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             this.query,
             this.options,
             this.partitionedQueryExecutionInfo,
-            correlatedActivityId,
           ),
         );
       } else {
@@ -103,7 +102,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           this.query,
           this.options,
           this.partitionedQueryExecutionInfo,
-          correlatedActivityId,
         );
       }
       if (

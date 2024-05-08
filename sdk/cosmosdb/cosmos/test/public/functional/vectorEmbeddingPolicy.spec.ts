@@ -330,7 +330,6 @@ describe("Vector Search Query", async () => {
     let id = 1;
     while (iterator.hasMoreResults()) {
       const { resources: result } = await iterator.fetchNext();
-      console.log(result);
       if (result !== undefined) {
         assert.equal(result[0].Id, id.toString());
         id++;
