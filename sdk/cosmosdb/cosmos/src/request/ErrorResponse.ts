@@ -45,6 +45,7 @@ export interface QueryInfo {
   rewrittenQuery?: any;
   distinctType: string;
   hasSelectValue: boolean;
+  hasNonStreamingOrderBy: boolean;
 }
 
 export type GroupByExpressions = string[];
@@ -66,3 +67,5 @@ export class ErrorResponse extends Error {
   [key: string]: any;
   diagnostics?: CosmosDiagnostics;
 }
+
+export const nonStreamingEndpointEmptyResult = { result: "empty response" };
