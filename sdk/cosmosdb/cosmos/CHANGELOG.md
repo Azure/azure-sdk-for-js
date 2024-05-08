@@ -1,18 +1,15 @@
 # Release History
-
+## 4.0.1-beta.3 (2024-05-08)
+- Added support for Vector Search.
 ## 4.0.1-beta.2 (2024-01-22)
 
 ### Bugs Fixed
 - The earlier release version 4.0.1-beta.1 encountered compatibility issues with certain browser environments due to the disablement of SharedArrayBuffer. This version resolves that issue.
 
-
 ## 4.0.1-beta.1 (2024-01-17)
   
 ### Features Added
 - We have implemented support for Request Unit (RU) caps in Query operations. Clients can now seamlessly integrate RU caps into their fetch functions by specifying the desired cap within the operation options. If the specified RU cap is surpassed during the operation, clients will promptly receive an error notification, providing enhanced control and transparency over resource consumption.
-  
-- Added Correlated Activity Id feature in JS SDK for better troubleshooting of queries. The correlated activity id is added in the request header for all types of queries on Items.
-- Added support for Vector embedding and Vector Indexes.
 
 ### Breaking Changes
 

@@ -556,8 +556,6 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
-    AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
-    ChangeFeedIfNoneMatchStartFromNowHeader: string;
     NonStreamingQueryDefaultRUThreshold: number;
 };
 
@@ -1020,7 +1018,6 @@ export interface FeedOptions extends SharedOptions {
     populateIndexMetrics?: boolean;
     populateQueryMetrics?: boolean;
     useIncrementalFeed?: boolean;
-    // (undocumented)
     vectorSearchBufferSize?: number;
 }
 
