@@ -18,37 +18,33 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
   private nonStreamingOrderByPQ: NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>; // pq to compute final orderBy results
   private finalResultArray: NonStreamingOrderByResult[]; //result array to store final sorted and orderBy results.
   private sortOrders: string[];
-  private isInitialized: boolean = false;
   private isCompleted: boolean = false;
 
   constructor(
     private executionContext: ExecutionContext,
     private queryInfo: QueryInfo,
     private priorityQueueBufferSize: number,
-  ) {}
+  ) {
+    this.sortOrders = this.queryInfo.orderBy;
+    const comparator = new OrderByComparator(this.sortOrders);
+    this.aggregateMap = new NonStreamingOrderByMap<NonStreamingOrderByResult>(
+      (a: NonStreamingOrderByResult, b: NonStreamingOrderByResult) => {
+        return comparator.compareItems(a, b);
+      },
+    );
+    this.nonStreamingOrderByPQ = new NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>(
+      (a: NonStreamingOrderByResult, b: NonStreamingOrderByResult) => {
+        return comparator.compareItems(b, a);
+      },
+      this.priorityQueueBufferSize,
+    );
+  }
 
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
     ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
-    if (!this.isInitialized) {
-      // initialize all the internal components
-      this.sortOrders = this.queryInfo.orderBy;
-      const comparator = new OrderByComparator(this.sortOrders);
-      this.aggregateMap = new NonStreamingOrderByMap<NonStreamingOrderByResult>(
-        (a: NonStreamingOrderByResult, b: NonStreamingOrderByResult) => {
-          return comparator.compareItems(a, b);
-        },
-      );
-      this.nonStreamingOrderByPQ = new NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>(
-        (a: NonStreamingOrderByResult, b: NonStreamingOrderByResult) => {
-          return comparator.compareItems(b, a);
-        },
-        this.priorityQueueBufferSize,
-      );
-      this.isInitialized = true;
-    }
     // if size is 0, just return undefined. Valid if query is TOP 0 or LIMIT 0
     if (this.priorityQueueBufferSize === 0) {
       return {
@@ -109,10 +105,15 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     const offSet = this.queryInfo.offset ? this.queryInfo.offset : 0;
     const queueSize = this.nonStreamingOrderByPQ.size();
     const finalArraySize = queueSize - offSet;
-    this.finalResultArray = new Array(finalArraySize);
 
-    for (let count = finalArraySize - 1; count >= 0; count--) {
-      this.finalResultArray[count] = this.nonStreamingOrderByPQ.dequeue()?.payload;
+    if (finalArraySize <= 0) {
+      this.finalResultArray = [];
+    } else {
+      this.finalResultArray = new Array(finalArraySize);
+
+      for (let count = finalArraySize - 1; count >= 0; count--) {
+        this.finalResultArray[count] = this.nonStreamingOrderByPQ.dequeue()?.payload;
+      }
     }
   }
 
