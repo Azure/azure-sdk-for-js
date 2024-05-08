@@ -26,5 +26,12 @@ export default defineConfig({
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage",
     },
+    onStackTrace(error: Error): void | boolean {
+      if (error.name === "RestError") {
+        return false;
+      }
+
+      return true;
+    },
   },
 });
