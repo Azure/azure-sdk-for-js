@@ -5,7 +5,7 @@ import concurrently from "concurrently";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { runTestsWithProxyTool } from "../../util/testUtils";
 import { createPrinter } from "../../util/printer";
-import { isRelayAlive, startRelayServer } from "../../util/browserRelayServer";
+import { shouldStartRelay, startRelayServer } from "../../util/browserRelayServer";
 
 const log = createPrinter("test:vitest");
 
@@ -73,7 +73,7 @@ export default leafCommand(commandInfo, async (options) => {
   };
 
   const stopRelayServer =
-    options.browser && options["relay-server"] && !(await isRelayAlive())
+    options.browser && options["relay-server"] && (await shouldStartRelay())
       ? startRelayServer()
       : undefined;
 

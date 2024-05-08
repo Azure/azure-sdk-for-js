@@ -81,7 +81,7 @@ function buildServer(app: Express) {
   });
 }
 
-export async function isRelayAlive(options: TestCredentialServerOptions = {}): Promise<boolean> {
+async function isRelayAlive(options: TestCredentialServerOptions = {}): Promise<boolean> {
   try {
     const res = await fetch(
       `http://${options.listenHost ?? "localhost"}:${options.port ?? 4895}/health`,
@@ -97,6 +97,18 @@ export async function isRelayAlive(options: TestCredentialServerOptions = {}): P
     printer("Browser relay is not yet alive");
     return false;
   }
+}
+
+export async function shouldStartRelay(
+  options: TestCredentialServerOptions = {},
+): Promise<boolean> {
+  const testMode = (process.env.TEST_MODE ?? "playback").toLowerCase();
+  if (testMode !== "record" && testMode !== "live") {
+    printer("Not in record or live mode; not starting relay");
+    return false;
+  }
+
+  return !(await isRelayAlive(options));
 }
 
 /**
