@@ -48,29 +48,31 @@ const administrativeMetadata = {
 
 const content = {
   sourceType: "inline",
-  value:
-    "CLINICAL HISTORY:   " +
-    "\r\n20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy." +
-    "\r\n " +
-    "\r\nCOMPARISON:   " +
-    "\r\nRight upper quadrant sonographic performed 1 day prior." +
-    "\r\n " +
-    "\r\nTECHNIQUE:   " +
-    "\r\nTransabdominal grayscale pelvic sonography with duplex color Doppler " +
-    "\r\nand spectral waveform analysis of the ovaries." +
-    "\r\n " +
-    "\r\nFINDINGS:   " +
-    "\r\nThe uterus is unremarkable given the transabdominal technique with " +
-    "\r\nendometrial echo complex within physiologic normal limits. The " +
-    "\r\novaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the " +
-    "\r\nleft measuring 2.8 x 1.5 x 1.9 cm.\n \r\nOn duplex imaging, Doppler signal is symmetric." +
-    "\r\n " +
-    "\r\nIMPRESSION:   " +
-    "\r\n1. Normal pelvic sonography. Findings of testicular torsion." +
-    "\r\n\nA new US pelvis within the next 6 months is recommended." +
-    "\n\nThese results have been discussed with Dr. Jones at 3 PM on November 5 2020.\n " +
-    "\r\n",
+  value: `CLINICAL HISTORY:
+20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy.
+
+COMPARISON:
+Right upper quadrant sonographic performed 1 day prior.
+
+TECHNIQUE:
+Transabdominal grayscale pelvic sonography with duplex color Doppler
+and spectral waveform analysis of the ovaries.
+
+FINDINGS:
+The uterus is unremarkable given the transabdominal technique with
+endometrial echo complex within physiologic normal limits. The
+ovaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the
+left measuring 2.8 x 1.5 x 1.9 cm.
+
+On duplex imaging, Doppler signal is symmetric.
+
+IMPRESSION:
+1. Normal pelvic sonography. Findings of testicular torsion.
+A new US pelvis within the next 6 months is recommended.
+
+These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`,
 };
+
 const patientDocumentData = {
   type: "note",
   clinicalType: "radiologyReport",
@@ -190,7 +192,7 @@ describe("Follow Up Communication Inference Test", () => {
 
   it("follow up communication inference test", async function () {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-1713879492368")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138794923685")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();

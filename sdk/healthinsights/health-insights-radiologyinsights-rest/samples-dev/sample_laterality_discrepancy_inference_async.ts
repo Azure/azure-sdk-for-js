@@ -100,12 +100,15 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: "Exam:   US LT BREAST TARGETED"
-      + "\r\n\r\nTechnique:  Targeted imaging of the  right breast  is performed."
-      + "\r\n\r\nFindings:\\r\\n\\r\\nTargeted imaging of the left breast is performed from the 6:00 to the 9:00 position.  "
-      + "\r\n\r\nAt the 6:00 position, 5 cm from the nipple, there is a 3 x 2 x 4 mm minimally hypoechoic mass with a peripheral calcification. This may correspond to the mammographic finding. No other cystic or solid masses visualized."
-      + "\r\n"
+    value: `Exam:   US LT BREAST TARGETED
+    Technique:  Targeted imaging of the  right breast  is performed.
+    
+    Findings:
+    Targeted imaging of the left breast is performed from the 6:00 to the 9:00 position.
+    At the 6:00 position, 5 cm from the nipple, there is a 3 x 2 x 4 mm minimally hypoechoic mass with a peripheral calcification.
+    This may correspond to the mammographic finding. No other cystic or solid masses visualized.`
   };
+
   const patientDocumentData = {
     type: "note",
     clinicalType: "radiologyReport",

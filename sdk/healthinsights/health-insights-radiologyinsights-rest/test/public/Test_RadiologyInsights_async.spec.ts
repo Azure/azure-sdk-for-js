@@ -65,8 +65,9 @@ const administrativeMetadata = {
 
 const content = {
   sourceType: "inline",
-  value:
-    "\n\nThe results were faxed to Julie Carter on July 6 2016 at 3 PM.\n\nThe results were sent via Powerscribe to George Brown, PA.\n\n\t\t",
+  value: `
+The results were faxed to Julie Carter on July 6 2016 at 3 PM
+The results were sent via Powerscribe to George Brown, PA.`,
 };
 
 const patientDocumentData = {
@@ -153,7 +154,7 @@ describe("Radiology Insights Test", () => {
 
   it("radiology Insights test", async function () {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-1713879531433")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138795314333")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();

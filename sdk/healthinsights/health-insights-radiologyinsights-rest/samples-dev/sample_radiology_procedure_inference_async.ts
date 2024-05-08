@@ -140,14 +140,16 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: " Exam:  Head CT with Contrast"
-      + "\r\n History:  Headaches for 2 months"
-      + "\r\n Technique: Axial, sagittal, and coronal images were reconstructed from helical CT through the head without IV contrast."
-      + "\r\n IV contrast:  100 mL IV Omnipaque 300."
-      + "\r\n Findings: There is no mass effect. There is no abnormal enhancement of the brain or within injuries with IV contrast."
-      + "\r\n However, there is no evidence of enhancing lesion in either internal auditory canal."
-      + "\r\n Impression: Negative CT of the brain without IV contrast."
-      + "\r\n I recommend a new brain CT within nine months."
+    value: ` Exam:  Head CT with Contrast
+    
+    History:  Headaches for 2 months
+    Technique: Axial, sagittal, and coronal images were reconstructed from helical CT through the head without IV contrast.
+    IV contrast:  100 mL IV Omnipaque 300.
+    
+    Findings: There is no mass effect. There is no abnormal enhancement of the brain or within injuries with IV contrast.
+    However, there is no evidence of enhancing lesion in either internal auditory canal.
+    Impression: Negative CT of the brain without IV contrast.
+    I recommend a new brain CT within nine months.`,
   };
 
   const patientDocumentData = {

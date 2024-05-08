@@ -48,13 +48,14 @@ const administrativeMetadata = {
 
 const content = {
   sourceType: "inline",
-  value:
-    "FINDINGS:" +
-    "\n\n1. Inferior vena cavagram using CO2 contrast shows the IVC is normal" +
-    "\nin course and caliber without filling defects to indicate clot. It" +
-    "\nmeasures 19.8 mm. in diameter infrarenally." +
-    "\n\n2. Successful placement of IVC filter in infrarenal location.",
+  value: `FINDINGS:
+  1. Inferior vena cavagram using CO2 contrast shows the IVC is normal
+  in course and caliber without filling defects to indicate clot. It
+  measures 19.8 mm. in diameter infrarenally.
+
+  2. Successful placement of IVC filter in infrarenal location.`,
 };
+
 const patientDocumentData = {
   type: "note",
   clinicalType: "radiologyReport",
@@ -210,7 +211,7 @@ describe("Finding Inference Test", () => {
 
   it("finding inference test", async function () {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-1713879480733")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138794807334")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();

@@ -20,7 +20,9 @@
 
 
 ## 1.0.0-beta.1 (2024-03-05)
+
 ### Other Changes
+
 - Public Preview release
 - Test example for Critical Result
 
