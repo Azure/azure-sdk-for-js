@@ -24,76 +24,41 @@ import {
   GetLivenessWithVerifySessionResult200Response,
   GetLivenessWithVerifySessionResultDefaultResponse,
   GetLivenessWithVerifySessions200Response,
+  LivenessResponseBodyOutput,
 } from '../../src/index.js';
 
 describe('Session', () => {
-  const livenessSessionAuditEntryOutputs = [
+  const livenessResponseBodyOutput: LivenessResponseBodyOutput[] = [
     {
-      "id": 2,
-      "sessionId": "7adb4c49-667f-4034-a7f5-680534094d86",
-      "requestId": "4f323b41-fd5f-442f-bcc8-543eabd98c59",
-      "receivedDateTime": "2024-04-18T07:46:00.6924401+00:00",
-      "request": {
-        "url": "/face/v1.1-preview.1/detectLiveness/singleModal",
-        "method": "POST",
-        "contentLength": 360044,
-        "contentType": "multipart/form-data; boundary=--------------------------582969306951955997192689",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0"
-      },
-      "response": {
-        "body": {
-          "livenessDecision": "spoofface",
-          "target": {
-            "faceRectangle": {
-              "top": 782,
-              "left": 260,
-              "width": 858,
-              "height": 984
-            },
-            "fileName": "video.webp",
-            "timeOffsetWithinFile": 0,
-            "imageType": "Color"
-          },
-          "modelVersionUsed": "2022-10-15-preview.04"
+      "livenessDecision": "spoofface",
+      "target": {
+        "faceRectangle": {
+          "top": 782,
+          "left": 260,
+          "width": 858,
+          "height": 984
         },
-        "statusCode": 200,
-        "latencyInMilliseconds": 699
+        "fileName": "video.webp",
+        "timeOffsetWithinFile": 0,
+        "imageType": "Color"
       },
-      "digest": "F929579483D4EF6A67725674072EA75AD87283A969FB8D93B8F1C63A60479A62"
+      "modelVersionUsed": "2022-10-15-preview.04"
     },
     {
-      "id": 1,
-      "sessionId": "7adb4c49-667f-4034-a7f5-680534094d86",
-      "requestId": "64bd9bc4-ee35-4f05-87e2-b7297fc95e01",
-      "receivedDateTime": "2024-04-18T07:45:48.7983472+00:00",
-      "request": {
-        "url": "/face/v1.1-preview.1/detectLiveness/singleModal",
-        "method": "POST",
-        "contentLength": 360044,
-        "contentType": "multipart/form-data; boundary=--------------------------582969306951955997192689",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0"
-      },
-      "response": {
-        "body": {
-          "livenessDecision": "spoofface",
-          "target": {
-            "faceRectangle": {
-              "top": 782,
-              "left": 260,
-              "width": 858,
-              "height": 984
-            },
-            "fileName": "video.webp",
-            "timeOffsetWithinFile": 0,
-            "imageType": "Color"
-          },
-          "modelVersionUsed": "2022-10-15-preview.04"
+      "livenessDecision": "spoofface",
+      "target": {
+        "faceRectangle": {
+          "top": 782,
+          "left": 260,
+          "width": 858,
+          "height": 984
         },
-        "statusCode": 200,
-        "latencyInMilliseconds": 688
+        "fileName": "video.webp",
+        "timeOffsetWithinFile": 0,
+        "imageType": "Color"
       },
-      "digest": "E11BF3733D1B0530F0BD509327E6135DDF2303BBBFFFC02EACDE2C42BCBA3212"
-    }
+      "modelVersionUsed": "2022-10-15-preview.04"
+    },
   ];
 
   let recorder: Recorder;
@@ -178,7 +143,7 @@ describe('Session', () => {
     assert.equal(livenessSessionOutput.id, sessionId);
     assert.equal(livenessSessionOutput.status, 'ResultAvailable');
     assert.equal(livenessSessionOutput.result?.sessionId, sessionId);
-    assert.deepEqual(livenessSessionOutput.result as any, livenessSessionAuditEntryOutputs[0]);
+    assert.deepEqual(livenessSessionOutput.result?.response.body, livenessResponseBodyOutput[0]);
   });
 
   it.runIf(isPlaybackMode())('TestGetSessionAuditEntries', async () => {
@@ -187,7 +152,7 @@ describe('Session', () => {
     const getLivenessSessionAuditEntriesResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}/audit', sessionId).get() as GetLivenessSessionAuditEntries200Response;
     assert.equal(getLivenessSessionAuditEntriesResponse.status, '200');
     assert.isTrue(getLivenessSessionAuditEntriesResponse.body.every(entry => entry.sessionId === sessionId));
-    assert.deepEqual(getLivenessSessionAuditEntriesResponse.body as any, livenessSessionAuditEntryOutputs);
+    assert.deepEqual(getLivenessSessionAuditEntriesResponse.body.map(entry => entry.response.body), livenessResponseBodyOutput);
   });
 
   it('TestDeleteSession', async () => {
@@ -211,100 +176,65 @@ describe('Session', () => {
 });
 
 describe('SessionWithVerify', () => {
-  const livenessSessionAuditEntryOutputs = [
+  const livenessResponseBodyOutput: LivenessResponseBodyOutput[] = [
     {
-      "id": 2,
-      "sessionId": "4f418924-6092-4332-a24a-30790092b0e6",
-      "requestId": "46d94c1d-f519-4702-a416-0bc0a04c5218",
-      "receivedDateTime": "2024-04-18T08:48:53.6193575+00:00",
-      "request": {
-        "url": "/face/v1.1-preview.1/detectLivenessWithVerify/singleModal",
-        "method": "POST",
-        "contentLength": 1358601,
-        "contentType": "multipart/form-data; boundary=--------------------------154024349300168487268618",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0"
-      },
-      "response": {
-        "body": {
-          "livenessDecision": "spoofface",
-          "target": {
-            "faceRectangle": {
-              "top": 782,
-              "left": 260,
-              "width": 858,
-              "height": 984
-            },
-            "fileName": "video.webp",
-            "timeOffsetWithinFile": 0,
-            "imageType": "Color"
-          },
-          "modelVersionUsed": "2022-10-15-preview.04",
-          "verifyResult": {
-            "verifyImage": {
-              "faceRectangle": {
-                "top": 302,
-                "left": 93,
-                "width": 601,
-                "height": 681
-              },
-              "qualityForRecognition": "high"
-            },
-            "matchConfidence": 0.99736166,
-            "isIdentical": true
-          }
+      "livenessDecision": "spoofface",
+      "target": {
+        "faceRectangle": {
+          "top": 782,
+          "left": 260,
+          "width": 858,
+          "height": 984
         },
-        "statusCode": 200,
-        "latencyInMilliseconds": 1425
+        "fileName": "video.webp",
+        "timeOffsetWithinFile": 0,
+        "imageType": "Color"
       },
-      "digest": "AF7AF4C6B49861F330104A87EAC1D7EADA5AA2143435E80AEA1F93E58B07CF7A"
+      "modelVersionUsed": "2022-10-15-preview.04",
+      "verifyResult": {
+        "verifyImage": {
+          "faceRectangle": {
+            "top": 302,
+            "left": 93,
+            "width": 601,
+            "height": 681
+          },
+          "qualityForRecognition": "high"
+        },
+        "matchConfidence": 0.99736166,
+        "isIdentical": true
+      }
     },
     {
-      "id": 1,
-      "sessionId": "4f418924-6092-4332-a24a-30790092b0e6",
-      "requestId": "291147d4-ad7d-45ea-ba67-a22d959f528a",
-      "receivedDateTime": "2024-04-18T08:48:38.4940472+00:00",
-      "request": {
-        "url": "/face/v1.1-preview.1/detectLivenessWithVerify/singleModal",
-        "method": "POST",
-        "contentLength": 1358601,
-        "contentType": "multipart/form-data; boundary=--------------------------154024349300168487268618",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0"
-      },
-      "response": {
-        "body": {
-          "livenessDecision": "spoofface",
-          "target": {
-            "faceRectangle": {
-              "top": 782,
-              "left": 260,
-              "width": 858,
-              "height": 984
-            },
-            "fileName": "video.webp",
-            "timeOffsetWithinFile": 0,
-            "imageType": "Color"
-          },
-          "modelVersionUsed": "2022-10-15-preview.04",
-          "verifyResult": {
-            "verifyImage": {
-            "faceRectangle": {
-                "top": 302,
-                "left": 93,
-                "width": 601,
-                "height": 681
-              },
-              "qualityForRecognition": "high"
-            },
-            "matchConfidence": 0.99736166,
-            "isIdentical": true
-          }
+      "livenessDecision": "spoofface",
+      "target": {
+        "faceRectangle": {
+          "top": 782,
+          "left": 260,
+          "width": 858,
+          "height": 984
         },
-        "statusCode": 200,
-        "latencyInMilliseconds": 889
+        "fileName": "video.webp",
+        "timeOffsetWithinFile": 0,
+        "imageType": "Color"
       },
-      "digest": "AE222AEDB3453E14F1EB746CC0EAFF2DA0D31444771B50C5EF3BD138903BE1A7"
-    }
+      "modelVersionUsed": "2022-10-15-preview.04",
+      "verifyResult": {
+        "verifyImage": {
+        "faceRectangle": {
+            "top": 302,
+            "left": 93,
+            "width": 601,
+            "height": 681
+          },
+          "qualityForRecognition": "high"
+        },
+        "matchConfidence": 0.99736166,
+        "isIdentical": true
+      }
+    },
   ];
+
   let recorder: Recorder;
   let client: FaceClient;
 
@@ -430,7 +360,7 @@ describe('SessionWithVerify', () => {
     assert.equal(livenessSessionOutput.id, sessionId);
     assert.equal(livenessSessionOutput.status, 'ResultAvailable');
     assert.equal(livenessSessionOutput.result?.sessionId, sessionId);
-    assert.deepEqual(livenessSessionOutput.result as any, livenessSessionAuditEntryOutputs[0]);
+    assert.deepEqual(livenessSessionOutput.result?.response.body, livenessResponseBodyOutput[0]);
   });
 
   it.runIf(isPlaybackMode())('TestGetVerifySessionAuditEntries', async () => {
@@ -439,7 +369,7 @@ describe('SessionWithVerify', () => {
     const getLivenessSessionAuditEntriesResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}/audit', sessionId).get() as GetLivenessWithVerifySessionAuditEntries200Response;
     assert.equal(getLivenessSessionAuditEntriesResponse.status, '200');
     assert.isTrue(getLivenessSessionAuditEntriesResponse.body.every(entry => entry.sessionId === sessionId));
-    assert.deepEqual(getLivenessSessionAuditEntriesResponse.body as any, livenessSessionAuditEntryOutputs);
+    assert.deepEqual(getLivenessSessionAuditEntriesResponse.body.map(entry => entry.response.body), livenessResponseBodyOutput);
   });
 
   it('TestDeleteVerifySession', async () => {
