@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { assert } from "console";
+import assert from "assert";
 import { IndexingPolicy, VectorEmbeddingPolicy } from "../../../src/documents";
 import { getTestDatabase } from "../common/TestHelpers";
+import { Database } from "../../../src/client/Database/Database";
 
 // Skipping these tests as they are not supported by public emulator
-describe.skip("VectorEmbeddingPolicy", async () => {
+describe("VectorEmbeddingPolicy", async () => {
   let database: Database;
   before(async function () {
     database = await getTestDatabase("vector embedding database");
@@ -24,7 +25,7 @@ describe.skip("VectorEmbeddingPolicy", async () => {
         {
           path: "/vector1",
           dataType: "float32",
-          dimensions: 1000,
+          dimensions: 500,
           distanceFunction: "euclidean",
         },
         {
@@ -41,7 +42,6 @@ describe.skip("VectorEmbeddingPolicy", async () => {
         },
       ],
     };
-    const database = await getTestDatabase("vector embedding database");
     const containerName = "vector embedding container";
     // create container
     const { resource: containerdef } = await database.containers.createIfNotExists({
@@ -64,7 +64,7 @@ describe.skip("VectorEmbeddingPolicy", async () => {
         {
           path: "/vector1",
           dataType: "float32",
-          dimensions: 1000,
+          dimensions: 500,
           distanceFunction: "euclidean",
         },
       ],
@@ -114,7 +114,7 @@ describe.skip("VectorEmbeddingPolicy", async () => {
         {
           path: "/vector1",
           dataType: "float32",
-          dimensions: 1000,
+          dimensions: 500,
           distanceFunction: "euclidean",
         },
       ],
