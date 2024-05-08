@@ -282,7 +282,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       ? queryInfo.top
       : queryInfo.limit
         ? queryInfo.offset + queryInfo.limit
-        : options["vectorSearchBufferSize"]
+        : options["vectorSearchBufferSize"] && options["vectorSearchBufferSize"] > 0
           ? options["vectorSearchBufferSize"]
           : PipelinedQueryExecutionContext.DEFAULT_VECTOR_SEARCH_BUFFER_SIZE;
   }
