@@ -2,22 +2,15 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "paths": {
-      "@azure/test-utils": [
-        "./src/index.ts"
-      ]
+      "@azure/test-utils": ["./src/index.ts"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": ".",
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "skipLibCheck": true
   },
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "include": [
     "./src/**/*.ts",
     "./src/**/*.cts",
