@@ -5,8 +5,8 @@ import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context, Suite } from "mocha";
 
-import { OpenAIClient } from "@azure/openai";
 import { versionsToTest } from "@azure-tools/test-utils";
+import { OpenAIClient } from "@azure/openai";
 import {
   AutocompleteResult,
   AzureKeyCredential,

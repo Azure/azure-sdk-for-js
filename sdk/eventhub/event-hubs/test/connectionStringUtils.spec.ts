@@ -7,7 +7,7 @@ import {
 } from "../src/util/connectionStringUtils";
 import chai from "chai";
 
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 describe("parseEventHubConnectionString", () => {
   const namespace = "my.servicebus.windows.net";
