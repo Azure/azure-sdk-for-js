@@ -250,39 +250,6 @@ describe("LogHandler", () => {
       );
     });
 
-    it("should set bunyan log level with the BUNYAN_LOG_LEVEL env var", () => {
-      process.env.BUNYAN_LOG_LEVEL = "ERROR";
-      let config = new InternalConfig();
-      config.azureMonitorExporterOptions.connectionString =
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
-      config.instrumentationOptions.bunyan = {
-        enabled: true,
-      };
-      let logHandler = new LogHandler(config, metricHandler);
-      assert.strictEqual(
-        (logHandler.getInstrumentations()[0].getConfig() as BunyanInstrumentationConfig)
-          .logSeverity,
-        SeverityNumber.ERROR,
-      );
-    });
-
-    it("should set winston log level with the WINSTON_LOG_LEVEL env var", () => {
-      delete process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
-      process.env.WINSTON_LOG_LEVEL = "DEBUG";
-      let config = new InternalConfig();
-      config.azureMonitorExporterOptions.connectionString =
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
-      config.instrumentationOptions.winston = {
-        enabled: true,
-      };
-      let logHandler = new LogHandler(config, metricHandler);
-      assert.strictEqual(
-        (logHandler.getInstrumentations()[0].getConfig() as WinstonInstrumentationConfig)
-          .logSeverity,
-        SeverityNumber.DEBUG,
-      );
-    });
-
     it("should not add bunyan instrumentation if disabled", () => {
       process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "NONE";
       let config = new InternalConfig();

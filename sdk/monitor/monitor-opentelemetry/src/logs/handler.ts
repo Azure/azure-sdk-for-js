@@ -57,10 +57,9 @@ export class LogHandler {
    */
   private _initializeInstrumentations() {
     const bunyanLogLevelEnv =
-      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL || process.env.BUNYAN_LOG_LEVEL;
+      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
     const winstonLogLevelEnv =
-      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL ||
-      process.env.WINSTON_LOG_LEVEL;
+      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
 
     // No Severity Number for no bunyan logging, so disable instrumentation if NONE is set.
     if (this._config.instrumentationOptions.bunyan?.enabled && bunyanLogLevelEnv !== "NONE") {
