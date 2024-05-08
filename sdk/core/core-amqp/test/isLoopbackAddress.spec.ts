@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isLoopbackAddress } from "../src/util/utils";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
+import { isLoopbackAddress } from "../src/util/utils.js";
 
 describe("isLoopbackAddress", () => {
   it("returns true for localhost", () => {

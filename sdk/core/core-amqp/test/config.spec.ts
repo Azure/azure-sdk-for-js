@@ -90,9 +90,9 @@ describe("ConnectionConfig", function () {
       const config = ConnectionConfig.create(
         "Endpoint=sb://localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
       );
-      config.should.have.property("endpoint").that.equals("sb://localhost:6765/");
-      config.should.have.property("host").that.equals("localhost:6765");
-      config.should.have.property("useDevelopmentEmulator").that.equals(true);
+      assert.equal(config.endpoint, "sb://localhost:6765/");
+      assert.equal(config.host, "localhost:6765");
+      assert.isTrue(config.useDevelopmentEmulator);
     });
 
     describe("Throws error if required connection config properties are not present", function () {
@@ -303,7 +303,7 @@ describe("ConnectionConfig", function () {
           sharedAccessKey: "abcd",
           useDevelopmentEmulator: true,
         };
-        should.throw(() => {
+        assert.throw(() => {
           ConnectionConfig.validate(config);
         }, new RegExp("When using the development environment"));
       });
