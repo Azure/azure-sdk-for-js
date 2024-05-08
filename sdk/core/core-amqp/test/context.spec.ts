@@ -27,7 +27,7 @@ describe("ConnectionContextBase", function () {
     assert.isDefined(context.negotiateClaimLock);
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.transport, "tls")
+    assert.equal(context.connection.options.transport, "tls");
     assert.equal(context.connection.options.properties!.product, "MSJSClient");
     assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
     assert.equal(context.connection.options.properties!.version, "1.0.0");
