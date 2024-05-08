@@ -79,7 +79,7 @@ const patientDocumentData = {
   specialtyType: "radiology",
   administrativeMetadata: administrativeMetadata,
   content: content,
-  createdAt: new Date("21-05-31T22:00:00.000Z"),
+  createdAt: new Date("2021-05-31T20:00:00.000Z"),
   orderedProceduresAsCsv: "US PELVIS COMPLETE",
 };
 
