@@ -257,7 +257,7 @@ export function isUnexpected(response: LookupDictionaryEntries200Response | Look
 export function isUnexpected(response: LookupDictionaryExamples200Response | LookupDictionaryExamplesDefaultResponse): response is LookupDictionaryExamplesDefaultResponse;
 
 // @public
-export type LanguageDirectionalityOutput = "ltr" | "rtl" | string;
+export type LanguageDirectionalityOutput = "ltr" | "rtl";
 
 // @public
 export interface LanguageScriptOutput {
@@ -400,10 +400,10 @@ export interface LookupDictionaryExamplesQueryParamProperties {
 }
 
 // @public
-export type ProfanityAction = string | "NoAction" | "Marked" | "Deleted";
+export type ProfanityAction = "NoAction" | "Marked" | "Deleted";
 
 // @public
-export type ProfanityMarker = string | "Asterisk" | "Tag";
+export type ProfanityMarker = "Asterisk" | "Tag";
 
 // @public (undocumented)
 export interface Routes {

@@ -319,5 +319,5 @@ export interface DictionaryExampleOutput {
   targetSuffix: string;
 }
 
-/** Alias for LanguageDirectionalityOutput */
-export type LanguageDirectionalityOutput = "ltr" | "rtl" | string;
+/** Language Directionality */
+export type LanguageDirectionalityOutput = "ltr" | "rtl";
