@@ -203,7 +203,7 @@ describe("Compute test", () => {
       osProfile: {
         adminUsername: "testuser",
         computerName: "myVM",
-        adminPassword: "REDACTED", // use "SecretPlaceholder123" when run the test and then use "REDACTED" to replace it here and in recordings
+        adminPassword: "SecretPlaceholder123",
         windowsConfiguration: {
           enableAutomaticUpdates: true, // need automatic update for reimage
         },
