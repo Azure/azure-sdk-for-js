@@ -12,10 +12,10 @@ export { AssistantsContext } from "../rest/index.js";
 
 /** Azure OpenAI APIs for Assistants. */
 export function createAssistants(
-  endpoint: string,
+  endpointParam: string,
   credential: KeyCredential | TokenCredential,
   options: AssistantsClientOptions = {},
 ): AssistantsContext {
-  const clientContext = getClient(endpoint, credential, options);
+  const clientContext = getClient(endpointParam, credential, options);
   return clientContext;
 }

@@ -4,27 +4,37 @@
 import {
   AssistantCreationOptions,
   Assistant,
-  OpenAIPageableListOf,
+  OpenAIPageableListOfAssistant,
   UpdateAssistantOptions,
   AssistantDeletionStatus,
   AssistantFile,
+  OpenAIPageableListOfAssistantFile,
   AssistantFileDeletionStatus,
-  AssistantThreadCreationOptions,
   MessageRole,
+  AssistantThreadCreationOptions,
   AssistantThread,
   ThreadDeletionStatus,
   ThreadMessage,
+  OpenAIPageableListOfThreadMessage,
+  OpenAIPageableListOfMessageFile,
   MessageFile,
   CreateRunOptions,
   ThreadRun,
+  OpenAIPageableListOfThreadRun,
   ToolOutput,
   CreateAndRunThreadOptions,
   RunStep,
+  OpenAIPageableListOfRunStep,
   FilePurpose,
   FileListResponse,
   InputFile,
   FileDeletionStatus,
 } from "../models/models.js";
+import {
+  deserializeMessageContentUnion,
+  deserializeRequiredActionUnion,
+  deserializeRunStepDetailsUnion,
+} from "../utils/deserializeUtil.js";
 import {
   AssistantsContext as Client,
   CancelRun200Response,
@@ -67,44 +77,44 @@ import {
 } from "@azure-rest/core-client";
 import { uint8ArrayToString } from "@azure/core-util";
 import {
-  CreateAssistantOptions,
-  ListAssistantsOptions,
-  GetAssistantOptions,
-  UpdateAssistantRequestOptions,
-  DeleteAssistantOptions,
-  CreateAssistantFileOptions,
-  ListAssistantFilesOptions,
-  GetAssistantFileOptions,
-  DeleteAssistantFileOptions,
-  CreateThreadOptions,
-  GetThreadOptions,
-  UpdateThreadOptions,
-  DeleteThreadOptions,
-  CreateMessageOptions,
-  ListMessagesOptions,
-  GetMessageOptions,
-  UpdateMessageOptions,
-  ListMessageFilesOptions,
-  GetMessageFileOptions,
-  CreateRunRequestOptions,
-  ListRunsOptions,
-  GetRunOptions,
-  UpdateRunOptions,
-  SubmitToolOutputsToRunOptions,
-  CancelRunOptions,
-  CreateThreadAndRunOptions,
-  GetRunStepOptions,
-  ListRunStepsOptions,
-  ListFilesOptions,
-  UploadFileOptions,
-  DeleteFileOptions,
-  GetFileOptions,
+  CreateAssistantOptionalParams,
+  ListAssistantsOptionalParams,
+  GetAssistantOptionalParams,
+  UpdateAssistantOptionalParams,
+  DeleteAssistantOptionalParams,
+  CreateAssistantFileOptionalParams,
+  ListAssistantFilesOptionalParams,
+  GetAssistantFileOptionalParams,
+  DeleteAssistantFileOptionalParams,
+  CreateThreadOptionalParams,
+  GetThreadOptionalParams,
+  UpdateThreadOptionalParams,
+  DeleteThreadOptionalParams,
+  CreateMessageOptionalParams,
+  ListMessagesOptionalParams,
+  GetMessageOptionalParams,
+  UpdateMessageOptionalParams,
+  ListMessageFilesOptionalParams,
+  GetMessageFileOptionalParams,
+  CreateRunOptionalParams,
+  ListRunsOptionalParams,
+  GetRunOptionalParams,
+  UpdateRunOptionalParams,
+  SubmitToolOutputsToRunOptionalParams,
+  CancelRunOptionalParams,
+  CreateThreadAndRunOptionalParams,
+  GetRunStepOptionalParams,
+  ListRunStepsOptionalParams,
+  ListFilesOptionalParams,
+  UploadFileOptionalParams,
+  DeleteFileOptionalParams,
+  GetFileOptionalParams,
 } from "../models/options.js";
 
 export function _createAssistantSend(
   context: Client,
   body: AssistantCreationOptions,
-  options: CreateAssistantOptions = { requestOptions: {} },
+  options: CreateAssistantOptionalParams = { requestOptions: {} },
 ): StreamableMethod<CreateAssistant200Response> {
   return context
     .path("/assistants")
@@ -146,7 +156,7 @@ export async function _createAssistantDeserialize(
 export async function createAssistant(
   context: Client,
   body: AssistantCreationOptions,
-  options: CreateAssistantOptions = { requestOptions: {} },
+  options: CreateAssistantOptionalParams = { requestOptions: {} },
 ): Promise<Assistant> {
   const result = await _createAssistantSend(context, body, options);
   return _createAssistantDeserialize(result);
@@ -154,7 +164,7 @@ export async function createAssistant(
 
 export function _listAssistantsSend(
   context: Client,
-  options: ListAssistantsOptions = { requestOptions: {} },
+  options: ListAssistantsOptionalParams = { requestOptions: {} },
 ): StreamableMethod<ListAssistants200Response> {
   return context
     .path("/assistants")
@@ -171,7 +181,7 @@ export function _listAssistantsSend(
 
 export async function _listAssistantsDeserialize(
   result: ListAssistants200Response,
-): Promise<OpenAIPageableListOf> {
+): Promise<OpenAIPageableListOfAssistant> {
   if (result.status !== "200") {
     throw createRestError(result);
   }
@@ -197,8 +207,8 @@ export async function _listAssistantsDeserialize(
 /** Gets a list of assistants that were previously created. */
 export async function listAssistants(
   context: Client,
-  options: ListAssistantsOptions = { requestOptions: {} },
-): Promise<OpenAIPageableListOf> {
+  options: ListAssistantsOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfAssistant> {
   const result = await _listAssistantsSend(context, options);
   return _listAssistantsDeserialize(result);
 }
@@ -206,7 +216,7 @@ export async function listAssistants(
 export function _getAssistantSend(
   context: Client,
   assistantId: string,
-  options: GetAssistantOptions = { requestOptions: {} },
+  options: GetAssistantOptionalParams = { requestOptions: {} },
 ): StreamableMethod<GetAssistant200Response> {
   return context
     .path("/assistants/{assistantId}", assistantId)
@@ -237,7 +247,7 @@ export async function _getAssistantDeserialize(
 export async function getAssistant(
   context: Client,
   assistantId: string,
-  options: GetAssistantOptions = { requestOptions: {} },
+  options: GetAssistantOptionalParams = { requestOptions: {} },
 ): Promise<Assistant> {
   const result = await _getAssistantSend(context, assistantId, options);
   return _getAssistantDeserialize(result);
@@ -247,7 +257,7 @@ export function _updateAssistantSend(
   context: Client,
   assistantId: string,
   body: UpdateAssistantOptions,
-  options: UpdateAssistantRequestOptions = { requestOptions: {} },
+  options: UpdateAssistantOptionalParams = { requestOptions: {} },
 ): StreamableMethod<UpdateAssistant200Response> {
   return context
     .path("/assistants/{assistantId}", assistantId)
@@ -290,7 +300,7 @@ export async function updateAssistant(
   context: Client,
   assistantId: string,
   body: UpdateAssistantOptions,
-  options: UpdateAssistantRequestOptions = { requestOptions: {} },
+  options: UpdateAssistantOptionalParams = { requestOptions: {} },
 ): Promise<Assistant> {
   const result = await _updateAssistantSend(
     context,
@@ -304,7 +314,7 @@ export async function updateAssistant(
 export function _deleteAssistantSend(
   context: Client,
   assistantId: string,
-  options: DeleteAssistantOptions = { requestOptions: {} },
+  options: DeleteAssistantOptionalParams = { requestOptions: {} },
 ): StreamableMethod<DeleteAssistant200Response> {
   return context
     .path("/assistants/{assistantId}", assistantId)
@@ -329,7 +339,7 @@ export async function _deleteAssistantDeserialize(
 export async function deleteAssistant(
   context: Client,
   assistantId: string,
-  options: DeleteAssistantOptions = { requestOptions: {} },
+  options: DeleteAssistantOptionalParams = { requestOptions: {} },
 ): Promise<AssistantDeletionStatus> {
   const result = await _deleteAssistantSend(context, assistantId, options);
   return _deleteAssistantDeserialize(result);
@@ -339,7 +349,7 @@ export function _createAssistantFileSend(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: CreateAssistantFileOptions = { requestOptions: {} },
+  options: CreateAssistantFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod<CreateAssistantFile200Response> {
   return context
     .path("/assistants/{assistantId}/files", assistantId)
@@ -368,7 +378,7 @@ export async function createAssistantFile(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: CreateAssistantFileOptions = { requestOptions: {} },
+  options: CreateAssistantFileOptionalParams = { requestOptions: {} },
 ): Promise<AssistantFile> {
   const result = await _createAssistantFileSend(
     context,
@@ -382,7 +392,7 @@ export async function createAssistantFile(
 export function _listAssistantFilesSend(
   context: Client,
   assistantId: string,
-  options: ListAssistantFilesOptions = { requestOptions: {} },
+  options: ListAssistantFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod<ListAssistantFiles200Response> {
   return context
     .path("/assistants/{assistantId}/files", assistantId)
@@ -399,7 +409,7 @@ export function _listAssistantFilesSend(
 
 export async function _listAssistantFilesDeserialize(
   result: ListAssistantFiles200Response,
-): Promise<OpenAIPageableListOf> {
+): Promise<OpenAIPageableListOfAssistantFile> {
   if (result.status !== "200") {
     throw createRestError(result);
   }
@@ -420,8 +430,8 @@ export async function _listAssistantFilesDeserialize(
 export async function listAssistantFiles(
   context: Client,
   assistantId: string,
-  options: ListAssistantFilesOptions = { requestOptions: {} },
-): Promise<OpenAIPageableListOf> {
+  options: ListAssistantFilesOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfAssistantFile> {
   const result = await _listAssistantFilesSend(context, assistantId, options);
   return _listAssistantFilesDeserialize(result);
 }
@@ -430,7 +440,7 @@ export function _getAssistantFileSend(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: GetAssistantFileOptions = { requestOptions: {} },
+  options: GetAssistantFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod<GetAssistantFile200Response> {
   return context
     .path("/assistants/{assistantId}/files/{fileId}", assistantId, fileId)
@@ -456,7 +466,7 @@ export async function getAssistantFile(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: GetAssistantFileOptions = { requestOptions: {} },
+  options: GetAssistantFileOptionalParams = { requestOptions: {} },
 ): Promise<AssistantFile> {
   const result = await _getAssistantFileSend(
     context,
@@ -471,7 +481,7 @@ export function _deleteAssistantFileSend(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: DeleteAssistantFileOptions = { requestOptions: {} },
+  options: DeleteAssistantFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod<DeleteAssistantFile200Response> {
   return context
     .path("/assistants/{assistantId}/files/{fileId}", assistantId, fileId)
@@ -500,7 +510,7 @@ export async function deleteAssistantFile(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: DeleteAssistantFileOptions = { requestOptions: {} },
+  options: DeleteAssistantFileOptionalParams = { requestOptions: {} },
 ): Promise<AssistantFileDeletionStatus> {
   const result = await _deleteAssistantFileSend(
     context,
@@ -514,21 +524,22 @@ export async function deleteAssistantFile(
 export function _createThreadSend(
   context: Client,
   body: AssistantThreadCreationOptions,
-  options: CreateThreadOptions = { requestOptions: {} },
+  options: CreateThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod<CreateThread200Response> {
   return context
     .path("/threads")
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: !body["messages"]
-          ? body["messages"]
-          : body["messages"].map((p) => ({
-              role: p["role"],
-              content: p["content"],
-              file_ids: p["fileIds"],
-              metadata: p["metadata"],
-            })),
+        messages:
+          body["messages"] === undefined
+            ? body["messages"]
+            : body["messages"].map((p) => ({
+                role: p["role"],
+                content: p["content"],
+                file_ids: p["fileIds"],
+                metadata: p["metadata"],
+              })),
         metadata: body["metadata"],
       },
     });
@@ -552,7 +563,7 @@ export async function _createThreadDeserialize(
 export async function createThread(
   context: Client,
   body: AssistantThreadCreationOptions,
-  options: CreateThreadOptions = { requestOptions: {} },
+  options: CreateThreadOptionalParams = { requestOptions: {} },
 ): Promise<AssistantThread> {
   const result = await _createThreadSend(context, body, options);
   return _createThreadDeserialize(result);
@@ -561,7 +572,7 @@ export async function createThread(
 export function _getThreadSend(
   context: Client,
   threadId: string,
-  options: GetThreadOptions = { requestOptions: {} },
+  options: GetThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod<GetThread200Response> {
   return context
     .path("/threads/{threadId}", threadId)
@@ -586,7 +597,7 @@ export async function _getThreadDeserialize(
 export async function getThread(
   context: Client,
   threadId: string,
-  options: GetThreadOptions = { requestOptions: {} },
+  options: GetThreadOptionalParams = { requestOptions: {} },
 ): Promise<AssistantThread> {
   const result = await _getThreadSend(context, threadId, options);
   return _getThreadDeserialize(result);
@@ -595,7 +606,7 @@ export async function getThread(
 export function _updateThreadSend(
   context: Client,
   threadId: string,
-  options: UpdateThreadOptions = { requestOptions: {} },
+  options: UpdateThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod<UpdateThread200Response> {
   return context
     .path("/threads/{threadId}", threadId)
@@ -623,7 +634,7 @@ export async function _updateThreadDeserialize(
 export async function updateThread(
   context: Client,
   threadId: string,
-  options: UpdateThreadOptions = { requestOptions: {} },
+  options: UpdateThreadOptionalParams = { requestOptions: {} },
 ): Promise<AssistantThread> {
   const result = await _updateThreadSend(context, threadId, options);
   return _updateThreadDeserialize(result);
@@ -632,7 +643,7 @@ export async function updateThread(
 export function _deleteThreadSend(
   context: Client,
   threadId: string,
-  options: DeleteThreadOptions = { requestOptions: {} },
+  options: DeleteThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod<DeleteThread200Response> {
   return context
     .path("/threads/{threadId}", threadId)
@@ -657,7 +668,7 @@ export async function _deleteThreadDeserialize(
 export async function deleteThread(
   context: Client,
   threadId: string,
-  options: DeleteThreadOptions = { requestOptions: {} },
+  options: DeleteThreadOptionalParams = { requestOptions: {} },
 ): Promise<ThreadDeletionStatus> {
   const result = await _deleteThreadSend(context, threadId, options);
   return _deleteThreadDeserialize(result);
@@ -668,7 +679,7 @@ export function _createMessageSend(
   threadId: string,
   role: MessageRole,
   content: string,
-  options: CreateMessageOptions = { requestOptions: {} },
+  options: CreateMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod<CreateMessage200Response> {
   return context
     .path("/threads/{threadId}/messages", threadId)
@@ -695,7 +706,9 @@ export async function _createMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: result.body["content"],
+    content: result.body["content"].map((p) =>
+      deserializeMessageContentUnion(p),
+    ),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     fileIds: result.body["file_ids"],
@@ -709,7 +722,7 @@ export async function createMessage(
   threadId: string,
   role: MessageRole,
   content: string,
-  options: CreateMessageOptions = { requestOptions: {} },
+  options: CreateMessageOptionalParams = { requestOptions: {} },
 ): Promise<ThreadMessage> {
   const result = await _createMessageSend(
     context,
@@ -724,7 +737,7 @@ export async function createMessage(
 export function _listMessagesSend(
   context: Client,
   threadId: string,
-  options: ListMessagesOptions = { requestOptions: {} },
+  options: ListMessagesOptionalParams = { requestOptions: {} },
 ): StreamableMethod<ListMessages200Response> {
   return context
     .path("/threads/{threadId}/messages", threadId)
@@ -741,7 +754,7 @@ export function _listMessagesSend(
 
 export async function _listMessagesDeserialize(
   result: ListMessages200Response,
-): Promise<OpenAIPageableListOf> {
+): Promise<OpenAIPageableListOfThreadMessage> {
   if (result.status !== "200") {
     throw createRestError(result);
   }
@@ -752,7 +765,7 @@ export async function _listMessagesDeserialize(
       createdAt: new Date(p["created_at"]),
       threadId: p["thread_id"],
       role: p["role"],
-      content: p["content"],
+      content: p["content"].map((p) => deserializeMessageContentUnion(p)),
       assistantId: p["assistant_id"],
       runId: p["run_id"],
       fileIds: p["file_ids"],
@@ -768,8 +781,8 @@ export async function _listMessagesDeserialize(
 export async function listMessages(
   context: Client,
   threadId: string,
-  options: ListMessagesOptions = { requestOptions: {} },
-): Promise<OpenAIPageableListOf> {
+  options: ListMessagesOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfThreadMessage> {
   const result = await _listMessagesSend(context, threadId, options);
   return _listMessagesDeserialize(result);
 }
@@ -778,7 +791,7 @@ export function _getMessageSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: GetMessageOptions = { requestOptions: {} },
+  options: GetMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod<GetMessage200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
@@ -797,7 +810,9 @@ export async function _getMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: result.body["content"],
+    content: result.body["content"].map((p) =>
+      deserializeMessageContentUnion(p),
+    ),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     fileIds: result.body["file_ids"],
@@ -810,7 +825,7 @@ export async function getMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: GetMessageOptions = { requestOptions: {} },
+  options: GetMessageOptionalParams = { requestOptions: {} },
 ): Promise<ThreadMessage> {
   const result = await _getMessageSend(context, threadId, messageId, options);
   return _getMessageDeserialize(result);
@@ -820,7 +835,7 @@ export function _updateMessageSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: UpdateMessageOptions = { requestOptions: {} },
+  options: UpdateMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod<UpdateMessage200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
@@ -842,7 +857,9 @@ export async function _updateMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: result.body["content"],
+    content: result.body["content"].map((p) =>
+      deserializeMessageContentUnion(p),
+    ),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     fileIds: result.body["file_ids"],
@@ -855,7 +872,7 @@ export async function updateMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: UpdateMessageOptions = { requestOptions: {} },
+  options: UpdateMessageOptionalParams = { requestOptions: {} },
 ): Promise<ThreadMessage> {
   const result = await _updateMessageSend(
     context,
@@ -870,7 +887,7 @@ export function _listMessageFilesSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: ListMessageFilesOptions = { requestOptions: {} },
+  options: ListMessageFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod<ListMessageFiles200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}/files", threadId, messageId)
@@ -887,7 +904,7 @@ export function _listMessageFilesSend(
 
 export async function _listMessageFilesDeserialize(
   result: ListMessageFiles200Response,
-): Promise<OpenAIPageableListOf> {
+): Promise<OpenAIPageableListOfMessageFile> {
   if (result.status !== "200") {
     throw createRestError(result);
   }
@@ -909,8 +926,8 @@ export async function listMessageFiles(
   context: Client,
   threadId: string,
   messageId: string,
-  options: ListMessageFilesOptions = { requestOptions: {} },
-): Promise<OpenAIPageableListOf> {
+  options: ListMessageFilesOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfMessageFile> {
   const result = await _listMessageFilesSend(
     context,
     threadId,
@@ -925,7 +942,7 @@ export function _getMessageFileSend(
   threadId: string,
   messageId: string,
   fileId: string,
-  options: GetMessageFileOptions = { requestOptions: {} },
+  options: GetMessageFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod<GetMessageFile200Response> {
   return context
     .path(
@@ -957,7 +974,7 @@ export async function getMessageFile(
   threadId: string,
   messageId: string,
   fileId: string,
-  options: GetMessageFileOptions = { requestOptions: {} },
+  options: GetMessageFileOptionalParams = { requestOptions: {} },
 ): Promise<MessageFile> {
   const result = await _getMessageFileSend(
     context,
@@ -973,7 +990,7 @@ export function _createRunSend(
   context: Client,
   threadId: string,
   createRunOptions: CreateRunOptions,
-  options: CreateRunRequestOptions = { requestOptions: {} },
+  options: CreateRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod<CreateRun200Response> {
   return context
     .path("/threads/{threadId}/runs", threadId)
@@ -1002,12 +1019,9 @@ export async function _createRunDeserialize(
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      result.body.required_action === null
-        ? null
-        : !result.body.required_action
-          ? undefined
-          : { type: result.body.required_action?.["type"] },
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
     lastError:
       result.body.last_error === null
         ? null
@@ -1049,7 +1063,7 @@ export async function createRun(
   context: Client,
   threadId: string,
   createRunOptions: CreateRunOptions,
-  options: CreateRunRequestOptions = { requestOptions: {} },
+  options: CreateRunOptionalParams = { requestOptions: {} },
 ): Promise<ThreadRun> {
   const result = await _createRunSend(
     context,
@@ -1063,7 +1077,7 @@ export async function createRun(
 export function _listRunsSend(
   context: Client,
   threadId: string,
-  options: ListRunsOptions = { requestOptions: {} },
+  options: ListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod<ListRuns200Response> {
   return context
     .path("/threads/{threadId}/runs", threadId)
@@ -1080,7 +1094,7 @@ export function _listRunsSend(
 
 export async function _listRunsDeserialize(
   result: ListRuns200Response,
-): Promise<OpenAIPageableListOf> {
+): Promise<OpenAIPageableListOfThreadRun> {
   if (result.status !== "200") {
     throw createRestError(result);
   }
@@ -1091,12 +1105,9 @@ export async function _listRunsDeserialize(
       threadId: p["thread_id"],
       assistantId: p["assistant_id"],
       status: p["status"],
-      requiredAction:
-        p.required_action === null
-          ? null
-          : !p.required_action
-            ? undefined
-            : { type: p.required_action?.["type"] },
+      requiredAction: !p.required_action
+        ? p.required_action
+        : deserializeRequiredActionUnion(p.required_action),
       lastError:
         p.last_error === null
           ? null
@@ -1125,8 +1136,8 @@ export async function _listRunsDeserialize(
 export async function listRuns(
   context: Client,
   threadId: string,
-  options: ListRunsOptions = { requestOptions: {} },
-): Promise<OpenAIPageableListOf> {
+  options: ListRunsOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfThreadRun> {
   const result = await _listRunsSend(context, threadId, options);
   return _listRunsDeserialize(result);
 }
@@ -1135,7 +1146,7 @@ export function _getRunSend(
   context: Client,
   threadId: string,
   runId: string,
-  options: GetRunOptions = { requestOptions: {} },
+  options: GetRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod<GetRun200Response> {
   return context
     .path("/threads/{threadId}/runs/{runId}", threadId, runId)
@@ -1154,12 +1165,9 @@ export async function _getRunDeserialize(
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      result.body.required_action === null
-        ? null
-        : !result.body.required_action
-          ? undefined
-          : { type: result.body.required_action?.["type"] },
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
     lastError:
       result.body.last_error === null
         ? null
@@ -1201,7 +1209,7 @@ export async function getRun(
   context: Client,
   threadId: string,
   runId: string,
-  options: GetRunOptions = { requestOptions: {} },
+  options: GetRunOptionalParams = { requestOptions: {} },
 ): Promise<ThreadRun> {
   const result = await _getRunSend(context, threadId, runId, options);
   return _getRunDeserialize(result);
@@ -1211,7 +1219,7 @@ export function _updateRunSend(
   context: Client,
   threadId: string,
   runId: string,
-  options: UpdateRunOptions = { requestOptions: {} },
+  options: UpdateRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod<UpdateRun200Response> {
   return context
     .path("/threads/{threadId}/runs/{runId}", threadId, runId)
@@ -1233,12 +1241,9 @@ export async function _updateRunDeserialize(
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      result.body.required_action === null
-        ? null
-        : !result.body.required_action
-          ? undefined
-          : { type: result.body.required_action?.["type"] },
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
     lastError:
       result.body.last_error === null
         ? null
@@ -1280,7 +1285,7 @@ export async function updateRun(
   context: Client,
   threadId: string,
   runId: string,
-  options: UpdateRunOptions = { requestOptions: {} },
+  options: UpdateRunOptionalParams = { requestOptions: {} },
 ): Promise<ThreadRun> {
   const result = await _updateRunSend(context, threadId, runId, options);
   return _updateRunDeserialize(result);
@@ -1291,7 +1296,7 @@ export function _submitToolOutputsToRunSend(
   threadId: string,
   runId: string,
   toolOutputs: ToolOutput[],
-  options: SubmitToolOutputsToRunOptions = { requestOptions: {} },
+  options: SubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod<SubmitToolOutputsToRun200Response> {
   return context
     .path(
@@ -1322,12 +1327,9 @@ export async function _submitToolOutputsToRunDeserialize(
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      result.body.required_action === null
-        ? null
-        : !result.body.required_action
-          ? undefined
-          : { type: result.body.required_action?.["type"] },
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
     lastError:
       result.body.last_error === null
         ? null
@@ -1370,7 +1372,7 @@ export async function submitToolOutputsToRun(
   threadId: string,
   runId: string,
   toolOutputs: ToolOutput[],
-  options: SubmitToolOutputsToRunOptions = { requestOptions: {} },
+  options: SubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
 ): Promise<ThreadRun> {
   const result = await _submitToolOutputsToRunSend(
     context,
@@ -1386,7 +1388,7 @@ export function _cancelRunSend(
   context: Client,
   threadId: string,
   runId: string,
-  options: CancelRunOptions = { requestOptions: {} },
+  options: CancelRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod<CancelRun200Response> {
   return context
     .path("/threads/{threadId}/runs/{runId}/cancel", threadId, runId)
@@ -1405,12 +1407,9 @@ export async function _cancelRunDeserialize(
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      result.body.required_action === null
-        ? null
-        : !result.body.required_action
-          ? undefined
-          : { type: result.body.required_action?.["type"] },
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
     lastError:
       result.body.last_error === null
         ? null
@@ -1452,7 +1451,7 @@ export async function cancelRun(
   context: Client,
   threadId: string,
   runId: string,
-  options: CancelRunOptions = { requestOptions: {} },
+  options: CancelRunOptionalParams = { requestOptions: {} },
 ): Promise<ThreadRun> {
   const result = await _cancelRunSend(context, threadId, runId, options);
   return _cancelRunDeserialize(result);
@@ -1461,7 +1460,7 @@ export async function cancelRun(
 export function _createThreadAndRunSend(
   context: Client,
   body: CreateAndRunThreadOptions,
-  options: CreateThreadAndRunOptions = { requestOptions: {} },
+  options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod<CreateThreadAndRun200Response> {
   return context
     .path("/threads/runs")
@@ -1472,14 +1471,15 @@ export function _createThreadAndRunSend(
         thread: !body.thread
           ? undefined
           : {
-              messages: !body.thread?.["messages"]
-                ? body.thread?.["messages"]
-                : body.thread?.["messages"].map((p) => ({
-                    role: p["role"],
-                    content: p["content"],
-                    file_ids: p["fileIds"],
-                    metadata: p["metadata"],
-                  })),
+              messages:
+                body.thread?.["messages"] === undefined
+                  ? body.thread?.["messages"]
+                  : body.thread?.["messages"].map((p) => ({
+                      role: p["role"],
+                      content: p["content"],
+                      file_ids: p["fileIds"],
+                      metadata: p["metadata"],
+                    })),
               metadata: body.thread?.["metadata"],
             },
         model: body["model"],
@@ -1502,12 +1502,9 @@ export async function _createThreadAndRunDeserialize(
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      result.body.required_action === null
-        ? null
-        : !result.body.required_action
-          ? undefined
-          : { type: result.body.required_action?.["type"] },
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
     lastError:
       result.body.last_error === null
         ? null
@@ -1548,7 +1545,7 @@ export async function _createThreadAndRunDeserialize(
 export async function createThreadAndRun(
   context: Client,
   body: CreateAndRunThreadOptions,
-  options: CreateThreadAndRunOptions = { requestOptions: {} },
+  options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
 ): Promise<ThreadRun> {
   const result = await _createThreadAndRunSend(context, body, options);
   return _createThreadAndRunDeserialize(result);
@@ -1559,7 +1556,7 @@ export function _getRunStepSend(
   threadId: string,
   runId: string,
   stepId: string,
-  options: GetRunStepOptions = { requestOptions: {} },
+  options: GetRunStepOptionalParams = { requestOptions: {} },
 ): StreamableMethod<GetRunStep200Response> {
   return context
     .path(
@@ -1585,7 +1582,7 @@ export async function _getRunStepDeserialize(
     threadId: result.body["thread_id"],
     runId: result.body["run_id"],
     status: result.body["status"],
-    stepDetails: { type: result.body.step_details["type"] },
+    stepDetails: deserializeRunStepDetailsUnion(result.body.step_details),
     lastError:
       result.body.last_error === null
         ? null
@@ -1620,7 +1617,7 @@ export async function getRunStep(
   threadId: string,
   runId: string,
   stepId: string,
-  options: GetRunStepOptions = { requestOptions: {} },
+  options: GetRunStepOptionalParams = { requestOptions: {} },
 ): Promise<RunStep> {
   const result = await _getRunStepSend(
     context,
@@ -1636,7 +1633,7 @@ export function _listRunStepsSend(
   context: Client,
   threadId: string,
   runId: string,
-  options: ListRunStepsOptions = { requestOptions: {} },
+  options: ListRunStepsOptionalParams = { requestOptions: {} },
 ): StreamableMethod<ListRunSteps200Response> {
   return context
     .path("/threads/{threadId}/runs/{runId}/steps", threadId, runId)
@@ -1653,7 +1650,7 @@ export function _listRunStepsSend(
 
 export async function _listRunStepsDeserialize(
   result: ListRunSteps200Response,
-): Promise<OpenAIPageableListOf> {
+): Promise<OpenAIPageableListOfRunStep> {
   if (result.status !== "200") {
     throw createRestError(result);
   }
@@ -1666,7 +1663,7 @@ export async function _listRunStepsDeserialize(
       threadId: p["thread_id"],
       runId: p["run_id"],
       status: p["status"],
-      stepDetails: { type: p.step_details["type"] },
+      stepDetails: deserializeRunStepDetailsUnion(p.step_details),
       lastError:
         p.last_error === null
           ? null
@@ -1691,15 +1688,15 @@ export async function listRunSteps(
   context: Client,
   threadId: string,
   runId: string,
-  options: ListRunStepsOptions = { requestOptions: {} },
-): Promise<OpenAIPageableListOf> {
+  options: ListRunStepsOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfRunStep> {
   const result = await _listRunStepsSend(context, threadId, runId, options);
   return _listRunStepsDeserialize(result);
 }
 
 export function _listFilesSend(
   context: Client,
-  options: ListFilesOptions = { requestOptions: {} },
+  options: ListFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod<ListFiles200Response> {
   return context
     .path("/files")
@@ -1730,7 +1727,7 @@ export async function _listFilesDeserialize(
 /** Gets a list of previously uploaded files. */
 export async function listFiles(
   context: Client,
-  options: ListFilesOptions = { requestOptions: {} },
+  options: ListFilesOptionalParams = { requestOptions: {} },
 ): Promise<FileListResponse> {
   const result = await _listFilesSend(context, options);
   return _listFilesDeserialize(result);
@@ -1740,7 +1737,7 @@ export function _uploadFileSend(
   context: Client,
   file: Uint8Array,
   purpose: FilePurpose,
-  options: UploadFileOptions = { requestOptions: {} },
+  options: UploadFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod<UploadFile200Response> {
   return context
     .path("/files")
@@ -1776,7 +1773,7 @@ export async function uploadFile(
   context: Client,
   file: Uint8Array,
   purpose: FilePurpose,
-  options: UploadFileOptions = { requestOptions: {} },
+  options: UploadFileOptionalParams = { requestOptions: {} },
 ): Promise<InputFile> {
   const result = await _uploadFileSend(context, file, purpose, options);
   return _uploadFileDeserialize(result);
@@ -1785,7 +1782,7 @@ export async function uploadFile(
 export function _deleteFileSend(
   context: Client,
   fileId: string,
-  options: DeleteFileOptions = { requestOptions: {} },
+  options: DeleteFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod<DeleteFile200Response> {
   return context
     .path("/files/{fileId}", fileId)
@@ -1810,7 +1807,7 @@ export async function _deleteFileDeserialize(
 export async function deleteFile(
   context: Client,
   fileId: string,
-  options: DeleteFileOptions = { requestOptions: {} },
+  options: DeleteFileOptionalParams = { requestOptions: {} },
 ): Promise<FileDeletionStatus> {
   const result = await _deleteFileSend(context, fileId, options);
   return _deleteFileDeserialize(result);
@@ -1819,7 +1816,7 @@ export async function deleteFile(
 export function _getFileSend(
   context: Client,
   fileId: string,
-  options: GetFileOptions = { requestOptions: {} },
+  options: GetFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod<GetFile200Response> {
   return context
     .path("/files/{fileId}", fileId)
@@ -1846,7 +1843,7 @@ export async function _getFileDeserialize(
 export async function getFile(
   context: Client,
   fileId: string,
-  options: GetFileOptions = { requestOptions: {} },
+  options: GetFileOptionalParams = { requestOptions: {} },
 ): Promise<InputFile> {
   const result = await _getFileSend(context, fileId, options);
   return _getFileDeserialize(result);

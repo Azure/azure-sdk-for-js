@@ -25,7 +25,7 @@ import {
   RouterQueueStatisticsOutput,
   RouterWorkerOutput,
   PagedRouterWorkerOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 export interface UpsertClassificationPolicy200Headers {
   /** The entity tag for the response. */
@@ -60,7 +60,8 @@ export interface UpsertClassificationPolicyDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface UpsertClassificationPolicyDefaultResponse extends HttpResponse {
+export interface UpsertClassificationPolicyDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & UpsertClassificationPolicyDefaultHeaders;
@@ -101,7 +102,8 @@ export interface DeleteClassificationPolicyDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface DeleteClassificationPolicyDefaultResponse extends HttpResponse {
+export interface DeleteClassificationPolicyDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & DeleteClassificationPolicyDefaultHeaders;
@@ -118,7 +120,8 @@ export interface ListClassificationPoliciesDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface ListClassificationPoliciesDefaultResponse extends HttpResponse {
+export interface ListClassificationPoliciesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & ListClassificationPoliciesDefaultHeaders;

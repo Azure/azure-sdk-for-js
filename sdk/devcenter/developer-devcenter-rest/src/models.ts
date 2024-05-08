@@ -20,12 +20,8 @@ export interface ImageReference {}
 export interface DevBox {
   /** The name of the Dev Box pool this machine belongs to. */
   poolName: string;
-  /**
-   * Indicates whether the owner of the Dev Box is a local administrator.
-   *
-   * Possible values: Enabled, Disabled
-   */
-  localAdministrator?: string;
+  /** Indicates whether the owner of the Dev Box is a local administrator. */
+  localAdministrator?: LocalAdminStatus;
 }
 
 /** Properties of an environment. */
@@ -39,3 +35,17 @@ export interface Environment {
   /** Name of the environment definition. */
   environmentDefinitionName: string;
 }
+
+/** Alias for OsType */
+export type OsType = "Windows";
+/** Alias for HibernateSupport */
+export type HibernateSupport = "Enabled" | "Disabled" | "OsUnsupported";
+/** Alias for LocalAdminStatus */
+export type LocalAdminStatus = "Enabled" | "Disabled";
+/** Alias for PowerState */
+export type PowerState =
+  | "Unknown"
+  | "Running"
+  | "Deallocated"
+  | "PoweredOff"
+  | "Hibernated";

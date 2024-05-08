@@ -3,11 +3,13 @@
 
 import {
   GetAudioTranscriptionAsPlainText200Response,
-  GetAudioTranscriptionAsResponseObject200Response,
   GetAudioTranscriptionAsPlainTextDefaultResponse,
+  GetAudioTranscriptionAsResponseObject200Response,
+  GetAudioTranscriptionAsResponseObjectDefaultResponse,
   GetAudioTranslationAsPlainText200Response,
-  GetAudioTranslationAsResponseObject200Response,
   GetAudioTranslationAsPlainTextDefaultResponse,
+  GetAudioTranslationAsResponseObject200Response,
+  GetAudioTranslationAsResponseObjectDefaultResponse,
   GetCompletions200Response,
   GetCompletionsDefaultResponse,
   GetChatCompletions200Response,
@@ -18,12 +20,7 @@ import {
   GetAudioSpeechDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
-  GetAzureBatchImageGenerationOperationStatus200Response,
-  GetAzureBatchImageGenerationOperationStatusDefaultResponse,
-  BeginAzureBatchImageGeneration202Response,
-  BeginAzureBatchImageGenerationLogicalResponse,
-  BeginAzureBatchImageGenerationDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /deployments/{deploymentId}/audio/transcriptions": ["200"],
@@ -33,23 +30,28 @@ const responseMap: Record<string, string[]> = {
   "POST /deployments/{deploymentId}/images/generations": ["200"],
   "POST /deployments/{deploymentId}/audio/speech": ["200"],
   "POST /deployments/{deploymentId}/embeddings": ["200"],
-  "GET /operations/images/{operationId}": ["200"],
-  "POST /images/generations:submit": ["202"],
-  "GET /images/generations:submit": ["200", "202"],
 };
 
 export function isUnexpected(
   response:
     | GetAudioTranscriptionAsPlainText200Response
-    | GetAudioTranscriptionAsResponseObject200Response
     | GetAudioTranscriptionAsPlainTextDefaultResponse,
 ): response is GetAudioTranscriptionAsPlainTextDefaultResponse;
 export function isUnexpected(
   response:
+    | GetAudioTranscriptionAsResponseObject200Response
+    | GetAudioTranscriptionAsResponseObjectDefaultResponse,
+): response is GetAudioTranscriptionAsResponseObjectDefaultResponse;
+export function isUnexpected(
+  response:
     | GetAudioTranslationAsPlainText200Response
-    | GetAudioTranslationAsResponseObject200Response
     | GetAudioTranslationAsPlainTextDefaultResponse,
 ): response is GetAudioTranslationAsPlainTextDefaultResponse;
+export function isUnexpected(
+  response:
+    | GetAudioTranslationAsResponseObject200Response
+    | GetAudioTranslationAsResponseObjectDefaultResponse,
+): response is GetAudioTranslationAsResponseObjectDefaultResponse;
 export function isUnexpected(
   response: GetCompletions200Response | GetCompletionsDefaultResponse,
 ): response is GetCompletionsDefaultResponse;
@@ -67,23 +69,14 @@ export function isUnexpected(
 ): response is GetEmbeddingsDefaultResponse;
 export function isUnexpected(
   response:
-    | GetAzureBatchImageGenerationOperationStatus200Response
-    | GetAzureBatchImageGenerationOperationStatusDefaultResponse,
-): response is GetAzureBatchImageGenerationOperationStatusDefaultResponse;
-export function isUnexpected(
-  response:
-    | BeginAzureBatchImageGeneration202Response
-    | BeginAzureBatchImageGenerationLogicalResponse
-    | BeginAzureBatchImageGenerationDefaultResponse,
-): response is BeginAzureBatchImageGenerationDefaultResponse;
-export function isUnexpected(
-  response:
     | GetAudioTranscriptionAsPlainText200Response
-    | GetAudioTranscriptionAsResponseObject200Response
     | GetAudioTranscriptionAsPlainTextDefaultResponse
+    | GetAudioTranscriptionAsResponseObject200Response
+    | GetAudioTranscriptionAsResponseObjectDefaultResponse
     | GetAudioTranslationAsPlainText200Response
-    | GetAudioTranslationAsResponseObject200Response
     | GetAudioTranslationAsPlainTextDefaultResponse
+    | GetAudioTranslationAsResponseObject200Response
+    | GetAudioTranslationAsResponseObjectDefaultResponse
     | GetCompletions200Response
     | GetCompletionsDefaultResponse
     | GetChatCompletions200Response
@@ -93,22 +86,17 @@ export function isUnexpected(
     | GetAudioSpeech200Response
     | GetAudioSpeechDefaultResponse
     | GetEmbeddings200Response
-    | GetEmbeddingsDefaultResponse
-    | GetAzureBatchImageGenerationOperationStatus200Response
-    | GetAzureBatchImageGenerationOperationStatusDefaultResponse
-    | BeginAzureBatchImageGeneration202Response
-    | BeginAzureBatchImageGenerationLogicalResponse
-    | BeginAzureBatchImageGenerationDefaultResponse,
+    | GetEmbeddingsDefaultResponse,
 ): response is
   | GetAudioTranscriptionAsPlainTextDefaultResponse
+  | GetAudioTranscriptionAsResponseObjectDefaultResponse
   | GetAudioTranslationAsPlainTextDefaultResponse
+  | GetAudioTranslationAsResponseObjectDefaultResponse
   | GetCompletionsDefaultResponse
   | GetChatCompletionsDefaultResponse
   | GetImageGenerationsDefaultResponse
   | GetAudioSpeechDefaultResponse
-  | GetEmbeddingsDefaultResponse
-  | GetAzureBatchImageGenerationOperationStatusDefaultResponse
-  | BeginAzureBatchImageGenerationDefaultResponse {
+  | GetEmbeddingsDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

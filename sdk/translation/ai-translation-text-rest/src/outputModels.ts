@@ -1,16 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/** Response for the languages API. */
-export interface GetLanguagesResultOutput {
-  /** Languages that support translate API. */
-  translation?: Record<string, TranslationLanguageOutput>;
-  /** Languages that support transliteration API. */
-  transliteration?: Record<string, TransliterationLanguageOutput>;
-  /** Languages that support dictionary API. */
-  dictionary?: Record<string, SourceDictionaryLanguageOutput>;
-}
-
 /**
  * The value of the translation property is a dictionary of (key, value) pairs. Each key is a BCP 47 language tag.
  * A key identifies a language for which text can be translated to or translated from.
@@ -78,12 +68,6 @@ export interface TargetDictionaryLanguageOutput {
   dir: string;
   /** Language code identifying the target language. */
   code: string;
-}
-
-/** Representation of the Error Response from Translator Service. */
-export interface ErrorResponseOutput {
-  /** Error details. */
-  error: ErrorDetailsOutput;
 }
 
 /** Error details as returned by Translator Service. */

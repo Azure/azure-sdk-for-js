@@ -6,60 +6,65 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 import {
   AssistantCreationOptions,
   Assistant,
-  OpenAIPageableListOf,
+  OpenAIPageableListOfAssistant,
   UpdateAssistantOptions,
   AssistantDeletionStatus,
   AssistantFile,
+  OpenAIPageableListOfAssistantFile,
   AssistantFileDeletionStatus,
-  AssistantThreadCreationOptions,
   MessageRole,
+  AssistantThreadCreationOptions,
   AssistantThread,
   ThreadDeletionStatus,
   ThreadMessage,
+  OpenAIPageableListOfThreadMessage,
+  OpenAIPageableListOfMessageFile,
   MessageFile,
   CreateRunOptions,
   ThreadRun,
+  OpenAIPageableListOfThreadRun,
   ToolOutput,
   CreateAndRunThreadOptions,
   RunStep,
+  OpenAIPageableListOfRunStep,
   FilePurpose,
   FileListResponse,
   InputFile,
   FileDeletionStatus,
 } from "./models/models.js";
 import {
-  CreateAssistantOptions,
-  ListAssistantsOptions,
-  GetAssistantOptions,
-  UpdateAssistantRequestOptions,
-  DeleteAssistantOptions,
-  CreateAssistantFileOptions,
-  ListAssistantFilesOptions,
-  GetAssistantFileOptions,
-  DeleteAssistantFileOptions,
-  CreateThreadOptions,
-  GetThreadOptions,
-  UpdateThreadOptions,
-  DeleteThreadOptions,
-  CreateMessageOptions,
-  ListMessagesOptions,
-  GetMessageOptions,
-  UpdateMessageOptions,
-  ListMessageFilesOptions,
-  GetMessageFileOptions,
-  CreateRunRequestOptions,
-  ListRunsOptions,
-  GetRunOptions,
-  UpdateRunOptions,
-  SubmitToolOutputsToRunOptions,
-  CancelRunOptions,
-  CreateThreadAndRunOptions,
-  GetRunStepOptions,
-  ListRunStepsOptions,
-  ListFilesOptions,
-  UploadFileOptions,
-  DeleteFileOptions,
-  GetFileOptions,
+  CreateAssistantOptionalParams,
+  ListAssistantsOptionalParams,
+  GetAssistantOptionalParams,
+  UpdateAssistantOptionalParams,
+  DeleteAssistantOptionalParams,
+  CreateAssistantFileOptionalParams,
+  ListAssistantFilesOptionalParams,
+  GetAssistantFileOptionalParams,
+  DeleteAssistantFileOptionalParams,
+  CreateThreadOptionalParams,
+  GetThreadOptionalParams,
+  UpdateThreadOptionalParams,
+  DeleteThreadOptionalParams,
+  CreateMessageOptionalParams,
+  ListMessagesOptionalParams,
+  GetMessageOptionalParams,
+  UpdateMessageOptionalParams,
+  ListMessageFilesOptionalParams,
+  GetMessageFileOptionalParams,
+  CreateRunOptionalParams,
+  ListRunsOptionalParams,
+  GetRunOptionalParams,
+  UpdateRunOptionalParams,
+  SubmitToolOutputsToRunOptionalParams,
+  CancelRunOptionalParams,
+  CreateThreadAndRunOptionalParams,
+  GetRunStepOptionalParams,
+  ListRunStepsOptionalParams,
+  ListFilesOptionalParams,
+  UploadFileOptionalParams,
+  DeleteFileOptionalParams,
+  GetFileOptionalParams,
 } from "./models/options.js";
 import {
   createAssistants,
@@ -99,7 +104,7 @@ import {
   getFile,
 } from "./api/index.js";
 
-export { AssistantsClientOptions } from "./api/AssistantsContext.js";
+export { AssistantsClientOptions } from "./api/assistantsContext.js";
 
 export class AssistantsClient {
   private _client: AssistantsContext;
@@ -108,33 +113,33 @@ export class AssistantsClient {
 
   /** Azure OpenAI APIs for Assistants. */
   constructor(
-    endpoint: string,
+    endpointParam: string,
     credential: KeyCredential | TokenCredential,
     options: AssistantsClientOptions = {},
   ) {
-    this._client = createAssistants(endpoint, credential, options);
+    this._client = createAssistants(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
   }
 
   /** Creates a new assistant. */
   createAssistant(
     body: AssistantCreationOptions,
-    options: CreateAssistantOptions = { requestOptions: {} },
+    options: CreateAssistantOptionalParams = { requestOptions: {} },
   ): Promise<Assistant> {
     return createAssistant(this._client, body, options);
   }
 
   /** Gets a list of assistants that were previously created. */
   listAssistants(
-    options: ListAssistantsOptions = { requestOptions: {} },
-  ): Promise<OpenAIPageableListOf> {
+    options: ListAssistantsOptionalParams = { requestOptions: {} },
+  ): Promise<OpenAIPageableListOfAssistant> {
     return listAssistants(this._client, options);
   }
 
   /** Retrieves an existing assistant. */
   getAssistant(
     assistantId: string,
-    options: GetAssistantOptions = { requestOptions: {} },
+    options: GetAssistantOptionalParams = { requestOptions: {} },
   ): Promise<Assistant> {
     return getAssistant(this._client, assistantId, options);
   }
@@ -143,7 +148,7 @@ export class AssistantsClient {
   updateAssistant(
     assistantId: string,
     body: UpdateAssistantOptions,
-    options: UpdateAssistantRequestOptions = { requestOptions: {} },
+    options: UpdateAssistantOptionalParams = { requestOptions: {} },
   ): Promise<Assistant> {
     return updateAssistant(this._client, assistantId, body, options);
   }
@@ -151,7 +156,7 @@ export class AssistantsClient {
   /** Deletes an assistant. */
   deleteAssistant(
     assistantId: string,
-    options: DeleteAssistantOptions = { requestOptions: {} },
+    options: DeleteAssistantOptionalParams = { requestOptions: {} },
   ): Promise<AssistantDeletionStatus> {
     return deleteAssistant(this._client, assistantId, options);
   }
@@ -160,7 +165,7 @@ export class AssistantsClient {
   createAssistantFile(
     assistantId: string,
     fileId: string,
-    options: CreateAssistantFileOptions = { requestOptions: {} },
+    options: CreateAssistantFileOptionalParams = { requestOptions: {} },
   ): Promise<AssistantFile> {
     return createAssistantFile(this._client, assistantId, fileId, options);
   }
@@ -168,8 +173,8 @@ export class AssistantsClient {
   /** Gets a list of files attached to a specific assistant, as used by tools that can read files. */
   listAssistantFiles(
     assistantId: string,
-    options: ListAssistantFilesOptions = { requestOptions: {} },
-  ): Promise<OpenAIPageableListOf> {
+    options: ListAssistantFilesOptionalParams = { requestOptions: {} },
+  ): Promise<OpenAIPageableListOfAssistantFile> {
     return listAssistantFiles(this._client, assistantId, options);
   }
 
@@ -177,7 +182,7 @@ export class AssistantsClient {
   getAssistantFile(
     assistantId: string,
     fileId: string,
-    options: GetAssistantFileOptions = { requestOptions: {} },
+    options: GetAssistantFileOptionalParams = { requestOptions: {} },
   ): Promise<AssistantFile> {
     return getAssistantFile(this._client, assistantId, fileId, options);
   }
@@ -189,7 +194,7 @@ export class AssistantsClient {
   deleteAssistantFile(
     assistantId: string,
     fileId: string,
-    options: DeleteAssistantFileOptions = { requestOptions: {} },
+    options: DeleteAssistantFileOptionalParams = { requestOptions: {} },
   ): Promise<AssistantFileDeletionStatus> {
     return deleteAssistantFile(this._client, assistantId, fileId, options);
   }
@@ -197,7 +202,7 @@ export class AssistantsClient {
   /** Creates a new thread. Threads contain messages and can be run by assistants. */
   createThread(
     body: AssistantThreadCreationOptions,
-    options: CreateThreadOptions = { requestOptions: {} },
+    options: CreateThreadOptionalParams = { requestOptions: {} },
   ): Promise<AssistantThread> {
     return createThread(this._client, body, options);
   }
@@ -205,7 +210,7 @@ export class AssistantsClient {
   /** Gets information about an existing thread. */
   getThread(
     threadId: string,
-    options: GetThreadOptions = { requestOptions: {} },
+    options: GetThreadOptionalParams = { requestOptions: {} },
   ): Promise<AssistantThread> {
     return getThread(this._client, threadId, options);
   }
@@ -213,7 +218,7 @@ export class AssistantsClient {
   /** Modifies an existing thread. */
   updateThread(
     threadId: string,
-    options: UpdateThreadOptions = { requestOptions: {} },
+    options: UpdateThreadOptionalParams = { requestOptions: {} },
   ): Promise<AssistantThread> {
     return updateThread(this._client, threadId, options);
   }
@@ -221,7 +226,7 @@ export class AssistantsClient {
   /** Deletes an existing thread. */
   deleteThread(
     threadId: string,
-    options: DeleteThreadOptions = { requestOptions: {} },
+    options: DeleteThreadOptionalParams = { requestOptions: {} },
   ): Promise<ThreadDeletionStatus> {
     return deleteThread(this._client, threadId, options);
   }
@@ -231,7 +236,7 @@ export class AssistantsClient {
     threadId: string,
     role: MessageRole,
     content: string,
-    options: CreateMessageOptions = { requestOptions: {} },
+    options: CreateMessageOptionalParams = { requestOptions: {} },
   ): Promise<ThreadMessage> {
     return createMessage(this._client, threadId, role, content, options);
   }
@@ -239,8 +244,8 @@ export class AssistantsClient {
   /** Gets a list of messages that exist on a thread. */
   listMessages(
     threadId: string,
-    options: ListMessagesOptions = { requestOptions: {} },
-  ): Promise<OpenAIPageableListOf> {
+    options: ListMessagesOptionalParams = { requestOptions: {} },
+  ): Promise<OpenAIPageableListOfThreadMessage> {
     return listMessages(this._client, threadId, options);
   }
 
@@ -248,7 +253,7 @@ export class AssistantsClient {
   getMessage(
     threadId: string,
     messageId: string,
-    options: GetMessageOptions = { requestOptions: {} },
+    options: GetMessageOptionalParams = { requestOptions: {} },
   ): Promise<ThreadMessage> {
     return getMessage(this._client, threadId, messageId, options);
   }
@@ -257,7 +262,7 @@ export class AssistantsClient {
   updateMessage(
     threadId: string,
     messageId: string,
-    options: UpdateMessageOptions = { requestOptions: {} },
+    options: UpdateMessageOptionalParams = { requestOptions: {} },
   ): Promise<ThreadMessage> {
     return updateMessage(this._client, threadId, messageId, options);
   }
@@ -266,8 +271,8 @@ export class AssistantsClient {
   listMessageFiles(
     threadId: string,
     messageId: string,
-    options: ListMessageFilesOptions = { requestOptions: {} },
-  ): Promise<OpenAIPageableListOf> {
+    options: ListMessageFilesOptionalParams = { requestOptions: {} },
+  ): Promise<OpenAIPageableListOfMessageFile> {
     return listMessageFiles(this._client, threadId, messageId, options);
   }
 
@@ -276,7 +281,7 @@ export class AssistantsClient {
     threadId: string,
     messageId: string,
     fileId: string,
-    options: GetMessageFileOptions = { requestOptions: {} },
+    options: GetMessageFileOptionalParams = { requestOptions: {} },
   ): Promise<MessageFile> {
     return getMessageFile(this._client, threadId, messageId, fileId, options);
   }
@@ -285,7 +290,7 @@ export class AssistantsClient {
   createRun(
     threadId: string,
     createRunOptions: CreateRunOptions,
-    options: CreateRunRequestOptions = { requestOptions: {} },
+    options: CreateRunOptionalParams = { requestOptions: {} },
   ): Promise<ThreadRun> {
     return createRun(this._client, threadId, createRunOptions, options);
   }
@@ -293,8 +298,8 @@ export class AssistantsClient {
   /** Gets a list of runs for a specified thread. */
   listRuns(
     threadId: string,
-    options: ListRunsOptions = { requestOptions: {} },
-  ): Promise<OpenAIPageableListOf> {
+    options: ListRunsOptionalParams = { requestOptions: {} },
+  ): Promise<OpenAIPageableListOfThreadRun> {
     return listRuns(this._client, threadId, options);
   }
 
@@ -302,7 +307,7 @@ export class AssistantsClient {
   getRun(
     threadId: string,
     runId: string,
-    options: GetRunOptions = { requestOptions: {} },
+    options: GetRunOptionalParams = { requestOptions: {} },
   ): Promise<ThreadRun> {
     return getRun(this._client, threadId, runId, options);
   }
@@ -311,7 +316,7 @@ export class AssistantsClient {
   updateRun(
     threadId: string,
     runId: string,
-    options: UpdateRunOptions = { requestOptions: {} },
+    options: UpdateRunOptionalParams = { requestOptions: {} },
   ): Promise<ThreadRun> {
     return updateRun(this._client, threadId, runId, options);
   }
@@ -321,7 +326,7 @@ export class AssistantsClient {
     threadId: string,
     runId: string,
     toolOutputs: ToolOutput[],
-    options: SubmitToolOutputsToRunOptions = { requestOptions: {} },
+    options: SubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
   ): Promise<ThreadRun> {
     return submitToolOutputsToRun(
       this._client,
@@ -336,7 +341,7 @@ export class AssistantsClient {
   cancelRun(
     threadId: string,
     runId: string,
-    options: CancelRunOptions = { requestOptions: {} },
+    options: CancelRunOptionalParams = { requestOptions: {} },
   ): Promise<ThreadRun> {
     return cancelRun(this._client, threadId, runId, options);
   }
@@ -344,7 +349,7 @@ export class AssistantsClient {
   /** Creates a new assistant thread and immediately starts a run using that new thread. */
   createThreadAndRun(
     body: CreateAndRunThreadOptions,
-    options: CreateThreadAndRunOptions = { requestOptions: {} },
+    options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
   ): Promise<ThreadRun> {
     return createThreadAndRun(this._client, body, options);
   }
@@ -354,7 +359,7 @@ export class AssistantsClient {
     threadId: string,
     runId: string,
     stepId: string,
-    options: GetRunStepOptions = { requestOptions: {} },
+    options: GetRunStepOptionalParams = { requestOptions: {} },
   ): Promise<RunStep> {
     return getRunStep(this._client, threadId, runId, stepId, options);
   }
@@ -363,14 +368,14 @@ export class AssistantsClient {
   listRunSteps(
     threadId: string,
     runId: string,
-    options: ListRunStepsOptions = { requestOptions: {} },
-  ): Promise<OpenAIPageableListOf> {
+    options: ListRunStepsOptionalParams = { requestOptions: {} },
+  ): Promise<OpenAIPageableListOfRunStep> {
     return listRunSteps(this._client, threadId, runId, options);
   }
 
   /** Gets a list of previously uploaded files. */
   listFiles(
-    options: ListFilesOptions = { requestOptions: {} },
+    options: ListFilesOptionalParams = { requestOptions: {} },
   ): Promise<FileListResponse> {
     return listFiles(this._client, options);
   }
@@ -379,7 +384,7 @@ export class AssistantsClient {
   uploadFile(
     file: Uint8Array,
     purpose: FilePurpose,
-    options: UploadFileOptions = { requestOptions: {} },
+    options: UploadFileOptionalParams = { requestOptions: {} },
   ): Promise<InputFile> {
     return uploadFile(this._client, file, purpose, options);
   }
@@ -387,7 +392,7 @@ export class AssistantsClient {
   /** Delete a previously uploaded file. */
   deleteFile(
     fileId: string,
-    options: DeleteFileOptions = { requestOptions: {} },
+    options: DeleteFileOptionalParams = { requestOptions: {} },
   ): Promise<FileDeletionStatus> {
     return deleteFile(this._client, fileId, options);
   }
@@ -395,7 +400,7 @@ export class AssistantsClient {
   /** Returns information about a specific file. Does not retrieve file content. */
   getFile(
     fileId: string,
-    options: GetFileOptions = { requestOptions: {} },
+    options: GetFileOptionalParams = { requestOptions: {} },
   ): Promise<InputFile> {
     return getFile(this._client, fileId, options);
   }

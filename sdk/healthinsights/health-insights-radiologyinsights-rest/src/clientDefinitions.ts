@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GetJobParameters, CreateJobParameters } from "./parameters";
+import { GetJobParameters, CreateJobParameters } from "./parameters.js";
 import {
   GetJob200Response,
   GetJobDefaultResponse,
   CreateJob202Response,
   CreateJobDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetJob {
   /** Gets the status and details of the Radiology Insights job. */
-  get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
+  get(
+    options?: GetJobParameters,
+  ): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
 }
 
 export interface CreateJob {

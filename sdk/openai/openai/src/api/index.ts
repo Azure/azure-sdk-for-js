@@ -1,15 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { createOpenAI, OpenAIClientOptions, OpenAIContext } from "./OpenAIContext.js";
 export {
-  getAudioTranscription,
-  getAudioTranslation,
+  createOpenAI,
+  OpenAIClientOptions,
+  OpenAIContext,
+} from "./openAIContext.js";
+export {
+  getAudioTranscriptionAsPlainText,
+  getAudioTranscriptionAsResponseObject,
+  getAudioTranslationAsPlainText,
+  getAudioTranslationAsResponseObject,
   getCompletions,
   getChatCompletions,
-  streamChatCompletions,
-  streamCompletions,
   getImageGenerations,
+  generateSpeechFromText,
   getEmbeddings,
 } from "./operations.js";
-export { isOpenAIError } from "./util.js";

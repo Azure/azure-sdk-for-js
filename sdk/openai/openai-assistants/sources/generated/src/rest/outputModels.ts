@@ -39,8 +39,6 @@ export interface FunctionDefinitionOutput {
   parameters: any;
 }
 
-export interface TypeSpecRecordOutput extends Record<string, string> {}
-
 /** Represents an assistant that can call the model and use tools. */
 export interface AssistantOutput {
   /** The identifier, which can be referenced in API endpoints. */
@@ -60,7 +58,19 @@ export interface AssistantOutput {
   /** A list of attached file IDs, ordered by creation date in ascending order. */
   file_ids: string[];
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata: TypeSpecRecordOutput | null;
+  metadata: Record<string, string> | null;
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The requested list of items. */
+  data: Array<AssistantOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
 }
 
 /** The status of an assistant deletion operation. */
@@ -83,6 +93,18 @@ export interface AssistantFileOutput {
   assistant_id: string;
 }
 
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The requested list of items. */
+  data: Array<AssistantFileOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
 /** The status of an assistant file deletion operation. */
 export interface AssistantFileDeletionStatusOutput {
   /** The ID of the resource specified for deletion. */
@@ -100,7 +122,7 @@ export interface AssistantThreadOutput {
   /** The Unix timestamp, in seconds, representing when this object was created. */
   created_at: number;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata: TypeSpecRecordOutput | null;
+  metadata: Record<string, string> | null;
 }
 
 /** The status of a thread deletion operation. */
@@ -121,12 +143,8 @@ export interface ThreadMessageOutput {
   created_at: number;
   /** The ID of the thread that this message belongs to. */
   thread_id: string;
-  /**
-   * The role associated with the assistant thread message.
-   *
-   * Possible values: "user", "assistant"
-   */
-  role: string;
+  /** The role associated with the assistant thread message. */
+  role: MessageRoleOutput;
   /** The list of content items associated with the assistant thread message. */
   content: Array<MessageContentOutput>;
   /** If applicable, the ID of the assistant that authored this message. */
@@ -139,7 +157,7 @@ export interface ThreadMessageOutput {
    */
   file_ids: string[];
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata: TypeSpecRecordOutput | null;
+  metadata: Record<string, string> | null;
 }
 
 /** An abstract representation of a single item of thread message content. */
@@ -230,6 +248,30 @@ export interface MessageImageFileIdDetailsOutput {
   file_id: string;
 }
 
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The requested list of items. */
+  data: Array<ThreadMessageOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The requested list of items. */
+  data: Array<MessageFileOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
 /** Information about a file attached to an assistant thread message. */
 export interface MessageFileOutput {
   /** The identifier, which can be referenced in API endpoints. */
@@ -248,12 +290,8 @@ export interface ThreadRunOutput {
   thread_id: string;
   /** The ID of the assistant associated with the thread this run was performed against. */
   assistant_id: string;
-  /**
-   * The status of the assistant thread run.
-   *
-   * Possible values: "queued", "in_progress", "requires_action", "cancelling", "cancelled", "failed", "completed", "expired"
-   */
-  status: string;
+  /** The status of the assistant thread run. */
+  status: RunStatusOutput;
   /** The details of the action required for the assistant thread run to continue. */
   required_action?: RequiredActionOutput | null;
   /** The last error, if any, encountered by this assistant thread run. */
@@ -269,17 +307,17 @@ export interface ThreadRunOutput {
   /** The Unix timestamp, in seconds, representing when this object was created. */
   created_at: number;
   /** The Unix timestamp, in seconds, representing when this item expires. */
-  expires_at: string | null;
+  expires_at: number | null;
   /** The Unix timestamp, in seconds, representing when this item was started. */
-  started_at: string | null;
+  started_at: number | null;
   /** The Unix timestamp, in seconds, representing when this completed. */
-  completed_at: string | null;
+  completed_at: number | null;
   /** The Unix timestamp, in seconds, representing when this was cancelled. */
-  cancelled_at: string | null;
+  cancelled_at: number | null;
   /** The Unix timestamp, in seconds, representing when this failed. */
-  failed_at: string | null;
+  failed_at: number | null;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata: TypeSpecRecordOutput | null;
+  metadata: Record<string, string> | null;
 }
 
 /** An abstract representation of a required action for an assistant thread run to continue. */
@@ -315,7 +353,7 @@ export interface RequiredFunctionToolCallOutput
   /** The object type of the required tool call. Always 'function' for function tools. */
   type: "function";
   /** Detailed information about the function to be executed by the tool that includes name and arguments. */
-  function: FunctionToolCallDetailsOutput;
+  function: FunctionDefinitionOutput;
 }
 
 /** The details of an error as encountered by an assistant thread run. */
@@ -326,28 +364,32 @@ export interface RunErrorOutput {
   message: string;
 }
 
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The requested list of items. */
+  data: Array<ThreadRunOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
 /** Detailed information about a single step of an assistant thread run. */
 export interface RunStepOutput {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /**
-   * The type of run step, which can be either message_creation or tool_calls.
-   *
-   * Possible values: "message_creation", "tool_calls"
-   */
-  type: string;
+  /** The type of run step, which can be either message_creation or tool_calls. */
+  type: RunStepTypeOutput;
   /** The ID of the assistant associated with the run step. */
   assistant_id: string;
   /** The ID of the thread that was run. */
   thread_id: string;
   /** The ID of the run that this run step is a part of. */
   run_id: string;
-  /**
-   * The status of this run step.
-   *
-   * Possible values: "in_progress", "cancelled", "failed", "completed", "expired"
-   */
-  status: string;
+  /** The status of this run step. */
+  status: RunStepStatusOutput;
   /** The details for this run step. */
   step_details: RunStepDetailsOutput;
   /** If applicable, information about the last error encountered by this run step. */
@@ -355,20 +397,20 @@ export interface RunStepOutput {
   /** The Unix timestamp, in seconds, representing when this object was created. */
   created_at: number;
   /** The Unix timestamp, in seconds, representing when this item expired. */
-  expired_at: string | null;
+  expired_at: number | null;
   /** The Unix timestamp, in seconds, representing when this completed. */
-  completed_at: string | null;
+  completed_at: number | null;
   /** The Unix timestamp, in seconds, representing when this was cancelled. */
-  cancelled_at: string | null;
+  cancelled_at: number | null;
   /** The Unix timestamp, in seconds, representing when this failed. */
-  failed_at: string | null;
+  failed_at: number | null;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata: TypeSpecRecordOutput | null;
+  metadata: Record<string, string> | null;
 }
 
 /** An abstract representation of the details for a run step. */
 export interface RunStepDetailsOutputParent {
-  type: string;
+  type: RunStepTypeOutput;
 }
 
 /** The detailed information associated with a message creation run step. */
@@ -458,7 +500,7 @@ export interface RetrievalToolCallOutput extends ToolCallOutputParent {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
   /** The key/value pairs produced by the retrieval tool. */
-  retrieval: TypeSpecRecordOutput;
+  retrieval: Record<string, string>;
 }
 
 /**
@@ -484,14 +526,22 @@ export interface FunctionToolCallDetailsOutput {
 
 /** The error information associated with a failed run step. */
 export interface RunStepErrorOutput {
-  /**
-   * The error code for this error.
-   *
-   * Possible values: "server_error", "rate_limit_exceeded"
-   */
-  code: string;
+  /** The error code for this error. */
+  code: RunStepErrorCodeOutput;
   /** The human-readable text associated with this error. */
   message: string;
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The requested list of items. */
+  data: Array<RunStepOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
 }
 
 /** The response data from a file list operation. */
@@ -510,12 +560,8 @@ export interface OpenAIFileOutput {
   filename: string;
   /** The Unix timestamp, in seconds, representing when this object was created. */
   created_at: number;
-  /**
-   * The intended purpose of a file.
-   *
-   * Possible values: "fine-tune", "fine-tune-results", "assistants", "assistants_output"
-   */
-  purpose: string;
+  /** The intended purpose of a file. */
+  purpose: FilePurposeOutput;
 }
 
 /** A status response from a file deletion operation. */
@@ -568,3 +614,32 @@ export type CodeInterpreterToolCallOutputOutput =
   | CodeInterpreterToolCallOutputOutputParent
   | CodeInterpreterLogOutputOutput
   | CodeInterpreterImageOutputOutput;
+/** The possible values for roles attributed to messages in a thread. */
+export type MessageRoleOutput = "user" | "assistant";
+/** Possible values for the status of an assistant thread run. */
+export type RunStatusOutput =
+  | "queued"
+  | "in_progress"
+  | "requires_action"
+  | "cancelling"
+  | "cancelled"
+  | "failed"
+  | "completed"
+  | "expired";
+/** The possible types of run steps. */
+export type RunStepTypeOutput = "message_creation" | "tool_calls";
+/** Possible values for the status of a run step. */
+export type RunStepStatusOutput =
+  | "in_progress"
+  | "cancelled"
+  | "failed"
+  | "completed"
+  | "expired";
+/** Possible error code values attributable to a failed run step. */
+export type RunStepErrorCodeOutput = "server_error" | "rate_limit_exceeded";
+/** The possible values denoting the intended usage of a file. */
+export type FilePurposeOutput =
+  | "fine-tune"
+  | "fine-tune-results"
+  | "assistants"
+  | "assistants_output";

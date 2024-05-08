@@ -16,23 +16,28 @@ export interface AssistantCreationOptions {
   /** A list of previously uploaded file IDs to attach to the assistant. */
   file_ids?: string[];
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata?: TypeSpecRecord | null;
+  metadata?: Record<string, string> | null;
+}
+
+/** An abstract representation of an input tool definition that an assistant can use. */
+export interface ToolDefinitionParent {
+  type: string;
 }
 
 /** The input definition information for a code interpreter tool as used to configure an assistant. */
-export interface CodeInterpreterToolDefinition {
+export interface CodeInterpreterToolDefinition extends ToolDefinitionParent {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
 }
 
 /** The input definition information for a retrieval tool as used to configure an assistant. */
-export interface RetrievalToolDefinition {
+export interface RetrievalToolDefinition extends ToolDefinitionParent {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
 }
 
 /** The input definition information for a function tool as used to configure an assistant. */
-export interface FunctionToolDefinition {
+export interface FunctionToolDefinition extends ToolDefinitionParent {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The definition of the concrete function that the function tool should call. */
@@ -49,42 +54,18 @@ export interface FunctionDefinition {
   parameters: unknown;
 }
 
-export interface TypeSpecRecord extends Record<string, string> {}
-
-/** The request details to use when modifying an existing assistant. */
-export interface UpdateAssistantOptions {
-  /** The ID of the model to use. */
-  model?: string;
-  /** The modified name for the assistant to use. */
-  name?: string | null;
-  /** The modified description for the assistant to use. */
-  description?: string | null;
-  /** The modified system instructions for the new assistant to use. */
-  instructions?: string | null;
-  /** The modified collection of tools to enable for the assistant. */
-  tools?: Array<ToolDefinition>;
-  /** The modified list of previously uploaded fileIDs to attach to the assistant. */
-  file_ids?: string[];
-  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata?: TypeSpecRecord | null;
-}
-
 /** The details used to create a new assistant thread. */
 export interface AssistantThreadCreationOptions {
   /** The initial messages to associate with the new thread. */
   messages?: Array<ThreadInitializationMessage>;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata?: TypeSpecRecord | null;
+  metadata?: Record<string, string> | null;
 }
 
 /** A single message within an assistant thread, as provided during that thread's creation for its initial state. */
 export interface ThreadInitializationMessage {
-  /**
-   * The role associated with the assistant thread message. Currently, only 'user' is supported when providing initial messages to a new thread.
-   *
-   * Possible values: "user", "assistant"
-   */
-  role: string;
+  /** The role associated with the assistant thread message. Currently, only 'user' is supported when providing initial messages to a new thread. */
+  role: MessageRole;
   /** The textual content of the initial message. Currently, robust input including images and annotated text may only be provided via a separate call to the create message API. */
   content: string;
   /**
@@ -93,7 +74,7 @@ export interface ThreadInitializationMessage {
    */
   file_ids?: string[];
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata?: TypeSpecRecord | null;
+  metadata?: Record<string, string> | null;
 }
 
 /** The details used when creating a new run of an assistant thread. */
@@ -112,7 +93,7 @@ export interface CreateRunOptions {
   /** The overridden list of enabled tools that the assistant should use to run the thread. */
   tools?: Array<ToolDefinition> | null;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata?: TypeSpecRecord | null;
+  metadata?: Record<string, string> | null;
 }
 
 /** The data provided during a tool outputs submission to resolve pending tool calls and allow the model to continue. */
@@ -136,11 +117,22 @@ export interface CreateAndRunThreadOptions {
   /** The overridden list of enabled tools the assistant should use to run the thread. */
   tools?: Array<ToolDefinition>;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata?: TypeSpecRecord | null;
+  metadata?: Record<string, string> | null;
 }
 
 /** An abstract representation of an input tool definition that an assistant can use. */
 export type ToolDefinition =
+  | ToolDefinitionParent
   | CodeInterpreterToolDefinition
   | RetrievalToolDefinition
   | FunctionToolDefinition;
+/** The available sorting options when requesting a list of response objects. */
+export type ListSortOrder = "asc" | "desc";
+/** The possible values for roles attributed to messages in a thread. */
+export type MessageRole = "user" | "assistant";
+/** The possible values denoting the intended usage of a file. */
+export type FilePurpose =
+  | "fine-tune"
+  | "fine-tune-results"
+  | "assistants"
+  | "assistants_output";

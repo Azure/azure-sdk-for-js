@@ -2,23 +2,24 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
-import { OpenAIClient } from "./clientDefinitions";
+import { OpenAIClient } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of `OpenAIClient`
- * @param endpoint - Supported Cognitive Services endpoints (protocol and hostname, for example:
+ * @param endpointParam - Supported Cognitive Services endpoints (protocol and hostname, for example:
  * https://westus.api.cognitive.microsoft.com).
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
-  endpoint: string,
+  endpointParam: string,
   credentials: TokenCredential | KeyCredential,
   options: ClientOptions = {},
 ): OpenAIClient {
-  const baseUrl = options.baseUrl ?? `${endpoint}/openai`;
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? `${endpointParam}/openai`;
   options.apiVersion = options.apiVersion ?? "2024-02-15-preview";
   const userAgentInfo = `azsdk-js-openai-rest/1.0.0-beta.1`;
   const userAgentPrefix =
@@ -41,7 +42,7 @@ export default function createClient(
     },
   };
 
-  const client = getClient(baseUrl, credentials, options) as OpenAIClient;
+  const client = getClient(endpointUrl, credentials, options) as OpenAIClient;
 
   return client;
 }
