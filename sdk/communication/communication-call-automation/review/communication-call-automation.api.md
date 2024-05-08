@@ -491,6 +491,14 @@ export interface MediaStreamingOptions {
 }
 
 // @public
+export interface MediaStreamingSubscription {
+    id?: string;
+    // Warning: (ae-forgotten-export) The symbol "MediaStreamingSubscriptionState" needs to be exported by the entry point index.d.ts
+    state?: MediaStreamingSubscriptionState;
+    subscribedContentTypes?: MediaStreamingContentType[];
+}
+
+// @public
 export type MediaStreamingTransportType = string;
 
 // @public
@@ -1098,6 +1106,15 @@ export interface TranscriptionStopped extends Omit<RestTranscriptionStopped, "ca
     kind: "TranscriptionStopped";
     resultInformation?: RestResultInformation;
     serverCallId: string;
+}
+
+// @public
+export interface TranscriptionSubscription {
+    id?: string;
+    // Warning: (ae-forgotten-export) The symbol "TranscriptionSubscriptionState" needs to be exported by the entry point index.d.ts
+    state?: TranscriptionSubscriptionState;
+    // Warning: (ae-forgotten-export) The symbol "TranscriptionResultType" needs to be exported by the entry point index.d.ts
+    subscribedResultTypes?: TranscriptionResultType[];
 }
 
 // @public
