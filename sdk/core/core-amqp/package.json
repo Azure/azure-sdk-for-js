@@ -87,7 +87,8 @@
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
-    }
+    },
+    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
