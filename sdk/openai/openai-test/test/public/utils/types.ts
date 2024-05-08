@@ -158,3 +158,38 @@ export interface ErrorModel {
   /** An array of details about specific errors that led to this reported error. */
   details: Array<ErrorModel>;
 }
+
+/**
+ *   A representation of the additional context information available when Azure OpenAI chat extensions are involved
+ *   in the generation of a corresponding chat completions response. This context information is only populated when
+ *   using an Azure OpenAI request configured to use a matching extension.
+ */
+export interface AzureChatExtensionsMessageContext {
+  /**
+   *   The contextual information associated with the Azure chat extensions used for a chat completions request.
+   *   These messages describe the data source retrievals, plugin invocations, and other intermediate steps taken in the
+   *   course of generating a chat completions response that was augmented by capabilities from Azure OpenAI chat
+   *   extensions.
+   */
+  citations?: AzureChatExtensionDataSourceResponseCitation[];
+  /** The detected intent from the chat history, used to pass to the next turn to carry over the context. */
+  intent?: string;
+}
+
+/**
+ * A single instance of additional context information available when Azure OpenAI chat extensions are involved
+ * in the generation of a corresponding chat completions response. This context information is only populated when
+ * using an Azure OpenAI request configured to use a matching extension.
+ */
+export interface AzureChatExtensionDataSourceResponseCitation {
+  /** The content of the citation. */
+  content: string;
+  /** The title of the citation. */
+  title?: string;
+  /** The URL of the citation. */
+  url?: string;
+  /** The file path of the citation. */
+  filepath?: string;
+  /** The chunk ID of the citation. */
+  chunk_id?: string;
+}

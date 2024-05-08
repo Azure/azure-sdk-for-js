@@ -570,7 +570,7 @@ describe("Completions", function () {
             if (authMethod === "OpenAIKey") {
               this.skip();
             }
-            const dataSources = { data_sources: [ createAzureSearchExtension() ] };
+            const dataSources = { data_sources: [createAzureSearchExtension()] };
             updateWithSucceeded(
               await withDeployments(
                 getSucceeded(

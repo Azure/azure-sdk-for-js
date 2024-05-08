@@ -1,11 +1,12 @@
 import { assert } from "@azure-tools/test-utils";
 import { get } from "./utils.js";
 import { OpenAI } from "openai";
-import { ChatCompletionTokenLogprob, CompletionChoice } from "openai/resources/index.mjs";
 import { getImageDimensionsFromResponse } from "./images.js";
 import { stringToUint8Array } from "@azure/core-util";
 import { Recorder } from "@azure-tools/test-recorder";
 import {
+  AzureChatExtensionDataSourceResponseCitation,
+  AzureChatExtensionsMessageContext,
   ContentFilterBlocklistIdResult,
   ContentFilterCitedDetectionResult,
   ContentFilterDetectionResult,
@@ -15,6 +16,8 @@ import {
   ContentFilterResultsForChoice,
   ContentFilterResultsForPrompt,
 } from "./types.js";
+import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
+import { CompletionChoice } from "openai/resources/index";
 
 export function assertChatCompletions(
   completions: OpenAI.Chat.Completions.ChatCompletion,
@@ -393,8 +396,35 @@ function assertMessage(
   for (const item of msg.tool_calls ?? []) {
     assertToolCall(item, { stream });
   }
-  // TODO: enable these
-  // ifDefined(msg.context, assertContext);
+  ifDefined((msg as any).context, assertContext);
+}
+
+function assertContext(context: AzureChatExtensionsMessageContext): void {
+  ifDefined(context.intent, assert.isString);
+  ifDefined(context.citations, (arr) => assertArray(arr, assertCitations));
+}
+
+function assertCitations(citations: AzureChatExtensionDataSourceResponseCitation): void {
+  assert.isDefined(citations.content);
+  ifDefined(citations.title, assert.isString);
+  ifDefined(citations.url, assert.isString);
+  ifDefined(citations.filepath, assert.isString);
+  ifDefined(citations.chunk_id, assert.isString);
+}
+
+export function assertAssistantEquality(
+  assistant: AssistantCreateParams,
+  response: Assistant,
+): void {
+  assert.isNotNull(response);
+  assert.equal(response.model, assistant.model);
+  assert.equal(response.name, assistant.name);
+  assert.equal(response.instructions, assistant.instructions);
+  assert.equal(response.description, assistant.description);
+  assert.equal((response.metadata as any).foo, "bar");
+  assert.isNotNull(response.tools[0]);
+  const tools = assistant.tools || [];
+  assert.equal(response.tools[0].type, tools[0].type);
 }
 
 interface CompletionTestOptions {

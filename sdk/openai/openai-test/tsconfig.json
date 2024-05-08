@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "paths": { "@azure-test/openai": ["./src/index.js"] },
+    "paths": { "@azure/openai-test": ["./src/index.js"] },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "lib": ["esnext", "dom"],
