@@ -285,12 +285,47 @@ describe("Vector search feature", async () => {
       }
     });
 
+    it("should execute distinct vector search query", async function () {
+      // create a queryiterator to run vector search query
+      const query =
+        "SELECT distinct c.id AS Id  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'})";
+      const iterator = container1.items.query(query);
+      // execute distinct order by query on it
+      let id = 1;
+      while (iterator.hasMoreResults()) {
+        const { resources: result } = await iterator.fetchNext();
+        if (result !== undefined) {
+          assert.equal(result[0].Id, id.toString());
+          id++;
+        }
+      }
+    });
+
     it("should execute vector search query with limit in query", async function () {
       // create a queryiterator to run vector search query
       const query =
         "SELECT c.id AS Id  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 2";
       const iterator = container1.items.query(query);
       // execute order by query on it
+      let id = 3;
+      while (iterator.hasMoreResults()) {
+        const { resources: result } = await iterator.fetchNext();
+        if (result !== undefined) {
+          // should return 2 items as limit is 2 in descending order
+          assert.equal(result.length, 2);
+          assert.equal(result[0].Id, id.toString());
+          id--;
+          assert.equal(result[1].Id, id.toString());
+        }
+      }
+    });
+
+    it("should execute distinct vector search query with limit in query", async function () {
+      // create a queryiterator to run vector search query
+      const query =
+        "SELECT distinct c.id AS Id  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 2";
+      const iterator = container1.items.query(query);
+      // execute distinct order by query on it
       let id = 3;
       while (iterator.hasMoreResults()) {
         const { resources: result } = await iterator.fetchNext();
@@ -323,6 +358,25 @@ describe("Vector search feature", async () => {
       }
     });
 
+    it("should execute distinct vector search query with top in query", async function () {
+      // create a queryiterator to run vector search query
+      const query =
+        "SELECT distinct TOP 2 c.id AS Id  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'})";
+      const iterator = container1.items.query(query);
+      // execute distinct order by query on it
+      let id = 3;
+      while (iterator.hasMoreResults()) {
+        const { resources: result } = await iterator.fetchNext();
+        if (result !== undefined) {
+          // should return 2 items as top is 2 in descending order
+          assert.equal(result.length, 2);
+          assert.equal(result[0].Id, id.toString());
+          id--;
+          assert.equal(result[1].Id, id.toString());
+        }
+      }
+    });
+
     it("should execute vector search query with filter in query", async function () {
       // create a queryiterator to run vector search query
       const query =
@@ -338,7 +392,21 @@ describe("Vector search feature", async () => {
         }
       }
     });
-
+    it("should execute distinct vector search query with filter in query", async function () {
+      // create a queryiterator to run vector search query
+      const query =
+        "SELECT distinct c.id AS Id  from c WHERE VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) >= 0.0";
+      const iterator = container1.items.query(query);
+      // execute distinct order by query on it
+      let id = 1;
+      while (iterator.hasMoreResults()) {
+        const { resources: result } = await iterator.fetchNext();
+        if (result !== undefined) {
+          assert.equal(result[0].Id, id.toString());
+          id++;
+        }
+      }
+    });
     after(async function () {
       await database.delete();
     });
@@ -422,6 +490,25 @@ describe("Vector search feature", async () => {
       assert.equal(id, 1000);
     });
 
+    it("should execute distinct vector search query, large data", async function () {
+      // create a queryiterator to run vector search query
+      const query =
+        "SELECT DISTINCT c.id AS Id  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 1000";
+      const iterator = container1.items.query(query);
+      // execute order by query on it
+      let id = 2000;
+      while (iterator.hasMoreResults()) {
+        const { resources: result } = await iterator.fetchNext();
+        if (result !== undefined) {
+          for (const item of result) {
+            assert.equal(item.Id, id.toString());
+            id--;
+          }
+        }
+      }
+      assert.equal(id, 1000);
+    });
+
     it("should execute vector search query with top in query, large data", async function () {
       // create a queryiterator to run vector search query
       const query =
@@ -441,10 +528,50 @@ describe("Vector search feature", async () => {
       assert.equal(id, 1000);
     });
 
+    it("should execute distinct vector search query with top in query, large data", async function () {
+      // create a queryiterator to run vector search query
+      const query =
+        "SELECT DISTINCT TOP 1000 c.id AS Id  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'})";
+      const iterator = container1.items.query(query);
+      // execute order by query on it
+      let id = 2000;
+      while (iterator.hasMoreResults()) {
+        const { resources: result } = await iterator.fetchNext();
+        if (result !== undefined) {
+          for (const item of result) {
+            assert.equal(item.Id, id.toString());
+            id--;
+          }
+        }
+      }
+      assert.equal(id, 1000);
+    });
+
     it("should execute vector search query, large data with offset 1000 and limit 500", async function () {
       // create a queryiterator to run vector search query
       const query =
         "SELECT c.id AS Id  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 1000 LIMIT 500";
+      const iterator = container1.items.query(query);
+      // execute order by query on it
+      // offset is set to 1000, so id should start from 1000
+      let id = 1000;
+      while (iterator.hasMoreResults()) {
+        const { resources: result } = await iterator.fetchNext();
+        if (result !== undefined) {
+          for (const item of result) {
+            assert.equal(item.Id, id.toString());
+            id--;
+          }
+        }
+      }
+      // id should be 500 after fetching 500 items
+      assert.equal(id, 500);
+    });
+
+    it("should execute distinct vector search query, large data with offset 1000 and limit 500", async function () {
+      // create a queryiterator to run vector search query
+      const query =
+        "SELECT DISTINCT c.id AS Id  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 1000 LIMIT 500";
       const iterator = container1.items.query(query);
       // execute order by query on it
       // offset is set to 1000, so id should start from 1000
