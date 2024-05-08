@@ -8,10 +8,9 @@
   "exclude": [
     ".././src/util/checkNetworkConnection-browser.mts",
     ".././src/util/hmacSha256-browser.mts",
-    ".././src/util/runtimeInfo-browser.mts",
-    ".././src/util/runtimeInfo-react-native.mts"
+    ".././src/util/runtimeInfo-browser.mts"
   ],
   "compilerOptions": {
-    "outDir": "../.tshy-build/esm"
+    "outDir": "../.tshy-build/react-native"
   }
 }
