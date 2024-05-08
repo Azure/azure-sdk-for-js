@@ -48,7 +48,7 @@ extends:
           PostSteps:
             - template: /eng/pipelines/templates/steps/cosmos-additional-steps.yml@self
           EnvVars:
-            MOCHA_TIMEOUT: 100000
+            MOCHA_TIMEOUT: 100001
             NODE_TLS_REJECT_UNAUTHORIZED: 0
 
       # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
