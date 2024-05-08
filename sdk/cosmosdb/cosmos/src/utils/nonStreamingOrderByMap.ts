@@ -10,7 +10,7 @@ export class NonStreamingOrderByMap<T> {
     this.map = new Map<string, T>();
   }
 
-  public set(key: string, value: T) : void {
+  public set(key: string, value: T): void {
     if (!this.map.has(key)) {
       this.map.set(key, value);
     } else {
