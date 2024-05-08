@@ -191,6 +191,7 @@
     "test/public/functional/item/batch.item.spec.ts",
     "test/public/functional/item/itemIdEncoding.spec.ts",
     "test/public/functional/endpointComponent/NonStreamingOrderByEndpointComponent.spec.ts",
+    "test/public/functional/endpointComponent/NonStreamingOrderByDistinctEndpointComponent.spec.ts",
     "test/public/functional/npcontainer.spec.ts",
     "test/public/functional/offer.spec.ts",
     "test/public/functional/permission.spec.ts",
