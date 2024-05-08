@@ -10,6 +10,7 @@ import { InternalConfig } from "../shared/config";
 import { MetricHandler } from "../metrics/handler";
 import { AzureLogRecordProcessor } from "./logRecordProcessor";
 import { AzureBatchLogRecordProcessor } from "./batchLogRecordProcessor";
+import { logLevelToSeverityNumber } from "../utils/logUtils";
 
 /**
  * Azure Monitor OpenTelemetry Log Handler
@@ -55,14 +56,29 @@ export class LogHandler {
    * Start auto collection of telemetry
    */
   private _initializeInstrumentations() {
-    if (this._config.instrumentationOptions.bunyan?.enabled) {
+    const bunyanLogLevelEnv =
+      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL || process.env.BUNYAN_LOG_LEVEL;
+    const winstonLogLevelEnv =
+      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL ||
+      process.env.WINSTON_LOG_LEVEL;
+
+    // No Severity Number for no bunyan logging, so disable instrumentation if NONE is set.
+    if (this._config.instrumentationOptions.bunyan?.enabled && bunyanLogLevelEnv !== "NONE") {
       this._instrumentations.push(
-        new BunyanInstrumentation(this._config.instrumentationOptions.bunyan),
+        new BunyanInstrumentation({
+          ...this._config.instrumentationOptions.bunyan,
+          logSeverity: bunyanLogLevelEnv ? logLevelToSeverityNumber(bunyanLogLevelEnv) : undefined,
+        }),
       );
     }
-    if (this._config.instrumentationOptions.winston?.enabled) {
+    if (this._config.instrumentationOptions.winston?.enabled && winstonLogLevelEnv !== "NONE") {
       this._instrumentations.push(
-        new WinstonInstrumentation(this._config.instrumentationOptions.winston),
+        new WinstonInstrumentation({
+          ...this._config.instrumentationOptions.winston,
+          logSeverity: winstonLogLevelEnv
+            ? logLevelToSeverityNumber(winstonLogLevelEnv)
+            : undefined,
+        }),
       );
     }
   }
