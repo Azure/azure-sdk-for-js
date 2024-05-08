@@ -179,7 +179,7 @@ describe("Critical Result Inference Test", () => {
 
   it("critical result inference test", async function () {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138794753463")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138794753464")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
