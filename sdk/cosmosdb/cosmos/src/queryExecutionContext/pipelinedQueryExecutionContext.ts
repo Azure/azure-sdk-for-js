@@ -56,6 +56,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (this.nonStreamingOrderBy) {
       this.vectorSearchBufferSize = this.calculateVectorSearchBufferSize(
         partitionedQueryExecutionInfo.queryInfo,
+        options,
       );
 
       const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
@@ -275,12 +276,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  private calculateVectorSearchBufferSize(queryInfo: QueryInfo): number {
+  private calculateVectorSearchBufferSize(queryInfo: QueryInfo, options: FeedOptions): number {
     if (queryInfo.top === 0 || queryInfo.limit === 0) return 0;
     return queryInfo.top
       ? queryInfo.top
       : queryInfo.limit
         ? queryInfo.offset + queryInfo.limit
-        : PipelinedQueryExecutionContext.DEFAULT_VECTOR_SEARCH_BUFFER_SIZE;
+        : options["vectorSearchBufferSize"]
+          ? options["vectorSearchBufferSize"]
+          : PipelinedQueryExecutionContext.DEFAULT_VECTOR_SEARCH_BUFFER_SIZE;
   }
 }
