@@ -18,7 +18,7 @@ import debugModule from "debug";
 import { getRuntimeInfo } from "../../src/util/runtimeInfo";
 import { packageJsonInfo } from "../../src/util/constants";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -28,7 +28,7 @@ const debug = debugModule("azure:event-hubs:client-spec");
 const testFailureMessage = "Test failure";
 function validateConnectionError<E extends Error & { code?: string }>(err: E): void {
   should.exist(err.code, "Missing code on error object.");
-  if (!isNode) {
+  if (!isNodeLike) {
     should.equal(err.code, "ServiceCommunicationError");
   }
   should.not.equal(err.message, testFailureMessage);
@@ -604,7 +604,7 @@ testWithServiceTypes((serviceVersion) => {
     );
     should.equal(properties!.product, "MSJSClient");
     should.equal(properties!.version, packageVersion);
-    if (isNode) {
+    if (isNodeLike) {
       should.equal(properties!.framework, `Node/${process.version}`);
     } else {
       should.equal(properties!.framework.startsWith("Browser/"), true);

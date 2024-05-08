@@ -13,7 +13,7 @@ import {
   EventType,
   TopicTypesListEventTypesOptionalParams,
   TopicTypesGetOptionalParams,
-  TopicTypesGetResponse
+  TopicTypesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface TopicTypes {
    * @param options The options parameters.
    */
   list(
-    options?: TopicTypesListOptionalParams
+    options?: TopicTypesListOptionalParams,
   ): PagedAsyncIterableIterator<TopicTypeInfo>;
   /**
    * List event types for a topic type.
@@ -33,7 +33,7 @@ export interface TopicTypes {
    */
   listEventTypes(
     topicTypeName: string,
-    options?: TopicTypesListEventTypesOptionalParams
+    options?: TopicTypesListEventTypesOptionalParams,
   ): PagedAsyncIterableIterator<EventType>;
   /**
    * Get information about a topic type.
@@ -42,6 +42,6 @@ export interface TopicTypes {
    */
   get(
     topicTypeName: string,
-    options?: TopicTypesGetOptionalParams
+    options?: TopicTypesGetOptionalParams,
   ): Promise<TopicTypesGetResponse>;
 }

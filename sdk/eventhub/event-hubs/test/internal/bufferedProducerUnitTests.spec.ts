@@ -12,7 +12,7 @@ import { BatchingPartitionChannel } from "../../src/batchingPartitionChannel";
 import { PartitionAssigner } from "../../src/impl/partitionAssigner";
 
 const should = chai.should();
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();

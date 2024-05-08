@@ -8,7 +8,7 @@
 
 import {
   NetworkProfileGetOptionalParams,
-  NetworkProfileGetResponse
+  NetworkProfileGetResponse,
 } from "../models";
 
 /** Interface representing a NetworkProfileOperations. */
@@ -22,6 +22,6 @@ export interface NetworkProfileOperations {
   get(
     resourceGroupName: string,
     machineName: string,
-    options?: NetworkProfileGetOptionalParams
+    options?: NetworkProfileGetOptionalParams,
   ): Promise<NetworkProfileGetResponse>;
 }

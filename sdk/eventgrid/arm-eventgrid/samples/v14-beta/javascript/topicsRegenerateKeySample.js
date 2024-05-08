@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Regenerate a shared access key for a topic.
  *
  * @summary Regenerate a shared access key for a topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Topics_RegenerateKey.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Topics_RegenerateKey.json
  */
 async function topicsRegenerateKey() {
   const subscriptionId =

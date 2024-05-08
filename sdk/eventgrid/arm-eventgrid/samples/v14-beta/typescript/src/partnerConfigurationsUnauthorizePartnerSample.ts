@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Unauthorize a single partner either by partner registration immutable Id or by partner name.
  *
  * @summary Unauthorize a single partner either by partner registration immutable Id or by partner name.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerConfigurations_UnauthorizePartner.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerConfigurations_UnauthorizePartner.json
  */
 async function partnerConfigurationsUnauthorizePartner() {
   const subscriptionId =
@@ -29,13 +29,13 @@ async function partnerConfigurationsUnauthorizePartner() {
   const partnerInfo: Partner = {
     authorizationExpirationTimeInUtc: new Date("2022-01-28T01:20:55.142Z"),
     partnerName: "Contoso.Finance",
-    partnerRegistrationImmutableId: "941892bc-f5d0-4d1c-8fb5-477570fc2b71"
+    partnerRegistrationImmutableId: "941892bc-f5d0-4d1c-8fb5-477570fc2b71",
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.partnerConfigurations.unauthorizePartner(
     resourceGroupName,
-    partnerInfo
+    partnerInfo,
   );
   console.log(result);
 }

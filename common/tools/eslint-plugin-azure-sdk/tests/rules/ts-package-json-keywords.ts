@@ -3,10 +3,10 @@
 
 /**
  * @file Testing the ts-package-json-keywords rule.
- * @author Arpan Laha
+ *
  */
 
-import { RuleTester } from "../ruleTester";
+import { createRuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-package-json-keywords";
 
 //------------------------------------------------------------------------------
@@ -338,13 +338,7 @@ const examplePackageBadFixed = `{
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-package-json-keywords", rule, {
   valid: [

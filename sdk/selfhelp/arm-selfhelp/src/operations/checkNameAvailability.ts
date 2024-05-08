@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { HelpRP } from "../helpRP";
 import {
   CheckNameAvailabilityPostOptionalParams,
-  CheckNameAvailabilityPostResponse
+  CheckNameAvailabilityPostResponse,
 } from "../models";
 
 /** Class containing CheckNameAvailability operations. */
@@ -38,11 +38,11 @@ export class CheckNameAvailabilityImpl implements CheckNameAvailability {
    */
   post(
     scope: string,
-    options?: CheckNameAvailabilityPostOptionalParams
+    options?: CheckNameAvailabilityPostOptionalParams,
   ): Promise<CheckNameAvailabilityPostResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      postOperationSpec
+      postOperationSpec,
     );
   }
 }
@@ -54,16 +54,16 @@ const postOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResponse
+      bodyMapper: Mappers.CheckNameAvailabilityResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.checkNameAvailabilityRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

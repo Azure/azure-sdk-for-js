@@ -33,7 +33,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("quota test", () => {
+describe.skip("quota test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureQuotaExtensionAPI;

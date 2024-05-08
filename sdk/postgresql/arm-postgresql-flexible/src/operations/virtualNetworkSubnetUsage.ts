@@ -14,12 +14,13 @@ import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagemen
 import {
   VirtualNetworkSubnetUsageParameter,
   VirtualNetworkSubnetUsageExecuteOptionalParams,
-  VirtualNetworkSubnetUsageExecuteResponse
+  VirtualNetworkSubnetUsageExecuteResponse,
 } from "../models";
 
 /** Class containing VirtualNetworkSubnetUsage operations. */
 export class VirtualNetworkSubnetUsageImpl
-  implements VirtualNetworkSubnetUsage {
+  implements VirtualNetworkSubnetUsage
+{
   private readonly client: PostgreSQLManagementFlexibleServerClient;
 
   /**
@@ -39,11 +40,11 @@ export class VirtualNetworkSubnetUsageImpl
   execute(
     locationName: string,
     parameters: VirtualNetworkSubnetUsageParameter,
-    options?: VirtualNetworkSubnetUsageExecuteOptionalParams
+    options?: VirtualNetworkSubnetUsageExecuteOptionalParams,
   ): Promise<VirtualNetworkSubnetUsageExecuteResponse> {
     return this.client.sendOperationRequest(
       { locationName, parameters, options },
-      executeOperationSpec
+      executeOperationSpec,
     );
   }
 }
@@ -51,25 +52,24 @@ export class VirtualNetworkSubnetUsageImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const executeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/checkVirtualNetworkSubnetUsage",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/checkVirtualNetworkSubnetUsage",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualNetworkSubnetUsageResult
+      bodyMapper: Mappers.VirtualNetworkSubnetUsageResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

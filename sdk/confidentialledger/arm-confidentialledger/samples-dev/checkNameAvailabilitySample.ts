@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CheckNameAvailabilityRequest,
-  ConfidentialLedgerClient
+  ConfidentialLedgerClient,
 } from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to To check whether a resource name is available.
  *
  * @summary To check whether a resource name is available.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/CheckNameAvailability.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/CheckNameAvailability.json
  */
 async function checkNameAvailability() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function checkNameAvailability() {
     "00000000-0000-0000-0000-000000000000";
   const nameAvailabilityRequest: CheckNameAvailabilityRequest = {
     name: "sample-name",
-    type: "Microsoft.ConfidentialLedger/ledgers"
+    type: "Microsoft.ConfidentialLedger/ledgers",
   };
   const credential = new DefaultAzureCredential();
   const client = new ConfidentialLedgerClient(credential, subscriptionId);

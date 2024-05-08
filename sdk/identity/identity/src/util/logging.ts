@@ -71,13 +71,7 @@ export interface CredentialLoggerInstance {
   info(message: string): void;
   warning(message: string): void;
   verbose(message: string): void;
-  /**
-   * The logging functions for warning and error are intentionally left out, since we want the identity logging to be at the info level.
-   * Otherwise, they would look like:
-   *
-   *   warning(message: string): void;
-   *   error(err: Error): void;
-   */
+  error(err: string): void;
 }
 
 /**
@@ -106,12 +100,18 @@ export function credentialLoggerInstance(
   function verbose(message: string): void {
     log.verbose(`${fullTitle} =>`, message);
   }
+
+  function error(message: string): void {
+    log.error(`${fullTitle} =>`, message);
+  }
+
   return {
     title,
     fullTitle,
     info,
     warning,
     verbose,
+    error,
   };
 }
 

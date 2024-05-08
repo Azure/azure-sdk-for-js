@@ -3,7 +3,7 @@
 
 import { WebSocketImpl } from "rhea-promise";
 import { isDefined } from "@azure/core-util";
-import { isLoopbackAddress, parseConnectionString } from "../util/utils";
+import { isLoopbackAddress, parseConnectionString } from "../util/utils.js";
 
 /**
  * Describes the options that can be provided while creating a connection config.

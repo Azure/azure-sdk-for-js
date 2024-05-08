@@ -16,7 +16,7 @@ import { HybridComputeManagementClient } from "../hybridComputeManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   MachinesInstallPatchesOptionalParams,
   MachinesInstallPatchesResponse,
   MachinesListByResourceGroupNextResponse,
-  MachinesListBySubscriptionNextResponse
+  MachinesListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,7 +60,7 @@ export class MachinesImpl implements Machines {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: MachinesListByResourceGroupOptionalParams
+    options?: MachinesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Machine> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -77,16 +77,16 @@ export class MachinesImpl implements Machines {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: MachinesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Machine[]> {
     let result: MachinesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class MachinesImpl implements Machines {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,11 +112,11 @@ export class MachinesImpl implements Machines {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: MachinesListByResourceGroupOptionalParams
+    options?: MachinesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Machine> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -128,7 +128,7 @@ export class MachinesImpl implements Machines {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: MachinesListBySubscriptionOptionalParams
+    options?: MachinesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Machine> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -143,13 +143,13 @@ export class MachinesImpl implements Machines {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: MachinesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Machine[]> {
     let result: MachinesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -170,7 +170,7 @@ export class MachinesImpl implements Machines {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: MachinesListBySubscriptionOptionalParams
+    options?: MachinesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Machine> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -186,11 +186,11 @@ export class MachinesImpl implements Machines {
   delete(
     resourceGroupName: string,
     machineName: string,
-    options?: MachinesDeleteOptionalParams
+    options?: MachinesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, machineName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -203,11 +203,11 @@ export class MachinesImpl implements Machines {
   get(
     resourceGroupName: string,
     machineName: string,
-    options?: MachinesGetOptionalParams
+    options?: MachinesGetOptionalParams,
   ): Promise<MachinesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, machineName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -220,7 +220,7 @@ export class MachinesImpl implements Machines {
   async beginAssessPatches(
     resourceGroupName: string,
     name: string,
-    options?: MachinesAssessPatchesOptionalParams
+    options?: MachinesAssessPatchesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MachinesAssessPatchesResponse>,
@@ -229,21 +229,20 @@ export class MachinesImpl implements Machines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MachinesAssessPatchesResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -252,8 +251,8 @@ export class MachinesImpl implements Machines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -261,15 +260,15 @@ export class MachinesImpl implements Machines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, name, options },
-      spec: assessPatchesOperationSpec
+      spec: assessPatchesOperationSpec,
     });
     const poller = await createHttpPoller<
       MachinesAssessPatchesResponse,
@@ -277,7 +276,7 @@ export class MachinesImpl implements Machines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -292,12 +291,12 @@ export class MachinesImpl implements Machines {
   async beginAssessPatchesAndWait(
     resourceGroupName: string,
     name: string,
-    options?: MachinesAssessPatchesOptionalParams
+    options?: MachinesAssessPatchesOptionalParams,
   ): Promise<MachinesAssessPatchesResponse> {
     const poller = await this.beginAssessPatches(
       resourceGroupName,
       name,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -313,7 +312,7 @@ export class MachinesImpl implements Machines {
     resourceGroupName: string,
     name: string,
     installPatchesInput: MachineInstallPatchesParameters,
-    options?: MachinesInstallPatchesOptionalParams
+    options?: MachinesInstallPatchesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MachinesInstallPatchesResponse>,
@@ -322,21 +321,20 @@ export class MachinesImpl implements Machines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MachinesInstallPatchesResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -345,8 +343,8 @@ export class MachinesImpl implements Machines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -354,15 +352,15 @@ export class MachinesImpl implements Machines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, name, installPatchesInput, options },
-      spec: installPatchesOperationSpec
+      spec: installPatchesOperationSpec,
     });
     const poller = await createHttpPoller<
       MachinesInstallPatchesResponse,
@@ -370,7 +368,7 @@ export class MachinesImpl implements Machines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -387,13 +385,13 @@ export class MachinesImpl implements Machines {
     resourceGroupName: string,
     name: string,
     installPatchesInput: MachineInstallPatchesParameters,
-    options?: MachinesInstallPatchesOptionalParams
+    options?: MachinesInstallPatchesOptionalParams,
   ): Promise<MachinesInstallPatchesResponse> {
     const poller = await this.beginInstallPatches(
       resourceGroupName,
       name,
       installPatchesInput,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -406,11 +404,11 @@ export class MachinesImpl implements Machines {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: MachinesListByResourceGroupOptionalParams
+    options?: MachinesListByResourceGroupOptionalParams,
   ): Promise<MachinesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -420,11 +418,11 @@ export class MachinesImpl implements Machines {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: MachinesListBySubscriptionOptionalParams
+    options?: MachinesListBySubscriptionOptionalParams,
   ): Promise<MachinesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -437,11 +435,11 @@ export class MachinesImpl implements Machines {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: MachinesListByResourceGroupNextOptionalParams
+    options?: MachinesListByResourceGroupNextOptionalParams,
   ): Promise<MachinesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -452,11 +450,11 @@ export class MachinesImpl implements Machines {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: MachinesListBySubscriptionNextOptionalParams
+    options?: MachinesListBySubscriptionNextOptionalParams,
   ): Promise<MachinesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -464,99 +462,95 @@ export class MachinesImpl implements Machines {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName
+    Parameters.machineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Machine
+      bodyMapper: Mappers.Machine,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName
+    Parameters.machineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const assessPatchesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{name}/assessPatches",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{name}/assessPatches",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineAssessPatchesResult
+      bodyMapper: Mappers.MachineAssessPatchesResult,
     },
     201: {
-      bodyMapper: Mappers.MachineAssessPatchesResult
+      bodyMapper: Mappers.MachineAssessPatchesResult,
     },
     202: {
-      bodyMapper: Mappers.MachineAssessPatchesResult
+      bodyMapper: Mappers.MachineAssessPatchesResult,
     },
     204: {
-      bodyMapper: Mappers.MachineAssessPatchesResult
+      bodyMapper: Mappers.MachineAssessPatchesResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const installPatchesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{name}/installPatches",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{name}/installPatches",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineInstallPatchesResult
+      bodyMapper: Mappers.MachineInstallPatchesResult,
     },
     201: {
-      bodyMapper: Mappers.MachineInstallPatchesResult
+      bodyMapper: Mappers.MachineInstallPatchesResult,
     },
     202: {
-      bodyMapper: Mappers.MachineInstallPatchesResult
+      bodyMapper: Mappers.MachineInstallPatchesResult,
     },
     204: {
-      bodyMapper: Mappers.MachineInstallPatchesResult
+      bodyMapper: Mappers.MachineInstallPatchesResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.installPatchesInput,
   queryParameters: [Parameters.apiVersion],
@@ -564,86 +558,84 @@ const installPatchesOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
-    Parameters.name
+    Parameters.name,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineListResult
+      bodyMapper: Mappers.MachineListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/machines",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/machines",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineListResult
+      bodyMapper: Mappers.MachineListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineListResult
+      bodyMapper: Mappers.MachineListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineListResult
+      bodyMapper: Mappers.MachineListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

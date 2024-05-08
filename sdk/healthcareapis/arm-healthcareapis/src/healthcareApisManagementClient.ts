@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -27,7 +27,7 @@ import {
   WorkspacePrivateEndpointConnectionsImpl,
   WorkspacePrivateLinkResourcesImpl,
   OperationsImpl,
-  OperationResultsImpl
+  OperationResultsImpl,
 } from "./operations";
 import {
   Services,
@@ -42,7 +42,7 @@ import {
   WorkspacePrivateEndpointConnections,
   WorkspacePrivateLinkResources,
   Operations,
-  OperationResults
+  OperationResults,
 } from "./operationsInterfaces";
 import { HealthcareApisManagementClientOptionalParams } from "./models";
 
@@ -60,7 +60,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: HealthcareApisManagementClientOptionalParams
+    options?: HealthcareApisManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -75,10 +75,10 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
     }
     const defaults: HealthcareApisManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-healthcareapis/3.0.1`;
+    const packageDetails = `azsdk-js-arm-healthcareapis/3.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -88,20 +88,21 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -111,7 +112,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -121,9 +122,9 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -131,7 +132,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-11-01";
+    this.apiVersion = options.apiVersion || "2024-03-31";
     this.services = new ServicesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -140,14 +141,13 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
     this.iotConnectors = new IotConnectorsImpl(this);
     this.fhirDestinations = new FhirDestinationsImpl(this);
     this.iotConnectorFhirDestination = new IotConnectorFhirDestinationImpl(
-      this
+      this,
     );
     this.fhirServices = new FhirServicesImpl(this);
-    this.workspacePrivateEndpointConnections = new WorkspacePrivateEndpointConnectionsImpl(
-      this
-    );
+    this.workspacePrivateEndpointConnections =
+      new WorkspacePrivateEndpointConnectionsImpl(this);
     this.workspacePrivateLinkResources = new WorkspacePrivateLinkResourcesImpl(
-      this
+      this,
     );
     this.operations = new OperationsImpl(this);
     this.operationResults = new OperationResultsImpl(this);
@@ -163,7 +163,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -177,7 +177,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
