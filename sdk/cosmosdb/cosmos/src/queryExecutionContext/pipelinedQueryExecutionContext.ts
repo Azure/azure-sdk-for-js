@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
 import { Response, FeedOptions, QueryOperationOptions } from "../request";
-import {
-  PartitionedQueryExecutionInfo,
-  QueryInfo,
-  // nonStreamingEndpointEmptyResult,
-} from "../request/ErrorResponse";
+import { PartitionedQueryExecutionInfo, QueryInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
 import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointComponent";
