@@ -65,6 +65,8 @@
     "src/queryExecutionContext/EndpointComponent/GroupByValueEndpointComponent.ts",
     "src/queryExecutionContext/EndpointComponent/OffsetLimitEndpointComponent.ts",
     "src/queryExecutionContext/EndpointComponent/OrderByEndpointComponent.ts",
+    "src/queryExecutionContext/EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.ts",
+    "src/queryExecutionContext/EndpointComponent/NonStreamingOrderByEndpointComponent.ts",
     "src/queryExecutionContext/EndpointComponent/OrderedDistinctEndpointComponent.ts",
     "src/queryExecutionContext/EndpointComponent/UnorderedDistinctEndpointComponent.ts",
     "src/queryExecutionContext/defaultQueryExecutionContext.ts",
@@ -143,6 +145,13 @@
     "src/utils/hashing",
     "src/client/SasToken/SasTokenProperties.ts",
     "src/client/SasToken/PermissionScopeValues.ts",
+    "src/documents/VectorEmbeddingPolicy.ts",
+    "src/queryExecutionContext/EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.ts",
+    "src/queryExecutionContext/EndpointComponent/NonStreamingOrderByEndpointComponent.ts",
+    "src/queryExecutionContext/nonStreamingOrderByResponse.ts",
+    "src/queryExecutionContext/nonStreamingOrderByResult.ts",
+    "src/queryExecutionContext/orderByComparator.ts",
+    "src/utils/nonStreamingOrderByPriorityQueue.ts",
     "test/public/common/TestHelpers.ts",
     "test/internal/session.spec.ts",
     "test/internal/unit/auth.spec.ts",
@@ -207,7 +216,10 @@
     "test/public/integration/sslVerification.spec.ts",
     "test/public/integration/timeout.spec.ts",
     "test/public/integration/aggregates/groupBy.spec.ts",
+    "test/public/integration/client.retry.spec.ts",
+    "test/public/functional/vectorEmbeddingPolicy.spec.ts",
     "test/public/functional/computedProperties.spec.ts",
-    "test/public/integration/client.retry.spec.ts"
+    "test/internal/unit/utils/nonStreamingOrderByPriorityQueue.spec.ts",
+    "test/public/functional/endpointComponent/NonStreamingOrderByEndpointComponent.spec.ts"
   ]
 }

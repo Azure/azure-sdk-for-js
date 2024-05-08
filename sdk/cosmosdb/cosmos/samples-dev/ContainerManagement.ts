@@ -42,6 +42,56 @@ async function run(): Promise<void> {
   logStep(`Delete container ${containerDef && containerDef.id}`);
   await container.delete();
   await finish();
+
+  logStep("Create container with vector embedding and indexing policies");
+  const vectorEmbeddingPolicy = {
+    vectorEmbeddings: [
+      {
+        path: "/vector1",
+        dataType: "float32",
+        dimensions: 1000,
+        distanceFunction: "euclidean",
+      },
+      {
+        path: "/vector2",
+        dataType: "int8",
+        dimensions: 200,
+        distanceFunction: "dotproduct",
+      },
+      {
+        path: "/vector3",
+        dataType: "uint8",
+        dimensions: 400,
+        distanceFunction: "cosine",
+      },
+    ],
+  };
+
+  const indexingPolicy = {
+    automatic: true,
+    indexingMode: "consistent",
+    compositeIndexes: [
+      [
+        { path: "/numberField", order: "ascending" },
+        { path: "/stringField", order: "descending" },
+      ],
+    ],
+    spatialIndexes: [{ path: "/location/*", types: ["Point", "Polygon"] }],
+    vectorIndexes: [
+      { path: "/vector1", type: "flat" },
+      { path: "/vector2", type: "quantizedFlat" },
+      { path: "/vector3", type: "diskANN" },
+    ],
+  };
+
+  const containerDefinition = {
+    id: containerId,
+    partitionKey: { path: "/id" },
+    indexingPolicy: indexingPolicy,
+    vectorEmbeddingPolicy: vectorEmbeddingPolicy,
+  };
+  await database.containers.createIfNotExists(containerDefinition);
+  logStep("Container with vector embedding and indexing policies created");
 }
 
 run().catch(handleError);

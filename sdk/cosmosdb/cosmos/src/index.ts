@@ -61,6 +61,9 @@ export {
   TriggerType,
   UserDefinedFunctionType,
   ComputedProperty,
+  VectorEmbeddingPolicy,
+  VectorIndex,
+  VectorEmbedding,
 } from "./documents";
 
 export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";

@@ -38,7 +38,11 @@ export class QueryIterator<T> {
   private queryExecutionContext: ExecutionContext;
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
+<<<<<<< HEAD
   private correlatedActivityId: string;
+=======
+  private nonStreamingOrderBy: boolean = false;
+>>>>>>> 947f19749c ([Cosmos] Vector Search  (#29621))
   /**
    * @hidden
    */
@@ -247,7 +251,9 @@ export class QueryIterator<T> {
       mergeHeaders(this.fetchAllLastResHeaders, headers);
 
       if (result !== undefined) {
-        this.fetchAllTempResources.push(result);
+        if (this.nonStreamingOrderBy && Object.keys(result).length === 0) {
+          // ignore empty results from NonStreamingOrderBy Endpoint components.
+        } else this.fetchAllTempResources.push(result);
       }
     }
     return new FeedResponse(
@@ -268,6 +274,7 @@ export class QueryIterator<T> {
 
     const queryPlan = queryPlanResponse.result;
     const queryInfo = queryPlan.queryInfo;
+    this.nonStreamingOrderBy = queryInfo.hasNonStreamingOrderBy ? true : false;
     if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
       throw new Error("Aggregate queries must use the VALUE keyword");
     }
