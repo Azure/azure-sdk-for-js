@@ -56,13 +56,10 @@ export class LogHandler {
    * Start auto collection of telemetry
    */
   private _initializeInstrumentations() {
-    const bunyanLogLevelEnv =
-      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
-    const winstonLogLevelEnv =
-      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
+    const bunyanLogLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
+    const winstonLogLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
 
-    // No Severity Number for no bunyan logging, so disable instrumentation if NONE is set.
-    if (this._config.instrumentationOptions.bunyan?.enabled && bunyanLogLevelEnv !== "NONE") {
+    if (this._config.instrumentationOptions.bunyan?.enabled) {
       this._instrumentations.push(
         new BunyanInstrumentation({
           ...this._config.instrumentationOptions.bunyan,
@@ -70,7 +67,7 @@ export class LogHandler {
         }),
       );
     }
-    if (this._config.instrumentationOptions.winston?.enabled && winstonLogLevelEnv !== "NONE") {
+    if (this._config.instrumentationOptions.winston?.enabled) {
       this._instrumentations.push(
         new WinstonInstrumentation({
           ...this._config.instrumentationOptions.winston,

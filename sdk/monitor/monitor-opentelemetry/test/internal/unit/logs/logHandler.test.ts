@@ -249,29 +249,5 @@ describe("LogHandler", () => {
         SeverityNumber.ERROR,
       );
     });
-
-    it("should not add bunyan instrumentation if disabled", () => {
-      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "NONE";
-      let config = new InternalConfig();
-      config.azureMonitorExporterOptions.connectionString =
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
-      config.instrumentationOptions.bunyan = {
-        enabled: true,
-      };
-      let logHandler = new LogHandler(config, metricHandler);
-      assert.strictEqual(logHandler.getInstrumentations().length, 0);
-    });
-
-    it("should not add winston instrumentation if disabled", () => {
-      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "NONE";
-      let config = new InternalConfig();
-      config.azureMonitorExporterOptions.connectionString =
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
-      config.instrumentationOptions.winston = {
-        enabled: true,
-      };
-      let logHandler = new LogHandler(config, metricHandler);
-      assert.strictEqual(logHandler.getInstrumentations().length, 0);
-    });
   });
 });
