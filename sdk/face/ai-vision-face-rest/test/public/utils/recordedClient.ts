@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, RecorderStartOptions, VitestTestContext, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  RecorderStartOptions,
+  VitestTestContext,
+  assertEnvironmentVariable,
+} from "@azure-tools/test-recorder";
 import "./env";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 
-import createFaceClient, {
-  FaceClient,
-  FaceClientOptions,
-} from "../../../src/index.js";
+import createFaceClient, { FaceClient, FaceClientOptions } from "../../../src/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
@@ -31,17 +33,33 @@ const recorderEnvSetup: RecorderStartOptions = {
 export async function createRecorder(context: VitestTestContext): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
-  await recorder.addSanitizers({
-    removeHeaderSanitizer: { headersForRemoval: ['Ocp-Apim-Subscription-Key'] },
-    generalSanitizers: [{ regex: true, target: 'https://[a-zA-Z0-9-]*\\.cognitiveservices\\.azure\\.com/', value: 'https://fakeendpoint.cognitiveservices.azure.com/' }],
-    bodyKeySanitizers: [{ jsonPath: 'authToken', value: 'fakeauthtoken' }],
-  }, ['record', 'playback']);
+  await recorder.addSanitizers(
+    {
+      removeHeaderSanitizer: { headersForRemoval: ["Ocp-Apim-Subscription-Key"] },
+      generalSanitizers: [
+        {
+          regex: true,
+          target: "https://[a-zA-Z0-9-]*\\.cognitiveservices\\.azure\\.com/",
+          value: "https://fakeendpoint.cognitiveservices.azure.com/",
+        },
+      ],
+      bodyKeySanitizers: [{ jsonPath: "authToken", value: "fakeauthtoken" }],
+    },
+    ["record", "playback"],
+  );
   return recorder;
 }
 
-export async function createClient(recorder?: Recorder, options?: ClientOptions): Promise<FaceClient> {
-  const endpoint = assertEnvironmentVariable('FACE_ENDPOINT');
-  const apikey = assertEnvironmentVariable('FACE_APIKEY');
+export async function createClient(
+  recorder?: Recorder,
+  options?: ClientOptions,
+): Promise<FaceClient> {
+  const endpoint = assertEnvironmentVariable("FACE_ENDPOINT");
+  const apikey = assertEnvironmentVariable("FACE_APIKEY");
   const credential = new AzureKeyCredential(apikey);
-  return createFaceClient(endpoint, credential, recorder?.configureClientOptions(options ?? {}) as FaceClientOptions);
+  return createFaceClient(
+    endpoint,
+    credential,
+    recorder?.configureClientOptions(options ?? {}) as FaceClientOptions,
+  );
 }
