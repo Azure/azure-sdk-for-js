@@ -3,7 +3,7 @@
 
 import { defineConfig, mergeConfig } from "vitest/config";
 import { relativeRecordingsPath } from "@azure-tools/test-recorder";
-import viteConfig from "./vitest.base.config.ts";
+import viteConfig from "./vitest.browser.base.config.ts";
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
