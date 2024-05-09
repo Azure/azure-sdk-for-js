@@ -7,7 +7,6 @@ import {
   VitestTestContext,
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
-import "./env";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 
