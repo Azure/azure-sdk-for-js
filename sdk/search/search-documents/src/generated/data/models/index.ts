@@ -9,10 +9,7 @@
 import * as coreClient from "@azure/core-client";
 import * as coreHttpCompat from "@azure/core-http-compat";
 
-export type VectorQueryUnion =
-  | VectorQuery
-  | VectorizedQuery
-  | VectorizableTextQuery;
+export type VectorQueryUnion = VectorQuery | VectorizedQuery | VectorizableTextQuery;
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
@@ -1067,8 +1064,7 @@ export type IndexActionType = "upload" | "merge" | "mergeOrUpload" | "delete";
 export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
 
 /** Optional parameters. */
-export interface DocumentsCountOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentsCountOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the count operation. */
 export type DocumentsCountResponse = {
@@ -1077,8 +1073,7 @@ export type DocumentsCountResponse = {
 };
 
 /** Optional parameters. */
-export interface DocumentsSearchGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface DocumentsSearchGetOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchOptions?: SearchOptions;
   /** A full-text search query expression; Use "*" or omit this parameter to match all documents. */
@@ -1089,15 +1084,13 @@ export interface DocumentsSearchGetOptionalParams
 export type DocumentsSearchGetResponse = SearchDocumentsResult;
 
 /** Optional parameters. */
-export interface DocumentsSearchPostOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentsSearchPostOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the searchPost operation. */
 export type DocumentsSearchPostResponse = SearchDocumentsResult;
 
 /** Optional parameters. */
-export interface DocumentsGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface DocumentsGetOptionalParams extends coreClient.OperationOptions {
   /** List of field names to retrieve for the document; Any field not retrieved will be missing from the returned document. */
   selectedFields?: string[];
 }
@@ -1106,8 +1099,7 @@ export interface DocumentsGetOptionalParams
 export type DocumentsGetResponse = { [propertyName: string]: any };
 
 /** Optional parameters. */
-export interface DocumentsSuggestGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface DocumentsSuggestGetOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   suggestOptions?: SuggestOptions;
 }
@@ -1116,22 +1108,19 @@ export interface DocumentsSuggestGetOptionalParams
 export type DocumentsSuggestGetResponse = SuggestDocumentsResult;
 
 /** Optional parameters. */
-export interface DocumentsSuggestPostOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentsSuggestPostOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the suggestPost operation. */
 export type DocumentsSuggestPostResponse = SuggestDocumentsResult;
 
 /** Optional parameters. */
-export interface DocumentsIndexOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentsIndexOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the index operation. */
 export type DocumentsIndexResponse = IndexDocumentsResult;
 
 /** Optional parameters. */
-export interface DocumentsAutocompleteGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface DocumentsAutocompleteGetOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   autocompleteOptions?: AutocompleteOptions;
 }
@@ -1140,15 +1129,13 @@ export interface DocumentsAutocompleteGetOptionalParams
 export type DocumentsAutocompleteGetResponse = AutocompleteResult;
 
 /** Optional parameters. */
-export interface DocumentsAutocompletePostOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentsAutocompletePostOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the autocompletePost operation. */
 export type DocumentsAutocompletePostResponse = AutocompleteResult;
 
 /** Optional parameters. */
-export interface SearchClientOptionalParams
-  extends coreHttpCompat.ExtendedServiceClientOptions {
+export interface SearchClientOptionalParams extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }
