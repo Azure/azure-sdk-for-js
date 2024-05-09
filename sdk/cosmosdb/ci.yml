@@ -31,7 +31,7 @@ extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: cosmosdb
-    #RunUnitTests: false
+    RunUnitTests: false
     Artifacts:
       - name: azure-cosmos
         safeName: azurecosmos
