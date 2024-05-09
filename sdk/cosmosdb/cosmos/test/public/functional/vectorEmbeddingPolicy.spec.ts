@@ -7,7 +7,7 @@ import { Database } from "../../../src/client/Database/Database";
 import { Container } from "../../../src/client";
 
 // Skipping these tests as they are not supported by public emulator
-describe("Vector search feature", async () => {
+describe.skip("Vector search feature", async () => {
   describe("VectorEmbeddingPolicy", async () => {
     let database: Database;
     before(async function () {

@@ -254,13 +254,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           return { result: temp, headers: this.fetchMoreRespHeaders };
         }
       } else {
-        // append the result
         const ruConsumed = await ruConsumedManager.getRUConsumed();
-        // TODO:
         const maxRUAllowed =
           operationOptions && operationOptions.ruCapPerOperation
             ? operationOptions.ruCapPerOperation
             : Constants.NonStreamingQueryDefaultRUThreshold;
+        // append the result
         if (typeof item !== "object") {
           this.fetchBuffer.push(item);
         } else if (Object.keys(item).length !== 0) {

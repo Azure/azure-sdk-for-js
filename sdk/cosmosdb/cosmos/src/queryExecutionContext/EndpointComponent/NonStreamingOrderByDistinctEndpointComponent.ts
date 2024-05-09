@@ -14,9 +14,9 @@ import { OrderByComparator } from "../orderByComparator";
 
 /** @hidden */
 export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionContext {
-  private aggregateMap: NonStreamingOrderByMap<NonStreamingOrderByResult>; //map to store distinct values before storing in pq.
+  private aggregateMap: NonStreamingOrderByMap<NonStreamingOrderByResult>; // map to store distinct values before storing in pq.
   private nonStreamingOrderByPQ: NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>; // pq to compute final orderBy results
-  private finalResultArray: NonStreamingOrderByResult[]; //result array to store final sorted and orderBy results.
+  private finalResultArray: NonStreamingOrderByResult[]; // result array to store final sorted and orderBy results.
   private sortOrders: string[];
   private isCompleted: boolean = false;
 
