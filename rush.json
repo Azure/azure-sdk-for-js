@@ -381,6 +381,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/openai-extra",
+      "projectFolder": "sdk/openai/openai-extra",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/openai",
       "projectFolder": "sdk/openai/openai-rest",
       "versionPolicyName": "client"
@@ -608,9 +613,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": [
-        "@azure/keyvault-keys"
-      ],
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {
