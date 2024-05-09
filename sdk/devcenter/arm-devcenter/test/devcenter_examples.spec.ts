@@ -13,11 +13,12 @@ import {
   delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential";
+import { NoOpCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { DevCenterClient } from "../src/devCenterClient";
 import { DevCenter } from "../src/models";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
@@ -30,6 +31,14 @@ const recorderOptions: RecorderStartOptions = {
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
+
+export function createTestCredential() {
+  return isPlaybackMode()
+    ? new NoOpCredential()
+    : new
+      DefaultAzureCredential()
+    ;
+}
 
 describe("devcenter test", () => {
   let recorder: Recorder;
