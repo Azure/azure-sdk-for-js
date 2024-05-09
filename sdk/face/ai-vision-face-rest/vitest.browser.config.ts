@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 import { defineConfig } from "vitest/config";
+import { relativeRecordingsPath } from "@azure-tools/test-recorder";
+
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 export default defineConfig({
   define: {
