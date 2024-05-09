@@ -55,5 +55,17 @@ export default function createClient(
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
 
+  client.pipeline.addPolicy({
+    name: "VerifyImageFilenamePolicy",
+    sendRequest: (request, next) => {
+      for (const part of request.multipartBody?.parts ?? []) {
+        if (part.headers.get("content-disposition")?.includes(`name="VerifyImage"`)) {
+          part.headers.set("content-disposition", `form-data; name="VerifyImage"; filename="blob"`);
+        }
+      }
+      return next(request);
+    },
+  });
+
   return client;
 }
