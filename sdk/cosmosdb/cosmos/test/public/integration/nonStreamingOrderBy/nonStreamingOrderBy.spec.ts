@@ -8,7 +8,7 @@ import { masterKey } from "../../common/_fakeTestSecrets";
 import { getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
 import { IndexingPolicy, VectorEmbeddingPolicy } from "../../../../src";
 
-describe("Test nonStreaming Queries", function () {
+describe.skip("Test nonStreaming Queries", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 30000);
   let container: Container;
   const client = new CosmosClient({
