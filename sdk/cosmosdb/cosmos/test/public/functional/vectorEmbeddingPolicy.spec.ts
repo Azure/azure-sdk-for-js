@@ -193,8 +193,6 @@ describe.skip("Vector search feature", async () => {
       }
     });
 
-    it("should query container with vector embedding policy", async function () {});
-
     after(async function () {
       await database.delete();
     });
