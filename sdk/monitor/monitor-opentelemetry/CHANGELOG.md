@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Allow setting log level for winston and bunyan via environment variable.
+
 ### Breaking Changes
 
 ### Bugs Fixed
@@ -12,10 +14,9 @@
 
 ## 1.4.0 (2024-04-16)
 
-- Capture live metrics and live metrics activation in statsbeat.
-
 ### Features Added
 
+- Capture live metrics and live metrics activation in statsbeat.
 - Add support for Trace based sampling for logs.
 - Add support for Winston log instrumentation.
 

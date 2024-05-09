@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Tracing spans will now correctly sanitize query parameters in the http.url span attribute. [#29606](https://github.com/Azure/azure-sdk-for-js/pull/29606)
+
 ### Other Changes
 
 ## 1.16.0 (2024-05-02)

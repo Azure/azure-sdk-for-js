@@ -6,14 +6,11 @@ import { ClientAssertionCredential } from "./clientAssertionCredential";
 import { AuthenticationError, CredentialUnavailableError } from "../errors";
 import { credentialLogger } from "../util/logging";
 import { checkTenantId } from "../util/tenantIdUtils";
-import {
-  createDefaultHttpClient,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
-import { AzurePipelinesServiceConnectionCredentialOptions } from "./azurePipelinesServiceConnectionCredentialOptions";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { AzurePipelinesCredentialOptions } from "./azurePipelinesCredentialOptions";
+import { IdentityClient } from "../client/identityClient";
 
-const credentialName = "AzurePipelinesServiceConnectionCredential";
+const credentialName = "AzurePipelinesCredential";
 const logger = credentialLogger(credentialName);
 const OIDC_API_VERSION = "7.1-preview.1";
 
@@ -21,11 +18,12 @@ const OIDC_API_VERSION = "7.1-preview.1";
  * This credential is designed to be used in Azure Pipelines with service connections
  * as a setup for workload identity federation.
  */
-export class AzurePipelinesServiceConnectionCredential implements TokenCredential {
+export class AzurePipelinesCredential implements TokenCredential {
   private clientAssertionCredential: ClientAssertionCredential | undefined;
+  private identityClient: IdentityClient;
 
   /**
-   * AzurePipelinesServiceConnectionCredential supports Federated Identity on Azure Pipelines through Service Connections.
+   * AzurePipelinesCredential supports Federated Identity on Azure Pipelines through Service Connections.
    * @param tenantId - tenantId associated with the service connection
    * @param clientId - clientId associated with the service connection
    * @param serviceConnectionId - id for the service connection, as found in the querystring's resourceId key
@@ -35,17 +33,17 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     tenantId: string,
     clientId: string,
     serviceConnectionId: string,
-    options?: AzurePipelinesServiceConnectionCredentialOptions,
+    options?: AzurePipelinesCredentialOptions,
   ) {
     if (!clientId || !tenantId || !serviceConnectionId) {
       throw new CredentialUnavailableError(
         `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required parameters.`,
       );
     }
-
+    this.identityClient = new IdentityClient(options);
     checkTenantId(logger, tenantId);
     logger.info(
-      `Invoking AzurePipelinesServiceConnectionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`,
+      `Invoking AzurePipelinesCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`,
     );
 
     if (clientId && tenantId && serviceConnectionId) {
@@ -106,9 +104,6 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
   ): Promise<string> {
     logger.info("Requesting OIDC token from Azure Pipelines...");
     logger.info(oidcRequestUrl);
-
-    const httpClient = createDefaultHttpClient();
-
     const request = createPipelineRequest({
       url: oidcRequestUrl,
       method: "POST",
@@ -117,8 +112,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
         Authorization: `Bearer ${systemAccessToken}`,
       }),
     });
-
-    const response = await httpClient.sendRequest(request);
+    const response = await this.identityClient.sendRequest(request);
     const text = response.bodyAsText;
     if (!text) {
       logger.error(

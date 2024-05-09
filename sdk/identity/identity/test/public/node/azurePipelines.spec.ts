@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzurePipelinesServiceConnectionCredential } from "../../../src";
+import { AzurePipelinesCredential } from "../../../src";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
-describe("AzurePipelinesServiceConnectionCredential", function () {
+describe("AzurePipelinesCredential", function () {
   const scope = "https://vault.azure.net/.default";
-  const tenantId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
-  // const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
+  const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!;
 
   it("authenticates with a valid service connection", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
     // this serviceConnection corresponds to the Azure SDK Test Resources - LiveTestSecrets service
-    const existingServiceConnectionId = "0dec29c2-a766-4121-9c2e-1894f5aca5cb";
+    const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
     // clientId for above service connection
-    const clientId = "203c27cb-6778-4ecc-9bfd-9f03a61f3408";
-    const credential = new AzurePipelinesServiceConnectionCredential(
+    const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
+    const credential = new AzurePipelinesCredential(
       tenantId,
       clientId,
       existingServiceConnectionId,
