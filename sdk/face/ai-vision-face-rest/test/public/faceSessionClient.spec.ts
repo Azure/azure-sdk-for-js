@@ -8,23 +8,9 @@ import { assert, beforeEach, afterEach, it, describe } from 'vitest';
 import { Recorder, isLiveMode, isPlaybackMode } from '@azure-tools/test-recorder';
 
 import {
-  CreateLivenessSession200Response,
-  CreateLivenessWithVerifySession200Response,
-  CreateLivenessWithVerifySessionContentParametersPartDescriptor,
-  CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor,
-  CreateLivenessWithVerifySessionWithVerifyImage200Response,
-  DeleteLivenessSession200Response,
-  DeleteLivenessWithVerifySession200Response,
   FaceClient,
-  GetLivenessSessionAuditEntries200Response,
-  GetLivenessSessionResult200Response,
-  GetLivenessSessionResultDefaultResponse,
-  GetLivenessSessions200Response,
-  GetLivenessWithVerifySessionAuditEntries200Response,
-  GetLivenessWithVerifySessionResult200Response,
-  GetLivenessWithVerifySessionResultDefaultResponse,
-  GetLivenessWithVerifySessions200Response,
   LivenessResponseBodyOutput,
+  isUnexpected,
 } from '../../src/index.js';
 
 describe('Session', () => {
@@ -83,18 +69,27 @@ describe('Session', () => {
         livenessOperationMode: 'Passive',
         deviceCorrelationId,
       },
-    }) as CreateLivenessSession200Response;
+    });
+    if (isUnexpected(createLivenessSessionResponse)) {
+      throw new Error(createLivenessSessionResponse.body.error.message);
+    }
     assert.equal(createLivenessSessionResponse.status, '200');
     assert.isNotEmpty(createLivenessSessionResponse.body.sessionId);
     assert.isNotEmpty(createLivenessSessionResponse.body.authToken);
 
     const { sessionId } = createLivenessSessionResponse.body;
 
-    const getLivenessSessionResultResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).get() as GetLivenessSessionResult200Response;
+    const getLivenessSessionResultResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).get();
+    if (isUnexpected(getLivenessSessionResultResponse)) {
+      throw new Error(getLivenessSessionResultResponse.body.error.message);
+    }
     assert.equal(getLivenessSessionResultResponse.status, '200');
     assert.equal(getLivenessSessionResultResponse.body.deviceCorrelationId, deviceCorrelationId);
 
-    const deleteLivenessSessionResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).delete() as DeleteLivenessSession200Response;
+    const deleteLivenessSessionResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).delete();
+    if (isUnexpected(deleteLivenessSessionResponse)) {
+      throw new Error(deleteLivenessSessionResponse.body.error.message);
+    }
     assert.equal(deleteLivenessSessionResponse.status, '200');
   });
 
@@ -106,7 +101,10 @@ describe('Session', () => {
           livenessOperationMode: 'Passive',
           deviceCorrelationId,
         },
-      }) as CreateLivenessSession200Response;
+      });
+      if (isUnexpected(createLivenessSessionResponse)) {
+        throw new Error(createLivenessSessionResponse.body.error.message);
+      }
       assert.equal(createLivenessSessionResponse.status, '200');
       return [createLivenessSessionResponse.body.sessionId, deviceCorrelationId];
     };
@@ -114,7 +112,10 @@ describe('Session', () => {
     const sessions = Object.fromEntries(await Promise.all([createSession(), createSession()]));
     console.log(sessions);
 
-    const getLivenessSessionsResponse = await client.path('/detectLiveness/singleModal/sessions').get() as GetLivenessSessions200Response;
+    const getLivenessSessionsResponse = await client.path('/detectLiveness/singleModal/sessions').get();
+    if (isUnexpected(getLivenessSessionsResponse)) {
+      throw new Error(getLivenessSessionsResponse.body.error.message);
+    }
     assert.equal(getLivenessSessionsResponse.status, '200');
     assert.equal(getLivenessSessionsResponse.body.length, 2);
     for (const livenessSessionItemOutput of getLivenessSessionsResponse.body) {
@@ -126,7 +127,10 @@ describe('Session', () => {
     }
 
     await Promise.all(Object.keys(sessions).map(async sessionId => {
-      const deleteLivenessSessionResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).delete() as DeleteLivenessSession200Response;
+      const deleteLivenessSessionResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).delete();
+      if (isUnexpected(deleteLivenessSessionResponse)) {
+        throw new Error(deleteLivenessSessionResponse.body.error.message);
+      }
       assert.equal(deleteLivenessSessionResponse.status, '200');
     }));
   });
@@ -135,7 +139,10 @@ describe('Session', () => {
     const deviceCorrelationId = recorder.variable('deviceCorrelationId');
     const sessionId = recorder.variable('sessionId');
 
-    const getLivenessSessionResultResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).get() as GetLivenessSessionResult200Response;
+    const getLivenessSessionResultResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).get();
+    if (isUnexpected(getLivenessSessionResultResponse)) {
+      throw new Error(getLivenessSessionResultResponse.body.error.message);
+    }
     assert.equal(getLivenessSessionResultResponse.status, '200');
 
     const livenessSessionOutput = getLivenessSessionResultResponse.body;
@@ -149,7 +156,10 @@ describe('Session', () => {
   it.runIf(isPlaybackMode())('TestGetSessionAuditEntries', async () => {
     const sessionId = recorder.variable('sessionId');
 
-    const getLivenessSessionAuditEntriesResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}/audit', sessionId).get() as GetLivenessSessionAuditEntries200Response;
+    const getLivenessSessionAuditEntriesResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}/audit', sessionId).get();
+    if (isUnexpected(getLivenessSessionAuditEntriesResponse)) {
+      throw new Error(getLivenessSessionAuditEntriesResponse.body.error.message);
+    }
     assert.equal(getLivenessSessionAuditEntriesResponse.status, '200');
     assert.isTrue(getLivenessSessionAuditEntriesResponse.body.every(entry => entry.sessionId === sessionId));
     assert.deepEqual(getLivenessSessionAuditEntriesResponse.body.map(entry => entry.response.body), livenessResponseBodyOutput);
@@ -161,15 +171,24 @@ describe('Session', () => {
         livenessOperationMode: 'Passive',
         deviceCorrelationId: recorder.variable('deviceCorrelationId', randomUUID()),
       },
-    }) as CreateLivenessSession200Response;
+    });
+    if (isUnexpected(createLivenessSessionResponse)) {
+      throw new Error(createLivenessSessionResponse.body.error.message);
+    }
     assert.equal(createLivenessSessionResponse.status, '200');
 
     const { sessionId } = createLivenessSessionResponse.body;
 
-    const deleteLivenessSessionResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).delete() as DeleteLivenessSession200Response;
+    const deleteLivenessSessionResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).delete();
+    if (isUnexpected(deleteLivenessSessionResponse)) {
+      throw new Error(deleteLivenessSessionResponse.body.error.message);
+    }
     assert.equal(deleteLivenessSessionResponse.status, '200');
 
-    const getLivenessSessionResultResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).get() as GetLivenessSessionResultDefaultResponse;
+    const getLivenessSessionResultResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).get();
+    if (!isUnexpected(getLivenessSessionResultResponse)) {
+      throw new Error(`Session ${sessionId} should not be found.`);
+    }
     assert.equal(getLivenessSessionResultResponse.status, '404');
     assert.equal(getLivenessSessionResultResponse.body.error.code, 'SessionNotFound');
   });
@@ -250,7 +269,10 @@ describe('SessionWithVerify', () => {
   });
 
   it.skip('TestDeleteAllVerifySessions', async () => {
-    const getLivenessSessionsResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions').get() as GetLivenessWithVerifySessions200Response;
+    const getLivenessSessionsResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions').get();
+    if (isUnexpected(getLivenessSessionsResponse)) {
+      throw new Error(getLivenessSessionsResponse.body.error.message);
+    }
     assert.equal(getLivenessSessionsResponse.status, '200');
     console.log(`Number of sessions: ${getLivenessSessionsResponse.body.length}`);
     const deleteLivenessSessionResponses = await Promise.all(getLivenessSessionsResponse.body.map(livenessSessionItemOutput => client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', livenessSessionItemOutput.id).delete()));
@@ -264,18 +286,27 @@ describe('SessionWithVerify', () => {
         livenessOperationMode: 'Passive',
         deviceCorrelationId,
       },
-    }) as CreateLivenessWithVerifySession200Response;
+    });
+    if (isUnexpected(createLivenessSessionResponse)) {
+      throw new Error(createLivenessSessionResponse.body.error.message);
+    }
     assert.equal(createLivenessSessionResponse.status, '200');
     assert.isNotEmpty(createLivenessSessionResponse.body.sessionId);
     assert.isNotEmpty(createLivenessSessionResponse.body.authToken);
 
     const { sessionId } = createLivenessSessionResponse.body;
 
-    const getLivenessSessionResultResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).get() as GetLivenessWithVerifySessionResult200Response;
+    const getLivenessSessionResultResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).get();
+    if (isUnexpected(getLivenessSessionResultResponse)) {
+      throw new Error(getLivenessSessionResultResponse.body.error.message);
+    }
     assert.equal(getLivenessSessionResultResponse.status, '200');
     assert.equal(getLivenessSessionResultResponse.body.deviceCorrelationId, deviceCorrelationId);
 
-    const deleteLivenessSessionResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).delete() as DeleteLivenessWithVerifySession200Response;
+    const deleteLivenessSessionResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).delete();
+    if (isUnexpected(deleteLivenessSessionResponse)) {
+      throw new Error(deleteLivenessSessionResponse.body.error.message);
+    }
     assert.equal(deleteLivenessSessionResponse.status, '200');
   });
 
@@ -284,11 +315,11 @@ describe('SessionWithVerify', () => {
     const createLivenessSessionResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions').post({
       contentType: 'multipart/form-data',
       body: [
-        new CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor({
+        {
             name: 'VerifyImage',
             body: readFileSync('samples-dev/data/detection1.jpg'),
-        }),
-        new CreateLivenessWithVerifySessionContentParametersPartDescriptor({
+        },
+        {
             name: 'Parameters',
             body: {
                 livenessOperationMode: 'Passive',
@@ -296,9 +327,12 @@ describe('SessionWithVerify', () => {
                 authTokenTimeToLiveInSeconds: 60,
                 deviceCorrelationId: deviceCorrelationId,
             },
-        }),
+        },
       ],
-    }) as CreateLivenessWithVerifySessionWithVerifyImage200Response;
+    });
+    if (isUnexpected(createLivenessSessionResponse)) {
+      throw new Error(createLivenessSessionResponse.body.error.message);
+    }
     assert.equal(createLivenessSessionResponse.status, '200');
     assert.isNotEmpty(createLivenessSessionResponse.body.sessionId);
     assert.isNotEmpty(createLivenessSessionResponse.body.authToken);
@@ -307,11 +341,17 @@ describe('SessionWithVerify', () => {
 
     const { sessionId } = createLivenessSessionResponse.body;
 
-    const getLivenessSessionResultResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).get() as GetLivenessWithVerifySessionResult200Response;
+    const getLivenessSessionResultResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).get();
+    if (isUnexpected(getLivenessSessionResultResponse)) {
+      throw new Error(getLivenessSessionResultResponse.body.error.message);
+    }
     assert.equal(getLivenessSessionResultResponse.status, '200');
     assert.equal(getLivenessSessionResultResponse.body.deviceCorrelationId, deviceCorrelationId);
 
-    const deleteLivenessSessionResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).delete() as DeleteLivenessWithVerifySession200Response;
+    const deleteLivenessSessionResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).delete();
+    if (isUnexpected(deleteLivenessSessionResponse)) {
+      throw new Error(deleteLivenessSessionResponse.body.error.message);
+    }
     assert.equal(deleteLivenessSessionResponse.status, '200');
   });
 
@@ -323,7 +363,10 @@ describe('SessionWithVerify', () => {
           livenessOperationMode: 'Passive',
           deviceCorrelationId,
         },
-      }) as CreateLivenessWithVerifySession200Response;
+      });
+      if (isUnexpected(createLivenessSessionResponse)) {
+        throw new Error(createLivenessSessionResponse.body.error.message);
+      }
       assert.equal(createLivenessSessionResponse.status, '200');
       return [createLivenessSessionResponse.body.sessionId, deviceCorrelationId];
     };
@@ -331,7 +374,10 @@ describe('SessionWithVerify', () => {
     const sessions = Object.fromEntries(await Promise.all([createSession(), createSession()]));
     console.log(sessions);
 
-    const getLivenessSessionsResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions').get() as GetLivenessWithVerifySessions200Response;
+    const getLivenessSessionsResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions').get();
+    if (isUnexpected(getLivenessSessionsResponse)) {
+      throw new Error(getLivenessSessionsResponse.body.error.message);
+    }
     assert.equal(getLivenessSessionsResponse.status, '200');
     assert.equal(getLivenessSessionsResponse.body.length, 2);
     for (const livenessSessionItemOutput of getLivenessSessionsResponse.body) {
@@ -343,7 +389,10 @@ describe('SessionWithVerify', () => {
     }
 
     await Promise.all(Object.keys(sessions).map(async sessionId => {
-      const deleteLivenessSessionResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).delete() as DeleteLivenessWithVerifySession200Response;
+      const deleteLivenessSessionResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).delete();
+      if (isUnexpected(deleteLivenessSessionResponse)) {
+        throw new Error(deleteLivenessSessionResponse.body.error.message);
+      }
       assert.equal(deleteLivenessSessionResponse.status, '200');
     }));
   });
@@ -352,7 +401,10 @@ describe('SessionWithVerify', () => {
     const deviceCorrelationId = recorder.variable('deviceCorrelationId');
     const sessionId = recorder.variable('sessionId');
 
-    const getLivenessSessionResultResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).get() as GetLivenessWithVerifySessionResult200Response;
+    const getLivenessSessionResultResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).get();
+    if (isUnexpected(getLivenessSessionResultResponse)) {
+      throw new Error(getLivenessSessionResultResponse.body.error.message);
+    }
     assert.equal(getLivenessSessionResultResponse.status, '200');
 
     const livenessSessionOutput = getLivenessSessionResultResponse.body;
@@ -366,7 +418,10 @@ describe('SessionWithVerify', () => {
   it.runIf(isPlaybackMode())('TestGetVerifySessionAuditEntries', async () => {
     const sessionId = recorder.variable('sessionId');
 
-    const getLivenessSessionAuditEntriesResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}/audit', sessionId).get() as GetLivenessWithVerifySessionAuditEntries200Response;
+    const getLivenessSessionAuditEntriesResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}/audit', sessionId).get();
+    if (isUnexpected(getLivenessSessionAuditEntriesResponse)) {
+      throw new Error(getLivenessSessionAuditEntriesResponse.body.error.message);
+    }
     assert.equal(getLivenessSessionAuditEntriesResponse.status, '200');
     assert.isTrue(getLivenessSessionAuditEntriesResponse.body.every(entry => entry.sessionId === sessionId));
     assert.deepEqual(getLivenessSessionAuditEntriesResponse.body.map(entry => entry.response.body), livenessResponseBodyOutput);
@@ -378,15 +433,24 @@ describe('SessionWithVerify', () => {
         livenessOperationMode: 'Passive',
         deviceCorrelationId: recorder.variable('deviceCorrelationId', randomUUID()),
       },
-    }) as CreateLivenessWithVerifySession200Response;
+    });
+    if (isUnexpected(createLivenessSessionResponse)) {
+      throw new Error(createLivenessSessionResponse.body.error.message);
+    }
     assert.equal(createLivenessSessionResponse.status, '200');
 
     const { sessionId } = createLivenessSessionResponse.body;
 
-    const deleteLivenessSessionResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).delete() as DeleteLivenessWithVerifySession200Response;
+    const deleteLivenessSessionResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).delete();
+    if (isUnexpected(deleteLivenessSessionResponse)) {
+      throw new Error(deleteLivenessSessionResponse.body.error.message);
+    }
     assert.equal(deleteLivenessSessionResponse.status, '200');
 
-    const getLivenessSessionResultResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).get() as GetLivenessWithVerifySessionResultDefaultResponse;
+    const getLivenessSessionResultResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).get();
+    if (!isUnexpected(getLivenessSessionResultResponse)) {
+      throw new Error(`Session ${sessionId} should not be found.`);
+    }
     assert.equal(getLivenessSessionResultResponse.status, '404');
     assert.equal(getLivenessSessionResultResponse.body.error.code, 'SessionNotFound');
   });

@@ -1,14 +1,16 @@
 const { readFileSync } = require("fs");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-const createFaceClient = require("@azure-rest/ai-vision-face").default;
+const createFaceClient = require("@azure-rest/ai-vision-face").default,
+  { isUnexpected } = require("@azure-rest/ai-vision-face");
 
 /**
  * This sample demonstrates how to create a liveness detection session.
  *
  * @summary creates a liveness detection session
  */
-async function main() {
+
+const main = async () => {
   const endpoint = process.env["FACE_ENDPOINT"] ?? "<endpoint>";
   const credential = new DefaultAzureCredential();
   const client = createFaceClient(endpoint, credential);
@@ -23,8 +25,11 @@ async function main() {
     },
     body: readFileSync(fileName),
   });
+  if (isUnexpected(detectResponse)) {
+    throw new Error(detectResponse.body.error.message);
+  }
   console.log(`Detect: ${fileName}`);
   console.log(JSON.stringify(detectResponse.body, null, 2));
-}
+};
 
 main().catch(console.error);

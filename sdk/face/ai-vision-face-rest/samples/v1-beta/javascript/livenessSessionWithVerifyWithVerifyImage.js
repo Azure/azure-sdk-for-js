@@ -2,7 +2,9 @@ const { randomUUID } = require("crypto");
 
 const { AzureKeyCredential } = require("@azure/core-auth");
 
-const createFaceClient = require("@azure-rest/ai-vision-face").default;
+const createFaceClient = require("@azure-rest/ai-vision-face").default,
+  { isUnexpected } = require("@azure-rest/ai-vision-face");
+const { readFileSync } = require("fs");
 
 /**
  * This sample demonstrates how to create a liveness detection session.
@@ -57,13 +59,26 @@ async function main() {
   const createLivenessSessionResponse = await client
     .path("/detectLivenessWithVerify/singleModal/sessions")
     .post({
-      body: {
-        livenessOperationMode: "Passive",
-        deviceCorrelationId: randomUUID(),
-        sendResultsToClient: false,
-        authTokenTimeToLiveInSeconds: 60,
-      },
+      contentType: "multipart/form-data",
+      body: [
+        {
+          name: "VerifyImage",
+          body: readFileSync("samples-dev/data/detection1.jpg"),
+        },
+        {
+          name: "Parameters",
+          body: {
+            livenessOperationMode: "Passive",
+            sendResultsToClient: false,
+            authTokenTimeToLiveInSeconds: 60,
+            deviceCorrelationId: randomUUID(),
+          },
+        },
+      ],
     });
+  if (isUnexpected(createLivenessSessionResponse)) {
+    throw new Error(createLivenessSessionResponse.body.error.message);
+  }
   console.log("Create liveness session:");
   console.log(JSON.stringify(createLivenessSessionResponse.body, null, 2));
 
@@ -81,6 +96,9 @@ async function main() {
   const getLivenessSessionResultResponse = await client
     .path("/detectLivenessWithVerify/singleModal/sessions/{sessionId}", sessionId)
     .get();
+  if (isUnexpected(getLivenessSessionResultResponse)) {
+    throw new Error(getLivenessSessionResultResponse.body.error.message);
+  }
   console.log("Get liveness detection results:");
   console.log(JSON.stringify(getLivenessSessionResultResponse.body, null, 2));
 
@@ -88,6 +106,9 @@ async function main() {
   const getAuditEntryResponse = await client
     .path("/detectLivenessWithVerify/singleModal/sessions/{sessionId}/audit", sessionId)
     .get();
+  if (isUnexpected(getAuditEntryResponse)) {
+    throw new Error(getAuditEntryResponse.body.error.message);
+  }
   console.log("Get audit entries:");
   console.log(JSON.stringify(getAuditEntryResponse.body, null, 2));
 
@@ -95,6 +116,9 @@ async function main() {
   const getLivenessSessionsResponse = await client
     .path("/detectLivenessWithVerify/singleModal/sessions")
     .get();
+  if (isUnexpected(getLivenessSessionsResponse)) {
+    throw new Error(getLivenessSessionsResponse.body.error.message);
+  }
   console.log("Get liveness sessions:");
   console.log(JSON.stringify(getLivenessSessionsResponse.body, null, 2));
 
@@ -102,6 +126,9 @@ async function main() {
   const deleteLivenessSessionResponse = await client
     .path("/detectLivenessWithVerify/singleModal/sessions/{sessionId}", sessionId)
     .delete();
+  if (isUnexpected(deleteLivenessSessionResponse)) {
+    throw new Error(deleteLivenessSessionResponse.body.error.message);
+  }
   console.log("Delete liveness session:");
   console.log(JSON.stringify(deleteLivenessSessionResponse.body, null, 2));
 }

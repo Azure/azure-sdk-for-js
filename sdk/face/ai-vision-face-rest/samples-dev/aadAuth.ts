@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { DefaultAzureCredential } from '@azure/identity';
 
 import createFaceClient, {
-    Detect200Response,
+    isUnexpected,
 } from '@azure-rest/ai-vision-face';
 
 /**
@@ -10,7 +10,8 @@ import createFaceClient, {
  *
  * @summary creates a liveness detection session
  */
-async function main() {
+
+const main = async () => {
     const endpoint = process.env['FACE_ENDPOINT'] ?? '<endpoint>';
     const credential = new DefaultAzureCredential();
     const client = createFaceClient(endpoint, credential);
@@ -24,9 +25,12 @@ async function main() {
             returnFaceId: false,
         },
         body: readFileSync(fileName),
-    }) as Detect200Response;
+    });
+    if (isUnexpected(detectResponse)) {
+        throw new Error(detectResponse.body.error.message);
+    }
     console.log(`Detect: ${fileName}`);
     console.log(JSON.stringify(detectResponse.body, null, 2));
-}
+};
 
 main().catch(console.error);

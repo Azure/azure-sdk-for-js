@@ -3,11 +3,7 @@ const { randomUUID } = require("crypto");
 const { AzureKeyCredential } = require("@azure/core-auth");
 
 const createFaceClient = require("@azure-rest/ai-vision-face").default,
-  {
-    CreateLivenessWithVerifySessionContentParametersPartDescriptor,
-    CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor,
-  } = require("@azure-rest/ai-vision-face");
-const { readFileSync } = require("fs");
+  { isUnexpected } = require("@azure-rest/ai-vision-face");
 
 /**
  * This sample demonstrates how to create a liveness detection session.
@@ -60,25 +56,18 @@ async function main() {
 
   // 2.Send a request to Face API to create a liveness detection session.
   const createLivenessSessionResponse = await client
-    .path("/detectLivenessWithVerify/singleModal/sessions")
+    .path("/detectLiveness/singleModal/sessions")
     .post({
-      contentType: "multipart/form-data",
-      body: [
-        new CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor({
-          name: "VerifyImage",
-          body: readFileSync("samples-dev/data/detection1.jpg"),
-        }),
-        new CreateLivenessWithVerifySessionContentParametersPartDescriptor({
-          name: "Parameters",
-          body: {
-            livenessOperationMode: "Passive",
-            sendResultsToClient: false,
-            authTokenTimeToLiveInSeconds: 60,
-            deviceCorrelationId: randomUUID(),
-          },
-        }),
-      ],
+      body: {
+        livenessOperationMode: "Passive",
+        deviceCorrelationId: randomUUID(),
+        sendResultsToClient: false,
+        authTokenTimeToLiveInSeconds: 60,
+      },
     });
+  if (isUnexpected(createLivenessSessionResponse)) {
+    throw new Error(createLivenessSessionResponse.body.error.message);
+  }
   console.log("Create liveness session:");
   console.log(JSON.stringify(createLivenessSessionResponse.body, null, 2));
 
@@ -94,29 +83,41 @@ async function main() {
   // 8. After client devices perform the action, we can get the result from the following APIs.
   // Get session results.
   const getLivenessSessionResultResponse = await client
-    .path("/detectLivenessWithVerify/singleModal/sessions/{sessionId}", sessionId)
+    .path("/detectLiveness/singleModal/sessions/{sessionId}", sessionId)
     .get();
+  if (isUnexpected(getLivenessSessionResultResponse)) {
+    throw new Error(getLivenessSessionResultResponse.body.error.message);
+  }
   console.log("Get liveness detection results:");
   console.log(JSON.stringify(getLivenessSessionResultResponse.body, null, 2));
 
   // Get audit entries.
   const getAuditEntryResponse = await client
-    .path("/detectLivenessWithVerify/singleModal/sessions/{sessionId}/audit", sessionId)
+    .path("/detectLiveness/singleModal/sessions/{sessionId}/audit", sessionId)
     .get();
+  if (isUnexpected(getAuditEntryResponse)) {
+    throw new Error(getAuditEntryResponse.body.error.message);
+  }
   console.log("Get audit entries:");
   console.log(JSON.stringify(getAuditEntryResponse.body, null, 2));
 
   // We can also list all liveness sessions of this face account.
   const getLivenessSessionsResponse = await client
-    .path("/detectLivenessWithVerify/singleModal/sessions")
+    .path("/detectLiveness/singleModal/sessions")
     .get();
+  if (isUnexpected(getLivenessSessionsResponse)) {
+    throw new Error(getLivenessSessionsResponse.body.error.message);
+  }
   console.log("Get liveness sessions:");
   console.log(JSON.stringify(getLivenessSessionsResponse.body, null, 2));
 
   // Delete session.
   const deleteLivenessSessionResponse = await client
-    .path("/detectLivenessWithVerify/singleModal/sessions/{sessionId}", sessionId)
+    .path("/detectLiveness/singleModal/sessions/{sessionId}", sessionId)
     .delete();
+  if (isUnexpected(deleteLivenessSessionResponse)) {
+    throw new Error(deleteLivenessSessionResponse.body.error.message);
+  }
   console.log("Delete liveness session:");
   console.log(JSON.stringify(deleteLivenessSessionResponse.body, null, 2));
 }

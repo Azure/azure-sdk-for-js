@@ -2,26 +2,22 @@ const { readFileSync } = require("fs");
 const { AzureKeyCredential } = require("@azure/core-auth");
 
 const createFaceClient = require("@azure-rest/ai-vision-face").default,
-  {
-    FaceAttributeTypeDetection01,
-    FaceAttributeTypeDetection03,
-    FaceAttributeTypeRecognition04,
-  } = require("@azure-rest/ai-vision-face");
+  { isUnexpected } = require("@azure-rest/ai-vision-face");
 
 /**
  * This sample demonstrates how to create a liveness detection session.
  *
  * @summary creates a liveness detection session
  */
-async function main() {
+
+const detectFromImage = async () => {
   const endpoint = process.env["FACE_ENDPOINT"] ?? "<endpoint>";
   const apikey = process.env["FACE_APIKEY"] ?? "<apikey>";
   const credential = new AzureKeyCredential(apikey);
   const client = createFaceClient(endpoint, credential);
 
-  // Detect from image.
-  const fileName = "samples-dev/data/detection5.jpg";
-  const detectFromImageResponse = await client.path("/detect").post({
+  const filename = "samples-dev/data/detection5.jpg";
+  const response = await client.path("/detect").post({
     contentType: "application/octet-stream",
     queryParameters: {
       detectionModel: "detection_03",
@@ -29,21 +25,26 @@ async function main() {
       returnFaceLandmarks: true,
       returnRecognitionModel: true,
       faceIdTimeToLive: 120,
-      returnFaceAttributes: [
-        FaceAttributeTypeDetection03.HEAD_POSE,
-        FaceAttributeTypeDetection03.MASK,
-        FaceAttributeTypeRecognition04.QUALITY_FOR_RECOGNITION,
-      ],
+      returnFaceAttributes: ["headPose", "mask", "qualityForRecognition"],
       returnFaceId: false,
     },
-    body: readFileSync(fileName),
+    body: readFileSync(filename),
   });
-  console.log(`Detect from image: ${fileName}`);
-  console.log(JSON.stringify(detectFromImageResponse.body, null, 2));
+  if (isUnexpected(response)) {
+    throw new Error(response.body.error.message);
+  }
+  console.log(`Detect from image: ${filename}`);
+  console.log(JSON.stringify(response.body, null, 2));
+};
 
-  // Detect from URL.
+const detectFromUrl = async () => {
+  const endpoint = process.env["FACE_ENDPOINT"] ?? "<endpoint>";
+  const apikey = process.env["FACE_APIKEY"] ?? "<apikey>";
+  const credential = new AzureKeyCredential(apikey);
+  const client = createFaceClient(endpoint, credential);
+
   const url = "https://aka.ms/facesampleurl";
-  const detectFromUrlResponse = await client.path("/detect").post({
+  const response = await client.path("/detect").post({
     contentType: "application/json",
     queryParameters: {
       detectionModel: "detection_01",
@@ -51,18 +52,21 @@ async function main() {
       returnFaceLandmarks: true,
       returnRecognitionModel: true,
       faceIdTimeToLive: 120,
-      returnFaceAttributes: [
-        FaceAttributeTypeDetection01.ACCESSORIES,
-        FaceAttributeTypeDetection01.GLASSES,
-        FaceAttributeTypeDetection01.EXPOSURE,
-        FaceAttributeTypeDetection01.NOISE,
-      ],
+      returnFaceAttributes: ["accessories", "glasses", "exposure", "noise"],
       returnFaceId: false,
     },
     body: { url },
   });
+  if (isUnexpected(response)) {
+    throw new Error(response.body.error.message);
+  }
   console.log(`Detect from URL: ${url}`);
-  console.log(JSON.stringify(detectFromUrlResponse.body, null, 2));
-}
+  console.log(JSON.stringify(response.body, null, 2));
+};
+
+const main = async () => {
+  await detectFromImage();
+  await detectFromUrl();
+};
 
 main().catch(console.error);
