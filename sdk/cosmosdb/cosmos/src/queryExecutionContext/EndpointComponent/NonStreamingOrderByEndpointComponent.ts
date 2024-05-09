@@ -53,7 +53,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
       const item = this.nonStreamingOrderByPQ.dequeue()?.payload;
       return {
         result: item,
-        headers: {},
+        headers: getInitialHeader(),
       };
     }
     try {
@@ -85,7 +85,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
           const item = this.nonStreamingOrderByPQ.dequeue()?.payload;
           return {
             result: item,
-            headers: {},
+            headers: getInitialHeader(),
           };
         } else {
           return {
@@ -104,7 +104,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
 
   /**
    * Determine if there are still remaining resources to processs.
-   * @returns true if there is other elements to process in the OrderByEndpointComponent.
+   * @returns true if there is other elements to process in the NonStreamingOrderByEndpointComponent.
    */
   public hasMoreResults(): boolean {
     return (

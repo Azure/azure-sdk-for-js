@@ -114,7 +114,8 @@ export interface FeedOptions extends SharedOptions {
    */
   populateIndexMetrics?: boolean;
   /**
-   * Custom max buffer size for storing final results for nonStreamingOrderBy queries. If query has top/offset+limit, this is ignored.
+   * Specifies a custom maximum buffer size for storing final results for nonStreamingOrderBy queries.
+   * This value is ignored if the query includes top/offset+limit clauses.
    */
   vectorSearchBufferSize?: number;
 }
