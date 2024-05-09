@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "dependencies": {
-    "yargs": "^14.2.0"
+    "yargs": "^17.7.2"
   }
 }

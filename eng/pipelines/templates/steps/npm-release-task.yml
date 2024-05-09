@@ -1,0 +1,46 @@
+parameters:
+  ArtifactName: ''
+  Artifact: {}
+  Registry: ''
+  PathToArtifacts: ''
+  Tag: ''
+  AdditionalTag: ''
+
+steps:
+  - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
+  - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
+      - task: EsrpRelease@7
+        inputs:
+          displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
+          ConnectedServiceName: 'Azure SDK Engineering System'
+          ClientId: '5f81938c-2544-4f1f-9251-dd9de5b8a81b'
+          KeyVaultName: 'AzureSDKEngKeyVault'
+          AuthCertName: 'azure-sdk-esrp-release-auth-certificate'
+          SignCertName: 'azure-sdk-esrp-release-sign-certificate'
+          Intent: 'PackageDistribution'
+          ContentType: 'npm'
+          FolderLocation: ${{parameters.PathToArtifacts}}
+          Owners: ${{ coalesce(variables['Build.RequestedForEmail'], 'azuresdk@microsoft.com') }}
+          Approvers: 'azuresdk@microsoft.com'
+          ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
+          MainPublisher: 'ESRPRELPACMANTEST'
+          DomainTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
+          productstate: ${{parameters.Tag}}
+      - task: PowerShell@2
+        displayName: Add Additional Tag
+        inputs:
+          targetType: filePath
+          filePath: eng/tools/publish-to-npm.ps1
+          arguments: -addTag $true -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
+          pwsh: true
+        condition: succeeded()
+
+  - ${{ else }}:
+      - task: PowerShell@2
+        displayName: Publish to Dev Feed
+        inputs:
+          targetType: filePath
+          filePath: eng/tools/publish-to-npm.ps1
+          arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
+          pwsh: true
+        condition: succeeded()
