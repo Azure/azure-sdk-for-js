@@ -144,6 +144,7 @@ export interface EventHubConnectionStringProperties {
     sharedAccessKey?: string;
     sharedAccessKeyName?: string;
     sharedAccessSignature?: string;
+    useDevelopmentEmulator?: boolean;
 }
 
 // @public
