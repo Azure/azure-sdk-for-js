@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the metadata of a service instance.
  *
  * @summary Get the metadata of a service instance.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/legacy/ServiceGet.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceGet.json
  */
 async function getMetadata() {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function getMetadata() {
  * This sample demonstrates how to Get the metadata of a service instance.
  *
  * @summary Get the metadata of a service instance.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/legacy/ServiceGetInDataSovereignRegionWithCmkEnabled.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceGetInDataSovereignRegionWithCmkEnabled.json
  */
 async function getMetadataForCmkEnabledServiceInDataSovereignRegion() {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";

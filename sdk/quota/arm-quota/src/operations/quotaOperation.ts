@@ -18,7 +18,7 @@ import {
   QuotaOperationListNextOptionalParams,
   QuotaOperationListOptionalParams,
   QuotaOperationListResponse,
-  QuotaOperationListNextResponse
+  QuotaOperationListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class QuotaOperationImpl implements QuotaOperation {
    * @param options The options parameters.
    */
   public list(
-    options?: QuotaOperationListOptionalParams
+    options?: QuotaOperationListOptionalParams,
   ): PagedAsyncIterableIterator<OperationResponse> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class QuotaOperationImpl implements QuotaOperation {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: QuotaOperationListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OperationResponse[]> {
     let result: QuotaOperationListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class QuotaOperationImpl implements QuotaOperation {
   }
 
   private async *listPagingAll(
-    options?: QuotaOperationListOptionalParams
+    options?: QuotaOperationListOptionalParams,
   ): AsyncIterableIterator<OperationResponse> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class QuotaOperationImpl implements QuotaOperation {
    * @param options The options parameters.
    */
   private _list(
-    options?: QuotaOperationListOptionalParams
+    options?: QuotaOperationListOptionalParams,
   ): Promise<QuotaOperationListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class QuotaOperationImpl implements QuotaOperation {
    */
   private _listNext(
     nextLink: string,
-    options?: QuotaOperationListNextOptionalParams
+    options?: QuotaOperationListNextOptionalParams,
   ): Promise<QuotaOperationListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -121,29 +121,29 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationList
+      bodyMapper: Mappers.OperationList,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationList
+      bodyMapper: Mappers.OperationList,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

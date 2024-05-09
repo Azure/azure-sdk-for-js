@@ -14,11 +14,11 @@
     "build:nodebrowser": "dev-tool run bundle",
     "build:samples": "echo skipped",
     "build:test": "echo skipped",
-    "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local",
+    "build": "tsc -p . && npm run build:nodebrowser && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log coverage coverage-browser",
     "execute:samples": "echo skipped",
-    "extract-api": "tsc -p . && api-extractor run --local",
+    "extract-api": "tsc -p . && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "echo skipped",
     "integration-test:browser": "echo skipped",
@@ -69,7 +69,7 @@
     "@azure/core-client": "^1.0.0"
   },
   "devDependencies": {
-    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",

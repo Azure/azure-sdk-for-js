@@ -6,6 +6,8 @@
 
 import { ErrorModel } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
+import { RestErrorOptions } from '@azure/core-rest-pipeline';
 
 // @public
 export type AudioTaskLabel = string;
@@ -849,6 +851,13 @@ export type OnYourDataVectorizationSourceType = string;
 
 // @public
 export type OnYourDataVectorizationSourceUnion = OnYourDataEndpointVectorizationSource | OnYourDataDeploymentNameVectorizationSource | OnYourDataModelIdVectorizationSource | OnYourDataVectorizationSource;
+
+// @public
+export class OpenAIError extends RestError {
+    constructor(message: string, param?: string | null, type?: string | null, options?: RestErrorOptions);
+    param: string | null;
+    type: string | null;
+}
 
 // @public
 export interface PineconeChatExtensionConfiguration {

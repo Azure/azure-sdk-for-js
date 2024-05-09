@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all the partner destinations under a resource group.
  *
  * @summary List all the partner destinations under a resource group.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerDestinations_ListByResourceGroup.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerDestinations_ListByResourceGroup.json
  */
 async function partnerDestinationsListByResourceGroup() {
   const subscriptionId =

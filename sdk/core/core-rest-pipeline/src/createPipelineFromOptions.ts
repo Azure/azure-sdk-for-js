@@ -10,7 +10,7 @@ import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy.js";
 import { defaultRetryPolicy } from "./policies/defaultRetryPolicy.js";
 import { formDataPolicy } from "./policies/formDataPolicy.js";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { proxyPolicy } from "./policies/proxyPolicy.js";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy.js";
 import { tlsPolicy } from "./policies/tlsPolicy.js";
@@ -78,7 +78,7 @@ export interface InternalPipelineOptions extends PipelineOptions {
 export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline {
   const pipeline = createEmptyPipeline();
 
-  if (isNode) {
+  if (isNodeLike) {
     if (options.tlsOptions) {
       pipeline.addPolicy(tlsPolicy(options.tlsOptions));
     }
@@ -94,8 +94,10 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   // properties (e.g., making the boundary constant in recorded tests).
   pipeline.addPolicy(multipartPolicy(), { afterPhase: "Deserialize" });
   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
-  pipeline.addPolicy(tracingPolicy(options.userAgentOptions), { afterPhase: "Retry" });
-  if (isNode) {
+  pipeline.addPolicy(tracingPolicy({ ...options.userAgentOptions, ...options.loggingOptions }), {
+    afterPhase: "Retry",
+  });
+  if (isNodeLike) {
     // Both XHR and Fetch expect to handle redirects automatically,
     // so only include this policy when we're in Node.
     pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });

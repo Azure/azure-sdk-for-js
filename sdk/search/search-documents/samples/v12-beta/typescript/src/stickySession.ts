@@ -7,10 +7,10 @@
  */
 
 import {
-  AzureKeyCredential,
-  odata,
-  SearchClient,
-  SearchIndexClient,
+    AzureKeyCredential,
+    odata,
+    SearchClient,
+    SearchIndexClient
 } from "@azure/search-documents";
 import { Hotel } from "./interfaces";
 import { createIndex, delay, WAIT_TIME } from "./setup";

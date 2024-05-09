@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Authorize a single partner either by partner registration immutable Id or by partner name.
  *
  * @summary Authorize a single partner either by partner registration immutable Id or by partner name.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerConfigurations_AuthorizePartner.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerConfigurations_AuthorizePartner.json
  */
 async function partnerConfigurationsAuthorizePartner() {
   const subscriptionId =

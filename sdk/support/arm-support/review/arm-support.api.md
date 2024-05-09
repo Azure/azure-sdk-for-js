@@ -90,22 +90,15 @@ export interface CheckNameAvailabilityOutput {
 }
 
 // @public
-export interface ClassificationService {
-    readonly displayName?: string;
-    resourceTypes?: string[];
-    readonly serviceId?: string;
-}
-
-// @public
 export interface CommunicationDetails {
-    body?: string;
+    body: string;
     readonly communicationDirection?: CommunicationDirection;
     readonly communicationType?: CommunicationType;
     readonly createdDate?: Date;
     readonly id?: string;
     readonly name?: string;
     sender?: string;
-    subject?: string;
+    subject: string;
     readonly type?: string;
 }
 
@@ -471,31 +464,8 @@ export enum KnownUserConsent {
 }
 
 // @public
-export interface LookUpResourceId {
-    post(lookUpResourceIdRequest: LookUpResourceIdRequest, options?: LookUpResourceIdPostOptionalParams): Promise<LookUpResourceIdPostResponse>;
-}
-
-// @public
-export interface LookUpResourceIdPostOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LookUpResourceIdPostResponse = LookUpResourceIdResponse;
-
-// @public
-export interface LookUpResourceIdRequest {
-    identifier?: string;
-    type?: "Microsoft.Support/supportTickets";
-}
-
-// @public
-export interface LookUpResourceIdResponse {
-    resourceId?: string;
-}
-
-// @public
 export interface MessageProperties {
-    body: string;
+    body?: string;
     readonly communicationDirection?: CommunicationDirection;
     readonly contentType?: TranscriptContentType;
     readonly createdDate?: Date;
@@ -527,17 +497,9 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
     // (undocumented)
     fileWorkspacesNoSubscription: FileWorkspacesNoSubscription;
     // (undocumented)
-    lookUpResourceId: LookUpResourceId;
-    // (undocumented)
     operations: Operations;
     // (undocumented)
     problemClassifications: ProblemClassifications;
-    // (undocumented)
-    problemClassificationsNoSubscription: ProblemClassificationsNoSubscription;
-    // (undocumented)
-    serviceClassifications: ServiceClassifications;
-    // (undocumented)
-    serviceClassificationsNoSubscription: ServiceClassificationsNoSubscription;
     // (undocumented)
     services: Services;
     // (undocumented)
@@ -593,51 +555,16 @@ export type PreferredContactMethod = string;
 export interface ProblemClassification {
     displayName?: string;
     readonly id?: string;
-    readonly metadata?: {
-        [propertyName: string]: string;
-    };
     readonly name?: string;
-    parentProblemClassification?: ProblemClassification;
     secondaryConsentEnabled?: SecondaryConsentEnabled[];
     readonly type?: string;
 }
 
 // @public
 export interface ProblemClassifications {
-    classifyProblems(problemServiceName: string, problemClassificationsClassificationInput: ProblemClassificationsClassificationInput, options?: ProblemClassificationsClassifyProblemsOptionalParams): Promise<ProblemClassificationsClassifyProblemsResponse>;
     get(serviceName: string, problemClassificationName: string, options?: ProblemClassificationsGetOptionalParams): Promise<ProblemClassificationsGetResponse>;
     list(serviceName: string, options?: ProblemClassificationsListOptionalParams): PagedAsyncIterableIterator<ProblemClassification>;
 }
-
-// @public
-export interface ProblemClassificationsClassificationInput {
-    issueSummary: string;
-    resourceId?: string;
-}
-
-// @public
-export interface ProblemClassificationsClassificationOutput {
-    problemClassificationResults?: ProblemClassificationsClassificationResult[];
-}
-
-// @public
-export interface ProblemClassificationsClassificationResult {
-    readonly description?: string;
-    readonly displayName?: string;
-    readonly problemClassificationId?: string;
-    readonly problemId?: string;
-    resourceTypes?: string[];
-    readonly serviceId?: string;
-    readonly serviceIdRelatedServiceId?: string;
-    readonly title?: string;
-}
-
-// @public
-export interface ProblemClassificationsClassifyProblemsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProblemClassificationsClassifyProblemsResponse = ProblemClassificationsClassificationOutput;
 
 // @public
 export interface ProblemClassificationsGetOptionalParams extends coreClient.OperationOptions {
@@ -657,18 +584,6 @@ export type ProblemClassificationsListResponse = ProblemClassificationsListResul
 export interface ProblemClassificationsListResult {
     value?: ProblemClassification[];
 }
-
-// @public
-export interface ProblemClassificationsNoSubscription {
-    classifyProblems(problemServiceName: string, problemClassificationsClassificationInput: ProblemClassificationsClassificationInput, options?: ProblemClassificationsNoSubscriptionClassifyProblemsOptionalParams): Promise<ProblemClassificationsNoSubscriptionClassifyProblemsResponse>;
-}
-
-// @public
-export interface ProblemClassificationsNoSubscriptionClassifyProblemsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProblemClassificationsNoSubscriptionClassifyProblemsResponse = ProblemClassificationsClassificationOutput;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -711,54 +626,10 @@ export interface SecondaryConsentEnabled {
 export interface Service {
     displayName?: string;
     readonly id?: string;
-    readonly metadata?: {
-        [propertyName: string]: string;
-    };
     readonly name?: string;
     resourceTypes?: string[];
     readonly type?: string;
 }
-
-// @public
-export interface ServiceClassificationAnswer extends ClassificationService {
-    childService?: ClassificationService;
-}
-
-// @public
-export interface ServiceClassificationOutput {
-    serviceClassificationResults?: ServiceClassificationAnswer[];
-}
-
-// @public
-export interface ServiceClassificationRequest {
-    additionalContext?: string;
-    issueSummary?: string;
-    resourceId?: string;
-}
-
-// @public
-export interface ServiceClassifications {
-    classifyServices(serviceClassificationRequest: ServiceClassificationRequest, options?: ServiceClassificationsClassifyServicesOptionalParams): Promise<ServiceClassificationsClassifyServicesResponse>;
-}
-
-// @public
-export interface ServiceClassificationsClassifyServicesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServiceClassificationsClassifyServicesResponse = ServiceClassificationOutput;
-
-// @public
-export interface ServiceClassificationsNoSubscription {
-    classifyServices(serviceClassificationRequest: ServiceClassificationRequest, options?: ServiceClassificationsNoSubscriptionClassifyServicesOptionalParams): Promise<ServiceClassificationsNoSubscriptionClassifyServicesResponse>;
-}
-
-// @public
-export interface ServiceClassificationsNoSubscriptionClassifyServicesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServiceClassificationsNoSubscriptionClassifyServicesResponse = ServiceClassificationOutput;
 
 // @public
 export interface ServiceLevelAgreement {
@@ -805,10 +676,10 @@ export interface SupportEngineer {
 
 // @public
 export interface SupportTicketDetails {
-    advancedDiagnosticConsent?: Consent;
-    contactDetails?: ContactProfile;
+    advancedDiagnosticConsent: Consent;
+    contactDetails: ContactProfile;
     readonly createdDate?: Date;
-    description?: string;
+    description: string;
     enrollmentId?: string;
     fileWorkspaceName?: string;
     readonly id?: string;
@@ -816,16 +687,16 @@ export interface SupportTicketDetails {
     readonly modifiedDate?: Date;
     readonly name?: string;
     readonly problemClassificationDisplayName?: string;
-    problemClassificationId?: string;
+    problemClassificationId: string;
     problemScopingQuestions?: string;
     problemStartTime?: Date;
     quotaTicketDetails?: QuotaTicketDetails;
     require24X7Response?: boolean;
     secondaryConsent?: SecondaryConsent[];
     readonly serviceDisplayName?: string;
-    serviceId?: string;
+    serviceId: string;
     serviceLevelAgreement?: ServiceLevelAgreement;
-    severity?: SeverityLevel;
+    severity: SeverityLevel;
     readonly status?: string;
     supportEngineer?: SupportEngineer;
     readonly supportPlanDisplayName?: string;
@@ -833,7 +704,7 @@ export interface SupportTicketDetails {
     readonly supportPlanType?: string;
     supportTicketId?: string;
     technicalTicketDetails?: TechnicalTicketDetails;
-    title?: string;
+    title: string;
     readonly type?: string;
 }
 

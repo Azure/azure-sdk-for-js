@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
  *
  * @summary Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListPublishersMaximumSetGen() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function virtualMachineImagesEdgeZoneListPublishersMaximumSetGen() {
  * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
  *
  * @summary Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListPublishersMinimumSetGen() {
   const subscriptionId =

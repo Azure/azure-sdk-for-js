@@ -4,7 +4,7 @@
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
 import { EnvironmentCredential, TokenCredential } from "@azure/identity";
 import { EventHubConsumerClient, EventHubProducerClient } from "../../../src";
-import { chai, should as shouldFn } from "@azure/test-utils";
+import { chai, should as shouldFn } from "@azure-tools/test-utils";
 import chaiString from "chai-string";
 import { createMockServer } from "../utils/mockService";
 import { testWithServiceTypes } from "../utils/testWithServiceTypes";

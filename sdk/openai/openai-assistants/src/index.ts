@@ -96,6 +96,7 @@ export {
   GetMessageFileOptions,
   GetMessageOptions,
   ThreadRun,
+  ThreadInitializationMessage,
   CancelRunOptions,
   CreateRunOptions,
   CreateRunRequestOptions,
