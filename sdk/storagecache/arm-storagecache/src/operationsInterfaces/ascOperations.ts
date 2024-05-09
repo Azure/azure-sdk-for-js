@@ -8,7 +8,7 @@
 
 import {
   AscOperationsGetOptionalParams,
-  AscOperationsGetResponse
+  AscOperationsGetResponse,
 } from "../models";
 
 /** Interface representing a AscOperations. */
@@ -22,6 +22,6 @@ export interface AscOperations {
   get(
     location: string,
     operationId: string,
-    options?: AscOperationsGetOptionalParams
+    options?: AscOperationsGetOptionalParams,
   ): Promise<AscOperationsGetResponse>;
 }

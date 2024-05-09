@@ -1,14 +1,46 @@
 # Release History
+    
+## 8.0.0 (2024-05-08)
+    
+**Features**
 
-## 7.1.0-beta.2 (Unreleased)
+  - Added operation group ImportJobs
+  - Added Interface AscOperationErrorResponse
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ImportJob
+  - Added Interface ImportJobsCreateOrUpdateHeaders
+  - Added Interface ImportJobsCreateOrUpdateOptionalParams
+  - Added Interface ImportJobsDeleteHeaders
+  - Added Interface ImportJobsDeleteOptionalParams
+  - Added Interface ImportJobsGetOptionalParams
+  - Added Interface ImportJobsListByAmlFilesystemNextOptionalParams
+  - Added Interface ImportJobsListByAmlFilesystemOptionalParams
+  - Added Interface ImportJobsListResult
+  - Added Interface ImportJobsUpdateHeaders
+  - Added Interface ImportJobsUpdateOptionalParams
+  - Added Interface ImportJobUpdate
+  - Added Type Alias ConflictResolutionMode
+  - Added Type Alias ImportJobProvisioningStateType
+  - Added Type Alias ImportJobsCreateOrUpdateResponse
+  - Added Type Alias ImportJobsDeleteResponse
+  - Added Type Alias ImportJobsGetResponse
+  - Added Type Alias ImportJobsListByAmlFilesystemNextResponse
+  - Added Type Alias ImportJobsListByAmlFilesystemResponse
+  - Added Type Alias ImportJobsUpdateResponse
+  - Added Type Alias ImportStatusType
+  - Interface AmlFilesystemHsmSettings has a new optional parameter importPrefixesInitial
+  - Interface ErrorResponse has a new optional parameter error
+  - Added Enum KnownConflictResolutionMode
+  - Added Enum KnownImportJobProvisioningStateType
+  - Added Enum KnownImportStatusType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Interface ErrorResponse no longer has parameter code
+  - Interface ErrorResponse no longer has parameter message
+  - Type of parameter error of interface AscOperation is changed from ErrorResponse to AscOperationErrorResponse
+    
 
 ## 7.1.0-beta.1 (2024-02-01)
     
@@ -213,4 +245,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

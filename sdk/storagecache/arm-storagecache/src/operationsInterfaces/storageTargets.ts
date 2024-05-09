@@ -17,7 +17,7 @@ import {
   StorageTargetsGetResponse,
   StorageTargetsCreateOrUpdateOptionalParams,
   StorageTargetsCreateOrUpdateResponse,
-  StorageTargetsRestoreDefaultsOptionalParams
+  StorageTargetsRestoreDefaultsOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface StorageTargets {
   listByCache(
     resourceGroupName: string,
     cacheName: string,
-    options?: StorageTargetsListByCacheOptionalParams
+    options?: StorageTargetsListByCacheOptionalParams,
   ): PagedAsyncIterableIterator<StorageTarget>;
   /**
    * Tells a storage target to refresh its DNS information.
@@ -47,7 +47,7 @@ export interface StorageTargets {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetsDnsRefreshOptionalParams
+    options?: StorageTargetsDnsRefreshOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Tells a storage target to refresh its DNS information.
@@ -61,7 +61,7 @@ export interface StorageTargets {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetsDnsRefreshOptionalParams
+    options?: StorageTargetsDnsRefreshOptionalParams,
   ): Promise<void>;
   /**
    * Removes a Storage Target from a cache. This operation is allowed at any time, but if the cache is
@@ -78,7 +78,7 @@ export interface StorageTargets {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetsDeleteOptionalParams
+    options?: StorageTargetsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Removes a Storage Target from a cache. This operation is allowed at any time, but if the cache is
@@ -95,7 +95,7 @@ export interface StorageTargets {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetsDeleteOptionalParams
+    options?: StorageTargetsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns a Storage Target from a cache.
@@ -109,7 +109,7 @@ export interface StorageTargets {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetsGetOptionalParams
+    options?: StorageTargetsGetOptionalParams,
   ): Promise<StorageTargetsGetResponse>;
   /**
    * Create or update a Storage Target. This operation is allowed at any time, but if the cache is down
@@ -127,7 +127,7 @@ export interface StorageTargets {
     cacheName: string,
     storageTargetName: string,
     storagetarget: StorageTarget,
-    options?: StorageTargetsCreateOrUpdateOptionalParams
+    options?: StorageTargetsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StorageTargetsCreateOrUpdateResponse>,
@@ -150,7 +150,7 @@ export interface StorageTargets {
     cacheName: string,
     storageTargetName: string,
     storagetarget: StorageTarget,
-    options?: StorageTargetsCreateOrUpdateOptionalParams
+    options?: StorageTargetsCreateOrUpdateOptionalParams,
   ): Promise<StorageTargetsCreateOrUpdateResponse>;
   /**
    * Tells a storage target to restore its settings to their default values.
@@ -164,7 +164,7 @@ export interface StorageTargets {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetsRestoreDefaultsOptionalParams
+    options?: StorageTargetsRestoreDefaultsOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Tells a storage target to restore its settings to their default values.
@@ -178,6 +178,6 @@ export interface StorageTargets {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetsRestoreDefaultsOptionalParams
+    options?: StorageTargetsRestoreDefaultsOptionalParams,
   ): Promise<void>;
 }

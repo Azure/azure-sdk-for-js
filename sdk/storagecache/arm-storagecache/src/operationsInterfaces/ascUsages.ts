@@ -19,6 +19,6 @@ export interface AscUsages {
    */
   list(
     location: string,
-    options?: AscUsagesListOptionalParams
+    options?: AscUsagesListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceUsage>;
 }

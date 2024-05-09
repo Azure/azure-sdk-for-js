@@ -33,7 +33,7 @@ import {
   CachesResumePrimingJobResponse,
   CachesUpgradeFirmwareOptionalParams,
   CachesSpaceAllocationOptionalParams,
-  CachesSpaceAllocationResponse
+  CachesSpaceAllocationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +51,7 @@ export interface Caches {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: CachesListByResourceGroupOptionalParams
+    options?: CachesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Cache>;
   /**
    * Schedules a cache for deletion.
@@ -63,7 +63,7 @@ export interface Caches {
   beginDelete(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesDeleteOptionalParams
+    options?: CachesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Schedules a cache for deletion.
@@ -75,7 +75,7 @@ export interface Caches {
   beginDeleteAndWait(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesDeleteOptionalParams
+    options?: CachesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns a cache.
@@ -87,7 +87,7 @@ export interface Caches {
   get(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesGetOptionalParams
+    options?: CachesGetOptionalParams,
   ): Promise<CachesGetResponse>;
   /**
    * Create or update a cache.
@@ -102,7 +102,7 @@ export interface Caches {
     resourceGroupName: string,
     cacheName: string,
     cache: Cache,
-    options?: CachesCreateOrUpdateOptionalParams
+    options?: CachesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CachesCreateOrUpdateResponse>,
@@ -122,7 +122,7 @@ export interface Caches {
     resourceGroupName: string,
     cacheName: string,
     cache: Cache,
-    options?: CachesCreateOrUpdateOptionalParams
+    options?: CachesCreateOrUpdateOptionalParams,
   ): Promise<CachesCreateOrUpdateResponse>;
   /**
    * Update a cache instance.
@@ -134,7 +134,7 @@ export interface Caches {
   beginUpdate(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesUpdateOptionalParams
+    options?: CachesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<CachesUpdateResponse>, CachesUpdateResponse>
   >;
@@ -148,7 +148,7 @@ export interface Caches {
   beginUpdateAndWait(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesUpdateOptionalParams
+    options?: CachesUpdateOptionalParams,
   ): Promise<CachesUpdateResponse>;
   /**
    * Tells a cache to write generate debug info for support to process.
@@ -160,7 +160,7 @@ export interface Caches {
   beginDebugInfo(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesDebugInfoOptionalParams
+    options?: CachesDebugInfoOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Tells a cache to write generate debug info for support to process.
@@ -172,7 +172,7 @@ export interface Caches {
   beginDebugInfoAndWait(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesDebugInfoOptionalParams
+    options?: CachesDebugInfoOptionalParams,
   ): Promise<void>;
   /**
    * Tells a cache to write all dirty data to the Storage Target(s). During the flush, clients will see
@@ -185,7 +185,7 @@ export interface Caches {
   beginFlush(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesFlushOptionalParams
+    options?: CachesFlushOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Tells a cache to write all dirty data to the Storage Target(s). During the flush, clients will see
@@ -198,7 +198,7 @@ export interface Caches {
   beginFlushAndWait(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesFlushOptionalParams
+    options?: CachesFlushOptionalParams,
   ): Promise<void>;
   /**
    * Tells a Stopped state cache to transition to Active state.
@@ -210,7 +210,7 @@ export interface Caches {
   beginStart(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesStartOptionalParams
+    options?: CachesStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Tells a Stopped state cache to transition to Active state.
@@ -222,7 +222,7 @@ export interface Caches {
   beginStartAndWait(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesStartOptionalParams
+    options?: CachesStartOptionalParams,
   ): Promise<void>;
   /**
    * Tells an Active cache to transition to Stopped state.
@@ -234,7 +234,7 @@ export interface Caches {
   beginStop(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesStopOptionalParams
+    options?: CachesStopOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Tells an Active cache to transition to Stopped state.
@@ -246,7 +246,7 @@ export interface Caches {
   beginStopAndWait(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesStopOptionalParams
+    options?: CachesStopOptionalParams,
   ): Promise<void>;
   /**
    * Create a priming job. This operation is only allowed when the cache is healthy.
@@ -258,7 +258,7 @@ export interface Caches {
   beginStartPrimingJob(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesStartPrimingJobOptionalParams
+    options?: CachesStartPrimingJobOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CachesStartPrimingJobResponse>,
@@ -275,7 +275,7 @@ export interface Caches {
   beginStartPrimingJobAndWait(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesStartPrimingJobOptionalParams
+    options?: CachesStartPrimingJobOptionalParams,
   ): Promise<CachesStartPrimingJobResponse>;
   /**
    * Schedule a priming job for deletion.
@@ -287,7 +287,7 @@ export interface Caches {
   beginStopPrimingJob(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesStopPrimingJobOptionalParams
+    options?: CachesStopPrimingJobOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CachesStopPrimingJobResponse>,
@@ -304,7 +304,7 @@ export interface Caches {
   beginStopPrimingJobAndWait(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesStopPrimingJobOptionalParams
+    options?: CachesStopPrimingJobOptionalParams,
   ): Promise<CachesStopPrimingJobResponse>;
   /**
    * Schedule a priming job to be paused.
@@ -316,7 +316,7 @@ export interface Caches {
   beginPausePrimingJob(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesPausePrimingJobOptionalParams
+    options?: CachesPausePrimingJobOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CachesPausePrimingJobResponse>,
@@ -333,7 +333,7 @@ export interface Caches {
   beginPausePrimingJobAndWait(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesPausePrimingJobOptionalParams
+    options?: CachesPausePrimingJobOptionalParams,
   ): Promise<CachesPausePrimingJobResponse>;
   /**
    * Resumes a paused priming job.
@@ -345,7 +345,7 @@ export interface Caches {
   beginResumePrimingJob(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesResumePrimingJobOptionalParams
+    options?: CachesResumePrimingJobOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CachesResumePrimingJobResponse>,
@@ -362,7 +362,7 @@ export interface Caches {
   beginResumePrimingJobAndWait(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesResumePrimingJobOptionalParams
+    options?: CachesResumePrimingJobOptionalParams,
   ): Promise<CachesResumePrimingJobResponse>;
   /**
    * Upgrade a cache's firmware if a new version is available. Otherwise, this operation has no effect.
@@ -374,7 +374,7 @@ export interface Caches {
   beginUpgradeFirmware(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesUpgradeFirmwareOptionalParams
+    options?: CachesUpgradeFirmwareOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Upgrade a cache's firmware if a new version is available. Otherwise, this operation has no effect.
@@ -386,7 +386,7 @@ export interface Caches {
   beginUpgradeFirmwareAndWait(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesUpgradeFirmwareOptionalParams
+    options?: CachesUpgradeFirmwareOptionalParams,
   ): Promise<void>;
   /**
    * Update cache space allocation.
@@ -398,7 +398,7 @@ export interface Caches {
   beginSpaceAllocation(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesSpaceAllocationOptionalParams
+    options?: CachesSpaceAllocationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CachesSpaceAllocationResponse>,
@@ -415,6 +415,6 @@ export interface Caches {
   beginSpaceAllocationAndWait(
     resourceGroupName: string,
     cacheName: string,
-    options?: CachesSpaceAllocationOptionalParams
+    options?: CachesSpaceAllocationOptionalParams,
   ): Promise<CachesSpaceAllocationResponse>;
 }

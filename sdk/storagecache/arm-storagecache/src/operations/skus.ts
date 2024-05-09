@@ -18,7 +18,7 @@ import {
   SkusListNextOptionalParams,
   SkusListOptionalParams,
   SkusListResponse,
-  SkusListNextResponse
+  SkusListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class SkusImpl implements Skus {
    * @param options The options parameters.
    */
   public list(
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceSku> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class SkusImpl implements Skus {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: SkusListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceSku[]> {
     let result: SkusListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class SkusImpl implements Skus {
   }
 
   private async *listPagingAll(
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): AsyncIterableIterator<ResourceSku> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -103,11 +103,11 @@ export class SkusImpl implements Skus {
    */
   private _listNext(
     nextLink: string,
-    options?: SkusListNextOptionalParams
+    options?: SkusListNextOptionalParams,
   ): Promise<SkusListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -119,33 +119,33 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSkusResult
+      bodyMapper: Mappers.ResourceSkusResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSkusResult
+      bodyMapper: Mappers.ResourceSkusResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -13,10 +13,11 @@ import {
   delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential";
+import { NoOpCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { StorageCacheManagementClient } from "../src/storageCacheManagementClient";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -32,6 +33,14 @@ const recorderOptions: RecorderStartOptions = {
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
+
+export function createTestCredential() {
+  return isPlaybackMode()
+    ? new NoOpCredential()
+    : new
+      DefaultAzureCredential()
+    ;
+}
 
 describe("StorageCache test", () => {
   let recorder: Recorder;

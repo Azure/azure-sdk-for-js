@@ -18,7 +18,7 @@ import {
   UsageModelsListNextOptionalParams,
   UsageModelsListOptionalParams,
   UsageModelsListResponse,
-  UsageModelsListNextResponse
+  UsageModelsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class UsageModelsImpl implements UsageModels {
    * @param options The options parameters.
    */
   public list(
-    options?: UsageModelsListOptionalParams
+    options?: UsageModelsListOptionalParams,
   ): PagedAsyncIterableIterator<UsageModel> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class UsageModelsImpl implements UsageModels {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: UsageModelsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<UsageModel[]> {
     let result: UsageModelsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class UsageModelsImpl implements UsageModels {
   }
 
   private async *listPagingAll(
-    options?: UsageModelsListOptionalParams
+    options?: UsageModelsListOptionalParams,
   ): AsyncIterableIterator<UsageModel> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class UsageModelsImpl implements UsageModels {
    * @param options The options parameters.
    */
   private _list(
-    options?: UsageModelsListOptionalParams
+    options?: UsageModelsListOptionalParams,
   ): Promise<UsageModelsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class UsageModelsImpl implements UsageModels {
    */
   private _listNext(
     nextLink: string,
-    options?: UsageModelsListNextOptionalParams
+    options?: UsageModelsListNextOptionalParams,
   ): Promise<UsageModelsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -117,38 +117,37 @@ export class UsageModelsImpl implements UsageModels {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/usageModels",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/usageModels",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageModelsResult
+      bodyMapper: Mappers.UsageModelsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageModelsResult
+      bodyMapper: Mappers.UsageModelsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
