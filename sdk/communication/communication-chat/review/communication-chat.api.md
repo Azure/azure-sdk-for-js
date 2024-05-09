@@ -272,11 +272,11 @@ export { ParticipantsRemovedEvent }
 
 // @public
 export interface PolicyViolation {
-    state: PolicyViolationMessageState;
+    result: PolicyViolationMessageResult;
 }
 
 // @public
-export type PolicyViolationMessageState = "contentBlocked" | "warning";
+export type PolicyViolationMessageResult = "contentBlocked" | "warning";
 
 export { ReadReceiptReceivedEvent }
 

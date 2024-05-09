@@ -18,6 +18,7 @@ import {
   ChatRetentionPolicy,
   ChatThreadProperties,
   CreateChatThreadResult,
+  PolicyViolation,
 } from "./models";
 
 export const mapToCreateChatThreadOptionsRestModel = (
@@ -174,10 +175,23 @@ export const mapToChatContentSdkModel = (
 
 /**
  * @internal
+ */
+export const mapToChatPolicyViolationSdkModel = (
+  policyVolation: RestModel.PolicyViolation,
+): PolicyViolation => {
+  const { state } = policyVolation;
+  const result: PolicyViolation = { 
+    result: state
+  };
+  return result;
+};
+
+/**
+ * @internal
  * Mapping chat message REST model to chat message SDK model
  */
 export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): ChatMessage => {
-  const { content, senderCommunicationIdentifier, ...otherChatMessage } = chatMessage;
+  const { content, senderCommunicationIdentifier, policyViolation, ...otherChatMessage } = chatMessage;
   let result: ChatMessage = { ...otherChatMessage };
   if (content) {
     result = {
@@ -190,6 +204,12 @@ export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): Ch
       senderCommunicationIdentifier as SerializedCommunicationIdentifier,
     );
     result = { ...result, sender };
+  }
+  if (policyViolation) {
+    result = {
+      ...result,
+      policyViolation: mapToChatPolicyViolationSdkModel(policyViolation),
+    };
   }
   return result;
 };

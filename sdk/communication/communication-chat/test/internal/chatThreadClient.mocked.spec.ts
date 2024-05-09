@@ -198,6 +198,7 @@ describe("[Mocked] ChatThreadClient", async function () {
     const {
       sender: responseUser,
       content: responseContent,
+      policyViolation: responsePolicyViolation,
       ...responseMessage
     } = await chatThreadClient.getMessage(mockMessage.id!);
     const {
@@ -234,6 +235,7 @@ describe("[Mocked] ChatThreadClient", async function () {
     const {
       sender: responseUser,
       content: responseContent,
+      policyViolation: responsePolicyViolation,
       ...responseMessage
     } = await chatThreadClient.getMessage(mockMessageWithAttachment.id!);
     const {
@@ -278,6 +280,7 @@ describe("[Mocked] ChatThreadClient", async function () {
       const {
         senderCommunicationIdentifier: expectedIdentifier,
         content: expectedContent,
+        policyViolation: expectedPolicyViolation,
         ...expectedMessage
       } = mockResponse.value[count];
       const { participants: expectedParticipants, ...expectedContents } = expectedContent!;

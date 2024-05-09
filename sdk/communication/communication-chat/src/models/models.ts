@@ -163,12 +163,12 @@ export interface UploadChatImageResult {
 export type ChatAttachmentType = "image" | "file" | "unknown";
 
 /** State of Policy Violation message. */
-export type PolicyViolationMessageState = "contentBlocked" | "warning";
+export type PolicyViolationMessageResult = "contentBlocked" | "warning";
 
 /** Policy violation of a message (if applicable). */
 export interface PolicyViolation {
   /** State of Policy Violation message. */
-  state: PolicyViolationMessageState;
+  result: PolicyViolationMessageResult;
 }
 
 /** Messaging policy of a chat thread. */
