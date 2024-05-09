@@ -23,6 +23,8 @@ import {
   UpdateTranscriptionRequest,
   HoldRequest,
   UnholdRequest,
+  StopMediaStreamingRequest,
+  StartMediaStreamingRequest,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -45,6 +47,8 @@ import {
   StopTranscriptionOptions,
   HoldOptions,
   UnholdOptions,
+  StopMediaStreamingOptions,
+  StartMediaStreamingOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { SendDtmfTonesResult } from "./models/responses";
@@ -145,7 +149,7 @@ export class CallMedia {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
       playRequest.playOptions.loop = options.loop;
     }
-    return await this.callMedia.play(this.callConnectionId, playRequest, options);
+    return this.callMedia.play(this.callConnectionId, playRequest, options);
   }
 
   /**
@@ -172,7 +176,7 @@ export class CallMedia {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
       playRequest.playOptions.loop = options.loop;
     }
-    return await this.callMedia.play(this.callConnectionId, playRequest, options);
+    return this.callMedia.play(this.callConnectionId, playRequest, options);
   }
 
   private createRecognizeRequest(
@@ -335,7 +339,7 @@ export class CallMedia {
         "Deprecated function signature used. Please use the new signature with targetParticipant and options params instead, and set maxTonesToCollect in options.",
       );
       options.maxTonesToCollect = maxTonesOrOptions;
-      return await this.callMedia.recognize(
+      return this.callMedia.recognize(
         this.callConnectionId,
         this.createRecognizeRequest(targetParticipant, options),
         {},
@@ -343,7 +347,7 @@ export class CallMedia {
     } else if (typeof maxTonesOrOptions !== "number" && !options) {
       maxTonesOrOptions.operationContext = maxTonesOrOptions.operationContext;
       // New function signature logic
-      return await this.callMedia.recognize(
+      return this.callMedia.recognize(
         this.callConnectionId,
         this.createRecognizeRequest(targetParticipant, maxTonesOrOptions),
         {},
@@ -511,6 +515,37 @@ export class CallMedia {
       this.callConnectionId,
       updateTranscriptionRequest,
       {},
+    );
+  }
+
+  /**
+   * Starts media streaming in the call.
+   * @param options - Additional attributes for start media streaming.
+   */
+  public async startMediaStreaming(options: StartMediaStreamingOptions = {}): Promise<void> {
+    const startMediaStreamingRequest: StartMediaStreamingRequest = {
+      operationContext: options.operationContext,
+      operationCallbackUri: options.operationCallbackUri,
+    };
+    return this.callMedia.startMediaStreaming(
+      this.callConnectionId,
+      startMediaStreamingRequest,
+      options,
+    );
+  }
+
+  /**
+   * Stops media streaming in the call.
+   * @param options - Additional attributes for stop media streaming.
+   */
+  public async stopMediaStreaming(options: StopMediaStreamingOptions = {}): Promise<void> {
+    const stopMediaStreamingRequest: StopMediaStreamingRequest = {
+      operationCallbackUri: options.operationCallbackUri,
+    };
+    return this.callMedia.stopMediaStreaming(
+      this.callConnectionId,
+      stopMediaStreamingRequest,
+      options,
     );
   }
 }
