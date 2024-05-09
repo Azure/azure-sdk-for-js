@@ -8,13 +8,13 @@ import { createPrinter } from "../../util/printer";
 import { runTestsWithProxyTool } from "../../util/testUtils";
 
 export const commandInfo = makeCommandInfo(
-  "test:node-tsx-js",
+  "test:node-js-input",
   "runs the node tests using mocha with the default and the provided options; starts the proxy-tool in record and playback modes",
   {
-    "no-test-proxy": {
-      shortName: "ntp",
+    "test-proxy": {
+      shortName: "tp",
       kind: "boolean",
-      default: false,
+      default: true,
       description: "whether to run with test-proxy",
     },
   },
@@ -31,11 +31,11 @@ export default leafCommand(commandInfo, async (options) => {
     ? updatedArgs.join(" ")
     : '--timeout 5000000 "dist-esm/test/{,!(browser)/**/}/*.spec.js"';
   const command = {
-    command: `c8 mocha --require tsx ${defaultMochaArgs} ${mochaArgs}`,
+    command: `nyc mocha --require tsx ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 
-  if (!options["no-test-proxy"]) {
+  if (options["test-proxy"]) {
     return runTestsWithProxyTool(command);
   }
 

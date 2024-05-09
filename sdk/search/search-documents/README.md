@@ -4,30 +4,30 @@
 
 The Azure AI Search service is well suited for the following application scenarios:
 
-* Consolidate varied content types into a single searchable index.
+- Consolidate varied content types into a single searchable index.
   To populate an index, you can push JSON documents that contain your content,
   or if your data is already in Azure, create an indexer to pull in data
   automatically.
-* Attach skillsets to an indexer to create searchable content from images
+- Attach skillsets to an indexer to create searchable content from images
   and unstructured documents. A skillset leverages APIs from Azure AI Services
   for built-in OCR, entity recognition, key phrase extraction, language
   detection, text translation, and sentiment analysis. You can also add
   custom skills to integrate external processing of your content during
   data ingestion.
-* In a search client application, implement query logic and user experiences
+- In a search client application, implement query logic and user experiences
   similar to commercial web search engines and chat-style apps.
 
-Use the Azure.Search.Documents client library to:
+Use the @azure/search-documents client library to:
 
-* Submit queries using vector, keyword, and hybrid query forms.
-* Implement filtered queries for metadata, geospatial search, faceted navigation, 
+- Submit queries using vector, keyword, and hybrid query forms.
+- Implement filtered queries for metadata, geospatial search, faceted navigation,
   or to narrow results based on filter criteria.
-* Create and manage search indexes.
-* Upload and update documents in the search index.
-* Create and manage indexers that pull data from Azure into an index.
-* Create and manage skillsets that add AI enrichment to data ingestion.
-* Create and manage analyzers for advanced text analysis or multi-lingual content.
-* Optimize results through semantic ranking and scoring profiles to factor in business logic or freshness.
+- Create and manage search indexes.
+- Upload and update documents in the search index.
+- Create and manage indexers that pull data from Azure into an index.
+- Create and manage skillsets that add AI enrichment to data ingestion.
+- Create and manage analyzers for advanced text analysis or multi-lingual content.
+- Optimize results through semantic ranking and scoring profiles to factor in business logic or freshness.
 
 Key links:
 
@@ -152,6 +152,7 @@ An Azure AI Search service contains one or more indexes that provide persistent 
 exposes operations on these resources through three main client types.
 
 - `SearchClient` helps with:
+
   - [Searching](https://docs.microsoft.com/azure/search/search-lucene-query-architecture)
     your indexed documents using [vector queries](https://learn.microsoft.com/azure/search/vector-search-how-to-query),
     [keyword queries](https://learn.microsoft.com/azure/search/search-query-create)
@@ -163,6 +164,7 @@ exposes operations on these resources through three main client types.
   - [Adding, Updating or Deleting Documents](https://docs.microsoft.com/rest/api/searchservice/addupdate-or-delete-documents) documents from an index
 
 - `SearchIndexClient` allows you to:
+
   - [Create, delete, update, or configure a search index](https://docs.microsoft.com/rest/api/searchservice/index-operations)
   - [Declare custom synonym maps to expand or rewrite queries](https://docs.microsoft.com/rest/api/searchservice/synonym-map-operations)
 
@@ -176,7 +178,7 @@ exposes operations on these resources through three main client types.
 
 ### Documents
 
-An item stored inside a search index. The shape of this document is described in the index using `Field`s. Each Field has a name, a datatype, and additional metadata such as if it is searchable or filterable.
+An item stored inside a search index. The shape of this document is described in the index using the `fields` property. Each `SearchField` has a name, a datatype, and additional metadata such as if it is searchable or filterable.
 
 ### Pagination
 
@@ -349,14 +351,14 @@ interface Hotel {
   hotelId?: string;
   hotelName?: string | null;
   description?: string | null;
-  descriptionVector?: Array<number> | null;
+  descriptionVector?: Array<number>;
   parkingIncluded?: boolean | null;
   lastRenovationDate?: Date | null;
   rating?: number | null;
   rooms?: Array<{
     beds?: number | null;
     description?: string | null;
-  } | null>;
+  }>;
 }
 
 const client = new SearchClient<Hotel>(
@@ -423,17 +425,26 @@ main();
 Text embeddings can be queried using the `vector` search parameter. See [Query vectors](https://learn.microsoft.com/azure/search/vector-search-how-to-query) and [Filter vector queries](https://learn.microsoft.com/azure/search/vector-search-filters) for more information.
 
 ```js
-const { SearchClient, AzureKeyCredential, odata } = require("@azure/search-documents");
+const { SearchClient, AzureKeyCredential } = require("@azure/search-documents");
 
-const searchClient = new SearchClient("<endpoint>", "<indexName>", new AzureKeyCredential("<apiKey>"));
+const searchClient = new SearchClient(
+  "<endpoint>",
+  "<indexName>",
+  new AzureKeyCredential("<apiKey>")
+);
 
 async function main() {
-  const queryVector = [...]
+  const queryVector = [...];
   const searchResults = await searchClient.search("*", {
-    vector: {
-      fields: ["descriptionVector"],
-      kNearestNeighborsCount: 3,
-      value: queryVector,
+    vectorSearchOptions: {
+      queries: [
+        {
+          kind: "vector",
+          vector: queryVector,
+          fields: ["descriptionVector"],
+          kNearestNeighborsCount: 3,
+        },
+      ],
     },
   });
   for await (const result of searchResults.results) {

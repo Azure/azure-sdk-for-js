@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
  *
  * @summary Deletes an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Endpoints_Delete.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Endpoints_Delete.json
  */
 async function endpointsDelete() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function endpointsDelete() {
   const result = await client.endpoints.beginDeleteAndWait(
     resourceGroupName,
     profileName,
-    endpointName
+    endpointName,
   );
   console.log(result);
 }

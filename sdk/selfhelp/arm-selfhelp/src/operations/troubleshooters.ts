@@ -21,7 +21,7 @@ import {
   TroubleshootersEndOptionalParams,
   TroubleshootersEndResponse,
   TroubleshootersRestartOptionalParams,
-  TroubleshootersRestartResponse
+  TroubleshootersRestartResponse,
 } from "../models";
 
 /** Class containing Troubleshooters operations. */
@@ -54,11 +54,11 @@ export class TroubleshootersImpl implements Troubleshooters {
   create(
     scope: string,
     troubleshooterName: string,
-    options?: TroubleshootersCreateOptionalParams
+    options?: TroubleshootersCreateOptionalParams,
   ): Promise<TroubleshootersCreateResponse> {
     return this.client.sendOperationRequest(
       { scope, troubleshooterName, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -76,11 +76,11 @@ export class TroubleshootersImpl implements Troubleshooters {
   get(
     scope: string,
     troubleshooterName: string,
-    options?: TroubleshootersGetOptionalParams
+    options?: TroubleshootersGetOptionalParams,
   ): Promise<TroubleshootersGetResponse> {
     return this.client.sendOperationRequest(
       { scope, troubleshooterName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -98,11 +98,11 @@ export class TroubleshootersImpl implements Troubleshooters {
   continue(
     scope: string,
     troubleshooterName: string,
-    options?: TroubleshootersContinueOptionalParams
+    options?: TroubleshootersContinueOptionalParams,
   ): Promise<TroubleshootersContinueResponse> {
     return this.client.sendOperationRequest(
       { scope, troubleshooterName, options },
-      continueOperationSpec
+      continueOperationSpec,
     );
   }
 
@@ -117,11 +117,11 @@ export class TroubleshootersImpl implements Troubleshooters {
   end(
     scope: string,
     troubleshooterName: string,
-    options?: TroubleshootersEndOptionalParams
+    options?: TroubleshootersEndOptionalParams,
   ): Promise<TroubleshootersEndResponse> {
     return this.client.sendOperationRequest(
       { scope, troubleshooterName, options },
-      endOperationSpec
+      endOperationSpec,
     );
   }
 
@@ -138,11 +138,11 @@ export class TroubleshootersImpl implements Troubleshooters {
   restart(
     scope: string,
     troubleshooterName: string,
-    options?: TroubleshootersRestartOptionalParams
+    options?: TroubleshootersRestartOptionalParams,
   ): Promise<TroubleshootersRestartResponse> {
     return this.client.sendOperationRequest(
       { scope, troubleshooterName, options },
-      restartOperationSpec
+      restartOperationSpec,
     );
   }
 }
@@ -150,115 +150,110 @@ export class TroubleshootersImpl implements Troubleshooters {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}",
+  path: "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TroubleshooterResource
+      bodyMapper: Mappers.TroubleshooterResource,
     },
     201: {
-      bodyMapper: Mappers.TroubleshooterResource
+      bodyMapper: Mappers.TroubleshooterResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.createTroubleshooterRequestBody,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.troubleshooterName
+    Parameters.troubleshooterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}",
+  path: "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TroubleshooterResource
+      bodyMapper: Mappers.TroubleshooterResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.troubleshooterName
+    Parameters.troubleshooterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const continueOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}/continue",
+  path: "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}/continue",
   httpMethod: "POST",
   responses: {
     204: {
-      headersMapper: Mappers.TroubleshootersContinueHeaders
+      headersMapper: Mappers.TroubleshootersContinueHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.continueRequestBody,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.troubleshooterName
+    Parameters.troubleshooterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const endOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}/end",
+  path: "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}/end",
   httpMethod: "POST",
   responses: {
     204: {
-      headersMapper: Mappers.TroubleshootersEndHeaders
+      headersMapper: Mappers.TroubleshootersEndHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.troubleshooterName
+    Parameters.troubleshooterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const restartOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}/restart",
+  path: "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}/restart",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.RestartTroubleshooterResponse,
-      headersMapper: Mappers.TroubleshootersRestartHeaders
+      headersMapper: Mappers.TroubleshootersRestartHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.troubleshooterName
+    Parameters.troubleshooterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

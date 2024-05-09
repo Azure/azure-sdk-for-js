@@ -42,7 +42,7 @@ export class BatchServiceClientContext extends msRestAzure.AzureServiceClient {
 
     super(credentials, options);
 
-    this.apiVersion = '2023-05-01.17.0';
+    this.apiVersion = '2024-02-01.19.0';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = "{batchUrl}";

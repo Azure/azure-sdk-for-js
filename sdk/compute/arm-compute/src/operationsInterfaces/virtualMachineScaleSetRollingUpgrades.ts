@@ -12,7 +12,7 @@ import {
   VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
   VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams,
   VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams,
-  VirtualMachineScaleSetRollingUpgradesGetLatestResponse
+  VirtualMachineScaleSetRollingUpgradesGetLatestResponse,
 } from "../models";
 
 /** Interface representing a VirtualMachineScaleSetRollingUpgrades. */
@@ -26,7 +26,7 @@ export interface VirtualMachineScaleSetRollingUpgrades {
   beginCancel(
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams
+    options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Cancels the current virtual machine scale set rolling upgrade.
@@ -37,7 +37,7 @@ export interface VirtualMachineScaleSetRollingUpgrades {
   beginCancelAndWait(
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams
+    options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
   ): Promise<void>;
   /**
    * Starts a rolling upgrade to move all virtual machine scale set instances to the latest available
@@ -50,7 +50,7 @@ export interface VirtualMachineScaleSetRollingUpgrades {
   beginStartOSUpgrade(
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams
+    options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a rolling upgrade to move all virtual machine scale set instances to the latest available
@@ -63,7 +63,7 @@ export interface VirtualMachineScaleSetRollingUpgrades {
   beginStartOSUpgradeAndWait(
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams
+    options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
   ): Promise<void>;
   /**
    * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the
@@ -76,7 +76,7 @@ export interface VirtualMachineScaleSetRollingUpgrades {
   beginStartExtensionUpgrade(
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams
+    options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the
@@ -89,7 +89,7 @@ export interface VirtualMachineScaleSetRollingUpgrades {
   beginStartExtensionUpgradeAndWait(
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams
+    options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams,
   ): Promise<void>;
   /**
    * Gets the status of the latest virtual machine scale set rolling upgrade.
@@ -100,6 +100,6 @@ export interface VirtualMachineScaleSetRollingUpgrades {
   getLatest(
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams
+    options?: VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams,
   ): Promise<VirtualMachineScaleSetRollingUpgradesGetLatestResponse>;
 }

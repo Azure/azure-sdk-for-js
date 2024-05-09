@@ -433,13 +433,23 @@ export function createFirebaseLegacyNotificationBody(
 }
 
 /**
+ * Represents the Firebase V1 native message envelope.
+ */
+export interface FirebaseV1NativeMessageEnvelope {
+  /**
+   * The Firebase V1 native message.
+   */
+  message: FirebaseV1NativeMessage;
+}
+
+/**
  * Represents the targets, options, and payload for HTTP JSON messages for the Firebase V1 interface.
  */
 export interface FirebaseV1NativeMessage {
   /**
    * Custom key-value pairs of the message's payload.
    */
-  data?: Record<string, any>;
+  data?: Record<string, string>;
 
   /**
    * The predefined, user-visible key-value pairs of the notification payload.
@@ -529,7 +539,7 @@ export interface FirebaseV1AndroidConfig {
   /**
    * Custom key-value pairs of the message's payload.
    */
-  data?: Record<string, any>;
+  data?: Record<string, string>;
 
   /**
    * Notification to send to android devices.
@@ -754,7 +764,7 @@ export interface FirebaseV1WebPushNotification {
   /**
    * The notification's data.
    */
-  data?: Record<string, any>;
+  data?: Record<string, string>;
 
   /**
    * The direction in which to display the notification.
@@ -864,7 +874,9 @@ export interface FirebaseV1FcmOptions {
  * @param nativeMessage - The native message payload to send to Notification Hubs.
  * @returns The JSON body to send to Notification Hubs.
  */
-export function createFirebaseV1NotificationBody(nativeMessage: FirebaseV1NativeMessage): string {
+export function createFirebaseV1NotificationBody(
+  nativeMessage: FirebaseV1NativeMessageEnvelope,
+): string {
   return JSON.stringify(nativeMessage);
 }
 

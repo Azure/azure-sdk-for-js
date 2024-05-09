@@ -10,12 +10,15 @@
 // Licensed under the MIT License.
 import { AzureQuotaExtensionAPI } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a list of current usage for all resources for the scope specified.
  *
  * @summary Get a list of current usage for all resources for the scope specified.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2021-03-15-preview/examples/getComputeUsages.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getComputeUsages.json
  */
 async function quotasListUsagesForCompute() {
   const scope =
@@ -29,13 +32,11 @@ async function quotasListUsagesForCompute() {
   console.log(resArray);
 }
 
-quotasListUsagesForCompute().catch(console.error);
-
 /**
  * This sample demonstrates how to Get a list of current usage for all resources for the scope specified.
  *
  * @summary Get a list of current usage for all resources for the scope specified.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2021-03-15-preview/examples/getNetworkUsages.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getNetworkUsages.json
  */
 async function quotasListUsagesForNetwork() {
   const scope =
@@ -49,13 +50,11 @@ async function quotasListUsagesForNetwork() {
   console.log(resArray);
 }
 
-quotasListUsagesForNetwork().catch(console.error);
-
 /**
  * This sample demonstrates how to Get a list of current usage for all resources for the scope specified.
  *
  * @summary Get a list of current usage for all resources for the scope specified.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2021-03-15-preview/examples/getMachineLearningServicesUsages.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getMachineLearningServicesUsages.json
  */
 async function quotasListUsagesMachineLearningServices() {
   const scope =
@@ -69,4 +68,10 @@ async function quotasListUsagesMachineLearningServices() {
   console.log(resArray);
 }
 
-quotasListUsagesMachineLearningServices().catch(console.error);
+async function main() {
+  quotasListUsagesForCompute();
+  quotasListUsagesForNetwork();
+  quotasListUsagesMachineLearningServices();
+}
+
+main().catch(console.error);

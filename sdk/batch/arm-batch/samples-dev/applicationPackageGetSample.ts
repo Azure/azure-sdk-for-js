@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about the specified application package.
  *
  * @summary Gets information about the specified application package.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/ApplicationPackageGet.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/ApplicationPackageGet.json
  */
 async function applicationPackageGet() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function applicationPackageGet() {
     resourceGroupName,
     accountName,
     applicationName,
-    versionName
+    versionName,
   );
   console.log(result);
 }

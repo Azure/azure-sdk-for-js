@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the protection policies within a resource group.
  *
  * @summary Lists all of the protection policies within a resource group.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/WafListPolicies.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/WafListPolicies.json
  */
 async function listPoliciesInAResourceGroup() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

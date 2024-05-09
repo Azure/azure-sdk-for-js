@@ -21,8 +21,6 @@ import {
   AccountsUpdateOptionalParams,
   AccountsUpdateResponse,
   AccountsRenewCredentialsOptionalParams,
-  AccountsMigrateEncryptionKeyOptionalParams,
-  AccountsMigrateEncryptionKeyResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +31,7 @@ export interface Accounts {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AccountsListBySubscriptionOptionalParams
+    options?: AccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetAppAccount>;
   /**
    * List and describe all NetApp accounts in the resource group.
@@ -42,7 +40,7 @@ export interface Accounts {
    */
   list(
     resourceGroupName: string,
-    options?: AccountsListOptionalParams
+    options?: AccountsListOptionalParams,
   ): PagedAsyncIterableIterator<NetAppAccount>;
   /**
    * Get the NetApp account
@@ -53,7 +51,7 @@ export interface Accounts {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsGetOptionalParams
+    options?: AccountsGetOptionalParams,
   ): Promise<AccountsGetResponse>;
   /**
    * Create or update the specified NetApp account within the resource group
@@ -66,7 +64,7 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     body: NetAppAccount,
-    options?: AccountsCreateOrUpdateOptionalParams
+    options?: AccountsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccountsCreateOrUpdateResponse>,
@@ -84,7 +82,7 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     body: NetAppAccount,
-    options?: AccountsCreateOrUpdateOptionalParams
+    options?: AccountsCreateOrUpdateOptionalParams,
   ): Promise<AccountsCreateOrUpdateResponse>;
   /**
    * Delete the specified NetApp account
@@ -95,7 +93,7 @@ export interface Accounts {
   beginDelete(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsDeleteOptionalParams
+    options?: AccountsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified NetApp account
@@ -106,7 +104,7 @@ export interface Accounts {
   beginDeleteAndWait(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsDeleteOptionalParams
+    options?: AccountsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Patch the specified NetApp account
@@ -119,7 +117,7 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     body: NetAppAccountPatch,
-    options?: AccountsUpdateOptionalParams
+    options?: AccountsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccountsUpdateResponse>,
@@ -137,7 +135,7 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     body: NetAppAccountPatch,
-    options?: AccountsUpdateOptionalParams
+    options?: AccountsUpdateOptionalParams,
   ): Promise<AccountsUpdateResponse>;
   /**
    * Renew identity credentials that are used to authenticate to key vault, for customer-managed key
@@ -150,7 +148,7 @@ export interface Accounts {
   beginRenewCredentials(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsRenewCredentialsOptionalParams
+    options?: AccountsRenewCredentialsOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renew identity credentials that are used to authenticate to key vault, for customer-managed key
@@ -163,37 +161,6 @@ export interface Accounts {
   beginRenewCredentialsAndWait(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsRenewCredentialsOptionalParams
+    options?: AccountsRenewCredentialsOptionalParams,
   ): Promise<void>;
-  /**
-   * Migrates all volumes in a VNet to a different encryption key source (Microsoft-managed key or Azure
-   * Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from
-   * another account.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param options The options parameters.
-   */
-  beginMigrateEncryptionKey(
-    resourceGroupName: string,
-    accountName: string,
-    options?: AccountsMigrateEncryptionKeyOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AccountsMigrateEncryptionKeyResponse>,
-      AccountsMigrateEncryptionKeyResponse
-    >
-  >;
-  /**
-   * Migrates all volumes in a VNet to a different encryption key source (Microsoft-managed key or Azure
-   * Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from
-   * another account.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param options The options parameters.
-   */
-  beginMigrateEncryptionKeyAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    options?: AccountsMigrateEncryptionKeyOptionalParams
-  ): Promise<AccountsMigrateEncryptionKeyResponse>;
 }

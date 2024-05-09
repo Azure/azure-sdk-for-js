@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to delete the restore point collection. This operation will also delete all the contained restore points.
  *
  * @summary The operation to delete the restore point collection. This operation will also delete all the contained restore points.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/restorePointExamples/RestorePointCollection_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/restorePointExamples/RestorePointCollection_Delete_MaximumSet_Gen.json
  */
 async function restorePointCollectionDeleteMaximumSetGen() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function restorePointCollectionDeleteMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.restorePointCollections.beginDeleteAndWait(
     resourceGroupName,
-    restorePointCollectionName
+    restorePointCollectionName,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function restorePointCollectionDeleteMaximumSetGen() {
  * This sample demonstrates how to The operation to delete the restore point collection. This operation will also delete all the contained restore points.
  *
  * @summary The operation to delete the restore point collection. This operation will also delete all the contained restore points.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/restorePointExamples/RestorePointCollection_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/restorePointExamples/RestorePointCollection_Delete_MinimumSet_Gen.json
  */
 async function restorePointCollectionDeleteMinimumSetGen() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function restorePointCollectionDeleteMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.restorePointCollections.beginDeleteAndWait(
     resourceGroupName,
-    restorePointCollectionName
+    restorePointCollectionName,
   );
   console.log(result);
 }

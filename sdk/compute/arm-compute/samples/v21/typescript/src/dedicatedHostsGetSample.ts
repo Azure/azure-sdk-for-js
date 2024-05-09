@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DedicatedHostsGetOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves information about a dedicated host.
  *
  * @summary Retrieves information about a dedicated host.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHost_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHost_Get.json
  */
 async function getADedicatedHost() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function getADedicatedHost() {
     resourceGroupName,
     hostGroupName,
     hostName,
-    options
+    options,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Update an image.
  *
  * @summary Update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/imageExamples/Image_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/imageExamples/Image_Update.json
  */
 async function updatesTagsOfAnImage() {
   const subscriptionId =
@@ -29,17 +29,16 @@ async function updatesTagsOfAnImage() {
   const parameters: ImageUpdate = {
     hyperVGeneration: "V1",
     sourceVirtualMachine: {
-      id:
-        "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM"
+      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
     },
-    tags: { department: "HR" }
+    tags: { department: "HR" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginUpdateAndWait(
     resourceGroupName,
     imageName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

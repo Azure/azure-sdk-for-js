@@ -16,6 +16,7 @@ export interface AzureMonitorOpenTelemetryOptions {
     browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
     enableLiveMetrics?: boolean;
     enableStandardMetrics?: boolean;
+    enableTraceBasedSamplingForLogs?: boolean;
     instrumentationOptions?: InstrumentationOptions;
     logRecordProcessors?: LogRecordProcessor[];
     resource?: Resource;
@@ -39,6 +40,7 @@ export interface InstrumentationOptions {
     postgreSql?: InstrumentationConfig;
     redis?: InstrumentationConfig;
     redis4?: InstrumentationConfig;
+    winston?: InstrumentationConfig;
 }
 
 // @public

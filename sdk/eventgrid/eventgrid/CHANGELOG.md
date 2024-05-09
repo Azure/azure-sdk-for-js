@@ -1,6 +1,6 @@
 # Release History
 
-## 5.2.1 (Unreleased)
+## 5.4.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,25 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.4.0 (2024-04-11)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated`
+  - `Microsoft.Communication.AdvancedMessageReceived`
+  - `Microsoft.Communication.RouterWorkerUpdated`
+
+## 5.3.0 (2024-03-13)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.ApiCenter.ApiDefinitionAdded`
+  - `Microsoft.ApiCenter.ApiDefinitionUpdated`
 
 ## 5.2.0 (2024-02-08)
 

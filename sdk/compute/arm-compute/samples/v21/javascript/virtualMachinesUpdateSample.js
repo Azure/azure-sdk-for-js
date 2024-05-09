@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to update a virtual machine.
  *
  * @summary The operation to update a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExamples/VirtualMachine_Update_DetachDataDiskUsingToBeDetachedProperty.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_Update_DetachDataDiskUsingToBeDetachedProperty.json
  */
 async function updateAVMByDetachingDataDisk() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -40,7 +40,12 @@ async function updateAVMByDetachingDataDisk() {
     storageProfile: {
       dataDisks: [
         { createOption: "Empty", diskSizeGB: 1023, lun: 0, toBeDetached: true },
-        { createOption: "Empty", diskSizeGB: 1023, lun: 1, toBeDetached: false },
+        {
+          createOption: "Empty",
+          diskSizeGB: 1023,
+          lun: 1,
+          toBeDetached: false,
+        },
       ],
       imageReference: {
         offer: "WindowsServer",
@@ -70,7 +75,7 @@ async function updateAVMByDetachingDataDisk() {
  * This sample demonstrates how to The operation to update a virtual machine.
  *
  * @summary The operation to update a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExamples/VirtualMachine_Update_ForceDetachDataDisk.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_Update_ForceDetachDataDisk.json
  */
 async function updateAVMByForceDetachingDataDisk() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -100,7 +105,12 @@ async function updateAVMByForceDetachingDataDisk() {
           lun: 0,
           toBeDetached: true,
         },
-        { createOption: "Empty", diskSizeGB: 1023, lun: 1, toBeDetached: false },
+        {
+          createOption: "Empty",
+          diskSizeGB: 1023,
+          lun: 1,
+          toBeDetached: false,
+        },
       ],
       imageReference: {
         offer: "WindowsServer",

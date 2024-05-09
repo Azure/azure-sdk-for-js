@@ -21,20 +21,20 @@ export const ResourceProviderOperationList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceProviderOperationDefinition"
-            }
-          }
-        }
+              className: "ResourceProviderOperationDefinition",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceProviderOperationDefinition: coreClient.CompositeMapper = {
@@ -45,24 +45,24 @@ export const ResourceProviderOperationDefinition: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isDataAction: {
         serializedName: "isDataAction",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "ResourceProviderOperationDisplay"
-        }
-      }
-    }
-  }
+          className: "ResourceProviderOperationDisplay",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceProviderOperationDisplay: coreClient.CompositeMapper = {
@@ -73,29 +73,29 @@ export const ResourceProviderOperationDisplay: coreClient.CompositeMapper = {
       provider: {
         serializedName: "provider",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -107,11 +107,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetail: coreClient.CompositeMapper = {
@@ -123,22 +123,22 @@ export const ErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -148,10 +148,10 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
+              className: "ErrorDetail",
+            },
+          },
+        },
       },
       additionalInfo: {
         serializedName: "additionalInfo",
@@ -161,13 +161,13 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
@@ -179,19 +179,19 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       info: {
         serializedName: "info",
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const CheckNameAvailabilityRequest: coreClient.CompositeMapper = {
@@ -202,17 +202,17 @@ export const CheckNameAvailabilityRequest: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CheckNameAvailabilityResponse: coreClient.CompositeMapper = {
@@ -223,23 +223,23 @@ export const CheckNameAvailabilityResponse: coreClient.CompositeMapper = {
       nameAvailable: {
         serializedName: "nameAvailable",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       reason: {
         serializedName: "reason",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const LedgerProperties: coreClient.CompositeMapper = {
@@ -251,48 +251,54 @@ export const LedgerProperties: coreClient.CompositeMapper = {
         serializedName: "ledgerName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       ledgerUri: {
         serializedName: "ledgerUri",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       identityServiceUri: {
         serializedName: "identityServiceUri",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       ledgerInternalNamespace: {
         serializedName: "ledgerInternalNamespace",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       runningState: {
         serializedName: "runningState",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       ledgerType: {
         serializedName: "ledgerType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
+      },
+      ledgerSku: {
+        serializedName: "ledgerSku",
+        type: {
+          name: "String",
+        },
       },
       aadBasedSecurityPrincipals: {
         serializedName: "aadBasedSecurityPrincipals",
@@ -301,10 +307,10 @@ export const LedgerProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AADBasedSecurityPrincipal"
-            }
-          }
-        }
+              className: "AADBasedSecurityPrincipal",
+            },
+          },
+        },
       },
       certBasedSecurityPrincipals: {
         serializedName: "certBasedSecurityPrincipals",
@@ -313,13 +319,13 @@ export const LedgerProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CertBasedSecurityPrincipal"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "CertBasedSecurityPrincipal",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const AADBasedSecurityPrincipal: coreClient.CompositeMapper = {
@@ -330,23 +336,23 @@ export const AADBasedSecurityPrincipal: coreClient.CompositeMapper = {
       principalId: {
         serializedName: "principalId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tenantId: {
         serializedName: "tenantId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       ledgerRoleName: {
         serializedName: "ledgerRoleName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CertBasedSecurityPrincipal: coreClient.CompositeMapper = {
@@ -357,17 +363,17 @@ export const CertBasedSecurityPrincipal: coreClient.CompositeMapper = {
       cert: {
         serializedName: "cert",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       ledgerRoleName: {
         serializedName: "ledgerRoleName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Resource: coreClient.CompositeMapper = {
@@ -379,32 +385,32 @@ export const Resource: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemData",
+        },
+      },
+    },
+  },
 };
 
 export const SystemData: coreClient.CompositeMapper = {
@@ -415,41 +421,41 @@ export const SystemData: coreClient.CompositeMapper = {
       createdBy: {
         serializedName: "createdBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdByType: {
         serializedName: "createdByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdAt: {
         serializedName: "createdAt",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       lastModifiedBy: {
         serializedName: "lastModifiedBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedByType: {
         serializedName: "lastModifiedByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedAt: {
         serializedName: "lastModifiedAt",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const ConfidentialLedgerList: coreClient.CompositeMapper = {
@@ -464,19 +470,103 @@ export const ConfidentialLedgerList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ConfidentialLedger"
-            }
-          }
-        }
+              className: "ConfidentialLedger",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ConfidentialLedgerBackup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfidentialLedgerBackup",
+    modelProperties: {
+      restoreRegion: {
+        serializedName: "restoreRegion",
+        type: {
+          name: "String",
+        },
+      },
+      uri: {
+        serializedName: "uri",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ConfidentialLedgerBackupResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfidentialLedgerBackupResponse",
+    modelProperties: {
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ConfidentialLedgerRestore: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfidentialLedgerRestore",
+    modelProperties: {
+      fileShareName: {
+        serializedName: "fileShareName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      restoreRegion: {
+        serializedName: "restoreRegion",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      uri: {
+        serializedName: "uri",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ConfidentialLedgerRestoreResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfidentialLedgerRestoreResponse",
+    modelProperties: {
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ManagedCCFProperties: coreClient.CompositeMapper = {
@@ -488,22 +578,22 @@ export const ManagedCCFProperties: coreClient.CompositeMapper = {
         serializedName: "appName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appUri: {
         serializedName: "appUri",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       identityServiceUri: {
         serializedName: "identityServiceUri",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       memberIdentityCertificates: {
         serializedName: "memberIdentityCertificates",
@@ -512,34 +602,40 @@ export const ManagedCCFProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MemberIdentityCertificate"
-            }
-          }
-        }
+              className: "MemberIdentityCertificate",
+            },
+          },
+        },
       },
       deploymentType: {
         serializedName: "deploymentType",
         type: {
           name: "Composite",
-          className: "DeploymentType"
-        }
+          className: "DeploymentType",
+        },
+      },
+      runningState: {
+        serializedName: "runningState",
+        type: {
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       nodeCount: {
         defaultValue: 3,
         serializedName: "nodeCount",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const MemberIdentityCertificate: coreClient.CompositeMapper = {
@@ -550,23 +646,23 @@ export const MemberIdentityCertificate: coreClient.CompositeMapper = {
       certificate: {
         serializedName: "certificate",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       encryptionkey: {
         serializedName: "encryptionkey",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
-          name: "any"
-        }
-      }
-    }
-  }
+          name: "any",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentType: coreClient.CompositeMapper = {
@@ -577,17 +673,17 @@ export const DeploymentType: coreClient.CompositeMapper = {
       languageRuntime: {
         serializedName: "languageRuntime",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appSourceUri: {
         serializedName: "appSourceUri",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ManagedCCFList: coreClient.CompositeMapper = {
@@ -602,19 +698,103 @@ export const ManagedCCFList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ManagedCCF"
-            }
-          }
-        }
+              className: "ManagedCCF",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedCCFBackup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedCCFBackup",
+    modelProperties: {
+      restoreRegion: {
+        serializedName: "restoreRegion",
+        type: {
+          name: "String",
+        },
+      },
+      uri: {
+        serializedName: "uri",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedCCFBackupResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedCCFBackupResponse",
+    modelProperties: {
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedCCFRestore: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedCCFRestore",
+    modelProperties: {
+      fileShareName: {
+        serializedName: "fileShareName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      restoreRegion: {
+        serializedName: "restoreRegion",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      uri: {
+        serializedName: "uri",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedCCFRestoreResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedCCFRestoreResponse",
+    modelProperties: {
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CertificateTags: coreClient.CompositeMapper = {
@@ -626,11 +806,11 @@ export const CertificateTags: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const TrackedResource: coreClient.CompositeMapper = {
@@ -643,18 +823,18 @@ export const TrackedResource: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       location: {
         serializedName: "location",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ConfidentialLedger: coreClient.CompositeMapper = {
@@ -667,11 +847,11 @@ export const ConfidentialLedger: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "LedgerProperties"
-        }
-      }
-    }
-  }
+          className: "LedgerProperties",
+        },
+      },
+    },
+  },
 };
 
 export const ManagedCCF: coreClient.CompositeMapper = {
@@ -684,9 +864,9 @@ export const ManagedCCF: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ManagedCCFProperties"
-        }
-      }
-    }
-  }
+          className: "ManagedCCFProperties",
+        },
+      },
+    },
+  },
 };

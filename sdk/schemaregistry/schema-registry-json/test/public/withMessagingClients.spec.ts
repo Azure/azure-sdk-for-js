@@ -17,11 +17,10 @@
 import { JsonSerializer } from "../../src";
 import { EventData, createEventDataAdapter } from "@azure/event-hubs";
 import { MessagingTestClient } from "./clients/models";
-import { assert } from "@azure/test-utils";
+import { assert, matrix } from "@azure-tools/test-utils";
 import { createEventHubsClient } from "./clients/eventHubs";
 import { createMockedMessagingClient } from "./clients/mocked";
 import { createTestSerializer } from "./utils/mockedSerializer";
-import { matrix } from "@azure/test-utils";
 import { testGroup } from "./utils/dummies";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { SchemaRegistry } from "@azure/schema-registry";

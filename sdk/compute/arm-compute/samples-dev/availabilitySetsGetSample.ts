@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves information about an availability set.
  *
  * @summary Retrieves information about an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/availabilitySetExamples/AvailabilitySet_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/availabilitySetExamples/AvailabilitySet_Get_MaximumSet_Gen.json
  */
 async function availabilitySetGetMaximumSetGen() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function availabilitySetGetMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.availabilitySets.get(
     resourceGroupName,
-    availabilitySetName
+    availabilitySetName,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function availabilitySetGetMaximumSetGen() {
  * This sample demonstrates how to Retrieves information about an availability set.
  *
  * @summary Retrieves information about an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/availabilitySetExamples/AvailabilitySet_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/availabilitySetExamples/AvailabilitySet_Get_MinimumSet_Gen.json
  */
 async function availabilitySetGetMinimumSetGen() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function availabilitySetGetMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.availabilitySets.get(
     resourceGroupName,
-    availabilitySetName
+    availabilitySetName,
   );
   console.log(result);
 }

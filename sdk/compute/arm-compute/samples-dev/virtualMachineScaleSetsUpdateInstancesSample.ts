@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineScaleSetVMInstanceRequiredIDs,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
  *
  * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetUpdateInstancesMaximumSetGen() {
   const subscriptionId =
@@ -30,15 +30,16 @@ async function virtualMachineScaleSetUpdateInstancesMaximumSetGen() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs = {
-    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"]
+    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginUpdateInstancesAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmInstanceIDs
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginUpdateInstancesAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmInstanceIDs,
+    );
   console.log(result);
 }
 
@@ -46,7 +47,7 @@ async function virtualMachineScaleSetUpdateInstancesMaximumSetGen() {
  * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
  *
  * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetUpdateInstancesMinimumSetGen() {
   const subscriptionId =
@@ -55,15 +56,16 @@ async function virtualMachineScaleSetUpdateInstancesMinimumSetGen() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs = {
-    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"]
+    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginUpdateInstancesAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmInstanceIDs
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginUpdateInstancesAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmInstanceIDs,
+    );
   console.log(result);
 }
 

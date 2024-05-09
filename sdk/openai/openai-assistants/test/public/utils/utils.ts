@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -30,7 +30,7 @@ function toString(error: any): string {
 export async function withDeployments<T>(
   deployments: string[],
   run: (model: string) => Promise<T>,
-  validate: (result: T) => void
+  validate: (result: T) => void,
 ): Promise<string[]> {
   const errors = [];
   const succeeded = [];
@@ -68,7 +68,7 @@ export async function withDeployments<T>(
 
 export async function sendRequestWithRecorder(
   request: PipelineRequest,
-  recorder: Recorder
+  recorder: Recorder,
 ): Promise<PipelineResponse> {
   const client = createDefaultHttpClient();
   const pipeline = createEmptyPipeline();
@@ -105,7 +105,7 @@ async function listDeployments(
   subId: string,
   rgName: string,
   accountName: string,
-  recorder: Recorder
+  recorder: Recorder,
 ): Promise<string[]> {
   const deployments: string[] = [];
   void subId;
@@ -115,7 +115,7 @@ async function listDeployments(
   const mgmtClient = new CognitiveServicesManagementClient(
     createTestCredential(),
     subId,
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
   for await (const deployment of mgmtClient.deployments.list(rgName, accountName)) {
     const deploymentName = deployment.name;
@@ -130,7 +130,7 @@ export function updateWithSucceeded(
   succeeded: string[],
   deployments: string[],
   models: string[],
-  authMethod: AuthMethod
+  authMethod: AuthMethod,
 ): void {
   if (authMethod === "OpenAIKey") {
     if (models.length === 0) {
@@ -148,7 +148,7 @@ export function getSucceeded(
   deployments: string[],
   models: string[],
   succeededDeployments: string[],
-  succeededModels: string[]
+  succeededModels: string[],
 ): string[] {
   if (authMethod === "OpenAIKey") {
     if (succeededModels.length > 0) {
@@ -168,14 +168,14 @@ export async function getDeployments(recorder: Recorder): Promise<string[]> {
     assertEnvironmentVariable("SUBSCRIPTION_ID"),
     assertEnvironmentVariable("RESOURCE_GROUP"),
     assertEnvironmentVariable("ACCOUNT_NAME"),
-    recorder
+    recorder,
   );
 }
 
 export async function getModels(recorder: Recorder): Promise<string[]> {
   return listOpenAIModels(
     new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY")),
-    recorder
+    recorder,
   );
 }
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Assess patches on the VM.
  *
  * @summary Assess patches on the VM.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExamples/VirtualMachine_AssessPatches.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_AssessPatches.json
  */
 async function assessPatchStateOfAVirtualMachine() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function assessPatchStateOfAVirtualMachine() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginAssessPatchesAndWait(
     resourceGroupName,
-    vmName
+    vmName,
   );
   console.log(result);
 }

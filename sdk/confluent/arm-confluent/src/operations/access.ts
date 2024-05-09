@@ -27,7 +27,13 @@ import {
   AccessListClustersOptionalParams,
   AccessListClustersResponse,
   AccessListRoleBindingsOptionalParams,
-  AccessListRoleBindingsResponse
+  AccessListRoleBindingsResponse,
+  AccessCreateRoleBindingRequestModel,
+  AccessCreateRoleBindingOptionalParams,
+  AccessCreateRoleBindingResponse,
+  AccessDeleteRoleBindingOptionalParams,
+  AccessListRoleBindingNameListOptionalParams,
+  AccessListRoleBindingNameListResponse,
 } from "../models";
 
 /** Class containing Access operations. */
@@ -44,7 +50,7 @@ export class AccessImpl implements Access {
 
   /**
    * Organization users details
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param body List Access Request Model
    * @param options The options parameters.
@@ -53,17 +59,17 @@ export class AccessImpl implements Access {
     resourceGroupName: string,
     organizationName: string,
     body: ListAccessRequestModel,
-    options?: AccessListUsersOptionalParams
+    options?: AccessListUsersOptionalParams,
   ): Promise<AccessListUsersResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, organizationName, body, options },
-      listUsersOperationSpec
+      listUsersOperationSpec,
     );
   }
 
   /**
    * Organization service accounts details
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param body List Access Request Model
    * @param options The options parameters.
@@ -72,17 +78,17 @@ export class AccessImpl implements Access {
     resourceGroupName: string,
     organizationName: string,
     body: ListAccessRequestModel,
-    options?: AccessListServiceAccountsOptionalParams
+    options?: AccessListServiceAccountsOptionalParams,
   ): Promise<AccessListServiceAccountsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, organizationName, body, options },
-      listServiceAccountsOperationSpec
+      listServiceAccountsOperationSpec,
     );
   }
 
   /**
    * Organization accounts invitation details
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param body List Access Request Model
    * @param options The options parameters.
@@ -91,17 +97,17 @@ export class AccessImpl implements Access {
     resourceGroupName: string,
     organizationName: string,
     body: ListAccessRequestModel,
-    options?: AccessListInvitationsOptionalParams
+    options?: AccessListInvitationsOptionalParams,
   ): Promise<AccessListInvitationsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, organizationName, body, options },
-      listInvitationsOperationSpec
+      listInvitationsOperationSpec,
     );
   }
 
   /**
    * Invite user to the organization
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param body Invite user account model
    * @param options The options parameters.
@@ -110,11 +116,11 @@ export class AccessImpl implements Access {
     resourceGroupName: string,
     organizationName: string,
     body: AccessInviteUserAccountModel,
-    options?: AccessInviteUserOptionalParams
+    options?: AccessInviteUserOptionalParams,
   ): Promise<AccessInviteUserResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, organizationName, body, options },
-      inviteUserOperationSpec
+      inviteUserOperationSpec,
     );
   }
 
@@ -129,11 +135,11 @@ export class AccessImpl implements Access {
     resourceGroupName: string,
     organizationName: string,
     body: ListAccessRequestModel,
-    options?: AccessListEnvironmentsOptionalParams
+    options?: AccessListEnvironmentsOptionalParams,
   ): Promise<AccessListEnvironmentsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, organizationName, body, options },
-      listEnvironmentsOperationSpec
+      listEnvironmentsOperationSpec,
     );
   }
 
@@ -148,11 +154,11 @@ export class AccessImpl implements Access {
     resourceGroupName: string,
     organizationName: string,
     body: ListAccessRequestModel,
-    options?: AccessListClustersOptionalParams
+    options?: AccessListClustersOptionalParams,
   ): Promise<AccessListClustersResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, organizationName, body, options },
-      listClustersOperationSpec
+      listClustersOperationSpec,
     );
   }
 
@@ -167,11 +173,68 @@ export class AccessImpl implements Access {
     resourceGroupName: string,
     organizationName: string,
     body: ListAccessRequestModel,
-    options?: AccessListRoleBindingsOptionalParams
+    options?: AccessListRoleBindingsOptionalParams,
   ): Promise<AccessListRoleBindingsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, organizationName, body, options },
-      listRoleBindingsOperationSpec
+      listRoleBindingsOperationSpec,
+    );
+  }
+
+  /**
+   * Organization role bindings
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param body Create role binding Request Model
+   * @param options The options parameters.
+   */
+  createRoleBinding(
+    resourceGroupName: string,
+    organizationName: string,
+    body: AccessCreateRoleBindingRequestModel,
+    options?: AccessCreateRoleBindingOptionalParams,
+  ): Promise<AccessCreateRoleBindingResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, body, options },
+      createRoleBindingOperationSpec,
+    );
+  }
+
+  /**
+   * Organization role bindings
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param roleBindingId Confluent Role binding id
+   * @param options The options parameters.
+   */
+  deleteRoleBinding(
+    resourceGroupName: string,
+    organizationName: string,
+    roleBindingId: string,
+    options?: AccessDeleteRoleBindingOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, roleBindingId, options },
+      deleteRoleBindingOperationSpec,
+    );
+  }
+
+  /**
+   * Organization role bindings
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param body List Access Request Model
+   * @param options The options parameters.
+   */
+  listRoleBindingNameList(
+    resourceGroupName: string,
+    organizationName: string,
+    body: ListAccessRequestModel,
+    options?: AccessListRoleBindingNameListOptionalParams,
+  ): Promise<AccessListRoleBindingNameListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, body, options },
+      listRoleBindingNameListOperationSpec,
     );
   }
 }
@@ -179,170 +242,230 @@ export class AccessImpl implements Access {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listUsersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listUsers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listUsers",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessListUsersSuccessResponse
+      bodyMapper: Mappers.AccessListUsersSuccessResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listServiceAccountsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listServiceAccounts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listServiceAccounts",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessListServiceAccountsSuccessResponse
+      bodyMapper: Mappers.AccessListServiceAccountsSuccessResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listInvitationsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listInvitations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listInvitations",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessListInvitationsSuccessResponse
+      bodyMapper: Mappers.AccessListInvitationsSuccessResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const inviteUserOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/createInvitation",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/createInvitation",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.InvitationRecord
+      bodyMapper: Mappers.InvitationRecord,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
-  requestBody: Parameters.body5,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listEnvironmentsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listEnvironments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listEnvironments",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessListEnvironmentsSuccessResponse
+      bodyMapper: Mappers.AccessListEnvironmentsSuccessResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listClustersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listClusters",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listClusters",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessListClusterSuccessResponse
+      bodyMapper: Mappers.AccessListClusterSuccessResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listRoleBindingsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listRoleBindings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listRoleBindings",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessListRoleBindingsSuccessResponse
+      bodyMapper: Mappers.AccessListRoleBindingsSuccessResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const createRoleBindingOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/createRoleBinding",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoleBindingRecord,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.body7,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteRoleBindingOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/deleteRoleBinding/{roleBindingId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+    Parameters.roleBindingId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listRoleBindingNameListOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listRoleBindingNameList",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccessRoleBindingNameListSuccessResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };

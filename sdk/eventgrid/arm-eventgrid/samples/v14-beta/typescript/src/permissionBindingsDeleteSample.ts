@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete an existing permission binding.
  *
  * @summary Delete an existing permission binding.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PermissionBindings_Delete.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PermissionBindings_Delete.json
  */
 async function permissionBindingsDelete() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function permissionBindingsDelete() {
   const result = await client.permissionBindings.beginDeleteAndWait(
     resourceGroupName,
     namespaceName,
-    permissionBindingName
+    permissionBindingName,
   );
   console.log(result);
 }

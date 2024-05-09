@@ -4,15 +4,15 @@
 import { describe, it, assert } from "vitest";
 import { sendRequest } from "../src/sendRequest.js";
 import {
-  FormDataValue,
+  MultipartRequestBody,
   Pipeline,
   PipelineResponse,
   RestError,
   createEmptyPipeline,
-  createFile,
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 import { stringToUint8Array } from "@azure/core-util";
+import { PartDescriptor } from "../src/multipart.js";
 
 describe("sendRequest", () => {
   const foo = new Uint8Array([0x66, 0x6f, 0x6f]);
@@ -170,10 +170,34 @@ describe("sendRequest", () => {
 
   describe("FormData content", () => {
     it("should handle request body as FormData", async () => {
-      const expectedFormData = { fileName: "foo.txt", file: "bar" };
+      const expectedFormData: PartDescriptor[] = [
+        { name: "fileName", body: "foo.txt" },
+        { name: "file", body: "bar" },
+      ];
+
+      const expectedBody: MultipartRequestBody = {
+        parts: [
+          {
+            headers: createHttpHeaders({
+              "content-type": "text/plain; charset=UTF-8",
+              "content-disposition": `form-data; name="fileName"`,
+            }),
+            body: stringToUint8Array("foo.txt", "utf-8"),
+          },
+          {
+            headers: createHttpHeaders({
+              "content-type": "text/plain; charset=UTF-8",
+              "content-disposition": `form-data; name="file"`,
+            }),
+            body: stringToUint8Array("bar", "utf-8"),
+          },
+        ],
+      };
+
       const mockPipeline: Pipeline = createEmptyPipeline();
       mockPipeline.sendRequest = async (_client, request) => {
-        assert.deepEqual(request.formData, expectedFormData);
+        assert.deepEqual(request.multipartBody, expectedBody);
+        assert.equal(request.headers.get("content-type"), "multipart/form-data");
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
 
@@ -183,74 +207,143 @@ describe("sendRequest", () => {
       });
     });
 
-    it("should handle request body as FormData with binary", async () => {
-      const expectedFormData = { fileName: "foo.txt", file: "foo" };
-      const mockPipeline: Pipeline = createEmptyPipeline();
-      mockPipeline.sendRequest = async (_client, request) => {
-        assert.equal(request.formData?.fileName, "foo.txt");
-        assert.sameOrderedMembers(
-          [...new Uint8Array(await (request.formData?.file as Blob).arrayBuffer())],
-          [...foo],
-        );
-        return { headers: createHttpHeaders() } as PipelineResponse;
+    it("should handle multipart/form-data request body with binary", async () => {
+      const expectedFormData: PartDescriptor[] = [{ name: "file", filename: "foo.txt", body: foo }];
+      const expectedBody: MultipartRequestBody = {
+        parts: [
+          {
+            headers: createHttpHeaders({
+              "content-type": "application/octet-stream",
+              "content-disposition": `form-data; name="file"; filename="foo.txt"`,
+            }),
+            body: foo,
+          },
+        ],
       };
-
-      await sendRequest("POST", mockBaseUrl, mockPipeline, {
-        body: { ...expectedFormData, file: foo },
-        contentType: "multipart/form-data",
-      });
-    });
-
-    it("should handle request body as FormData with array of binary", async () => {
-      const expectedFormData = { fileName: "foo.txt" };
       const mockPipeline: Pipeline = createEmptyPipeline();
       mockPipeline.sendRequest = async (_client, request) => {
-        assert.equal(request.formData?.fileName, "foo.txt");
-        assert.isArray(request.formData?.files);
-        const files = request.formData?.files as Blob[];
-        assert.lengthOf(files, 2);
-
-        assert.sameOrderedMembers([...new Uint8Array(await files[0].arrayBuffer())], [...foo]);
-        assert.sameOrderedMembers([...new Uint8Array(await files[1].arrayBuffer())], [...foo]);
+        assert.deepEqual(request.multipartBody, expectedBody);
+        assert.equal(request.headers.get("content-type"), "multipart/form-data");
 
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
 
       await sendRequest("POST", mockBaseUrl, mockPipeline, {
-        body: { ...expectedFormData, files: [foo, foo] },
+        body: expectedFormData,
         contentType: "multipart/form-data",
       });
     });
 
-    it("should handle request body as FormData with multiple file and text fields", async () => {
-      const file1 = createFile(stringToUint8Array("File 1", "utf-8"), "file1.txt", {
-        type: "text/plain",
+    it("should handle multipart/form-data request body with multiple files of the same field name", async () => {
+      const expectedFormData: PartDescriptor[] = [
+        { name: "fileName", body: "foo.txt" },
+        { name: "files", body: foo },
+        { name: "files", body: foo },
+      ];
+      const expectedBody: MultipartRequestBody = {
+        parts: [
+          {
+            headers: createHttpHeaders({
+              "content-type": "text/plain; charset=UTF-8",
+              "content-disposition": `form-data; name="fileName"`,
+            }),
+            body: stringToUint8Array("foo.txt", "utf-8"),
+          },
+          {
+            headers: createHttpHeaders({
+              "content-type": "application/octet-stream",
+              "content-disposition": `form-data; name="files"`,
+            }),
+            body: foo,
+          },
+          {
+            headers: createHttpHeaders({
+              "content-type": "application/octet-stream",
+              "content-disposition": `form-data; name="files"`,
+            }),
+            body: foo,
+          },
+        ],
+      };
+
+      const mockPipeline: Pipeline = createEmptyPipeline();
+      mockPipeline.sendRequest = async (_client, request) => {
+        assert.deepEqual(request.multipartBody, expectedBody);
+        assert.equal(request.headers.get("content-type"), "multipart/form-data");
+
+        return { headers: createHttpHeaders() } as PipelineResponse;
+      };
+
+      await sendRequest("POST", mockBaseUrl, mockPipeline, {
+        body: expectedFormData,
+        contentType: "multipart/form-data",
       });
-      const file2 = createFile(new Uint8Array([1, 2, 3]), "file1.txt", {
-        type: "application/octet-stream",
-      });
-      const file3 = new Blob([stringToUint8Array("{}", "utf-8")], { type: "application/json" });
-      const text = "Hello";
+    });
+
+    it("should handle request body as FormData with mixed fields including binary, text and JSON", async () => {
+      const input: PartDescriptor[] = [
+        {
+          name: "fileArray1",
+          filename: "file1.txt",
+          contentType: "text/plain; charset=UTF-8",
+          body: "File 1",
+        },
+        { name: "fileArray1", filename: "file2", body: new Uint8Array([1, 2, 3]) },
+        { name: "fileArray2", body: new Uint8Array([4, 5, 6]), filename: "file3" },
+        { name: "fileArray2", body: {} },
+        { name: "textField", body: "Hello world!" },
+      ];
+
+      const expectedBody: MultipartRequestBody = {
+        parts: [
+          {
+            headers: createHttpHeaders({
+              "content-type": "text/plain; charset=UTF-8",
+              "content-disposition": `form-data; name="fileArray1"; filename="file1.txt"`,
+            }),
+            body: stringToUint8Array("File 1", "utf-8"),
+          },
+          {
+            headers: createHttpHeaders({
+              "content-type": "application/octet-stream",
+              "content-disposition": `form-data; name="fileArray1"; filename="file2"`,
+            }),
+            body: new Uint8Array([1, 2, 3]),
+          },
+          {
+            headers: createHttpHeaders({
+              "content-type": "application/octet-stream",
+              "content-disposition": `form-data; name="fileArray2"; filename="file3"`,
+            }),
+            body: new Uint8Array([4, 5, 6]),
+          },
+          {
+            headers: createHttpHeaders({
+              "content-type": "application/json; charset=UTF-8",
+              "content-disposition": `form-data; name="fileArray2"`,
+            }),
+            body: stringToUint8Array("{}", "utf-8"),
+          },
+          {
+            headers: createHttpHeaders({
+              "content-type": "text/plain; charset=UTF-8",
+              "content-disposition": `form-data; name="textField"`,
+            }),
+            body: stringToUint8Array("Hello world!", "utf-8"),
+          },
+        ],
+      };
 
       const mockPipeline = createEmptyPipeline();
       mockPipeline.sendRequest = async (_client, request) => {
-        assert.strictEqual((request.formData?.fileArray1 as FormDataValue[])[0], file1);
-        assert.strictEqual((request.formData?.fileArray1 as FormDataValue[])[1], file2);
-        assert.strictEqual((request.formData?.fileArray2 as FormDataValue[])[0], file2);
-        assert.strictEqual((request.formData?.fileArray2 as FormDataValue[])[1], file3);
-        assert.strictEqual(request.formData?.standaloneFile as FormDataValue, file3);
-        assert.strictEqual(request.formData?.text as string, "Hello");
+        assert.deepEqual(request.multipartBody, expectedBody);
+        assert.equal(request.headers.get("content-type"), "multipart/form-data");
 
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
 
       await sendRequest("POST", mockBaseUrl, mockPipeline, {
-        body: {
-          fileArray1: [file1, file2],
-          fileArray2: [file2, file3],
-          standaloneFile: file3,
-          text,
-        },
+        body: input,
         contentType: "multipart/form-data",
       });
     });
@@ -308,6 +401,16 @@ describe("sendRequest", () => {
     };
 
     await sendRequest("POST", mockBaseUrl, mockPipeline, { accept: "testContent" });
+  });
+
+  it("should set custom accept via headers", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("accept"), "testContent");
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, { headers: { accept: "testContent" } });
   });
 
   it("should set custom headers", async () => {
@@ -426,11 +529,13 @@ describe("sendRequest", () => {
     assert.equal(response.body, "test");
   });
 
-  it("should send formdata body", async () => {
-    const testForm = { foo: "test" };
+  it.skipIf(typeof FormData === "undefined")("should send FormData body", async () => {
+    const formData = new FormData();
+    formData.append("foo", "test");
+
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
-      assert.deepEqual(request.formData, testForm);
+      assert.deepEqual(request.body, formData);
       return {
         headers: createHttpHeaders(),
       } as PipelineResponse;
@@ -438,7 +543,7 @@ describe("sendRequest", () => {
 
     await sendRequest("GET", mockBaseUrl, mockPipeline, {
       contentType: "multipart/form-data",
-      body: testForm,
+      body: formData,
     });
   });
 

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineScaleSet,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsSuppressFailuresEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsSuppressFailuresEnabled.json
  */
 async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled() {
   const subscriptionId =
@@ -39,8 +39,8 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled() {
         bootDiagnostics: {
           enabled: true,
           storageUri:
-            "http://{existing-storage-account-name}.blob.core.windows.net"
-        }
+            "http://{existing-storage-account-name}.blob.core.windows.net",
+        },
       },
       extensionProfile: {
         extensions: [
@@ -51,9 +51,9 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled() {
             publisher: "{extension-Publisher}",
             settings: {},
             suppressFailures: true,
-            typeHandlerVersion: "{handler-version}"
-          }
-        ]
+            typeHandlerVersion: "{handler-version}",
+          },
+        ],
       },
       networkProfile: {
         networkInterfaceConfigurations: [
@@ -64,42 +64,42 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -107,7 +107,7 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProtectedSettingsFromKeyVault.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProtectedSettingsFromKeyVault.json
  */
 async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault() {
   const subscriptionId =
@@ -125,8 +125,8 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault() {
         bootDiagnostics: {
           enabled: true,
           storageUri:
-            "http://{existing-storage-account-name}.blob.core.windows.net"
-        }
+            "http://{existing-storage-account-name}.blob.core.windows.net",
+        },
       },
       extensionProfile: {
         extensions: [
@@ -138,15 +138,14 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault() {
               secretUrl:
                 "https://kvName.vault.azure.net/secrets/secretName/79b88b3a6f5440ffb2e73e44a0db712e",
               sourceVault: {
-                id:
-                  "/subscriptions/a53f7094-a16c-47af-abe4-b05c05d0d79a/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/kvName"
-              }
+                id: "/subscriptions/a53f7094-a16c-47af-abe4-b05c05d0d79a/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/kvName",
+              },
             },
             publisher: "{extension-Publisher}",
             settings: {},
-            typeHandlerVersion: "{handler-version}"
-          }
-        ]
+            typeHandlerVersion: "{handler-version}",
+          },
+        ],
       },
       networkProfile: {
         networkInterfaceConfigurations: [
@@ -157,42 +156,42 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -200,7 +199,7 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_CustomImageFromAnUnmanagedGeneralizedOsImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_CustomImageFromAnUnmanagedGeneralizedOsImage.json
  */
 async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage() {
   const subscriptionId =
@@ -223,19 +222,18 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         osDisk: {
@@ -243,20 +241,20 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage() {
           caching: "ReadWrite",
           createOption: "FromImage",
           image: {
-            uri:
-              "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd"
-          }
-        }
-      }
-    }
+            uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd",
+          },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -264,7 +262,7 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_PlatformImageWithUnmanagedOsDisks.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_PlatformImageWithUnmanagedOsDisks.json
  */
 async function createAPlatformImageScaleSetWithUnmanagedOSDisks() {
   const subscriptionId =
@@ -287,26 +285,25 @@ async function createAPlatformImageScaleSetWithUnmanagedOSDisks() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           name: "osDisk",
@@ -317,19 +314,20 @@ async function createAPlatformImageScaleSetWithUnmanagedOSDisks() {
             "http://{existing-storage-account-name-1}.blob.core.windows.net/vhdContainer",
             "http://{existing-storage-account-name-2}.blob.core.windows.net/vhdContainer",
             "http://{existing-storage-account-name-3}.blob.core.windows.net/vhdContainer",
-            "http://{existing-storage-account-name-4}.blob.core.windows.net/vhdContainer"
-          ]
-        }
-      }
-    }
+            "http://{existing-storage-account-name-4}.blob.core.windows.net/vhdContainer",
+          ],
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -337,7 +335,7 @@ async function createAPlatformImageScaleSetWithUnmanagedOSDisks() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromACustomImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromACustomImage.json
  */
 async function createAScaleSetFromACustomImage() {
   const subscriptionId =
@@ -360,40 +358,39 @@ async function createAScaleSetFromACustomImage() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -401,7 +398,7 @@ async function createAScaleSetFromACustomImage() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromAGeneralizedSharedImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromAGeneralizedSharedImage.json
  */
 async function createAScaleSetFromAGeneralizedSharedImage() {
   const subscriptionId =
@@ -424,40 +421,39 @@ async function createAScaleSetFromAGeneralizedSharedImage() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage"
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -465,7 +461,7 @@ async function createAScaleSetFromAGeneralizedSharedImage() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromASpecializedSharedImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromASpecializedSharedImage.json
  */
 async function createAScaleSetFromASpecializedSharedImage() {
   const subscriptionId =
@@ -488,35 +484,34 @@ async function createAScaleSetFromASpecializedSharedImage() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       storageProfile: {
         imageReference: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage"
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -524,7 +519,7 @@ async function createAScaleSetFromASpecializedSharedImage() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithDisableTcpStateTrackingNetworkInterface.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithDisableTcpStateTrackingNetworkInterface.json
  */
 async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty() {
   const subscriptionId =
@@ -549,12 +544,11 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
+            primary: true,
           },
           {
             name: "{nicConfig2-name}",
@@ -567,40 +561,39 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
                 primary: true,
                 privateIPAddressVersion: "IPv4",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name2}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name2}",
+                },
+              },
             ],
-            primary: false
-          }
-        ]
+            primary: false,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -608,7 +601,7 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithApplicationProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithApplicationProfile.json
  */
 async function createAScaleSetWithApplicationProfile() {
   const subscriptionId =
@@ -632,13 +625,13 @@ async function createAScaleSetWithApplicationProfile() {
             packageReferenceId:
               "/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdb/resourceGroups/myresourceGroupName2/providers/Microsoft.Compute/galleries/myGallery1/applications/MyApplication1/versions/1.0",
             tags: "myTag1",
-            treatFailureAsDeploymentFailure: true
+            treatFailureAsDeploymentFailure: true,
           },
           {
             packageReferenceId:
-              "/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdg/resourceGroups/myresourceGroupName3/providers/Microsoft.Compute/galleries/myGallery2/applications/MyApplication2/versions/1.1"
-          }
-        ]
+              "/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdg/resourceGroups/myresourceGroupName3/providers/Microsoft.Compute/galleries/myGallery2/applications/MyApplication2/versions/1.1",
+          },
+        ],
       },
       networkProfile: {
         networkInterfaceConfigurations: [
@@ -649,42 +642,42 @@ async function createAScaleSetWithApplicationProfile() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -692,7 +685,7 @@ async function createAScaleSetWithApplicationProfile() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskControllerType.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskControllerType.json
  */
 async function createAScaleSetWithDiskControllerType() {
   const subscriptionId =
@@ -703,11 +696,18 @@ async function createAScaleSetWithDiskControllerType() {
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
     overprovision: true,
+    scheduledEventsPolicy: {
+      scheduledEventsAdditionalPublishingTargets: {
+        eventGridAndResourceGraph: { enable: true },
+      },
+      userInitiatedReboot: { automaticallyApprove: true },
+      userInitiatedRedeploy: { automaticallyApprove: true },
+    },
     sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     upgradePolicy: { mode: "Manual" },
     virtualMachineProfile: {
       hardwareProfile: {
-        vmSizeProperties: { vCPUsAvailable: 1, vCPUsPerCore: 1 }
+        vmSizeProperties: { vCPUsAvailable: 1, vCPUsPerCore: 1 },
       },
       networkProfile: {
         networkInterfaceConfigurations: [
@@ -718,19 +718,18 @@ async function createAScaleSetWithDiskControllerType() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         diskControllerType: "NVMe",
@@ -738,24 +737,25 @@ async function createAScaleSetWithDiskControllerType() {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
       },
-      userData: "RXhhbXBsZSBVc2VyRGF0YQ=="
-    }
+      userData: "RXhhbXBsZSBVc2VyRGF0YQ==",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -763,7 +763,7 @@ async function createAScaleSetWithDiskControllerType() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskEncryptionSetResource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskEncryptionSetResource.json
  */
 async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk() {
   const subscriptionId =
@@ -786,19 +786,18 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         dataDisks: [
@@ -809,38 +808,36 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
             lun: 0,
             managedDisk: {
               diskEncryptionSet: {
-                id:
-                  "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+                id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
               },
-              storageAccountType: "Standard_LRS"
-            }
-          }
+              storageAccountType: "Standard_LRS",
+            },
+          },
         ],
         imageReference: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
           managedDisk: {
             diskEncryptionSet: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
             },
-            storageAccountType: "Standard_LRS"
-          }
-        }
-      }
-    }
+            storageAccountType: "Standard_LRS",
+          },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -848,7 +845,7 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithFpgaNetworkInterface.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithFpgaNetworkInterface.json
  */
 async function createAScaleSetWithFpgaNetworkInterfaces() {
   const subscriptionId =
@@ -871,12 +868,11 @@ async function createAScaleSetWithFpgaNetworkInterfaces() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
+            primary: true,
           },
           {
             name: "{fpgaNic-Name}",
@@ -889,40 +885,39 @@ async function createAScaleSetWithFpgaNetworkInterfaces() {
                 primary: true,
                 privateIPAddressVersion: "IPv4",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name}",
+                },
+              },
             ],
-            primary: false
-          }
-        ]
+            primary: false,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -930,7 +925,7 @@ async function createAScaleSetWithFpgaNetworkInterfaces() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEncryptionAtHost.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEncryptionAtHost.json
  */
 async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() {
   const subscriptionId =
@@ -944,7 +939,7 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() 
     plan: {
       name: "windows2016",
       product: "windows-data-science-vm",
-      publisher: "microsoft-ads"
+      publisher: "microsoft-ads",
     },
     sku: { name: "Standard_DS1_v2", capacity: 3, tier: "Standard" },
     upgradePolicy: { mode: "Manual" },
@@ -958,19 +953,18 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() 
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       securityProfile: { encryptionAtHost: true },
       storageProfile: {
@@ -978,23 +972,24 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() 
           offer: "windows-data-science-vm",
           publisher: "microsoft-ads",
           sku: "windows2016",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadOnly",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1002,7 +997,7 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() 
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithNetworkInterfaceWithDnsSettings.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithNetworkInterfaceWithDnsSettings.json
  */
 async function createAScaleSetWithNetworkInterfacesWithPublicIPAddressDnsSettings() {
   const subscriptionId =
@@ -1029,12 +1024,11 @@ async function createAScaleSetWithNetworkInterfacesWithPublicIPAddressDnsSetting
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
+            primary: true,
           },
           {
             name: "{nicConfig2-name}",
@@ -1050,45 +1044,44 @@ async function createAScaleSetWithNetworkInterfacesWithPublicIPAddressDnsSetting
                   name: "publicip",
                   dnsSettings: {
                     domainNameLabel: "vmsstestlabel01",
-                    domainNameLabelScope: "NoReuse"
+                    domainNameLabelScope: "NoReuse",
                   },
-                  idleTimeoutInMinutes: 10
+                  idleTimeoutInMinutes: 10,
                 },
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name2}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name2}",
+                },
+              },
             ],
-            primary: false
-          }
-        ]
+            primary: false,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1096,7 +1089,7 @@ async function createAScaleSetWithNetworkInterfacesWithPublicIPAddressDnsSetting
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithOSImageScheduledEventEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithOSImageScheduledEventEnabled.json
  */
 async function createAScaleSetWithOSImageScheduledEventsEnabled() {
   const subscriptionId =
@@ -1119,45 +1112,45 @@ async function createAScaleSetWithOSImageScheduledEventsEnabled() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       scheduledEventsProfile: {
-        osImageNotificationProfile: { enable: true, notBeforeTimeout: "PT15M" }
+        osImageNotificationProfile: { enable: true, notBeforeTimeout: "PT15M" },
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1165,7 +1158,7 @@ async function createAScaleSetWithOSImageScheduledEventsEnabled() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProxyAgentSettings.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProxyAgentSettings.json
  */
 async function createAScaleSetWithProxyAgentSettingsOfEnabledAndMode() {
   const subscriptionId =
@@ -1188,45 +1181,45 @@ async function createAScaleSetWithProxyAgentSettingsOfEnabledAndMode() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       securityProfile: {
-        proxyAgentSettings: { enabled: true, mode: "Enforce" }
+        proxyAgentSettings: { enabled: true, mode: "Enforce" },
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2019-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadOnly",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "StandardSSD_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "StandardSSD_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1234,7 +1227,7 @@ async function createAScaleSetWithProxyAgentSettingsOfEnabledAndMode() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithResilientVMCreationPolicy.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithResilientVMCreationPolicy.json
  */
 async function createAScaleSetWithResilientVMCreationEnabled() {
   const subscriptionId =
@@ -1258,42 +1251,42 @@ async function createAScaleSetWithResilientVMCreationEnabled() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1301,7 +1294,7 @@ async function createAScaleSetWithResilientVMCreationEnabled() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithResilientVMDeletionPolicy.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithResilientVMDeletionPolicy.json
  */
 async function createAScaleSetWithResilientVMDeletionEnabled() {
   const subscriptionId =
@@ -1325,42 +1318,42 @@ async function createAScaleSetWithResilientVMDeletionEnabled() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1368,7 +1361,7 @@ async function createAScaleSetWithResilientVMDeletionEnabled() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityPostureReference.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityPostureReference.json
  */
 async function createAScaleSetWithSecurityPostureReference() {
   const subscriptionId =
@@ -1382,7 +1375,7 @@ async function createAScaleSetWithSecurityPostureReference() {
     sku: { name: "Standard_A1", capacity: 3, tier: "Standard" },
     upgradePolicy: {
       automaticOSUpgradePolicy: { enableAutomaticOSUpgrade: true },
-      mode: "Automatic"
+      mode: "Automatic",
     },
     virtualMachineProfile: {
       networkProfile: {
@@ -1394,46 +1387,45 @@ async function createAScaleSetWithSecurityPostureReference() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       securityPostureReference: {
-        id:
-          "/CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|{major.*}|latest"
+        id: "/CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|{major.*}|latest",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2022-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           name: "osDisk",
           caching: "ReadWrite",
-          createOption: "FromImage"
-        }
-      }
-    }
+          createOption: "FromImage",
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1441,7 +1433,7 @@ async function createAScaleSetWithSecurityPostureReference() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVM.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVM.json
  */
 async function createAScaleSetWithSecurityTypeAsConfidentialVM() {
   const subscriptionId =
@@ -1464,49 +1456,49 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVM() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       securityProfile: {
         securityType: "ConfidentialVM",
-        uefiSettings: { secureBootEnabled: true, vTpmEnabled: true }
+        uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
       },
       storageProfile: {
         imageReference: {
           offer: "2019-datacenter-cvm",
           publisher: "MicrosoftWindowsServer",
           sku: "windows-cvm",
-          version: "17763.2183.2109130127"
+          version: "17763.2183.2109130127",
         },
         osDisk: {
           caching: "ReadOnly",
           createOption: "FromImage",
           managedDisk: {
             securityProfile: { securityEncryptionType: "VMGuestStateOnly" },
-            storageAccountType: "StandardSSD_LRS"
-          }
-        }
-      }
-    }
+            storageAccountType: "StandardSSD_LRS",
+          },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1514,7 +1506,7 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVM() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVMWithNonPersistedTPM.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVMWithNonPersistedTPM.json
  */
 async function createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTpmSecurityEncryptionType() {
   const subscriptionId =
@@ -1537,49 +1529,49 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTpm
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       securityProfile: {
         securityType: "ConfidentialVM",
-        uefiSettings: { secureBootEnabled: false, vTpmEnabled: true }
+        uefiSettings: { secureBootEnabled: false, vTpmEnabled: true },
       },
       storageProfile: {
         imageReference: {
           offer: "2022-datacenter-cvm",
           publisher: "UbuntuServer",
           sku: "linux-cvm",
-          version: "17763.2183.2109130127"
+          version: "17763.2183.2109130127",
         },
         osDisk: {
           caching: "ReadOnly",
           createOption: "FromImage",
           managedDisk: {
             securityProfile: { securityEncryptionType: "NonPersistedTPM" },
-            storageAccountType: "StandardSSD_LRS"
-          }
-        }
-      }
-    }
+            storageAccountType: "StandardSSD_LRS",
+          },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1587,7 +1579,7 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTpm
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithServiceArtifactReference.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithServiceArtifactReference.json
  */
 async function createAScaleSetWithServiceArtifactReference() {
   const subscriptionId =
@@ -1601,7 +1593,7 @@ async function createAScaleSetWithServiceArtifactReference() {
     sku: { name: "Standard_A1", capacity: 3, tier: "Standard" },
     upgradePolicy: {
       automaticOSUpgradePolicy: { enableAutomaticOSUpgrade: true },
-      mode: "Automatic"
+      mode: "Automatic",
     },
     virtualMachineProfile: {
       networkProfile: {
@@ -1613,46 +1605,45 @@ async function createAScaleSetWithServiceArtifactReference() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       serviceArtifactReference: {
-        id:
-          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/serviceArtifacts/serviceArtifactName/vmArtifactsProfiles/vmArtifactsProfilesName"
+        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/serviceArtifacts/serviceArtifactName/vmArtifactsProfiles/vmArtifactsProfilesName",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2022-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           name: "osDisk",
           caching: "ReadWrite",
-          createOption: "FromImage"
-        }
-      }
-    }
+          createOption: "FromImage",
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1660,7 +1651,7 @@ async function createAScaleSetWithServiceArtifactReference() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUefiSettings.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUefiSettings.json
  */
 async function createAScaleSetWithUefiSettingsOfSecureBootAndVTpm() {
   const subscriptionId =
@@ -1683,46 +1674,46 @@ async function createAScaleSetWithUefiSettingsOfSecureBootAndVTpm() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       securityProfile: {
         securityType: "TrustedLaunch",
-        uefiSettings: { secureBootEnabled: true, vTpmEnabled: true }
+        uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
       },
       storageProfile: {
         imageReference: {
           offer: "windowsserver-gen2preview-preview",
           publisher: "MicrosoftWindowsServer",
           sku: "windows10-tvm",
-          version: "18363.592.2001092016"
+          version: "18363.592.2001092016",
         },
         osDisk: {
           caching: "ReadOnly",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "StandardSSD_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "StandardSSD_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1730,7 +1721,7 @@ async function createAScaleSetWithUefiSettingsOfSecureBootAndVTpm() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAMarketplaceImagePlan.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAMarketplaceImagePlan.json
  */
 async function createAScaleSetWithAMarketplaceImagePlan() {
   const subscriptionId =
@@ -1744,7 +1735,7 @@ async function createAScaleSetWithAMarketplaceImagePlan() {
     plan: {
       name: "windows2016",
       product: "windows-data-science-vm",
-      publisher: "microsoft-ads"
+      publisher: "microsoft-ads",
     },
     sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     upgradePolicy: { mode: "Manual" },
@@ -1758,42 +1749,42 @@ async function createAScaleSetWithAMarketplaceImagePlan() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "windows-data-science-vm",
           publisher: "microsoft-ads",
           sku: "windows2016",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1801,7 +1792,7 @@ async function createAScaleSetWithAMarketplaceImagePlan() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureApplicationGateway.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureApplicationGateway.json
  */
 async function createAScaleSetWithAnAzureApplicationGateway() {
   const subscriptionId =
@@ -1825,47 +1816,46 @@ async function createAScaleSetWithAnAzureApplicationGateway() {
                 name: "{vmss-name}",
                 applicationGatewayBackendAddressPools: [
                   {
-                    id:
-                      "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/applicationGateways/{existing-application-gateway-name}/backendAddressPools/{existing-backend-address-pool-name}"
-                  }
+                    id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/applicationGateways/{existing-application-gateway-name}/backendAddressPools/{existing-backend-address-pool-name}",
+                  },
                 ],
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1873,7 +1863,7 @@ async function createAScaleSetWithAnAzureApplicationGateway() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureLoadBalancer.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureLoadBalancer.json
  */
 async function createAScaleSetWithAnAzureLoadBalancer() {
   const subscriptionId =
@@ -1897,57 +1887,55 @@ async function createAScaleSetWithAnAzureLoadBalancer() {
                 name: "{vmss-name}",
                 loadBalancerBackendAddressPools: [
                   {
-                    id:
-                      "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/{existing-load-balancer-name}/backendAddressPools/{existing-backend-address-pool-name}"
-                  }
+                    id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/{existing-load-balancer-name}/backendAddressPools/{existing-backend-address-pool-name}",
+                  },
                 ],
                 loadBalancerInboundNatPools: [
                   {
-                    id:
-                      "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/{existing-load-balancer-name}/inboundNatPools/{existing-nat-pool-name}"
-                  }
+                    id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/{existing-load-balancer-name}/inboundNatPools/{existing-nat-pool-name}",
+                  },
                 ],
                 publicIPAddressConfiguration: {
                   name: "{vmss-name}",
-                  publicIPAddressVersion: "IPv4"
+                  publicIPAddressVersion: "IPv4",
                 },
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1955,7 +1943,7 @@ async function createAScaleSetWithAnAzureLoadBalancer() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAutomaticRepairs.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAutomaticRepairs.json
  */
 async function createAScaleSetWithAutomaticRepairsEnabled() {
   const subscriptionId =
@@ -1967,6 +1955,13 @@ async function createAScaleSetWithAutomaticRepairsEnabled() {
     automaticRepairsPolicy: { enabled: true, gracePeriod: "PT10M" },
     location: "westus",
     overprovision: true,
+    scheduledEventsPolicy: {
+      scheduledEventsAdditionalPublishingTargets: {
+        eventGridAndResourceGraph: { enable: true },
+      },
+      userInitiatedReboot: { automaticallyApprove: true },
+      userInitiatedRedeploy: { automaticallyApprove: true },
+    },
     sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     upgradePolicy: { mode: "Manual" },
     virtualMachineProfile: {
@@ -1979,42 +1974,42 @@ async function createAScaleSetWithAutomaticRepairsEnabled() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2022,7 +2017,7 @@ async function createAScaleSetWithAutomaticRepairsEnabled() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithBootDiagnostics.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithBootDiagnostics.json
  */
 async function createAScaleSetWithBootDiagnostics() {
   const subscriptionId =
@@ -2040,8 +2035,8 @@ async function createAScaleSetWithBootDiagnostics() {
         bootDiagnostics: {
           enabled: true,
           storageUri:
-            "http://{existing-storage-account-name}.blob.core.windows.net"
-        }
+            "http://{existing-storage-account-name}.blob.core.windows.net",
+        },
       },
       networkProfile: {
         networkInterfaceConfigurations: [
@@ -2052,42 +2047,42 @@ async function createAScaleSetWithBootDiagnostics() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2095,7 +2090,7 @@ async function createAScaleSetWithBootDiagnostics() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEmptyDataDisksOnEachVm.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEmptyDataDisksOnEachVm.json
  */
 async function createAScaleSetWithEmptyDataDisksOnEachVM() {
   const subscriptionId =
@@ -2118,47 +2113,47 @@ async function createAScaleSetWithEmptyDataDisksOnEachVM() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         dataDisks: [
           { createOption: "Empty", diskSizeGB: 1023, lun: 0 },
-          { createOption: "Empty", diskSizeGB: 1023, lun: 1 }
+          { createOption: "Empty", diskSizeGB: 1023, lun: 1 },
         ],
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
           diskSizeGB: 512,
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2166,7 +2161,79 @@ async function createAScaleSetWithEmptyDataDisksOnEachVM() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacement.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacementAsNvmeDisk.json
+ */
+async function createAScaleSetWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementProperty() {
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const vmScaleSetName = "{vmss-name}";
+  const parameters: VirtualMachineScaleSet = {
+    location: "westus",
+    overprovision: true,
+    plan: {
+      name: "windows2016",
+      product: "windows-data-science-vm",
+      publisher: "microsoft-ads",
+    },
+    sku: { name: "Standard_DS1_v2", capacity: 3, tier: "Standard" },
+    upgradePolicy: { mode: "Manual" },
+    virtualMachineProfile: {
+      networkProfile: {
+        networkInterfaceConfigurations: [
+          {
+            name: "{vmss-name}",
+            enableIPForwarding: true,
+            ipConfigurations: [
+              {
+                name: "{vmss-name}",
+                subnet: {
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
+            ],
+            primary: true,
+          },
+        ],
+      },
+      osProfile: {
+        adminPassword: "{your-password}",
+        adminUsername: "{your-username}",
+        computerNamePrefix: "{vmss-name}",
+      },
+      storageProfile: {
+        imageReference: {
+          offer: "windows-data-science-vm",
+          publisher: "microsoft-ads",
+          sku: "windows2016",
+          version: "latest",
+        },
+        osDisk: {
+          caching: "ReadOnly",
+          createOption: "FromImage",
+          diffDiskSettings: { option: "Local", placement: "NvmeDisk" },
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create or update a VM scale set.
+ *
+ * @summary Create or update a VM scale set.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacement.json
  */
 async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty() {
   const subscriptionId =
@@ -2180,7 +2247,7 @@ async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty() {
     plan: {
       name: "windows2016",
       product: "windows-data-science-vm",
-      publisher: "microsoft-ads"
+      publisher: "microsoft-ads",
     },
     sku: { name: "Standard_DS1_v2", capacity: 3, tier: "Standard" },
     upgradePolicy: { mode: "Manual" },
@@ -2194,43 +2261,43 @@ async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "windows-data-science-vm",
           publisher: "microsoft-ads",
           sku: "windows2016",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadOnly",
           createOption: "FromImage",
           diffDiskSettings: { option: "Local", placement: "ResourceDisk" },
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2238,7 +2305,7 @@ async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiffOsDisk.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiffOsDisk.json
  */
 async function createAScaleSetWithEphemeralOSDisks() {
   const subscriptionId =
@@ -2252,7 +2319,7 @@ async function createAScaleSetWithEphemeralOSDisks() {
     plan: {
       name: "windows2016",
       product: "windows-data-science-vm",
-      publisher: "microsoft-ads"
+      publisher: "microsoft-ads",
     },
     sku: { name: "Standard_DS1_v2", capacity: 3, tier: "Standard" },
     upgradePolicy: { mode: "Manual" },
@@ -2266,43 +2333,43 @@ async function createAScaleSetWithEphemeralOSDisks() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "windows-data-science-vm",
           publisher: "microsoft-ads",
           sku: "windows2016",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadOnly",
           createOption: "FromImage",
           diffDiskSettings: { option: "Local" },
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2310,7 +2377,7 @@ async function createAScaleSetWithEphemeralOSDisks() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsTimeBudget.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsTimeBudget.json
  */
 async function createAScaleSetWithExtensionTimeBudget() {
   const subscriptionId =
@@ -2328,8 +2395,8 @@ async function createAScaleSetWithExtensionTimeBudget() {
         bootDiagnostics: {
           enabled: true,
           storageUri:
-            "http://{existing-storage-account-name}.blob.core.windows.net"
-        }
+            "http://{existing-storage-account-name}.blob.core.windows.net",
+        },
       },
       extensionProfile: {
         extensionsTimeBudget: "PT1H20M",
@@ -2340,9 +2407,9 @@ async function createAScaleSetWithExtensionTimeBudget() {
             autoUpgradeMinorVersion: false,
             publisher: "{extension-Publisher}",
             settings: {},
-            typeHandlerVersion: "{handler-version}"
-          }
-        ]
+            typeHandlerVersion: "{handler-version}",
+          },
+        ],
       },
       networkProfile: {
         networkInterfaceConfigurations: [
@@ -2353,42 +2420,42 @@ async function createAScaleSetWithExtensionTimeBudget() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2396,7 +2463,7 @@ async function createAScaleSetWithExtensionTimeBudget() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithManagedBootDiagnostics.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithManagedBootDiagnostics.json
  */
 async function createAScaleSetWithManagedBootDiagnostics() {
   const subscriptionId =
@@ -2420,42 +2487,42 @@ async function createAScaleSetWithManagedBootDiagnostics() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2463,7 +2530,7 @@ async function createAScaleSetWithManagedBootDiagnostics() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPasswordAuthentication.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPasswordAuthentication.json
  */
 async function createAScaleSetWithPasswordAuthentication() {
   const subscriptionId =
@@ -2486,42 +2553,42 @@ async function createAScaleSetWithPasswordAuthentication() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2529,7 +2596,7 @@ async function createAScaleSetWithPasswordAuthentication() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPremiumStorage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPremiumStorage.json
  */
 async function createAScaleSetWithPremiumStorage() {
   const subscriptionId =
@@ -2552,42 +2619,42 @@ async function createAScaleSetWithPremiumStorage() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Premium_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Premium_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2595,7 +2662,7 @@ async function createAScaleSetWithPremiumStorage() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPriorityMixPolicy.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPriorityMixPolicy.json
  */
 async function createAScaleSetWithPriorityMixPolicy() {
   const subscriptionId =
@@ -2608,7 +2675,7 @@ async function createAScaleSetWithPriorityMixPolicy() {
     orchestrationMode: "Flexible",
     priorityMixPolicy: {
       baseRegularPriorityCount: 4,
-      regularPriorityPercentageAboveBase: 50
+      regularPriorityPercentageAboveBase: 50,
     },
     singlePlacementGroup: false,
     sku: { name: "Standard_A8m_v2", capacity: 10, tier: "Standard" },
@@ -2624,19 +2691,18 @@ async function createAScaleSetWithPriorityMixPolicy() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       priority: "Spot",
       storageProfile: {
@@ -2644,23 +2710,24 @@ async function createAScaleSetWithPriorityMixPolicy() {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2668,7 +2735,7 @@ async function createAScaleSetWithPriorityMixPolicy() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithScaleInPolicy.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithScaleInPolicy.json
  */
 async function createAScaleSetWithScaleInPolicy() {
   const subscriptionId =
@@ -2692,42 +2759,42 @@ async function createAScaleSetWithScaleInPolicy() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2735,7 +2802,7 @@ async function createAScaleSetWithScaleInPolicy() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSpotRestorePolicy.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSpotRestorePolicy.json
  */
 async function createAScaleSetWithSpotRestorePolicy() {
   const subscriptionId =
@@ -2761,19 +2828,18 @@ async function createAScaleSetWithSpotRestorePolicy() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       priority: "Spot",
       storageProfile: {
@@ -2781,23 +2847,24 @@ async function createAScaleSetWithSpotRestorePolicy() {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2805,7 +2872,7 @@ async function createAScaleSetWithSpotRestorePolicy() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSshAuthentication.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSshAuthentication.json
  */
 async function createAScaleSetWithSshAuthentication() {
   const subscriptionId =
@@ -2828,14 +2895,13 @@ async function createAScaleSetWithSshAuthentication() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminUsername: "{your-username}",
@@ -2847,34 +2913,35 @@ async function createAScaleSetWithSshAuthentication() {
               {
                 path: "/home/{your-username}/.ssh/authorized_keys",
                 keyData:
-                  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1"
-              }
-            ]
-          }
-        }
+                  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1",
+              },
+            ],
+          },
+        },
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2882,7 +2949,7 @@ async function createAScaleSetWithSshAuthentication() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithTerminateScheduledEventEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithTerminateScheduledEventEnabled.json
  */
 async function createAScaleSetWithTerminateScheduledEventsEnabled() {
   const subscriptionId =
@@ -2905,45 +2972,48 @@ async function createAScaleSetWithTerminateScheduledEventsEnabled() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       scheduledEventsProfile: {
-        terminateNotificationProfile: { enable: true, notBeforeTimeout: "PT5M" }
+        terminateNotificationProfile: {
+          enable: true,
+          notBeforeTimeout: "PT5M",
+        },
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2951,7 +3021,7 @@ async function createAScaleSetWithTerminateScheduledEventsEnabled() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUserData.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUserData.json
  */
 async function createAScaleSetWithUserData() {
   const subscriptionId =
@@ -2974,43 +3044,43 @@ async function createAScaleSetWithUserData() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
       },
-      userData: "RXhhbXBsZSBVc2VyRGF0YQ=="
-    }
+      userData: "RXhhbXBsZSBVc2VyRGF0YQ==",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -3018,7 +3088,7 @@ async function createAScaleSetWithUserData() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMsInDifferentZones.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMsInDifferentZones.json
  */
 async function createAScaleSetWithVirtualMachinesInDifferentZones() {
   const subscriptionId =
@@ -3041,48 +3111,48 @@ async function createAScaleSetWithVirtualMachinesInDifferentZones() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         dataDisks: [
           { createOption: "Empty", diskSizeGB: 1023, lun: 0 },
-          { createOption: "Empty", diskSizeGB: 1023, lun: 1 }
+          { createOption: "Empty", diskSizeGB: 1023, lun: 1 },
         ],
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
           diskSizeGB: 512,
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
     },
-    zones: ["1", "3"]
+    zones: ["1", "3"],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -3090,7 +3160,7 @@ async function createAScaleSetWithVirtualMachinesInDifferentZones() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMSizeProperties.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMSizeProperties.json
  */
 async function createAScaleSetWithVMSizeProperties() {
   const subscriptionId =
@@ -3105,7 +3175,7 @@ async function createAScaleSetWithVMSizeProperties() {
     upgradePolicy: { mode: "Manual" },
     virtualMachineProfile: {
       hardwareProfile: {
-        vmSizeProperties: { vCPUsAvailable: 1, vCPUsPerCore: 1 }
+        vmSizeProperties: { vCPUsAvailable: 1, vCPUsPerCore: 1 },
       },
       networkProfile: {
         networkInterfaceConfigurations: [
@@ -3116,43 +3186,43 @@ async function createAScaleSetWithVMSizeProperties() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
       },
-      userData: "RXhhbXBsZSBVc2VyRGF0YQ=="
-    }
+      userData: "RXhhbXBsZSBVc2VyRGF0YQ==",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -3160,7 +3230,7 @@ async function createAScaleSetWithVMSizeProperties() {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithCapacityReservation.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithCapacityReservation.json
  */
 async function createOrUpdateAScaleSetWithCapacityReservation() {
   const subscriptionId =
@@ -3176,9 +3246,8 @@ async function createOrUpdateAScaleSetWithCapacityReservation() {
     virtualMachineProfile: {
       capacityReservation: {
         capacityReservationGroup: {
-          id:
-            "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/{crgName}"
-        }
+          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/{crgName}",
+        },
       },
       networkProfile: {
         networkInterfaceConfigurations: [
@@ -3189,42 +3258,42 @@ async function createOrUpdateAScaleSetWithCapacityReservation() {
               {
                 name: "{vmss-name}",
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
             ],
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         adminPassword: "{your-password}",
         adminUsername: "{your-username}",
-        computerNamePrefix: "{vmss-name}"
+        computerNamePrefix: "{vmss-name}",
       },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           createOption: "FromImage",
-          managedDisk: { storageAccountType: "Standard_LRS" }
-        }
-      }
-    }
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -3258,6 +3327,7 @@ async function main() {
   createAScaleSetWithAutomaticRepairsEnabled();
   createAScaleSetWithBootDiagnostics();
   createAScaleSetWithEmptyDataDisksOnEachVM();
+  createAScaleSetWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementProperty();
   createAScaleSetWithEphemeralOSDisksUsingPlacementProperty();
   createAScaleSetWithEphemeralOSDisks();
   createAScaleSetWithExtensionTimeBudget();

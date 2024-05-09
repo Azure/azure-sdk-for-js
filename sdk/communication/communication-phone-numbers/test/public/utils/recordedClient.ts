@@ -14,7 +14,7 @@ import {
 import { PhoneNumbersClient } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
-import { isNode } from "@azure/test-utils";
+import { isNode } from "@azure-tools/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 
@@ -29,14 +29,11 @@ export interface RecordedClient<T> {
 
 const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-  INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
-  SKIP_UPDATE_CAPABILITIES_LIVE_TESTS: "false",
   COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "SomeTenantId",
   AZURE_PHONE_NUMBER: "+14155550100",
-  COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false",
   AZURE_USERAGENT_OVERRIDE: "fake-useragent",
 };
 

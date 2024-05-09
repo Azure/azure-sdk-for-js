@@ -15,36 +15,42 @@ export const MonitoringDataPoint: coreClient.CompositeMapper = {
     modelProperties: {
       version: {
         serializedName: "Version",
+        required: true,
         type: {
           name: "String",
         },
       },
       invariantVersion: {
         serializedName: "InvariantVersion",
+        required: true,
         type: {
           name: "Number",
         },
       },
       instance: {
         serializedName: "Instance",
+        required: true,
         type: {
           name: "String",
         },
       },
       roleName: {
         serializedName: "RoleName",
+        required: true,
         type: {
           name: "String",
         },
       },
       machineName: {
         serializedName: "MachineName",
+        required: true,
         type: {
           name: "String",
         },
       },
       streamId: {
         serializedName: "StreamId",
+        required: true,
         type: {
           name: "String",
         },
@@ -63,12 +69,14 @@ export const MonitoringDataPoint: coreClient.CompositeMapper = {
       },
       isWebApp: {
         serializedName: "IsWebApp",
+        required: true,
         type: {
           name: "Boolean",
         },
       },
       performanceCollectionSupported: {
         serializedName: "PerformanceCollectionSupported",
+        required: true,
         type: {
           name: "Boolean",
         },
@@ -132,18 +140,21 @@ export const MetricPoint: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "Name",
+        required: true,
         type: {
           name: "String",
         },
       },
       value: {
         serializedName: "Value",
+        required: true,
         type: {
           name: "Number",
         },
       },
       weight: {
         serializedName: "Weight",
+        required: true,
         type: {
           name: "Number",
         },
@@ -203,12 +214,14 @@ export const KeyValuePairString: coreClient.CompositeMapper = {
     modelProperties: {
       key: {
         serializedName: "key",
+        required: true,
         type: {
           name: "String",
         },
       },
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "String",
         },
@@ -224,12 +237,14 @@ export const ProcessCpuData: coreClient.CompositeMapper = {
     modelProperties: {
       processName: {
         serializedName: "ProcessName",
+        required: true,
         type: {
           name: "String",
         },
       },
       cpuPercentage: {
         serializedName: "CpuPercentage",
+        required: true,
         type: {
           name: "Number",
         },
@@ -245,24 +260,28 @@ export const CollectionConfigurationError: coreClient.CompositeMapper = {
     modelProperties: {
       collectionConfigurationErrorType: {
         serializedName: "CollectionConfigurationErrorType",
+        required: true,
         type: {
           name: "String",
         },
       },
       message: {
         serializedName: "Message",
+        required: true,
         type: {
           name: "String",
         },
       },
       fullException: {
         serializedName: "FullException",
+        required: true,
         type: {
           name: "String",
         },
       },
       data: {
         serializedName: "Data",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -282,14 +301,16 @@ export const CollectionConfigurationInfo: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CollectionConfigurationInfo",
     modelProperties: {
-      etag: {
-        serializedName: "Etag",
+      eTag: {
+        serializedName: "ETag",
+        required: true,
         type: {
           name: "String",
         },
       },
       metrics: {
         serializedName: "Metrics",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -302,6 +323,7 @@ export const CollectionConfigurationInfo: coreClient.CompositeMapper = {
       },
       documentStreams: {
         serializedName: "DocumentStreams",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -330,18 +352,21 @@ export const DerivedMetricInfo: coreClient.CompositeMapper = {
     modelProperties: {
       id: {
         serializedName: "Id",
+        required: true,
         type: {
           name: "String",
         },
       },
       telemetryType: {
         serializedName: "TelemetryType",
+        required: true,
         type: {
           name: "String",
         },
       },
       filterGroups: {
         serializedName: "FilterGroups",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -354,12 +379,21 @@ export const DerivedMetricInfo: coreClient.CompositeMapper = {
       },
       projection: {
         serializedName: "Projection",
+        required: true,
         type: {
           name: "String",
         },
       },
       aggregation: {
         serializedName: "Aggregation",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      backEndAggregation: {
+        serializedName: "BackEndAggregation",
+        required: true,
         type: {
           name: "String",
         },
@@ -375,6 +409,7 @@ export const FilterConjunctionGroupInfo: coreClient.CompositeMapper = {
     modelProperties: {
       filters: {
         serializedName: "Filters",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -396,18 +431,21 @@ export const FilterInfo: coreClient.CompositeMapper = {
     modelProperties: {
       fieldName: {
         serializedName: "FieldName",
+        required: true,
         type: {
           name: "String",
         },
       },
       predicate: {
         serializedName: "Predicate",
+        required: true,
         type: {
           name: "String",
         },
       },
       comparand: {
         serializedName: "Comparand",
+        required: true,
         type: {
           name: "String",
         },
@@ -423,12 +461,14 @@ export const DocumentStreamInfo: coreClient.CompositeMapper = {
     modelProperties: {
       id: {
         serializedName: "Id",
+        required: true,
         type: {
           name: "String",
         },
       },
       documentFilterGroups: {
         serializedName: "DocumentFilterGroups",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -450,6 +490,7 @@ export const DocumentFilterConjunctionGroupInfo: coreClient.CompositeMapper = {
     modelProperties: {
       telemetryType: {
         serializedName: "TelemetryType",
+        required: true,
         type: {
           name: "String",
         },
@@ -500,31 +541,37 @@ export const ServiceError: coreClient.CompositeMapper = {
     className: "ServiceError",
     modelProperties: {
       requestId: {
+        defaultValue: "00000000-0000-0000-0000-000000000000",
         serializedName: "RequestId",
+        required: true,
         type: {
           name: "String",
         },
       },
       responseDateTime: {
         serializedName: "ResponseDateTime",
+        required: true,
         type: {
-          name: "DateTime",
+          name: "String",
         },
       },
       code: {
         serializedName: "Code",
+        required: true,
         type: {
           name: "String",
         },
       },
       message: {
         serializedName: "Message",
+        required: true,
         type: {
           name: "String",
         },
       },
       exception: {
         serializedName: "Exception",
+        required: true,
         type: {
           name: "String",
         },
@@ -533,44 +580,51 @@ export const ServiceError: coreClient.CompositeMapper = {
   },
 };
 
-export const Request: coreClient.CompositeMapper = {
-  serializedName: "Request",
+export const Event: coreClient.CompositeMapper = {
+  serializedName: "Event",
   type: {
     name: "Composite",
-    className: "Request",
+    className: "Event",
     uberParent: "DocumentIngress",
     polymorphicDiscriminator: DocumentIngress.type.polymorphicDiscriminator,
     modelProperties: {
       ...DocumentIngress.type.modelProperties,
       name: {
         constraints: {
-          MaxLength: 1024,
+          MaxLength: 512,
         },
         serializedName: "Name",
         type: {
           name: "String",
         },
       },
-      url: {
-        constraints: {
-          MaxLength: 2048,
-        },
-        serializedName: "Url",
-        type: {
-          name: "String",
-        },
-      },
-      responseCode: {
+    },
+  },
+};
+
+export const Exception: coreClient.CompositeMapper = {
+  serializedName: "Exception",
+  type: {
+    name: "Composite",
+    className: "Exception",
+    uberParent: "DocumentIngress",
+    polymorphicDiscriminator: DocumentIngress.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DocumentIngress.type.modelProperties,
+      exceptionType: {
         constraints: {
           MaxLength: 1024,
         },
-        serializedName: "ResponseCode",
+        serializedName: "ExceptionType",
         type: {
           name: "String",
         },
       },
-      duration: {
-        serializedName: "Duration",
+      exceptionMessage: {
+        constraints: {
+          MaxLength: 32768,
+        },
+        serializedName: "ExceptionMessage",
         type: {
           name: "String",
         },
@@ -625,51 +679,44 @@ export const RemoteDependency: coreClient.CompositeMapper = {
   },
 };
 
-export const Exception: coreClient.CompositeMapper = {
-  serializedName: "Exception",
+export const Request: coreClient.CompositeMapper = {
+  serializedName: "Request",
   type: {
     name: "Composite",
-    className: "Exception",
-    uberParent: "DocumentIngress",
-    polymorphicDiscriminator: DocumentIngress.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DocumentIngress.type.modelProperties,
-      exceptionType: {
-        constraints: {
-          MaxLength: 1024,
-        },
-        serializedName: "ExceptionType",
-        type: {
-          name: "String",
-        },
-      },
-      exceptionMessage: {
-        constraints: {
-          MaxLength: 32768,
-        },
-        serializedName: "ExceptionMessage",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const Event: coreClient.CompositeMapper = {
-  serializedName: "Event",
-  type: {
-    name: "Composite",
-    className: "Event",
+    className: "Request",
     uberParent: "DocumentIngress",
     polymorphicDiscriminator: DocumentIngress.type.polymorphicDiscriminator,
     modelProperties: {
       ...DocumentIngress.type.modelProperties,
       name: {
         constraints: {
-          MaxLength: 512,
+          MaxLength: 1024,
         },
         serializedName: "Name",
+        type: {
+          name: "String",
+        },
+      },
+      url: {
+        constraints: {
+          MaxLength: 2048,
+        },
+        serializedName: "Url",
+        type: {
+          name: "String",
+        },
+      },
+      responseCode: {
+        constraints: {
+          MaxLength: 1024,
+        },
+        serializedName: "ResponseCode",
+        type: {
+          name: "String",
+        },
+      },
+      duration: {
+        serializedName: "Duration",
         type: {
           name: "String",
         },
@@ -700,10 +747,10 @@ export const Trace: coreClient.CompositeMapper = {
   },
 };
 
-export const QuickpulseClientPingHeaders: coreClient.CompositeMapper = {
+export const QuickpulseClientIsSubscribedHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "QuickpulseClientPingHeaders",
+    className: "QuickpulseClientIsSubscribedHeaders",
     modelProperties: {
       xMsQpsSubscribed: {
         serializedName: "x-ms-qps-subscribed",
@@ -720,7 +767,7 @@ export const QuickpulseClientPingHeaders: coreClient.CompositeMapper = {
       xMsQpsServicePollingIntervalHint: {
         serializedName: "x-ms-qps-service-polling-interval-hint",
         type: {
-          name: "Number",
+          name: "String",
         },
       },
       xMsQpsServiceEndpointRedirectV2: {
@@ -733,10 +780,10 @@ export const QuickpulseClientPingHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const QuickpulseClientPostHeaders: coreClient.CompositeMapper = {
+export const QuickpulseClientPublishHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "QuickpulseClientPostHeaders",
+    className: "QuickpulseClientPublishHeaders",
     modelProperties: {
       xMsQpsSubscribed: {
         serializedName: "x-ms-qps-subscribed",
@@ -746,24 +793,6 @@ export const QuickpulseClientPostHeaders: coreClient.CompositeMapper = {
       },
       xMsQpsConfigurationEtag: {
         serializedName: "x-ms-qps-configuration-etag",
-        type: {
-          name: "String",
-        },
-      },
-      xMsQpsServicePollingIntervalHint: {
-        serializedName: "x-ms-qps-service-polling-interval-hint",
-        type: {
-          name: "Number",
-        },
-      },
-      xMsQpsServiceEndpointRedirect: {
-        serializedName: "x-ms-qps-service-endpoint-redirect",
-        type: {
-          name: "String",
-        },
-      },
-      xMsQpsServiceEndpointRedirectV2: {
-        serializedName: "x-ms-qps-service-endpoint-redirect-v2",
         type: {
           name: "String",
         },
@@ -774,9 +803,9 @@ export const QuickpulseClientPostHeaders: coreClient.CompositeMapper = {
 
 export let discriminators = {
   DocumentIngress: DocumentIngress,
-  "DocumentIngress.Request": Request,
-  "DocumentIngress.RemoteDependency": RemoteDependency,
-  "DocumentIngress.Exception": Exception,
   "DocumentIngress.Event": Event,
+  "DocumentIngress.Exception": Exception,
+  "DocumentIngress.RemoteDependency": RemoteDependency,
+  "DocumentIngress.Request": Request,
   "DocumentIngress.Trace": Trace,
 };

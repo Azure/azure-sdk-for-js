@@ -10,8 +10,9 @@ import { Recorder, env } from "@azure-tools/test-recorder";
 import { AbortError } from "@azure/abort-controller";
 import { AuthenticationRequiredError } from "../../../src/errors";
 import { IdentityClient } from "../../../src/client/identityClient";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { credentialLogger } from "../../../src/util/logging";
+import { msalPlugins } from "../../../src/msal/nodeFlows/msalPlugins";
 import sinon from "sinon";
 
 describe("MsalClient", function () {
@@ -109,6 +110,111 @@ describe("MsalClient", function () {
           () => msalClient.generateMsalConfiguration("client-id", "invalid-tenant-id$%*^@#(;"),
           /Invalid tenant id provided/,
         );
+      });
+    });
+  });
+
+  describe("CAE support", function () {
+    let sandbox: sinon.SinonSandbox;
+    let subject: msalClient.MsalClient;
+
+    const clientId = "client-id";
+    const tenantId = "tenant-id";
+
+    afterEach(async function () {
+      sandbox.restore();
+    });
+
+    beforeEach(async function () {
+      sandbox = sinon.createSandbox();
+    });
+
+    describe("when CAE is enabled", function () {
+      const enableCae = true;
+
+      it("uses the CAE cache", async function () {
+        const cachePluginCae = {
+          afterCacheAccess: sinon.stub(),
+          beforeCacheAccess: sinon.stub(),
+        };
+        const cachePlugin = {
+          afterCacheAccess: sinon.stub(),
+          beforeCacheAccess: sinon.stub(),
+        };
+
+        sandbox.stub(msalPlugins, "generatePluginConfiguration").returns({
+          broker: {
+            isEnabled: false,
+            enableMsaPassthrough: false,
+          },
+          cache: {
+            cachePlugin: Promise.resolve(cachePlugin),
+            cachePluginCae: Promise.resolve(cachePluginCae),
+          },
+        });
+
+        subject = msalClient.createMsalClient(clientId, tenantId, {
+          tokenCachePersistenceOptions: {
+            enabled: true,
+          },
+        });
+
+        try {
+          await subject.getTokenByClientSecret(
+            ["https://vault.azure.net/.default"],
+            "client-secret",
+            { enableCae },
+          );
+        } catch (e) {
+          // ignore errors
+        }
+
+        assert.isAbove(cachePluginCae.beforeCacheAccess.callCount, 0);
+        assert.equal(cachePlugin.beforeCacheAccess.callCount, 0);
+      });
+    });
+
+    describe("when CAE is disabled", function () {
+      const enableCae = false;
+      it("initializes the default cache", async function () {
+        const cachePluginCae = {
+          afterCacheAccess: sinon.stub(),
+          beforeCacheAccess: sinon.stub(),
+        };
+        const cachePlugin = {
+          afterCacheAccess: sinon.stub(),
+          beforeCacheAccess: sinon.stub(),
+        };
+
+        sandbox.stub(msalPlugins, "generatePluginConfiguration").returns({
+          broker: {
+            isEnabled: false,
+            enableMsaPassthrough: false,
+          },
+          cache: {
+            cachePlugin: Promise.resolve(cachePlugin),
+            cachePluginCae: Promise.resolve(cachePluginCae),
+          },
+        });
+
+        subject = msalClient.createMsalClient(clientId, tenantId, {
+          tokenCachePersistenceOptions: {
+            enabled: true,
+          },
+        });
+
+        try {
+          await subject.getTokenByClientSecret(
+            ["https://vault.azure.net/.default"],
+            "client-secret",
+            { enableCae },
+          );
+        } catch (e) {
+          // ignore errors
+        }
+
+        assert.isAbove(cachePlugin.beforeCacheAccess.callCount, 0);
+        assert.equal(cachePluginCae.beforeCacheAccess.callCount, 0);
       });
     });
   });

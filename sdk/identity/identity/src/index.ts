@@ -82,7 +82,8 @@ export {
   DeviceCodeInfo,
 } from "./credentials/deviceCodeCredentialOptions";
 export { DeviceCodeCredentialOptions } from "./credentials/deviceCodeCredentialOptions";
-
+export { AzurePipelinesCredential as AzurePipelinesCredential } from "./credentials/azurePipelinesCredential";
+export { AzurePipelinesCredentialOptions as AzurePipelinesCredentialOptions } from "./credentials/azurePipelinesCredentialOptions";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export { AuthorizationCodeCredentialOptions } from "./credentials/authorizationCodeCredentialOptions";
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";
@@ -113,3 +114,5 @@ export { AzureAuthorityHosts } from "./constants";
 export function getDefaultAzureCredential(): TokenCredential {
   return new DefaultAzureCredential();
 }
+
+export { getBearerTokenProvider, GetBearerTokenProviderOptions } from "./tokenProvider";

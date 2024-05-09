@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineInstallPatchesParameters,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Installs patches on the VM.
  *
  * @summary Installs patches on the VM.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExamples/VirtualMachine_InstallPatches.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_InstallPatches.json
  */
 async function installPatchStateOfAVirtualMachine() {
   const subscriptionId =
@@ -34,15 +34,15 @@ async function installPatchStateOfAVirtualMachine() {
     rebootSetting: "IfRequired",
     windowsParameters: {
       classificationsToInclude: ["Critical", "Security"],
-      maxPatchPublishDate: new Date("2020-11-19T02:36:43.0539904+00:00")
-    }
+      maxPatchPublishDate: new Date("2020-11-19T02:36:43.0539904+00:00"),
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginInstallPatchesAndWait(
     resourceGroupName,
     vmName,
-    installPatchesInput
+    installPatchesInput,
   );
   console.log(result);
 }

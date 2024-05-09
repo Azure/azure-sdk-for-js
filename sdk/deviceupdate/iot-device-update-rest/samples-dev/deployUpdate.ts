@@ -12,14 +12,14 @@ import DeviceUpdate, { getLongRunningPoller, isUnexpected } from "@azure-rest/io
 
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
-import { v4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 dotenv.config();
 
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
 
-async function main() {
+async function main(): Promise<void> {
   console.log("== Deploy update ==");
   const updateProvider = process.env["DEVICEUPDATE_UPDATE_PROVIDER"] || "";
   const updateName = process.env["DEVICEUPDATE_UPDATE_NAME"] || "";
@@ -29,7 +29,7 @@ async function main() {
   const credentials = new DefaultAzureCredential();
 
   const client = DeviceUpdate(endpoint, credentials);
-  const deploymentId = v4();
+  const deploymentId = randomUUID();
   const startAt = new Date().toISOString();
 
   const initialResponse = await client

@@ -3,26 +3,17 @@
 
 /**
  * @file Testing the ts-doc-internal rule.
- * @author Arpan Laha
+ *
  */
 
-import { RuleTester } from "eslint";
+import { createRuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-doc-internal";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-  settings: {
-    exported: [],
-  },
-});
+const ruleTester = createRuleTester({ settings: { exported: [] } });
 
 ruleTester.run("ts-doc-internal", rule, {
   valid: [

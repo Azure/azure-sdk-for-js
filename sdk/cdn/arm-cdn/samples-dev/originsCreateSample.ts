@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new origin within the specified endpoint.
  *
  * @summary Creates a new origin within the specified endpoint.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Origins_Create.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Origins_Create.json
  */
 async function originsCreate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -38,7 +38,7 @@ async function originsCreate() {
     privateLinkLocation: "eastus",
     privateLinkResourceId:
       "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.Network/privateLinkServices/pls1",
-    weight: 50
+    weight: 50,
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -47,7 +47,7 @@ async function originsCreate() {
     profileName,
     endpointName,
     originName,
-    origin
+    origin,
   );
   console.log(result);
 }

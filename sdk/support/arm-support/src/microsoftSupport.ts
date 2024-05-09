@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -22,14 +22,12 @@ import {
   SupportTicketsNoSubscriptionImpl,
   CommunicationsImpl,
   CommunicationsNoSubscriptionImpl,
-  SupportTicketCommunicationsNoSubscriptionImpl,
   ChatTranscriptsImpl,
-  SupportTicketChatTranscriptsNoSubscriptionImpl,
   ChatTranscriptsNoSubscriptionImpl,
   FileWorkspacesImpl,
   FileWorkspacesNoSubscriptionImpl,
   FilesImpl,
-  FilesNoSubscriptionImpl
+  FilesNoSubscriptionImpl,
 } from "./operations";
 import {
   Operations,
@@ -39,14 +37,12 @@ import {
   SupportTicketsNoSubscription,
   Communications,
   CommunicationsNoSubscription,
-  SupportTicketCommunicationsNoSubscription,
   ChatTranscripts,
-  SupportTicketChatTranscriptsNoSubscription,
   ChatTranscriptsNoSubscription,
   FileWorkspaces,
   FileWorkspacesNoSubscription,
   Files,
-  FilesNoSubscription
+  FilesNoSubscription,
 } from "./operationsInterfaces";
 import { MicrosoftSupportOptionalParams } from "./models";
 
@@ -58,22 +54,22 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the MicrosoftSupport class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Azure subscription Id.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: MicrosoftSupportOptionalParams
+    options?: MicrosoftSupportOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: MicrosoftSupportOptionalParams
+    options?: MicrosoftSupportOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?: MicrosoftSupportOptionalParams | string,
-    options?: MicrosoftSupportOptionalParams
+    options?: MicrosoftSupportOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -93,10 +89,10 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
     }
     const defaults: MicrosoftSupportOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-support/2.2.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-support/3.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -106,20 +102,21 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -129,7 +126,7 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -139,9 +136,9 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -149,31 +146,25 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01-preview";
+    this.apiVersion = options.apiVersion || "2024-04-01";
     this.operations = new OperationsImpl(this);
     this.services = new ServicesImpl(this);
     this.problemClassifications = new ProblemClassificationsImpl(this);
     this.supportTickets = new SupportTicketsImpl(this);
     this.supportTicketsNoSubscription = new SupportTicketsNoSubscriptionImpl(
-      this
+      this,
     );
     this.communications = new CommunicationsImpl(this);
     this.communicationsNoSubscription = new CommunicationsNoSubscriptionImpl(
-      this
-    );
-    this.supportTicketCommunicationsNoSubscription = new SupportTicketCommunicationsNoSubscriptionImpl(
-      this
+      this,
     );
     this.chatTranscripts = new ChatTranscriptsImpl(this);
-    this.supportTicketChatTranscriptsNoSubscription = new SupportTicketChatTranscriptsNoSubscriptionImpl(
-      this
-    );
     this.chatTranscriptsNoSubscription = new ChatTranscriptsNoSubscriptionImpl(
-      this
+      this,
     );
     this.fileWorkspaces = new FileWorkspacesImpl(this);
     this.fileWorkspacesNoSubscription = new FileWorkspacesNoSubscriptionImpl(
-      this
+      this,
     );
     this.files = new FilesImpl(this);
     this.filesNoSubscription = new FilesNoSubscriptionImpl(this);
@@ -189,7 +180,7 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -203,7 +194,7 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -215,9 +206,7 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
   supportTicketsNoSubscription: SupportTicketsNoSubscription;
   communications: Communications;
   communicationsNoSubscription: CommunicationsNoSubscription;
-  supportTicketCommunicationsNoSubscription: SupportTicketCommunicationsNoSubscription;
   chatTranscripts: ChatTranscripts;
-  supportTicketChatTranscriptsNoSubscription: SupportTicketChatTranscriptsNoSubscription;
   chatTranscriptsNoSubscription: ChatTranscriptsNoSubscription;
   fileWorkspaces: FileWorkspaces;
   fileWorkspacesNoSubscription: FileWorkspacesNoSubscription;
