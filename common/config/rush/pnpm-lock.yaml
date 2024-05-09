@@ -4335,7 +4335,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001617
-      electron-to-chromium: 1.4.761
+      electron-to-chromium: 1.4.762
       node-releases: 2.0.14
       update-browserslist-db: 1.0.15(browserslist@4.23.0)
     dev: false
@@ -5157,8 +5157,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium@1.4.761:
-    resolution: {integrity: sha512-PIbxpiJGx6Bb8dQaonNc6CGTRlVntdLg/2nMa1YhnrwYOORY9a3ZgGN0UQYE6lAcj/lkyduJN7BPt/JiY+jAQQ==}
+  /electron-to-chromium@1.4.762:
+    resolution: {integrity: sha512-rrFvGweLxPwwSwJOjIopy3Vr+J3cIPtZzuc74bmlvmBIgQO3VYJDvVrlj94iKZ3ukXUH64Ex31hSfRTLqvjYJQ==}
     dev: false
 
   /emitter-component@1.1.2:
@@ -22332,11 +22332,12 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-+NKWqKpg0dX00E153gjbWg77KnMnmORrX4nvB43cTfHphQkYYtoZjL35jB8uKXQfApH66QEe5SquG8yv17XYlw==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-a5692cRYXBuqUM7K43Loif1z6wcx8mqlK2MyOXRy5mGrpJEWZcHIztXXxEGPGItUmCATidMUhcnu6eYFuCLnlg==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 3.3.0
+      '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.3(@types/node@18.19.33)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
