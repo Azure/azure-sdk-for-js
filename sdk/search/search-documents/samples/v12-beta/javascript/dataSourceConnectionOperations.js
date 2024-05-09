@@ -5,12 +5,12 @@
  * @summary Demonstrates the DataSource Connection Operations.
  */
 
-const { AzureKeyCredential, SearchIndexerClient } = require("@azure/search-documents");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SearchIndexerClient } = require("@azure/search-documents");
 
 require("dotenv").config();
 
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const connectionString = process.env.CONNECTION_STRING || "";
 const TEST_DATA_SOURCE_CONNECTION_NAME = "example-ds-connection-sample-1";
 
@@ -63,11 +63,11 @@ async function deleteDataSourceConnection(dataSourceConnectionName, client) {
 
 async function main() {
   console.log(`Running DS Connection Operations Sample....`);
-  if (!endpoint || !apiKey || !connectionString) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint || !connectionString) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new SearchIndexerClient(endpoint, new DefaultAzureCredential());
   try {
     await createDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);
     await getAndUpdateDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);
