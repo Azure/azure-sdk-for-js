@@ -636,12 +636,7 @@ export interface LivenessWithVerifySessionOutput {
 }
 
 /** Alias for OperationStatusOutput */
-export type OperationStatusOutput =
-  | string
-  | "notStarted"
-  | "running"
-  | "succeeded"
-  | "failed";
+export type OperationStatusOutput = string | "notStarted" | "running" | "succeeded" | "failed";
 /** Alias for RecognitionModelOutput */
 export type RecognitionModelOutput =
   | string
@@ -672,34 +667,17 @@ export type AccessoryTypeOutput = string | "headwear" | "glasses" | "mask";
 /** Alias for BlurLevelOutput */
 export type BlurLevelOutput = string | "low" | "medium" | "high";
 /** Alias for ExposureLevelOutput */
-export type ExposureLevelOutput =
-  | string
-  | "underExposure"
-  | "goodExposure"
-  | "overExposure";
+export type ExposureLevelOutput = string | "underExposure" | "goodExposure" | "overExposure";
 /** Alias for NoiseLevelOutput */
 export type NoiseLevelOutput = string | "low" | "medium" | "high";
 /** Alias for MaskTypeOutput */
-export type MaskTypeOutput =
-  | string
-  | "faceMask"
-  | "noMask"
-  | "otherMaskOrOcclusion"
-  | "uncertain";
+export type MaskTypeOutput = string | "faceMask" | "noMask" | "otherMaskOrOcclusion" | "uncertain";
 /** Alias for QualityForRecognitionOutput */
 export type QualityForRecognitionOutput = string | "low" | "medium" | "high";
 /** Alias for FaceSessionStatusOutput */
-export type FaceSessionStatusOutput =
-  | string
-  | "NotStarted"
-  | "Started"
-  | "ResultAvailable";
+export type FaceSessionStatusOutput = string | "NotStarted" | "Started" | "ResultAvailable";
 /** Alias for LivenessDecisionOutput */
-export type LivenessDecisionOutput =
-  | string
-  | "uncertain"
-  | "realface"
-  | "spoofface";
+export type LivenessDecisionOutput = string | "uncertain" | "realface" | "spoofface";
 /** Alias for ImageTypeOutput */
 export type ImageTypeOutput = string | "Color" | "Infrared" | "Depth";
 /** Alias for LivenessModelOutput */
