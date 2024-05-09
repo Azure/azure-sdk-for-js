@@ -6,14 +6,10 @@ These sample programs show how to use the TypeScript client libraries for Face A
 | ------------------------------------------------------------- | ------------------------------------ |
 | [aadAuth.ts][aadauth]                                         | creates a liveness detection session |
 | [detect.ts][detect]                                           | creates a liveness detection session |
-| [findSimilars.ts][findsimilars]                               | creates a liveness detection session |
 | [grouping.ts][grouping]                                       | creates a liveness detection session |
 | [liveness.ts][liveness]                                       | creates a liveness detection session |
 | [livenessWithVerify.ts][livenesswithverify]                   | creates a liveness detection session |
 | [livenessWithVerifyWithImage.ts][livenesswithverifywithimage] | creates a liveness detection session |
-| [personDirectory.ts][persondirectory]                         | creates a liveness detection session |
-| [personGroup.ts][persongroup]                                 | creates a liveness detection session |
-| [verify.ts][verify]                                           | creates a liveness detection session |
 
 ## Prerequisites
 
@@ -67,14 +63,10 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [aadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/face/ai-vision-face-rest/samples/v1-beta/typescript/src/aadAuth.ts
 [detect]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/face/ai-vision-face-rest/samples/v1-beta/typescript/src/detect.ts
-[findsimilars]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/face/ai-vision-face-rest/samples/v1-beta/typescript/src/findSimilars.ts
 [grouping]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/face/ai-vision-face-rest/samples/v1-beta/typescript/src/grouping.ts
 [liveness]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/face/ai-vision-face-rest/samples/v1-beta/typescript/src/liveness.ts
 [livenesswithverify]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/face/ai-vision-face-rest/samples/v1-beta/typescript/src/livenessWithVerify.ts
 [livenesswithverifywithimage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/face/ai-vision-face-rest/samples/v1-beta/typescript/src/livenessWithVerifyWithImage.ts
-[persondirectory]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/face/ai-vision-face-rest/samples/v1-beta/typescript/src/personDirectory.ts
-[persongroup]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/face/ai-vision-face-rest/samples/v1-beta/typescript/src/personGroup.ts
-[verify]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/face/ai-vision-face-rest/samples/v1-beta/typescript/src/verify.ts
 [apiref]: https://aka.ms/azsdk-javascript-face-ref
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/face/ai-vision-face-rest/README.md
