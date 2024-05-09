@@ -1,12 +1,10 @@
 # Release History
 
-## 4.3.0-beta.1 (Unreleased)
+## 4.3.0-beta.1 (2024-05-08)
 
 ### Features Added
 
-- Introducing a new credential `AzurePipelinesCredential` for supporting workload identity federation in Azure Pipelines with service connections.
-
-### Breaking Changes
+- Introducing a new credential `AzurePipelinesCredential` for supporting workload identity federation in Azure Pipelines with service connections. [#29392](https://github.com/Azure/azure-sdk-for-js/pull/29392)
 
 ### Bug Fixes
 
