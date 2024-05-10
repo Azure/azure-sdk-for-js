@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { HttpClient } from "@azure/core-rest-pipeline";
-import { addSanitizers } from "../sanitizer.js";
+import { addSanitizers, removeSanitizers } from "../sanitizer.js";
 import { BodyKeySanitizer, FindReplaceSanitizer, HeaderSanitizer } from "./utils.js";
 
 const JSON_BODY_KEYS_TO_REDACT = [
@@ -125,6 +125,11 @@ export async function fallbackSanitizers(
   ];
 
   const headersForRemoval: string[] = HEADER_KEYS_TO_REDACT;
+
+  //  https://github.com/Azure/azure-sdk-tools/pull/8142/files
+  const removalList = ["AZSDK2003"]
+  await removeSanitizers(httpClient, url, recordingId, removalList);
+
   await addSanitizers(httpClient, url, recordingId, {
     bodyKeySanitizers,
     generalSanitizers,
