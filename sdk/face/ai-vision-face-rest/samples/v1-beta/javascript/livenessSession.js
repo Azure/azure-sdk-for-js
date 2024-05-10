@@ -8,7 +8,7 @@ const createFaceClient = require("@azure-rest/ai-vision-face").default,
 /**
  * This sample demonstrates how to create a liveness detection session.
  *
- * @summary creates a liveness detection session
+ * @summary Liveness detection.
  */
 
 const pressAnyKeyToContinue = () =>

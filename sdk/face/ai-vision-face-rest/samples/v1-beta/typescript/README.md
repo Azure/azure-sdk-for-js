@@ -2,14 +2,14 @@
 
 These sample programs show how to use the TypeScript client libraries for Face API in some common scenarios.
 
-| **File Name**                                                                           | **Description**                      |
-| --------------------------------------------------------------------------------------- | ------------------------------------ |
-| [aadAuth.ts][aadauth]                                                                   | creates a liveness detection session |
-| [detect.ts][detect]                                                                     | creates a liveness detection session |
-| [group.ts][group]                                                                       | creates a liveness detection session |
-| [livenessSession.ts][livenesssession]                                                   | creates a liveness detection session |
-| [livenessSessionWithVerify.ts][livenesssessionwithverify]                               | creates a liveness detection session |
-| [livenessSessionWithVerifyWithVerifyImage.ts][livenesssessionwithverifywithverifyimage] | creates a liveness detection session |
+| **File Name**                                                                           | **Description**                                                    |
+| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| [aadAuth.ts][aadauth]                                                                   | Microsoft Entra ID authentication.                                 |
+| [detect.ts][detect]                                                                     | Face detection.                                                    |
+| [group.ts][group]                                                                       | Face grouping.                                                     |
+| [livenessSession.ts][livenesssession]                                                   | Liveness detection.                                                |
+| [livenessSessionWithVerify.ts][livenesssessionwithverify]                               | Liveness detection with face verification.                         |
+| [livenessSessionWithVerifyWithVerifyImage.ts][livenesssessionwithverifywithverifyimage] | Liveness detection with face verification with verification image. |
 
 ## Prerequisites
 

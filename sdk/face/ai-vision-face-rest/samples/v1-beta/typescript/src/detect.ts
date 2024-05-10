@@ -6,9 +6,9 @@ import createFaceClient, {
 } from '@azure-rest/ai-vision-face';
 
 /**
- * This sample demonstrates how to create a liveness detection session.
+ * This sample demonstrates how to detect faces in an image through local file or URL.
  *
- * @summary creates a liveness detection session
+ * @summary Face detection.
  */
 
 const detectFromImage = async () => {
@@ -17,7 +17,7 @@ const detectFromImage = async () => {
     const credential = new AzureKeyCredential(apikey);
     const client = createFaceClient(endpoint, credential);
 
-    const filename = 'samples-dev/data/detection5.jpg';
+    const filename = 'data/detection5.jpg';
     const response = await client.path('/detect').post({
         contentType: 'application/octet-stream',
         queryParameters: {

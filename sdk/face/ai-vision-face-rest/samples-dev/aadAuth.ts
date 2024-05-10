@@ -6,9 +6,9 @@ import createFaceClient, {
 } from '@azure-rest/ai-vision-face';
 
 /**
- * This sample demonstrates how to create a liveness detection session.
+ * This sample demonstrates how to authenticate FaceClient using Microsoft Entra ID.
  *
- * @summary creates a liveness detection session
+ * @summary Microsoft Entra ID authentication.
  */
 
 const main = async () => {
@@ -16,7 +16,7 @@ const main = async () => {
     const credential = new DefaultAzureCredential();
     const client = createFaceClient(endpoint, credential);
 
-    const fileName = 'samples-dev/data/detection1.jpg';
+    const fileName = 'data/detection1.jpg';
     const detectResponse = await client.path('/detect').post({
         contentType: 'application/octet-stream',
         queryParameters: {

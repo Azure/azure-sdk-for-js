@@ -2,14 +2,14 @@
 
 These sample programs show how to use the JavaScript client libraries for Face API in some common scenarios.
 
-| **File Name**                                                                           | **Description**                      |
-| --------------------------------------------------------------------------------------- | ------------------------------------ |
-| [aadAuth.js][aadauth]                                                                   | creates a liveness detection session |
-| [detect.js][detect]                                                                     | creates a liveness detection session |
-| [group.js][group]                                                                       | creates a liveness detection session |
-| [livenessSession.js][livenesssession]                                                   | creates a liveness detection session |
-| [livenessSessionWithVerify.js][livenesssessionwithverify]                               | creates a liveness detection session |
-| [livenessSessionWithVerifyWithVerifyImage.js][livenesssessionwithverifywithverifyimage] | creates a liveness detection session |
+| **File Name**                                                                           | **Description**                                                    |
+| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| [aadAuth.js][aadauth]                                                                   | Microsoft Entra ID authentication.                                 |
+| [detect.js][detect]                                                                     | Face detection.                                                    |
+| [group.js][group]                                                                       | Face grouping.                                                     |
+| [livenessSession.js][livenesssession]                                                   | Liveness detection.                                                |
+| [livenessSessionWithVerify.js][livenesssessionwithverify]                               | Liveness detection with face verification.                         |
+| [livenessSessionWithVerifyWithVerifyImage.js][livenesssessionwithverifywithverifyimage] | Liveness detection with face verification with verification image. |
 
 ## Prerequisites
 

@@ -8,9 +8,9 @@ import createFaceClient, {
 import { readFileSync } from 'fs';
 
 /**
- * This sample demonstrates how to create a liveness detection session.
+ * This sample demonstrates how to create a liveness detection with face verification session with a verification image.
  *
- * @summary creates a liveness detection session
+ * @summary Liveness detection with face verification with verification image.
  */
 
 const pressAnyKeyToContinue = () => new Promise<void>(resolve => {
@@ -41,7 +41,7 @@ const waitForLivenessSessionComplete = async () => {
 
 async function main() {
     // This sample follows the documentation: https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/tutorials/liveness
-    // We will follow the steps in https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/tutorials/liveness#orchestrate-the-liveness-solution to demo the sample code in app server.
+    // We will follow the steps in https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/tutorials/liveness#perform-liveness-detection-with-face-verification to demo the sample code in app server.
 
     const endpoint = process.env['FACE_ENDPOINT'] ?? '<endpoint>';
     const apikey = process.env['FACE_APIKEY'] ?? '<apikey>';

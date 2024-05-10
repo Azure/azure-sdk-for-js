@@ -392,7 +392,7 @@ describe("SessionWithVerify", () => {
   //       body: [
   //         {
   //           name: "VerifyImage",
-  //           body: readFileSync("samples-dev/data/detection1.jpg"),
+  //           body: readFileSync("data/detection1.jpg"),
   //         },
   //         {
   //           name: "Parameters",

@@ -6,9 +6,9 @@ import createFaceClient, {
 } from '@azure-rest/ai-vision-face';
 
 /**
- * This sample demonstrates how to create a liveness detection session.
+ * This sample demonstrates how to group similar faces.
  *
- * @summary creates a liveness detection session
+ * @summary Face grouping.
  */
 
 const main = async () => {
@@ -18,7 +18,7 @@ const main = async () => {
     const client = createFaceClient(endpoint, credential);
 
     // Detect faces from image.
-    const filename = 'samples-dev/data/nine-faces.png';
+    const filename = 'data/nine-faces.png';
     const detectResponse = await client.path('/detect').post({
         contentType: 'application/octet-stream',
         queryParameters: {
