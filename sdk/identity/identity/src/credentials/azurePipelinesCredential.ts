@@ -12,7 +12,7 @@ import { IdentityClient } from "../client/identityClient";
 
 const credentialName = "AzurePipelinesCredential";
 const logger = credentialLogger(credentialName);
-const OIDC_API_VERSION = "7.1";
+const OIDC_API_VERSION = "7.1-preview.1";
 
 /**
  * This credential is designed to be used in Azure Pipelines with service connections
