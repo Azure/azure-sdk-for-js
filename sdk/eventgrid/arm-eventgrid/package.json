@@ -91,7 +91,7 @@
     "test:node": "echo skipped",
     "test:browser": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
+    "unit-test:node": "echo skipped",
     "unit-test:browser": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.ts'",
