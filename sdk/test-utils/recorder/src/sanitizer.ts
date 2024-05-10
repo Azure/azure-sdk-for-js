@@ -114,7 +114,7 @@ function makeBatchSanitizerBody(sanitizers: SanitizerOptions): SanitizerRequestB
  * This API is meant to remove the central sanitizers that were added by the proxy-tool
  * You'd need to pass the sanitizer ids that you want the test-proxy to remove for your recording
  * 
- * Read more at https://github.com/Azure/azure-sdk-tools/pull/8142/files
+ * Read more at https://github.com/Azure/azure-sdk-tools/pull/8142
  */
 export async function removeSanitizers(
   httpClient: HttpClient,
