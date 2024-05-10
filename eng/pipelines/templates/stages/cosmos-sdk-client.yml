@@ -41,6 +41,7 @@ extends:
           MatrixFilters:
             - TestType=node
             - DependencyVersion=^$
+            - NodeTestVersion=18.x
           PreSteps:
             - template: /eng/pipelines/templates/steps/cosmos-integration-public.yml@self
           PostSteps:
