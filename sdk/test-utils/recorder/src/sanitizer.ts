@@ -93,13 +93,13 @@ function makeBatchSanitizerBody(sanitizers: SanitizerOptions): SanitizerRequestB
     getSanitizerBodies(continuationSanitizers, makeContinuationSanitizerBody),
     removeHeaderSanitizer
       ? [
-        {
-          Name: "RemoveHeaderSanitizer",
-          Body: {
-            headersForRemoval: removeHeaderSanitizer.headersForRemoval.toString(),
+          {
+            Name: "RemoveHeaderSanitizer",
+            Body: {
+              headersForRemoval: removeHeaderSanitizer.headersForRemoval.toString(),
+            },
           },
-        },
-      ]
+        ]
       : [],
     oAuthResponseSanitizer ? [{ Name: "OAuthResponseSanitizer", Body: undefined }] : [],
     uriSubscriptionIdSanitizer
@@ -113,19 +113,20 @@ function makeBatchSanitizerBody(sanitizers: SanitizerOptions): SanitizerRequestB
  * Makes a /removeSanitizers request to the test proxy
  * This API is meant to remove the central sanitizers that were added by the proxy-tool
  * You'd need to pass the sanitizer ids that you want the test-proxy to remove for your recording
- * 
+ *
  * Read more at https://github.com/Azure/azure-sdk-tools/pull/8142
  */
 export async function removeSanitizers(
   httpClient: HttpClient,
   url: string,
   recordingId: string | undefined,
-  removalList: string[]): Promise<void> {
+  removalList: string[],
+): Promise<void> {
   const uri = `${url}${paths.admin}${paths.removeSanitizers}`;
   const req = createRecordingRequest(uri, undefined, recordingId);
   req.headers.set("Content-Type", "application/json");
   req.body = JSON.stringify({
-    Sanitizers: removalList
+    Sanitizers: removalList,
   });
   logger.info("[removeSanitizers] Removing sanitizers", removalList);
   const rsp = await httpClient.sendRequest({
