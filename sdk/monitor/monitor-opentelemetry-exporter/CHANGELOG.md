@@ -1,6 +1,6 @@
 # Release History
 
-## Unreleased ()
+## 1.0.0-beta.23 (2024-05-10)
 
 ### Features Added
 
@@ -8,6 +8,8 @@
 
 ### Other Changes
 
+- Add live metrics activation tracking to statsbeat.
+- Update OpenTelemetry dependencies.
 - Convert OTel-valid performance counter names to appropriate breeze names.
 
 ## 1.0.0-beta.22 (2024-04-16)
