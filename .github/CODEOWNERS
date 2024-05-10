@@ -451,6 +451,9 @@
 /sdk/deviceupdate/arm-deviceupdate/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/devopsinfrastructure/arm-devopsinfrastructure/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/devspaces/arm-devspaces/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
