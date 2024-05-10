@@ -44,6 +44,9 @@ dependencies:
   '@rush-temp/ai-translation-text':
     specifier: file:./projects/ai-translation-text.tgz
     version: file:projects/ai-translation-text.tgz
+  '@rush-temp/ai-vision-face':
+    specifier: file:./projects/ai-vision-face.tgz
+    version: file:projects/ai-vision-face.tgz
   '@rush-temp/ai-vision-image-analysis':
     specifier: file:./projects/ai-vision-image-analysis.tgz
     version: file:projects/ai-vision-image-analysis.tgz
@@ -1375,7 +1378,7 @@ packages:
       '@azure/core-auth': 1.7.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/core-util': 1.9.0
-      '@azure/logger': 1.0.4
+      '@azure/logger': 1.1.2
       '@types/node-fetch': 2.6.11
       '@types/tunnel': 0.0.3
       form-data: 4.0.0
@@ -3311,7 +3314,7 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.32
+      '@types/node': 20.10.8
     dev: false
 
   /@types/bunyan@1.8.9:
@@ -3339,7 +3342,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 18.19.32
+      '@types/node': 20.10.8
     dev: false
 
   /@types/cookie@0.4.1:
@@ -3349,7 +3352,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 18.19.32
+      '@types/node': 20.10.8
     dev: false
 
   /@types/debug@4.1.12:
@@ -3378,7 +3381,7 @@ packages:
   /@types/express-serve-static-core@4.19.0:
     resolution: {integrity: sha512-bGyep3JqPCRry1wq+O5n7oiBgGWmeIJXPjXXCo8EK0u8duZGSYar7cGqd3ML2JUsLGeB7fmc06KYo9fLGWqPvQ==}
     dependencies:
-      '@types/node': 18.19.32
+      '@types/node': 20.10.8
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3397,7 +3400,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.32
+      '@types/node': 20.10.8
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3440,7 +3443,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.32
+      '@types/node': 20.10.8
     dev: false
 
   /@types/jsonwebtoken@9.0.6:
@@ -3505,7 +3508,7 @@ packages:
   /@types/node-fetch@2.6.11:
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
-      '@types/node': 18.19.32
+      '@types/node': 20.10.8
       form-data: 4.0.0
     dev: false
 
@@ -3554,7 +3557,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.32
+      '@types/node': 20.10.8
     dev: false
 
   /@types/resolve@1.20.2:
@@ -3573,14 +3576,14 @@ packages:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.32
+      '@types/node': 20.10.8
     dev: false
 
   /@types/serve-static@1.15.7:
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.32
+      '@types/node': 20.10.8
       '@types/send': 0.17.4
     dev: false
 
@@ -3621,7 +3624,7 @@ packages:
   /@types/tunnel@0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 18.19.32
+      '@types/node': 20.10.8
     dev: false
 
   /@types/underscore@1.11.15:
@@ -3662,7 +3665,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.32
+      '@types/node': 20.10.8
     dev: false
     optional: true
 
@@ -5197,7 +5200,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.32
+      '@types/node': 20.10.8
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -11133,6 +11136,46 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/ai-vision-face.tgz:
+    resolution: {integrity: sha512-MSxrXH46y77Vn7DU26EJAGrJC1s103JsoEI1EBVxa7c0CR33/H6ZkXRoDt8SRWW6pE5AFdqEKG8YShN2DMh2Ug==, tarball: file:projects/ai-vision-face.tgz}
+    name: '@rush-temp/ai-vision-face'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.0.4
+      '@azure-tools/test-recorder': 3.2.0
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.2.0
+      '@microsoft/api-extractor': 7.43.2(@types/node@18.19.32)
+      '@types/node': 18.19.32
+      '@vitest/browser': 1.6.0(playwright@1.43.1)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      mkdirp: 3.0.1
+      playwright: 1.43.1
+      prettier: 3.2.5
+      rimraf: 5.0.5
+      tshy: 1.14.0
+      tslib: 2.6.2
+      typescript: 5.4.5
+      vitest: 1.6.0(@types/node@18.19.32)(@vitest/browser@1.6.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/ai-vision-image-analysis.tgz:
