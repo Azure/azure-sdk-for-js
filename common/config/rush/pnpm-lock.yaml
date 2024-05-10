@@ -1208,6 +1208,19 @@ packages:
       - supports-color
     dev: false
 
+  /@azure-tools/test-credential@1.1.0:
+    resolution: {integrity: sha512-KFICQ9ke2OIQms3ZCoidKmH/opUsP9rHub4pdH8JTHh4atiYq2AKviMIgMyBC3ZYdOfsFfnMrm5PcH+0VDRafw==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure-tools/test-recorder': 3.2.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-util': 1.9.0
+      '@azure/identity': 4.2.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure-tools/test-recorder@3.2.0:
     resolution: {integrity: sha512-Y7e3H4isrxCdc6Qjc2bXPIgW8dP/aD387mQ6w7W07eRFZLqAj7sGSQWQ6UrMUkS3Bv9k6JEyjO4WSNrSKEFpaA==}
     engines: {node: '>=18.0.0'}
@@ -16963,11 +16976,11 @@ packages:
     dev: false
 
   file:projects/arm-selfhelp.tgz:
-    resolution: {integrity: sha512-AV9E4kptyBbma5l1sQ/Dm8IfaZrP9hQCZ66bU6RgOhGnF82HlylansZ1Im/Lo72udfTnRVT9NrUZSba9afXzXQ==, tarball: file:projects/arm-selfhelp.tgz}
+    resolution: {integrity: sha512-2hUPoU+gKUGR3eMSfcruhUC9Jv2icxCwcimPRk86Wskq2kETMxkklFwiI8y4E7OoJ8iftpbqBzp8RJTGlhdIaA==, tarball: file:projects/arm-selfhelp.tgz}
     name: '@rush-temp/arm-selfhelp'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.4
+      '@azure-tools/test-credential': 1.1.0
       '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
@@ -16979,6 +16992,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
