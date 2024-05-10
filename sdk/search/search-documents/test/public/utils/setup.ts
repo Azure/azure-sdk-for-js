@@ -270,7 +270,6 @@ export async function createIndex(
               kind: "azureOpenAI",
               name: vectorizerName,
               azureOpenAIParameters: {
-                apiKey: env.AZURE_OPENAI_KEY,
                 deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
                 resourceUri: env.AZURE_OPENAI_ENDPOINT,
               },
