@@ -1,10 +1,15 @@
 # Release History
 
-## Unreleased ()
+## 1.0.0-beta.23 (2024-05-10)
 
 ### Features Added
 
 - Capture and export measurements when creating log records from the Application Insights 3.X SDK.
+
+### Other Changes
+
+- Add live metrics activation tracking to statsbeat.
+- Update OpenTelemetry dependencies.
 
 ## 1.0.0-beta.22 (2024-04-16)
 
