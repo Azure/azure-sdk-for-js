@@ -7,11 +7,11 @@ import { AzureLogger, setLogLevel } from "@azure/logger";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import { DeveloperSignOnClientId } from "../../../src/constants";
 import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
 import { UsernamePasswordCredential } from "../../../src";
 import { assert } from "chai";
+import { getUsernamePasswordStaticResources } from "../../msalTestUtils";
 
 describe("UsernamePasswordCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
@@ -103,7 +103,7 @@ describe("UsernamePasswordCredential (internal)", function () {
   });
 
   it("Authenticates silently after the initial request", async function (this: Context) {
-    const { clientId, password, tenantId, username } = getStaticTestResources();
+    const { clientId, password, tenantId, username } = getUsernamePasswordStaticResources();
     // todo: validate these exist or throw with meaningful error
     const credential = new UsernamePasswordCredential(
       tenantId,
@@ -130,7 +130,7 @@ describe("UsernamePasswordCredential (internal)", function () {
   });
 
   it("Authenticates with tenantId on getToken", async function (this: Context) {
-    const { clientId, password, tenantId, username } = getStaticTestResources();
+    const { clientId, password, tenantId, username } = getUsernamePasswordStaticResources();
     const credential = new UsernamePasswordCredential(
       tenantId,
       clientId,
@@ -144,7 +144,7 @@ describe("UsernamePasswordCredential (internal)", function () {
   });
 
   it("authenticates (with allowLoggingAccountIdentifiers set to true)", async function (this: Context) {
-    const { clientId, password, tenantId, username } = getStaticTestResources();
+    const { clientId, password, tenantId, username } = getUsernamePasswordStaticResources();
     if (isPlaybackMode()) {
       // The recorder clears the access tokens.
       this.skip();
@@ -174,43 +174,3 @@ describe("UsernamePasswordCredential (internal)", function () {
     AzureLogger.destroy();
   });
 });
-
-/**
- * These tests rely on static resources fetched from the identity test secrets vault and "merged" into the test environment in CI.
- *
- * A helper function validates that these resources are present in the environment as they are not deployed per run.
- *
- * When in doubt, reach out to the feature crew for help.
- *
- * @returns A set of well-known static resources for the tests.
- */
-function getStaticTestResources() {
-  const clientId = DeveloperSignOnClientId;
-  const tenantId = env.AZURE_IDENTITY_TEST_TENANTID;
-  if (!tenantId) {
-    throw new Error(
-      "AZURE_IDENTITY_TEST_TENANTID must be present in the environment to run the tests.",
-    );
-  }
-
-  const username = env.AZURE_IDENTITY_TEST_USERNAME;
-  if (!username) {
-    throw new Error(
-      "AZURE_IDENTITY_TEST_USERNAME must be present in the environment to run the tests.",
-    );
-  }
-
-  const password = env.AZURE_IDENTITY_TEST_PASSWORD;
-  if (!password) {
-    throw new Error(
-      "AZURE_IDENTITY_TEST_PASSWORD must be present in the environment to run the tests.",
-    );
-  }
-
-  return {
-    clientId,
-    tenantId,
-    username,
-    password,
-  };
-}
