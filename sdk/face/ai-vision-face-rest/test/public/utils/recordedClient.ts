@@ -8,7 +8,6 @@ import {
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { ClientOptions } from "@azure-rest/core-client";
 
 import createFaceClient, { FaceClient, FaceClientOptions } from "../../../src/index.js";
 
