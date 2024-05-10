@@ -13,7 +13,6 @@ import {
   SearchIndexerClient,
 } from "../../../src";
 import { delay } from "../../../src/serviceUtils";
-import { COMPRESSION_DISABLED } from "../../compressionDisabled";
 import { Hotel } from "./interfaces";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
@@ -312,20 +311,6 @@ export async function createIndex(
     },
   };
 
-  // This feature isn't publically available yet
-  if (COMPRESSION_DISABLED) {
-    hotelIndex.fields = hotelIndex.fields.filter(
-      (field) => field.name !== "compressedVectorDescription",
-    );
-    const vs = hotelIndex.vectorSearch;
-    if (vs) {
-      delete vs.compressions;
-      vs.profiles = vs.profiles?.filter(
-        (profile) => profile.name !== compressedVectorSearchProfileName,
-      );
-    }
-  }
-
   await client.createIndex(hotelIndex);
 }
 
@@ -568,9 +553,7 @@ async function addVectorDescriptions(
     const { embedding, index } = embeddingItem;
     const document = documents[index];
     document.vectorDescription = embedding;
-    if (!COMPRESSION_DISABLED) {
-      document.compressedVectorDescription = embedding;
-    }
+    document.compressedVectorDescription = embedding;
   });
 }
 
