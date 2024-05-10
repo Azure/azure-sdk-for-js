@@ -13,11 +13,10 @@ import {
   delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { NoOpCredential } from "@azure-tools/test-credential";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { EventGridManagementClient } from "../src/eventGridManagementClient";
-import { DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -30,14 +29,6 @@ const recorderOptions: RecorderStartOptions = {
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
-
-export function createTestCredential() {
-  return isPlaybackMode()
-    ? new NoOpCredential()
-    : new
-      DefaultAzureCredential()
-    ;
-}
 
 describe("Eventgrid test", () => {
   let recorder: Recorder;
