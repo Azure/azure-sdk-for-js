@@ -1,5 +1,11 @@
 # Release History
 
+## 3.4.0 (2024-05-08)
+
+### Features Added
+
+- Added support for the TestProxy/removeSanitizers API, to support the removing the central sanitizers by id at the test-proxy level.
+
 ## 3.3.0 (2024-05-07)
 
 ### Features Added
