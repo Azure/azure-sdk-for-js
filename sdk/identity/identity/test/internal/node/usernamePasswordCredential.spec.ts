@@ -18,10 +18,6 @@ describe("UsernamePasswordCredential (internal)", function () {
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
   let recorder: Recorder;
-  let clientId: string;
-  let tenantId: string;
-  let username: string;
-  let password: string;
 
   beforeEach(async function (this: Context) {
     const setup = await msalNodeTestSetup(this.currentTest);
@@ -36,8 +32,6 @@ describe("UsernamePasswordCredential (internal)", function () {
       PublicClientApplication.prototype,
       "acquireTokenByUsernamePassword",
     );
-
-    ({ clientId, tenantId, username, password } = getWellKnownStaticResources());
   });
 
   afterEach(async function () {
@@ -109,6 +103,7 @@ describe("UsernamePasswordCredential (internal)", function () {
   });
 
   it("Authenticates silently after the initial request", async function (this: Context) {
+    const { clientId, password, tenantId, username } = getStaticTestResources();
     // todo: validate these exist or throw with meaningful error
     const credential = new UsernamePasswordCredential(
       tenantId,
@@ -135,6 +130,7 @@ describe("UsernamePasswordCredential (internal)", function () {
   });
 
   it("Authenticates with tenantId on getToken", async function (this: Context) {
+    const { clientId, password, tenantId, username } = getStaticTestResources();
     const credential = new UsernamePasswordCredential(
       tenantId,
       clientId,
@@ -148,6 +144,7 @@ describe("UsernamePasswordCredential (internal)", function () {
   });
 
   it("authenticates (with allowLoggingAccountIdentifiers set to true)", async function (this: Context) {
+    const { clientId, password, tenantId, username } = getStaticTestResources();
     if (isPlaybackMode()) {
       // The recorder clears the access tokens.
       this.skip();
@@ -187,7 +184,7 @@ describe("UsernamePasswordCredential (internal)", function () {
  *
  * @returns A set of well-known static resources for the tests.
  */
-function getWellKnownStaticResources() {
+function getStaticTestResources() {
   const clientId = DeveloperSignOnClientId;
   const tenantId = env.AZURE_IDENTITY_TEST_TENANTID;
   if (!tenantId) {
