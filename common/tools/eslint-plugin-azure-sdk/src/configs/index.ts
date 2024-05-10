@@ -5,7 +5,7 @@
  * @file Definition of configs
  */
 
-import rootConfig from "./azure-sdk-base";
+import { rootConfig } from "./azure-sdk-base";
 
 /**
  * An object containing configurations available for the plugin

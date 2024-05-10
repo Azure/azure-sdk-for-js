@@ -2377,6 +2377,11 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: false
 
+  /@eslint/js@9.2.0:
+    resolution: {integrity: sha512-ESiIudvhoYni+MdsI8oD7skpprZ89qKocwRM2KEvhhBJ9nl5MRh7BXU5GTod7Mdygq+AUl+QzId6iWJKR/wABA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    dev: false
+
   /@grpc/grpc-js@1.10.6:
     resolution: {integrity: sha512-xP58G7wDQ4TCmN/cMUHh00DS7SRDv/+lC+xFLrTkMIN8h55X5NhZMLYbvy7dSELP15qlI6hPhNCRWVMtZMwqLA==}
     engines: {node: '>=12.10.0'}
@@ -3549,8 +3554,8 @@ packages:
       '@types/node': 18.19.31
     dev: false
 
-  /@types/eslint@8.44.9:
-    resolution: {integrity: sha512-6yBxcvwnnYoYT1Uk2d+jvIfsuP4mb2EdIxFnrPABj5a/838qe5bGkNLFOiipX4ULQ7XVQvTxOh7jO+BTAiqsEw==}
+  /@types/eslint@8.56.10:
+    resolution: {integrity: sha512-Shavhk87gCtY2fhXDctcfS3e6FdxWkCx1iUZ9eEUbh7rTqlZT0/IzOkCOVt0fCjcFuZ9FPYfuezTBImfHCDBGQ==}
     dependencies:
       '@types/estree': 1.0.5
       '@types/json-schema': 7.0.15
@@ -10252,6 +10257,25 @@ packages:
     resolution: {integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==}
     dependencies:
       is-typedarray: 1.0.0
+    dev: false
+
+  /typescript-eslint@7.8.0(eslint@8.57.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-sheFG+/D8N/L7gC3WT0Q8sB97Nm573Yfr+vZFzl/4nBdYcmviBPtwGSX9TJ7wpVg28ocerKVOt+k2eGmHzcgVA==}
+    engines: {node: ^18.18.0 || >=20.0.0}
+    peerDependencies:
+      eslint: ^8.56.0
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 7.8.0(@typescript-eslint/parser@7.8.0)(eslint@8.57.0)(typescript@5.4.5)
+      '@typescript-eslint/parser': 7.8.0(eslint@8.57.0)(typescript@5.4.5)
+      '@typescript-eslint/utils': 7.8.0(eslint@8.57.0)(typescript@5.4.5)
+      eslint: 8.57.0
+      typescript: 5.4.5
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /typescript@4.2.4:
@@ -18706,7 +18730,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-Ud8LIjsav1X/kYyi63hrwffC4Eq9X+rS1cr5lOQz1tug9bRrg7zbbVxfWVtBn482dW2IPUuX1gO5yWxXOtQAgg==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-N1TW9xs7zjhhmXOxnBlFrFJJCwm6Ee64UfhhZBhODbuH3hv/4uc+yb5t8QnaQZ0TJKsR2ai7D3rDOGvCVaQapw==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -20000,6 +20024,7 @@ packages:
     dependencies:
       '@_ts/max': /typescript@5.4.5
       '@_ts/min': /typescript@4.2.4
+      '@eslint/js': 9.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@rollup/plugin-commonjs': 25.0.7(rollup@4.17.1)
       '@rollup/plugin-inject': 5.0.5(rollup@4.17.1)
@@ -20037,6 +20062,7 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
       typescript: 5.4.5
+      typescript-eslint: 7.8.0(eslint@8.57.0)(typescript@5.4.5)
       vitest: 1.5.2(@types/node@18.19.31)(@vitest/browser@1.5.2)
       yaml: 2.4.2
     transitivePeerDependencies:
@@ -20170,12 +20196,13 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-jdY9Llcunp9vaevl1Y4NF6hnoW1oWaCPe9a8JDC7ksLWTtzxrjSXjbbvMgpTneqVKYE5ik/qR5HRtPP0I7lwNw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-wTFc9oHcEaJ1vCOrig0u/UIZFRObRBozm0RsGMg4OQ1zuSfTN7Kv2Ua5bqdqKbO9FrpVIVjQ1uqfD3SzO5BwCw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
       '@eslint/eslintrc': 3.0.2
-      '@types/eslint': 8.44.9
+      '@eslint/js': 9.2.0
+      '@types/eslint': 8.56.10
       '@types/estree': 1.0.5
       '@types/json-schema': 7.0.15
       '@types/node': 18.19.31
@@ -20201,6 +20228,7 @@ packages:
       source-map-support: 0.5.21
       tslib: 2.6.2
       typescript: 5.4.5
+      typescript-eslint: 7.8.0(eslint@8.57.0)(typescript@5.4.5)
       vitest: 1.5.2(@types/node@18.19.31)(@vitest/browser@1.5.2)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
