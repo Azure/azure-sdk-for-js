@@ -108,6 +108,7 @@
     "eastus",
     "entra",
     "etags",
+    "findsimilars",
     "hnsw",
     "kusto",
     "lcov",
