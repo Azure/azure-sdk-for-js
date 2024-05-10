@@ -32,7 +32,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Create a Face or a Cognitive Services resource
 
-Azure AI Face supports both [multi-service](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal#supported-services-with-a-multi-service-resource) and single-service access. Create a Cognitive Services resource if you plan to access multiple cognitive services under a single endpoint/key. For Face access only, create a Face resource. Please note that you will need a single-service resource if you intend to use [Azure Active Directory authentication](#create-the-client-with-an-azure-active-directory-credential).
+Azure AI Face supports both [multi-service](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal#supported-services-with-a-multi-service-resource) and single-service access. Create a Cognitive Services resource if you plan to access multiple cognitive services under a single endpoint/key. For Face access only, create a Face resource. Please note that you will need a single-service resource if you intend to use [Microsoft Entra ID authentication](#create-the-client-with-an-azure-active-directory-credential).
 
 - To create a new Face or Cognitive Services account, you can use [Azure Portal](https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesFace), [Azure PowerShell](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azpowershell), or [Azure CLI](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azcli).
 
@@ -49,9 +49,12 @@ npm install @azure-rest/ai-vision-face
 In order to interact with the Face service, you will need to create an instance of a client.
 An **endpoint** and **credential** are necessary to instantiate the client object.
 
-#### Get the endpoint and API keys
+Both key credential and Microsoft Entra ID credential are supported to authenticate the client.
+For enhanced security, we strongly recommend utilizing Microsoft Entra ID credential for authentication in the production environment, while AzureKeyCredential should be reserved exclusively for the testing environment.
 
-You can find the endpoint and keys for your Face resource using the [Azure Portal](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal#get-the-keys-for-your-resource) or [Azure CLI](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azcli#get-the-keys-for-your-resource):
+#### Get the endpoint
+
+You can find the endpoint for your Face resource using the Azure Portal or Azure CLI:
 
 ```bash
 # Get the endpoint for the Face resource
@@ -65,18 +68,19 @@ Regional endpoint: https://<region>.api.cognitive.microsoft.com/
 Custom subdomain: https://<resource-name>.cognitiveservices.azure.com/
 ```
 
-A regional endpoint is the same for every resource in a region. A complete list of supported regional endpoints can be consulted [here](https://azure.microsoft.com/global-infrastructure/services/?products=cognitive-services). Please note that regional endpoints do not support AAD authentication.
+A regional endpoint is the same for every resource in a region. A complete list of supported regional endpoints can be consulted [here](https://azure.microsoft.com/global-infrastructure/services/?products=cognitive-services). Please note that regional endpoints do not support Microsoft Entra ID authentication.
 
 A custom subdomain, on the other hand, is a name that is unique to the Face resource. They can only be used by [single-service resources](https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesFace).
+
+#### Create the client with AzureKeyCredential
+
+To use an API key as the `credential` parameter, pass the key as a string into an instance of [AzureKeyCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/azurekeycredential?view=azure-node-latest).
+You can get the API key for your Face resource using the [Azure Portal][https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal#get-the-keys-for-your-resource] or [Azure CLI][https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azcli#get-the-keys-for-your-resource]:
 
 ```bash
 # Get the API keys for the Face resource
 az cognitiveservices account keys list --name "<resource-name>" --resource-group "<resource-group-name>"
 ```
-
-#### Create the client with AzureKeyCredential
-
-To use an API key as the `credential` parameter, pass the key as a string into an instance of [AzureKeyCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/azurekeycredential?view=azure-node-latest).
 
 ```js
 import { AzureKeyCredential } from '@azure/core-auth';
@@ -88,10 +92,10 @@ const credential = new AzureKeyCredential(apikey);
 const client = createFaceClient(endpoint, credential);
 ```
 
-#### Create the client with an Azure Active Directory credential
+#### Create the client with an Microsoft Entra ID credential
 
-`AzureKeyCredential` authentication is used in the examples in this getting started guide, but you can also authenticate with Azure Active Directory using the [@azure/identity](https://learn.microsoft.com/javascript/api/@azure/identity/?view=azure-node-latest) library.
-Note that regional endpoints do not support AAD authentication. Create a [custom subdomain](https://docs.microsoft.com/azure/cognitive-services/authentication#create-a-resource-with-a-custom-subdomain) name for your resource in order to use this type of authentication.
+`AzureKeyCredential` authentication is used in the examples in this getting started guide, but you can also authenticate with Microsoft Entra ID using the [@azure/identity](https://learn.microsoft.com/javascript/api/@azure/identity/?view=azure-node-latest) library.
+Note that regional endpoints do not support Microsoft Entra ID authentication. Create a [custom subdomain](https://docs.microsoft.com/azure/cognitive-services/authentication#create-a-resource-with-a-custom-subdomain) name for your resource in order to use this type of authentication.
 
 To use the [DefaultAzureCredential](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest) type shown below, or other credential types provided with the Azure SDK, please install the `@azure/identity` package:
 
@@ -99,9 +103,9 @@ To use the [DefaultAzureCredential](https://learn.microsoft.com/javascript/api/@
 npm install --save @azure/identity
 ```
 
-You will also need to [register a new AAD application and grant access](https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal) to Face by assigning the `"Cognitive Services User"` role to your service principal.
+You will also need to [register a new Microsoft Entra ID application and grant access](https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal) to Face by assigning the `"Cognitive Services User"` role to your service principal.
 
-Once completed, set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
+Once completed, set the values of the client ID, tenant ID, and client secret of the Microsoft Entra ID application as environment variables:
 `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 ```js
@@ -121,7 +125,7 @@ const client = createFaceClient(endpoint, credential);
 
 ### FaceClient
 
-The `FaceClient` is the primary interface for developers interacting with the Azure AI Face service. It serves as the gateway from which all interaction with the library will occur.
+The `FaceClient` is the primary interface for developers interacting with the Azure AI Face service. It follows the design of [REST client](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) and serves as the gateway from which all interaction with the library will occur.
 
 ### Long-running operations
 
@@ -290,7 +294,7 @@ Face Liveness detection can be used to determine if a face in an input video str
 The goal of liveness detection is to ensure that the system is interacting with a physically present live person at
 the time of authentication. The whole process of authentication is called a session.
 
-There're two different components in the authentication: a mobile application and an app server/orchestrator.
+There are two different components in the authentication: a mobile application and an app server/orchestrator.
 Before uploading the video stream, the app server has to create a session, and then the mobile client could upload
 the payload with a `session authorization token` to call the liveness detection. The app server can query for the
 liveness detection result and audit logs anytime untill the session is deleted.
