@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   MaintenanceConfiguration,
-  MaintenanceConfigurationsForResourceGroupListOptionalParams
+  MaintenanceConfigurationsForResourceGroupListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,6 +22,6 @@ export interface MaintenanceConfigurationsForResourceGroup {
    */
   list(
     resourceGroupName: string,
-    options?: MaintenanceConfigurationsForResourceGroupListOptionalParams
+    options?: MaintenanceConfigurationsForResourceGroupListOptionalParams,
   ): PagedAsyncIterableIterator<MaintenanceConfiguration>;
 }

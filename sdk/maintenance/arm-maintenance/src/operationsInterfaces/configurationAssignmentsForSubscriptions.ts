@@ -15,7 +15,7 @@ import {
   ConfigurationAssignmentsForSubscriptionsUpdateOptionalParams,
   ConfigurationAssignmentsForSubscriptionsUpdateResponse,
   ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams,
-  ConfigurationAssignmentsForSubscriptionsDeleteResponse
+  ConfigurationAssignmentsForSubscriptionsDeleteResponse,
 } from "../models";
 
 /** Interface representing a ConfigurationAssignmentsForSubscriptions. */
@@ -27,7 +27,7 @@ export interface ConfigurationAssignmentsForSubscriptions {
    */
   get(
     configurationAssignmentName: string,
-    options?: ConfigurationAssignmentsForSubscriptionsGetOptionalParams
+    options?: ConfigurationAssignmentsForSubscriptionsGetOptionalParams,
   ): Promise<ConfigurationAssignmentsForSubscriptionsGetResponse>;
   /**
    * Register configuration for resource.
@@ -38,7 +38,7 @@ export interface ConfigurationAssignmentsForSubscriptions {
   createOrUpdate(
     configurationAssignmentName: string,
     configurationAssignment: ConfigurationAssignment,
-    options?: ConfigurationAssignmentsForSubscriptionsCreateOrUpdateOptionalParams
+    options?: ConfigurationAssignmentsForSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponse>;
   /**
    * Register configuration for resource.
@@ -49,7 +49,7 @@ export interface ConfigurationAssignmentsForSubscriptions {
   update(
     configurationAssignmentName: string,
     configurationAssignment: ConfigurationAssignment,
-    options?: ConfigurationAssignmentsForSubscriptionsUpdateOptionalParams
+    options?: ConfigurationAssignmentsForSubscriptionsUpdateOptionalParams,
   ): Promise<ConfigurationAssignmentsForSubscriptionsUpdateResponse>;
   /**
    * Unregister configuration for resource.
@@ -58,6 +58,6 @@ export interface ConfigurationAssignmentsForSubscriptions {
    */
   delete(
     configurationAssignmentName: string,
-    options?: ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams
+    options?: ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams,
   ): Promise<ConfigurationAssignmentsForSubscriptionsDeleteResponse>;
 }

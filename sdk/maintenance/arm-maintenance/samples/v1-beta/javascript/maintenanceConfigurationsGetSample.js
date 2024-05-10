@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get Configuration record
  *
  * @summary Get Configuration record
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/MaintenanceConfigurations_GetForResource.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/MaintenanceConfigurations_GetForResource.json
  */
 async function maintenanceConfigurationsGetForResource() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function maintenanceConfigurationsGetForResource() {
  * This sample demonstrates how to Get Configuration record
  *
  * @summary Get Configuration record
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/MaintenanceConfigurations_GetForResource_GuestOSPatchLinux.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/MaintenanceConfigurations_GetForResource_GuestOSPatchLinux.json
  */
 async function maintenanceConfigurationsGetForResourceGuestOSPatchLinux() {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function maintenanceConfigurationsGetForResourceGuestOSPatchLinux() {
  * This sample demonstrates how to Get Configuration record
  *
  * @summary Get Configuration record
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/MaintenanceConfigurations_GetForResource_GuestOSPatchWindows.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/MaintenanceConfigurations_GetForResource_GuestOSPatchWindows.json
  */
 async function maintenanceConfigurationsGetForResourceGuestOSPatchWindows() {
   const subscriptionId =

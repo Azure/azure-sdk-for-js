@@ -8,6 +8,26 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Response of scheduled event acknowledge */
+export interface ScheduledEventApproveResponse {
+  /** Successfully Approved */
+  value?: string;
+}
+
+/** An error response received from the Azure Maintenance service. */
+export interface MaintenanceError {
+  /** Details of the error */
+  error?: ErrorDetails;
+}
+
+/** An error response details received from the Azure Maintenance service. */
+export interface ErrorDetails {
+  /** Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response. */
+  code?: string;
+  /** Human-readable representation of the error. */
+  message?: string;
+}
+
 /** Response for MaintenanceConfigurations list */
 export interface ListMaintenanceConfigurationsResult {
   /** The list of maintenance Configurations */
@@ -84,20 +104,6 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-}
-
-/** An error response received from the Azure Maintenance service. */
-export interface MaintenanceError {
-  /** Details of the error */
-  error?: ErrorDetails;
-}
-
-/** An error response details received from the Azure Maintenance service. */
-export interface ErrorDetails {
-  /** Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response. */
-  code?: string;
-  /** Human-readable representation of the error. */
-  message?: string;
 }
 
 /** Azure query for the update configuration. */
@@ -253,7 +259,7 @@ export enum KnownMaintenanceScope {
   /** This maintenance scope controls installation of SQL server platform updates. */
   Sqldb = "SQLDB",
   /** This maintenance scope controls installation of SQL managed instance platform update. */
-  SQLManagedInstance = "SQLManagedInstance"
+  SQLManagedInstance = "SQLManagedInstance",
 }
 
 /**
@@ -276,7 +282,7 @@ export enum KnownVisibility {
   /** Only visible to users with permissions. */
   Custom = "Custom",
   /** Visible to all users. */
-  Public = "Public"
+  Public = "Public",
 }
 
 /**
@@ -296,7 +302,7 @@ export enum KnownRebootOptions {
   /** Never */
   Never = "Never",
   /** Always */
-  Always = "Always"
+  Always = "Always",
 }
 
 /**
@@ -319,7 +325,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -345,7 +351,13 @@ export enum KnownUpdateStatus {
   /** Updates installation failed but are ready to retry again. */
   RetryNow = "RetryNow",
   /** Updates installation failed and should be retried later. */
-  RetryLater = "RetryLater"
+  RetryLater = "RetryLater",
+  /** No updates are pending. */
+  NoUpdatesPending = "NoUpdatesPending",
+  /** Cancel the schedule and stop creating PMR for resources part of it. Applicable to Maintenance Configuration resource type only. */
+  Cancel = "Cancel",
+  /** Send the Cancelled response to the user if request came to cancel the schedule. Applicable to Maintenance Configuration resource type only. */
+  Cancelled = "Cancelled",
 }
 
 /**
@@ -357,7 +369,10 @@ export enum KnownUpdateStatus {
  * **InProgress**: Updates installation are in progress. \
  * **Completed**: All updates are successfully applied. \
  * **RetryNow**: Updates installation failed but are ready to retry again. \
- * **RetryLater**: Updates installation failed and should be retried later.
+ * **RetryLater**: Updates installation failed and should be retried later. \
+ * **NoUpdatesPending**: No updates are pending. \
+ * **Cancel**: Cancel the schedule and stop creating PMR for resources part of it. Applicable to Maintenance Configuration resource type only. \
+ * **Cancelled**: Send the Cancelled response to the user if request came to cancel the schedule. Applicable to Maintenance Configuration resource type only.
  */
 export type UpdateStatus = string;
 
@@ -370,7 +385,7 @@ export enum KnownImpactType {
   /** Pending updates can cause resource to restart. */
   Restart = "Restart",
   /** Pending updates can redeploy resource. */
-  Redeploy = "Redeploy"
+  Redeploy = "Redeploy",
 }
 
 /**
@@ -388,18 +403,27 @@ export type ImpactType = string;
 export type TagOperators = "All" | "Any";
 
 /** Optional parameters. */
+export interface ScheduledEventAcknowledgeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the acknowledge operation. */
+export type ScheduledEventAcknowledgeResponse = ScheduledEventApproveResponse;
+
+/** Optional parameters. */
 export interface PublicMaintenanceConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PublicMaintenanceConfigurationsListResponse = ListMaintenanceConfigurationsResult;
+export type PublicMaintenanceConfigurationsListResponse =
+  ListMaintenanceConfigurationsResult;
 
 /** Optional parameters. */
 export interface PublicMaintenanceConfigurationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PublicMaintenanceConfigurationsGetResponse = MaintenanceConfiguration;
+export type PublicMaintenanceConfigurationsGetResponse =
+  MaintenanceConfiguration;
 
 /** Optional parameters. */
 export interface ApplyUpdatesGetParentOptionalParams
@@ -414,6 +438,13 @@ export interface ApplyUpdatesGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type ApplyUpdatesGetResponse = ApplyUpdate;
+
+/** Optional parameters. */
+export interface ApplyUpdatesCreateOrUpdateOrCancelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateOrCancel operation. */
+export type ApplyUpdatesCreateOrUpdateOrCancelResponse = ApplyUpdate;
 
 /** Optional parameters. */
 export interface ApplyUpdatesCreateOrUpdateParentOptionalParams
@@ -448,14 +479,16 @@ export interface ConfigurationAssignmentsCreateOrUpdateParentOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateParent operation. */
-export type ConfigurationAssignmentsCreateOrUpdateParentResponse = ConfigurationAssignment;
+export type ConfigurationAssignmentsCreateOrUpdateParentResponse =
+  ConfigurationAssignment;
 
 /** Optional parameters. */
 export interface ConfigurationAssignmentsDeleteParentOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the deleteParent operation. */
-export type ConfigurationAssignmentsDeleteParentResponse = ConfigurationAssignment;
+export type ConfigurationAssignmentsDeleteParentResponse =
+  ConfigurationAssignment;
 
 /** Optional parameters. */
 export interface ConfigurationAssignmentsGetOptionalParams
@@ -469,7 +502,8 @@ export interface ConfigurationAssignmentsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConfigurationAssignmentsCreateOrUpdateResponse = ConfigurationAssignment;
+export type ConfigurationAssignmentsCreateOrUpdateResponse =
+  ConfigurationAssignment;
 
 /** Optional parameters. */
 export interface ConfigurationAssignmentsDeleteOptionalParams
@@ -483,14 +517,16 @@ export interface ConfigurationAssignmentsListParentOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listParent operation. */
-export type ConfigurationAssignmentsListParentResponse = ListConfigurationAssignmentsResult;
+export type ConfigurationAssignmentsListParentResponse =
+  ListConfigurationAssignmentsResult;
 
 /** Optional parameters. */
 export interface ConfigurationAssignmentsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ConfigurationAssignmentsListResponse = ListConfigurationAssignmentsResult;
+export type ConfigurationAssignmentsListResponse =
+  ListConfigurationAssignmentsResult;
 
 /** Optional parameters. */
 export interface MaintenanceConfigurationsGetOptionalParams
@@ -504,7 +540,8 @@ export interface MaintenanceConfigurationsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type MaintenanceConfigurationsCreateOrUpdateResponse = MaintenanceConfiguration;
+export type MaintenanceConfigurationsCreateOrUpdateResponse =
+  MaintenanceConfiguration;
 
 /** Optional parameters. */
 export interface MaintenanceConfigurationsDeleteOptionalParams
@@ -525,14 +562,16 @@ export interface MaintenanceConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type MaintenanceConfigurationsListResponse = ListMaintenanceConfigurationsResult;
+export type MaintenanceConfigurationsListResponse =
+  ListMaintenanceConfigurationsResult;
 
 /** Optional parameters. */
 export interface MaintenanceConfigurationsForResourceGroupListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type MaintenanceConfigurationsForResourceGroupListResponse = ListMaintenanceConfigurationsResult;
+export type MaintenanceConfigurationsForResourceGroupListResponse =
+  ListMaintenanceConfigurationsResult;
 
 /** Optional parameters. */
 export interface ApplyUpdateForResourceGroupListOptionalParams
@@ -546,63 +585,72 @@ export interface ConfigurationAssignmentsWithinSubscriptionListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ConfigurationAssignmentsWithinSubscriptionListResponse = ListConfigurationAssignmentsResult;
+export type ConfigurationAssignmentsWithinSubscriptionListResponse =
+  ListConfigurationAssignmentsResult;
 
 /** Optional parameters. */
 export interface ConfigurationAssignmentsForSubscriptionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ConfigurationAssignmentsForSubscriptionsGetResponse = ConfigurationAssignment;
+export type ConfigurationAssignmentsForSubscriptionsGetResponse =
+  ConfigurationAssignment;
 
 /** Optional parameters. */
 export interface ConfigurationAssignmentsForSubscriptionsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponse = ConfigurationAssignment;
+export type ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponse =
+  ConfigurationAssignment;
 
 /** Optional parameters. */
 export interface ConfigurationAssignmentsForSubscriptionsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type ConfigurationAssignmentsForSubscriptionsUpdateResponse = ConfigurationAssignment;
+export type ConfigurationAssignmentsForSubscriptionsUpdateResponse =
+  ConfigurationAssignment;
 
 /** Optional parameters. */
 export interface ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the delete operation. */
-export type ConfigurationAssignmentsForSubscriptionsDeleteResponse = ConfigurationAssignment;
+export type ConfigurationAssignmentsForSubscriptionsDeleteResponse =
+  ConfigurationAssignment;
 
 /** Optional parameters. */
 export interface ConfigurationAssignmentsForResourceGroupGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ConfigurationAssignmentsForResourceGroupGetResponse = ConfigurationAssignment;
+export type ConfigurationAssignmentsForResourceGroupGetResponse =
+  ConfigurationAssignment;
 
 /** Optional parameters. */
 export interface ConfigurationAssignmentsForResourceGroupCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponse = ConfigurationAssignment;
+export type ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponse =
+  ConfigurationAssignment;
 
 /** Optional parameters. */
 export interface ConfigurationAssignmentsForResourceGroupUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type ConfigurationAssignmentsForResourceGroupUpdateResponse = ConfigurationAssignment;
+export type ConfigurationAssignmentsForResourceGroupUpdateResponse =
+  ConfigurationAssignment;
 
 /** Optional parameters. */
 export interface ConfigurationAssignmentsForResourceGroupDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the delete operation. */
-export type ConfigurationAssignmentsForResourceGroupDeleteResponse = ConfigurationAssignment;
+export type ConfigurationAssignmentsForResourceGroupDeleteResponse =
+  ConfigurationAssignment;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

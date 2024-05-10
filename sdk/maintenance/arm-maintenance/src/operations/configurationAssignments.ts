@@ -29,7 +29,7 @@ import {
   ConfigurationAssignmentsCreateOrUpdateOptionalParams,
   ConfigurationAssignmentsCreateOrUpdateResponse,
   ConfigurationAssignmentsDeleteOptionalParams,
-  ConfigurationAssignmentsDeleteResponse
+  ConfigurationAssignmentsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,7 +62,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
     resourceParentName: string,
     resourceType: string,
     resourceName: string,
-    options?: ConfigurationAssignmentsListParentOptionalParams
+    options?: ConfigurationAssignmentsListParentOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationAssignment> {
     const iter = this.listParentPagingAll(
       resourceGroupName,
@@ -71,7 +71,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
       resourceParentName,
       resourceType,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -92,9 +92,9 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
           resourceType,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -106,7 +106,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
     resourceType: string,
     resourceName: string,
     options?: ConfigurationAssignmentsListParentOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationAssignment[]> {
     let result: ConfigurationAssignmentsListParentResponse;
     result = await this._listParent(
@@ -116,7 +116,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
       resourceParentName,
       resourceType,
       resourceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -128,7 +128,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
     resourceParentName: string,
     resourceType: string,
     resourceName: string,
-    options?: ConfigurationAssignmentsListParentOptionalParams
+    options?: ConfigurationAssignmentsListParentOptionalParams,
   ): AsyncIterableIterator<ConfigurationAssignment> {
     for await (const page of this.listParentPagingPage(
       resourceGroupName,
@@ -137,7 +137,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
       resourceParentName,
       resourceType,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -156,14 +156,14 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
     providerName: string,
     resourceType: string,
     resourceName: string,
-    options?: ConfigurationAssignmentsListOptionalParams
+    options?: ConfigurationAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationAssignment> {
     const iter = this.listPagingAll(
       resourceGroupName,
       providerName,
       resourceType,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -182,9 +182,9 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
           resourceType,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -194,7 +194,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
     resourceType: string,
     resourceName: string,
     options?: ConfigurationAssignmentsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationAssignment[]> {
     let result: ConfigurationAssignmentsListResponse;
     result = await this._list(
@@ -202,7 +202,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
       providerName,
       resourceType,
       resourceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -212,14 +212,14 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
     providerName: string,
     resourceType: string,
     resourceName: string,
-    options?: ConfigurationAssignmentsListOptionalParams
+    options?: ConfigurationAssignmentsListOptionalParams,
   ): AsyncIterableIterator<ConfigurationAssignment> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       providerName,
       resourceType,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -244,7 +244,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
     resourceType: string,
     resourceName: string,
     configurationAssignmentName: string,
-    options?: ConfigurationAssignmentsGetParentOptionalParams
+    options?: ConfigurationAssignmentsGetParentOptionalParams,
   ): Promise<ConfigurationAssignmentsGetParentResponse> {
     return this.client.sendOperationRequest(
       {
@@ -255,9 +255,9 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
         resourceType,
         resourceName,
         configurationAssignmentName,
-        options
+        options,
       },
-      getParentOperationSpec
+      getParentOperationSpec,
     );
   }
 
@@ -282,7 +282,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
     resourceName: string,
     configurationAssignmentName: string,
     configurationAssignment: ConfigurationAssignment,
-    options?: ConfigurationAssignmentsCreateOrUpdateParentOptionalParams
+    options?: ConfigurationAssignmentsCreateOrUpdateParentOptionalParams,
   ): Promise<ConfigurationAssignmentsCreateOrUpdateParentResponse> {
     return this.client.sendOperationRequest(
       {
@@ -294,9 +294,9 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
         resourceName,
         configurationAssignmentName,
         configurationAssignment,
-        options
+        options,
       },
-      createOrUpdateParentOperationSpec
+      createOrUpdateParentOperationSpec,
     );
   }
 
@@ -319,7 +319,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
     resourceType: string,
     resourceName: string,
     configurationAssignmentName: string,
-    options?: ConfigurationAssignmentsDeleteParentOptionalParams
+    options?: ConfigurationAssignmentsDeleteParentOptionalParams,
   ): Promise<ConfigurationAssignmentsDeleteParentResponse> {
     return this.client.sendOperationRequest(
       {
@@ -330,9 +330,9 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
         resourceType,
         resourceName,
         configurationAssignmentName,
-        options
+        options,
       },
-      deleteParentOperationSpec
+      deleteParentOperationSpec,
     );
   }
 
@@ -351,7 +351,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
     resourceType: string,
     resourceName: string,
     configurationAssignmentName: string,
-    options?: ConfigurationAssignmentsGetOptionalParams
+    options?: ConfigurationAssignmentsGetOptionalParams,
   ): Promise<ConfigurationAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -360,9 +360,9 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
         resourceType,
         resourceName,
         configurationAssignmentName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -383,7 +383,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
     resourceName: string,
     configurationAssignmentName: string,
     configurationAssignment: ConfigurationAssignment,
-    options?: ConfigurationAssignmentsCreateOrUpdateOptionalParams
+    options?: ConfigurationAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationAssignmentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -393,9 +393,9 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
         resourceName,
         configurationAssignmentName,
         configurationAssignment,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -414,7 +414,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
     resourceType: string,
     resourceName: string,
     configurationAssignmentName: string,
-    options?: ConfigurationAssignmentsDeleteOptionalParams
+    options?: ConfigurationAssignmentsDeleteOptionalParams,
   ): Promise<ConfigurationAssignmentsDeleteResponse> {
     return this.client.sendOperationRequest(
       {
@@ -423,9 +423,9 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
         resourceType,
         resourceName,
         configurationAssignmentName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -446,7 +446,7 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
     resourceParentName: string,
     resourceType: string,
     resourceName: string,
-    options?: ConfigurationAssignmentsListParentOptionalParams
+    options?: ConfigurationAssignmentsListParentOptionalParams,
   ): Promise<ConfigurationAssignmentsListParentResponse> {
     return this.client.sendOperationRequest(
       {
@@ -456,9 +456,9 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
         resourceParentName,
         resourceType,
         resourceName,
-        options
+        options,
       },
-      listParentOperationSpec
+      listParentOperationSpec,
     );
   }
 
@@ -475,11 +475,11 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
     providerName: string,
     resourceType: string,
     resourceName: string,
-    options?: ConfigurationAssignmentsListOptionalParams
+    options?: ConfigurationAssignmentsListOptionalParams,
   ): Promise<ConfigurationAssignmentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, providerName, resourceType, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -487,220 +487,212 @@ export class ConfigurationAssignmentsImpl implements ConfigurationAssignments {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getParentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceParentType}/{resourceParentName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceParentType}/{resourceParentName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationAssignment
+      bodyMapper: Mappers.ConfigurationAssignment,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceType,
     Parameters.resourceName,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.providerName,
     Parameters.resourceParentType,
     Parameters.resourceParentName,
-    Parameters.resourceType,
-    Parameters.configurationAssignmentName
+    Parameters.configurationAssignmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateParentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceParentType}/{resourceParentName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceParentType}/{resourceParentName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationAssignment
+      bodyMapper: Mappers.ConfigurationAssignment,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationAssignment
+      bodyMapper: Mappers.ConfigurationAssignment,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   requestBody: Parameters.configurationAssignment,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceType,
     Parameters.resourceName,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.providerName,
     Parameters.resourceParentType,
     Parameters.resourceParentName,
-    Parameters.resourceType,
-    Parameters.configurationAssignmentName
+    Parameters.configurationAssignmentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteParentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceParentType}/{resourceParentName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceParentType}/{resourceParentName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationAssignment
+      bodyMapper: Mappers.ConfigurationAssignment,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceType,
     Parameters.resourceName,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.providerName,
     Parameters.resourceParentType,
     Parameters.resourceParentName,
-    Parameters.resourceType,
-    Parameters.configurationAssignmentName
+    Parameters.configurationAssignmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationAssignment
+      bodyMapper: Mappers.ConfigurationAssignment,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.providerName,
     Parameters.resourceType,
-    Parameters.configurationAssignmentName
+    Parameters.resourceName,
+    Parameters.resourceGroupName1,
+    Parameters.providerName,
+    Parameters.configurationAssignmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationAssignment
+      bodyMapper: Mappers.ConfigurationAssignment,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationAssignment
+      bodyMapper: Mappers.ConfigurationAssignment,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   requestBody: Parameters.configurationAssignment,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.providerName,
     Parameters.resourceType,
-    Parameters.configurationAssignmentName
+    Parameters.resourceName,
+    Parameters.resourceGroupName1,
+    Parameters.providerName,
+    Parameters.configurationAssignmentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationAssignment
+      bodyMapper: Mappers.ConfigurationAssignment,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.providerName,
     Parameters.resourceType,
-    Parameters.configurationAssignmentName
+    Parameters.resourceName,
+    Parameters.resourceGroupName1,
+    Parameters.providerName,
+    Parameters.configurationAssignmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listParentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceParentType}/{resourceParentName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceParentType}/{resourceParentName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListConfigurationAssignmentsResult
+      bodyMapper: Mappers.ListConfigurationAssignmentsResult,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceType,
     Parameters.resourceName,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.providerName,
     Parameters.resourceParentType,
     Parameters.resourceParentName,
-    Parameters.resourceType
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListConfigurationAssignmentsResult
+      bodyMapper: Mappers.ListConfigurationAssignmentsResult,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceType,
     Parameters.resourceName,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.providerName,
-    Parameters.resourceType
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

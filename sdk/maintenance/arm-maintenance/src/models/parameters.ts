@@ -9,11 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  ApplyUpdate as ApplyUpdateMapper,
   ConfigurationAssignment as ConfigurationAssignmentMapper,
-  MaintenanceConfiguration as MaintenanceConfigurationMapper
+  MaintenanceConfiguration as MaintenanceConfigurationMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -23,9 +24,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -34,10 +35,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -46,76 +47,24 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2023-04-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceName: OperationURLParameter = {
-  parameterPath: "resourceName",
-  mapper: {
-    serializedName: "resourceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const providerName: OperationURLParameter = {
-  parameterPath: "providerName",
-  mapper: {
-    serializedName: "providerName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceParentType: OperationURLParameter = {
-  parameterPath: "resourceParentType",
-  mapper: {
-    serializedName: "resourceParentType",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceParentName: OperationURLParameter = {
-  parameterPath: "resourceParentName",
-  mapper: {
-    serializedName: "resourceParentName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceType: OperationURLParameter = {
@@ -124,9 +73,87 @@ export const resourceType: OperationURLParameter = {
     serializedName: "resourceType",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const resourceName: OperationURLParameter = {
+  parameterPath: "resourceName",
+  mapper: {
+    serializedName: "resourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const scheduledEventId: OperationURLParameter = {
+  parameterPath: "scheduledEventId",
+  mapper: {
+    serializedName: "scheduledEventId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-10-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const providerName: OperationURLParameter = {
+  parameterPath: "providerName",
+  mapper: {
+    serializedName: "providerName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resourceParentType: OperationURLParameter = {
+  parameterPath: "resourceParentType",
+  mapper: {
+    serializedName: "resourceParentType",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resourceParentName: OperationURLParameter = {
+  parameterPath: "resourceParentName",
+  mapper: {
+    serializedName: "resourceParentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const applyUpdateName: OperationURLParameter = {
@@ -135,20 +162,9 @@ export const applyUpdateName: OperationURLParameter = {
     serializedName: "applyUpdateName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const configurationAssignmentName: OperationURLParameter = {
-  parameterPath: "configurationAssignmentName",
-  mapper: {
-    serializedName: "configurationAssignmentName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -158,31 +174,47 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const applyUpdate: OperationParameter = {
+  parameterPath: "applyUpdate",
+  mapper: ApplyUpdateMapper,
+};
+
+export const configurationAssignmentName: OperationURLParameter = {
+  parameterPath: "configurationAssignmentName",
+  mapper: {
+    serializedName: "configurationAssignmentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const configurationAssignment: OperationParameter = {
   parameterPath: "configurationAssignment",
-  mapper: ConfigurationAssignmentMapper
+  mapper: ConfigurationAssignmentMapper,
 };
 
 export const configuration: OperationParameter = {
   parameterPath: "configuration",
-  mapper: MaintenanceConfigurationMapper
+  mapper: MaintenanceConfigurationMapper,
 };
 
 export const configurationAssignmentName1: OperationURLParameter = {
   parameterPath: "configurationAssignmentName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^.+$")
+      Pattern: new RegExp("^.+$"),
     },
     serializedName: "configurationAssignmentName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

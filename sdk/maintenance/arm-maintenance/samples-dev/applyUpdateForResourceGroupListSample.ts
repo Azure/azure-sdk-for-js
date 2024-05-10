@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get Configuration records within a subscription and resource group
  *
  * @summary Get Configuration records within a subscription and resource group
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/ApplyUpdatesResourceGroup_List.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ApplyUpdatesResourceGroup_List.json
  */
 async function applyUpdatesResourceGroupList() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function applyUpdatesResourceGroupList() {
   const client = new MaintenanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.applyUpdateForResourceGroup.list(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

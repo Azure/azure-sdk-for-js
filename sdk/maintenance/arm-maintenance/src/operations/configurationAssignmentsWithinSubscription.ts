@@ -15,13 +15,14 @@ import { MaintenanceManagementClient } from "../maintenanceManagementClient";
 import {
   ConfigurationAssignment,
   ConfigurationAssignmentsWithinSubscriptionListOptionalParams,
-  ConfigurationAssignmentsWithinSubscriptionListResponse
+  ConfigurationAssignmentsWithinSubscriptionListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConfigurationAssignmentsWithinSubscription operations. */
 export class ConfigurationAssignmentsWithinSubscriptionImpl
-  implements ConfigurationAssignmentsWithinSubscription {
+  implements ConfigurationAssignmentsWithinSubscription
+{
   private readonly client: MaintenanceManagementClient;
 
   /**
@@ -37,7 +38,7 @@ export class ConfigurationAssignmentsWithinSubscriptionImpl
    * @param options The options parameters.
    */
   public list(
-    options?: ConfigurationAssignmentsWithinSubscriptionListOptionalParams
+    options?: ConfigurationAssignmentsWithinSubscriptionListOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationAssignment> {
     const iter = this.listPagingAll(options);
     return {
@@ -52,13 +53,13 @@ export class ConfigurationAssignmentsWithinSubscriptionImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ConfigurationAssignmentsWithinSubscriptionListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationAssignment[]> {
     let result: ConfigurationAssignmentsWithinSubscriptionListResponse;
     result = await this._list(options);
@@ -66,7 +67,7 @@ export class ConfigurationAssignmentsWithinSubscriptionImpl
   }
 
   private async *listPagingAll(
-    options?: ConfigurationAssignmentsWithinSubscriptionListOptionalParams
+    options?: ConfigurationAssignmentsWithinSubscriptionListOptionalParams,
   ): AsyncIterableIterator<ConfigurationAssignment> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -78,7 +79,7 @@ export class ConfigurationAssignmentsWithinSubscriptionImpl
    * @param options The options parameters.
    */
   private _list(
-    options?: ConfigurationAssignmentsWithinSubscriptionListOptionalParams
+    options?: ConfigurationAssignmentsWithinSubscriptionListOptionalParams,
   ): Promise<ConfigurationAssignmentsWithinSubscriptionListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -87,19 +88,18 @@ export class ConfigurationAssignmentsWithinSubscriptionImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/configurationAssignments",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/configurationAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListConfigurationAssignmentsResult
+      bodyMapper: Mappers.ListConfigurationAssignmentsResult,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

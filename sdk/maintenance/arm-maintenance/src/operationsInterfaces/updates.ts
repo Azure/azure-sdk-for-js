@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Update,
   UpdatesListParentOptionalParams,
-  UpdatesListOptionalParams
+  UpdatesListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Updates {
     resourceParentName: string,
     resourceType: string,
     resourceName: string,
-    options?: UpdatesListParentOptionalParams
+    options?: UpdatesListParentOptionalParams,
   ): PagedAsyncIterableIterator<Update>;
   /**
    * Get updates to resources.
@@ -48,6 +48,6 @@ export interface Updates {
     providerName: string,
     resourceType: string,
     resourceName: string,
-    options?: UpdatesListOptionalParams
+    options?: UpdatesListOptionalParams,
   ): PagedAsyncIterableIterator<Update>;
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List the available operations supported by the Microsoft.Maintenance resource provider
  *
  * @summary List the available operations supported by the Microsoft.Maintenance resource provider
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/Operations_List.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/Operations_List.json
  */
 async function operationsList() {
   const subscriptionId =

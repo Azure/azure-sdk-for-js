@@ -30,6 +30,7 @@ export type ApplyUpdateForResourceGroupListResponse = ListApplyUpdate;
 // @public
 export interface ApplyUpdates {
     createOrUpdate(resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, options?: ApplyUpdatesCreateOrUpdateOptionalParams): Promise<ApplyUpdatesCreateOrUpdateResponse>;
+    createOrUpdateOrCancel(resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, applyUpdateName: string, applyUpdate: ApplyUpdate, options?: ApplyUpdatesCreateOrUpdateOrCancelOptionalParams): Promise<ApplyUpdatesCreateOrUpdateOrCancelResponse>;
     createOrUpdateParent(resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, options?: ApplyUpdatesCreateOrUpdateParentOptionalParams): Promise<ApplyUpdatesCreateOrUpdateParentResponse>;
     get(resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, applyUpdateName: string, options?: ApplyUpdatesGetOptionalParams): Promise<ApplyUpdatesGetResponse>;
     getParent(resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, applyUpdateName: string, options?: ApplyUpdatesGetParentOptionalParams): Promise<ApplyUpdatesGetParentResponse>;
@@ -39,6 +40,13 @@ export interface ApplyUpdates {
 // @public
 export interface ApplyUpdatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export interface ApplyUpdatesCreateOrUpdateOrCancelOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplyUpdatesCreateOrUpdateOrCancelResponse = ApplyUpdate;
 
 // @public
 export interface ApplyUpdatesCreateOrUpdateParentOptionalParams extends coreClient.OperationOptions {
@@ -313,8 +321,11 @@ export enum KnownRebootOptions {
 
 // @public
 export enum KnownUpdateStatus {
+    Cancel = "Cancel",
+    Cancelled = "Cancelled",
     Completed = "Completed",
     InProgress = "InProgress",
+    NoUpdatesPending = "NoUpdatesPending",
     Pending = "Pending",
     RetryLater = "RetryLater",
     RetryNow = "RetryNow"
@@ -455,6 +466,8 @@ export class MaintenanceManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     publicMaintenanceConfigurations: PublicMaintenanceConfigurations;
     // (undocumented)
+    scheduledEvent: ScheduledEvent;
+    // (undocumented)
     subscriptionId: string;
     // (undocumented)
     updates: Updates;
@@ -533,6 +546,23 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface ScheduledEvent {
+    acknowledge(resourceGroupName: string, resourceType: string, resourceName: string, scheduledEventId: string, options?: ScheduledEventAcknowledgeOptionalParams): Promise<ScheduledEventAcknowledgeResponse>;
+}
+
+// @public
+export interface ScheduledEventAcknowledgeOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScheduledEventAcknowledgeResponse = ScheduledEventApproveResponse;
+
+// @public
+export interface ScheduledEventApproveResponse {
+    value?: string;
 }
 
 // @public

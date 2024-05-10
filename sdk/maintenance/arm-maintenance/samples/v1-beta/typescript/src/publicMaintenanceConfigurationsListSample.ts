@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get Public Maintenance Configuration records
  *
  * @summary Get Public Maintenance Configuration records
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/PublicMaintenanceConfigurations_List.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/PublicMaintenanceConfigurations_List.json
  */
 async function publicMaintenanceConfigurationsList() {
   const subscriptionId =

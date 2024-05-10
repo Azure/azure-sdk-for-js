@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ConfigurationAssignment,
-  MaintenanceManagementClient
+  MaintenanceManagementClient,
 } from "@azure/arm-maintenance";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Register configuration for resource.
  *
  * @summary Register configuration for resource.
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/ConfigurationAssignments_CreateOrUpdate.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ConfigurationAssignments_CreateOrUpdate.json
  */
 async function configurationAssignmentsCreateOrUpdate() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function configurationAssignmentsCreateOrUpdate() {
   const configurationAssignmentName = "workervmConfiguration";
   const configurationAssignment: ConfigurationAssignment = {
     maintenanceConfigurationId:
-      "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourcegroups/examplerg/providers/Microsoft.Maintenance/maintenanceConfigurations/configuration1"
+      "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourcegroups/examplerg/providers/Microsoft.Maintenance/maintenanceConfigurations/configuration1",
   };
   const credential = new DefaultAzureCredential();
   const client = new MaintenanceManagementClient(credential, subscriptionId);
@@ -45,7 +45,7 @@ async function configurationAssignmentsCreateOrUpdate() {
     resourceType,
     resourceName,
     configurationAssignmentName,
-    configurationAssignment
+    configurationAssignment,
   );
   console.log(result);
 }

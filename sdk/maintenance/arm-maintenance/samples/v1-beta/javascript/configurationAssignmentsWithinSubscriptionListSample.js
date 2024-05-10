@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get configuration assignment within a subscription
  *
  * @summary Get configuration assignment within a subscription
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/ConfigurationAssignmentsResultWithinSubscription_List.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ConfigurationAssignmentsResultWithinSubscription_List.json
  */
 async function configurationAssignmentsResultWithinSubscriptionList() {
   const subscriptionId =

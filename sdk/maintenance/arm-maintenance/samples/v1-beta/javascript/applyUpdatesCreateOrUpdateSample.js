@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Apply maintenance updates to resource
  *
  * @summary Apply maintenance updates to resource
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/ApplyUpdates_CreateOrUpdate.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ApplyUpdates_CreateOrUpdate.json
  */
 async function applyUpdatesCreateOrUpdate() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function applyUpdatesCreateOrUpdate() {
     resourceGroupName,
     providerName,
     resourceType,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

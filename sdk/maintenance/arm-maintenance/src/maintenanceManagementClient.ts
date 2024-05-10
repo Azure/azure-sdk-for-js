@@ -11,10 +11,11 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  ScheduledEventImpl,
   PublicMaintenanceConfigurationsImpl,
   ApplyUpdatesImpl,
   ConfigurationAssignmentsImpl,
@@ -25,9 +26,10 @@ import {
   ConfigurationAssignmentsForSubscriptionsImpl,
   ConfigurationAssignmentsForResourceGroupImpl,
   OperationsImpl,
-  UpdatesImpl
+  UpdatesImpl,
 } from "./operations";
 import {
+  ScheduledEvent,
   PublicMaintenanceConfigurations,
   ApplyUpdates,
   ConfigurationAssignments,
@@ -38,7 +40,7 @@ import {
   ConfigurationAssignmentsForSubscriptions,
   ConfigurationAssignmentsForResourceGroup,
   Operations,
-  Updates
+  Updates,
 } from "./operationsInterfaces";
 import { MaintenanceManagementClientOptionalParams } from "./models";
 
@@ -50,14 +52,13 @@ export class MaintenanceManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the MaintenanceManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Subscription credentials that uniquely identify a Microsoft Azure
-   *                       subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: MaintenanceManagementClientOptionalParams
+    options?: MaintenanceManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -72,10 +73,10 @@ export class MaintenanceManagementClient extends coreClient.ServiceClient {
     }
     const defaults: MaintenanceManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-maintenance/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-maintenance/1.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -85,20 +86,21 @@ export class MaintenanceManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -108,7 +110,7 @@ export class MaintenanceManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -118,9 +120,9 @@ export class MaintenanceManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -128,28 +130,24 @@ export class MaintenanceManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-04-01";
-    this.publicMaintenanceConfigurations = new PublicMaintenanceConfigurationsImpl(
-      this
-    );
+    this.apiVersion = options.apiVersion || "2023-10-01-preview";
+    this.scheduledEvent = new ScheduledEventImpl(this);
+    this.publicMaintenanceConfigurations =
+      new PublicMaintenanceConfigurationsImpl(this);
     this.applyUpdates = new ApplyUpdatesImpl(this);
     this.configurationAssignments = new ConfigurationAssignmentsImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
-    this.maintenanceConfigurationsForResourceGroup = new MaintenanceConfigurationsForResourceGroupImpl(
-      this
-    );
+    this.maintenanceConfigurationsForResourceGroup =
+      new MaintenanceConfigurationsForResourceGroupImpl(this);
     this.applyUpdateForResourceGroup = new ApplyUpdateForResourceGroupImpl(
-      this
+      this,
     );
-    this.configurationAssignmentsWithinSubscription = new ConfigurationAssignmentsWithinSubscriptionImpl(
-      this
-    );
-    this.configurationAssignmentsForSubscriptions = new ConfigurationAssignmentsForSubscriptionsImpl(
-      this
-    );
-    this.configurationAssignmentsForResourceGroup = new ConfigurationAssignmentsForResourceGroupImpl(
-      this
-    );
+    this.configurationAssignmentsWithinSubscription =
+      new ConfigurationAssignmentsWithinSubscriptionImpl(this);
+    this.configurationAssignmentsForSubscriptions =
+      new ConfigurationAssignmentsForSubscriptionsImpl(this);
+    this.configurationAssignmentsForResourceGroup =
+      new ConfigurationAssignmentsForResourceGroupImpl(this);
     this.operations = new OperationsImpl(this);
     this.updates = new UpdatesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -164,7 +162,7 @@ export class MaintenanceManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -178,11 +176,12 @@ export class MaintenanceManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  scheduledEvent: ScheduledEvent;
   publicMaintenanceConfigurations: PublicMaintenanceConfigurations;
   applyUpdates: ApplyUpdates;
   configurationAssignments: ConfigurationAssignments;

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Track maintenance updates to resource
  *
  * @summary Track maintenance updates to resource
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/ApplyUpdates_Get.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ApplyUpdates_Get.json
  */
 async function applyUpdatesGet() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function applyUpdatesGet() {
     providerName,
     resourceType,
     resourceName,
-    applyUpdateName
+    applyUpdateName,
   );
   console.log(result);
 }

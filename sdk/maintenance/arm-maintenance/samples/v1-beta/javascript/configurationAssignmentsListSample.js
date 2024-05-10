@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List configurationAssignments for resource.
  *
  * @summary List configurationAssignments for resource.
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/ConfigurationAssignments_List.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ConfigurationAssignments_List.json
  */
 async function configurationAssignmentsList() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function configurationAssignmentsList() {
     resourceGroupName,
     providerName,
     resourceType,
-    resourceName
+    resourceName,
   )) {
     resArray.push(item);
   }

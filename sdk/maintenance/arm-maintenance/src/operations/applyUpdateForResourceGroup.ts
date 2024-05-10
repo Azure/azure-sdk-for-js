@@ -15,13 +15,14 @@ import { MaintenanceManagementClient } from "../maintenanceManagementClient";
 import {
   ApplyUpdate,
   ApplyUpdateForResourceGroupListOptionalParams,
-  ApplyUpdateForResourceGroupListResponse
+  ApplyUpdateForResourceGroupListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApplyUpdateForResourceGroup operations. */
 export class ApplyUpdateForResourceGroupImpl
-  implements ApplyUpdateForResourceGroup {
+  implements ApplyUpdateForResourceGroup
+{
   private readonly client: MaintenanceManagementClient;
 
   /**
@@ -39,7 +40,7 @@ export class ApplyUpdateForResourceGroupImpl
    */
   public list(
     resourceGroupName: string,
-    options?: ApplyUpdateForResourceGroupListOptionalParams
+    options?: ApplyUpdateForResourceGroupListOptionalParams,
   ): PagedAsyncIterableIterator<ApplyUpdate> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -54,14 +55,14 @@ export class ApplyUpdateForResourceGroupImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: ApplyUpdateForResourceGroupListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ApplyUpdate[]> {
     let result: ApplyUpdateForResourceGroupListResponse;
     result = await this._list(resourceGroupName, options);
@@ -70,7 +71,7 @@ export class ApplyUpdateForResourceGroupImpl
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: ApplyUpdateForResourceGroupListOptionalParams
+    options?: ApplyUpdateForResourceGroupListOptionalParams,
   ): AsyncIterableIterator<ApplyUpdate> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -84,11 +85,11 @@ export class ApplyUpdateForResourceGroupImpl
    */
   private _list(
     resourceGroupName: string,
-    options?: ApplyUpdateForResourceGroupListOptionalParams
+    options?: ApplyUpdateForResourceGroupListOptionalParams,
   ): Promise<ApplyUpdateForResourceGroupListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -96,23 +97,22 @@ export class ApplyUpdateForResourceGroupImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maintenance/applyUpdates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maintenance/applyUpdates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListApplyUpdate
+      bodyMapper: Mappers.ListApplyUpdate,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

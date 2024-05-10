@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Register configuration for resource.
  *
  * @summary Register configuration for resource.
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/ConfigurationAssignmentsForSubscriptions_CreateOrUpdate.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ConfigurationAssignmentsForSubscriptions_CreateOrUpdate.json
  */
 async function configurationAssignmentsForSubscriptionsCreateOrUpdate() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function configurationAssignmentsForSubscriptionsCreateOrUpdate() {
   const client = new MaintenanceManagementClient(credential, subscriptionId);
   const result = await client.configurationAssignmentsForSubscriptions.createOrUpdate(
     configurationAssignmentName,
-    configurationAssignment
+    configurationAssignment,
   );
   console.log(result);
 }
