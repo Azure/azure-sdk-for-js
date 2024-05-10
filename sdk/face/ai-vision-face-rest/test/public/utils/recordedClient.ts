@@ -52,9 +52,5 @@ export async function createClient(
   const endpoint = assertEnvironmentVariable("FACE_ENDPOINT");
   const apikey = assertEnvironmentVariable("FACE_APIKEY");
   const credential = new AzureKeyCredential(apikey);
-  return createFaceClient(
-    endpoint,
-    credential,
-    recorder?.configureClientOptions(options ?? {}),
-  );
+  return createFaceClient(endpoint, credential, recorder?.configureClientOptions(options ?? {}));
 }
