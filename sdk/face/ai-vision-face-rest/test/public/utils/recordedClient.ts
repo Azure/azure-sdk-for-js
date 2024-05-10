@@ -48,7 +48,7 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
 
 export async function createClient(
   recorder?: Recorder,
-  options?: ClientOptions,
+  options?: FaceClientOptions,
 ): Promise<FaceClient> {
   const endpoint = assertEnvironmentVariable("FACE_ENDPOINT");
   const apikey = assertEnvironmentVariable("FACE_APIKEY");
@@ -56,6 +56,6 @@ export async function createClient(
   return createFaceClient(
     endpoint,
     credential,
-    recorder?.configureClientOptions(options ?? {}) as FaceClientOptions,
+    recorder?.configureClientOptions(options ?? {}),
   );
 }

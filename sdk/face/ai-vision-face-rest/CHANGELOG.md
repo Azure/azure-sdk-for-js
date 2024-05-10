@@ -9,13 +9,15 @@ This package's [documentation](https://github.com/Azure/azure-sdk-for-js/tree/ma
 
 ### Features Added
 
+These are the new features not supported by the old package [@azure/cognitiveservices-face](https://www.npmjs.com/package/@azure/cognitiveservices-face).
+
 - Added support for Liveness Detection.
 - Added support for `Person` and `DynamicPersonGroup` operations.
 - Added support for face recognition with `PersonDirectory` by passing `IdentifyFromPersonDirectoryParameters` or `IdentifyFromDynamicPersonGroupParameters` to `/identify`.
+- Added support for authentication with Microsoft Entra ID using `DefaultAzureCredential` from `@azure/identity`.
 
 ### Breaking Changes
 
-- This library supports only the Azure AI Face v1.1-preview.1 API.
-- The `FaceClient` is the primary interface for developers interacting with the Azure AI Face service. It follows the design of [REST client](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) and serves as the gateway from which all interaction with the library will occur.
-- Authentication with Microsoft Entra ID is supported using `DefaultAzureCredential` from `@azure/identity`.
+- This library supports only the Azure AI Face v1.1-preview.1 API, whose data models are not compatible with the v1.0 API used by [@azure/cognitiveservices-face](https://www.npmjs.com/package/@azure/cognitiveservices-face).
+- This library follows the design of [REST client](https://devblogs.microsoft.com/azure-sdk/azure-rest-libraries-for-javascript/), which is essentially different from [@azure/cognitiveservices-face](https://www.npmjs.com/package/@azure/cognitiveservices-face).
 - The Snapshot operations are all removed as [the Snapshot API is no longer supported](https://azure.microsoft.com/updates/facelimitedaccess/).

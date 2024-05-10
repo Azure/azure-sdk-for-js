@@ -1,14 +1,15 @@
-# Azure Ai Vision Face client library for JavaScript
+# Azure AI Vision Face client library for JavaScript
 
 The Azure AI Face service provides AI algorithms that detect, recognize, and analyze human faces in images. It includes the following main features:
 
-- Face detection and analyzsis
+- Face detection and analysis
 - Liveness detection
 - Face recognition
   - Face verification ("one-to-one" matching)
   - Face identification ("one-to-many" matching)
 - Find similar faces
 - Group faces
+
 [Product documentation](https://learn.microsoft.com/azure/ai-services/computer-vision/overview-identity)
 | [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/face/ai-vision-face-rest)
 | [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-vision-face)
@@ -38,7 +39,7 @@ Azure AI Face supports both [multi-service](https://learn.microsoft.com/azure/ai
 
 ### Install the package
 
-Install the Azure Face REST client REST client library for JavaScript with `npm`:
+Install the Azure Face REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/ai-vision-face
@@ -75,7 +76,7 @@ A custom subdomain, on the other hand, is a name that is unique to the Face reso
 #### Create the client with AzureKeyCredential
 
 To use an API key as the `credential` parameter, pass the key as a string into an instance of [AzureKeyCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/azurekeycredential?view=azure-node-latest).
-You can get the API key for your Face resource using the [Azure Portal][https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal#get-the-keys-for-your-resource] or [Azure CLI][https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azcli#get-the-keys-for-your-resource]:
+You can get the API key for your Face resource using the [Azure Portal](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal#get-the-keys-for-your-resource) or [Azure CLI](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azcli#get-the-keys-for-your-resource):
 
 ```bash
 # Get the API keys for the Face resource
@@ -125,20 +126,28 @@ const client = createFaceClient(endpoint, credential);
 
 ### FaceClient
 
-The `FaceClient` is the primary interface for developers interacting with the Azure AI Face service. It follows the design of [REST client](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) and serves as the gateway from which all interaction with the library will occur.
+The `FaceClient` is the primary interface for developers interacting with the Azure AI Face service. It follows the design of [REST client](https://devblogs.microsoft.com/azure-sdk/azure-rest-libraries-for-javascript/) and serves as the gateway from which all interaction with the library will occur.
 
 ### Long-running operations
 
-Long-running operations are operations which consist of an initial request sent to the service to start an operation,
-followed by polling the service at intervals to determine whether the operation has completed or failed, and if it has
-succeeded, to get the result.
+Long-running operations are operations which consist of an initial request sent to the service to start an operation, followed by polling the service at intervals to determine whether the operation has completed or failed, and if it has succeeded, to get the result. For more information, please refer to the "Long-running operations" section in this [blog post](https://devblogs.microsoft.com/azure-sdk/azure-rest-libraries-for-javascript/).
 
-Methods that train a group (LargeFaceList, PersonGroup or LargePersonGroup), create/delete a Person/DynamicPersonGroup, 
-add a face or delete a face from a Person are modeled as long-running operations.
+Current long-running face operations:
 
-The client exposes a `getLongRunningPoller` method that returns a poller object from the initial HTTP 202 response.
-Callers should wait for the operation to complete by calling `pollUntilDone()` on the poller object. Sample code snippets
-are provided to illustrate using long-running operations [below](#examples "Examples").
+- Face list operations
+  - [Train large face list](https://learn.microsoft.com/rest/api/face/face-list-operations/train-large-face-list?view=rest-face-v1.1-preview.1&tabs=HTTP)
+- Person group operations
+  - [Train large person group](https://learn.microsoft.com/rest/api/face/person-group-operations/update-large-person-group?view=rest-face-v1.1-preview.1&tabs=HTTP)
+  - [Train person group](https://learn.microsoft.com/rest/api/face/person-group-operations/train-person-group?view=rest-face-v1.1-preview.1&tabs=HTTP)
+- Person directory operations
+  - [Add person face](https://learn.microsoft.com/rest/api/face/person-directory-operations/add-person-face?view=rest-face-v1.1-preview.1&tabs=HTTP)
+  - [Add person face from URL](https://learn.microsoft.com/rest/api/face/person-directory-operations/add-person-face-from-url?view=rest-face-v1.1-preview.1&tabs=HTTP)
+  - [Create dynamic person group with person](https://learn.microsoft.com/rest/api/face/person-directory-operations/create-dynamic-person-group-with-person?view=rest-face-v1.1-preview.1&tabs=HTTP)
+  - [Create person](https://learn.microsoft.com/rest/api/face/person-directory-operations/create-person?view=rest-face-v1.1-preview.1&tabs=HTTP)
+  - [Delete dynamic person group](https://learn.microsoft.com/rest/api/face/person-directory-operations/delete-dynamic-person-group?view=rest-face-v1.1-preview.1&tabs=HTTP)
+  - [Delete person](https://learn.microsoft.com/rest/api/face/person-directory-operations/delete-person?view=rest-face-v1.1-preview.1&tabs=HTTP)
+  - [Delete person face](https://learn.microsoft.com/rest/api/face/person-directory-operations/delete-person-face?view=rest-face-v1.1-preview.1&tabs=HTTP)
+  - [Update dynamic person group with person changes](https://learn.microsoft.com/rest/api/face/person-directory-operations/update-dynamic-person-group-with-person-changes?view=rest-face-v1.1-preview.1&tabs=HTTP)
 
 ## Examples
 
@@ -157,9 +166,7 @@ import { readFileSync } from 'fs';
 import { AzureKeyCredential } from '@azure/core-auth';
 
 import createFaceClient, {
-    Detect200Response,
-    FaceAttributeTypeDetection03,
-    FaceAttributeTypeRecognition04,
+    isUnexpected,
 } from '@azure-rest/ai-vision-face';
 
 const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
@@ -175,11 +182,14 @@ const response = await client.path('/detect').post({
         returnFaceLandmarks: true,
         returnRecognitionModel: true,
         faceIdTimeToLive: 120,
-        returnFaceAttributes: [FaceAttributeTypeDetection03.HEAD_POSE, FaceAttributeTypeDetection03.MASK, FaceAttributeTypeRecognition04.QUALITY_FOR_RECOGNITION],
+        returnFaceAttributes: ['headPose', 'mask', 'qualityForRecognition'],
         returnFaceId: false,
     },
     body: readFileSync('path/to/test/image'),
-}) as Detect200Response;
+});
+if (isUnexpected(response)) {
+    throw new Error(response.body.error.message);
+}
 console.log(response.body);
 ```
 
@@ -194,10 +204,8 @@ import { readFileSync } from 'fs';
 import { AzureKeyCredential } from '@azure/core-auth';
 
 import createFaceClient, {
-    CreateLargePersonGroupPerson200Response,
-    Detect200Response,
-    IdentifyFromLargePersonGroup200Response,
     getLongRunningPoller,
+    isUnexpected,
 } from '@azure-rest/ai-vision-face';
 
 const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
@@ -221,7 +229,10 @@ const createLargePersonGroupPersonResponse_bill = await client.path('/largeperso
         name: 'Bill',
         userData: 'Dad',
     },
-}) as CreateLargePersonGroupPerson200Response;
+});
+if (isUnexpected(createLargePersonGroupPersonResponse_bill)) {
+    throw new Error(createLargePersonGroupPersonResponse_bill.body.error.message);
+}
 const personId_bill = createLargePersonGroupPersonResponse_bill.body.personId;
 await client.path('/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces', largePersonGroupId, personId_bill).post({
     queryParameters: {
@@ -238,7 +249,10 @@ const createLargePersonGroupPersonResponse_clare = await client.path('/largepers
         name: 'Clare',
         userData: 'Mom',
     },
-}) as CreateLargePersonGroupPerson200Response;
+});
+if (isUnexpected(createLargePersonGroupPersonResponse_clare)) {
+    throw new Error(createLargePersonGroupPersonResponse_clare.body.error.message);
+}
 const personId_clare = createLargePersonGroupPersonResponse_clare.body.personId;
 await client.path('/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces', largePersonGroupId, personId_clare).post({
     queryParameters: {
@@ -272,13 +286,19 @@ const detectResponse = await client.path('/detect').post({
         returnFaceId: true,
     },
     body: readFileSync('path/to/target/image'),
-}) as Detect200Response;
+});
+if (isUnexpected(detectResponse)) {
+    throw new Error(detectResponse.body.error.message);
+}
 const faceIds = detectResponse.body.map(face => face.faceId as string)
 
 console.log('Identify the faces in the large person group.');
 const identifyResponse = await client.path('/identify').post({
     body: { faceIds, largePersonGroupId },
-}) as IdentifyFromLargePersonGroup200Response;
+});
+if (isUnexpected(identifyResponse)) {
+    throw new Error(identifyResponse.body.error.message);
+}
 console.log(identifyResponse.body);
 ```
 
@@ -314,8 +334,7 @@ import { randomUUID } from 'crypto';
 import { AzureKeyCredential } from '@azure/core-auth';
 
 import createFaceClient, {
-    CreateLivenessSession200Response,
-    GetLivenessSessionResult200Response,
+    isUnexpected,
 } from '@azure-rest/ai-vision-face';
 
 const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
@@ -331,13 +350,19 @@ const createLivenessSessionResponse = await client.path('/detectLiveness/singleM
         sendResultsToClient: false,
         authTokenTimeToLiveInSeconds: 60,
     },
-}) as CreateLivenessSession200Response;
+});
+if (isUnexpected(createLivenessSessionResponse)) {
+    throw new Error(createLivenessSessionResponse.body.error.message);
+}
 console.log(createLivenessSessionResponse.body);
 
 const { sessionId } = createLivenessSessionResponse.body;
 
 console.log('Get liveness detection results.');
-const getLivenessSessionResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).get() as GetLivenessSessionResult200Response;
+const getLivenessSessionResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).get();
+if (isUnexpected(getLivenessSessionResponse)) {
+    throw new Error(getLivenessSessionResponse.body.error.message);
+}
 console.log(getLivenessSessionResponse.body);
 ```
 
@@ -350,10 +375,7 @@ import { readFileSync } from 'fs';
 import { AzureKeyCredential } from '@azure/core-auth';
 
 import createFaceClient, {
-    CreateLivenessWithVerifySession200Response,
-    GetLivenessWithVerifySessionResult200Response,
-    CreateLivenessWithVerifySessionContentParametersPartDescriptor,
-    CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor,
+    isUnexpected,
 } from '@azure-rest/ai-vision-face';
 
 const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
@@ -365,11 +387,11 @@ console.log('Create a new liveness with verify session with verify image.');
 const createLivenessSessionResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions').post({
     contentType: 'multipart/form-data',
     body: [
-        new CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor({
+        {
             name: 'VerifyImage',
             body: readFileSync('path/to/verify/image'),
-        }),
-        new CreateLivenessWithVerifySessionContentParametersPartDescriptor({
+        },
+        {
             name: 'Parameters',
             body: {
                 livenessOperationMode: 'Passive',
@@ -377,15 +399,21 @@ const createLivenessSessionResponse = await client.path('/detectLivenessWithVeri
                 authTokenTimeToLiveInSeconds: 60,
                 deviceCorrelationId: randomUUID(),
             },
-        }),
+        },
     ],
-}) as CreateLivenessWithVerifySession200Response;
+});
+if (isUnexpected(createLivenessSessionResponse)) {
+    throw new Error(createLivenessSessionResponse.body.error.message);
+}
 console.log(createLivenessSessionResponse.body);
 
 const { sessionId } = createLivenessSessionResponse.body;
 
 console.log('Get the liveness detection and verification result.');
-const getLivenessSessionResultResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).get() as GetLivenessWithVerifySessionResult200Response;
+const getLivenessSessionResultResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).get();
+if (isUnexpected(getLivenessSessionResultResponse)) {
+    throw new Error(getLivenessSessionResultResponse.body.error.message);
+}
 console.log(getLivenessSessionResultResponse.body);
 ```
 
