@@ -755,14 +755,14 @@ describe("BlobClient", () => {
     const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
     sanitizedQuery.set("sig", undefined);
     sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+    sanitizedActualUrl.setPort("");
 
     const sanitizedExpectedUrl = URLBuilder.parse(blobClient.url);
     const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
     sanitizedQuery2.set("sig", undefined);
     sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+    sanitizedActualUrl.setPort("");
 
-    console.log(sanitizedActualUrl.toString());    
-    console.log(sanitizedExpectedUrl.toString());
     assert.strictEqual(
       sanitizedActualUrl.toString(),
       sanitizedExpectedUrl.toString(),
