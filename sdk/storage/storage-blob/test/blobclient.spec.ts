@@ -761,6 +761,8 @@ describe("BlobClient", () => {
     sanitizedQuery2.set("sig", undefined);
     sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
 
+    console.log(sanitizedActualUrl.toString());    
+    console.log(sanitizedExpectedUrl.toString());
     assert.strictEqual(
       sanitizedActualUrl.toString(),
       sanitizedExpectedUrl.toString(),
