@@ -93,17 +93,11 @@ export const enum KnownAcsRouterJobStatus {
 
 /** Known values of {@link AcsRouterLabelOperator} that the service accepts. */
 export const enum KnownAcsRouterLabelOperator {
-  /** = */
   Equal = "Equal",
-  /** != */
   NotEqual = "NotEqual",
-  /** > */
   Greater = "Greater",
-  /** < */
   Less = "Less",
-  /** >= */
   GreaterThanOrEqual = "GreaterThanOrEqual",
-  /** <= */
   LessThanOrEqual = "LessThanOrEqual",
 }
 
