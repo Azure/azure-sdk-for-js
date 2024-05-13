@@ -127,7 +127,8 @@ export async function fallbackSanitizers(
   const headersForRemoval: string[] = HEADER_KEYS_TO_REDACT;
 
   //  https://github.com/Azure/azure-sdk-tools/pull/8142/files
-  const removalList = ["AZSDK2003"];
+  //  https://github.com/Azure/azure-sdk-tools/blob/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy/Common/SanitizerDictionary.cs
+  const removalList = ["AZSDK2003", "AZSDK3447"];
   await removeSanitizers(httpClient, url, recordingId, removalList);
 
   await addSanitizers(httpClient, url, recordingId, {
