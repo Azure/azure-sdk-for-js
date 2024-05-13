@@ -8,7 +8,7 @@ import {
   ChatCompletionCreateParamsStreaming,
   ChatCompletion,
   ChatCompletionChunk,
-  ChatCompletionMessage
+  ChatCompletionMessage,
 } from "openai/resources/index";
 import {
   ContentFilterResultsForPromptOutput,
@@ -69,14 +69,14 @@ declare module "openai/resources/index" {
     prompt_filter_results?: Array<ContentFilterResultsForPromptOutput>;
   }
 
-  interface ChatCompletionMessage{
+  interface ChatCompletionMessage {
     /**
      * If Azure OpenAI chat extensions are configured, this array represents the incremental steps performed by those
      * extensions while processing the chat completions request.
      */
     context?: AzureChatExtensionsMessageContextOutput;
   }
-  
+
   namespace ChatCompletion {
     interface Choice {
       /**
@@ -96,7 +96,7 @@ declare module "openai/resources/index" {
        * request is configured to use enhancements.
        */
       enhancements?: AzureChatEnhancementsOutput;
-    }   
+    }
   }
   interface ChatCompletionChunk {
     /**
@@ -149,7 +149,7 @@ export {
   ChatCompletionCreateParamsStreaming,
   ChatCompletion,
   ChatCompletionChunk,
-  ChatCompletionMessage
+  ChatCompletionMessage,
 };
 export * from "./outputModels";
 export * from "./models";
