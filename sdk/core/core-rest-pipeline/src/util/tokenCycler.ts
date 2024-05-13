@@ -201,9 +201,6 @@ export function createTokenCycler(
     //   step 1.
     //
 
-    // If the tenantId passed in token options is different to the one we have
-    // Or if we are in claim challenge and the token was rejected and a new access token need to be issued, we need to
-    // refresh the token with the new tenantId or token.
     const hasClaimChallenge = Boolean(tokenOptions.claims);
     const tenantIdChanged = tenantId !== tokenOptions.tenantId;
 
@@ -213,6 +210,9 @@ export function createTokenCycler(
       token = null;
     }
 
+    // If the tenantId passed in token options is different to the one we have
+    // Or if we are in claim challenge and the token was rejected and a new access token need to be issued, we need to
+    // refresh the token with the new tenantId or token.
     const mustRefresh = tenantIdChanged || hasClaimChallenge || cycler.mustRefresh;
 
     if (mustRefresh) {
