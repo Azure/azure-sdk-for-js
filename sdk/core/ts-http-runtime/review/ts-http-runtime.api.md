@@ -777,6 +777,7 @@ export const tracingPolicyName = "tracingPolicy";
 
 // @public
 export interface TracingPolicyOptions {
+    additionalAllowedQueryParameters?: string[];
     userAgentPrefix?: string;
 }
 

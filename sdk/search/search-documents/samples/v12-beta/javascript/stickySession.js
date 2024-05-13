@@ -6,7 +6,8 @@
  * single replica.
  */
 
-const { AzureKeyCredential, odata, SearchIndexClient } = require("@azure/search-documents");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { odata, SearchIndexClient } = require("@azure/search-documents");
 const { createIndex, delay, WAIT_TIME } = require("./setup");
 
 require("dotenv").config();
@@ -24,18 +25,15 @@ require("dotenv").config();
  * for more information.
  */
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-3";
 
 async function main() {
-  if (!endpoint || !apiKey) {
-    console.error(
-      "Be sure to set valid values for `endpoint` and `apiKey` with proper authorization.",
-    );
+  if (!endpoint) {
+    console.error("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
 
-  const credential = new AzureKeyCredential(apiKey);
+  const credential = new DefaultAzureCredential();
   const indexClient = new SearchIndexClient(endpoint, credential);
   const searchClient = indexClient.getSearchClient(TEST_INDEX_NAME);
 

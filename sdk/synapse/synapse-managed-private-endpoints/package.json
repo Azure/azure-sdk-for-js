@@ -47,7 +47,7 @@
   "devDependencies": {
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
-    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "typescript": "~5.4.5",
     "eslint": "^8.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
