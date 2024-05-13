@@ -1,10 +1,11 @@
 # Release History
     
-## 8.0.0 (2024-05-08)
+## 8.0.0 (2024-05-13)
     
 **Features**
 
   - Added operation group ImportJobs
+  - Added Interface AmlFilesystemRootSquashSettings
   - Added Interface AscOperationErrorResponse
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
@@ -20,6 +21,7 @@
   - Added Interface ImportJobsUpdateHeaders
   - Added Interface ImportJobsUpdateOptionalParams
   - Added Interface ImportJobUpdate
+  - Added Type Alias AmlFilesystemSquashMode
   - Added Type Alias ConflictResolutionMode
   - Added Type Alias ImportJobProvisioningStateType
   - Added Type Alias ImportJobsCreateOrUpdateResponse
@@ -29,8 +31,11 @@
   - Added Type Alias ImportJobsListByAmlFilesystemResponse
   - Added Type Alias ImportJobsUpdateResponse
   - Added Type Alias ImportStatusType
+  - Interface AmlFilesystem has a new optional parameter rootSquashSettings
   - Interface AmlFilesystemHsmSettings has a new optional parameter importPrefixesInitial
+  - Interface AmlFilesystemUpdate has a new optional parameter rootSquashSettings
   - Interface ErrorResponse has a new optional parameter error
+  - Added Enum KnownAmlFilesystemSquashMode
   - Added Enum KnownConflictResolutionMode
   - Added Enum KnownImportJobProvisioningStateType
   - Added Enum KnownImportStatusType
@@ -41,7 +46,7 @@
   - Interface ErrorResponse no longer has parameter message
   - Type of parameter error of interface AscOperation is changed from ErrorResponse to AscOperationErrorResponse
     
-
+    
 ## 7.1.0-beta.1 (2024-02-01)
     
 **Features**
