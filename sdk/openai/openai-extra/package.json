@@ -43,7 +43,7 @@
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "echo skipped",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "npm run unit-test:browser",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -59,7 +59,11 @@
   },
   "sideEffects": false,
   "autoPublish": false,
-  "dependencies": {},
+  "dependencies": {
+    "@azure-rest/core-client": "^1.2.0",
+    "openai": "^4.45.0",
+    "tslib": "^2.4.0"
+  },
   "devDependencies": {
     "@azure/core-sse": "^2.0.0",
     "@azure/dev-tool": "^1.0.0",
