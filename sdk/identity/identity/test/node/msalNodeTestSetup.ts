@@ -57,11 +57,9 @@ export async function msalNodeTestSetup(
         AZURE_TENANT_ID: PlaybackTenantId,
         AZURE_CLIENT_ID: playbackClientId,
         AZURE_CLIENT_SECRET: "azure_client_secret",
-        AZURE_USERNAME: "azure_username",
-        AZURE_PASSWORD: "azure_password",
-        AZURE_IDENTITY_TEST_TENANTID: "",
-        AZURE_IDENTITY_TEST_USERNAME: "",
-        AZURE_IDENTITY_TEST_PASSWORD: "",
+        AZURE_IDENTITY_TEST_TENANTID: PlaybackTenantId,
+        AZURE_IDENTITY_TEST_USERNAME: "azure_username",
+        AZURE_IDENTITY_TEST_PASSWORD: "azure_password",
         IDENTITY_SP_CLIENT_ID: "",
         IDENTITY_SP_TENANT_ID: "",
         IDENTITY_SP_CLIENT_SECRET: "",
@@ -100,6 +98,11 @@ export async function msalNodeTestSetup(
     await recorder.addSanitizers(
       {
         bodySanitizers: [
+          {
+            regex: true,
+            target: 'username=[^&"]+', // env sanitizers do not handle matching urlencoded params well (@ character is urlencoded)
+            value: "username=azure_username",
+          },
           {
             regex: true,
             target: 'client_secret=[^&"]+',

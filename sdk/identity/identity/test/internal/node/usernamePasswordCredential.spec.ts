@@ -5,15 +5,13 @@
 
 import { AzureLogger, setLogLevel } from "@azure/logger";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import { DeveloperSignOnClientId } from "../../../src/constants";
-import { GetTokenOptions } from "@azure/core-auth";
-import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
 import { UsernamePasswordCredential } from "../../../src";
 import { assert } from "chai";
+import { getUsernamePasswordStaticResources } from "../../msalTestUtils";
 
 describe("UsernamePasswordCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
@@ -26,9 +24,10 @@ describe("UsernamePasswordCredential (internal)", function () {
     cleanup = setup.cleanup;
     recorder = setup.recorder;
 
-    getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
+    // MsalClient calls to this method underneath when silent authentication can be attempted.
+    getTokenSilentSpy = setup.sandbox.spy(PublicClientApplication.prototype, "acquireTokenSilent");
 
-    // MsalClientSecret calls to this method underneath.
+    // MsalClient calls to this method underneath for interactive auth.
     doGetTokenSpy = setup.sandbox.spy(
       PublicClientApplication.prototype,
       "acquireTokenByUsernamePassword",
@@ -46,38 +45,38 @@ describe("UsernamePasswordCredential (internal)", function () {
     try {
       new UsernamePasswordCredential(
         undefined as any,
-        env.AZURE_CLIENT_ID!,
-        env.AZURE_USERNAME!,
-        env.AZURE_PASSWORD!,
+        "azure_client_id",
+        "azure_username",
+        "azure_password",
       );
     } catch (e: any) {
       errors.push(e);
     }
     try {
       new UsernamePasswordCredential(
-        env.AZURE_TENANT_ID!,
+        "azure_tenant_id",
         undefined as any,
-        env.AZURE_USERNAME!,
-        env.AZURE_PASSWORD!,
+        "azure_username",
+        "azure_password",
       );
     } catch (e: any) {
       errors.push(e);
     }
     try {
       new UsernamePasswordCredential(
-        env.AZURE_TENANT_ID!,
-        env.AZURE_CLIENT_ID!,
+        "azure_tenant_id",
+        "azure_client_id",
         undefined as any,
-        env.AZURE_PASSWORD!,
+        "azure_password",
       );
     } catch (e: any) {
       errors.push(e);
     }
     try {
       new UsernamePasswordCredential(
-        env.AZURE_TENANT_ID!,
-        env.AZURE_CLIENT_ID!,
-        env.AZURE_USERNAME!,
+        "azure_tenant_id",
+        "azure_client_id",
+        "azure_username",
         undefined as any,
       );
     } catch (e: any) {
@@ -103,65 +102,55 @@ describe("UsernamePasswordCredential (internal)", function () {
     });
   });
 
-  // This is not the way to test persistence with acquireTokenByClientCredential,
-  // since acquireTokenByClientCredential caches at the method level, and not with the same cache used for acquireTokenSilent.
-  // I'm leaving this here so I can remember about this in the future.
-  it.skip("Authenticates silently after the initial request", async function (this: Context) {
-    // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      this.skip();
-    }
+  it("Authenticates silently after the initial request", async function (this: Context) {
+    const { clientId, password, tenantId, username } = getUsernamePasswordStaticResources();
     const credential = new UsernamePasswordCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_USERNAME!,
-      env.AZURE_PASSWORD!,
-    );
-
-    await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 1);
-    assert.equal(doGetTokenSpy.callCount, 1);
-
-    await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 2);
-    assert.equal(doGetTokenSpy.callCount, 1);
-  });
-
-  it("Authenticates with tenantId on getToken", async function (this: Context) {
-    // The live environment isn't ready for this test
-    if (isLiveMode()) {
-      this.skip();
-    }
-    const credential = new UsernamePasswordCredential(
-      env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!,
-      env.AZURE_IDENTITY_TEST_CLIENTID || env.AZURE_CLIENT_ID!,
-      env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
-      env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
+      tenantId,
+      clientId,
+      username,
+      password,
       recorder.configureClientOptions({}),
     );
 
-    await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);
-    assert.equal(getTokenSilentSpy.callCount, 1);
+    await credential.getToken(scope);
+    assert.equal(doGetTokenSpy.callCount, 1);
+
+    await credential.getToken(scope);
+    assert.equal(
+      getTokenSilentSpy.callCount,
+      1,
+      "getTokenSilentSpy.callCount should have been 1 (Silent authentication after the initial request).",
+    );
+    assert.equal(
+      doGetTokenSpy.callCount,
+      1,
+      "Expected no additional calls to doGetTokenSpy after the initial request.",
+    );
+  });
+
+  it("Authenticates with tenantId on getToken", async function (this: Context) {
+    const { clientId, password, tenantId, username } = getUsernamePasswordStaticResources();
+    const credential = new UsernamePasswordCredential(
+      tenantId,
+      clientId,
+      username,
+      password,
+      recorder.configureClientOptions({}),
+    );
+
+    await credential.getToken(scope);
     assert.equal(doGetTokenSpy.callCount, 1);
   });
 
   it("authenticates (with allowLoggingAccountIdentifiers set to true)", async function (this: Context) {
+    const { clientId, password, tenantId, username } = getUsernamePasswordStaticResources();
     if (isPlaybackMode()) {
       // The recorder clears the access tokens.
       this.skip();
     }
-    const tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
-    const clientId = isLiveMode() ? DeveloperSignOnClientId : env.AZURE_CLIENT_ID!;
-
-    const credential = new UsernamePasswordCredential(
-      tenantId,
-      clientId,
-      env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
-      env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
-      recorder.configureClientOptions({
-        loggingOptions: { allowLoggingAccountIdentifiers: true },
-      }),
-    );
+    const credential = new UsernamePasswordCredential(tenantId, clientId, username, password, {
+      loggingOptions: { allowLoggingAccountIdentifiers: true },
+    });
     setLogLevel("info");
     const spy = Sinon.spy(process.stderr, "write");
 
