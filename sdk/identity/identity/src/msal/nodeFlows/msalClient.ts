@@ -49,7 +49,7 @@ export interface MsalClient {
   /**
    * Retrieves an access token by using a user's username and password.
    *
-   * @param arrayScopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param username - The username provided by the developer.
    * @param password - The user's password provided by the developer.
    * @param options - Additional options that may be provided to the method.
@@ -64,7 +64,7 @@ export interface MsalClient {
   /**
    * Retrieves an access token by prompting the user to authenticate using a device code.
    *
-   * @param arrayScopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param userPromptCallback - The callback function that allows developers to customize the prompt message.
    * @param options - Additional options that may be provided to the method.
    * @returns An access token.
@@ -77,7 +77,7 @@ export interface MsalClient {
   /**
    * Retrieves an access token by using a client certificate.
    *
-   * @param arrayScopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param certificate - The client certificate used for authentication.
    * @param options - Additional options that may be provided to the method.
    * @returns An access token.
@@ -91,7 +91,7 @@ export interface MsalClient {
   /**
    * Retrieves an access token by using a client assertion.
    *
-   * @param arrayScopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param clientAssertion - The client assertion used for authentication.
    * @param options - Additional options that may be provided to the method.
    * @returns An access token.
