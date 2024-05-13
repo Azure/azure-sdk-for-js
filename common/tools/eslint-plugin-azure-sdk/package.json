@@ -14,13 +14,6 @@
     "eslint-plugin-azure-sdk"
   ],
   "author": "Microsoft Corporation",
-  "contributors": [
-    {
-      "name": "Arpan Laha",
-      "email": "arpanlaha99@gmail.com",
-      "url": "https://github.com/arpanlaha"
-    }
-  ],
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/eslint-plugin-azure-sdk/",
   "repository": {
@@ -43,8 +36,8 @@
     "clean": "rimraf dist/",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
-    "lint": "eslint src tests --ext .ts",
-    "lint:fix": "eslint src tests --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint src tests/rules --ext .ts",
+    "lint:fix": "eslint src tests/rules --ext .ts --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "integration-test:browser": "echo skipped",
@@ -61,8 +54,8 @@
   "prettier": "./prettier.json",
   "peerDependencies": {
     "@eslint/eslintrc": "^3.0.2",
-    "@typescript-eslint/eslint-plugin": "~5.57.0",
-    "@typescript-eslint/parser": "~5.57.0",
+    "@typescript-eslint/eslint-plugin": "~7.8.0",
+    "@typescript-eslint/parser": "~7.8.0",
     "eslint": "^8.50.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-no-only-tests": "^3.0.0",
@@ -70,22 +63,20 @@
     "eslint-plugin-tsdoc": "^0.2.10"
   },
   "dependencies": {
-    "@typescript-eslint/typescript-estree": "~5.57.0",
+    "@typescript-eslint/typescript-estree": "~7.8.0",
     "@types/eslint": "~8.44.0",
     "@types/estree": "~1.0.0",
     "eslint-config-prettier": "^9.0.0",
-    "glob": "^9.0.0",
-    "json-schema": "^0.4.0",
+    "glob": "^10.3.10",
     "typescript": "~5.4.5",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@types/json-schema": "^7.0.6",
     "@types/node": "^18.0.0",
-    "@typescript-eslint/eslint-plugin": "~5.57.0",
-    "@typescript-eslint/experimental-utils": "~5.57.0",
-    "@typescript-eslint/parser": "~5.57.0",
-    "@typescript-eslint/rule-tester": "^7.3.0",
+    "@typescript-eslint/eslint-plugin": "~7.8.0",
+    "@typescript-eslint/utils": "~7.8.0",
+    "@typescript-eslint/parser": "~7.8.0",
+    "@typescript-eslint/rule-tester": "~7.8.0",
     "@vitest/coverage-istanbul": "^1.4.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.50.0",
@@ -93,7 +84,6 @@
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.4.5",
     "vitest": "^1.4.0"
   }
 }

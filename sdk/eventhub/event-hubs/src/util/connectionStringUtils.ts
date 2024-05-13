@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseConnectionString } from "@azure/core-amqp";
+import { isLoopbackAddress, parseConnectionString } from "@azure/core-amqp";
 
 /**
  * The set of properties that comprise an Event Hub connection string.
@@ -41,6 +41,11 @@ export interface EventHubConnectionStringProperties {
    * user and appended to the connection string for ease of use.
    */
   sharedAccessSignature?: string;
+  /**
+   * This should be true only if the connection string contains the slug ";UseDevelopmentEmulator=true"
+   * and the endpoint is a loopback address.
+   */
+  useDevelopmentEmulator?: boolean;
 }
 
 /**
@@ -58,6 +63,7 @@ export function parseEventHubConnectionString(
     SharedAccessSignature?: string;
     SharedAccessKey?: string;
     SharedAccessKeyName?: string;
+    UseDevelopmentEmulator?: string;
   }>(connectionString);
 
   validateProperties(
@@ -96,6 +102,7 @@ function validateProperties(
   sharedAccessSignature?: string,
   sharedAccessKey?: string,
   sharedAccessKeyName?: string,
+  useDevelopmentEmulator?: string,
 ): void {
   if (!endpoint) {
     throw new Error("Connection string should have an Endpoint key.");
@@ -112,6 +119,12 @@ function validateProperties(
   } else if (!sharedAccessKey && sharedAccessKeyName) {
     throw new Error(
       "Connection string with SharedAccessKeyName should have SharedAccessKey as well.",
+    );
+  }
+
+  if (useDevelopmentEmulator === "true" && !isLoopbackAddress(endpoint)) {
+    throw new Error(
+      "Connection string should either has a loopback address or not have UseDevelopmentEmulator.",
     );
   }
 }

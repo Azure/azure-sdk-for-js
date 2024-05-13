@@ -58,10 +58,7 @@ export type AssistantsContext = Client & {
 
 // @public
 export interface AssistantThreadCreationOptions {
-    messages?: Array<{
-        role: string;
-        content: string;
-    }>;
+    messages?: ThreadInitializationMessage[];
     metadata?: Record<string, string>;
 }
 

@@ -169,7 +169,7 @@ export type DiscoverySolutionListResponse = DiscoveryResponse;
 
 // @public
 export interface DiscoverySolutionNLPSubscriptionScope {
-    post(options?: DiscoverySolutionNLPSubscriptionScopePostOptionalParams): Promise<DiscoverySolutionNLPSubscriptionScopePostResponse>;
+    post(subscriptionId: string, options?: DiscoverySolutionNLPSubscriptionScopePostOptionalParams): Promise<DiscoverySolutionNLPSubscriptionScopePostResponse>;
 }
 
 // @public
@@ -243,7 +243,6 @@ export function getContinuationToken(page: unknown): string | undefined;
 export class HelpRP extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: HelpRPOptionalParams);
     constructor(credentials: coreAuth.TokenCredential, options?: HelpRPOptionalParams);
     // (undocumented)
     apiVersion: string;
@@ -265,8 +264,6 @@ export class HelpRP extends coreClient.ServiceClient {
     solution: Solution;
     // (undocumented)
     solutionSelfHelp: SolutionSelfHelp;
-    // (undocumented)
-    subscriptionId?: string;
     // (undocumented)
     troubleshooters: Troubleshooters;
 }
