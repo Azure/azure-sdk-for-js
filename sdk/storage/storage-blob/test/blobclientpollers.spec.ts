@@ -70,11 +70,13 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
     sanitizedQuery.set("sig", undefined);
     sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+    sanitizedActualUrl.setPort("");
 
     const sanitizedExpectedUrl = URLBuilder.parse(blobClient.url);
     const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
     sanitizedQuery2.set("sig", undefined);
     sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+    sanitizedExpectedUrl.setPort("");
 
     assert.strictEqual(
       sanitizedActualUrl.toString(),
@@ -113,11 +115,13 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
     sanitizedQuery.set("sig", undefined);
     sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+    sanitizedActualUrl.setPort("");
 
     const sanitizedExpectedUrl = URLBuilder.parse(blobClient.url);
     const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
     sanitizedQuery2.set("sig", undefined);
     sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+    sanitizedExpectedUrl.setPort("");
 
     assert.strictEqual(
       sanitizedActualUrl.toString(),

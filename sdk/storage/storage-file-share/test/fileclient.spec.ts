@@ -436,11 +436,13 @@ describe("FileClient", () => {
     const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
     sanitizedQuery.set("sig", undefined);
     sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+    sanitizedActualUrl.setPort("");
 
     const sanitizedExpectedUrl = URLBuilder.parse(fileClient.url);
     const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
     sanitizedQuery2.set("sig", undefined);
     sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+    sanitizedExpectedUrl.setPort("");
 
     assert.strictEqual(
       sanitizedActualUrl.toString(),

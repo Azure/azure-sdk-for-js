@@ -1,14 +1,10 @@
 # Release History
 
-## 12.16.1 (Unreleased)
+## 12.17.0 (2024-05-11)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added support for service version 2024-05-04.
 
 ## 12.16.0 (2023-11-09)
 
