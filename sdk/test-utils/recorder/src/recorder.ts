@@ -24,7 +24,7 @@ import { Test } from "mocha";
 import { assetsJsonPath, sessionFilePath } from "./utils/sessionFilePath";
 import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
-import { addSanitizers, transformsInfo } from "./sanitizer";
+import { addSanitizers, removeCentralSanitizers, transformsInfo } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
 import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher";
 import { addTransform, Transform } from "./transform";
@@ -35,7 +35,6 @@ import { isBrowser, isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
 import { AdditionalPolicyConfig } from "@azure/core-client";
-import { fallbackSanitizers } from "./utils/fallbackSanitizers";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -323,8 +322,17 @@ export class Recorder {
           this.recordingId,
           options.envSetupForPlayback,
         );
-        // Fallback sanitizers to be added in both record/playback modes
-        await fallbackSanitizers(this.httpClient, Recorder.url, this.recordingId);
+
+        //  https://github.com/Azure/azure-sdk-tools/pull/8142/
+        //  https://github.com/Azure/azure-sdk-tools/blob/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy/Common/SanitizerDictionary.cs
+        const removalList = ["AZSDK2003"];
+        // Central test proxy Sanitizers to be removed
+        await removeCentralSanitizers(
+          this.httpClient,
+          Recorder.url,
+          this.recordingId,
+          removalList.concat(options.removeCentralSanitizers ?? []),
+        );
 
         // Sanitizers to be added only in record mode
         if (isRecordMode() && options.sanitizerOptions) {

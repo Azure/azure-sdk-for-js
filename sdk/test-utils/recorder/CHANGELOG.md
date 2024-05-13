@@ -1,5 +1,15 @@
 # Release History
 
+## 3.5.0 (2024-05-13)
+
+### Breaking Changes
+
+- Remove fallbackSanitizers at the recorder level in favour of the central sanitizers from test-proxy.
+
+### Features Added
+
+- Adds `removeCentralSanitizers` option to the `RecorderStartOptions` to allow users pass in the central sanitizer ids to skip the specific santiizers at the test proxy level.
+
 ## 3.4.0 (2024-05-08)
 
 ### Features Added

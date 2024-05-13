@@ -116,7 +116,7 @@ function makeBatchSanitizerBody(sanitizers: SanitizerOptions): SanitizerRequestB
  *
  * Read more at https://github.com/Azure/azure-sdk-tools/pull/8142
  */
-export async function removeSanitizers(
+export async function removeCentralSanitizers(
   httpClient: HttpClient,
   url: string,
   recordingId: string | undefined,
