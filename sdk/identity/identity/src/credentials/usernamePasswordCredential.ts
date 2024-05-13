@@ -61,7 +61,7 @@ export class UsernamePasswordCredential implements TokenCredential {
 
     this.msalClient = createMsalClient(clientId, this.tenantId, {
       ...options,
-      tokenCredentialOptions: options || {},
+      tokenCredentialOptions: options ?? {},
     });
   }
 

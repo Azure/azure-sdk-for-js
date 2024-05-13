@@ -104,7 +104,6 @@ describe("UsernamePasswordCredential (internal)", function () {
 
   it("Authenticates silently after the initial request", async function (this: Context) {
     const { clientId, password, tenantId, username } = getUsernamePasswordStaticResources();
-    // todo: validate these exist or throw with meaningful error
     const credential = new UsernamePasswordCredential(
       tenantId,
       clientId,
