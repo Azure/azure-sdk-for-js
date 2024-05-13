@@ -25,9 +25,7 @@ dotenv.config();
  * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/DiscoverSolutionsAtSubscriptionScope.json
  */
 async function discoverySolutionsUsingIssueSummaryAndServiceId() {
-  const subscriptionId =
-    process.env["SELFHELP_SUBSCRIPTION_ID"] ||
-    "0d0fcd2e-c4fd-4349-8497-200edb3923c6";
+  const subscriptionId = "0d0fcd2e-c4fd-4349-8497-200edb3923c6";
   const discoverSolutionRequest: DiscoveryNlpRequest = {
     issueSummary: "how to retrieve certs from deleted keyvault.",
     resourceId:
@@ -38,9 +36,11 @@ async function discoverySolutionsUsingIssueSummaryAndServiceId() {
     discoverSolutionRequest,
   };
   const credential = new DefaultAzureCredential();
-  const client = new HelpRP(credential, subscriptionId);
-  const result =
-    await client.discoverySolutionNLPSubscriptionScope.post(options);
+  const client = new HelpRP(credential);
+  const result = await client.discoverySolutionNLPSubscriptionScope.post(
+    subscriptionId,
+    options,
+  );
   console.log(result);
 }
 
