@@ -20,7 +20,7 @@ import {
   JobVersionsListByJobResponse,
   JobVersionsGetOptionalParams,
   JobVersionsGetResponse,
-  JobVersionsListByJobNextResponse
+  JobVersionsListByJobNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,14 +50,14 @@ export class JobVersionsImpl implements JobVersions {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobVersionsListByJobOptionalParams
+    options?: JobVersionsListByJobOptionalParams,
   ): PagedAsyncIterableIterator<JobVersion> {
     const iter = this.listByJobPagingAll(
       resourceGroupName,
       serverName,
       jobAgentName,
       jobName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class JobVersionsImpl implements JobVersions {
           jobAgentName,
           jobName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +88,7 @@ export class JobVersionsImpl implements JobVersions {
     jobAgentName: string,
     jobName: string,
     options?: JobVersionsListByJobOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<JobVersion[]> {
     let result: JobVersionsListByJobResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class JobVersionsImpl implements JobVersions {
         serverName,
         jobAgentName,
         jobName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -112,7 +112,7 @@ export class JobVersionsImpl implements JobVersions {
         jobAgentName,
         jobName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,14 +126,14 @@ export class JobVersionsImpl implements JobVersions {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobVersionsListByJobOptionalParams
+    options?: JobVersionsListByJobOptionalParams,
   ): AsyncIterableIterator<JobVersion> {
     for await (const page of this.listByJobPagingPage(
       resourceGroupName,
       serverName,
       jobAgentName,
       jobName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -153,11 +153,11 @@ export class JobVersionsImpl implements JobVersions {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobVersionsListByJobOptionalParams
+    options?: JobVersionsListByJobOptionalParams,
   ): Promise<JobVersionsListByJobResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, jobName, options },
-      listByJobOperationSpec
+      listByJobOperationSpec,
     );
   }
 
@@ -177,7 +177,7 @@ export class JobVersionsImpl implements JobVersions {
     jobAgentName: string,
     jobName: string,
     jobVersion: number,
-    options?: JobVersionsGetOptionalParams
+    options?: JobVersionsGetOptionalParams,
   ): Promise<JobVersionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -186,9 +186,9 @@ export class JobVersionsImpl implements JobVersions {
         jobAgentName,
         jobName,
         jobVersion,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -208,7 +208,7 @@ export class JobVersionsImpl implements JobVersions {
     jobAgentName: string,
     jobName: string,
     nextLink: string,
-    options?: JobVersionsListByJobNextOptionalParams
+    options?: JobVersionsListByJobNextOptionalParams,
   ): Promise<JobVersionsListByJobNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -217,9 +217,9 @@ export class JobVersionsImpl implements JobVersions {
         jobAgentName,
         jobName,
         nextLink,
-        options
+        options,
       },
-      listByJobNextOperationSpec
+      listByJobNextOperationSpec,
     );
   }
 }
@@ -227,36 +227,13 @@ export class JobVersionsImpl implements JobVersions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByJobOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobVersionListResult
+      bodyMapper: Mappers.JobVersionListResult,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.jobAgentName,
-    Parameters.jobName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobVersion
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -266,19 +243,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
-    Parameters.jobVersion
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobVersion,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.jobAgentName,
+    Parameters.jobName,
+    Parameters.jobVersion,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByJobNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobVersionListResult
+      bodyMapper: Mappers.JobVersionListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -287,8 +285,8 @@ const listByJobNextOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.nextLink,
     Parameters.jobAgentName,
-    Parameters.jobName
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

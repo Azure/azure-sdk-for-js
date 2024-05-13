@@ -31,12 +31,13 @@ async function getAManagedDatabaseAdvancedThreatProtectionSettings() {
   const advancedThreatProtectionName = "Default";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedDatabaseAdvancedThreatProtectionSettings.get(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    advancedThreatProtectionName
-  );
+  const result =
+    await client.managedDatabaseAdvancedThreatProtectionSettings.get(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      advancedThreatProtectionName,
+    );
   console.log(result);
 }
 

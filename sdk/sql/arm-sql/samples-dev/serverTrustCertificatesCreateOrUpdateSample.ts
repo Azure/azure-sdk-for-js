@@ -28,16 +28,17 @@ async function createServerTrustCertificate() {
   const managedInstanceName = "testcl";
   const certificateName = "customerCertificateName";
   const parameters: ServerTrustCertificate = {
-    publicBlob: "308203AE30820296A0030201020210"
+    publicBlob: "308203AE30820296A0030201020210",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverTrustCertificates.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    certificateName,
-    parameters
-  );
+  const result =
+    await client.serverTrustCertificates.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      certificateName,
+      parameters,
+    );
   console.log(result);
 }
 

@@ -53,6 +53,9 @@ export type AlwaysEncryptedEnclaveType = string;
 export type AuthenticationName = string;
 
 // @public
+export type AuthMetadataLookupModes = string;
+
+// @public
 export type AutoExecuteStatus = "Enabled" | "Disabled" | "Default";
 
 // @public
@@ -225,6 +228,12 @@ export type CapabilityStatus = "Visible" | "Available" | "Default" | "Disabled";
 
 // @public
 export type CatalogCollationType = string;
+
+// @public
+export interface CertificateInfo {
+    readonly certificateName?: string;
+    readonly expiryDate?: Date;
+}
 
 // @public
 export interface ChangeLongTermRetentionBackupAccessTierParameters {
@@ -672,6 +681,7 @@ export interface DatabaseOperation extends ProxyResource {
     readonly isUserError?: boolean;
     readonly operation?: string;
     readonly operationFriendlyName?: string;
+    readonly operationPhaseDetails?: PhaseDetails;
     readonly percentComplete?: number;
     readonly serverName?: string;
     readonly startTime?: Date;
@@ -1694,16 +1704,42 @@ export type DiffBackupIntervalInHours = number;
 
 // @public
 export interface DistributedAvailabilityGroup extends ProxyResource {
+    databases?: DistributedAvailabilityGroupDatabase[];
     readonly distributedAvailabilityGroupId?: string;
+    readonly distributedAvailabilityGroupName?: string;
+    failoverMode?: FailoverModeType;
+    instanceAvailabilityGroupName?: string;
+    instanceLinkRole?: LinkRole;
+    partnerAvailabilityGroupName?: string;
+    partnerEndpoint?: string;
+    readonly partnerLinkRole?: LinkRole;
+    replicationMode?: ReplicationModeType;
+    seedingMode?: SeedingModeType;
+}
+
+// @public
+export interface DistributedAvailabilityGroupDatabase {
+    readonly connectedState?: ReplicaConnectedState;
+    databaseName?: string;
+    readonly instanceRedoReplicationLagSeconds?: number;
+    readonly instanceReplicaId?: string;
+    readonly instanceSendReplicationLagSeconds?: number;
+    readonly lastBackupLsn?: string;
+    readonly lastBackupTime?: Date;
+    readonly lastCommitLsn?: string;
+    readonly lastCommitTime?: Date;
     readonly lastHardenedLsn?: string;
-    readonly linkState?: string;
-    primaryAvailabilityGroupName?: string;
-    replicationMode?: ReplicationMode;
-    secondaryAvailabilityGroupName?: string;
-    sourceEndpoint?: string;
-    readonly sourceReplicaId?: string;
-    targetDatabase?: string;
-    readonly targetReplicaId?: string;
+    readonly lastHardenedTime?: Date;
+    readonly lastReceivedLsn?: string;
+    readonly lastReceivedTime?: Date;
+    readonly lastSentLsn?: string;
+    readonly lastSentTime?: Date;
+    readonly mostRecentLinkError?: string;
+    readonly partnerAuthCertValidity?: CertificateInfo;
+    readonly partnerReplicaId?: string;
+    readonly replicaState?: string;
+    readonly seedingProgress?: string;
+    readonly synchronizationHealth?: ReplicaSynchronizationHealth;
 }
 
 // @public
@@ -1712,6 +1748,10 @@ export interface DistributedAvailabilityGroups {
     beginCreateOrUpdateAndWait(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroup, options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams): Promise<DistributedAvailabilityGroupsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, options?: DistributedAvailabilityGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, options?: DistributedAvailabilityGroupsDeleteOptionalParams): Promise<void>;
+    beginFailover(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroupsFailoverRequest, options?: DistributedAvailabilityGroupsFailoverOptionalParams): Promise<SimplePollerLike<OperationState<DistributedAvailabilityGroupsFailoverResponse>, DistributedAvailabilityGroupsFailoverResponse>>;
+    beginFailoverAndWait(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroupsFailoverRequest, options?: DistributedAvailabilityGroupsFailoverOptionalParams): Promise<DistributedAvailabilityGroupsFailoverResponse>;
+    beginSetRole(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroupSetRole, options?: DistributedAvailabilityGroupsSetRoleOptionalParams): Promise<SimplePollerLike<OperationState<DistributedAvailabilityGroupsSetRoleResponse>, DistributedAvailabilityGroupsSetRoleResponse>>;
+    beginSetRoleAndWait(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroupSetRole, options?: DistributedAvailabilityGroupsSetRoleOptionalParams): Promise<DistributedAvailabilityGroupsSetRoleResponse>;
     beginUpdate(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroup, options?: DistributedAvailabilityGroupsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DistributedAvailabilityGroupsUpdateResponse>, DistributedAvailabilityGroupsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroup, options?: DistributedAvailabilityGroupsUpdateOptionalParams): Promise<DistributedAvailabilityGroupsUpdateResponse>;
     get(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, options?: DistributedAvailabilityGroupsGetOptionalParams): Promise<DistributedAvailabilityGroupsGetResponse>;
@@ -1732,6 +1772,32 @@ export interface DistributedAvailabilityGroupsDeleteOptionalParams extends coreC
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface DistributedAvailabilityGroupSetRole {
+    instanceRole: InstanceRole;
+    roleChangeType: RoleChangeType;
+}
+
+// @public
+export interface DistributedAvailabilityGroupsFailoverHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DistributedAvailabilityGroupsFailoverOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DistributedAvailabilityGroupsFailoverRequest {
+    failoverType: FailoverType;
+}
+
+// @public
+export type DistributedAvailabilityGroupsFailoverResponse = DistributedAvailabilityGroup;
 
 // @public
 export interface DistributedAvailabilityGroupsGetOptionalParams extends coreClient.OperationOptions {
@@ -1759,6 +1825,15 @@ export interface DistributedAvailabilityGroupsListResult {
     readonly nextLink?: string;
     readonly value?: DistributedAvailabilityGroup[];
 }
+
+// @public
+export interface DistributedAvailabilityGroupsSetRoleOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DistributedAvailabilityGroupsSetRoleResponse = DistributedAvailabilityGroup;
 
 // @public
 export interface DistributedAvailabilityGroupsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -2498,6 +2573,12 @@ export interface FailoverGroupUpdate {
 }
 
 // @public
+export type FailoverModeType = string;
+
+// @public
+export type FailoverType = string;
+
+// @public
 export interface FirewallRule extends ProxyResourceWithWritableName {
     endIpAddress?: string;
     startIpAddress?: string;
@@ -2567,6 +2648,9 @@ export type FirewallRulesReplaceResponse = FirewallRule;
 export type FreeLimitExhaustionBehavior = string;
 
 // @public
+export type FreemiumType = string;
+
+// @public
 export interface GeoBackupPolicies {
     createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, geoBackupPolicyName: GeoBackupPolicyName, parameters: GeoBackupPolicy, options?: GeoBackupPoliciesCreateOrUpdateOptionalParams): Promise<GeoBackupPoliciesCreateOrUpdateResponse>;
     get(resourceGroupName: string, serverName: string, databaseName: string, geoBackupPolicyName: GeoBackupPolicyName, options?: GeoBackupPoliciesGetOptionalParams): Promise<GeoBackupPoliciesGetResponse>;
@@ -2615,6 +2699,12 @@ export type GeoBackupPolicyState = "Disabled" | "Enabled";
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export type HybridSecondaryUsage = string;
+
+// @public
+export type HybridSecondaryUsageDetected = string;
 
 // @public
 export type IdentityType = string;
@@ -2907,6 +2997,9 @@ export interface InstancePoolVcoresCapability {
     readonly storageLimit?: MaxSizeCapability;
     readonly value?: number;
 }
+
+// @public
+export type InstanceRole = string;
 
 // @public
 export interface IPv6FirewallRule extends ProxyResourceWithWritableName {
@@ -3681,6 +3774,13 @@ export enum KnownAuthenticationName {
 }
 
 // @public
+export enum KnownAuthMetadataLookupModes {
+    AzureAD = "AzureAD",
+    Paired = "Paired",
+    Windows = "Windows"
+}
+
+// @public
 export enum KnownAvailabilityZoneType {
     NoPreference = "NoPreference",
     One = "1",
@@ -3915,14 +4015,44 @@ export enum KnownFailoverGroupReplicationRole {
 }
 
 // @public
+export enum KnownFailoverModeType {
+    Manual = "Manual",
+    None = "None"
+}
+
+// @public
+export enum KnownFailoverType {
+    ForcedAllowDataLoss = "ForcedAllowDataLoss",
+    Planned = "Planned"
+}
+
+// @public
 export enum KnownFreeLimitExhaustionBehavior {
     AutoPause = "AutoPause",
     BillOverUsage = "BillOverUsage"
 }
 
 // @public
+export enum KnownFreemiumType {
+    Freemium = "Freemium",
+    Regular = "Regular"
+}
+
+// @public
 export enum KnownGeoBackupPolicyName {
     Default = "Default"
+}
+
+// @public
+export enum KnownHybridSecondaryUsage {
+    Active = "Active",
+    Passive = "Passive"
+}
+
+// @public
+export enum KnownHybridSecondaryUsageDetected {
+    Active = "Active",
+    Passive = "Passive"
 }
 
 // @public
@@ -3943,6 +4073,12 @@ export enum KnownInstanceFailoverGroupReplicationRole {
 export enum KnownInstancePoolLicenseType {
     BasePrice = "BasePrice",
     LicenseIncluded = "LicenseIncluded"
+}
+
+// @public
+export enum KnownInstanceRole {
+    Primary = "Primary",
+    Secondary = "Secondary"
 }
 
 // @public
@@ -3998,6 +4134,12 @@ export enum KnownLedgerDigestUploadsName {
 }
 
 // @public
+export enum KnownLinkRole {
+    Primary = "Primary",
+    Secondary = "Secondary"
+}
+
+// @public
 export enum KnownLogSizeUnit {
     Gigabytes = "Gigabytes",
     Megabytes = "Megabytes",
@@ -4042,6 +4184,12 @@ export enum KnownManagedInstanceAdministratorType {
 }
 
 // @public
+export enum KnownManagedInstanceDatabaseFormat {
+    AlwaysUpToDate = "AlwaysUpToDate",
+    SQLServer2022 = "SQLServer2022"
+}
+
+// @public
 export enum KnownManagedInstanceLicenseType {
     BasePrice = "BasePrice",
     LicenseIncluded = "LicenseIncluded"
@@ -4050,25 +4198,6 @@ export enum KnownManagedInstanceLicenseType {
 // @public
 export enum KnownManagedInstanceLongTermRetentionPolicyName {
     Default = "default"
-}
-
-// @public
-export enum KnownManagedInstancePropertiesProvisioningState {
-    Accepted = "Accepted",
-    Canceled = "Canceled",
-    Created = "Created",
-    Creating = "Creating",
-    Deleted = "Deleted",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    NotSpecified = "NotSpecified",
-    Registering = "Registering",
-    Running = "Running",
-    Succeeded = "Succeeded",
-    TimedOut = "TimedOut",
-    Unknown = "Unknown",
-    Unrecognized = "Unrecognized",
-    Updating = "Updating"
 }
 
 // @public
@@ -4165,6 +4294,14 @@ export enum KnownPerformanceLevelUnit {
 }
 
 // @public
+export enum KnownPhase {
+    Catchup = "Catchup",
+    Copying = "Copying",
+    CutoverInProgress = "CutoverInProgress",
+    WaitingForCutover = "WaitingForCutover"
+}
+
+// @public
 export enum KnownPrimaryAggregationType {
     Average = "Average",
     Count = "Count",
@@ -4257,6 +4394,19 @@ export enum KnownRecommendedActionCurrentState {
 }
 
 // @public
+export enum KnownReplicaConnectedState {
+    Connected = "CONNECTED",
+    Disconnected = "DISCONNECTED"
+}
+
+// @public
+export enum KnownReplicaSynchronizationHealth {
+    Healthy = "HEALTHY",
+    NOTHealthy = "NOT_HEALTHY",
+    PartiallyHealthy = "PARTIALLY_HEALTHY"
+}
+
+// @public
 export enum KnownReplicationLinkType {
     GEO = "GEO",
     Named = "NAMED",
@@ -4264,7 +4414,7 @@ export enum KnownReplicationLinkType {
 }
 
 // @public
-export enum KnownReplicationMode {
+export enum KnownReplicationModeType {
     Async = "Async",
     Sync = "Sync"
 }
@@ -4286,6 +4436,12 @@ export enum KnownReplicaType {
 // @public
 export enum KnownRestoreDetailsName {
     Default = "Default"
+}
+
+// @public
+export enum KnownRoleChangeType {
+    Forced = "Forced",
+    Planned = "Planned"
 }
 
 // @public
@@ -4335,6 +4491,12 @@ export enum KnownSecondaryType {
 // @public
 export enum KnownSecurityAlertPolicyName {
     Default = "Default"
+}
+
+// @public
+export enum KnownSeedingModeType {
+    Automatic = "Automatic",
+    Manual = "Manual"
 }
 
 // @public
@@ -4711,6 +4873,9 @@ export interface LicenseTypeCapability {
     reason?: string;
     readonly status?: CapabilityStatus;
 }
+
+// @public
+export type LinkRole = string;
 
 // @public
 export interface LocationCapabilities {
@@ -6088,21 +6253,29 @@ export interface ManagedInstance extends TrackedResource {
     administratorLogin?: string;
     administratorLoginPassword?: string;
     administrators?: ManagedInstanceExternalAdministrator;
+    authenticationMetadata?: AuthMetadataLookupModes;
     collation?: string;
+    readonly createTime?: Date;
     readonly currentBackupStorageRedundancy?: BackupStorageRedundancy;
+    databaseFormat?: ManagedInstanceDatabaseFormat;
     readonly dnsZone?: string;
     dnsZonePartner?: string;
+    readonly externalGovernanceStatus?: ExternalGovernanceStatus;
     readonly fullyQualifiedDomainName?: string;
+    hybridSecondaryUsage?: HybridSecondaryUsage;
+    readonly hybridSecondaryUsageDetected?: HybridSecondaryUsageDetected;
     identity?: ResourceIdentity;
     instancePoolId?: string;
+    isGeneralPurposeV2?: boolean;
     keyId?: string;
     licenseType?: ManagedInstanceLicenseType;
     maintenanceConfigurationId?: string;
     managedInstanceCreateMode?: ManagedServerCreateMode;
     minimalTlsVersion?: string;
+    pricingModel?: FreemiumType;
     primaryUserAssignedIdentityId?: string;
     readonly privateEndpointConnections?: ManagedInstancePecProperty[];
-    readonly provisioningState?: ManagedInstancePropertiesProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     proxyOverride?: ManagedInstanceProxyOverride;
     publicDataEndpointEnabled?: boolean;
     requestedBackupStorageRedundancy?: BackupStorageRedundancy;
@@ -6111,10 +6284,13 @@ export interface ManagedInstance extends TrackedResource {
     sku?: Sku;
     sourceManagedInstanceId?: string;
     readonly state?: string;
+    storageIOps?: number;
     storageSizeInGB?: number;
+    storageThroughputMBps?: number;
     subnetId?: string;
     timezoneId?: string;
     vCores?: number;
+    readonly virtualClusterId?: string;
     zoneRedundant?: boolean;
 }
 
@@ -6288,6 +6464,9 @@ export interface ManagedInstanceAzureADOnlyAuthListResult {
     readonly nextLink?: string;
     readonly value?: ManagedInstanceAzureADOnlyAuthentication[];
 }
+
+// @public
+export type ManagedInstanceDatabaseFormat = string;
 
 // @public
 export interface ManagedInstanceDtc extends ProxyResource {
@@ -6806,9 +6985,6 @@ export interface ManagedInstancePrivateLinkServiceConnectionStateProperty {
 }
 
 // @public
-export type ManagedInstancePropertiesProvisioningState = string;
-
-// @public
 export type ManagedInstanceProxyOverride = string;
 
 // @public
@@ -6830,10 +7006,12 @@ export interface ManagedInstances {
     beginDeleteAndWait(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesDeleteOptionalParams): Promise<void>;
     beginFailover(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesFailoverOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginFailoverAndWait(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesFailoverOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartAndWait(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStopAndWait(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStopOptionalParams): Promise<void>;
+    beginRefreshStatus(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesRefreshStatusOptionalParams): Promise<SimplePollerLike<OperationState<ManagedInstancesRefreshStatusResponse>, ManagedInstancesRefreshStatusResponse>>;
+    beginRefreshStatusAndWait(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesRefreshStatusOptionalParams): Promise<ManagedInstancesRefreshStatusResponse>;
+    beginStart(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStartOptionalParams): Promise<SimplePollerLike<OperationState<ManagedInstancesStartResponse>, ManagedInstancesStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStartOptionalParams): Promise<ManagedInstancesStartResponse>;
+    beginStop(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStopOptionalParams): Promise<SimplePollerLike<OperationState<ManagedInstancesStopResponse>, ManagedInstancesStopResponse>>;
+    beginStopAndWait(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStopOptionalParams): Promise<ManagedInstancesStopResponse>;
     beginUpdate(resourceGroupName: string, managedInstanceName: string, parameters: ManagedInstanceUpdate, options?: ManagedInstancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedInstancesUpdateResponse>, ManagedInstancesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, managedInstanceName: string, parameters: ManagedInstanceUpdate, options?: ManagedInstancesUpdateOptionalParams): Promise<ManagedInstancesUpdateResponse>;
     get(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesGetOptionalParams): Promise<ManagedInstancesGetResponse>;
@@ -6955,16 +7133,31 @@ export type ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceResp
 export type ManagedInstancesListResponse = ManagedInstanceListResult;
 
 // @public
+export interface ManagedInstancesRefreshStatusOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedInstancesRefreshStatusResponse = RefreshExternalGovernanceStatusOperationResultMI;
+
+// @public
 export interface ManagedInstancesStartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
+export type ManagedInstancesStartResponse = ManagedInstance;
+
+// @public
 export interface ManagedInstancesStopOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ManagedInstancesStopResponse = ManagedInstance;
 
 // @public
 export interface ManagedInstancesUpdateOptionalParams extends coreClient.OperationOptions {
@@ -6992,21 +7185,29 @@ export interface ManagedInstanceUpdate {
     administratorLogin?: string;
     administratorLoginPassword?: string;
     administrators?: ManagedInstanceExternalAdministrator;
+    authenticationMetadata?: AuthMetadataLookupModes;
     collation?: string;
+    readonly createTime?: Date;
     readonly currentBackupStorageRedundancy?: BackupStorageRedundancy;
+    databaseFormat?: ManagedInstanceDatabaseFormat;
     readonly dnsZone?: string;
     dnsZonePartner?: string;
+    readonly externalGovernanceStatus?: ExternalGovernanceStatus;
     readonly fullyQualifiedDomainName?: string;
+    hybridSecondaryUsage?: HybridSecondaryUsage;
+    readonly hybridSecondaryUsageDetected?: HybridSecondaryUsageDetected;
     identity?: ResourceIdentity;
     instancePoolId?: string;
+    isGeneralPurposeV2?: boolean;
     keyId?: string;
     licenseType?: ManagedInstanceLicenseType;
     maintenanceConfigurationId?: string;
     managedInstanceCreateMode?: ManagedServerCreateMode;
     minimalTlsVersion?: string;
+    pricingModel?: FreemiumType;
     primaryUserAssignedIdentityId?: string;
     readonly privateEndpointConnections?: ManagedInstancePecProperty[];
-    readonly provisioningState?: ManagedInstancePropertiesProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     proxyOverride?: ManagedInstanceProxyOverride;
     publicDataEndpointEnabled?: boolean;
     requestedBackupStorageRedundancy?: BackupStorageRedundancy;
@@ -7015,13 +7216,16 @@ export interface ManagedInstanceUpdate {
     sku?: Sku;
     sourceManagedInstanceId?: string;
     readonly state?: string;
+    storageIOps?: number;
     storageSizeInGB?: number;
+    storageThroughputMBps?: number;
     subnetId?: string;
     tags?: {
         [propertyName: string]: string;
     };
     timezoneId?: string;
     vCores?: number;
+    readonly virtualClusterId?: string;
     zoneRedundant?: boolean;
 }
 
@@ -7623,6 +7827,17 @@ export interface PerformanceLevelCapability {
 export type PerformanceLevelUnit = string;
 
 // @public
+export type Phase = string;
+
+// @public
+export interface PhaseDetails {
+    readonly phase?: Phase;
+    readonly phaseInformation?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export type PrimaryAggregationType = string;
 
 // @public
@@ -7796,6 +8011,14 @@ export interface QueryMetricInterval {
 }
 
 // @public
+export interface QueryMetricIntervalAutoGenerated {
+    readonly executionCount?: number;
+    readonly intervalStartTime?: string;
+    readonly intervalType?: QueryTimeGrainType;
+    metrics?: QueryMetricProperties[];
+}
+
+// @public
 export interface QueryMetricProperties {
     readonly avg?: number;
     readonly displayName?: string;
@@ -7824,7 +8047,7 @@ export interface QueryStatistics extends ProxyResource {
 export interface QueryStatisticsProperties {
     readonly databaseName?: string;
     readonly endTime?: string;
-    intervals?: QueryMetricInterval[];
+    intervals?: QueryMetricIntervalAutoGenerated[];
     readonly queryId?: string;
     readonly startTime?: string;
 }
@@ -8041,12 +8264,28 @@ export interface RefreshExternalGovernanceStatusOperationResult extends ProxyRes
 }
 
 // @public
+export interface RefreshExternalGovernanceStatusOperationResultMI extends ProxyResource {
+    readonly errorMessage?: string;
+    readonly managedInstanceName?: string;
+    readonly queuedTime?: string;
+    readonly requestId?: string;
+    readonly requestType?: string;
+    readonly status?: string;
+}
+
+// @public
 export interface Remediation {
     readonly automated?: boolean;
     readonly description?: string;
     readonly portalLink?: string;
     readonly scripts?: string[];
 }
+
+// @public
+export type ReplicaConnectedState = string;
+
+// @public
+export type ReplicaSynchronizationHealth = string;
 
 // @public
 export interface ReplicationLink extends ProxyResource {
@@ -8145,7 +8384,7 @@ export type ReplicationLinksListByServerResponse = ReplicationLinkListResult;
 export type ReplicationLinkType = string;
 
 // @public
-export type ReplicationMode = string;
+export type ReplicationModeType = string;
 
 // @public
 export type ReplicationRole = "Primary" | "Secondary" | "NonReadableSecondary" | "Source" | "Copy";
@@ -8344,6 +8583,9 @@ export type RestorePointsListByDatabaseResponse = RestorePointListResult;
 export type RestorePointType = "CONTINUOUS" | "DISCRETE";
 
 // @public
+export type RoleChangeType = string;
+
+// @public
 export type RuleSeverity = string;
 
 // @public
@@ -8416,6 +8658,9 @@ export interface SecurityEventSqlInjectionAdditionalProperties {
 
 // @public
 export type SecurityEventType = "Undefined" | "SqlInjectionVulnerability" | "SqlInjectionExploit";
+
+// @public
+export type SeedingModeType = string;
 
 // @public
 export interface SensitivityLabel extends ProxyResource {

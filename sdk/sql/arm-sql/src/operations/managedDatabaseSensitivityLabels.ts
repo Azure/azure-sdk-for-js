@@ -32,13 +32,14 @@ import {
   SensitivityLabelUpdateList,
   ManagedDatabaseSensitivityLabelsUpdateOptionalParams,
   ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextResponse,
-  ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextResponse
+  ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedDatabaseSensitivityLabels operations. */
 export class ManagedDatabaseSensitivityLabelsImpl
-  implements ManagedDatabaseSensitivityLabels {
+  implements ManagedDatabaseSensitivityLabels
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -61,13 +62,13 @@ export class ManagedDatabaseSensitivityLabelsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams
+    options?: ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<SensitivityLabel> {
     const iter = this.listCurrentByDatabasePagingAll(
       resourceGroupName,
       managedInstanceName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -85,9 +86,9 @@ export class ManagedDatabaseSensitivityLabelsImpl
           managedInstanceName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -96,7 +97,7 @@ export class ManagedDatabaseSensitivityLabelsImpl
     managedInstanceName: string,
     databaseName: string,
     options?: ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SensitivityLabel[]> {
     let result: ManagedDatabaseSensitivityLabelsListCurrentByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -105,7 +106,7 @@ export class ManagedDatabaseSensitivityLabelsImpl
         resourceGroupName,
         managedInstanceName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -118,7 +119,7 @@ export class ManagedDatabaseSensitivityLabelsImpl
         managedInstanceName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -131,13 +132,13 @@ export class ManagedDatabaseSensitivityLabelsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams
+    options?: ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams,
   ): AsyncIterableIterator<SensitivityLabel> {
     for await (const page of this.listCurrentByDatabasePagingPage(
       resourceGroupName,
       managedInstanceName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -155,13 +156,13 @@ export class ManagedDatabaseSensitivityLabelsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams
+    options?: ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<SensitivityLabel> {
     const iter = this.listRecommendedByDatabasePagingAll(
       resourceGroupName,
       managedInstanceName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -179,9 +180,9 @@ export class ManagedDatabaseSensitivityLabelsImpl
           managedInstanceName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -190,7 +191,7 @@ export class ManagedDatabaseSensitivityLabelsImpl
     managedInstanceName: string,
     databaseName: string,
     options?: ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SensitivityLabel[]> {
     let result: ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -199,7 +200,7 @@ export class ManagedDatabaseSensitivityLabelsImpl
         resourceGroupName,
         managedInstanceName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -212,7 +213,7 @@ export class ManagedDatabaseSensitivityLabelsImpl
         managedInstanceName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -225,13 +226,13 @@ export class ManagedDatabaseSensitivityLabelsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams
+    options?: ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams,
   ): AsyncIterableIterator<SensitivityLabel> {
     for await (const page of this.listRecommendedByDatabasePagingPage(
       resourceGroupName,
       managedInstanceName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -257,7 +258,7 @@ export class ManagedDatabaseSensitivityLabelsImpl
     tableName: string,
     columnName: string,
     sensitivityLabelSource: SensitivityLabelSource,
-    options?: ManagedDatabaseSensitivityLabelsGetOptionalParams
+    options?: ManagedDatabaseSensitivityLabelsGetOptionalParams,
   ): Promise<ManagedDatabaseSensitivityLabelsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -268,9 +269,9 @@ export class ManagedDatabaseSensitivityLabelsImpl
         tableName,
         columnName,
         sensitivityLabelSource,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -294,7 +295,7 @@ export class ManagedDatabaseSensitivityLabelsImpl
     tableName: string,
     columnName: string,
     parameters: SensitivityLabel,
-    options?: ManagedDatabaseSensitivityLabelsCreateOrUpdateOptionalParams
+    options?: ManagedDatabaseSensitivityLabelsCreateOrUpdateOptionalParams,
   ): Promise<ManagedDatabaseSensitivityLabelsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -305,9 +306,9 @@ export class ManagedDatabaseSensitivityLabelsImpl
         tableName,
         columnName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -329,7 +330,7 @@ export class ManagedDatabaseSensitivityLabelsImpl
     schemaName: string,
     tableName: string,
     columnName: string,
-    options?: ManagedDatabaseSensitivityLabelsDeleteOptionalParams
+    options?: ManagedDatabaseSensitivityLabelsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -339,9 +340,9 @@ export class ManagedDatabaseSensitivityLabelsImpl
         schemaName,
         tableName,
         columnName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -363,7 +364,7 @@ export class ManagedDatabaseSensitivityLabelsImpl
     schemaName: string,
     tableName: string,
     columnName: string,
-    options?: ManagedDatabaseSensitivityLabelsDisableRecommendationOptionalParams
+    options?: ManagedDatabaseSensitivityLabelsDisableRecommendationOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -373,9 +374,9 @@ export class ManagedDatabaseSensitivityLabelsImpl
         schemaName,
         tableName,
         columnName,
-        options
+        options,
       },
-      disableRecommendationOperationSpec
+      disableRecommendationOperationSpec,
     );
   }
 
@@ -398,7 +399,7 @@ export class ManagedDatabaseSensitivityLabelsImpl
     schemaName: string,
     tableName: string,
     columnName: string,
-    options?: ManagedDatabaseSensitivityLabelsEnableRecommendationOptionalParams
+    options?: ManagedDatabaseSensitivityLabelsEnableRecommendationOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -408,9 +409,9 @@ export class ManagedDatabaseSensitivityLabelsImpl
         schemaName,
         tableName,
         columnName,
-        options
+        options,
       },
-      enableRecommendationOperationSpec
+      enableRecommendationOperationSpec,
     );
   }
 
@@ -426,11 +427,11 @@ export class ManagedDatabaseSensitivityLabelsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams
+    options?: ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams,
   ): Promise<ManagedDatabaseSensitivityLabelsListCurrentByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, databaseName, options },
-      listCurrentByDatabaseOperationSpec
+      listCurrentByDatabaseOperationSpec,
     );
   }
 
@@ -448,7 +449,7 @@ export class ManagedDatabaseSensitivityLabelsImpl
     managedInstanceName: string,
     databaseName: string,
     parameters: SensitivityLabelUpdateList,
-    options?: ManagedDatabaseSensitivityLabelsUpdateOptionalParams
+    options?: ManagedDatabaseSensitivityLabelsUpdateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -456,9 +457,9 @@ export class ManagedDatabaseSensitivityLabelsImpl
         managedInstanceName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -474,13 +475,11 @@ export class ManagedDatabaseSensitivityLabelsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams
-  ): Promise<
-    ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseResponse
-  > {
+    options?: ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams,
+  ): Promise<ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, databaseName, options },
-      listRecommendedByDatabaseOperationSpec
+      listRecommendedByDatabaseOperationSpec,
     );
   }
 
@@ -498,19 +497,17 @@ export class ManagedDatabaseSensitivityLabelsImpl
     managedInstanceName: string,
     databaseName: string,
     nextLink: string,
-    options?: ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextOptionalParams
-  ): Promise<
-    ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextResponse
-  > {
+    options?: ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextOptionalParams,
+  ): Promise<ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         managedInstanceName,
         databaseName,
         nextLink,
-        options
+        options,
       },
-      listCurrentByDatabaseNextOperationSpec
+      listCurrentByDatabaseNextOperationSpec,
     );
   }
 
@@ -529,19 +526,17 @@ export class ManagedDatabaseSensitivityLabelsImpl
     managedInstanceName: string,
     databaseName: string,
     nextLink: string,
-    options?: ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextOptionalParams
-  ): Promise<
-    ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextResponse
-  > {
+    options?: ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextOptionalParams,
+  ): Promise<ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         managedInstanceName,
         databaseName,
         nextLink,
-        options
+        options,
       },
-      listRecommendedByDatabaseNextOperationSpec
+      listRecommendedByDatabaseNextOperationSpec,
     );
   }
 }
@@ -549,14 +544,13 @@ export class ManagedDatabaseSensitivityLabelsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SensitivityLabel
+      bodyMapper: Mappers.SensitivityLabel,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -568,25 +562,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.tableName,
     Parameters.columnName,
     Parameters.managedInstanceName,
-    Parameters.sensitivityLabelSource
+    Parameters.sensitivityLabelSource,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SensitivityLabel
+      bodyMapper: Mappers.SensitivityLabel,
     },
     201: {
-      bodyMapper: Mappers.SensitivityLabel
+      bodyMapper: Mappers.SensitivityLabel,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters65,
+  requestBody: Parameters.parameters67,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
@@ -597,15 +590,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.tableName,
     Parameters.columnName,
     Parameters.managedInstanceName,
-    Parameters.sensitivityLabelSource1
+    Parameters.sensitivityLabelSource1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
   httpMethod: "DELETE",
   responses: { 200: {}, default: {} },
   queryParameters: [Parameters.apiVersion3],
@@ -618,13 +610,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.tableName,
     Parameters.columnName,
     Parameters.managedInstanceName,
-    Parameters.sensitivityLabelSource1
+    Parameters.sensitivityLabelSource1,
   ],
-  serializer
+  serializer,
 };
 const disableRecommendationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/disable",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/disable",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
   queryParameters: [Parameters.apiVersion3],
@@ -637,13 +628,12 @@ const disableRecommendationOperationSpec: coreClient.OperationSpec = {
     Parameters.tableName,
     Parameters.columnName,
     Parameters.managedInstanceName,
-    Parameters.sensitivityLabelSource2
+    Parameters.sensitivityLabelSource2,
   ],
-  serializer
+  serializer,
 };
 const enableRecommendationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/enable",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/enable",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
   queryParameters: [Parameters.apiVersion3],
@@ -656,88 +646,85 @@ const enableRecommendationOperationSpec: coreClient.OperationSpec = {
     Parameters.tableName,
     Parameters.columnName,
     Parameters.managedInstanceName,
-    Parameters.sensitivityLabelSource2
+    Parameters.sensitivityLabelSource2,
   ],
-  serializer
+  serializer,
 };
 const listCurrentByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/currentSensitivityLabels",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/currentSensitivityLabels",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SensitivityLabelListResult
+      bodyMapper: Mappers.SensitivityLabelListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
     Parameters.skipToken,
     Parameters.filter1,
     Parameters.apiVersion3,
-    Parameters.count
+    Parameters.count,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/currentSensitivityLabels",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/currentSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters66,
+  requestBody: Parameters.parameters68,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listRecommendedByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/recommendedSensitivityLabels",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/recommendedSensitivityLabels",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SensitivityLabelListResult
+      bodyMapper: Mappers.SensitivityLabelListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
     Parameters.skipToken,
     Parameters.filter1,
     Parameters.apiVersion3,
-    Parameters.includeDisabledRecommendations
+    Parameters.includeDisabledRecommendations,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listCurrentByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SensitivityLabelListResult
+      bodyMapper: Mappers.SensitivityLabelListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -745,19 +732,19 @@ const listCurrentByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listRecommendedByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SensitivityLabelListResult
+      bodyMapper: Mappers.SensitivityLabelListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -765,8 +752,8 @@ const listRecommendedByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

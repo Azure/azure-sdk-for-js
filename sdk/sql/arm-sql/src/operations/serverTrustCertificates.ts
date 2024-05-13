@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   ServerTrustCertificatesCreateOrUpdateOptionalParams,
   ServerTrustCertificatesCreateOrUpdateResponse,
   ServerTrustCertificatesDeleteOptionalParams,
-  ServerTrustCertificatesListByInstanceNextResponse
+  ServerTrustCertificatesListByInstanceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,12 +56,12 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
   public listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ServerTrustCertificatesListByInstanceOptionalParams
+    options?: ServerTrustCertificatesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ServerTrustCertificate> {
     const iter = this.listByInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +78,9 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
           resourceGroupName,
           managedInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +88,7 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ServerTrustCertificatesListByInstanceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServerTrustCertificate[]> {
     let result: ServerTrustCertificatesListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +96,7 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
       result = await this._listByInstance(
         resourceGroupName,
         managedInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +108,7 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
         resourceGroupName,
         managedInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,12 +120,12 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
   private async *listByInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ServerTrustCertificatesListByInstanceOptionalParams
+    options?: ServerTrustCertificatesListByInstanceOptionalParams,
   ): AsyncIterableIterator<ServerTrustCertificate> {
     for await (const page of this.listByInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,11 +142,11 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
   private _listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ServerTrustCertificatesListByInstanceOptionalParams
+    options?: ServerTrustCertificatesListByInstanceOptionalParams,
   ): Promise<ServerTrustCertificatesListByInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
-      listByInstanceOperationSpec
+      listByInstanceOperationSpec,
     );
   }
 
@@ -162,11 +162,11 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     certificateName: string,
-    options?: ServerTrustCertificatesGetOptionalParams
+    options?: ServerTrustCertificatesGetOptionalParams,
   ): Promise<ServerTrustCertificatesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, certificateName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -184,7 +184,7 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
     managedInstanceName: string,
     certificateName: string,
     parameters: ServerTrustCertificate,
-    options?: ServerTrustCertificatesCreateOrUpdateOptionalParams
+    options?: ServerTrustCertificatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerTrustCertificatesCreateOrUpdateResponse>,
@@ -193,21 +193,20 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServerTrustCertificatesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -216,8 +215,8 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -225,8 +224,8 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -237,16 +236,16 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
         managedInstanceName,
         certificateName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ServerTrustCertificatesCreateOrUpdateResponse,
       OperationState<ServerTrustCertificatesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -266,14 +265,14 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
     managedInstanceName: string,
     certificateName: string,
     parameters: ServerTrustCertificate,
-    options?: ServerTrustCertificatesCreateOrUpdateOptionalParams
+    options?: ServerTrustCertificatesCreateOrUpdateOptionalParams,
   ): Promise<ServerTrustCertificatesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       managedInstanceName,
       certificateName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -290,25 +289,24 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     certificateName: string,
-    options?: ServerTrustCertificatesDeleteOptionalParams
+    options?: ServerTrustCertificatesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -317,8 +315,8 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -326,8 +324,8 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -337,13 +335,13 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
         resourceGroupName,
         managedInstanceName,
         certificateName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -361,13 +359,13 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     certificateName: string,
-    options?: ServerTrustCertificatesDeleteOptionalParams
+    options?: ServerTrustCertificatesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       managedInstanceName,
       certificateName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -384,11 +382,11 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: ServerTrustCertificatesListByInstanceNextOptionalParams
+    options?: ServerTrustCertificatesListByInstanceNextOptionalParams,
   ): Promise<ServerTrustCertificatesListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
-      listByInstanceNextOperationSpec
+      listByInstanceNextOperationSpec,
     );
   }
 }
@@ -396,109 +394,105 @@ export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverTrustCertificates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverTrustCertificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerTrustCertificatesListResult
+      bodyMapper: Mappers.ServerTrustCertificatesListResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion8],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverTrustCertificates/{certificateName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServerTrustCertificate
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverTrustCertificates/{certificateName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServerTrustCertificate,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion9],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.certificateName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverTrustCertificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverTrustCertificates/{certificateName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerTrustCertificate
+      bodyMapper: Mappers.ServerTrustCertificate,
     },
     201: {
-      bodyMapper: Mappers.ServerTrustCertificate
+      bodyMapper: Mappers.ServerTrustCertificate,
     },
     202: {
-      bodyMapper: Mappers.ServerTrustCertificate
+      bodyMapper: Mappers.ServerTrustCertificate,
     },
     204: {
-      bodyMapper: Mappers.ServerTrustCertificate
+      bodyMapper: Mappers.ServerTrustCertificate,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters64,
-  queryParameters: [Parameters.apiVersion8],
+  requestBody: Parameters.parameters66,
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverTrustCertificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverTrustCertificates/{certificateName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
-  serializer
+  serializer,
 };
 const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerTrustCertificatesListResult
+      bodyMapper: Mappers.ServerTrustCertificatesListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

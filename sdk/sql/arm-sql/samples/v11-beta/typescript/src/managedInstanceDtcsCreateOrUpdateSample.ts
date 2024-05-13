@@ -34,7 +34,7 @@ async function updatesManagedInstanceDtcSettingsByEnablingDtc() {
     resourceGroupName,
     managedInstanceName,
     dtcName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -60,12 +60,12 @@ async function updatesManagedInstanceDtcSettingsWithAllOptionalParametersSpecifi
       transactionManagerCommunicationSettings: {
         allowInboundEnabled: false,
         allowOutboundEnabled: true,
-        authentication: "NoAuth"
+        authentication: "NoAuth",
       },
       xaTransactionsDefaultTimeout: 1000,
       xaTransactionsEnabled: false,
-      xaTransactionsMaximumTimeout: 3000
-    }
+      xaTransactionsMaximumTimeout: 3000,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -73,7 +73,7 @@ async function updatesManagedInstanceDtcSettingsWithAllOptionalParametersSpecifi
     resourceGroupName,
     managedInstanceName,
     dtcName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

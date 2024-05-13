@@ -30,7 +30,7 @@ async function deleteVirtualCluster() {
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.virtualClusters.beginDeleteAndWait(
     resourceGroupName,
-    virtualClusterName
+    virtualClusterName,
   );
   console.log(result);
 }

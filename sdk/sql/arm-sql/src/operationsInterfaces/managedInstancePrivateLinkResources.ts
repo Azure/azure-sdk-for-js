@@ -11,7 +11,7 @@ import {
   ManagedInstancePrivateLink,
   ManagedInstancePrivateLinkResourcesListByManagedInstanceOptionalParams,
   ManagedInstancePrivateLinkResourcesGetOptionalParams,
-  ManagedInstancePrivateLinkResourcesGetResponse
+  ManagedInstancePrivateLinkResourcesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface ManagedInstancePrivateLinkResources {
   listByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstancePrivateLinkResourcesListByManagedInstanceOptionalParams
+    options?: ManagedInstancePrivateLinkResourcesListByManagedInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstancePrivateLink>;
   /**
    * Gets a private link resource for SQL server.
@@ -41,6 +41,6 @@ export interface ManagedInstancePrivateLinkResources {
     resourceGroupName: string,
     managedInstanceName: string,
     groupName: string,
-    options?: ManagedInstancePrivateLinkResourcesGetOptionalParams
+    options?: ManagedInstancePrivateLinkResourcesGetOptionalParams,
   ): Promise<ManagedInstancePrivateLinkResourcesGetResponse>;
 }

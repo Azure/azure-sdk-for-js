@@ -30,17 +30,18 @@ async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
   const parameters: PrivateEndpointConnection = {
     privateLinkServiceConnectionState: {
       description: "Approved by johndoe@contoso.com",
-      status: "Approved"
-    }
+      status: "Approved",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnections.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    privateEndpointConnectionName,
-    parameters
-  );
+  const result =
+    await client.privateEndpointConnections.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      privateEndpointConnectionName,
+      parameters,
+    );
   console.log(result);
 }
 

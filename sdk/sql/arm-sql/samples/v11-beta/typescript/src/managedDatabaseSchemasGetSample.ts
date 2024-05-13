@@ -34,7 +34,7 @@ async function getManagedDatabaseSchema() {
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    schemaName
+    schemaName,
   );
   console.log(result);
 }

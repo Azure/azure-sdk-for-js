@@ -15,13 +15,14 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   ElasticPoolDatabaseActivity,
   ElasticPoolDatabaseActivitiesListByElasticPoolOptionalParams,
-  ElasticPoolDatabaseActivitiesListByElasticPoolResponse
+  ElasticPoolDatabaseActivitiesListByElasticPoolResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ElasticPoolDatabaseActivities operations. */
 export class ElasticPoolDatabaseActivitiesImpl
-  implements ElasticPoolDatabaseActivities {
+  implements ElasticPoolDatabaseActivities
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -44,13 +45,13 @@ export class ElasticPoolDatabaseActivitiesImpl
     resourceGroupName: string,
     serverName: string,
     elasticPoolName: string,
-    options?: ElasticPoolDatabaseActivitiesListByElasticPoolOptionalParams
+    options?: ElasticPoolDatabaseActivitiesListByElasticPoolOptionalParams,
   ): PagedAsyncIterableIterator<ElasticPoolDatabaseActivity> {
     const iter = this.listByElasticPoolPagingAll(
       resourceGroupName,
       serverName,
       elasticPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -68,9 +69,9 @@ export class ElasticPoolDatabaseActivitiesImpl
           serverName,
           elasticPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,14 +80,14 @@ export class ElasticPoolDatabaseActivitiesImpl
     serverName: string,
     elasticPoolName: string,
     options?: ElasticPoolDatabaseActivitiesListByElasticPoolOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ElasticPoolDatabaseActivity[]> {
     let result: ElasticPoolDatabaseActivitiesListByElasticPoolResponse;
     result = await this._listByElasticPool(
       resourceGroupName,
       serverName,
       elasticPoolName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -95,13 +96,13 @@ export class ElasticPoolDatabaseActivitiesImpl
     resourceGroupName: string,
     serverName: string,
     elasticPoolName: string,
-    options?: ElasticPoolDatabaseActivitiesListByElasticPoolOptionalParams
+    options?: ElasticPoolDatabaseActivitiesListByElasticPoolOptionalParams,
   ): AsyncIterableIterator<ElasticPoolDatabaseActivity> {
     for await (const page of this.listByElasticPoolPagingPage(
       resourceGroupName,
       serverName,
       elasticPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -119,11 +120,11 @@ export class ElasticPoolDatabaseActivitiesImpl
     resourceGroupName: string,
     serverName: string,
     elasticPoolName: string,
-    options?: ElasticPoolDatabaseActivitiesListByElasticPoolOptionalParams
+    options?: ElasticPoolDatabaseActivitiesListByElasticPoolOptionalParams,
   ): Promise<ElasticPoolDatabaseActivitiesListByElasticPoolResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, elasticPoolName, options },
-      listByElasticPoolOperationSpec
+      listByElasticPoolOperationSpec,
     );
   }
 }
@@ -131,13 +132,12 @@ export class ElasticPoolDatabaseActivitiesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByElasticPoolOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/elasticPoolDatabaseActivity",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/elasticPoolDatabaseActivity",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticPoolDatabaseActivityListResult
-    }
+      bodyMapper: Mappers.ElasticPoolDatabaseActivityListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -145,8 +145,8 @@ const listByElasticPoolOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.elasticPoolName
+    Parameters.elasticPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

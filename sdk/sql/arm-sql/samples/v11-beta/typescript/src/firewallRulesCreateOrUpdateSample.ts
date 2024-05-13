@@ -30,7 +30,7 @@ async function createAFirewallRuleMaxOrMin() {
   const firewallRuleName = "firewallrulecrudtest-5370";
   const parameters: FirewallRule = {
     endIpAddress: "0.0.0.3",
-    startIpAddress: "0.0.0.3"
+    startIpAddress: "0.0.0.3",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -38,7 +38,7 @@ async function createAFirewallRuleMaxOrMin() {
     resourceGroupName,
     serverName,
     firewallRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -59,7 +59,7 @@ async function updateAFirewallRuleMaxOrMin() {
   const firewallRuleName = "firewallrulecrudtest-3927";
   const parameters: FirewallRule = {
     endIpAddress: "0.0.0.1",
-    startIpAddress: "0.0.0.1"
+    startIpAddress: "0.0.0.1",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -67,7 +67,7 @@ async function updateAFirewallRuleMaxOrMin() {
     resourceGroupName,
     serverName,
     firewallRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

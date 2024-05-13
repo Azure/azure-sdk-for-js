@@ -27,7 +27,7 @@ import {
   ServersImportDatabaseOptionalParams,
   ServersImportDatabaseResponse,
   ServersRefreshStatusOptionalParams,
-  ServersRefreshStatusResponse
+  ServersRefreshStatusResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +46,7 @@ export interface Servers {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ServersListByResourceGroupOptionalParams
+    options?: ServersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Server>;
   /**
    * Determines whether a resource can be created with the specified name.
@@ -55,7 +55,7 @@ export interface Servers {
    */
   checkNameAvailability(
     parameters: CheckNameAvailabilityRequest,
-    options?: ServersCheckNameAvailabilityOptionalParams
+    options?: ServersCheckNameAvailabilityOptionalParams,
   ): Promise<ServersCheckNameAvailabilityResponse>;
   /**
    * Gets a server.
@@ -67,7 +67,7 @@ export interface Servers {
   get(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersGetOptionalParams
+    options?: ServersGetOptionalParams,
   ): Promise<ServersGetResponse>;
   /**
    * Creates or updates a server.
@@ -81,7 +81,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     parameters: Server,
-    options?: ServersCreateOrUpdateOptionalParams
+    options?: ServersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServersCreateOrUpdateResponse>,
@@ -100,7 +100,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     parameters: Server,
-    options?: ServersCreateOrUpdateOptionalParams
+    options?: ServersCreateOrUpdateOptionalParams,
   ): Promise<ServersCreateOrUpdateResponse>;
   /**
    * Deletes a server.
@@ -112,7 +112,7 @@ export interface Servers {
   beginDelete(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersDeleteOptionalParams
+    options?: ServersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a server.
@@ -124,7 +124,7 @@ export interface Servers {
   beginDeleteAndWait(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersDeleteOptionalParams
+    options?: ServersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a server.
@@ -138,7 +138,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     parameters: ServerUpdate,
-    options?: ServersUpdateOptionalParams
+    options?: ServersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServersUpdateResponse>,
@@ -157,7 +157,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     parameters: ServerUpdate,
-    options?: ServersUpdateOptionalParams
+    options?: ServersUpdateOptionalParams,
   ): Promise<ServersUpdateResponse>;
   /**
    * Imports a bacpac into a new database.
@@ -171,7 +171,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     parameters: ImportNewDatabaseDefinition,
-    options?: ServersImportDatabaseOptionalParams
+    options?: ServersImportDatabaseOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServersImportDatabaseResponse>,
@@ -190,7 +190,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     parameters: ImportNewDatabaseDefinition,
-    options?: ServersImportDatabaseOptionalParams
+    options?: ServersImportDatabaseOptionalParams,
   ): Promise<ServersImportDatabaseResponse>;
   /**
    * Refresh external governance enablement status.
@@ -202,7 +202,7 @@ export interface Servers {
   beginRefreshStatus(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersRefreshStatusOptionalParams
+    options?: ServersRefreshStatusOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServersRefreshStatusResponse>,
@@ -219,6 +219,6 @@ export interface Servers {
   beginRefreshStatusAndWait(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersRefreshStatusOptionalParams
+    options?: ServersRefreshStatusOptionalParams,
   ): Promise<ServersRefreshStatusResponse>;
 }

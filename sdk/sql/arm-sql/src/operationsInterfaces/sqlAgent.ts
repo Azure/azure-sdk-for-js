@@ -11,7 +11,7 @@ import {
   SqlAgentGetResponse,
   SqlAgentConfiguration,
   SqlAgentCreateOrUpdateOptionalParams,
-  SqlAgentCreateOrUpdateResponse
+  SqlAgentCreateOrUpdateResponse,
 } from "../models";
 
 /** Interface representing a SqlAgent. */
@@ -26,7 +26,7 @@ export interface SqlAgent {
   get(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: SqlAgentGetOptionalParams
+    options?: SqlAgentGetOptionalParams,
   ): Promise<SqlAgentGetResponse>;
   /**
    * Puts new sql agent configuration to instance.
@@ -40,6 +40,6 @@ export interface SqlAgent {
     resourceGroupName: string,
     managedInstanceName: string,
     parameters: SqlAgentConfiguration,
-    options?: SqlAgentCreateOrUpdateOptionalParams
+    options?: SqlAgentCreateOrUpdateOptionalParams,
   ): Promise<SqlAgentCreateOrUpdateResponse>;
 }

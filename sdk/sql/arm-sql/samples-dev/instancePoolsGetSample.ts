@@ -30,7 +30,7 @@ async function getAnInstancePool() {
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.instancePools.get(
     resourceGroupName,
-    instancePoolName
+    instancePoolName,
   );
   console.log(result);
 }

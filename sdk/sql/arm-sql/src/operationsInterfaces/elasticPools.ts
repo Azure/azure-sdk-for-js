@@ -23,7 +23,7 @@ import {
   ElasticPoolUpdate,
   ElasticPoolsUpdateOptionalParams,
   ElasticPoolsUpdateResponse,
-  ElasticPoolsFailoverOptionalParams
+  ElasticPoolsFailoverOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export interface ElasticPools {
     serverName: string,
     elasticPoolName: string,
     filter: string,
-    options?: ElasticPoolsListMetricsOptionalParams
+    options?: ElasticPoolsListMetricsOptionalParams,
   ): PagedAsyncIterableIterator<Metric>;
   /**
    * Returns elastic pool metric definitions.
@@ -57,7 +57,7 @@ export interface ElasticPools {
     resourceGroupName: string,
     serverName: string,
     elasticPoolName: string,
-    options?: ElasticPoolsListMetricDefinitionsOptionalParams
+    options?: ElasticPoolsListMetricDefinitionsOptionalParams,
   ): PagedAsyncIterableIterator<MetricDefinition>;
   /**
    * Gets all elastic pools in a server.
@@ -69,7 +69,7 @@ export interface ElasticPools {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ElasticPoolsListByServerOptionalParams
+    options?: ElasticPoolsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ElasticPool>;
   /**
    * Gets an elastic pool.
@@ -83,7 +83,7 @@ export interface ElasticPools {
     resourceGroupName: string,
     serverName: string,
     elasticPoolName: string,
-    options?: ElasticPoolsGetOptionalParams
+    options?: ElasticPoolsGetOptionalParams,
   ): Promise<ElasticPoolsGetResponse>;
   /**
    * Creates or updates an elastic pool.
@@ -99,7 +99,7 @@ export interface ElasticPools {
     serverName: string,
     elasticPoolName: string,
     parameters: ElasticPool,
-    options?: ElasticPoolsCreateOrUpdateOptionalParams
+    options?: ElasticPoolsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ElasticPoolsCreateOrUpdateResponse>,
@@ -120,7 +120,7 @@ export interface ElasticPools {
     serverName: string,
     elasticPoolName: string,
     parameters: ElasticPool,
-    options?: ElasticPoolsCreateOrUpdateOptionalParams
+    options?: ElasticPoolsCreateOrUpdateOptionalParams,
   ): Promise<ElasticPoolsCreateOrUpdateResponse>;
   /**
    * Deletes an elastic pool.
@@ -134,7 +134,7 @@ export interface ElasticPools {
     resourceGroupName: string,
     serverName: string,
     elasticPoolName: string,
-    options?: ElasticPoolsDeleteOptionalParams
+    options?: ElasticPoolsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an elastic pool.
@@ -148,7 +148,7 @@ export interface ElasticPools {
     resourceGroupName: string,
     serverName: string,
     elasticPoolName: string,
-    options?: ElasticPoolsDeleteOptionalParams
+    options?: ElasticPoolsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates an elastic pool.
@@ -164,7 +164,7 @@ export interface ElasticPools {
     serverName: string,
     elasticPoolName: string,
     parameters: ElasticPoolUpdate,
-    options?: ElasticPoolsUpdateOptionalParams
+    options?: ElasticPoolsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ElasticPoolsUpdateResponse>,
@@ -185,7 +185,7 @@ export interface ElasticPools {
     serverName: string,
     elasticPoolName: string,
     parameters: ElasticPoolUpdate,
-    options?: ElasticPoolsUpdateOptionalParams
+    options?: ElasticPoolsUpdateOptionalParams,
   ): Promise<ElasticPoolsUpdateResponse>;
   /**
    * Failovers an elastic pool.
@@ -199,7 +199,7 @@ export interface ElasticPools {
     resourceGroupName: string,
     serverName: string,
     elasticPoolName: string,
-    options?: ElasticPoolsFailoverOptionalParams
+    options?: ElasticPoolsFailoverOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Failovers an elastic pool.
@@ -213,6 +213,6 @@ export interface ElasticPools {
     resourceGroupName: string,
     serverName: string,
     elasticPoolName: string,
-    options?: ElasticPoolsFailoverOptionalParams
+    options?: ElasticPoolsFailoverOptionalParams,
   ): Promise<void>;
 }

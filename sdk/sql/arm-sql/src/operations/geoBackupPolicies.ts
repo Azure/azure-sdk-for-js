@@ -20,7 +20,7 @@ import {
   GeoBackupPoliciesCreateOrUpdateOptionalParams,
   GeoBackupPoliciesCreateOrUpdateResponse,
   GeoBackupPoliciesGetOptionalParams,
-  GeoBackupPoliciesGetResponse
+  GeoBackupPoliciesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,13 +48,13 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: GeoBackupPoliciesListByDatabaseOptionalParams
+    options?: GeoBackupPoliciesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<GeoBackupPolicy> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -72,9 +72,9 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
           serverName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,14 +83,14 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
     serverName: string,
     databaseName: string,
     options?: GeoBackupPoliciesListByDatabaseOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<GeoBackupPolicy[]> {
     let result: GeoBackupPoliciesListByDatabaseResponse;
     result = await this._listByDatabase(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -99,13 +99,13 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: GeoBackupPoliciesListByDatabaseOptionalParams
+    options?: GeoBackupPoliciesListByDatabaseOptionalParams,
   ): AsyncIterableIterator<GeoBackupPolicy> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,7 +127,7 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
     databaseName: string,
     geoBackupPolicyName: GeoBackupPolicyName,
     parameters: GeoBackupPolicy,
-    options?: GeoBackupPoliciesCreateOrUpdateOptionalParams
+    options?: GeoBackupPoliciesCreateOrUpdateOptionalParams,
   ): Promise<GeoBackupPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -136,9 +136,9 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
         databaseName,
         geoBackupPolicyName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -156,7 +156,7 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
     serverName: string,
     databaseName: string,
     geoBackupPolicyName: GeoBackupPolicyName,
-    options?: GeoBackupPoliciesGetOptionalParams
+    options?: GeoBackupPoliciesGetOptionalParams,
   ): Promise<GeoBackupPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -164,9 +164,9 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
         serverName,
         databaseName,
         geoBackupPolicyName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -182,11 +182,11 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: GeoBackupPoliciesListByDatabaseOptionalParams
+    options?: GeoBackupPoliciesListByDatabaseOptionalParams,
   ): Promise<GeoBackupPoliciesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
+      listByDatabaseOperationSpec,
     );
   }
 }
@@ -194,16 +194,15 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GeoBackupPolicy
+      bodyMapper: Mappers.GeoBackupPolicy,
     },
     201: {
-      bodyMapper: Mappers.GeoBackupPolicy
-    }
+      bodyMapper: Mappers.GeoBackupPolicy,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -213,20 +212,19 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.geoBackupPolicyName
+    Parameters.geoBackupPolicyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GeoBackupPolicy
-    }
+      bodyMapper: Mappers.GeoBackupPolicy,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -235,19 +233,18 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.geoBackupPolicyName
+    Parameters.geoBackupPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GeoBackupPolicyListResult
-    }
+      bodyMapper: Mappers.GeoBackupPolicyListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -255,8 +252,8 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

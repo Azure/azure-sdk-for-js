@@ -28,16 +28,17 @@ async function updatesManagedInstanceServerConfigurationOption() {
   const managedInstanceName = "testinstance";
   const serverConfigurationOptionName = "allowPolybaseExport";
   const parameters: ServerConfigurationOption = {
-    serverConfigurationOptionValue: 1
+    serverConfigurationOptionValue: 1,
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverConfigurationOptions.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    serverConfigurationOptionName,
-    parameters
-  );
+  const result =
+    await client.serverConfigurationOptions.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      serverConfigurationOptionName,
+      parameters,
+    );
   console.log(result);
 }
 

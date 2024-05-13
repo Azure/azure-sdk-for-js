@@ -20,13 +20,14 @@ import {
   RestorableDroppedDatabasesListByServerResponse,
   RestorableDroppedDatabasesGetOptionalParams,
   RestorableDroppedDatabasesGetResponse,
-  RestorableDroppedDatabasesListByServerNextResponse
+  RestorableDroppedDatabasesListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RestorableDroppedDatabases operations. */
 export class RestorableDroppedDatabasesImpl
-  implements RestorableDroppedDatabases {
+  implements RestorableDroppedDatabases
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -47,12 +48,12 @@ export class RestorableDroppedDatabasesImpl
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: RestorableDroppedDatabasesListByServerOptionalParams
+    options?: RestorableDroppedDatabasesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<RestorableDroppedDatabase> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +70,9 @@ export class RestorableDroppedDatabasesImpl
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,7 +80,7 @@ export class RestorableDroppedDatabasesImpl
     resourceGroupName: string,
     serverName: string,
     options?: RestorableDroppedDatabasesListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RestorableDroppedDatabase[]> {
     let result: RestorableDroppedDatabasesListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +96,7 @@ export class RestorableDroppedDatabasesImpl
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,12 +108,12 @@ export class RestorableDroppedDatabasesImpl
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: RestorableDroppedDatabasesListByServerOptionalParams
+    options?: RestorableDroppedDatabasesListByServerOptionalParams,
   ): AsyncIterableIterator<RestorableDroppedDatabase> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -128,11 +129,11 @@ export class RestorableDroppedDatabasesImpl
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: RestorableDroppedDatabasesListByServerOptionalParams
+    options?: RestorableDroppedDatabasesListByServerOptionalParams,
   ): Promise<RestorableDroppedDatabasesListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -148,11 +149,11 @@ export class RestorableDroppedDatabasesImpl
     resourceGroupName: string,
     serverName: string,
     restorableDroppedDatabaseId: string,
-    options?: RestorableDroppedDatabasesGetOptionalParams
+    options?: RestorableDroppedDatabasesGetOptionalParams,
   ): Promise<RestorableDroppedDatabasesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, restorableDroppedDatabaseId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -168,11 +169,11 @@ export class RestorableDroppedDatabasesImpl
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: RestorableDroppedDatabasesListByServerNextOptionalParams
+    options?: RestorableDroppedDatabasesListByServerNextOptionalParams,
   ): Promise<RestorableDroppedDatabasesListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -180,66 +181,64 @@ export class RestorableDroppedDatabasesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/restorableDroppedDatabases",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/restorableDroppedDatabases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorableDroppedDatabaseListResult
+      bodyMapper: Mappers.RestorableDroppedDatabaseListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorableDroppedDatabase
+      bodyMapper: Mappers.RestorableDroppedDatabase,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
     Parameters.expand,
     Parameters.filter1,
-    Parameters.apiVersion2
+    Parameters.apiVersion2,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.restorableDroppedDatabaseId
+    Parameters.restorableDroppedDatabaseId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorableDroppedDatabaseListResult
+      bodyMapper: Mappers.RestorableDroppedDatabaseListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

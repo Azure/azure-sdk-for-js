@@ -38,7 +38,7 @@ async function getASyncMemberSchema() {
     serverName,
     databaseName,
     syncGroupName,
-    syncMemberName
+    syncMemberName,
   )) {
     resArray.push(item);
   }

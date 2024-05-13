@@ -32,7 +32,7 @@ async function uploadATdeCertificate() {
   const result = await client.tdeCertificates.beginCreateAndWait(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   RecoverableDatabasesGetOptionalParams,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -36,7 +36,7 @@ async function getARecoverableDatabase() {
   const result = await client.recoverableDatabases.get(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }
@@ -63,7 +63,7 @@ async function getsARecoverableDatabaseWithExpandEqualsKeys() {
     resourceGroupName,
     serverName,
     databaseName,
-    options
+    options,
   );
   console.log(result);
 }

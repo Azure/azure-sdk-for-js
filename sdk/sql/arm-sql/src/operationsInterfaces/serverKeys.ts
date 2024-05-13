@@ -15,7 +15,7 @@ import {
   ServerKeysGetResponse,
   ServerKeysCreateOrUpdateOptionalParams,
   ServerKeysCreateOrUpdateResponse,
-  ServerKeysDeleteOptionalParams
+  ServerKeysDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ServerKeys {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerKeysListByServerOptionalParams
+    options?: ServerKeysListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerKey>;
   /**
    * Gets a server key.
@@ -45,7 +45,7 @@ export interface ServerKeys {
     resourceGroupName: string,
     serverName: string,
     keyName: string,
-    options?: ServerKeysGetOptionalParams
+    options?: ServerKeysGetOptionalParams,
   ): Promise<ServerKeysGetResponse>;
   /**
    * Creates or updates a server key.
@@ -64,7 +64,7 @@ export interface ServerKeys {
     serverName: string,
     keyName: string,
     parameters: ServerKey,
-    options?: ServerKeysCreateOrUpdateOptionalParams
+    options?: ServerKeysCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerKeysCreateOrUpdateResponse>,
@@ -88,7 +88,7 @@ export interface ServerKeys {
     serverName: string,
     keyName: string,
     parameters: ServerKey,
-    options?: ServerKeysCreateOrUpdateOptionalParams
+    options?: ServerKeysCreateOrUpdateOptionalParams,
   ): Promise<ServerKeysCreateOrUpdateResponse>;
   /**
    * Deletes the server key with the given name.
@@ -102,7 +102,7 @@ export interface ServerKeys {
     resourceGroupName: string,
     serverName: string,
     keyName: string,
-    options?: ServerKeysDeleteOptionalParams
+    options?: ServerKeysDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the server key with the given name.
@@ -116,6 +116,6 @@ export interface ServerKeys {
     resourceGroupName: string,
     serverName: string,
     keyName: string,
-    options?: ServerKeysDeleteOptionalParams
+    options?: ServerKeysDeleteOptionalParams,
   ): Promise<void>;
 }

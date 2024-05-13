@@ -20,7 +20,7 @@ import {
   ManagedDatabaseTablesListBySchemaResponse,
   ManagedDatabaseTablesGetOptionalParams,
   ManagedDatabaseTablesGetResponse,
-  ManagedDatabaseTablesListBySchemaNextResponse
+  ManagedDatabaseTablesListBySchemaNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,14 +50,14 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
     managedInstanceName: string,
     databaseName: string,
     schemaName: string,
-    options?: ManagedDatabaseTablesListBySchemaOptionalParams
+    options?: ManagedDatabaseTablesListBySchemaOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseTable> {
     const iter = this.listBySchemaPagingAll(
       resourceGroupName,
       managedInstanceName,
       databaseName,
       schemaName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
           databaseName,
           schemaName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +88,7 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
     databaseName: string,
     schemaName: string,
     options?: ManagedDatabaseTablesListBySchemaOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DatabaseTable[]> {
     let result: ManagedDatabaseTablesListBySchemaResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
         managedInstanceName,
         databaseName,
         schemaName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -112,7 +112,7 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
         databaseName,
         schemaName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,14 +126,14 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
     managedInstanceName: string,
     databaseName: string,
     schemaName: string,
-    options?: ManagedDatabaseTablesListBySchemaOptionalParams
+    options?: ManagedDatabaseTablesListBySchemaOptionalParams,
   ): AsyncIterableIterator<DatabaseTable> {
     for await (const page of this.listBySchemaPagingPage(
       resourceGroupName,
       managedInstanceName,
       databaseName,
       schemaName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -153,7 +153,7 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
     managedInstanceName: string,
     databaseName: string,
     schemaName: string,
-    options?: ManagedDatabaseTablesListBySchemaOptionalParams
+    options?: ManagedDatabaseTablesListBySchemaOptionalParams,
   ): Promise<ManagedDatabaseTablesListBySchemaResponse> {
     return this.client.sendOperationRequest(
       {
@@ -161,9 +161,9 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
         managedInstanceName,
         databaseName,
         schemaName,
-        options
+        options,
       },
-      listBySchemaOperationSpec
+      listBySchemaOperationSpec,
     );
   }
 
@@ -183,7 +183,7 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
     databaseName: string,
     schemaName: string,
     tableName: string,
-    options?: ManagedDatabaseTablesGetOptionalParams
+    options?: ManagedDatabaseTablesGetOptionalParams,
   ): Promise<ManagedDatabaseTablesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -192,9 +192,9 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
         databaseName,
         schemaName,
         tableName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -214,7 +214,7 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
     databaseName: string,
     schemaName: string,
     nextLink: string,
-    options?: ManagedDatabaseTablesListBySchemaNextOptionalParams
+    options?: ManagedDatabaseTablesListBySchemaNextOptionalParams,
   ): Promise<ManagedDatabaseTablesListBySchemaNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -223,9 +223,9 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
         databaseName,
         schemaName,
         nextLink,
-        options
+        options,
       },
-      listBySchemaNextOperationSpec
+      listBySchemaNextOperationSpec,
     );
   }
 }
@@ -233,14 +233,13 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySchemaOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseTableListResult
+      bodyMapper: Mappers.DatabaseTableListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.filter1, Parameters.apiVersion3],
   urlParameters: [
@@ -249,20 +248,19 @@ const listBySchemaOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.schemaName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseTable
+      bodyMapper: Mappers.DatabaseTable,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -272,19 +270,19 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.schemaName,
     Parameters.tableName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySchemaNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseTableListResult
+      bodyMapper: Mappers.DatabaseTableListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -293,8 +291,8 @@ const listBySchemaNextOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.nextLink,
     Parameters.schemaName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

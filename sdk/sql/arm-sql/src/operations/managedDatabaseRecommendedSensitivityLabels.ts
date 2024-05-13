@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
 import {
   RecommendedSensitivityLabelUpdateList,
-  ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams
+  ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams,
 } from "../models";
 
 /** Class containing ManagedDatabaseRecommendedSensitivityLabels operations. */
 export class ManagedDatabaseRecommendedSensitivityLabelsImpl
-  implements ManagedDatabaseRecommendedSensitivityLabels {
+  implements ManagedDatabaseRecommendedSensitivityLabels
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -43,7 +44,7 @@ export class ManagedDatabaseRecommendedSensitivityLabelsImpl
     managedInstanceName: string,
     databaseName: string,
     parameters: RecommendedSensitivityLabelUpdateList,
-    options?: ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams
+    options?: ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -51,9 +52,9 @@ export class ManagedDatabaseRecommendedSensitivityLabelsImpl
         managedInstanceName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -61,20 +62,19 @@ export class ManagedDatabaseRecommendedSensitivityLabelsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/recommendedSensitivityLabels",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/recommendedSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters67,
+  requestBody: Parameters.parameters69,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedTransparentDataEncryption,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -35,13 +35,14 @@ async function updateADatabaseTransparentDataEncryptionStateWithMinimalParameter
   const parameters: ManagedTransparentDataEncryption = { state: "Enabled" };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedDatabaseTransparentDataEncryption.createOrUpdate(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    tdeName,
-    parameters
-  );
+  const result =
+    await client.managedDatabaseTransparentDataEncryption.createOrUpdate(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      tdeName,
+      parameters,
+    );
   console.log(result);
 }
 

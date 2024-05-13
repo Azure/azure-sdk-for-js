@@ -34,14 +34,14 @@ async function createOrUpdateATargetGroupWithAllProperties() {
         type: "SqlDatabase",
         databaseName: "database1",
         membershipType: "Exclude",
-        serverName: "server1"
+        serverName: "server1",
       },
       {
         type: "SqlServer",
         membershipType: "Include",
         refreshCredential:
           "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential",
-        serverName: "server1"
+        serverName: "server1",
       },
       {
         type: "SqlElasticPool",
@@ -49,7 +49,7 @@ async function createOrUpdateATargetGroupWithAllProperties() {
         membershipType: "Include",
         refreshCredential:
           "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential",
-        serverName: "server2"
+        serverName: "server2",
       },
       {
         type: "SqlShardMap",
@@ -57,9 +57,9 @@ async function createOrUpdateATargetGroupWithAllProperties() {
         refreshCredential:
           "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential",
         serverName: "server3",
-        shardMapName: "shardMap1"
-      }
-    ]
+        shardMapName: "shardMap1",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -68,7 +68,7 @@ async function createOrUpdateATargetGroupWithAllProperties() {
     serverName,
     jobAgentName,
     targetGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -95,7 +95,7 @@ async function createOrUpdateATargetGroupWithMinimalProperties() {
     serverName,
     jobAgentName,
     targetGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

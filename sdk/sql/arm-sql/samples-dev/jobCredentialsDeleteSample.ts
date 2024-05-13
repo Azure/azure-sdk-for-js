@@ -34,7 +34,7 @@ async function deleteACredential() {
     resourceGroupName,
     serverName,
     jobAgentName,
-    credentialName
+    credentialName,
   );
   console.log(result);
 }

@@ -12,7 +12,7 @@ import {
   DataWarehouseUserActivitiesListByDatabaseOptionalParams,
   DataWarehouseUserActivityName,
   DataWarehouseUserActivitiesGetOptionalParams,
-  DataWarehouseUserActivitiesGetResponse
+  DataWarehouseUserActivitiesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface DataWarehouseUserActivitiesOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams
+    options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DataWarehouseUserActivities>;
   /**
    * Gets the user activities of a data warehouse which includes running and suspended queries
@@ -46,6 +46,6 @@ export interface DataWarehouseUserActivitiesOperations {
     serverName: string,
     databaseName: string,
     dataWarehouseUserActivityName: DataWarehouseUserActivityName,
-    options?: DataWarehouseUserActivitiesGetOptionalParams
+    options?: DataWarehouseUserActivitiesGetOptionalParams,
   ): Promise<DataWarehouseUserActivitiesGetResponse>;
 }

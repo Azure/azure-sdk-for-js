@@ -18,7 +18,7 @@ import {
   ServerDnsAliasesDeleteOptionalParams,
   ServerDnsAliasAcquisition,
   ServerDnsAliasesAcquireOptionalParams,
-  ServerDnsAliasesAcquireResponse
+  ServerDnsAliasesAcquireResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface ServerDnsAliases {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerDnsAliasesListByServerOptionalParams
+    options?: ServerDnsAliasesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerDnsAlias>;
   /**
    * Gets a server DNS alias.
@@ -48,7 +48,7 @@ export interface ServerDnsAliases {
     resourceGroupName: string,
     serverName: string,
     dnsAliasName: string,
-    options?: ServerDnsAliasesGetOptionalParams
+    options?: ServerDnsAliasesGetOptionalParams,
   ): Promise<ServerDnsAliasesGetResponse>;
   /**
    * Creates a server DNS alias.
@@ -62,7 +62,7 @@ export interface ServerDnsAliases {
     resourceGroupName: string,
     serverName: string,
     dnsAliasName: string,
-    options?: ServerDnsAliasesCreateOrUpdateOptionalParams
+    options?: ServerDnsAliasesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerDnsAliasesCreateOrUpdateResponse>,
@@ -81,7 +81,7 @@ export interface ServerDnsAliases {
     resourceGroupName: string,
     serverName: string,
     dnsAliasName: string,
-    options?: ServerDnsAliasesCreateOrUpdateOptionalParams
+    options?: ServerDnsAliasesCreateOrUpdateOptionalParams,
   ): Promise<ServerDnsAliasesCreateOrUpdateResponse>;
   /**
    * Deletes the server DNS alias with the given name.
@@ -95,7 +95,7 @@ export interface ServerDnsAliases {
     resourceGroupName: string,
     serverName: string,
     dnsAliasName: string,
-    options?: ServerDnsAliasesDeleteOptionalParams
+    options?: ServerDnsAliasesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the server DNS alias with the given name.
@@ -109,7 +109,7 @@ export interface ServerDnsAliases {
     resourceGroupName: string,
     serverName: string,
     dnsAliasName: string,
-    options?: ServerDnsAliasesDeleteOptionalParams
+    options?: ServerDnsAliasesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Acquires server DNS alias from another server.
@@ -125,7 +125,7 @@ export interface ServerDnsAliases {
     serverName: string,
     dnsAliasName: string,
     parameters: ServerDnsAliasAcquisition,
-    options?: ServerDnsAliasesAcquireOptionalParams
+    options?: ServerDnsAliasesAcquireOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerDnsAliasesAcquireResponse>,
@@ -146,6 +146,6 @@ export interface ServerDnsAliases {
     serverName: string,
     dnsAliasName: string,
     parameters: ServerDnsAliasAcquisition,
-    options?: ServerDnsAliasesAcquireOptionalParams
+    options?: ServerDnsAliasesAcquireOptionalParams,
   ): Promise<ServerDnsAliasesAcquireResponse>;
 }

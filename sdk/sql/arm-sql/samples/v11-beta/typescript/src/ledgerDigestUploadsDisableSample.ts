@@ -34,7 +34,7 @@ async function disablesUploadingLedgerDigestsForADatabase() {
     resourceGroupName,
     serverName,
     databaseName,
-    ledgerDigestUploads
+    ledgerDigestUploads,
   );
   console.log(result);
 }

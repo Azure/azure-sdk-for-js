@@ -30,8 +30,7 @@ async function createsOrUpdatesAServerKey() {
   const keyName = "someVault_someKey_01234567890123456789012345678901";
   const parameters: ServerKey = {
     serverKeyType: "AzureKeyVault",
-    uri:
-      "https://someVault.vault.azure.net/keys/someKey/01234567890123456789012345678901"
+    uri: "https://someVault.vault.azure.net/keys/someKey/01234567890123456789012345678901",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -39,7 +38,7 @@ async function createsOrUpdatesAServerKey() {
     resourceGroupName,
     serverName,
     keyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

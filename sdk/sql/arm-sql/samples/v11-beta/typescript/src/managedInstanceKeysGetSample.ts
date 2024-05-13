@@ -33,7 +33,7 @@ async function getTheManagedInstanceKey() {
   const result = await client.managedInstanceKeys.get(
     resourceGroupName,
     managedInstanceName,
-    keyName
+    keyName,
   );
   console.log(result);
 }

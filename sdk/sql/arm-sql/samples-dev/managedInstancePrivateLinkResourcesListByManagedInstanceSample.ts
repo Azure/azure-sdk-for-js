@@ -31,7 +31,7 @@ async function getsPrivateLinkResourcesForSql() {
   const resArray = new Array();
   for await (let item of client.managedInstancePrivateLinkResources.listByManagedInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

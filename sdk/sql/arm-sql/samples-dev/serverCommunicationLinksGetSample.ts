@@ -33,7 +33,7 @@ async function getAServerCommunicationLink() {
   const result = await client.serverCommunicationLinks.get(
     resourceGroupName,
     serverName,
-    communicationLinkName
+    communicationLinkName,
   );
   console.log(result);
 }

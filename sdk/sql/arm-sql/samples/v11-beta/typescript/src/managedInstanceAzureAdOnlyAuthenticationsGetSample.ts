@@ -33,7 +33,7 @@ async function getsAAzureActiveDirectoryOnlyAuthenticationProperty() {
   const result = await client.managedInstanceAzureADOnlyAuthentications.get(
     resourceGroupName,
     managedInstanceName,
-    authenticationName
+    authenticationName,
   );
   console.log(result);
 }

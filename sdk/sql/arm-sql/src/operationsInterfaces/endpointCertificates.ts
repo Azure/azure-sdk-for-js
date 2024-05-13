@@ -11,7 +11,7 @@ import {
   EndpointCertificate,
   EndpointCertificatesListByInstanceOptionalParams,
   EndpointCertificatesGetOptionalParams,
-  EndpointCertificatesGetResponse
+  EndpointCertificatesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface EndpointCertificates {
   listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: EndpointCertificatesListByInstanceOptionalParams
+    options?: EndpointCertificatesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<EndpointCertificate>;
   /**
    * Gets a certificate used on the endpoint with the given id.
@@ -41,6 +41,6 @@ export interface EndpointCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     endpointType: string,
-    options?: EndpointCertificatesGetOptionalParams
+    options?: EndpointCertificatesGetOptionalParams,
   ): Promise<EndpointCertificatesGetResponse>;
 }

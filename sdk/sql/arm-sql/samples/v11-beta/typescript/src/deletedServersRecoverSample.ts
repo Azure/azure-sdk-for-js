@@ -30,7 +30,7 @@ async function recoverDeletedServer() {
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.deletedServers.beginRecoverAndWait(
     locationName,
-    deletedServerName
+    deletedServerName,
   );
   console.log(result);
 }

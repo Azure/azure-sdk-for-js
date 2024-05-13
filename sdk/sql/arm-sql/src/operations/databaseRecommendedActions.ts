@@ -18,12 +18,13 @@ import {
   DatabaseRecommendedActionsGetResponse,
   RecommendedAction,
   DatabaseRecommendedActionsUpdateOptionalParams,
-  DatabaseRecommendedActionsUpdateResponse
+  DatabaseRecommendedActionsUpdateResponse,
 } from "../models";
 
 /** Class containing DatabaseRecommendedActions operations. */
 export class DatabaseRecommendedActionsImpl
-  implements DatabaseRecommendedActions {
+  implements DatabaseRecommendedActions
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -48,11 +49,11 @@ export class DatabaseRecommendedActionsImpl
     serverName: string,
     databaseName: string,
     advisorName: string,
-    options?: DatabaseRecommendedActionsListByDatabaseAdvisorOptionalParams
+    options?: DatabaseRecommendedActionsListByDatabaseAdvisorOptionalParams,
   ): Promise<DatabaseRecommendedActionsListByDatabaseAdvisorResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, advisorName, options },
-      listByDatabaseAdvisorOperationSpec
+      listByDatabaseAdvisorOperationSpec,
     );
   }
 
@@ -72,7 +73,7 @@ export class DatabaseRecommendedActionsImpl
     databaseName: string,
     advisorName: string,
     recommendedActionName: string,
-    options?: DatabaseRecommendedActionsGetOptionalParams
+    options?: DatabaseRecommendedActionsGetOptionalParams,
   ): Promise<DatabaseRecommendedActionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -81,9 +82,9 @@ export class DatabaseRecommendedActionsImpl
         databaseName,
         advisorName,
         recommendedActionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -105,7 +106,7 @@ export class DatabaseRecommendedActionsImpl
     advisorName: string,
     recommendedActionName: string,
     parameters: RecommendedAction,
-    options?: DatabaseRecommendedActionsUpdateOptionalParams
+    options?: DatabaseRecommendedActionsUpdateOptionalParams,
   ): Promise<DatabaseRecommendedActionsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -115,9 +116,9 @@ export class DatabaseRecommendedActionsImpl
         advisorName,
         recommendedActionName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -125,8 +126,7 @@ export class DatabaseRecommendedActionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDatabaseAdvisorOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/advisors/{advisorName}/recommendedActions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/advisors/{advisorName}/recommendedActions",
   httpMethod: "GET",
   responses: {
     200: {
@@ -134,34 +134,12 @@ const listByDatabaseAdvisorOperationSpec: coreClient.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "RecommendedAction" }
-          }
-        }
-      }
+            type: { name: "Composite", className: "RecommendedAction" },
+          },
+        },
+      },
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.advisorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/advisors/{advisorName}/recommendedActions/{recommendedActionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RecommendedAction
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -171,20 +149,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.advisorName,
-    Parameters.recommendedActionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/advisors/{advisorName}/recommendedActions/{recommendedActionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecommendedAction,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.advisorName,
+    Parameters.recommendedActionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/advisors/{advisorName}/recommendedActions/{recommendedActionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/advisors/{advisorName}/recommendedActions/{recommendedActionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.RecommendedAction
+      bodyMapper: Mappers.RecommendedAction,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion3],
@@ -195,9 +193,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.advisorName,
-    Parameters.recommendedActionName
+    Parameters.recommendedActionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

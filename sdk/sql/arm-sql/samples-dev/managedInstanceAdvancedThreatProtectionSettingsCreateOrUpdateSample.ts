@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedInstanceAdvancedThreatProtection,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,16 +32,17 @@ async function updateAManagedInstanceAdvancedThreatProtectionSettingsWithAllPara
   const managedInstanceName = "threatprotection-6440";
   const advancedThreatProtectionName = "Default";
   const parameters: ManagedInstanceAdvancedThreatProtection = {
-    state: "Enabled"
+    state: "Enabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstanceAdvancedThreatProtectionSettings.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    advancedThreatProtectionName,
-    parameters
-  );
+  const result =
+    await client.managedInstanceAdvancedThreatProtectionSettings.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      advancedThreatProtectionName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -60,16 +61,17 @@ async function updateAManagedInstanceAdvancedThreatProtectionSettingsWithMinimal
   const managedInstanceName = "threatprotection-6440";
   const advancedThreatProtectionName = "Default";
   const parameters: ManagedInstanceAdvancedThreatProtection = {
-    state: "Disabled"
+    state: "Disabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstanceAdvancedThreatProtectionSettings.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    advancedThreatProtectionName,
-    parameters
-  );
+  const result =
+    await client.managedInstanceAdvancedThreatProtectionSettings.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      advancedThreatProtectionName,
+      parameters,
+    );
   console.log(result);
 }
 

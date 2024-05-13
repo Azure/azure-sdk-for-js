@@ -8,7 +8,7 @@
 
 import {
   MaintenanceWindowOptionsGetOptionalParams,
-  MaintenanceWindowOptionsGetResponse
+  MaintenanceWindowOptionsGetResponse,
 } from "../models";
 
 /** Interface representing a MaintenanceWindowOptionsOperations. */
@@ -27,6 +27,6 @@ export interface MaintenanceWindowOptionsOperations {
     serverName: string,
     databaseName: string,
     maintenanceWindowOptionsName: string,
-    options?: MaintenanceWindowOptionsGetOptionalParams
+    options?: MaintenanceWindowOptionsGetOptionalParams,
   ): Promise<MaintenanceWindowOptionsGetResponse>;
 }

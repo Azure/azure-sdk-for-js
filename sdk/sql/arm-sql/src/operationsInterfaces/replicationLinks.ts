@@ -18,7 +18,7 @@ import {
   ReplicationLinksFailoverOptionalParams,
   ReplicationLinksFailoverResponse,
   ReplicationLinksFailoverAllowDataLossOptionalParams,
-  ReplicationLinksFailoverAllowDataLossResponse
+  ReplicationLinksFailoverAllowDataLossResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface ReplicationLinks {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: ReplicationLinksListByDatabaseOptionalParams
+    options?: ReplicationLinksListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationLink>;
   /**
    * Gets a list of replication links.
@@ -48,7 +48,7 @@ export interface ReplicationLinks {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ReplicationLinksListByServerOptionalParams
+    options?: ReplicationLinksListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationLink>;
   /**
    * Gets a replication link.
@@ -64,7 +64,7 @@ export interface ReplicationLinks {
     serverName: string,
     databaseName: string,
     linkId: string,
-    options?: ReplicationLinksGetOptionalParams
+    options?: ReplicationLinksGetOptionalParams,
   ): Promise<ReplicationLinksGetResponse>;
   /**
    * Deletes the replication link.
@@ -80,7 +80,7 @@ export interface ReplicationLinks {
     serverName: string,
     databaseName: string,
     linkId: string,
-    options?: ReplicationLinksDeleteOptionalParams
+    options?: ReplicationLinksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the replication link.
@@ -96,7 +96,7 @@ export interface ReplicationLinks {
     serverName: string,
     databaseName: string,
     linkId: string,
-    options?: ReplicationLinksDeleteOptionalParams
+    options?: ReplicationLinksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Fails over from the current primary server to this server.
@@ -112,7 +112,7 @@ export interface ReplicationLinks {
     serverName: string,
     databaseName: string,
     linkId: string,
-    options?: ReplicationLinksFailoverOptionalParams
+    options?: ReplicationLinksFailoverOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationLinksFailoverResponse>,
@@ -133,7 +133,7 @@ export interface ReplicationLinks {
     serverName: string,
     databaseName: string,
     linkId: string,
-    options?: ReplicationLinksFailoverOptionalParams
+    options?: ReplicationLinksFailoverOptionalParams,
   ): Promise<ReplicationLinksFailoverResponse>;
   /**
    * Fails over from the current primary server to this server allowing data loss.
@@ -149,7 +149,7 @@ export interface ReplicationLinks {
     serverName: string,
     databaseName: string,
     linkId: string,
-    options?: ReplicationLinksFailoverAllowDataLossOptionalParams
+    options?: ReplicationLinksFailoverAllowDataLossOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationLinksFailoverAllowDataLossResponse>,
@@ -170,6 +170,6 @@ export interface ReplicationLinks {
     serverName: string,
     databaseName: string,
     linkId: string,
-    options?: ReplicationLinksFailoverAllowDataLossOptionalParams
+    options?: ReplicationLinksFailoverAllowDataLossOptionalParams,
   ): Promise<ReplicationLinksFailoverAllowDataLossResponse>;
 }

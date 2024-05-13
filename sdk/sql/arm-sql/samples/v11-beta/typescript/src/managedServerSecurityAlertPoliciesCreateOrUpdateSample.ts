@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedServerSecurityAlertPolicy,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -39,16 +39,17 @@ async function updateAManagedServerThreatDetectionPolicyWithAllParameters() {
     state: "Enabled",
     storageAccountAccessKey:
       "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
-    storageEndpoint: "https://mystorage.blob.core.windows.net"
+    storageEndpoint: "https://mystorage.blob.core.windows.net",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedServerSecurityAlertPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    securityAlertPolicyName,
-    parameters
-  );
+  const result =
+    await client.managedServerSecurityAlertPolicies.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      securityAlertPolicyName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -69,12 +70,13 @@ async function updateAManagedServerThreatDetectionPolicyWithMinimalParameters() 
   const parameters: ManagedServerSecurityAlertPolicy = { state: "Enabled" };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedServerSecurityAlertPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    securityAlertPolicyName,
-    parameters
-  );
+  const result =
+    await client.managedServerSecurityAlertPolicies.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      securityAlertPolicyName,
+      parameters,
+    );
   console.log(result);
 }
 

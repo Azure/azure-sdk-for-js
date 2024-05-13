@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,13 +30,14 @@ import {
   ManagedInstanceAdministratorsCreateOrUpdateOptionalParams,
   ManagedInstanceAdministratorsCreateOrUpdateResponse,
   ManagedInstanceAdministratorsDeleteOptionalParams,
-  ManagedInstanceAdministratorsListByInstanceNextResponse
+  ManagedInstanceAdministratorsListByInstanceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedInstanceAdministrators operations. */
 export class ManagedInstanceAdministratorsImpl
-  implements ManagedInstanceAdministrators {
+  implements ManagedInstanceAdministrators
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -57,12 +58,12 @@ export class ManagedInstanceAdministratorsImpl
   public listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAdministratorsListByInstanceOptionalParams
+    options?: ManagedInstanceAdministratorsListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceAdministrator> {
     const iter = this.listByInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +80,9 @@ export class ManagedInstanceAdministratorsImpl
           resourceGroupName,
           managedInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +90,7 @@ export class ManagedInstanceAdministratorsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ManagedInstanceAdministratorsListByInstanceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedInstanceAdministrator[]> {
     let result: ManagedInstanceAdministratorsListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +98,7 @@ export class ManagedInstanceAdministratorsImpl
       result = await this._listByInstance(
         resourceGroupName,
         managedInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +110,7 @@ export class ManagedInstanceAdministratorsImpl
         resourceGroupName,
         managedInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,12 +122,12 @@ export class ManagedInstanceAdministratorsImpl
   private async *listByInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAdministratorsListByInstanceOptionalParams
+    options?: ManagedInstanceAdministratorsListByInstanceOptionalParams,
   ): AsyncIterableIterator<ManagedInstanceAdministrator> {
     for await (const page of this.listByInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,11 +143,11 @@ export class ManagedInstanceAdministratorsImpl
   private _listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAdministratorsListByInstanceOptionalParams
+    options?: ManagedInstanceAdministratorsListByInstanceOptionalParams,
   ): Promise<ManagedInstanceAdministratorsListByInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
-      listByInstanceOperationSpec
+      listByInstanceOperationSpec,
     );
   }
 
@@ -162,11 +163,11 @@ export class ManagedInstanceAdministratorsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     administratorName: AdministratorName,
-    options?: ManagedInstanceAdministratorsGetOptionalParams
+    options?: ManagedInstanceAdministratorsGetOptionalParams,
   ): Promise<ManagedInstanceAdministratorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, administratorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -184,7 +185,7 @@ export class ManagedInstanceAdministratorsImpl
     managedInstanceName: string,
     administratorName: AdministratorName,
     parameters: ManagedInstanceAdministrator,
-    options?: ManagedInstanceAdministratorsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceAdministratorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedInstanceAdministratorsCreateOrUpdateResponse>,
@@ -193,21 +194,20 @@ export class ManagedInstanceAdministratorsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedInstanceAdministratorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -216,8 +216,8 @@ export class ManagedInstanceAdministratorsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -225,8 +225,8 @@ export class ManagedInstanceAdministratorsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -237,16 +237,16 @@ export class ManagedInstanceAdministratorsImpl
         managedInstanceName,
         administratorName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedInstanceAdministratorsCreateOrUpdateResponse,
       OperationState<ManagedInstanceAdministratorsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -266,14 +266,14 @@ export class ManagedInstanceAdministratorsImpl
     managedInstanceName: string,
     administratorName: AdministratorName,
     parameters: ManagedInstanceAdministrator,
-    options?: ManagedInstanceAdministratorsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceAdministratorsCreateOrUpdateOptionalParams,
   ): Promise<ManagedInstanceAdministratorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       managedInstanceName,
       administratorName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -290,25 +290,24 @@ export class ManagedInstanceAdministratorsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     administratorName: AdministratorName,
-    options?: ManagedInstanceAdministratorsDeleteOptionalParams
+    options?: ManagedInstanceAdministratorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -317,8 +316,8 @@ export class ManagedInstanceAdministratorsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -326,8 +325,8 @@ export class ManagedInstanceAdministratorsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -337,13 +336,13 @@ export class ManagedInstanceAdministratorsImpl
         resourceGroupName,
         managedInstanceName,
         administratorName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -361,13 +360,13 @@ export class ManagedInstanceAdministratorsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     administratorName: AdministratorName,
-    options?: ManagedInstanceAdministratorsDeleteOptionalParams
+    options?: ManagedInstanceAdministratorsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       managedInstanceName,
       administratorName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -384,11 +383,11 @@ export class ManagedInstanceAdministratorsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: ManagedInstanceAdministratorsListByInstanceNextOptionalParams
+    options?: ManagedInstanceAdministratorsListByInstanceNextOptionalParams,
   ): Promise<ManagedInstanceAdministratorsListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
-      listByInstanceNextOperationSpec
+      listByInstanceNextOperationSpec,
     );
   }
 }
@@ -396,34 +395,13 @@ export class ManagedInstanceAdministratorsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceAdministratorListResult
+      bodyMapper: Mappers.ManagedInstanceAdministratorListResult,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedInstanceAdministrator
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -431,29 +409,47 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.administratorName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedInstanceAdministrator,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.administratorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceAdministrator
+      bodyMapper: Mappers.ManagedInstanceAdministrator,
     },
     201: {
-      bodyMapper: Mappers.ManagedInstanceAdministrator
+      bodyMapper: Mappers.ManagedInstanceAdministrator,
     },
     202: {
-      bodyMapper: Mappers.ManagedInstanceAdministrator
+      bodyMapper: Mappers.ManagedInstanceAdministrator,
     },
     204: {
-      bodyMapper: Mappers.ManagedInstanceAdministrator
+      bodyMapper: Mappers.ManagedInstanceAdministrator,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters31,
   queryParameters: [Parameters.apiVersion3],
@@ -462,15 +458,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.administratorName
+    Parameters.administratorName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion3],
@@ -479,26 +474,26 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.administratorName
+    Parameters.administratorName,
   ],
-  serializer
+  serializer,
 };
 const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceAdministratorListResult
+      bodyMapper: Mappers.ManagedInstanceAdministratorListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -35,7 +35,7 @@ async function approveOrRejectAOutboundFirewallRuleWithAGivenName() {
     resourceGroupName,
     serverName,
     outboundRuleFqdn,
-    parameters
+    parameters,
   );
   console.log(result);
 }

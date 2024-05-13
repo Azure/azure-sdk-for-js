@@ -32,7 +32,7 @@ async function getsManagedInstanceServerConfigurationOption() {
   const result = await client.serverConfigurationOptions.get(
     resourceGroupName,
     managedInstanceName,
-    serverConfigurationOptionName
+    serverConfigurationOptionName,
   );
   console.log(result);
 }

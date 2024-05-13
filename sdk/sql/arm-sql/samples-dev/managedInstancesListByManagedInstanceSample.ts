@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedInstancesListByManagedInstanceOptionalParams,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Get top resource consuming queries of a managed instance.
  *
  * @summary Get top resource consuming queries of a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceTopQueriesList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceTopQueriesList.json
  */
 async function obtainListOfInstanceTopResourceConsumingQueries() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function obtainListOfInstanceTopResourceConsumingQueries() {
   const observationMetric = "duration";
   const options: ManagedInstancesListByManagedInstanceOptionalParams = {
     interval,
-    observationMetric
+    observationMetric,
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -42,7 +42,7 @@ async function obtainListOfInstanceTopResourceConsumingQueries() {
   for await (let item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -53,7 +53,7 @@ async function obtainListOfInstanceTopResourceConsumingQueries() {
  * This sample demonstrates how to Get top resource consuming queries of a managed instance.
  *
  * @summary Get top resource consuming queries of a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceTopQueriesListMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceTopQueriesListMax.json
  */
 async function obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAndResponse() {
   const subscriptionId =
@@ -72,7 +72,7 @@ async function obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAn
     startTime,
     endTime,
     interval,
-    observationMetric
+    observationMetric,
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -80,7 +80,7 @@ async function obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAn
   for await (let item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -91,7 +91,7 @@ async function obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAn
  * This sample demonstrates how to Get top resource consuming queries of a managed instance.
  *
  * @summary Get top resource consuming queries of a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceTopQueriesListMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceTopQueriesListMin.json
  */
 async function obtainListOfInstanceTopResourceConsumingQueriesMinimalRequestAndResponse() {
   const subscriptionId =
@@ -105,7 +105,7 @@ async function obtainListOfInstanceTopResourceConsumingQueriesMinimalRequestAndR
   const resArray = new Array();
   for await (let item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

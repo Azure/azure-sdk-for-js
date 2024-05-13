@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
 import {
   MaintenanceWindowOptionsGetOptionalParams,
-  MaintenanceWindowOptionsGetResponse
+  MaintenanceWindowOptionsGetResponse,
 } from "../models";
 
 /** Class containing MaintenanceWindowOptionsOperations operations. */
 export class MaintenanceWindowOptionsOperationsImpl
-  implements MaintenanceWindowOptionsOperations {
+  implements MaintenanceWindowOptionsOperations
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -43,7 +44,7 @@ export class MaintenanceWindowOptionsOperationsImpl
     serverName: string,
     databaseName: string,
     maintenanceWindowOptionsName: string,
-    options?: MaintenanceWindowOptionsGetOptionalParams
+    options?: MaintenanceWindowOptionsGetOptionalParams,
   ): Promise<MaintenanceWindowOptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -51,9 +52,9 @@ export class MaintenanceWindowOptionsOperationsImpl
         serverName,
         databaseName,
         maintenanceWindowOptionsName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -61,26 +62,25 @@ export class MaintenanceWindowOptionsOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindowOptions/current",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindowOptions/current",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceWindowOptions
+      bodyMapper: Mappers.MaintenanceWindowOptions,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
     Parameters.apiVersion3,
-    Parameters.maintenanceWindowOptionsName
+    Parameters.maintenanceWindowOptionsName,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -20,7 +20,7 @@ import {
   SubscriptionUsagesListByLocationResponse,
   SubscriptionUsagesGetOptionalParams,
   SubscriptionUsagesGetResponse,
-  SubscriptionUsagesListByLocationNextResponse
+  SubscriptionUsagesListByLocationNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export class SubscriptionUsagesImpl implements SubscriptionUsages {
    */
   public listByLocation(
     locationName: string,
-    options?: SubscriptionUsagesListByLocationOptionalParams
+    options?: SubscriptionUsagesListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionUsage> {
     const iter = this.listByLocationPagingAll(locationName, options);
     return {
@@ -58,14 +58,14 @@ export class SubscriptionUsagesImpl implements SubscriptionUsages {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByLocationPagingPage(locationName, options, settings);
-      }
+      },
     };
   }
 
   private async *listByLocationPagingPage(
     locationName: string,
     options?: SubscriptionUsagesListByLocationOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SubscriptionUsage[]> {
     let result: SubscriptionUsagesListByLocationResponse;
     let continuationToken = settings?.continuationToken;
@@ -80,7 +80,7 @@ export class SubscriptionUsagesImpl implements SubscriptionUsages {
       result = await this._listByLocationNext(
         locationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -91,11 +91,11 @@ export class SubscriptionUsagesImpl implements SubscriptionUsages {
 
   private async *listByLocationPagingAll(
     locationName: string,
-    options?: SubscriptionUsagesListByLocationOptionalParams
+    options?: SubscriptionUsagesListByLocationOptionalParams,
   ): AsyncIterableIterator<SubscriptionUsage> {
     for await (const page of this.listByLocationPagingPage(
       locationName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -108,11 +108,11 @@ export class SubscriptionUsagesImpl implements SubscriptionUsages {
    */
   private _listByLocation(
     locationName: string,
-    options?: SubscriptionUsagesListByLocationOptionalParams
+    options?: SubscriptionUsagesListByLocationOptionalParams,
   ): Promise<SubscriptionUsagesListByLocationResponse> {
     return this.client.sendOperationRequest(
       { locationName, options },
-      listByLocationOperationSpec
+      listByLocationOperationSpec,
     );
   }
 
@@ -125,11 +125,11 @@ export class SubscriptionUsagesImpl implements SubscriptionUsages {
   get(
     locationName: string,
     usageName: string,
-    options?: SubscriptionUsagesGetOptionalParams
+    options?: SubscriptionUsagesGetOptionalParams,
   ): Promise<SubscriptionUsagesGetResponse> {
     return this.client.sendOperationRequest(
       { locationName, usageName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -142,11 +142,11 @@ export class SubscriptionUsagesImpl implements SubscriptionUsages {
   private _listByLocationNext(
     locationName: string,
     nextLink: string,
-    options?: SubscriptionUsagesListByLocationNextOptionalParams
+    options?: SubscriptionUsagesListByLocationNextOptionalParams,
   ): Promise<SubscriptionUsagesListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       { locationName, nextLink, options },
-      listByLocationNextOperationSpec
+      listByLocationNextOperationSpec,
     );
   }
 }
@@ -154,59 +154,57 @@ export class SubscriptionUsagesImpl implements SubscriptionUsages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionUsageListResult
+      bodyMapper: Mappers.SubscriptionUsageListResult,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/usages/{usageName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SubscriptionUsage
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.locationName,
-    Parameters.usageName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/usages/{usageName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionUsage,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.locationName,
+    Parameters.usageName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionUsageListResult
+      bodyMapper: Mappers.SubscriptionUsageListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

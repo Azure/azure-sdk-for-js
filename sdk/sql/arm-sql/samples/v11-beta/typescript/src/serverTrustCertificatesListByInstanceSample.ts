@@ -31,7 +31,7 @@ async function getsAListOfServerTrustCertificatesOnAGivenServer() {
   const resArray = new Array();
   for await (let item of client.serverTrustCertificates.listByInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

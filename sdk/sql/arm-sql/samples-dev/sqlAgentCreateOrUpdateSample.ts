@@ -33,7 +33,7 @@ async function putsNewSqlAgentConfigurationToInstance() {
   const result = await client.sqlAgent.createOrUpdate(
     resourceGroupName,
     managedInstanceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

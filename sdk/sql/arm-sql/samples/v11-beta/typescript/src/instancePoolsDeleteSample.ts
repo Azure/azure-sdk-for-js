@@ -30,7 +30,7 @@ async function deleteAnInstancePool() {
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.instancePools.beginDeleteAndWait(
     resourceGroupName,
-    instancePoolName
+    instancePoolName,
   );
   console.log(result);
 }

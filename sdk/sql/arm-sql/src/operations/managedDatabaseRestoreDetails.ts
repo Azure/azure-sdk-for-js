@@ -14,12 +14,13 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   RestoreDetailsName,
   ManagedDatabaseRestoreDetailsGetOptionalParams,
-  ManagedDatabaseRestoreDetailsGetResponse
+  ManagedDatabaseRestoreDetailsGetResponse,
 } from "../models";
 
 /** Class containing ManagedDatabaseRestoreDetails operations. */
 export class ManagedDatabaseRestoreDetailsImpl
-  implements ManagedDatabaseRestoreDetails {
+  implements ManagedDatabaseRestoreDetails
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -44,7 +45,7 @@ export class ManagedDatabaseRestoreDetailsImpl
     managedInstanceName: string,
     databaseName: string,
     restoreDetailsName: RestoreDetailsName,
-    options?: ManagedDatabaseRestoreDetailsGetOptionalParams
+    options?: ManagedDatabaseRestoreDetailsGetOptionalParams,
   ): Promise<ManagedDatabaseRestoreDetailsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -52,9 +53,9 @@ export class ManagedDatabaseRestoreDetailsImpl
         managedInstanceName,
         databaseName,
         restoreDetailsName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -62,24 +63,23 @@ export class ManagedDatabaseRestoreDetailsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/restoreDetails/{restoreDetailsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/restoreDetails/{restoreDetailsName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedDatabaseRestoreDetailsResult
+      bodyMapper: Mappers.ManagedDatabaseRestoreDetailsResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.managedInstanceName,
-    Parameters.restoreDetailsName
+    Parameters.restoreDetailsName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

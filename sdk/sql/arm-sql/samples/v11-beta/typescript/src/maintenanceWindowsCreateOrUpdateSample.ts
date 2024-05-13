@@ -31,8 +31,8 @@ async function setsMaintenanceWindowSettingsForASelectedDatabase() {
   const maintenanceWindowName = "current";
   const parameters: MaintenanceWindows = {
     timeRanges: [
-      { dayOfWeek: "Saturday", duration: "PT60M", startTime: "00:00:00" }
-    ]
+      { dayOfWeek: "Saturday", duration: "PT60M", startTime: "00:00:00" },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -41,7 +41,7 @@ async function setsMaintenanceWindowSettingsForASelectedDatabase() {
     serverName,
     databaseName,
     maintenanceWindowName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

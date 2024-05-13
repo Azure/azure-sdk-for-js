@@ -36,7 +36,7 @@ import {
   LongTermRetentionBackupsCopyByResourceGroupOptionalParams,
   LongTermRetentionBackupsCopyByResourceGroupResponse,
   LongTermRetentionBackupsUpdateByResourceGroupOptionalParams,
-  LongTermRetentionBackupsUpdateByResourceGroupResponse
+  LongTermRetentionBackupsUpdateByResourceGroupResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,7 +49,7 @@ export interface LongTermRetentionBackups {
    */
   listByLocation(
     locationName: string,
-    options?: LongTermRetentionBackupsListByLocationOptionalParams
+    options?: LongTermRetentionBackupsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<LongTermRetentionBackup>;
   /**
    * Lists the long term retention backups for a given server.
@@ -60,7 +60,7 @@ export interface LongTermRetentionBackups {
   listByServer(
     locationName: string,
     longTermRetentionServerName: string,
-    options?: LongTermRetentionBackupsListByServerOptionalParams
+    options?: LongTermRetentionBackupsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<LongTermRetentionBackup>;
   /**
    * Lists all long term retention backups for a database.
@@ -73,7 +73,7 @@ export interface LongTermRetentionBackups {
     locationName: string,
     longTermRetentionServerName: string,
     longTermRetentionDatabaseName: string,
-    options?: LongTermRetentionBackupsListByDatabaseOptionalParams
+    options?: LongTermRetentionBackupsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<LongTermRetentionBackup>;
   /**
    * Lists the long term retention backups for a given location based on resource group.
@@ -85,7 +85,7 @@ export interface LongTermRetentionBackups {
   listByResourceGroupLocation(
     resourceGroupName: string,
     locationName: string,
-    options?: LongTermRetentionBackupsListByResourceGroupLocationOptionalParams
+    options?: LongTermRetentionBackupsListByResourceGroupLocationOptionalParams,
   ): PagedAsyncIterableIterator<LongTermRetentionBackup>;
   /**
    * Lists the long term retention backups for a given server based on resource groups.
@@ -99,7 +99,7 @@ export interface LongTermRetentionBackups {
     resourceGroupName: string,
     locationName: string,
     longTermRetentionServerName: string,
-    options?: LongTermRetentionBackupsListByResourceGroupServerOptionalParams
+    options?: LongTermRetentionBackupsListByResourceGroupServerOptionalParams,
   ): PagedAsyncIterableIterator<LongTermRetentionBackup>;
   /**
    * Lists all long term retention backups for a database based on a particular resource group.
@@ -115,7 +115,7 @@ export interface LongTermRetentionBackups {
     locationName: string,
     longTermRetentionServerName: string,
     longTermRetentionDatabaseName: string,
-    options?: LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams
+    options?: LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<LongTermRetentionBackup>;
   /**
    * Gets a long term retention backup.
@@ -130,7 +130,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionServerName: string,
     longTermRetentionDatabaseName: string,
     backupName: string,
-    options?: LongTermRetentionBackupsGetOptionalParams
+    options?: LongTermRetentionBackupsGetOptionalParams,
   ): Promise<LongTermRetentionBackupsGetResponse>;
   /**
    * Deletes a long term retention backup.
@@ -145,7 +145,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionServerName: string,
     longTermRetentionDatabaseName: string,
     backupName: string,
-    options?: LongTermRetentionBackupsDeleteOptionalParams
+    options?: LongTermRetentionBackupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a long term retention backup.
@@ -160,7 +160,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionServerName: string,
     longTermRetentionDatabaseName: string,
     backupName: string,
-    options?: LongTermRetentionBackupsDeleteOptionalParams
+    options?: LongTermRetentionBackupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Change a long term retention backup access tier.
@@ -178,7 +178,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     parameters: ChangeLongTermRetentionBackupAccessTierParameters,
-    options?: LongTermRetentionBackupsChangeAccessTierOptionalParams
+    options?: LongTermRetentionBackupsChangeAccessTierOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LongTermRetentionBackupsChangeAccessTierResponse>,
@@ -201,7 +201,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     parameters: ChangeLongTermRetentionBackupAccessTierParameters,
-    options?: LongTermRetentionBackupsChangeAccessTierOptionalParams
+    options?: LongTermRetentionBackupsChangeAccessTierOptionalParams,
   ): Promise<LongTermRetentionBackupsChangeAccessTierResponse>;
   /**
    * Copy an existing long term retention backup.
@@ -218,7 +218,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     parameters: CopyLongTermRetentionBackupParameters,
-    options?: LongTermRetentionBackupsCopyOptionalParams
+    options?: LongTermRetentionBackupsCopyOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LongTermRetentionBackupsCopyResponse>,
@@ -240,7 +240,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     parameters: CopyLongTermRetentionBackupParameters,
-    options?: LongTermRetentionBackupsCopyOptionalParams
+    options?: LongTermRetentionBackupsCopyOptionalParams,
   ): Promise<LongTermRetentionBackupsCopyResponse>;
   /**
    * Updates an existing long term retention backup.
@@ -257,7 +257,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     parameters: UpdateLongTermRetentionBackupParameters,
-    options?: LongTermRetentionBackupsUpdateOptionalParams
+    options?: LongTermRetentionBackupsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LongTermRetentionBackupsUpdateResponse>,
@@ -279,7 +279,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     parameters: UpdateLongTermRetentionBackupParameters,
-    options?: LongTermRetentionBackupsUpdateOptionalParams
+    options?: LongTermRetentionBackupsUpdateOptionalParams,
   ): Promise<LongTermRetentionBackupsUpdateResponse>;
   /**
    * Gets a long term retention backup.
@@ -297,7 +297,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionServerName: string,
     longTermRetentionDatabaseName: string,
     backupName: string,
-    options?: LongTermRetentionBackupsGetByResourceGroupOptionalParams
+    options?: LongTermRetentionBackupsGetByResourceGroupOptionalParams,
   ): Promise<LongTermRetentionBackupsGetByResourceGroupResponse>;
   /**
    * Deletes a long term retention backup.
@@ -315,7 +315,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionServerName: string,
     longTermRetentionDatabaseName: string,
     backupName: string,
-    options?: LongTermRetentionBackupsDeleteByResourceGroupOptionalParams
+    options?: LongTermRetentionBackupsDeleteByResourceGroupOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a long term retention backup.
@@ -333,7 +333,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionServerName: string,
     longTermRetentionDatabaseName: string,
     backupName: string,
-    options?: LongTermRetentionBackupsDeleteByResourceGroupOptionalParams
+    options?: LongTermRetentionBackupsDeleteByResourceGroupOptionalParams,
   ): Promise<void>;
   /**
    * Change a long term retention backup access tier.
@@ -354,12 +354,10 @@ export interface LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     parameters: ChangeLongTermRetentionBackupAccessTierParameters,
-    options?: LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams
+    options?: LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse
-      >,
+      OperationState<LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse>,
       LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse
     >
   >;
@@ -382,7 +380,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     parameters: ChangeLongTermRetentionBackupAccessTierParameters,
-    options?: LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams
+    options?: LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams,
   ): Promise<LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse>;
   /**
    * Copy an existing long term retention backup to a different server.
@@ -402,7 +400,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     parameters: CopyLongTermRetentionBackupParameters,
-    options?: LongTermRetentionBackupsCopyByResourceGroupOptionalParams
+    options?: LongTermRetentionBackupsCopyByResourceGroupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LongTermRetentionBackupsCopyByResourceGroupResponse>,
@@ -427,7 +425,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     parameters: CopyLongTermRetentionBackupParameters,
-    options?: LongTermRetentionBackupsCopyByResourceGroupOptionalParams
+    options?: LongTermRetentionBackupsCopyByResourceGroupOptionalParams,
   ): Promise<LongTermRetentionBackupsCopyByResourceGroupResponse>;
   /**
    * Updates an existing long term retention backup.
@@ -447,7 +445,7 @@ export interface LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     parameters: UpdateLongTermRetentionBackupParameters,
-    options?: LongTermRetentionBackupsUpdateByResourceGroupOptionalParams
+    options?: LongTermRetentionBackupsUpdateByResourceGroupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LongTermRetentionBackupsUpdateByResourceGroupResponse>,
@@ -472,6 +470,6 @@ export interface LongTermRetentionBackups {
     longTermRetentionDatabaseName: string,
     backupName: string,
     parameters: UpdateLongTermRetentionBackupParameters,
-    options?: LongTermRetentionBackupsUpdateByResourceGroupOptionalParams
+    options?: LongTermRetentionBackupsUpdateByResourceGroupOptionalParams,
   ): Promise<LongTermRetentionBackupsUpdateByResourceGroupResponse>;
 }

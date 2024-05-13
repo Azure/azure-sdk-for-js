@@ -33,7 +33,7 @@ async function listReplicationLinksOnServerOnDatabase() {
   for await (let item of client.replicationLinks.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

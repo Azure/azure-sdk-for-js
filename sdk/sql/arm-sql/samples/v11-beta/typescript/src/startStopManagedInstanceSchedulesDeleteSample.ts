@@ -32,7 +32,7 @@ async function deletesTheManagedInstanceStartOrStopSchedule() {
   const result = await client.startStopManagedInstanceSchedules.delete(
     resourceGroupName,
     managedInstanceName,
-    startStopScheduleName
+    startStopScheduleName,
   );
   console.log(result);
 }

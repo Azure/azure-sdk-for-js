@@ -12,7 +12,7 @@ import {
   ManagedDatabaseColumnsListByDatabaseOptionalParams,
   ManagedDatabaseColumnsListByTableOptionalParams,
   ManagedDatabaseColumnsGetOptionalParams,
-  ManagedDatabaseColumnsGetResponse
+  ManagedDatabaseColumnsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ManagedDatabaseColumns {
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseColumnsListByDatabaseOptionalParams
+    options?: ManagedDatabaseColumnsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseColumn>;
   /**
    * List managed database columns
@@ -48,7 +48,7 @@ export interface ManagedDatabaseColumns {
     databaseName: string,
     schemaName: string,
     tableName: string,
-    options?: ManagedDatabaseColumnsListByTableOptionalParams
+    options?: ManagedDatabaseColumnsListByTableOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseColumn>;
   /**
    * Get managed database column
@@ -68,6 +68,6 @@ export interface ManagedDatabaseColumns {
     schemaName: string,
     tableName: string,
     columnName: string,
-    options?: ManagedDatabaseColumnsGetOptionalParams
+    options?: ManagedDatabaseColumnsGetOptionalParams,
   ): Promise<ManagedDatabaseColumnsGetResponse>;
 }

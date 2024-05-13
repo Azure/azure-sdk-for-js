@@ -32,7 +32,7 @@ async function getsTheManagedInstanceStartOrStopSchedule() {
   const result = await client.startStopManagedInstanceSchedules.get(
     resourceGroupName,
     managedInstanceName,
-    startStopScheduleName
+    startStopScheduleName,
   );
   console.log(result);
 }

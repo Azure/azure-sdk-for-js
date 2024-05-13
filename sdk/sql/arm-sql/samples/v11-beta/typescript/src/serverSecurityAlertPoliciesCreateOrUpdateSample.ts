@@ -36,16 +36,17 @@ async function updateAServerThreatDetectionPolicyWithAllParameters() {
     state: "Enabled",
     storageAccountAccessKey:
       "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
-    storageEndpoint: "https://mystorage.blob.core.windows.net"
+    storageEndpoint: "https://mystorage.blob.core.windows.net",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverSecurityAlertPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    securityAlertPolicyName,
-    parameters
-  );
+  const result =
+    await client.serverSecurityAlertPolicies.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      securityAlertPolicyName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -66,12 +67,13 @@ async function updateAServerThreatDetectionPolicyWithMinimalParameters() {
   const parameters: ServerSecurityAlertPolicy = { state: "Enabled" };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverSecurityAlertPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    securityAlertPolicyName,
-    parameters
-  );
+  const result =
+    await client.serverSecurityAlertPolicies.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      securityAlertPolicyName,
+      parameters,
+    );
   console.log(result);
 }
 

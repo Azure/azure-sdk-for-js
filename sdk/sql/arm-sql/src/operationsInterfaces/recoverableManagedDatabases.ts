@@ -11,7 +11,7 @@ import {
   RecoverableManagedDatabase,
   RecoverableManagedDatabasesListByInstanceOptionalParams,
   RecoverableManagedDatabasesGetOptionalParams,
-  RecoverableManagedDatabasesGetResponse
+  RecoverableManagedDatabasesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface RecoverableManagedDatabases {
   listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: RecoverableManagedDatabasesListByInstanceOptionalParams
+    options?: RecoverableManagedDatabasesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<RecoverableManagedDatabase>;
   /**
    * Gets a recoverable managed database.
@@ -41,6 +41,6 @@ export interface RecoverableManagedDatabases {
     resourceGroupName: string,
     managedInstanceName: string,
     recoverableDatabaseName: string,
-    options?: RecoverableManagedDatabasesGetOptionalParams
+    options?: RecoverableManagedDatabasesGetOptionalParams,
   ): Promise<RecoverableManagedDatabasesGetResponse>;
 }

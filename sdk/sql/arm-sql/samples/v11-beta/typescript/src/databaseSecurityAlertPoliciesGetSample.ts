@@ -35,7 +35,7 @@ async function getADatabaseThreatDetectionPolicy() {
     resourceGroupName,
     serverName,
     databaseName,
-    securityAlertPolicyName
+    securityAlertPolicyName,
   );
   console.log(result);
 }

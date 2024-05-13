@@ -36,7 +36,7 @@ async function getTheListOfWorkloadClassifiersForAWorkloadGroup() {
     resourceGroupName,
     serverName,
     databaseName,
-    workloadGroupName
+    workloadGroupName,
   )) {
     resArray.push(item);
   }

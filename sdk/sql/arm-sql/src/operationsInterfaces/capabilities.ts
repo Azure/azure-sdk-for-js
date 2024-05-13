@@ -8,7 +8,7 @@
 
 import {
   CapabilitiesListByLocationOptionalParams,
-  CapabilitiesListByLocationResponse
+  CapabilitiesListByLocationResponse,
 } from "../models";
 
 /** Interface representing a Capabilities. */
@@ -20,6 +20,6 @@ export interface Capabilities {
    */
   listByLocation(
     locationName: string,
-    options?: CapabilitiesListByLocationOptionalParams
+    options?: CapabilitiesListByLocationOptionalParams,
   ): Promise<CapabilitiesListByLocationResponse>;
 }

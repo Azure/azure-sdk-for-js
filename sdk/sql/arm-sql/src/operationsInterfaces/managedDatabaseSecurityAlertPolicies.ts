@@ -14,7 +14,7 @@ import {
   ManagedDatabaseSecurityAlertPoliciesGetOptionalParams,
   ManagedDatabaseSecurityAlertPoliciesGetResponse,
   ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams,
-  ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateResponse
+  ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface ManagedDatabaseSecurityAlertPolicies {
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseSecurityAlertPoliciesListByDatabaseOptionalParams
+    options?: ManagedDatabaseSecurityAlertPoliciesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ManagedDatabaseSecurityAlertPolicy>;
   /**
    * Gets a managed database's security alert policy.
@@ -49,7 +49,7 @@ export interface ManagedDatabaseSecurityAlertPolicies {
     managedInstanceName: string,
     databaseName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
-    options?: ManagedDatabaseSecurityAlertPoliciesGetOptionalParams
+    options?: ManagedDatabaseSecurityAlertPoliciesGetOptionalParams,
   ): Promise<ManagedDatabaseSecurityAlertPoliciesGetResponse>;
   /**
    * Creates or updates a database's security alert policy.
@@ -67,6 +67,6 @@ export interface ManagedDatabaseSecurityAlertPolicies {
     databaseName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
     parameters: ManagedDatabaseSecurityAlertPolicy,
-    options?: ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams
+    options?: ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateResponse>;
 }

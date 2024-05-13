@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ServerAzureADAdministrator,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -35,16 +35,17 @@ async function createsOrUpdatesAnExistingAzureActiveDirectoryAdministrator() {
     administratorType: "ActiveDirectory",
     login: "bob@contoso.com",
     sid: "c6b82b90-a647-49cb-8a62-0d2d3cb7ac7c",
-    tenantId: "c6b82b90-a647-49cb-8a62-0d2d3cb7ac7c"
+    tenantId: "c6b82b90-a647-49cb-8a62-0d2d3cb7ac7c",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverAzureADAdministrators.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    administratorName,
-    parameters
-  );
+  const result =
+    await client.serverAzureADAdministrators.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      administratorName,
+      parameters,
+    );
   console.log(result);
 }
 

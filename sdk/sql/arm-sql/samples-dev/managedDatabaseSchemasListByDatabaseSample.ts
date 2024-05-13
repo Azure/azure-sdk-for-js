@@ -33,7 +33,7 @@ async function listManagedDatabaseSchemas() {
   for await (let item of client.managedDatabaseSchemas.listByDatabase(
     resourceGroupName,
     managedInstanceName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

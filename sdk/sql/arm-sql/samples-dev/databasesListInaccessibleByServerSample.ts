@@ -32,7 +32,7 @@ async function getsAListOfInaccessibleDatabasesInALogicalServer() {
   const resArray = new Array();
   for await (let item of client.databases.listInaccessibleByServer(
     resourceGroupName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

@@ -31,7 +31,7 @@ async function getsAListOfManagedInstanceDtcSettings() {
   const resArray = new Array();
   for await (let item of client.managedInstanceDtcs.listByManagedInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

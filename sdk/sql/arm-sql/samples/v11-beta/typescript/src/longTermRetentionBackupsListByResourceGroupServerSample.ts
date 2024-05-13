@@ -34,7 +34,7 @@ async function getAllLongTermRetentionBackupsUnderTheServerBasedOnResourceGroup(
   for await (let item of client.longTermRetentionBackups.listByResourceGroupServer(
     resourceGroupName,
     locationName,
-    longTermRetentionServerName
+    longTermRetentionServerName,
   )) {
     resArray.push(item);
   }

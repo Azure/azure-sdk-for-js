@@ -17,7 +17,7 @@ import {
   ServiceObjectivesListByServerOptionalParams,
   ServiceObjectivesListByServerResponse,
   ServiceObjectivesGetOptionalParams,
-  ServiceObjectivesGetResponse
+  ServiceObjectivesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,12 +43,12 @@ export class ServiceObjectivesImpl implements ServiceObjectives {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServiceObjectivesListByServerOptionalParams
+    options?: ServiceObjectivesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServiceObjective> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -65,9 +65,9 @@ export class ServiceObjectivesImpl implements ServiceObjectives {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -75,7 +75,7 @@ export class ServiceObjectivesImpl implements ServiceObjectives {
     resourceGroupName: string,
     serverName: string,
     options?: ServiceObjectivesListByServerOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ServiceObjective[]> {
     let result: ServiceObjectivesListByServerResponse;
     result = await this._listByServer(resourceGroupName, serverName, options);
@@ -85,12 +85,12 @@ export class ServiceObjectivesImpl implements ServiceObjectives {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ServiceObjectivesListByServerOptionalParams
+    options?: ServiceObjectivesListByServerOptionalParams,
   ): AsyncIterableIterator<ServiceObjective> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -108,11 +108,11 @@ export class ServiceObjectivesImpl implements ServiceObjectives {
     resourceGroupName: string,
     serverName: string,
     serviceObjectiveName: string,
-    options?: ServiceObjectivesGetOptionalParams
+    options?: ServiceObjectivesGetOptionalParams,
   ): Promise<ServiceObjectivesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, serviceObjectiveName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -126,11 +126,11 @@ export class ServiceObjectivesImpl implements ServiceObjectives {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServiceObjectivesListByServerOptionalParams
+    options?: ServiceObjectivesListByServerOptionalParams,
   ): Promise<ServiceObjectivesListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 }
@@ -138,13 +138,12 @@ export class ServiceObjectivesImpl implements ServiceObjectives {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/serviceObjectives/{serviceObjectiveName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/serviceObjectives/{serviceObjectiveName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceObjective
-    }
+      bodyMapper: Mappers.ServiceObjective,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -152,27 +151,26 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.serviceObjectiveName
+    Parameters.serviceObjectiveName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/serviceObjectives",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/serviceObjectives",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceObjectiveListResult
-    }
+      bodyMapper: Mappers.ServiceObjectiveListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

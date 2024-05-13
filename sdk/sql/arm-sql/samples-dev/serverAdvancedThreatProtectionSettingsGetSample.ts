@@ -33,7 +33,7 @@ async function getAServerAdvancedThreatProtectionSettings() {
   const result = await client.serverAdvancedThreatProtectionSettings.get(
     resourceGroupName,
     serverName,
-    advancedThreatProtectionName
+    advancedThreatProtectionName,
   );
   console.log(result);
 }

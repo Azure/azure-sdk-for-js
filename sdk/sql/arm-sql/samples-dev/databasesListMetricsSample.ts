@@ -37,7 +37,7 @@ async function listDatabaseUsageMetrics() {
     resourceGroupName,
     serverName,
     databaseName,
-    filter
+    filter,
   )) {
     resArray.push(item);
   }

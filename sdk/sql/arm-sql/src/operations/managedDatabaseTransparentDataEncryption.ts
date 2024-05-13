@@ -23,13 +23,14 @@ import {
   ManagedDatabaseTransparentDataEncryptionGetResponse,
   ManagedDatabaseTransparentDataEncryptionCreateOrUpdateOptionalParams,
   ManagedDatabaseTransparentDataEncryptionCreateOrUpdateResponse,
-  ManagedDatabaseTransparentDataEncryptionListByDatabaseNextResponse
+  ManagedDatabaseTransparentDataEncryptionListByDatabaseNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedDatabaseTransparentDataEncryption operations. */
 export class ManagedDatabaseTransparentDataEncryptionImpl
-  implements ManagedDatabaseTransparentDataEncryption {
+  implements ManagedDatabaseTransparentDataEncryption
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -53,13 +54,13 @@ export class ManagedDatabaseTransparentDataEncryptionImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseTransparentDataEncryptionListByDatabaseOptionalParams
+    options?: ManagedDatabaseTransparentDataEncryptionListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ManagedTransparentDataEncryption> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       managedInstanceName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +78,9 @@ export class ManagedDatabaseTransparentDataEncryptionImpl
           managedInstanceName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +89,7 @@ export class ManagedDatabaseTransparentDataEncryptionImpl
     managedInstanceName: string,
     databaseName: string,
     options?: ManagedDatabaseTransparentDataEncryptionListByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedTransparentDataEncryption[]> {
     let result: ManagedDatabaseTransparentDataEncryptionListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +98,7 @@ export class ManagedDatabaseTransparentDataEncryptionImpl
         resourceGroupName,
         managedInstanceName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +111,7 @@ export class ManagedDatabaseTransparentDataEncryptionImpl
         managedInstanceName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,13 +124,13 @@ export class ManagedDatabaseTransparentDataEncryptionImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseTransparentDataEncryptionListByDatabaseOptionalParams
+    options?: ManagedDatabaseTransparentDataEncryptionListByDatabaseOptionalParams,
   ): AsyncIterableIterator<ManagedTransparentDataEncryption> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       managedInstanceName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -150,7 +151,7 @@ export class ManagedDatabaseTransparentDataEncryptionImpl
     managedInstanceName: string,
     databaseName: string,
     tdeName: TransparentDataEncryptionName,
-    options?: ManagedDatabaseTransparentDataEncryptionGetOptionalParams
+    options?: ManagedDatabaseTransparentDataEncryptionGetOptionalParams,
   ): Promise<ManagedDatabaseTransparentDataEncryptionGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -158,9 +159,9 @@ export class ManagedDatabaseTransparentDataEncryptionImpl
         managedInstanceName,
         databaseName,
         tdeName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -180,7 +181,7 @@ export class ManagedDatabaseTransparentDataEncryptionImpl
     databaseName: string,
     tdeName: TransparentDataEncryptionName,
     parameters: ManagedTransparentDataEncryption,
-    options?: ManagedDatabaseTransparentDataEncryptionCreateOrUpdateOptionalParams
+    options?: ManagedDatabaseTransparentDataEncryptionCreateOrUpdateOptionalParams,
   ): Promise<ManagedDatabaseTransparentDataEncryptionCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -189,9 +190,9 @@ export class ManagedDatabaseTransparentDataEncryptionImpl
         databaseName,
         tdeName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -208,11 +209,11 @@ export class ManagedDatabaseTransparentDataEncryptionImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseTransparentDataEncryptionListByDatabaseOptionalParams
+    options?: ManagedDatabaseTransparentDataEncryptionListByDatabaseOptionalParams,
   ): Promise<ManagedDatabaseTransparentDataEncryptionListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, databaseName, options },
-      listByDatabaseOperationSpec
+      listByDatabaseOperationSpec,
     );
   }
 
@@ -231,19 +232,17 @@ export class ManagedDatabaseTransparentDataEncryptionImpl
     managedInstanceName: string,
     databaseName: string,
     nextLink: string,
-    options?: ManagedDatabaseTransparentDataEncryptionListByDatabaseNextOptionalParams
-  ): Promise<
-    ManagedDatabaseTransparentDataEncryptionListByDatabaseNextResponse
-  > {
+    options?: ManagedDatabaseTransparentDataEncryptionListByDatabaseNextOptionalParams,
+  ): Promise<ManagedDatabaseTransparentDataEncryptionListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         managedInstanceName,
         databaseName,
         nextLink,
-        options
+        options,
       },
-      listByDatabaseNextOperationSpec
+      listByDatabaseNextOperationSpec,
     );
   }
 }
@@ -251,14 +250,13 @@ export class ManagedDatabaseTransparentDataEncryptionImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/transparentDataEncryption/{tdeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/transparentDataEncryption/{tdeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedTransparentDataEncryption
+      bodyMapper: Mappers.ManagedTransparentDataEncryption,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -267,23 +265,22 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.managedInstanceName,
-    Parameters.tdeName
+    Parameters.tdeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/transparentDataEncryption/{tdeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/transparentDataEncryption/{tdeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedTransparentDataEncryption
+      bodyMapper: Mappers.ManagedTransparentDataEncryption,
     },
     201: {
-      bodyMapper: Mappers.ManagedTransparentDataEncryption
+      bodyMapper: Mappers.ManagedTransparentDataEncryption,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters30,
   queryParameters: [Parameters.apiVersion3],
@@ -293,21 +290,20 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.managedInstanceName,
-    Parameters.tdeName
+    Parameters.tdeName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/transparentDataEncryption",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/transparentDataEncryption",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedTransparentDataEncryptionListResult
+      bodyMapper: Mappers.ManagedTransparentDataEncryptionListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -315,19 +311,19 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedTransparentDataEncryptionListResult
+      bodyMapper: Mappers.ManagedTransparentDataEncryptionListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -335,8 +331,8 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -15,7 +15,7 @@ import {
   DeletedServersGetOptionalParams,
   DeletedServersGetResponse,
   DeletedServersRecoverOptionalParams,
-  DeletedServersRecoverResponse
+  DeletedServersRecoverResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface DeletedServers {
    * @param options The options parameters.
    */
   list(
-    options?: DeletedServersListOptionalParams
+    options?: DeletedServersListOptionalParams,
   ): PagedAsyncIterableIterator<DeletedServer>;
   /**
    * Gets a list of deleted servers for a location.
@@ -35,7 +35,7 @@ export interface DeletedServers {
    */
   listByLocation(
     locationName: string,
-    options?: DeletedServersListByLocationOptionalParams
+    options?: DeletedServersListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<DeletedServer>;
   /**
    * Gets a deleted server.
@@ -46,7 +46,7 @@ export interface DeletedServers {
   get(
     locationName: string,
     deletedServerName: string,
-    options?: DeletedServersGetOptionalParams
+    options?: DeletedServersGetOptionalParams,
   ): Promise<DeletedServersGetResponse>;
   /**
    * Recovers a deleted server.
@@ -57,7 +57,7 @@ export interface DeletedServers {
   beginRecover(
     locationName: string,
     deletedServerName: string,
-    options?: DeletedServersRecoverOptionalParams
+    options?: DeletedServersRecoverOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeletedServersRecoverResponse>,
@@ -73,6 +73,6 @@ export interface DeletedServers {
   beginRecoverAndWait(
     locationName: string,
     deletedServerName: string,
-    options?: DeletedServersRecoverOptionalParams
+    options?: DeletedServersRecoverOptionalParams,
   ): Promise<DeletedServersRecoverResponse>;
 }

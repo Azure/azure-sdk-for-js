@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -31,13 +31,14 @@ import {
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse,
-  ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse
+  ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies operations. */
 export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImpl
-  implements ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
+  implements ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -60,13 +61,13 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     resourceGroupName: string,
     managedInstanceName: string,
     restorableDroppedDatabaseId: string,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ManagedBackupShortTermRetentionPolicy> {
     const iter = this.listByRestorableDroppedDatabasePagingAll(
       resourceGroupName,
       managedInstanceName,
       restorableDroppedDatabaseId,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +85,9 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
           managedInstanceName,
           restorableDroppedDatabaseId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -95,7 +96,7 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     managedInstanceName: string,
     restorableDroppedDatabaseId: string,
     options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedBackupShortTermRetentionPolicy[]> {
     let result: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +105,7 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
         resourceGroupName,
         managedInstanceName,
         restorableDroppedDatabaseId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -117,7 +118,7 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
         managedInstanceName,
         restorableDroppedDatabaseId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -130,13 +131,13 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     resourceGroupName: string,
     managedInstanceName: string,
     restorableDroppedDatabaseId: string,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams,
   ): AsyncIterableIterator<ManagedBackupShortTermRetentionPolicy> {
     for await (const page of this.listByRestorableDroppedDatabasePagingPage(
       resourceGroupName,
       managedInstanceName,
       restorableDroppedDatabaseId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -156,19 +157,17 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     managedInstanceName: string,
     restorableDroppedDatabaseId: string,
     policyName: ManagedShortTermRetentionPolicyName,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetOptionalParams
-  ): Promise<
-    ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse
-  > {
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetOptionalParams,
+  ): Promise<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         managedInstanceName,
         restorableDroppedDatabaseId,
         policyName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -188,32 +187,29 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     restorableDroppedDatabaseId: string,
     policyName: ManagedShortTermRetentionPolicyName,
     parameters: ManagedBackupShortTermRetentionPolicy,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
-      >,
+      OperationState<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse>,
       ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -222,8 +218,8 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -231,8 +227,8 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -244,18 +240,16 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
         restorableDroppedDatabaseId,
         policyName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse,
-      OperationState<
-        ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
-      >
+      OperationState<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -277,17 +271,15 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     restorableDroppedDatabaseId: string,
     policyName: ManagedShortTermRetentionPolicyName,
     parameters: ManagedBackupShortTermRetentionPolicy,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams
-  ): Promise<
-    ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
-  > {
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams,
+  ): Promise<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       managedInstanceName,
       restorableDroppedDatabaseId,
       policyName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -308,32 +300,29 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     restorableDroppedDatabaseId: string,
     policyName: ManagedShortTermRetentionPolicyName,
     parameters: ManagedBackupShortTermRetentionPolicy,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
-      >,
+      OperationState<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse>,
       ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -342,8 +331,8 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -351,8 +340,8 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -364,18 +353,16 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
         restorableDroppedDatabaseId,
         policyName,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse,
-      OperationState<
-        ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
-      >
+      OperationState<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -397,17 +384,15 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     restorableDroppedDatabaseId: string,
     policyName: ManagedShortTermRetentionPolicyName,
     parameters: ManagedBackupShortTermRetentionPolicy,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams
-  ): Promise<
-    ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
-  > {
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams,
+  ): Promise<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       managedInstanceName,
       restorableDroppedDatabaseId,
       policyName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -424,18 +409,16 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     resourceGroupName: string,
     managedInstanceName: string,
     restorableDroppedDatabaseId: string,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams
-  ): Promise<
-    ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse
-  > {
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams,
+  ): Promise<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         managedInstanceName,
         restorableDroppedDatabaseId,
-        options
+        options,
       },
-      listByRestorableDroppedDatabaseOperationSpec
+      listByRestorableDroppedDatabaseOperationSpec,
     );
   }
 
@@ -454,19 +437,17 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     managedInstanceName: string,
     restorableDroppedDatabaseId: string,
     nextLink: string,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextOptionalParams
-  ): Promise<
-    ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse
-  > {
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextOptionalParams,
+  ): Promise<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         managedInstanceName,
         restorableDroppedDatabaseId,
         nextLink,
-        options
+        options,
       },
-      listByRestorableDroppedDatabaseNextOperationSpec
+      listByRestorableDroppedDatabaseNextOperationSpec,
     );
   }
 }
@@ -474,14 +455,13 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies/{policyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies/{policyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy
+      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -490,29 +470,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.policyName,
-    Parameters.restorableDroppedDatabaseId
+    Parameters.restorableDroppedDatabaseId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies/{policyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies/{policyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy
+      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy,
     },
     201: {
-      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy
+      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy,
     },
     202: {
-      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy
+      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy,
     },
     204: {
-      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy
+      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters28,
   queryParameters: [Parameters.apiVersion3],
@@ -522,30 +501,29 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.policyName,
-    Parameters.restorableDroppedDatabaseId
+    Parameters.restorableDroppedDatabaseId,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies/{policyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies/{policyName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy
+      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy,
     },
     201: {
-      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy
+      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy,
     },
     202: {
-      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy
+      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy,
     },
     204: {
-      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy
+      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters28,
   queryParameters: [Parameters.apiVersion3],
@@ -555,21 +533,20 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.policyName,
-    Parameters.restorableDroppedDatabaseId
+    Parameters.restorableDroppedDatabaseId,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByRestorableDroppedDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicyListResult
+      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicyListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -577,28 +554,29 @@ const listByRestorableDroppedDatabaseOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.restorableDroppedDatabaseId
+    Parameters.restorableDroppedDatabaseId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByRestorableDroppedDatabaseNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicyListResult
+const listByRestorableDroppedDatabaseNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicyListResult,
+      },
+      default: {},
     },
-    default: {}
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.managedInstanceName,
-    Parameters.restorableDroppedDatabaseId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.managedInstanceName,
+      Parameters.restorableDroppedDatabaseId,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

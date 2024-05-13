@@ -32,16 +32,16 @@ async function replaceFirewallRules() {
       {
         name: "firewallrulecrudtest-5370 ",
         endIpAddress: "100.0.0.0",
-        startIpAddress: "0.0.0.0"
-      }
-    ]
+        startIpAddress: "0.0.0.0",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.firewallRules.replace(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

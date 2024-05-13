@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ElasticPoolActivity,
-  ElasticPoolActivitiesListByElasticPoolOptionalParams
+  ElasticPoolActivitiesListByElasticPoolOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,6 +27,6 @@ export interface ElasticPoolActivities {
     resourceGroupName: string,
     serverName: string,
     elasticPoolName: string,
-    options?: ElasticPoolActivitiesListByElasticPoolOptionalParams
+    options?: ElasticPoolActivitiesListByElasticPoolOptionalParams,
   ): PagedAsyncIterableIterator<ElasticPoolActivity>;
 }

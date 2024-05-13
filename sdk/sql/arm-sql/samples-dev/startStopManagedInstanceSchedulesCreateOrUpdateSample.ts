@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   StartStopManagedInstanceSchedule,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -37,16 +37,16 @@ async function createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithAllOptio
         startDay: "Thursday",
         startTime: "18:00",
         stopDay: "Thursday",
-        stopTime: "17:00"
+        stopTime: "17:00",
       },
       {
         startDay: "Thursday",
         startTime: "15:00",
         stopDay: "Thursday",
-        stopTime: "14:00"
-      }
+        stopTime: "14:00",
+      },
     ],
-    timeZoneId: "Central European Standard Time"
+    timeZoneId: "Central European Standard Time",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -54,7 +54,7 @@ async function createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithAllOptio
     resourceGroupName,
     managedInstanceName,
     startStopScheduleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -78,15 +78,15 @@ async function createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithNoOption
         startDay: "Thursday",
         startTime: "18:00",
         stopDay: "Thursday",
-        stopTime: "17:00"
+        stopTime: "17:00",
       },
       {
         startDay: "Thursday",
         startTime: "15:00",
         stopDay: "Thursday",
-        stopTime: "14:00"
-      }
-    ]
+        stopTime: "14:00",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -94,7 +94,7 @@ async function createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithNoOption
     resourceGroupName,
     managedInstanceName,
     startStopScheduleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

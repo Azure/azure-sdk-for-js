@@ -35,7 +35,7 @@ async function createOrUpdateDataMaskingRuleForDefaultMax() {
     maskingFunction: "Default",
     ruleState: "Enabled",
     schemaName: "dbo",
-    tableName: "Table_1"
+    tableName: "Table_1",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -44,7 +44,7 @@ async function createOrUpdateDataMaskingRuleForDefaultMax() {
     serverName,
     databaseName,
     dataMaskingRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -68,7 +68,7 @@ async function createOrUpdateDataMaskingRuleForDefaultMin() {
     columnName: "test1",
     maskingFunction: "Default",
     schemaName: "dbo",
-    tableName: "Table_1"
+    tableName: "Table_1",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -77,7 +77,7 @@ async function createOrUpdateDataMaskingRuleForDefaultMin() {
     serverName,
     databaseName,
     dataMaskingRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -103,7 +103,7 @@ async function createOrUpdateDataMaskingRuleForNumbers() {
     numberFrom: "0",
     numberTo: "2",
     schemaName: "dbo",
-    tableName: "Table_1"
+    tableName: "Table_1",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -112,7 +112,7 @@ async function createOrUpdateDataMaskingRuleForNumbers() {
     serverName,
     databaseName,
     dataMaskingRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -139,7 +139,7 @@ async function createOrUpdateDataMaskingRuleForText() {
     replacementString: "asdf",
     schemaName: "dbo",
     suffixSize: "0",
-    tableName: "Table_1"
+    tableName: "Table_1",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -148,7 +148,7 @@ async function createOrUpdateDataMaskingRuleForText() {
     serverName,
     databaseName,
     dataMaskingRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

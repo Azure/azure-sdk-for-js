@@ -34,7 +34,7 @@ async function deleteReplicationLinkOnServer() {
     resourceGroupName,
     serverName,
     databaseName,
-    linkId
+    linkId,
   );
   console.log(result);
 }

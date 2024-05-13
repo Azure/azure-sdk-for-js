@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -35,7 +35,7 @@ import {
   JobExecutionsCreateOrUpdateOptionalParams,
   JobExecutionsCreateOrUpdateResponse,
   JobExecutionsListByAgentNextResponse,
-  JobExecutionsListByJobNextResponse
+  JobExecutionsListByJobNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -63,13 +63,13 @@ export class JobExecutionsImpl implements JobExecutions {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobExecutionsListByAgentOptionalParams
+    options?: JobExecutionsListByAgentOptionalParams,
   ): PagedAsyncIterableIterator<JobExecution> {
     const iter = this.listByAgentPagingAll(
       resourceGroupName,
       serverName,
       jobAgentName,
-      options
+      options,
     );
     return {
       next() {
@@ -87,9 +87,9 @@ export class JobExecutionsImpl implements JobExecutions {
           serverName,
           jobAgentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -98,7 +98,7 @@ export class JobExecutionsImpl implements JobExecutions {
     serverName: string,
     jobAgentName: string,
     options?: JobExecutionsListByAgentOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<JobExecution[]> {
     let result: JobExecutionsListByAgentResponse;
     let continuationToken = settings?.continuationToken;
@@ -107,7 +107,7 @@ export class JobExecutionsImpl implements JobExecutions {
         resourceGroupName,
         serverName,
         jobAgentName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -120,7 +120,7 @@ export class JobExecutionsImpl implements JobExecutions {
         serverName,
         jobAgentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -133,13 +133,13 @@ export class JobExecutionsImpl implements JobExecutions {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobExecutionsListByAgentOptionalParams
+    options?: JobExecutionsListByAgentOptionalParams,
   ): AsyncIterableIterator<JobExecution> {
     for await (const page of this.listByAgentPagingPage(
       resourceGroupName,
       serverName,
       jobAgentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -159,14 +159,14 @@ export class JobExecutionsImpl implements JobExecutions {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobExecutionsListByJobOptionalParams
+    options?: JobExecutionsListByJobOptionalParams,
   ): PagedAsyncIterableIterator<JobExecution> {
     const iter = this.listByJobPagingAll(
       resourceGroupName,
       serverName,
       jobAgentName,
       jobName,
-      options
+      options,
     );
     return {
       next() {
@@ -185,9 +185,9 @@ export class JobExecutionsImpl implements JobExecutions {
           jobAgentName,
           jobName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -197,7 +197,7 @@ export class JobExecutionsImpl implements JobExecutions {
     jobAgentName: string,
     jobName: string,
     options?: JobExecutionsListByJobOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<JobExecution[]> {
     let result: JobExecutionsListByJobResponse;
     let continuationToken = settings?.continuationToken;
@@ -207,7 +207,7 @@ export class JobExecutionsImpl implements JobExecutions {
         serverName,
         jobAgentName,
         jobName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -221,7 +221,7 @@ export class JobExecutionsImpl implements JobExecutions {
         jobAgentName,
         jobName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -235,14 +235,14 @@ export class JobExecutionsImpl implements JobExecutions {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobExecutionsListByJobOptionalParams
+    options?: JobExecutionsListByJobOptionalParams,
   ): AsyncIterableIterator<JobExecution> {
     for await (const page of this.listByJobPagingPage(
       resourceGroupName,
       serverName,
       jobAgentName,
       jobName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -260,11 +260,11 @@ export class JobExecutionsImpl implements JobExecutions {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobExecutionsListByAgentOptionalParams
+    options?: JobExecutionsListByAgentOptionalParams,
   ): Promise<JobExecutionsListByAgentResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, options },
-      listByAgentOperationSpec
+      listByAgentOperationSpec,
     );
   }
 
@@ -284,7 +284,7 @@ export class JobExecutionsImpl implements JobExecutions {
     jobAgentName: string,
     jobName: string,
     jobExecutionId: string,
-    options?: JobExecutionsCancelOptionalParams
+    options?: JobExecutionsCancelOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -293,9 +293,9 @@ export class JobExecutionsImpl implements JobExecutions {
         jobAgentName,
         jobName,
         jobExecutionId,
-        options
+        options,
       },
-      cancelOperationSpec
+      cancelOperationSpec,
     );
   }
 
@@ -313,7 +313,7 @@ export class JobExecutionsImpl implements JobExecutions {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobExecutionsCreateOptionalParams
+    options?: JobExecutionsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<JobExecutionsCreateResponse>,
@@ -322,21 +322,20 @@ export class JobExecutionsImpl implements JobExecutions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<JobExecutionsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -345,8 +344,8 @@ export class JobExecutionsImpl implements JobExecutions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -354,22 +353,22 @@ export class JobExecutionsImpl implements JobExecutions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serverName, jobAgentName, jobName, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       JobExecutionsCreateResponse,
       OperationState<JobExecutionsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -389,14 +388,14 @@ export class JobExecutionsImpl implements JobExecutions {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobExecutionsCreateOptionalParams
+    options?: JobExecutionsCreateOptionalParams,
   ): Promise<JobExecutionsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       serverName,
       jobAgentName,
       jobName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -415,11 +414,11 @@ export class JobExecutionsImpl implements JobExecutions {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobExecutionsListByJobOptionalParams
+    options?: JobExecutionsListByJobOptionalParams,
   ): Promise<JobExecutionsListByJobResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, jobName, options },
-      listByJobOperationSpec
+      listByJobOperationSpec,
     );
   }
 
@@ -439,7 +438,7 @@ export class JobExecutionsImpl implements JobExecutions {
     jobAgentName: string,
     jobName: string,
     jobExecutionId: string,
-    options?: JobExecutionsGetOptionalParams
+    options?: JobExecutionsGetOptionalParams,
   ): Promise<JobExecutionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -448,9 +447,9 @@ export class JobExecutionsImpl implements JobExecutions {
         jobAgentName,
         jobName,
         jobExecutionId,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -470,7 +469,7 @@ export class JobExecutionsImpl implements JobExecutions {
     jobAgentName: string,
     jobName: string,
     jobExecutionId: string,
-    options?: JobExecutionsCreateOrUpdateOptionalParams
+    options?: JobExecutionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<JobExecutionsCreateOrUpdateResponse>,
@@ -479,21 +478,20 @@ export class JobExecutionsImpl implements JobExecutions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<JobExecutionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -502,8 +500,8 @@ export class JobExecutionsImpl implements JobExecutions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -511,8 +509,8 @@ export class JobExecutionsImpl implements JobExecutions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -524,16 +522,16 @@ export class JobExecutionsImpl implements JobExecutions {
         jobAgentName,
         jobName,
         jobExecutionId,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       JobExecutionsCreateOrUpdateResponse,
       OperationState<JobExecutionsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -555,7 +553,7 @@ export class JobExecutionsImpl implements JobExecutions {
     jobAgentName: string,
     jobName: string,
     jobExecutionId: string,
-    options?: JobExecutionsCreateOrUpdateOptionalParams
+    options?: JobExecutionsCreateOrUpdateOptionalParams,
   ): Promise<JobExecutionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -563,7 +561,7 @@ export class JobExecutionsImpl implements JobExecutions {
       jobAgentName,
       jobName,
       jobExecutionId,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -582,11 +580,11 @@ export class JobExecutionsImpl implements JobExecutions {
     serverName: string,
     jobAgentName: string,
     nextLink: string,
-    options?: JobExecutionsListByAgentNextOptionalParams
+    options?: JobExecutionsListByAgentNextOptionalParams,
   ): Promise<JobExecutionsListByAgentNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, nextLink, options },
-      listByAgentNextOperationSpec
+      listByAgentNextOperationSpec,
     );
   }
 
@@ -606,7 +604,7 @@ export class JobExecutionsImpl implements JobExecutions {
     jobAgentName: string,
     jobName: string,
     nextLink: string,
-    options?: JobExecutionsListByJobNextOptionalParams
+    options?: JobExecutionsListByJobNextOptionalParams,
   ): Promise<JobExecutionsListByJobNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -615,9 +613,9 @@ export class JobExecutionsImpl implements JobExecutions {
         jobAgentName,
         jobName,
         nextLink,
-        options
+        options,
       },
-      listByJobNextOperationSpec
+      listByJobNextOperationSpec,
     );
   }
 }
@@ -625,14 +623,13 @@ export class JobExecutionsImpl implements JobExecutions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAgentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/executions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/executions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobExecutionListResult
+      bodyMapper: Mappers.JobExecutionListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
     Parameters.skip,
@@ -642,21 +639,20 @@ const listByAgentOperationSpec: coreClient.OperationSpec = {
     Parameters.endTimeMin,
     Parameters.endTimeMax,
     Parameters.isActive,
-    Parameters.top
+    Parameters.top,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.jobAgentName
+    Parameters.jobAgentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/cancel",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/cancel",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
   queryParameters: [Parameters.apiVersion3],
@@ -667,28 +663,27 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
-    Parameters.jobExecutionId
+    Parameters.jobExecutionId,
   ],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/start",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/start",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.JobExecution
+      bodyMapper: Mappers.JobExecution,
     },
     201: {
-      bodyMapper: Mappers.JobExecution
+      bodyMapper: Mappers.JobExecution,
     },
     202: {
-      bodyMapper: Mappers.JobExecution
+      bodyMapper: Mappers.JobExecution,
     },
     204: {
-      bodyMapper: Mappers.JobExecution
+      bodyMapper: Mappers.JobExecution,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -697,20 +692,19 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.jobAgentName,
-    Parameters.jobName
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByJobOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobExecutionListResult
+      bodyMapper: Mappers.JobExecutionListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
     Parameters.skip,
@@ -720,7 +714,7 @@ const listByJobOperationSpec: coreClient.OperationSpec = {
     Parameters.endTimeMin,
     Parameters.endTimeMax,
     Parameters.isActive,
-    Parameters.top
+    Parameters.top,
   ],
   urlParameters: [
     Parameters.$host,
@@ -728,20 +722,19 @@ const listByJobOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.jobAgentName,
-    Parameters.jobName
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobExecution
+      bodyMapper: Mappers.JobExecution,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -751,29 +744,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
-    Parameters.jobExecutionId
+    Parameters.jobExecutionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.JobExecution
+      bodyMapper: Mappers.JobExecution,
     },
     201: {
-      bodyMapper: Mappers.JobExecution
+      bodyMapper: Mappers.JobExecution,
     },
     202: {
-      bodyMapper: Mappers.JobExecution
+      bodyMapper: Mappers.JobExecution,
     },
     204: {
-      bodyMapper: Mappers.JobExecution
+      bodyMapper: Mappers.JobExecution,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -783,39 +775,19 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
-    Parameters.jobExecutionId
+    Parameters.jobExecutionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByAgentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobExecutionListResult
+      bodyMapper: Mappers.JobExecutionListResult,
     },
-    default: {}
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.nextLink,
-    Parameters.jobAgentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByJobNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobExecutionListResult
-    },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -824,8 +796,28 @@ const listByJobNextOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.nextLink,
     Parameters.jobAgentName,
-    Parameters.jobName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByJobNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobExecutionListResult,
+    },
+    default: {},
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.nextLink,
+    Parameters.jobAgentName,
+    Parameters.jobName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

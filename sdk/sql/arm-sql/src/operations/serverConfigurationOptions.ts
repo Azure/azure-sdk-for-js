@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,13 +29,14 @@ import {
   ServerConfigurationOptionsGetResponse,
   ServerConfigurationOptionsCreateOrUpdateOptionalParams,
   ServerConfigurationOptionsCreateOrUpdateResponse,
-  ServerConfigurationOptionsListByManagedInstanceNextResponse
+  ServerConfigurationOptionsListByManagedInstanceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServerConfigurationOptions operations. */
 export class ServerConfigurationOptionsImpl
-  implements ServerConfigurationOptions {
+  implements ServerConfigurationOptions
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -56,12 +57,12 @@ export class ServerConfigurationOptionsImpl
   public listByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ServerConfigurationOptionsListByManagedInstanceOptionalParams
+    options?: ServerConfigurationOptionsListByManagedInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ServerConfigurationOption> {
     const iter = this.listByManagedInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +79,9 @@ export class ServerConfigurationOptionsImpl
           resourceGroupName,
           managedInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +89,7 @@ export class ServerConfigurationOptionsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ServerConfigurationOptionsListByManagedInstanceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServerConfigurationOption[]> {
     let result: ServerConfigurationOptionsListByManagedInstanceResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +97,7 @@ export class ServerConfigurationOptionsImpl
       result = await this._listByManagedInstance(
         resourceGroupName,
         managedInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +109,7 @@ export class ServerConfigurationOptionsImpl
         resourceGroupName,
         managedInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,12 +121,12 @@ export class ServerConfigurationOptionsImpl
   private async *listByManagedInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ServerConfigurationOptionsListByManagedInstanceOptionalParams
+    options?: ServerConfigurationOptionsListByManagedInstanceOptionalParams,
   ): AsyncIterableIterator<ServerConfigurationOption> {
     for await (const page of this.listByManagedInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,11 +142,11 @@ export class ServerConfigurationOptionsImpl
   private _listByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ServerConfigurationOptionsListByManagedInstanceOptionalParams
+    options?: ServerConfigurationOptionsListByManagedInstanceOptionalParams,
   ): Promise<ServerConfigurationOptionsListByManagedInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
-      listByManagedInstanceOperationSpec
+      listByManagedInstanceOperationSpec,
     );
   }
 
@@ -161,16 +162,16 @@ export class ServerConfigurationOptionsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     serverConfigurationOptionName: ServerConfigurationOptionName,
-    options?: ServerConfigurationOptionsGetOptionalParams
+    options?: ServerConfigurationOptionsGetOptionalParams,
   ): Promise<ServerConfigurationOptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         managedInstanceName,
         serverConfigurationOptionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -188,7 +189,7 @@ export class ServerConfigurationOptionsImpl
     managedInstanceName: string,
     serverConfigurationOptionName: ServerConfigurationOptionName,
     parameters: ServerConfigurationOption,
-    options?: ServerConfigurationOptionsCreateOrUpdateOptionalParams
+    options?: ServerConfigurationOptionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerConfigurationOptionsCreateOrUpdateResponse>,
@@ -197,21 +198,20 @@ export class ServerConfigurationOptionsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServerConfigurationOptionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -220,8 +220,8 @@ export class ServerConfigurationOptionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -229,8 +229,8 @@ export class ServerConfigurationOptionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -241,16 +241,16 @@ export class ServerConfigurationOptionsImpl
         managedInstanceName,
         serverConfigurationOptionName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ServerConfigurationOptionsCreateOrUpdateResponse,
       OperationState<ServerConfigurationOptionsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -270,14 +270,14 @@ export class ServerConfigurationOptionsImpl
     managedInstanceName: string,
     serverConfigurationOptionName: ServerConfigurationOptionName,
     parameters: ServerConfigurationOption,
-    options?: ServerConfigurationOptionsCreateOrUpdateOptionalParams
+    options?: ServerConfigurationOptionsCreateOrUpdateOptionalParams,
   ): Promise<ServerConfigurationOptionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       managedInstanceName,
       serverConfigurationOptionName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -294,11 +294,11 @@ export class ServerConfigurationOptionsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: ServerConfigurationOptionsListByManagedInstanceNextOptionalParams
+    options?: ServerConfigurationOptionsListByManagedInstanceNextOptionalParams,
   ): Promise<ServerConfigurationOptionsListByManagedInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
-      listByManagedInstanceNextOperationSpec
+      listByManagedInstanceNextOperationSpec,
     );
   }
 }
@@ -306,34 +306,13 @@ export class ServerConfigurationOptionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByManagedInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverConfigurationOptions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverConfigurationOptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerConfigurationOptionListResult
+      bodyMapper: Mappers.ServerConfigurationOptionListResult,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverConfigurationOptions/{serverConfigurationOptionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServerConfigurationOption
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
@@ -341,29 +320,47 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.serverConfigurationOptionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverConfigurationOptions/{serverConfigurationOptionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServerConfigurationOption,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.serverConfigurationOptionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverConfigurationOptions/{serverConfigurationOptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverConfigurationOptions/{serverConfigurationOptionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerConfigurationOption
+      bodyMapper: Mappers.ServerConfigurationOption,
     },
     201: {
-      bodyMapper: Mappers.ServerConfigurationOption
+      bodyMapper: Mappers.ServerConfigurationOption,
     },
     202: {
-      bodyMapper: Mappers.ServerConfigurationOption
+      bodyMapper: Mappers.ServerConfigurationOption,
     },
     204: {
-      bodyMapper: Mappers.ServerConfigurationOption
+      bodyMapper: Mappers.ServerConfigurationOption,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters89,
   queryParameters: [Parameters.apiVersion2],
@@ -372,28 +369,28 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.serverConfigurationOptionName
+    Parameters.serverConfigurationOptionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByManagedInstanceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerConfigurationOptionListResult
+      bodyMapper: Mappers.ServerConfigurationOptionListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

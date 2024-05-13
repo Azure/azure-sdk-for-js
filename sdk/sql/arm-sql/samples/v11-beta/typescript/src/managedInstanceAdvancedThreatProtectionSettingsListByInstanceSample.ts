@@ -32,7 +32,7 @@ async function listTheManagedInstanceAdvancedThreatProtectionSettings() {
   const resArray = new Array();
   for await (let item of client.managedInstanceAdvancedThreatProtectionSettings.listByInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

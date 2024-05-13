@@ -16,7 +16,7 @@ import {
   SqlAgentGetResponse,
   SqlAgentConfiguration,
   SqlAgentCreateOrUpdateOptionalParams,
-  SqlAgentCreateOrUpdateResponse
+  SqlAgentCreateOrUpdateResponse,
 } from "../models";
 
 /** Class containing SqlAgent operations. */
@@ -41,11 +41,11 @@ export class SqlAgentImpl implements SqlAgent {
   get(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: SqlAgentGetOptionalParams
+    options?: SqlAgentGetOptionalParams,
   ): Promise<SqlAgentGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -61,11 +61,11 @@ export class SqlAgentImpl implements SqlAgent {
     resourceGroupName: string,
     managedInstanceName: string,
     parameters: SqlAgentConfiguration,
-    options?: SqlAgentCreateOrUpdateOptionalParams
+    options?: SqlAgentCreateOrUpdateOptionalParams,
   ): Promise<SqlAgentCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 }
@@ -73,34 +73,32 @@ export class SqlAgentImpl implements SqlAgent {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/sqlAgent/current",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/sqlAgent/current",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlAgentConfiguration
+      bodyMapper: Mappers.SqlAgentConfiguration,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/sqlAgent/current",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/sqlAgent/current",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlAgentConfiguration
+      bodyMapper: Mappers.SqlAgentConfiguration,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters51,
   queryParameters: [Parameters.apiVersion3],
@@ -108,9 +106,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

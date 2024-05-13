@@ -15,7 +15,7 @@ import {
   ServerSecurityAlertPoliciesGetOptionalParams,
   ServerSecurityAlertPoliciesGetResponse,
   ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams,
-  ServerSecurityAlertPoliciesCreateOrUpdateResponse
+  ServerSecurityAlertPoliciesCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ServerSecurityAlertPolicies {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerSecurityAlertPoliciesListByServerOptionalParams
+    options?: ServerSecurityAlertPoliciesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerSecurityAlertPolicy>;
   /**
    * Get a server's security alert policy.
@@ -45,7 +45,7 @@ export interface ServerSecurityAlertPolicies {
     resourceGroupName: string,
     serverName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
-    options?: ServerSecurityAlertPoliciesGetOptionalParams
+    options?: ServerSecurityAlertPoliciesGetOptionalParams,
   ): Promise<ServerSecurityAlertPoliciesGetResponse>;
   /**
    * Creates or updates a threat detection policy.
@@ -61,7 +61,7 @@ export interface ServerSecurityAlertPolicies {
     serverName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
     parameters: ServerSecurityAlertPolicy,
-    options?: ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams
+    options?: ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerSecurityAlertPoliciesCreateOrUpdateResponse>,
@@ -82,6 +82,6 @@ export interface ServerSecurityAlertPolicies {
     serverName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
     parameters: ServerSecurityAlertPolicy,
-    options?: ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams
+    options?: ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ServerSecurityAlertPoliciesCreateOrUpdateResponse>;
 }

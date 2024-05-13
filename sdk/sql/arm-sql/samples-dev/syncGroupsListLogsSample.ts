@@ -42,7 +42,7 @@ async function getSyncGroupLogs() {
     syncGroupName,
     startTime,
     endTime,
-    typeParam
+    typeParam,
   )) {
     resArray.push(item);
   }

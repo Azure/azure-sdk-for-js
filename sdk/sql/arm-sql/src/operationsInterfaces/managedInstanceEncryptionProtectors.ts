@@ -16,7 +16,7 @@ import {
   ManagedInstanceEncryptionProtectorsGetOptionalParams,
   ManagedInstanceEncryptionProtectorsGetResponse,
   ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams,
-  ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse
+  ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ManagedInstanceEncryptionProtectors {
   listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceEncryptionProtector>;
   /**
    * Revalidates an existing encryption protector.
@@ -46,7 +46,7 @@ export interface ManagedInstanceEncryptionProtectors {
     resourceGroupName: string,
     managedInstanceName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revalidates an existing encryption protector.
@@ -60,7 +60,7 @@ export interface ManagedInstanceEncryptionProtectors {
     resourceGroupName: string,
     managedInstanceName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams,
   ): Promise<void>;
   /**
    * Gets a managed instance encryption protector.
@@ -74,7 +74,7 @@ export interface ManagedInstanceEncryptionProtectors {
     resourceGroupName: string,
     managedInstanceName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: ManagedInstanceEncryptionProtectorsGetOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsGetOptionalParams,
   ): Promise<ManagedInstanceEncryptionProtectorsGetResponse>;
   /**
    * Updates an existing encryption protector.
@@ -90,7 +90,7 @@ export interface ManagedInstanceEncryptionProtectors {
     managedInstanceName: string,
     encryptionProtectorName: EncryptionProtectorName,
     parameters: ManagedInstanceEncryptionProtector,
-    options?: ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse>,
@@ -111,6 +111,6 @@ export interface ManagedInstanceEncryptionProtectors {
     managedInstanceName: string,
     encryptionProtectorName: EncryptionProtectorName,
     parameters: ManagedInstanceEncryptionProtector,
-    options?: ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams,
   ): Promise<ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse>;
 }

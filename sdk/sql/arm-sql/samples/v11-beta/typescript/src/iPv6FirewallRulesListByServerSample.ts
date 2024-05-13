@@ -32,7 +32,7 @@ async function listIPv6FirewallRules() {
   const resArray = new Array();
   for await (let item of client.iPv6FirewallRules.listByServer(
     resourceGroupName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

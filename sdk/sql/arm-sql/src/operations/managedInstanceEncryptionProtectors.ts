@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,13 +30,14 @@ import {
   ManagedInstanceEncryptionProtectorsGetResponse,
   ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams,
   ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse,
-  ManagedInstanceEncryptionProtectorsListByInstanceNextResponse
+  ManagedInstanceEncryptionProtectorsListByInstanceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedInstanceEncryptionProtectors operations. */
 export class ManagedInstanceEncryptionProtectorsImpl
-  implements ManagedInstanceEncryptionProtectors {
+  implements ManagedInstanceEncryptionProtectors
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -57,12 +58,12 @@ export class ManagedInstanceEncryptionProtectorsImpl
   public listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceEncryptionProtector> {
     const iter = this.listByInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +80,9 @@ export class ManagedInstanceEncryptionProtectorsImpl
           resourceGroupName,
           managedInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +90,7 @@ export class ManagedInstanceEncryptionProtectorsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedInstanceEncryptionProtector[]> {
     let result: ManagedInstanceEncryptionProtectorsListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +98,7 @@ export class ManagedInstanceEncryptionProtectorsImpl
       result = await this._listByInstance(
         resourceGroupName,
         managedInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +110,7 @@ export class ManagedInstanceEncryptionProtectorsImpl
         resourceGroupName,
         managedInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,12 +122,12 @@ export class ManagedInstanceEncryptionProtectorsImpl
   private async *listByInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams,
   ): AsyncIterableIterator<ManagedInstanceEncryptionProtector> {
     for await (const page of this.listByInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -144,25 +145,24 @@ export class ManagedInstanceEncryptionProtectorsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -171,8 +171,8 @@ export class ManagedInstanceEncryptionProtectorsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -180,8 +180,8 @@ export class ManagedInstanceEncryptionProtectorsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -191,13 +191,13 @@ export class ManagedInstanceEncryptionProtectorsImpl
         resourceGroupName,
         managedInstanceName,
         encryptionProtectorName,
-        options
+        options,
       },
-      spec: revalidateOperationSpec
+      spec: revalidateOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -215,13 +215,13 @@ export class ManagedInstanceEncryptionProtectorsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams,
   ): Promise<void> {
     const poller = await this.beginRevalidate(
       resourceGroupName,
       managedInstanceName,
       encryptionProtectorName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -236,11 +236,11 @@ export class ManagedInstanceEncryptionProtectorsImpl
   private _listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams,
   ): Promise<ManagedInstanceEncryptionProtectorsListByInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
-      listByInstanceOperationSpec
+      listByInstanceOperationSpec,
     );
   }
 
@@ -256,16 +256,16 @@ export class ManagedInstanceEncryptionProtectorsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: ManagedInstanceEncryptionProtectorsGetOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsGetOptionalParams,
   ): Promise<ManagedInstanceEncryptionProtectorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         managedInstanceName,
         encryptionProtectorName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -283,7 +283,7 @@ export class ManagedInstanceEncryptionProtectorsImpl
     managedInstanceName: string,
     encryptionProtectorName: EncryptionProtectorName,
     parameters: ManagedInstanceEncryptionProtector,
-    options?: ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse>,
@@ -292,21 +292,20 @@ export class ManagedInstanceEncryptionProtectorsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -315,8 +314,8 @@ export class ManagedInstanceEncryptionProtectorsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -324,8 +323,8 @@ export class ManagedInstanceEncryptionProtectorsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -336,16 +335,16 @@ export class ManagedInstanceEncryptionProtectorsImpl
         managedInstanceName,
         encryptionProtectorName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse,
       OperationState<ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -365,14 +364,14 @@ export class ManagedInstanceEncryptionProtectorsImpl
     managedInstanceName: string,
     encryptionProtectorName: EncryptionProtectorName,
     parameters: ManagedInstanceEncryptionProtector,
-    options?: ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams,
   ): Promise<ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       managedInstanceName,
       encryptionProtectorName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -389,11 +388,11 @@ export class ManagedInstanceEncryptionProtectorsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: ManagedInstanceEncryptionProtectorsListByInstanceNextOptionalParams
+    options?: ManagedInstanceEncryptionProtectorsListByInstanceNextOptionalParams,
   ): Promise<ManagedInstanceEncryptionProtectorsListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
-      listByInstanceNextOperationSpec
+      listByInstanceNextOperationSpec,
     );
   }
 }
@@ -401,8 +400,7 @@ export class ManagedInstanceEncryptionProtectorsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const revalidateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/encryptionProtector/{encryptionProtectorName}/revalidate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/encryptionProtector/{encryptionProtectorName}/revalidate",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion3],
@@ -411,39 +409,37 @@ const revalidateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.encryptionProtectorName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
-  serializer
+  serializer,
 };
 const listByInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/encryptionProtector",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/encryptionProtector",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceEncryptionProtectorListResult
+      bodyMapper: Mappers.ManagedInstanceEncryptionProtectorListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/encryptionProtector/{encryptionProtectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/encryptionProtector/{encryptionProtectorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceEncryptionProtector
+      bodyMapper: Mappers.ManagedInstanceEncryptionProtector,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -451,29 +447,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.encryptionProtectorName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/encryptionProtector/{encryptionProtectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/encryptionProtector/{encryptionProtectorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceEncryptionProtector
+      bodyMapper: Mappers.ManagedInstanceEncryptionProtector,
     },
     201: {
-      bodyMapper: Mappers.ManagedInstanceEncryptionProtector
+      bodyMapper: Mappers.ManagedInstanceEncryptionProtector,
     },
     202: {
-      bodyMapper: Mappers.ManagedInstanceEncryptionProtector
+      bodyMapper: Mappers.ManagedInstanceEncryptionProtector,
     },
     204: {
-      bodyMapper: Mappers.ManagedInstanceEncryptionProtector
+      bodyMapper: Mappers.ManagedInstanceEncryptionProtector,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters33,
   queryParameters: [Parameters.apiVersion3],
@@ -482,28 +477,28 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.encryptionProtectorName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceEncryptionProtectorListResult
+      bodyMapper: Mappers.ManagedInstanceEncryptionProtectorListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

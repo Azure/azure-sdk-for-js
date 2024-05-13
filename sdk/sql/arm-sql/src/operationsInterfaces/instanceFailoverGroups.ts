@@ -19,7 +19,7 @@ import {
   InstanceFailoverGroupsFailoverOptionalParams,
   InstanceFailoverGroupsFailoverResponse,
   InstanceFailoverGroupsForceFailoverAllowDataLossOptionalParams,
-  InstanceFailoverGroupsForceFailoverAllowDataLossResponse
+  InstanceFailoverGroupsForceFailoverAllowDataLossResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface InstanceFailoverGroups {
   listByLocation(
     resourceGroupName: string,
     locationName: string,
-    options?: InstanceFailoverGroupsListByLocationOptionalParams
+    options?: InstanceFailoverGroupsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<InstanceFailoverGroup>;
   /**
    * Gets a failover group.
@@ -49,7 +49,7 @@ export interface InstanceFailoverGroups {
     resourceGroupName: string,
     locationName: string,
     failoverGroupName: string,
-    options?: InstanceFailoverGroupsGetOptionalParams
+    options?: InstanceFailoverGroupsGetOptionalParams,
   ): Promise<InstanceFailoverGroupsGetResponse>;
   /**
    * Creates or updates a failover group.
@@ -65,7 +65,7 @@ export interface InstanceFailoverGroups {
     locationName: string,
     failoverGroupName: string,
     parameters: InstanceFailoverGroup,
-    options?: InstanceFailoverGroupsCreateOrUpdateOptionalParams
+    options?: InstanceFailoverGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InstanceFailoverGroupsCreateOrUpdateResponse>,
@@ -86,7 +86,7 @@ export interface InstanceFailoverGroups {
     locationName: string,
     failoverGroupName: string,
     parameters: InstanceFailoverGroup,
-    options?: InstanceFailoverGroupsCreateOrUpdateOptionalParams
+    options?: InstanceFailoverGroupsCreateOrUpdateOptionalParams,
   ): Promise<InstanceFailoverGroupsCreateOrUpdateResponse>;
   /**
    * Deletes a failover group.
@@ -100,7 +100,7 @@ export interface InstanceFailoverGroups {
     resourceGroupName: string,
     locationName: string,
     failoverGroupName: string,
-    options?: InstanceFailoverGroupsDeleteOptionalParams
+    options?: InstanceFailoverGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a failover group.
@@ -114,7 +114,7 @@ export interface InstanceFailoverGroups {
     resourceGroupName: string,
     locationName: string,
     failoverGroupName: string,
-    options?: InstanceFailoverGroupsDeleteOptionalParams
+    options?: InstanceFailoverGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Fails over from the current primary managed instance to this managed instance.
@@ -128,7 +128,7 @@ export interface InstanceFailoverGroups {
     resourceGroupName: string,
     locationName: string,
     failoverGroupName: string,
-    options?: InstanceFailoverGroupsFailoverOptionalParams
+    options?: InstanceFailoverGroupsFailoverOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InstanceFailoverGroupsFailoverResponse>,
@@ -147,7 +147,7 @@ export interface InstanceFailoverGroups {
     resourceGroupName: string,
     locationName: string,
     failoverGroupName: string,
-    options?: InstanceFailoverGroupsFailoverOptionalParams
+    options?: InstanceFailoverGroupsFailoverOptionalParams,
   ): Promise<InstanceFailoverGroupsFailoverResponse>;
   /**
    * Fails over from the current primary managed instance to this managed instance. This operation might
@@ -162,7 +162,7 @@ export interface InstanceFailoverGroups {
     resourceGroupName: string,
     locationName: string,
     failoverGroupName: string,
-    options?: InstanceFailoverGroupsForceFailoverAllowDataLossOptionalParams
+    options?: InstanceFailoverGroupsForceFailoverAllowDataLossOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InstanceFailoverGroupsForceFailoverAllowDataLossResponse>,
@@ -182,6 +182,6 @@ export interface InstanceFailoverGroups {
     resourceGroupName: string,
     locationName: string,
     failoverGroupName: string,
-    options?: InstanceFailoverGroupsForceFailoverAllowDataLossOptionalParams
+    options?: InstanceFailoverGroupsForceFailoverAllowDataLossOptionalParams,
   ): Promise<InstanceFailoverGroupsForceFailoverAllowDataLossResponse>;
 }

@@ -18,7 +18,7 @@ import {
   ServerAdvisorsGetResponse,
   Advisor,
   ServerAdvisorsUpdateOptionalParams,
-  ServerAdvisorsUpdateResponse
+  ServerAdvisorsUpdateResponse,
 } from "../models";
 
 /** Class containing ServerAdvisors operations. */
@@ -43,11 +43,11 @@ export class ServerAdvisorsImpl implements ServerAdvisors {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAdvisorsListByServerOptionalParams
+    options?: ServerAdvisorsListByServerOptionalParams,
   ): Promise<ServerAdvisorsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -63,11 +63,11 @@ export class ServerAdvisorsImpl implements ServerAdvisors {
     resourceGroupName: string,
     serverName: string,
     advisorName: string,
-    options?: ServerAdvisorsGetOptionalParams
+    options?: ServerAdvisorsGetOptionalParams,
   ): Promise<ServerAdvisorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, advisorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -85,11 +85,11 @@ export class ServerAdvisorsImpl implements ServerAdvisors {
     serverName: string,
     advisorName: string,
     parameters: Advisor,
-    options?: ServerAdvisorsUpdateOptionalParams
+    options?: ServerAdvisorsUpdateOptionalParams,
   ): Promise<ServerAdvisorsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, advisorName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -97,39 +97,37 @@ export class ServerAdvisorsImpl implements ServerAdvisors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advisors",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advisors",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: {
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Advisor" } }
-        }
-      }
+          element: { type: { name: "Composite", className: "Advisor" } },
+        },
+      },
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.expand, Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advisors/{advisorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advisors/{advisorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Advisor
+      bodyMapper: Mappers.Advisor,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -137,20 +135,19 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.advisorName
+    Parameters.advisorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advisors/{advisorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advisors/{advisorName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Advisor
+      bodyMapper: Mappers.Advisor,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion3],
@@ -159,9 +156,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.advisorName
+    Parameters.advisorName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

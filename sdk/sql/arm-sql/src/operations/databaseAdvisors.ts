@@ -18,7 +18,7 @@ import {
   DatabaseAdvisorsGetResponse,
   Advisor,
   DatabaseAdvisorsUpdateOptionalParams,
-  DatabaseAdvisorsUpdateResponse
+  DatabaseAdvisorsUpdateResponse,
 } from "../models";
 
 /** Class containing DatabaseAdvisors operations. */
@@ -45,11 +45,11 @@ export class DatabaseAdvisorsImpl implements DatabaseAdvisors {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseAdvisorsListByDatabaseOptionalParams
+    options?: DatabaseAdvisorsListByDatabaseOptionalParams,
   ): Promise<DatabaseAdvisorsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
+      listByDatabaseOperationSpec,
     );
   }
 
@@ -67,11 +67,11 @@ export class DatabaseAdvisorsImpl implements DatabaseAdvisors {
     serverName: string,
     databaseName: string,
     advisorName: string,
-    options?: DatabaseAdvisorsGetOptionalParams
+    options?: DatabaseAdvisorsGetOptionalParams,
   ): Promise<DatabaseAdvisorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, advisorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -91,7 +91,7 @@ export class DatabaseAdvisorsImpl implements DatabaseAdvisors {
     databaseName: string,
     advisorName: string,
     parameters: Advisor,
-    options?: DatabaseAdvisorsUpdateOptionalParams
+    options?: DatabaseAdvisorsUpdateOptionalParams,
   ): Promise<DatabaseAdvisorsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -100,9 +100,9 @@ export class DatabaseAdvisorsImpl implements DatabaseAdvisors {
         databaseName,
         advisorName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -110,19 +110,18 @@ export class DatabaseAdvisorsImpl implements DatabaseAdvisors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/advisors",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/advisors",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: {
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Advisor" } }
-        }
-      }
+          element: { type: { name: "Composite", className: "Advisor" } },
+        },
+      },
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.expand, Parameters.apiVersion3],
   urlParameters: [
@@ -130,20 +129,19 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/advisors/{advisorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/advisors/{advisorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Advisor
+      bodyMapper: Mappers.Advisor,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -152,20 +150,19 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.advisorName
+    Parameters.advisorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/advisors/{advisorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/advisors/{advisorName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Advisor
+      bodyMapper: Mappers.Advisor,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion3],
@@ -175,9 +172,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.advisorName
+    Parameters.advisorName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

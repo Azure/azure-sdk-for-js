@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SensitivityLabelUpdateList,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -41,9 +41,9 @@ async function updateSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch() {
           informationTypeId: "1D3652D6-422C-4115-82F1-65DAEBC665C8",
           labelId: "3A477B16-9423-432B-AA97-6069B481CEC3",
           labelName: "Highly Confidential",
-          rank: "Low"
+          rank: "Low",
         },
-        table: "table1"
+        table: "table1",
       },
       {
         schema: "dbo",
@@ -54,12 +54,12 @@ async function updateSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch() {
           informationTypeId: "d22fa6e9-5ee4-3bde-4c2b-a409604c4646",
           labelId: "bf91e08c-f4f0-478a-b016-25164b2a65ff",
           labelName: "PII",
-          rank: "Critical"
+          rank: "Critical",
         },
-        table: "table2"
+        table: "table2",
       },
-      { schema: "dbo", column: "Column3", op: "remove", table: "Table1" }
-    ]
+      { schema: "dbo", column: "Column3", op: "remove", table: "Table1" },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -67,7 +67,7 @@ async function updateSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

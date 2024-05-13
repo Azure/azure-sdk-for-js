@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DistributedAvailabilityGroup,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a distributed availability group replication mode.
  *
  * @summary Updates a distributed availability group replication mode.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DistributedAvailabilityGroupsUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-08-01-preview/examples/DistributedAvailabilityGroupsUpdate.json
  */
 async function updateTheDistributedAvailabilityGroupReplicationModeBeforeDeletingIt() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function updateTheDistributedAvailabilityGroupReplicationModeBeforeDeletin
     resourceGroupName,
     managedInstanceName,
     distributedAvailabilityGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

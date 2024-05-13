@@ -33,7 +33,7 @@ async function getFirewallRule() {
   const result = await client.firewallRules.get(
     resourceGroupName,
     serverName,
-    firewallRuleName
+    firewallRuleName,
   );
   console.log(result);
 }

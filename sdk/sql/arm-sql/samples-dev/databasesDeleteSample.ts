@@ -33,7 +33,7 @@ async function deletesADatabase() {
   const result = await client.databases.beginDeleteAndWait(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }

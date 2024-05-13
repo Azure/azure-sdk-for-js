@@ -19,7 +19,7 @@ import {
   ManagedServerDnsAliasesDeleteOptionalParams,
   ManagedServerDnsAliasAcquisition,
   ManagedServerDnsAliasesAcquireOptionalParams,
-  ManagedServerDnsAliasesAcquireResponse
+  ManagedServerDnsAliasesAcquireResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface ManagedServerDnsAliases {
   listByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedServerDnsAliasesListByManagedInstanceOptionalParams
+    options?: ManagedServerDnsAliasesListByManagedInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedServerDnsAlias>;
   /**
    * Gets a server DNS alias.
@@ -49,7 +49,7 @@ export interface ManagedServerDnsAliases {
     resourceGroupName: string,
     managedInstanceName: string,
     dnsAliasName: string,
-    options?: ManagedServerDnsAliasesGetOptionalParams
+    options?: ManagedServerDnsAliasesGetOptionalParams,
   ): Promise<ManagedServerDnsAliasesGetResponse>;
   /**
    * Creates a managed server DNS alias.
@@ -65,7 +65,7 @@ export interface ManagedServerDnsAliases {
     managedInstanceName: string,
     dnsAliasName: string,
     parameters: ManagedServerDnsAliasCreation,
-    options?: ManagedServerDnsAliasesCreateOrUpdateOptionalParams
+    options?: ManagedServerDnsAliasesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedServerDnsAliasesCreateOrUpdateResponse>,
@@ -86,7 +86,7 @@ export interface ManagedServerDnsAliases {
     managedInstanceName: string,
     dnsAliasName: string,
     parameters: ManagedServerDnsAliasCreation,
-    options?: ManagedServerDnsAliasesCreateOrUpdateOptionalParams
+    options?: ManagedServerDnsAliasesCreateOrUpdateOptionalParams,
   ): Promise<ManagedServerDnsAliasesCreateOrUpdateResponse>;
   /**
    * Deletes the managed server DNS alias with the given name.
@@ -100,7 +100,7 @@ export interface ManagedServerDnsAliases {
     resourceGroupName: string,
     managedInstanceName: string,
     dnsAliasName: string,
-    options?: ManagedServerDnsAliasesDeleteOptionalParams
+    options?: ManagedServerDnsAliasesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the managed server DNS alias with the given name.
@@ -114,7 +114,7 @@ export interface ManagedServerDnsAliases {
     resourceGroupName: string,
     managedInstanceName: string,
     dnsAliasName: string,
-    options?: ManagedServerDnsAliasesDeleteOptionalParams
+    options?: ManagedServerDnsAliasesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Acquires managed server DNS alias from another managed server.
@@ -130,7 +130,7 @@ export interface ManagedServerDnsAliases {
     managedInstanceName: string,
     dnsAliasName: string,
     parameters: ManagedServerDnsAliasAcquisition,
-    options?: ManagedServerDnsAliasesAcquireOptionalParams
+    options?: ManagedServerDnsAliasesAcquireOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedServerDnsAliasesAcquireResponse>,
@@ -151,6 +151,6 @@ export interface ManagedServerDnsAliases {
     managedInstanceName: string,
     dnsAliasName: string,
     parameters: ManagedServerDnsAliasAcquisition,
-    options?: ManagedServerDnsAliasesAcquireOptionalParams
+    options?: ManagedServerDnsAliasesAcquireOptionalParams,
   ): Promise<ManagedServerDnsAliasesAcquireResponse>;
 }

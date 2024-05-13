@@ -14,18 +14,19 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   EncryptionProtectorName,
   DatabaseEncryptionProtectorsRevalidateOptionalParams,
-  DatabaseEncryptionProtectorsRevertOptionalParams
+  DatabaseEncryptionProtectorsRevertOptionalParams,
 } from "../models";
 
 /** Class containing DatabaseEncryptionProtectors operations. */
 export class DatabaseEncryptionProtectorsImpl
-  implements DatabaseEncryptionProtectors {
+  implements DatabaseEncryptionProtectors
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -50,25 +51,24 @@ export class DatabaseEncryptionProtectorsImpl
     serverName: string,
     databaseName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: DatabaseEncryptionProtectorsRevalidateOptionalParams
+    options?: DatabaseEncryptionProtectorsRevalidateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -77,8 +77,8 @@ export class DatabaseEncryptionProtectorsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -86,8 +86,8 @@ export class DatabaseEncryptionProtectorsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -98,14 +98,14 @@ export class DatabaseEncryptionProtectorsImpl
         serverName,
         databaseName,
         encryptionProtectorName,
-        options
+        options,
       },
-      spec: revalidateOperationSpec
+      spec: revalidateOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -125,14 +125,14 @@ export class DatabaseEncryptionProtectorsImpl
     serverName: string,
     databaseName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: DatabaseEncryptionProtectorsRevalidateOptionalParams
+    options?: DatabaseEncryptionProtectorsRevalidateOptionalParams,
   ): Promise<void> {
     const poller = await this.beginRevalidate(
       resourceGroupName,
       serverName,
       databaseName,
       encryptionProtectorName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -151,25 +151,24 @@ export class DatabaseEncryptionProtectorsImpl
     serverName: string,
     databaseName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: DatabaseEncryptionProtectorsRevertOptionalParams
+    options?: DatabaseEncryptionProtectorsRevertOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -178,8 +177,8 @@ export class DatabaseEncryptionProtectorsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -187,8 +186,8 @@ export class DatabaseEncryptionProtectorsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -199,14 +198,14 @@ export class DatabaseEncryptionProtectorsImpl
         serverName,
         databaseName,
         encryptionProtectorName,
-        options
+        options,
       },
-      spec: revertOperationSpec
+      spec: revertOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -226,14 +225,14 @@ export class DatabaseEncryptionProtectorsImpl
     serverName: string,
     databaseName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: DatabaseEncryptionProtectorsRevertOptionalParams
+    options?: DatabaseEncryptionProtectorsRevertOptionalParams,
   ): Promise<void> {
     const poller = await this.beginRevert(
       resourceGroupName,
       serverName,
       databaseName,
       encryptionProtectorName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -242,8 +241,7 @@ export class DatabaseEncryptionProtectorsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const revalidateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/encryptionProtector/{encryptionProtectorName}/revalidate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/encryptionProtector/{encryptionProtectorName}/revalidate",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion2],
@@ -253,13 +251,12 @@ const revalidateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.encryptionProtectorName
+    Parameters.encryptionProtectorName,
   ],
-  serializer
+  serializer,
 };
 const revertOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/encryptionProtector/{encryptionProtectorName}/revert",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/encryptionProtector/{encryptionProtectorName}/revert",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion2],
@@ -269,7 +266,7 @@ const revertOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.encryptionProtectorName
+    Parameters.encryptionProtectorName,
   ],
-  serializer
+  serializer,
 };

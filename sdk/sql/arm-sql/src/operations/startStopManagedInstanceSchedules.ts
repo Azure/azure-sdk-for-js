@@ -24,13 +24,14 @@ import {
   StartStopManagedInstanceSchedulesCreateOrUpdateOptionalParams,
   StartStopManagedInstanceSchedulesCreateOrUpdateResponse,
   StartStopManagedInstanceSchedulesDeleteOptionalParams,
-  StartStopManagedInstanceSchedulesListByInstanceNextResponse
+  StartStopManagedInstanceSchedulesListByInstanceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing StartStopManagedInstanceSchedules operations. */
 export class StartStopManagedInstanceSchedulesImpl
-  implements StartStopManagedInstanceSchedules {
+  implements StartStopManagedInstanceSchedules
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -51,12 +52,12 @@ export class StartStopManagedInstanceSchedulesImpl
   public listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: StartStopManagedInstanceSchedulesListByInstanceOptionalParams
+    options?: StartStopManagedInstanceSchedulesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<StartStopManagedInstanceSchedule> {
     const iter = this.listByInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -73,9 +74,9 @@ export class StartStopManagedInstanceSchedulesImpl
           resourceGroupName,
           managedInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +84,7 @@ export class StartStopManagedInstanceSchedulesImpl
     resourceGroupName: string,
     managedInstanceName: string,
     options?: StartStopManagedInstanceSchedulesListByInstanceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<StartStopManagedInstanceSchedule[]> {
     let result: StartStopManagedInstanceSchedulesListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +92,7 @@ export class StartStopManagedInstanceSchedulesImpl
       result = await this._listByInstance(
         resourceGroupName,
         managedInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -103,7 +104,7 @@ export class StartStopManagedInstanceSchedulesImpl
         resourceGroupName,
         managedInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +116,12 @@ export class StartStopManagedInstanceSchedulesImpl
   private async *listByInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: StartStopManagedInstanceSchedulesListByInstanceOptionalParams
+    options?: StartStopManagedInstanceSchedulesListByInstanceOptionalParams,
   ): AsyncIterableIterator<StartStopManagedInstanceSchedule> {
     for await (const page of this.listByInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -136,11 +137,11 @@ export class StartStopManagedInstanceSchedulesImpl
   private _listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: StartStopManagedInstanceSchedulesListByInstanceOptionalParams
+    options?: StartStopManagedInstanceSchedulesListByInstanceOptionalParams,
   ): Promise<StartStopManagedInstanceSchedulesListByInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
-      listByInstanceOperationSpec
+      listByInstanceOperationSpec,
     );
   }
 
@@ -156,16 +157,16 @@ export class StartStopManagedInstanceSchedulesImpl
     resourceGroupName: string,
     managedInstanceName: string,
     startStopScheduleName: StartStopScheduleName,
-    options?: StartStopManagedInstanceSchedulesGetOptionalParams
+    options?: StartStopManagedInstanceSchedulesGetOptionalParams,
   ): Promise<StartStopManagedInstanceSchedulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         managedInstanceName,
         startStopScheduleName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -183,7 +184,7 @@ export class StartStopManagedInstanceSchedulesImpl
     managedInstanceName: string,
     startStopScheduleName: StartStopScheduleName,
     parameters: StartStopManagedInstanceSchedule,
-    options?: StartStopManagedInstanceSchedulesCreateOrUpdateOptionalParams
+    options?: StartStopManagedInstanceSchedulesCreateOrUpdateOptionalParams,
   ): Promise<StartStopManagedInstanceSchedulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -191,9 +192,9 @@ export class StartStopManagedInstanceSchedulesImpl
         managedInstanceName,
         startStopScheduleName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -209,16 +210,16 @@ export class StartStopManagedInstanceSchedulesImpl
     resourceGroupName: string,
     managedInstanceName: string,
     startStopScheduleName: StartStopScheduleName,
-    options?: StartStopManagedInstanceSchedulesDeleteOptionalParams
+    options?: StartStopManagedInstanceSchedulesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         managedInstanceName,
         startStopScheduleName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -234,11 +235,11 @@ export class StartStopManagedInstanceSchedulesImpl
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: StartStopManagedInstanceSchedulesListByInstanceNextOptionalParams
+    options?: StartStopManagedInstanceSchedulesListByInstanceNextOptionalParams,
   ): Promise<StartStopManagedInstanceSchedulesListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
-      listByInstanceNextOperationSpec
+      listByInstanceNextOperationSpec,
     );
   }
 }
@@ -246,34 +247,13 @@ export class StartStopManagedInstanceSchedulesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/startStopSchedules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/startStopSchedules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StartStopManagedInstanceScheduleListResult
+      bodyMapper: Mappers.StartStopManagedInstanceScheduleListResult,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/startStopSchedules/{startStopScheduleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StartStopManagedInstanceSchedule
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
@@ -281,23 +261,41 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.startStopScheduleName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/startStopSchedules/{startStopScheduleName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StartStopManagedInstanceSchedule,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.startStopScheduleName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/startStopSchedules/{startStopScheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/startStopSchedules/{startStopScheduleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.StartStopManagedInstanceSchedule
+      bodyMapper: Mappers.StartStopManagedInstanceSchedule,
     },
     201: {
-      bodyMapper: Mappers.StartStopManagedInstanceSchedule
+      bodyMapper: Mappers.StartStopManagedInstanceSchedule,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters90,
   queryParameters: [Parameters.apiVersion2],
@@ -306,15 +304,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.startStopScheduleName
+    Parameters.startStopScheduleName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/startStopSchedules/{startStopScheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/startStopSchedules/{startStopScheduleName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion2],
@@ -323,26 +320,26 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.startStopScheduleName
+    Parameters.startStopScheduleName,
   ],
-  serializer
+  serializer,
 };
 const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StartStopManagedInstanceScheduleListResult
+      bodyMapper: Mappers.StartStopManagedInstanceScheduleListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

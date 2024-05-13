@@ -33,7 +33,7 @@ async function deletesAOutboundFirewallRuleWithAGivenName() {
   const result = await client.outboundFirewallRules.beginDeleteAndWait(
     resourceGroupName,
     serverName,
-    outboundRuleFqdn
+    outboundRuleFqdn,
   );
   console.log(result);
 }

@@ -17,7 +17,7 @@ import {
   ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams,
   ManagedLedgerDigestUploadsCreateOrUpdateResponse,
   ManagedLedgerDigestUploadsDisableOptionalParams,
-  ManagedLedgerDigestUploadsDisableResponse
+  ManagedLedgerDigestUploadsDisableResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface ManagedLedgerDigestUploadsOperations {
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedLedgerDigestUploadsListByDatabaseOptionalParams
+    options?: ManagedLedgerDigestUploadsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ManagedLedgerDigestUploads>;
   /**
    * Gets the current ledger digest upload configuration for a database.
@@ -51,7 +51,7 @@ export interface ManagedLedgerDigestUploadsOperations {
     managedInstanceName: string,
     databaseName: string,
     ledgerDigestUploads: ManagedLedgerDigestUploadsName,
-    options?: ManagedLedgerDigestUploadsGetOptionalParams
+    options?: ManagedLedgerDigestUploadsGetOptionalParams,
   ): Promise<ManagedLedgerDigestUploadsGetResponse>;
   /**
    * Enables upload ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
@@ -69,7 +69,7 @@ export interface ManagedLedgerDigestUploadsOperations {
     databaseName: string,
     ledgerDigestUploads: ManagedLedgerDigestUploadsName,
     parameters: ManagedLedgerDigestUploads,
-    options?: ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams
+    options?: ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedLedgerDigestUploadsCreateOrUpdateResponse>,
@@ -92,7 +92,7 @@ export interface ManagedLedgerDigestUploadsOperations {
     databaseName: string,
     ledgerDigestUploads: ManagedLedgerDigestUploadsName,
     parameters: ManagedLedgerDigestUploads,
-    options?: ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams
+    options?: ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams,
   ): Promise<ManagedLedgerDigestUploadsCreateOrUpdateResponse>;
   /**
    * Disables uploading ledger digests to an Azure Storage account or an Azure Confidential Ledger
@@ -109,7 +109,7 @@ export interface ManagedLedgerDigestUploadsOperations {
     managedInstanceName: string,
     databaseName: string,
     ledgerDigestUploads: ManagedLedgerDigestUploadsName,
-    options?: ManagedLedgerDigestUploadsDisableOptionalParams
+    options?: ManagedLedgerDigestUploadsDisableOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedLedgerDigestUploadsDisableResponse>,
@@ -131,6 +131,6 @@ export interface ManagedLedgerDigestUploadsOperations {
     managedInstanceName: string,
     databaseName: string,
     ledgerDigestUploads: ManagedLedgerDigestUploadsName,
-    options?: ManagedLedgerDigestUploadsDisableOptionalParams
+    options?: ManagedLedgerDigestUploadsDisableOptionalParams,
   ): Promise<ManagedLedgerDigestUploadsDisableResponse>;
 }

@@ -32,7 +32,7 @@ async function getsListOfOutboundFirewallRulesOnAServer() {
   const resArray = new Array();
   for await (let item of client.outboundFirewallRules.listByServer(
     resourceGroupName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

@@ -34,7 +34,7 @@ async function listsTheDatabaseAdvancedThreatProtectionSettings() {
   for await (let item of client.databaseAdvancedThreatProtectionSettings.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

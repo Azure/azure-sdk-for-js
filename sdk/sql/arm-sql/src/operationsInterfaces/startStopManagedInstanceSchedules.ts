@@ -15,7 +15,7 @@ import {
   StartStopManagedInstanceSchedulesGetResponse,
   StartStopManagedInstanceSchedulesCreateOrUpdateOptionalParams,
   StartStopManagedInstanceSchedulesCreateOrUpdateResponse,
-  StartStopManagedInstanceSchedulesDeleteOptionalParams
+  StartStopManagedInstanceSchedulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface StartStopManagedInstanceSchedules {
   listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: StartStopManagedInstanceSchedulesListByInstanceOptionalParams
+    options?: StartStopManagedInstanceSchedulesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<StartStopManagedInstanceSchedule>;
   /**
    * Gets the managed instance's Start/Stop schedule.
@@ -45,7 +45,7 @@ export interface StartStopManagedInstanceSchedules {
     resourceGroupName: string,
     managedInstanceName: string,
     startStopScheduleName: StartStopScheduleName,
-    options?: StartStopManagedInstanceSchedulesGetOptionalParams
+    options?: StartStopManagedInstanceSchedulesGetOptionalParams,
   ): Promise<StartStopManagedInstanceSchedulesGetResponse>;
   /**
    * Creates or updates the managed instance's Start/Stop schedule.
@@ -61,7 +61,7 @@ export interface StartStopManagedInstanceSchedules {
     managedInstanceName: string,
     startStopScheduleName: StartStopScheduleName,
     parameters: StartStopManagedInstanceSchedule,
-    options?: StartStopManagedInstanceSchedulesCreateOrUpdateOptionalParams
+    options?: StartStopManagedInstanceSchedulesCreateOrUpdateOptionalParams,
   ): Promise<StartStopManagedInstanceSchedulesCreateOrUpdateResponse>;
   /**
    * Deletes the managed instance's Start/Stop schedule.
@@ -75,6 +75,6 @@ export interface StartStopManagedInstanceSchedules {
     resourceGroupName: string,
     managedInstanceName: string,
     startStopScheduleName: StartStopScheduleName,
-    options?: StartStopManagedInstanceSchedulesDeleteOptionalParams
+    options?: StartStopManagedInstanceSchedulesDeleteOptionalParams,
   ): Promise<void>;
 }

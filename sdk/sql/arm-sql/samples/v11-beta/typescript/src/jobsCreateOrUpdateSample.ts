@@ -35,8 +35,8 @@ async function createAJobWithAllPropertiesSpecified() {
       enabled: true,
       endTime: new Date("2015-09-24T23:59:59Z"),
       interval: "PT5M",
-      startTime: new Date("2015-09-24T18:30:01Z")
-    }
+      startTime: new Date("2015-09-24T18:30:01Z"),
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -45,7 +45,7 @@ async function createAJobWithAllPropertiesSpecified() {
     serverName,
     jobAgentName,
     jobName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -72,7 +72,7 @@ async function createAJobWithDefaultProperties() {
     serverName,
     jobAgentName,
     jobName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

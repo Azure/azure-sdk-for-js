@@ -30,7 +30,7 @@ async function createOrUpdateAJobAgent() {
   const parameters: JobAgent = {
     databaseId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/databases/db1",
-    location: "southeastasia"
+    location: "southeastasia",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -38,7 +38,7 @@ async function createOrUpdateAJobAgent() {
     resourceGroupName,
     serverName,
     jobAgentName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

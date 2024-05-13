@@ -13,7 +13,7 @@ import {
   ServerAdvisorsGetResponse,
   Advisor,
   ServerAdvisorsUpdateOptionalParams,
-  ServerAdvisorsUpdateResponse
+  ServerAdvisorsUpdateResponse,
 } from "../models";
 
 /** Interface representing a ServerAdvisors. */
@@ -28,7 +28,7 @@ export interface ServerAdvisors {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAdvisorsListByServerOptionalParams
+    options?: ServerAdvisorsListByServerOptionalParams,
   ): Promise<ServerAdvisorsListByServerResponse>;
   /**
    * Gets a server advisor.
@@ -42,7 +42,7 @@ export interface ServerAdvisors {
     resourceGroupName: string,
     serverName: string,
     advisorName: string,
-    options?: ServerAdvisorsGetOptionalParams
+    options?: ServerAdvisorsGetOptionalParams,
   ): Promise<ServerAdvisorsGetResponse>;
   /**
    * Updates a server advisor.
@@ -58,6 +58,6 @@ export interface ServerAdvisors {
     serverName: string,
     advisorName: string,
     parameters: Advisor,
-    options?: ServerAdvisorsUpdateOptionalParams
+    options?: ServerAdvisorsUpdateOptionalParams,
   ): Promise<ServerAdvisorsUpdateResponse>;
 }

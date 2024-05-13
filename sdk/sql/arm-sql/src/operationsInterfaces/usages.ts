@@ -22,6 +22,6 @@ export interface Usages {
   listByInstancePool(
     resourceGroupName: string,
     instancePoolName: string,
-    options?: UsagesListByInstancePoolOptionalParams
+    options?: UsagesListByInstancePoolOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
 }

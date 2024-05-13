@@ -30,12 +30,13 @@ async function disablesUploadingLedgerDigestsForADatabase() {
   const ledgerDigestUploads = "current";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedLedgerDigestUploadsOperations.beginDisableAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    ledgerDigestUploads
-  );
+  const result =
+    await client.managedLedgerDigestUploadsOperations.beginDisableAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      ledgerDigestUploads,
+    );
   console.log(result);
 }
 

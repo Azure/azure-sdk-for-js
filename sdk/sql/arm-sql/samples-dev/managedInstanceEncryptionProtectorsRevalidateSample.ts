@@ -30,11 +30,12 @@ async function revalidatesTheEncryptionProtector() {
   const encryptionProtectorName = "current";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstanceEncryptionProtectors.beginRevalidateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    encryptionProtectorName
-  );
+  const result =
+    await client.managedInstanceEncryptionProtectors.beginRevalidateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      encryptionProtectorName,
+    );
   console.log(result);
 }
 

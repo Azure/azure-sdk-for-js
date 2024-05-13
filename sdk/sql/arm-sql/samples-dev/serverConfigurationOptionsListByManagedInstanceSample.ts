@@ -31,7 +31,7 @@ async function getsAListOfManagedInstanceServerConfigurationOptions() {
   const resArray = new Array();
   for await (let item of client.serverConfigurationOptions.listByManagedInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

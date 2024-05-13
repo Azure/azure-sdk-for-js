@@ -15,7 +15,7 @@ import {
   ServerConnectionPoliciesGetOptionalParams,
   ServerConnectionPoliciesGetResponse,
   ServerConnectionPoliciesCreateOrUpdateOptionalParams,
-  ServerConnectionPoliciesCreateOrUpdateResponse
+  ServerConnectionPoliciesCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ServerConnectionPolicies {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerConnectionPoliciesListByServerOptionalParams
+    options?: ServerConnectionPoliciesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerConnectionPolicy>;
   /**
    * Gets a server connection policy
@@ -45,7 +45,7 @@ export interface ServerConnectionPolicies {
     resourceGroupName: string,
     serverName: string,
     connectionPolicyName: ConnectionPolicyName,
-    options?: ServerConnectionPoliciesGetOptionalParams
+    options?: ServerConnectionPoliciesGetOptionalParams,
   ): Promise<ServerConnectionPoliciesGetResponse>;
   /**
    * Updates a server connection policy
@@ -61,7 +61,7 @@ export interface ServerConnectionPolicies {
     serverName: string,
     connectionPolicyName: ConnectionPolicyName,
     parameters: ServerConnectionPolicy,
-    options?: ServerConnectionPoliciesCreateOrUpdateOptionalParams
+    options?: ServerConnectionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerConnectionPoliciesCreateOrUpdateResponse>,
@@ -82,6 +82,6 @@ export interface ServerConnectionPolicies {
     serverName: string,
     connectionPolicyName: ConnectionPolicyName,
     parameters: ServerConnectionPolicy,
-    options?: ServerConnectionPoliciesCreateOrUpdateOptionalParams
+    options?: ServerConnectionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ServerConnectionPoliciesCreateOrUpdateResponse>;
 }

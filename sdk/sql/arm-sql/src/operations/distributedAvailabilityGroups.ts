@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -31,13 +31,20 @@ import {
   DistributedAvailabilityGroupsDeleteOptionalParams,
   DistributedAvailabilityGroupsUpdateOptionalParams,
   DistributedAvailabilityGroupsUpdateResponse,
-  DistributedAvailabilityGroupsListByInstanceNextResponse
+  DistributedAvailabilityGroupsFailoverRequest,
+  DistributedAvailabilityGroupsFailoverOptionalParams,
+  DistributedAvailabilityGroupsFailoverResponse,
+  DistributedAvailabilityGroupSetRole,
+  DistributedAvailabilityGroupsSetRoleOptionalParams,
+  DistributedAvailabilityGroupsSetRoleResponse,
+  DistributedAvailabilityGroupsListByInstanceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DistributedAvailabilityGroups operations. */
 export class DistributedAvailabilityGroupsImpl
-  implements DistributedAvailabilityGroups {
+  implements DistributedAvailabilityGroups
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -58,12 +65,12 @@ export class DistributedAvailabilityGroupsImpl
   public listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: DistributedAvailabilityGroupsListByInstanceOptionalParams
+    options?: DistributedAvailabilityGroupsListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<DistributedAvailabilityGroup> {
     const iter = this.listByInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +87,9 @@ export class DistributedAvailabilityGroupsImpl
           resourceGroupName,
           managedInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +97,7 @@ export class DistributedAvailabilityGroupsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     options?: DistributedAvailabilityGroupsListByInstanceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DistributedAvailabilityGroup[]> {
     let result: DistributedAvailabilityGroupsListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +105,7 @@ export class DistributedAvailabilityGroupsImpl
       result = await this._listByInstance(
         resourceGroupName,
         managedInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +117,7 @@ export class DistributedAvailabilityGroupsImpl
         resourceGroupName,
         managedInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,12 +129,12 @@ export class DistributedAvailabilityGroupsImpl
   private async *listByInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: DistributedAvailabilityGroupsListByInstanceOptionalParams
+    options?: DistributedAvailabilityGroupsListByInstanceOptionalParams,
   ): AsyncIterableIterator<DistributedAvailabilityGroup> {
     for await (const page of this.listByInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,11 +150,11 @@ export class DistributedAvailabilityGroupsImpl
   private _listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: DistributedAvailabilityGroupsListByInstanceOptionalParams
+    options?: DistributedAvailabilityGroupsListByInstanceOptionalParams,
   ): Promise<DistributedAvailabilityGroupsListByInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
-      listByInstanceOperationSpec
+      listByInstanceOperationSpec,
     );
   }
 
@@ -163,16 +170,16 @@ export class DistributedAvailabilityGroupsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
-    options?: DistributedAvailabilityGroupsGetOptionalParams
+    options?: DistributedAvailabilityGroupsGetOptionalParams,
   ): Promise<DistributedAvailabilityGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         managedInstanceName,
         distributedAvailabilityGroupName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -190,7 +197,7 @@ export class DistributedAvailabilityGroupsImpl
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
     parameters: DistributedAvailabilityGroup,
-    options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams
+    options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DistributedAvailabilityGroupsCreateOrUpdateResponse>,
@@ -199,21 +206,20 @@ export class DistributedAvailabilityGroupsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DistributedAvailabilityGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -222,8 +228,8 @@ export class DistributedAvailabilityGroupsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -231,8 +237,8 @@ export class DistributedAvailabilityGroupsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -243,16 +249,16 @@ export class DistributedAvailabilityGroupsImpl
         managedInstanceName,
         distributedAvailabilityGroupName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       DistributedAvailabilityGroupsCreateOrUpdateResponse,
       OperationState<DistributedAvailabilityGroupsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -272,14 +278,14 @@ export class DistributedAvailabilityGroupsImpl
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
     parameters: DistributedAvailabilityGroup,
-    options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams
+    options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams,
   ): Promise<DistributedAvailabilityGroupsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       managedInstanceName,
       distributedAvailabilityGroupName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -296,25 +302,24 @@ export class DistributedAvailabilityGroupsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
-    options?: DistributedAvailabilityGroupsDeleteOptionalParams
+    options?: DistributedAvailabilityGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -323,8 +328,8 @@ export class DistributedAvailabilityGroupsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -332,8 +337,8 @@ export class DistributedAvailabilityGroupsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -343,13 +348,13 @@ export class DistributedAvailabilityGroupsImpl
         resourceGroupName,
         managedInstanceName,
         distributedAvailabilityGroupName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -367,13 +372,13 @@ export class DistributedAvailabilityGroupsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
-    options?: DistributedAvailabilityGroupsDeleteOptionalParams
+    options?: DistributedAvailabilityGroupsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       managedInstanceName,
       distributedAvailabilityGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -392,7 +397,7 @@ export class DistributedAvailabilityGroupsImpl
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
     parameters: DistributedAvailabilityGroup,
-    options?: DistributedAvailabilityGroupsUpdateOptionalParams
+    options?: DistributedAvailabilityGroupsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DistributedAvailabilityGroupsUpdateResponse>,
@@ -401,21 +406,20 @@ export class DistributedAvailabilityGroupsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DistributedAvailabilityGroupsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -424,8 +428,8 @@ export class DistributedAvailabilityGroupsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -433,8 +437,8 @@ export class DistributedAvailabilityGroupsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -445,16 +449,16 @@ export class DistributedAvailabilityGroupsImpl
         managedInstanceName,
         distributedAvailabilityGroupName,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       DistributedAvailabilityGroupsUpdateResponse,
       OperationState<DistributedAvailabilityGroupsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -474,14 +478,230 @@ export class DistributedAvailabilityGroupsImpl
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
     parameters: DistributedAvailabilityGroup,
-    options?: DistributedAvailabilityGroupsUpdateOptionalParams
+    options?: DistributedAvailabilityGroupsUpdateOptionalParams,
   ): Promise<DistributedAvailabilityGroupsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       managedInstanceName,
       distributedAvailabilityGroupName,
       parameters,
-      options
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Performs requested failover type in this distributed availability group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group failover request parameters.
+   * @param options The options parameters.
+   */
+  async beginFailover(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroupsFailoverRequest,
+    options?: DistributedAvailabilityGroupsFailoverOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DistributedAvailabilityGroupsFailoverResponse>,
+      DistributedAvailabilityGroupsFailoverResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<DistributedAvailabilityGroupsFailoverResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        managedInstanceName,
+        distributedAvailabilityGroupName,
+        parameters,
+        options,
+      },
+      spec: failoverOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DistributedAvailabilityGroupsFailoverResponse,
+      OperationState<DistributedAvailabilityGroupsFailoverResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Performs requested failover type in this distributed availability group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group failover request parameters.
+   * @param options The options parameters.
+   */
+  async beginFailoverAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroupsFailoverRequest,
+    options?: DistributedAvailabilityGroupsFailoverOptionalParams,
+  ): Promise<DistributedAvailabilityGroupsFailoverResponse> {
+    const poller = await this.beginFailover(
+      resourceGroupName,
+      managedInstanceName,
+      distributedAvailabilityGroupName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Sets the role for managed instance in a distributed availability group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group set role request parameters.
+   * @param options The options parameters.
+   */
+  async beginSetRole(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroupSetRole,
+    options?: DistributedAvailabilityGroupsSetRoleOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DistributedAvailabilityGroupsSetRoleResponse>,
+      DistributedAvailabilityGroupsSetRoleResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<DistributedAvailabilityGroupsSetRoleResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        managedInstanceName,
+        distributedAvailabilityGroupName,
+        parameters,
+        options,
+      },
+      spec: setRoleOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DistributedAvailabilityGroupsSetRoleResponse,
+      OperationState<DistributedAvailabilityGroupsSetRoleResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Sets the role for managed instance in a distributed availability group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group set role request parameters.
+   * @param options The options parameters.
+   */
+  async beginSetRoleAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroupSetRole,
+    options?: DistributedAvailabilityGroupsSetRoleOptionalParams,
+  ): Promise<DistributedAvailabilityGroupsSetRoleResponse> {
+    const poller = await this.beginSetRole(
+      resourceGroupName,
+      managedInstanceName,
+      distributedAvailabilityGroupName,
+      parameters,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -498,11 +718,11 @@ export class DistributedAvailabilityGroupsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: DistributedAvailabilityGroupsListByInstanceNextOptionalParams
+    options?: DistributedAvailabilityGroupsListByInstanceNextOptionalParams,
   ): Promise<DistributedAvailabilityGroupsListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
-      listByInstanceNextOperationSpec
+      listByInstanceNextOperationSpec,
     );
   }
 }
@@ -510,34 +730,15 @@ export class DistributedAvailabilityGroupsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DistributedAvailabilityGroupsListResult
+      bodyMapper: Mappers.DistributedAvailabilityGroupsListResult,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion8],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {}
   },
   queryParameters: [Parameters.apiVersion8],
   urlParameters: [
@@ -545,29 +746,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.distributedAvailabilityGroupName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.distributedAvailabilityGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
     },
     201: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
     },
     202: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
     },
     204: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters63,
   queryParameters: [Parameters.apiVersion8],
@@ -576,45 +799,54 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.distributedAvailabilityGroupName
+    Parameters.distributedAvailabilityGroupName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
   queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.distributedAvailabilityGroupName
+    Parameters.distributedAvailabilityGroupName,
   ],
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
     },
     201: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
     },
     202: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
     },
     204: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters63,
   queryParameters: [Parameters.apiVersion8],
@@ -623,28 +855,96 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.distributedAvailabilityGroupName
+    Parameters.distributedAvailabilityGroupName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const failoverOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}/failover",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
+    },
+    201: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
+    },
+    202: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
+    },
+    204: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters64,
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName1,
+    Parameters.distributedAvailabilityGroupName1,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const setRoleOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}/setRole",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
+    },
+    201: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
+    },
+    202: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
+    },
+    204: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters65,
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.distributedAvailabilityGroupName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DistributedAvailabilityGroupsListResult
+      bodyMapper: Mappers.DistributedAvailabilityGroupsListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedInstancesFailoverOptionalParams,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Failovers a managed instance.
  *
  * @summary Failovers a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/FailoverManagedInstance.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/FailoverManagedInstance.json
  */
 async function failoverAManagedInstance() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function failoverAManagedInstance() {
   const result = await client.managedInstances.beginFailoverAndWait(
     resourceGroupName,
     managedInstanceName,
-    options
+    options,
   );
   console.log(result);
 }

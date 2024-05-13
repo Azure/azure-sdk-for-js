@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   RestorableDroppedDatabasesGetOptionalParams,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -39,7 +39,7 @@ async function getsARestorableDroppedDatabaseWithExpandEqualsKeys() {
     resourceGroupName,
     serverName,
     restorableDroppedDatabaseId,
-    options
+    options,
   );
   console.log(result);
 }
@@ -63,7 +63,7 @@ async function getsARestorableDroppedDatabase() {
   const result = await client.restorableDroppedDatabases.get(
     resourceGroupName,
     serverName,
-    restorableDroppedDatabaseId
+    restorableDroppedDatabaseId,
   );
   console.log(result);
 }

@@ -15,7 +15,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   ServerUsage,
   ServerUsagesListByServerOptionalParams,
-  ServerUsagesListByServerResponse
+  ServerUsagesListByServerResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,12 +41,12 @@ export class ServerUsagesImpl implements ServerUsages {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerUsagesListByServerOptionalParams
+    options?: ServerUsagesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerUsage> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -63,9 +63,9 @@ export class ServerUsagesImpl implements ServerUsages {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -73,7 +73,7 @@ export class ServerUsagesImpl implements ServerUsages {
     resourceGroupName: string,
     serverName: string,
     options?: ServerUsagesListByServerOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ServerUsage[]> {
     let result: ServerUsagesListByServerResponse;
     result = await this._listByServer(resourceGroupName, serverName, options);
@@ -83,12 +83,12 @@ export class ServerUsagesImpl implements ServerUsages {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerUsagesListByServerOptionalParams
+    options?: ServerUsagesListByServerOptionalParams,
   ): AsyncIterableIterator<ServerUsage> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -104,11 +104,11 @@ export class ServerUsagesImpl implements ServerUsages {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerUsagesListByServerOptionalParams
+    options?: ServerUsagesListByServerOptionalParams,
   ): Promise<ServerUsagesListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 }
@@ -116,21 +116,20 @@ export class ServerUsagesImpl implements ServerUsages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/usages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerUsageListResult
-    }
+      bodyMapper: Mappers.ServerUsageListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

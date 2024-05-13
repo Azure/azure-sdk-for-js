@@ -35,7 +35,7 @@ async function listJobStepsForTheLatestVersionOfAJob() {
     resourceGroupName,
     serverName,
     jobAgentName,
-    jobName
+    jobName,
   )) {
     resArray.push(item);
   }

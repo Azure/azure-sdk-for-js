@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -43,7 +43,7 @@ import {
   ManagedDatabaseStartMoveDefinition,
   ManagedDatabasesStartMoveOptionalParams,
   ManagedDatabasesListByInstanceNextResponse,
-  ManagedDatabasesListInaccessibleByInstanceNextResponse
+  ManagedDatabasesListInaccessibleByInstanceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -69,12 +69,12 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
   public listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedDatabasesListByInstanceOptionalParams
+    options?: ManagedDatabasesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedDatabase> {
     const iter = this.listByInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -91,9 +91,9 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
           resourceGroupName,
           managedInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -101,7 +101,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ManagedDatabasesListByInstanceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedDatabase[]> {
     let result: ManagedDatabasesListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
@@ -109,7 +109,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
       result = await this._listByInstance(
         resourceGroupName,
         managedInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -121,7 +121,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         resourceGroupName,
         managedInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -133,12 +133,12 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
   private async *listByInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedDatabasesListByInstanceOptionalParams
+    options?: ManagedDatabasesListByInstanceOptionalParams,
   ): AsyncIterableIterator<ManagedDatabase> {
     for await (const page of this.listByInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -154,12 +154,12 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
   public listInaccessibleByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedDatabasesListInaccessibleByInstanceOptionalParams
+    options?: ManagedDatabasesListInaccessibleByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedDatabase> {
     const iter = this.listInaccessibleByInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -176,9 +176,9 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
           resourceGroupName,
           managedInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -186,7 +186,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ManagedDatabasesListInaccessibleByInstanceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedDatabase[]> {
     let result: ManagedDatabasesListInaccessibleByInstanceResponse;
     let continuationToken = settings?.continuationToken;
@@ -194,7 +194,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
       result = await this._listInaccessibleByInstance(
         resourceGroupName,
         managedInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -206,7 +206,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         resourceGroupName,
         managedInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -218,12 +218,12 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
   private async *listInaccessibleByInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedDatabasesListInaccessibleByInstanceOptionalParams
+    options?: ManagedDatabasesListInaccessibleByInstanceOptionalParams,
   ): AsyncIterableIterator<ManagedDatabase> {
     for await (const page of this.listInaccessibleByInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -239,11 +239,11 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
   private _listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedDatabasesListByInstanceOptionalParams
+    options?: ManagedDatabasesListByInstanceOptionalParams,
   ): Promise<ManagedDatabasesListByInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
-      listByInstanceOperationSpec
+      listByInstanceOperationSpec,
     );
   }
 
@@ -259,11 +259,11 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabasesGetOptionalParams
+    options?: ManagedDatabasesGetOptionalParams,
   ): Promise<ManagedDatabasesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, databaseName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -281,7 +281,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     managedInstanceName: string,
     databaseName: string,
     parameters: ManagedDatabase,
-    options?: ManagedDatabasesCreateOrUpdateOptionalParams
+    options?: ManagedDatabasesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedDatabasesCreateOrUpdateResponse>,
@@ -290,21 +290,20 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedDatabasesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -313,8 +312,8 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -322,8 +321,8 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -334,16 +333,16 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         managedInstanceName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedDatabasesCreateOrUpdateResponse,
       OperationState<ManagedDatabasesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -363,14 +362,14 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     managedInstanceName: string,
     databaseName: string,
     parameters: ManagedDatabase,
-    options?: ManagedDatabasesCreateOrUpdateOptionalParams
+    options?: ManagedDatabasesCreateOrUpdateOptionalParams,
   ): Promise<ManagedDatabasesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       managedInstanceName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -387,25 +386,24 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabasesDeleteOptionalParams
+    options?: ManagedDatabasesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -414,8 +412,8 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -423,19 +421,19 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, managedInstanceName, databaseName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -453,13 +451,13 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabasesDeleteOptionalParams
+    options?: ManagedDatabasesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       managedInstanceName,
       databaseName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -478,7 +476,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     managedInstanceName: string,
     databaseName: string,
     parameters: ManagedDatabaseUpdate,
-    options?: ManagedDatabasesUpdateOptionalParams
+    options?: ManagedDatabasesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedDatabasesUpdateResponse>,
@@ -487,21 +485,20 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedDatabasesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -510,8 +507,8 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -519,8 +516,8 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -531,16 +528,16 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         managedInstanceName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedDatabasesUpdateResponse,
       OperationState<ManagedDatabasesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -560,14 +557,14 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     managedInstanceName: string,
     databaseName: string,
     parameters: ManagedDatabaseUpdate,
-    options?: ManagedDatabasesUpdateOptionalParams
+    options?: ManagedDatabasesUpdateOptionalParams,
   ): Promise<ManagedDatabasesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       managedInstanceName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -586,25 +583,24 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     managedInstanceName: string,
     databaseName: string,
     parameters: ManagedDatabaseMoveDefinition,
-    options?: ManagedDatabasesCancelMoveOptionalParams
+    options?: ManagedDatabasesCancelMoveOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -613,8 +609,8 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -622,8 +618,8 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -634,13 +630,13 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         managedInstanceName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      spec: cancelMoveOperationSpec
+      spec: cancelMoveOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -660,14 +656,14 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     managedInstanceName: string,
     databaseName: string,
     parameters: ManagedDatabaseMoveDefinition,
-    options?: ManagedDatabasesCancelMoveOptionalParams
+    options?: ManagedDatabasesCancelMoveOptionalParams,
   ): Promise<void> {
     const poller = await this.beginCancelMove(
       resourceGroupName,
       managedInstanceName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -686,25 +682,24 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     managedInstanceName: string,
     databaseName: string,
     parameters: ManagedDatabaseMoveDefinition,
-    options?: ManagedDatabasesCompleteMoveOptionalParams
+    options?: ManagedDatabasesCompleteMoveOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -713,8 +708,8 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -722,8 +717,8 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -734,13 +729,13 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         managedInstanceName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      spec: completeMoveOperationSpec
+      spec: completeMoveOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -760,14 +755,14 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     managedInstanceName: string,
     databaseName: string,
     parameters: ManagedDatabaseMoveDefinition,
-    options?: ManagedDatabasesCompleteMoveOptionalParams
+    options?: ManagedDatabasesCompleteMoveOptionalParams,
   ): Promise<void> {
     const poller = await this.beginCompleteMove(
       resourceGroupName,
       managedInstanceName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -786,25 +781,24 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     managedInstanceName: string,
     databaseName: string,
     parameters: CompleteDatabaseRestoreDefinition,
-    options?: ManagedDatabasesCompleteRestoreOptionalParams
+    options?: ManagedDatabasesCompleteRestoreOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -813,8 +807,8 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -822,8 +816,8 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -834,13 +828,13 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         managedInstanceName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      spec: completeRestoreOperationSpec
+      spec: completeRestoreOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -860,14 +854,14 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     managedInstanceName: string,
     databaseName: string,
     parameters: CompleteDatabaseRestoreDefinition,
-    options?: ManagedDatabasesCompleteRestoreOptionalParams
+    options?: ManagedDatabasesCompleteRestoreOptionalParams,
   ): Promise<void> {
     const poller = await this.beginCompleteRestore(
       resourceGroupName,
       managedInstanceName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -886,25 +880,24 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     managedInstanceName: string,
     databaseName: string,
     parameters: ManagedDatabaseStartMoveDefinition,
-    options?: ManagedDatabasesStartMoveOptionalParams
+    options?: ManagedDatabasesStartMoveOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -913,8 +906,8 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -922,8 +915,8 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -934,13 +927,13 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
         managedInstanceName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      spec: startMoveOperationSpec
+      spec: startMoveOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -960,14 +953,14 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     managedInstanceName: string,
     databaseName: string,
     parameters: ManagedDatabaseStartMoveDefinition,
-    options?: ManagedDatabasesStartMoveOptionalParams
+    options?: ManagedDatabasesStartMoveOptionalParams,
   ): Promise<void> {
     const poller = await this.beginStartMove(
       resourceGroupName,
       managedInstanceName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -982,11 +975,11 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
   private _listInaccessibleByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedDatabasesListInaccessibleByInstanceOptionalParams
+    options?: ManagedDatabasesListInaccessibleByInstanceOptionalParams,
   ): Promise<ManagedDatabasesListInaccessibleByInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
-      listInaccessibleByInstanceOperationSpec
+      listInaccessibleByInstanceOperationSpec,
     );
   }
 
@@ -1002,11 +995,11 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: ManagedDatabasesListByInstanceNextOptionalParams
+    options?: ManagedDatabasesListByInstanceNextOptionalParams,
   ): Promise<ManagedDatabasesListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
-      listByInstanceNextOperationSpec
+      listByInstanceNextOperationSpec,
     );
   }
 
@@ -1023,11 +1016,11 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: ManagedDatabasesListInaccessibleByInstanceNextOptionalParams
+    options?: ManagedDatabasesListInaccessibleByInstanceNextOptionalParams,
   ): Promise<ManagedDatabasesListInaccessibleByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
-      listInaccessibleByInstanceNextOperationSpec
+      listInaccessibleByInstanceNextOperationSpec,
     );
   }
 }
@@ -1035,34 +1028,32 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedDatabaseListResult
+      bodyMapper: Mappers.ManagedDatabaseListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedDatabase
+      bodyMapper: Mappers.ManagedDatabase,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
@@ -1070,46 +1061,44 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedDatabase
+      bodyMapper: Mappers.ManagedDatabase,
     },
     201: {
-      bodyMapper: Mappers.ManagedDatabase
+      bodyMapper: Mappers.ManagedDatabase,
     },
     202: {
-      bodyMapper: Mappers.ManagedDatabase
+      bodyMapper: Mappers.ManagedDatabase,
     },
     204: {
-      bodyMapper: Mappers.ManagedDatabase
+      bodyMapper: Mappers.ManagedDatabase,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters81,
+  requestBody: Parameters.parameters83,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion2],
@@ -1118,83 +1107,28 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedDatabase
+      bodyMapper: Mappers.ManagedDatabase,
     },
     201: {
-      bodyMapper: Mappers.ManagedDatabase
+      bodyMapper: Mappers.ManagedDatabase,
     },
     202: {
-      bodyMapper: Mappers.ManagedDatabase
+      bodyMapper: Mappers.ManagedDatabase,
     },
     204: {
-      bodyMapper: Mappers.ManagedDatabase
+      bodyMapper: Mappers.ManagedDatabase,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters82,
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.databaseName,
-    Parameters.managedInstanceName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const cancelMoveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/cancelMove",
-  httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.parameters83,
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.databaseName,
-    Parameters.managedInstanceName
-  ],
-  headerParameters: [Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const completeMoveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/completeMove",
-  httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.parameters83,
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.databaseName,
-    Parameters.managedInstanceName
-  ],
-  headerParameters: [Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const completeRestoreOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/completeRestore",
-  httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   requestBody: Parameters.parameters84,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
@@ -1202,15 +1136,14 @@ const completeRestoreOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const startMoveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/startMove",
+const cancelMoveOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/cancelMove",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   requestBody: Parameters.parameters85,
@@ -1220,67 +1153,117 @@ const startMoveOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const completeMoveOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/completeMove",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  requestBody: Parameters.parameters85,
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.databaseName,
+    Parameters.managedInstanceName,
+  ],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const completeRestoreOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/completeRestore",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  requestBody: Parameters.parameters86,
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.databaseName,
+    Parameters.managedInstanceName,
+  ],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const startMoveOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/startMove",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  requestBody: Parameters.parameters87,
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.databaseName,
+    Parameters.managedInstanceName,
+  ],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listInaccessibleByInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/inaccessibleManagedDatabases",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/inaccessibleManagedDatabases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedDatabaseListResult
+      bodyMapper: Mappers.ManagedDatabaseListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedDatabaseListResult
+      bodyMapper: Mappers.ManagedDatabaseListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listInaccessibleByInstanceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedDatabaseListResult
+      bodyMapper: Mappers.ManagedDatabaseListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

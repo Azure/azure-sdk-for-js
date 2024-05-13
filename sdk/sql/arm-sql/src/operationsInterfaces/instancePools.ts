@@ -19,7 +19,7 @@ import {
   InstancePoolsDeleteOptionalParams,
   InstancePoolUpdate,
   InstancePoolsUpdateOptionalParams,
-  InstancePoolsUpdateResponse
+  InstancePoolsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface InstancePools {
    * @param options The options parameters.
    */
   list(
-    options?: InstancePoolsListOptionalParams
+    options?: InstancePoolsListOptionalParams,
   ): PagedAsyncIterableIterator<InstancePool>;
   /**
    * Gets a list of instance pools in the resource group
@@ -40,7 +40,7 @@ export interface InstancePools {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: InstancePoolsListByResourceGroupOptionalParams
+    options?: InstancePoolsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<InstancePool>;
   /**
    * Gets an instance pool.
@@ -52,7 +52,7 @@ export interface InstancePools {
   get(
     resourceGroupName: string,
     instancePoolName: string,
-    options?: InstancePoolsGetOptionalParams
+    options?: InstancePoolsGetOptionalParams,
   ): Promise<InstancePoolsGetResponse>;
   /**
    * Creates or updates an instance pool.
@@ -66,7 +66,7 @@ export interface InstancePools {
     resourceGroupName: string,
     instancePoolName: string,
     parameters: InstancePool,
-    options?: InstancePoolsCreateOrUpdateOptionalParams
+    options?: InstancePoolsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InstancePoolsCreateOrUpdateResponse>,
@@ -85,7 +85,7 @@ export interface InstancePools {
     resourceGroupName: string,
     instancePoolName: string,
     parameters: InstancePool,
-    options?: InstancePoolsCreateOrUpdateOptionalParams
+    options?: InstancePoolsCreateOrUpdateOptionalParams,
   ): Promise<InstancePoolsCreateOrUpdateResponse>;
   /**
    * Deletes an instance pool
@@ -97,7 +97,7 @@ export interface InstancePools {
   beginDelete(
     resourceGroupName: string,
     instancePoolName: string,
-    options?: InstancePoolsDeleteOptionalParams
+    options?: InstancePoolsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an instance pool
@@ -109,7 +109,7 @@ export interface InstancePools {
   beginDeleteAndWait(
     resourceGroupName: string,
     instancePoolName: string,
-    options?: InstancePoolsDeleteOptionalParams
+    options?: InstancePoolsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates an instance pool.
@@ -123,7 +123,7 @@ export interface InstancePools {
     resourceGroupName: string,
     instancePoolName: string,
     parameters: InstancePoolUpdate,
-    options?: InstancePoolsUpdateOptionalParams
+    options?: InstancePoolsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InstancePoolsUpdateResponse>,
@@ -142,6 +142,6 @@ export interface InstancePools {
     resourceGroupName: string,
     instancePoolName: string,
     parameters: InstancePoolUpdate,
-    options?: InstancePoolsUpdateOptionalParams
+    options?: InstancePoolsUpdateOptionalParams,
   ): Promise<InstancePoolsUpdateResponse>;
 }

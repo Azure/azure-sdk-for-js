@@ -14,7 +14,7 @@ import {
   DatabaseAdvancedThreatProtectionSettingsGetOptionalParams,
   DatabaseAdvancedThreatProtectionSettingsGetResponse,
   DatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
-  DatabaseAdvancedThreatProtectionSettingsCreateOrUpdateResponse
+  DatabaseAdvancedThreatProtectionSettingsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface DatabaseAdvancedThreatProtectionSettings {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams
+    options?: DatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseAdvancedThreatProtection>;
   /**
    * Gets a database's Advanced Threat Protection state.
@@ -48,7 +48,7 @@ export interface DatabaseAdvancedThreatProtectionSettings {
     serverName: string,
     databaseName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
-    options?: DatabaseAdvancedThreatProtectionSettingsGetOptionalParams
+    options?: DatabaseAdvancedThreatProtectionSettingsGetOptionalParams,
   ): Promise<DatabaseAdvancedThreatProtectionSettingsGetResponse>;
   /**
    * Creates or updates a database's Advanced Threat Protection state.
@@ -66,6 +66,6 @@ export interface DatabaseAdvancedThreatProtectionSettings {
     databaseName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
     parameters: DatabaseAdvancedThreatProtection,
-    options?: DatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+    options?: DatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
   ): Promise<DatabaseAdvancedThreatProtectionSettingsCreateOrUpdateResponse>;
 }

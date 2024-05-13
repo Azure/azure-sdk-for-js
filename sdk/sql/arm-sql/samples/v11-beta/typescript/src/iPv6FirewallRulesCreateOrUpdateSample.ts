@@ -30,7 +30,7 @@ async function createAnIPv6FirewallRuleMaxOrMin() {
   const firewallRuleName = "firewallrulecrudtest-5370";
   const parameters: IPv6FirewallRule = {
     endIPv6Address: "0000:0000:0000:0000:0000:ffff:0000:0003",
-    startIPv6Address: "0000:0000:0000:0000:0000:ffff:0000:0003"
+    startIPv6Address: "0000:0000:0000:0000:0000:ffff:0000:0003",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -38,7 +38,7 @@ async function createAnIPv6FirewallRuleMaxOrMin() {
     resourceGroupName,
     serverName,
     firewallRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -59,7 +59,7 @@ async function updateAnIPv6FirewallRuleMaxOrMin() {
   const firewallRuleName = "firewallrulecrudtest-3927";
   const parameters: IPv6FirewallRule = {
     endIPv6Address: "0000:0000:0000:0000:0000:ffff:0000:0001",
-    startIPv6Address: "0000:0000:0000:0000:0000:ffff:0000:0001"
+    startIPv6Address: "0000:0000:0000:0000:0000:ffff:0000:0001",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -67,7 +67,7 @@ async function updateAnIPv6FirewallRuleMaxOrMin() {
     resourceGroupName,
     serverName,
     firewallRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

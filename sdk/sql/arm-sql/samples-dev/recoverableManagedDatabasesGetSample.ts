@@ -32,7 +32,7 @@ async function getsARecoverableDatabasesByManagedInstances() {
   const result = await client.recoverableManagedDatabases.get(
     resourceGroupName,
     managedInstanceName,
-    recoverableDatabaseName
+    recoverableDatabaseName,
   );
   console.log(result);
 }

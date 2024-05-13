@@ -18,7 +18,7 @@ import {
   JobAgentsDeleteOptionalParams,
   JobAgentUpdate,
   JobAgentsUpdateOptionalParams,
-  JobAgentsUpdateResponse
+  JobAgentsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface JobAgents {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: JobAgentsListByServerOptionalParams
+    options?: JobAgentsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<JobAgent>;
   /**
    * Gets a job agent.
@@ -48,7 +48,7 @@ export interface JobAgents {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobAgentsGetOptionalParams
+    options?: JobAgentsGetOptionalParams,
   ): Promise<JobAgentsGetResponse>;
   /**
    * Creates or updates a job agent.
@@ -64,7 +64,7 @@ export interface JobAgents {
     serverName: string,
     jobAgentName: string,
     parameters: JobAgent,
-    options?: JobAgentsCreateOrUpdateOptionalParams
+    options?: JobAgentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<JobAgentsCreateOrUpdateResponse>,
@@ -85,7 +85,7 @@ export interface JobAgents {
     serverName: string,
     jobAgentName: string,
     parameters: JobAgent,
-    options?: JobAgentsCreateOrUpdateOptionalParams
+    options?: JobAgentsCreateOrUpdateOptionalParams,
   ): Promise<JobAgentsCreateOrUpdateResponse>;
   /**
    * Deletes a job agent.
@@ -99,7 +99,7 @@ export interface JobAgents {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobAgentsDeleteOptionalParams
+    options?: JobAgentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a job agent.
@@ -113,7 +113,7 @@ export interface JobAgents {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobAgentsDeleteOptionalParams
+    options?: JobAgentsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a job agent.
@@ -129,7 +129,7 @@ export interface JobAgents {
     serverName: string,
     jobAgentName: string,
     parameters: JobAgentUpdate,
-    options?: JobAgentsUpdateOptionalParams
+    options?: JobAgentsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<JobAgentsUpdateResponse>,
@@ -150,6 +150,6 @@ export interface JobAgents {
     serverName: string,
     jobAgentName: string,
     parameters: JobAgentUpdate,
-    options?: JobAgentsUpdateOptionalParams
+    options?: JobAgentsUpdateOptionalParams,
   ): Promise<JobAgentsUpdateResponse>;
 }

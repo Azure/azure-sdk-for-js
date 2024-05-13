@@ -16,7 +16,7 @@ import {
   ManagedInstanceAzureADOnlyAuthenticationsGetResponse,
   ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams,
   ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse,
-  ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams
+  ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ManagedInstanceAzureADOnlyAuthentications {
   listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams
+    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceAzureADOnlyAuthentication>;
   /**
    * Gets a specific Azure Active Directory only authentication property.
@@ -46,7 +46,7 @@ export interface ManagedInstanceAzureADOnlyAuthentications {
     resourceGroupName: string,
     managedInstanceName: string,
     authenticationName: AuthenticationName,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsGetOptionalParams
+    options?: ManagedInstanceAzureADOnlyAuthenticationsGetOptionalParams,
   ): Promise<ManagedInstanceAzureADOnlyAuthenticationsGetResponse>;
   /**
    * Sets Server Active Directory only authentication property or updates an existing server Active
@@ -64,12 +64,10 @@ export interface ManagedInstanceAzureADOnlyAuthentications {
     managedInstanceName: string,
     authenticationName: AuthenticationName,
     parameters: ManagedInstanceAzureADOnlyAuthentication,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse
-      >,
+      OperationState<ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse>,
       ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse
     >
   >;
@@ -89,7 +87,7 @@ export interface ManagedInstanceAzureADOnlyAuthentications {
     managedInstanceName: string,
     authenticationName: AuthenticationName,
     parameters: ManagedInstanceAzureADOnlyAuthentication,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams,
   ): Promise<ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse>;
   /**
    * Deletes an existing server Active Directory only authentication property.
@@ -103,7 +101,7 @@ export interface ManagedInstanceAzureADOnlyAuthentications {
     resourceGroupName: string,
     managedInstanceName: string,
     authenticationName: AuthenticationName,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams
+    options?: ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing server Active Directory only authentication property.
@@ -117,6 +115,6 @@ export interface ManagedInstanceAzureADOnlyAuthentications {
     resourceGroupName: string,
     managedInstanceName: string,
     authenticationName: AuthenticationName,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams
+    options?: ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams,
   ): Promise<void>;
 }

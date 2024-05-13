@@ -31,7 +31,7 @@ async function assignsMaintenanceWindowToADatabase() {
   const parameters: DatabaseUpdate = {
     maintenanceConfigurationId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_SouthEastAsia_1",
-    sku: { name: "BC_Gen5_4" }
+    sku: { name: "BC_Gen5_4" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -39,7 +39,7 @@ async function assignsMaintenanceWindowToADatabase() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -65,7 +65,7 @@ async function createsADatabaseWithVbsEnclaveType() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -90,15 +90,18 @@ async function patchADatabaseWithDatabaseLevelCustomerManagedKeys() {
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/00000000111122223333444444444444/resourcegroups/DefaultSqlSouthEastAsia/providers/MicrosoftManagedIdentity/userAssignedIdentities/umi": {},
-        "/subscriptions/00000000111122223333444444444444/resourcegroups/DefaultSqlSouthEastAsia/providers/MicrosoftManagedIdentity/userAssignedIdentities/umiToDelete": {}
-      }
+        "/subscriptions/00000000111122223333444444444444/resourcegroups/DefaultSqlSouthEastAsia/providers/MicrosoftManagedIdentity/userAssignedIdentities/umi":
+          {},
+        "/subscriptions/00000000111122223333444444444444/resourcegroups/DefaultSqlSouthEastAsia/providers/MicrosoftManagedIdentity/userAssignedIdentities/umiToDelete":
+          {},
+      },
     },
     keys: {
       "https://yourKeyVaultNameVaultAzureNet/yourKey/yourKeyVersion": {},
-      "https://yourKeyVaultNameVaultAzureNet/yourKey2/yourKey2VersionToDelete": {}
+      "https://yourKeyVaultNameVaultAzureNet/yourKey2/yourKey2VersionToDelete":
+        {},
     },
-    sku: { name: "S0", tier: "Standard" }
+    sku: { name: "S0", tier: "Standard" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -106,7 +109,7 @@ async function patchADatabaseWithDatabaseLevelCustomerManagedKeys() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -128,7 +131,7 @@ async function resetsMaintenanceWindowOfADatabaseToDefault() {
   const parameters: DatabaseUpdate = {
     maintenanceConfigurationId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
-    sku: { name: "BC_Gen5_4" }
+    sku: { name: "BC_Gen5_4" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -136,7 +139,7 @@ async function resetsMaintenanceWindowOfADatabaseToDefault() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -162,7 +165,7 @@ async function updatesADatabaseWithDefaultEnclaveType() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -184,7 +187,7 @@ async function updatesADatabase() {
   const parameters: DatabaseUpdate = {
     licenseType: "LicenseIncluded",
     maxSizeBytes: 1073741824,
-    sku: { name: "BC_Gen4_4" }
+    sku: { name: "BC_Gen4_4" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -192,7 +195,7 @@ async function updatesADatabase() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

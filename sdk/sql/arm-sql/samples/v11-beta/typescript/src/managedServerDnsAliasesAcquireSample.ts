@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedServerDnsAliasAcquisition,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,7 +32,7 @@ async function acquireManagedServerDnsAlias() {
   const dnsAliasName = "dns-alias-mi";
   const parameters: ManagedServerDnsAliasAcquisition = {
     oldManagedServerDnsAliasResourceId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/managedInstances/old-mi/dnsAliases/alias1"
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/managedInstances/old-mi/dnsAliases/alias1",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function acquireManagedServerDnsAlias() {
     resourceGroupName,
     managedInstanceName,
     dnsAliasName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

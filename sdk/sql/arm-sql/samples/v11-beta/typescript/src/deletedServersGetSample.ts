@@ -30,7 +30,7 @@ async function getDeletedServer() {
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.deletedServers.get(
     locationName,
-    deletedServerName
+    deletedServerName,
   );
   console.log(result);
 }

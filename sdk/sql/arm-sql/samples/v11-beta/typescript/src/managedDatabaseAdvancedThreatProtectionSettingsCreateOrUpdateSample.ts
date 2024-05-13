@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedDatabaseAdvancedThreatProtection,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -33,17 +33,18 @@ async function updateAManagedDatabaseAdvancedThreatProtectionSettingsWithAllPara
   const databaseName = "testdb";
   const advancedThreatProtectionName = "Default";
   const parameters: ManagedDatabaseAdvancedThreatProtection = {
-    state: "Enabled"
+    state: "Enabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedDatabaseAdvancedThreatProtectionSettings.createOrUpdate(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    advancedThreatProtectionName,
-    parameters
-  );
+  const result =
+    await client.managedDatabaseAdvancedThreatProtectionSettings.createOrUpdate(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      advancedThreatProtectionName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -63,17 +64,18 @@ async function updateAManagedDatabaseAdvancedThreatProtectionSettingsWithMinimal
   const databaseName = "testdb";
   const advancedThreatProtectionName = "Default";
   const parameters: ManagedDatabaseAdvancedThreatProtection = {
-    state: "Disabled"
+    state: "Disabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedDatabaseAdvancedThreatProtectionSettings.createOrUpdate(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    advancedThreatProtectionName,
-    parameters
-  );
+  const result =
+    await client.managedDatabaseAdvancedThreatProtectionSettings.createOrUpdate(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      advancedThreatProtectionName,
+      parameters,
+    );
   console.log(result);
 }
 

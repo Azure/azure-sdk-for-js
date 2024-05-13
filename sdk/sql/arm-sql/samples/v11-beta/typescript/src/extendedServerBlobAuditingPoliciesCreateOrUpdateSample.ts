@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ExtendedServerBlobAuditingPolicy,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,7 +34,7 @@ async function updateAServerExtendedBlobAuditingPolicyWithAllParameters() {
     auditActionsAndGroups: [
       "SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP",
       "FAILED_DATABASE_AUTHENTICATION_GROUP",
-      "BATCH_COMPLETED_GROUP"
+      "BATCH_COMPLETED_GROUP",
     ],
     isAzureMonitorTargetEnabled: true,
     isStorageSecondaryKeyInUse: false,
@@ -45,15 +45,16 @@ async function updateAServerExtendedBlobAuditingPolicyWithAllParameters() {
     storageAccountAccessKey:
       "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
     storageAccountSubscriptionId: "00000000-1234-0000-5678-000000000000",
-    storageEndpoint: "https://mystorage.blob.core.windows.net"
+    storageEndpoint: "https://mystorage.blob.core.windows.net",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.extendedServerBlobAuditingPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    parameters
-  );
+  const result =
+    await client.extendedServerBlobAuditingPolicies.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -74,15 +75,16 @@ async function updateAServerExtendedBlobAuditingPolicyWithMinimalParameters() {
     state: "Enabled",
     storageAccountAccessKey:
       "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
-    storageEndpoint: "https://mystorage.blob.core.windows.net"
+    storageEndpoint: "https://mystorage.blob.core.windows.net",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.extendedServerBlobAuditingPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    parameters
-  );
+  const result =
+    await client.extendedServerBlobAuditingPolicies.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      parameters,
+    );
   console.log(result);
 }
 

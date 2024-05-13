@@ -33,7 +33,7 @@ async function getsListOfLedgerDigestUploadSettingsOnADatabase() {
   for await (let item of client.ledgerDigestUploadsOperations.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

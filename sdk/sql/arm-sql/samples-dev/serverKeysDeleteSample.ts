@@ -33,7 +33,7 @@ async function deleteTheServerKey() {
   const result = await client.serverKeys.beginDeleteAndWait(
     resourceGroupName,
     serverName,
-    keyName
+    keyName,
   );
   console.log(result);
 }

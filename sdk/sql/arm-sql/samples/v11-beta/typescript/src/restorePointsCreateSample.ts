@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CreateDatabaseRestorePointDefinition,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,7 +32,7 @@ async function createsDatawarehouseDatabaseRestorePoint() {
   const serverName = "testserver";
   const databaseName = "testDatabase";
   const parameters: CreateDatabaseRestorePointDefinition = {
-    restorePointLabel: "mylabel"
+    restorePointLabel: "mylabel",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function createsDatawarehouseDatabaseRestorePoint() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

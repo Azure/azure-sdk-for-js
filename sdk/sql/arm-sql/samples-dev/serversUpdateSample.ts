@@ -32,14 +32,14 @@ async function updateAServer() {
     administratorLoginPassword: "placeholder",
     isIPv6Enabled: "Enabled",
     publicNetworkAccess: "Disabled",
-    restrictOutboundNetworkAccess: "Enabled"
+    restrictOutboundNetworkAccess: "Enabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.servers.beginUpdateAndWait(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -33,7 +33,7 @@ async function getServerAdvisor() {
   const result = await client.serverAdvisors.get(
     resourceGroupName,
     serverName,
-    advisorName
+    advisorName,
   );
   console.log(result);
 }

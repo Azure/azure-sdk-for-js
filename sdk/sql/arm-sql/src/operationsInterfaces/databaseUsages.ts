@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   DatabaseUsage,
-  DatabaseUsagesListByDatabaseOptionalParams
+  DatabaseUsagesListByDatabaseOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,6 +27,6 @@ export interface DatabaseUsages {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseUsagesListByDatabaseOptionalParams
+    options?: DatabaseUsagesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseUsage>;
 }

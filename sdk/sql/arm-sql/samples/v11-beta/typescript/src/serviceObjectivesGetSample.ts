@@ -32,7 +32,7 @@ async function getAServiceObjective() {
   const result = await client.serviceObjectives.get(
     resourceGroupName,
     serverName,
-    serviceObjectiveName
+    serviceObjectiveName,
   );
   console.log(result);
 }

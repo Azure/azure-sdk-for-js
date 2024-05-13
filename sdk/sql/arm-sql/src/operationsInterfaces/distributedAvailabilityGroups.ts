@@ -17,7 +17,13 @@ import {
   DistributedAvailabilityGroupsCreateOrUpdateResponse,
   DistributedAvailabilityGroupsDeleteOptionalParams,
   DistributedAvailabilityGroupsUpdateOptionalParams,
-  DistributedAvailabilityGroupsUpdateResponse
+  DistributedAvailabilityGroupsUpdateResponse,
+  DistributedAvailabilityGroupsFailoverRequest,
+  DistributedAvailabilityGroupsFailoverOptionalParams,
+  DistributedAvailabilityGroupsFailoverResponse,
+  DistributedAvailabilityGroupSetRole,
+  DistributedAvailabilityGroupsSetRoleOptionalParams,
+  DistributedAvailabilityGroupsSetRoleResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +39,7 @@ export interface DistributedAvailabilityGroups {
   listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: DistributedAvailabilityGroupsListByInstanceOptionalParams
+    options?: DistributedAvailabilityGroupsListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<DistributedAvailabilityGroup>;
   /**
    * Gets a distributed availability group info.
@@ -47,7 +53,7 @@ export interface DistributedAvailabilityGroups {
     resourceGroupName: string,
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
-    options?: DistributedAvailabilityGroupsGetOptionalParams
+    options?: DistributedAvailabilityGroupsGetOptionalParams,
   ): Promise<DistributedAvailabilityGroupsGetResponse>;
   /**
    * Creates a distributed availability group between Sql On-Prem and Sql Managed Instance.
@@ -63,7 +69,7 @@ export interface DistributedAvailabilityGroups {
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
     parameters: DistributedAvailabilityGroup,
-    options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams
+    options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DistributedAvailabilityGroupsCreateOrUpdateResponse>,
@@ -84,7 +90,7 @@ export interface DistributedAvailabilityGroups {
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
     parameters: DistributedAvailabilityGroup,
-    options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams
+    options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams,
   ): Promise<DistributedAvailabilityGroupsCreateOrUpdateResponse>;
   /**
    * Drops a distributed availability group between Sql On-Prem and Sql Managed Instance.
@@ -98,7 +104,7 @@ export interface DistributedAvailabilityGroups {
     resourceGroupName: string,
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
-    options?: DistributedAvailabilityGroupsDeleteOptionalParams
+    options?: DistributedAvailabilityGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Drops a distributed availability group between Sql On-Prem and Sql Managed Instance.
@@ -112,7 +118,7 @@ export interface DistributedAvailabilityGroups {
     resourceGroupName: string,
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
-    options?: DistributedAvailabilityGroupsDeleteOptionalParams
+    options?: DistributedAvailabilityGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a distributed availability group replication mode.
@@ -128,7 +134,7 @@ export interface DistributedAvailabilityGroups {
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
     parameters: DistributedAvailabilityGroup,
-    options?: DistributedAvailabilityGroupsUpdateOptionalParams
+    options?: DistributedAvailabilityGroupsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DistributedAvailabilityGroupsUpdateResponse>,
@@ -149,6 +155,80 @@ export interface DistributedAvailabilityGroups {
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
     parameters: DistributedAvailabilityGroup,
-    options?: DistributedAvailabilityGroupsUpdateOptionalParams
+    options?: DistributedAvailabilityGroupsUpdateOptionalParams,
   ): Promise<DistributedAvailabilityGroupsUpdateResponse>;
+  /**
+   * Performs requested failover type in this distributed availability group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group failover request parameters.
+   * @param options The options parameters.
+   */
+  beginFailover(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroupsFailoverRequest,
+    options?: DistributedAvailabilityGroupsFailoverOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DistributedAvailabilityGroupsFailoverResponse>,
+      DistributedAvailabilityGroupsFailoverResponse
+    >
+  >;
+  /**
+   * Performs requested failover type in this distributed availability group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group failover request parameters.
+   * @param options The options parameters.
+   */
+  beginFailoverAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroupsFailoverRequest,
+    options?: DistributedAvailabilityGroupsFailoverOptionalParams,
+  ): Promise<DistributedAvailabilityGroupsFailoverResponse>;
+  /**
+   * Sets the role for managed instance in a distributed availability group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group set role request parameters.
+   * @param options The options parameters.
+   */
+  beginSetRole(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroupSetRole,
+    options?: DistributedAvailabilityGroupsSetRoleOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DistributedAvailabilityGroupsSetRoleResponse>,
+      DistributedAvailabilityGroupsSetRoleResponse
+    >
+  >;
+  /**
+   * Sets the role for managed instance in a distributed availability group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group set role request parameters.
+   * @param options The options parameters.
+   */
+  beginSetRoleAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroupSetRole,
+    options?: DistributedAvailabilityGroupsSetRoleOptionalParams,
+  ): Promise<DistributedAvailabilityGroupsSetRoleResponse>;
 }

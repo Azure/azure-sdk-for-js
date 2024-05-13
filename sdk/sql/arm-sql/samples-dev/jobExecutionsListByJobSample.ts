@@ -35,7 +35,7 @@ async function listAJobExecutions() {
     resourceGroupName,
     serverName,
     jobAgentName,
-    jobName
+    jobName,
   )) {
     resArray.push(item);
   }

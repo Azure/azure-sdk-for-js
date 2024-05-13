@@ -11,7 +11,7 @@ import {
   TimeZone,
   TimeZonesListByLocationOptionalParams,
   TimeZonesGetOptionalParams,
-  TimeZonesGetResponse
+  TimeZonesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface TimeZones {
    */
   listByLocation(
     locationName: string,
-    options?: TimeZonesListByLocationOptionalParams
+    options?: TimeZonesListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<TimeZone>;
   /**
    * Gets a managed instance time zone.
@@ -35,6 +35,6 @@ export interface TimeZones {
   get(
     locationName: string,
     timeZoneId: string,
-    options?: TimeZonesGetOptionalParams
+    options?: TimeZonesGetOptionalParams,
   ): Promise<TimeZonesGetResponse>;
 }

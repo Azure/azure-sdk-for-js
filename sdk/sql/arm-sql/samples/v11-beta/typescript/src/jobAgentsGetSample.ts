@@ -32,7 +32,7 @@ async function getAJobAgent() {
   const result = await client.jobAgents.get(
     resourceGroupName,
     serverName,
-    jobAgentName
+    jobAgentName,
   );
   console.log(result);
 }

@@ -22,6 +22,6 @@ export interface ServerUsages {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerUsagesListByServerOptionalParams
+    options?: ServerUsagesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerUsage>;
 }

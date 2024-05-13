@@ -32,7 +32,7 @@ async function patchAnInstancePool() {
   const result = await client.instancePools.beginUpdateAndWait(
     resourceGroupName,
     instancePoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -21,13 +21,14 @@ import {
   ManagedInstanceOperationsGetOptionalParams,
   ManagedInstanceOperationsGetResponse,
   ManagedInstanceOperationsCancelOptionalParams,
-  ManagedInstanceOperationsListByManagedInstanceNextResponse
+  ManagedInstanceOperationsListByManagedInstanceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedInstanceOperations operations. */
 export class ManagedInstanceOperationsImpl
-  implements ManagedInstanceOperations {
+  implements ManagedInstanceOperations
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -48,12 +49,12 @@ export class ManagedInstanceOperationsImpl
   public listByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceOperationsListByManagedInstanceOptionalParams
+    options?: ManagedInstanceOperationsListByManagedInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceOperation> {
     const iter = this.listByManagedInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +71,9 @@ export class ManagedInstanceOperationsImpl
           resourceGroupName,
           managedInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +81,7 @@ export class ManagedInstanceOperationsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ManagedInstanceOperationsListByManagedInstanceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedInstanceOperation[]> {
     let result: ManagedInstanceOperationsListByManagedInstanceResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +89,7 @@ export class ManagedInstanceOperationsImpl
       result = await this._listByManagedInstance(
         resourceGroupName,
         managedInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -100,7 +101,7 @@ export class ManagedInstanceOperationsImpl
         resourceGroupName,
         managedInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +113,12 @@ export class ManagedInstanceOperationsImpl
   private async *listByManagedInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceOperationsListByManagedInstanceOptionalParams
+    options?: ManagedInstanceOperationsListByManagedInstanceOptionalParams,
   ): AsyncIterableIterator<ManagedInstanceOperation> {
     for await (const page of this.listByManagedInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +134,11 @@ export class ManagedInstanceOperationsImpl
   private _listByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceOperationsListByManagedInstanceOptionalParams
+    options?: ManagedInstanceOperationsListByManagedInstanceOptionalParams,
   ): Promise<ManagedInstanceOperationsListByManagedInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
-      listByManagedInstanceOperationSpec
+      listByManagedInstanceOperationSpec,
     );
   }
 
@@ -153,11 +154,11 @@ export class ManagedInstanceOperationsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     operationId: string,
-    options?: ManagedInstanceOperationsGetOptionalParams
+    options?: ManagedInstanceOperationsGetOptionalParams,
   ): Promise<ManagedInstanceOperationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -173,11 +174,11 @@ export class ManagedInstanceOperationsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     operationId: string,
-    options?: ManagedInstanceOperationsCancelOptionalParams
+    options?: ManagedInstanceOperationsCancelOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, operationId, options },
-      cancelOperationSpec
+      cancelOperationSpec,
     );
   }
 
@@ -193,11 +194,11 @@ export class ManagedInstanceOperationsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: ManagedInstanceOperationsListByManagedInstanceNextOptionalParams
+    options?: ManagedInstanceOperationsListByManagedInstanceNextOptionalParams,
   ): Promise<ManagedInstanceOperationsListByManagedInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
-      listByManagedInstanceNextOperationSpec
+      listByManagedInstanceNextOperationSpec,
     );
   }
 }
@@ -205,34 +206,32 @@ export class ManagedInstanceOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByManagedInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/operations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/operations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceOperationListResult
+      bodyMapper: Mappers.ManagedInstanceOperationListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceOperation
+      bodyMapper: Mappers.ManagedInstanceOperation,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -240,14 +239,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.operationId,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/operations/{operationId}/cancel",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/operations/{operationId}/cancel",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
   queryParameters: [Parameters.apiVersion3],
@@ -256,26 +254,26 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.operationId,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
-  serializer
+  serializer,
 };
 const listByManagedInstanceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceOperationListResult
+      bodyMapper: Mappers.ManagedInstanceOperationListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

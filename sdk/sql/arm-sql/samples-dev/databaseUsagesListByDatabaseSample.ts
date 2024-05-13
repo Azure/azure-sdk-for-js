@@ -34,7 +34,7 @@ async function getsDatabaseUsages() {
   for await (let item of client.databaseUsages.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

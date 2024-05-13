@@ -32,13 +32,14 @@ async function getTheLongTermRetentionBackup() {
   const backupName = "55555555-6666-7777-8888-999999999999;131637960820000000";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.longTermRetentionManagedInstanceBackups.getByResourceGroup(
-    resourceGroupName,
-    locationName,
-    managedInstanceName,
-    databaseName,
-    backupName
-  );
+  const result =
+    await client.longTermRetentionManagedInstanceBackups.getByResourceGroup(
+      resourceGroupName,
+      locationName,
+      managedInstanceName,
+      databaseName,
+      backupName,
+    );
   console.log(result);
 }
 

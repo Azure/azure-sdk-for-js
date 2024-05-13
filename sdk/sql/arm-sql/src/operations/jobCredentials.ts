@@ -23,7 +23,7 @@ import {
   JobCredentialsCreateOrUpdateOptionalParams,
   JobCredentialsCreateOrUpdateResponse,
   JobCredentialsDeleteOptionalParams,
-  JobCredentialsListByAgentNextResponse
+  JobCredentialsListByAgentNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,13 +51,13 @@ export class JobCredentialsImpl implements JobCredentials {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobCredentialsListByAgentOptionalParams
+    options?: JobCredentialsListByAgentOptionalParams,
   ): PagedAsyncIterableIterator<JobCredential> {
     const iter = this.listByAgentPagingAll(
       resourceGroupName,
       serverName,
       jobAgentName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +75,9 @@ export class JobCredentialsImpl implements JobCredentials {
           serverName,
           jobAgentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class JobCredentialsImpl implements JobCredentials {
     serverName: string,
     jobAgentName: string,
     options?: JobCredentialsListByAgentOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<JobCredential[]> {
     let result: JobCredentialsListByAgentResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +95,7 @@ export class JobCredentialsImpl implements JobCredentials {
         resourceGroupName,
         serverName,
         jobAgentName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +108,7 @@ export class JobCredentialsImpl implements JobCredentials {
         serverName,
         jobAgentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,13 +121,13 @@ export class JobCredentialsImpl implements JobCredentials {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobCredentialsListByAgentOptionalParams
+    options?: JobCredentialsListByAgentOptionalParams,
   ): AsyncIterableIterator<JobCredential> {
     for await (const page of this.listByAgentPagingPage(
       resourceGroupName,
       serverName,
       jobAgentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -145,11 +145,11 @@ export class JobCredentialsImpl implements JobCredentials {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobCredentialsListByAgentOptionalParams
+    options?: JobCredentialsListByAgentOptionalParams,
   ): Promise<JobCredentialsListByAgentResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, options },
-      listByAgentOperationSpec
+      listByAgentOperationSpec,
     );
   }
 
@@ -167,11 +167,11 @@ export class JobCredentialsImpl implements JobCredentials {
     serverName: string,
     jobAgentName: string,
     credentialName: string,
-    options?: JobCredentialsGetOptionalParams
+    options?: JobCredentialsGetOptionalParams,
   ): Promise<JobCredentialsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, credentialName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -191,7 +191,7 @@ export class JobCredentialsImpl implements JobCredentials {
     jobAgentName: string,
     credentialName: string,
     parameters: JobCredential,
-    options?: JobCredentialsCreateOrUpdateOptionalParams
+    options?: JobCredentialsCreateOrUpdateOptionalParams,
   ): Promise<JobCredentialsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -200,9 +200,9 @@ export class JobCredentialsImpl implements JobCredentials {
         jobAgentName,
         credentialName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -220,11 +220,11 @@ export class JobCredentialsImpl implements JobCredentials {
     serverName: string,
     jobAgentName: string,
     credentialName: string,
-    options?: JobCredentialsDeleteOptionalParams
+    options?: JobCredentialsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, credentialName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -242,11 +242,11 @@ export class JobCredentialsImpl implements JobCredentials {
     serverName: string,
     jobAgentName: string,
     nextLink: string,
-    options?: JobCredentialsListByAgentNextOptionalParams
+    options?: JobCredentialsListByAgentNextOptionalParams,
   ): Promise<JobCredentialsListByAgentNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, nextLink, options },
-      listByAgentNextOperationSpec
+      listByAgentNextOperationSpec,
     );
   }
 }
@@ -254,35 +254,13 @@ export class JobCredentialsImpl implements JobCredentials {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAgentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobCredentialListResult
+      bodyMapper: Mappers.JobCredentialListResult,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.jobAgentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobCredential
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -291,23 +269,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.jobAgentName,
-    Parameters.credentialName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobCredential,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.jobAgentName,
+    Parameters.credentialName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.JobCredential
+      bodyMapper: Mappers.JobCredential,
     },
     201: {
-      bodyMapper: Mappers.JobCredential
+      bodyMapper: Mappers.JobCredential,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters22,
   queryParameters: [Parameters.apiVersion3],
@@ -317,15 +314,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.jobAgentName,
-    Parameters.credentialName
+    Parameters.credentialName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion3],
@@ -335,18 +331,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.jobAgentName,
-    Parameters.credentialName
+    Parameters.credentialName,
   ],
-  serializer
+  serializer,
 };
 const listByAgentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobCredentialListResult
+      bodyMapper: Mappers.JobCredentialListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -354,8 +350,8 @@ const listByAgentNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.nextLink,
-    Parameters.jobAgentName
+    Parameters.jobAgentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

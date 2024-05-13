@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -33,7 +33,7 @@ import {
   ManagedServerDnsAliasAcquisition,
   ManagedServerDnsAliasesAcquireOptionalParams,
   ManagedServerDnsAliasesAcquireResponse,
-  ManagedServerDnsAliasesListByManagedInstanceNextResponse
+  ManagedServerDnsAliasesListByManagedInstanceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,12 +59,12 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
   public listByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedServerDnsAliasesListByManagedInstanceOptionalParams
+    options?: ManagedServerDnsAliasesListByManagedInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedServerDnsAlias> {
     const iter = this.listByManagedInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -81,9 +81,9 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
           resourceGroupName,
           managedInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -91,7 +91,7 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ManagedServerDnsAliasesListByManagedInstanceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedServerDnsAlias[]> {
     let result: ManagedServerDnsAliasesListByManagedInstanceResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
       result = await this._listByManagedInstance(
         resourceGroupName,
         managedInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -111,7 +111,7 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
         resourceGroupName,
         managedInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,12 +123,12 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
   private async *listByManagedInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedServerDnsAliasesListByManagedInstanceOptionalParams
+    options?: ManagedServerDnsAliasesListByManagedInstanceOptionalParams,
   ): AsyncIterableIterator<ManagedServerDnsAlias> {
     for await (const page of this.listByManagedInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -144,11 +144,11 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
   private _listByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedServerDnsAliasesListByManagedInstanceOptionalParams
+    options?: ManagedServerDnsAliasesListByManagedInstanceOptionalParams,
   ): Promise<ManagedServerDnsAliasesListByManagedInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
-      listByManagedInstanceOperationSpec
+      listByManagedInstanceOperationSpec,
     );
   }
 
@@ -164,11 +164,11 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
     resourceGroupName: string,
     managedInstanceName: string,
     dnsAliasName: string,
-    options?: ManagedServerDnsAliasesGetOptionalParams
+    options?: ManagedServerDnsAliasesGetOptionalParams,
   ): Promise<ManagedServerDnsAliasesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, dnsAliasName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -186,7 +186,7 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
     managedInstanceName: string,
     dnsAliasName: string,
     parameters: ManagedServerDnsAliasCreation,
-    options?: ManagedServerDnsAliasesCreateOrUpdateOptionalParams
+    options?: ManagedServerDnsAliasesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedServerDnsAliasesCreateOrUpdateResponse>,
@@ -195,21 +195,20 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedServerDnsAliasesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -218,8 +217,8 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -227,8 +226,8 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -239,16 +238,16 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
         managedInstanceName,
         dnsAliasName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedServerDnsAliasesCreateOrUpdateResponse,
       OperationState<ManagedServerDnsAliasesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -268,14 +267,14 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
     managedInstanceName: string,
     dnsAliasName: string,
     parameters: ManagedServerDnsAliasCreation,
-    options?: ManagedServerDnsAliasesCreateOrUpdateOptionalParams
+    options?: ManagedServerDnsAliasesCreateOrUpdateOptionalParams,
   ): Promise<ManagedServerDnsAliasesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       managedInstanceName,
       dnsAliasName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -292,25 +291,24 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
     resourceGroupName: string,
     managedInstanceName: string,
     dnsAliasName: string,
-    options?: ManagedServerDnsAliasesDeleteOptionalParams
+    options?: ManagedServerDnsAliasesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -319,8 +317,8 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -328,19 +326,19 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, managedInstanceName, dnsAliasName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -358,13 +356,13 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
     resourceGroupName: string,
     managedInstanceName: string,
     dnsAliasName: string,
-    options?: ManagedServerDnsAliasesDeleteOptionalParams
+    options?: ManagedServerDnsAliasesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       managedInstanceName,
       dnsAliasName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -383,7 +381,7 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
     managedInstanceName: string,
     dnsAliasName: string,
     parameters: ManagedServerDnsAliasAcquisition,
-    options?: ManagedServerDnsAliasesAcquireOptionalParams
+    options?: ManagedServerDnsAliasesAcquireOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedServerDnsAliasesAcquireResponse>,
@@ -392,21 +390,20 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedServerDnsAliasesAcquireResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -415,8 +412,8 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -424,8 +421,8 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -436,16 +433,16 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
         managedInstanceName,
         dnsAliasName,
         parameters,
-        options
+        options,
       },
-      spec: acquireOperationSpec
+      spec: acquireOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedServerDnsAliasesAcquireResponse,
       OperationState<ManagedServerDnsAliasesAcquireResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -465,14 +462,14 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
     managedInstanceName: string,
     dnsAliasName: string,
     parameters: ManagedServerDnsAliasAcquisition,
-    options?: ManagedServerDnsAliasesAcquireOptionalParams
+    options?: ManagedServerDnsAliasesAcquireOptionalParams,
   ): Promise<ManagedServerDnsAliasesAcquireResponse> {
     const poller = await this.beginAcquire(
       resourceGroupName,
       managedInstanceName,
       dnsAliasName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -489,11 +486,11 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: ManagedServerDnsAliasesListByManagedInstanceNextOptionalParams
+    options?: ManagedServerDnsAliasesListByManagedInstanceNextOptionalParams,
   ): Promise<ManagedServerDnsAliasesListByManagedInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
-      listByManagedInstanceNextOperationSpec
+      listByManagedInstanceNextOperationSpec,
     );
   }
 }
@@ -501,141 +498,136 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByManagedInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dnsAliases",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dnsAliases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedServerDnsAliasListResult
+      bodyMapper: Mappers.ManagedServerDnsAliasListResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion8],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dnsAliases/{dnsAliasName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedServerDnsAlias
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.dnsAliasName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dnsAliases/{dnsAliasName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedServerDnsAlias,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion9],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.dnsAliasName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dnsAliases/{dnsAliasName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dnsAliases/{dnsAliasName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedServerDnsAlias
+      bodyMapper: Mappers.ManagedServerDnsAlias,
     },
     201: {
-      bodyMapper: Mappers.ManagedServerDnsAlias
+      bodyMapper: Mappers.ManagedServerDnsAlias,
     },
     202: {
-      bodyMapper: Mappers.ManagedServerDnsAlias
+      bodyMapper: Mappers.ManagedServerDnsAlias,
     },
     204: {
-      bodyMapper: Mappers.ManagedServerDnsAlias
+      bodyMapper: Mappers.ManagedServerDnsAlias,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters74,
-  queryParameters: [Parameters.apiVersion8],
+  requestBody: Parameters.parameters76,
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.dnsAliasName
+    Parameters.dnsAliasName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dnsAliases/{dnsAliasName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dnsAliases/{dnsAliasName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.dnsAliasName
+    Parameters.dnsAliasName,
   ],
-  serializer
+  serializer,
 };
 const acquireOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dnsAliases/{dnsAliasName}/acquire",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dnsAliases/{dnsAliasName}/acquire",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedServerDnsAlias
+      bodyMapper: Mappers.ManagedServerDnsAlias,
     },
     201: {
-      bodyMapper: Mappers.ManagedServerDnsAlias
+      bodyMapper: Mappers.ManagedServerDnsAlias,
     },
     202: {
-      bodyMapper: Mappers.ManagedServerDnsAlias
+      bodyMapper: Mappers.ManagedServerDnsAlias,
     },
     204: {
-      bodyMapper: Mappers.ManagedServerDnsAlias
+      bodyMapper: Mappers.ManagedServerDnsAlias,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters75,
-  queryParameters: [Parameters.apiVersion8],
+  requestBody: Parameters.parameters77,
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.dnsAliasName
+    Parameters.dnsAliasName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByManagedInstanceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedServerDnsAliasListResult
+      bodyMapper: Mappers.ManagedServerDnsAliasListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -32,7 +32,7 @@ async function getsAServerConnectionPolicy() {
   const result = await client.serverConnectionPolicies.get(
     resourceGroupName,
     serverName,
-    connectionPolicyName
+    connectionPolicyName,
   );
   console.log(result);
 }

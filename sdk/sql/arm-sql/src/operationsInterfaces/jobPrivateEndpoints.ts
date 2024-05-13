@@ -15,7 +15,7 @@ import {
   JobPrivateEndpointsGetResponse,
   JobPrivateEndpointsCreateOrUpdateOptionalParams,
   JobPrivateEndpointsCreateOrUpdateResponse,
-  JobPrivateEndpointsDeleteOptionalParams
+  JobPrivateEndpointsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface JobPrivateEndpoints {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobPrivateEndpointsListByAgentOptionalParams
+    options?: JobPrivateEndpointsListByAgentOptionalParams,
   ): PagedAsyncIterableIterator<JobPrivateEndpoint>;
   /**
    * Gets a private endpoint.
@@ -49,7 +49,7 @@ export interface JobPrivateEndpoints {
     serverName: string,
     jobAgentName: string,
     privateEndpointName: string,
-    options?: JobPrivateEndpointsGetOptionalParams
+    options?: JobPrivateEndpointsGetOptionalParams,
   ): Promise<JobPrivateEndpointsGetResponse>;
   /**
    * Creates or updates a private endpoint.
@@ -67,7 +67,7 @@ export interface JobPrivateEndpoints {
     jobAgentName: string,
     privateEndpointName: string,
     parameters: JobPrivateEndpoint,
-    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams
+    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<JobPrivateEndpointsCreateOrUpdateResponse>,
@@ -90,7 +90,7 @@ export interface JobPrivateEndpoints {
     jobAgentName: string,
     privateEndpointName: string,
     parameters: JobPrivateEndpoint,
-    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams
+    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams,
   ): Promise<JobPrivateEndpointsCreateOrUpdateResponse>;
   /**
    * Deletes a private endpoint.
@@ -106,7 +106,7 @@ export interface JobPrivateEndpoints {
     serverName: string,
     jobAgentName: string,
     privateEndpointName: string,
-    options?: JobPrivateEndpointsDeleteOptionalParams
+    options?: JobPrivateEndpointsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a private endpoint.
@@ -122,6 +122,6 @@ export interface JobPrivateEndpoints {
     serverName: string,
     jobAgentName: string,
     privateEndpointName: string,
-    options?: JobPrivateEndpointsDeleteOptionalParams
+    options?: JobPrivateEndpointsDeleteOptionalParams,
   ): Promise<void>;
 }

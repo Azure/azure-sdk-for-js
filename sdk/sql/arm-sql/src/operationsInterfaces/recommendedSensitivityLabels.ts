@@ -8,7 +8,7 @@
 
 import {
   RecommendedSensitivityLabelUpdateList,
-  RecommendedSensitivityLabelsUpdateOptionalParams
+  RecommendedSensitivityLabelsUpdateOptionalParams,
 } from "../models";
 
 /** Interface representing a RecommendedSensitivityLabels. */
@@ -27,6 +27,6 @@ export interface RecommendedSensitivityLabels {
     serverName: string,
     databaseName: string,
     parameters: RecommendedSensitivityLabelUpdateList,
-    options?: RecommendedSensitivityLabelsUpdateOptionalParams
+    options?: RecommendedSensitivityLabelsUpdateOptionalParams,
   ): Promise<void>;
 }
