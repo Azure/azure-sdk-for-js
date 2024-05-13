@@ -57,8 +57,6 @@ export async function msalNodeTestSetup(
         AZURE_TENANT_ID: PlaybackTenantId,
         AZURE_CLIENT_ID: playbackClientId,
         AZURE_CLIENT_SECRET: "azure_client_secret",
-        AZURE_USERNAME: "azure_username",
-        AZURE_PASSWORD: "azure_password",
         AZURE_IDENTITY_TEST_TENANTID: PlaybackTenantId,
         AZURE_IDENTITY_TEST_USERNAME: "azure_username",
         AZURE_IDENTITY_TEST_PASSWORD: "azure_password",

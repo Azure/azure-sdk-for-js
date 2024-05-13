@@ -5,7 +5,7 @@
 
 import { AzureLogger, setLogLevel } from "@azure/logger";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
@@ -45,38 +45,38 @@ describe("UsernamePasswordCredential (internal)", function () {
     try {
       new UsernamePasswordCredential(
         undefined as any,
-        env.AZURE_CLIENT_ID!,
-        env.AZURE_USERNAME!,
-        env.AZURE_PASSWORD!,
+        "azure_client_id",
+        "azure_username",
+        "azure_password",
       );
     } catch (e: any) {
       errors.push(e);
     }
     try {
       new UsernamePasswordCredential(
-        env.AZURE_TENANT_ID!,
+        "azure_tenant_id",
         undefined as any,
-        env.AZURE_USERNAME!,
-        env.AZURE_PASSWORD!,
+        "azure_username",
+        "azure_password",
       );
     } catch (e: any) {
       errors.push(e);
     }
     try {
       new UsernamePasswordCredential(
-        env.AZURE_TENANT_ID!,
-        env.AZURE_CLIENT_ID!,
+        "azure_tenant_id",
+        "azure_client_id",
         undefined as any,
-        env.AZURE_PASSWORD!,
+        "azure_password",
       );
     } catch (e: any) {
       errors.push(e);
     }
     try {
       new UsernamePasswordCredential(
-        env.AZURE_TENANT_ID!,
-        env.AZURE_CLIENT_ID!,
-        env.AZURE_USERNAME!,
+        "azure_tenant_id",
+        "azure_client_id",
+        "azure_username",
         undefined as any,
       );
     } catch (e: any) {
