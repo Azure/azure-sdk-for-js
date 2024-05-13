@@ -15,6 +15,7 @@ import {
   CallTransferFailed,
   ParticipantsUpdated,
   RecordingStateChanged,
+  PlayStarted,
   PlayCompleted,
   PlayFailed,
   PlayCanceled,
@@ -93,6 +94,9 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.RecordingStateChanged":
       callbackEvent = { kind: "RecordingStateChanged" } as RecordingStateChanged;
+      break;
+    case "Microsoft.Communication.PlayStarted":
+      callbackEvent = { kind: "PlayStarted" } as PlayStarted;
       break;
     case "Microsoft.Communication.PlayCompleted":
       callbackEvent = { kind: "PlayCompleted" } as PlayCompleted;

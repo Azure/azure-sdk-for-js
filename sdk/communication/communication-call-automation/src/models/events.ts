@@ -14,6 +14,7 @@ import {
   CallTransferFailed as RestCallTransferFailed,
   ParticipantsUpdated as RestParticipantsUpdated,
   RecordingStateChanged as RestRecordingStateChanged,
+  PlayStarted as RestPlayStarted,
   PlayCompleted as RestPlayCompleted,
   PlayFailed as RestPlayFailed,
   PlayCanceled as RestPlayCanceled,
@@ -50,6 +51,7 @@ export type CallAutomationEvent =
   | CallTransferFailed
   | ParticipantsUpdated
   | RecordingStateChanged
+  | PlayStarted
   | PlayCompleted
   | PlayFailed
   | PlayCanceled
@@ -80,6 +82,7 @@ export {
   RestCallTransferFailed,
   RestParticipantsUpdated,
   RestRecordingStateChanged,
+  RestPlayStarted,
   RestPlayCompleted,
   RestPlayFailed,
   RestPlayCanceled,
@@ -289,6 +292,21 @@ export interface RecordingStateChanged
   correlationId: string;
   /** kind of this event. */
   kind: "RecordingStateChanged";
+}
+
+/** Event when Media play was successfully started. */
+export interface PlayStarted
+  extends Omit<RestPlayStarted, "callConnectionId" | "serverCallId" | "correlationId"> {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: RestResultInformation;
+  /** kind of this event. */
+  kind: "PlayStarted";
 }
 
 /** Event when Media play was successfully completed. */
