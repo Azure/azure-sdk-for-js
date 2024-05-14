@@ -370,18 +370,18 @@ export class CallAutomationClient {
       callbackUri: callbackUrl,
       callIntelligenceOptions: options.callIntelligenceOptions,
     };
-    
+
     if (callLocator.kind === "groupCallLocator") {
       connectRequest.callLocator.kind = "groupCallLocator";
       connectRequest.callLocator.groupCallId = callLocator.id;
-    } else if(callLocator.kind === "serverCallLocator"){
+    } else if (callLocator.kind === "serverCallLocator") {
       connectRequest.callLocator.kind = "serverCallLocator";
       connectRequest.callLocator.serverCallId = callLocator.id;
     } else {
       connectRequest.callLocator.kind = "roomCallLocator";
       connectRequest.callLocator.roomId = callLocator.id;
     }
-    
+
     const optionsInternal = {
       ...options,
       repeatabilityFirstSent: new Date(),

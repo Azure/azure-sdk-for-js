@@ -145,7 +145,7 @@ export class CallMedia {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
       playRequest.playOptions.loop = options.loop;
     }
-    return await this.callMedia.play(this.callConnectionId, playRequest, options);
+    return this.callMedia.play(this.callConnectionId, playRequest, options);
   }
 
   /**
@@ -172,7 +172,7 @@ export class CallMedia {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
       playRequest.playOptions.loop = options.loop;
     }
-    return await this.callMedia.play(this.callConnectionId, playRequest, options);
+    return this.callMedia.play(this.callConnectionId, playRequest, options);
   }
 
   private createRecognizeRequest(
@@ -335,15 +335,14 @@ export class CallMedia {
         "Deprecated function signature used. Please use the new signature with targetParticipant and options params instead, and set maxTonesToCollect in options.",
       );
       options.maxTonesToCollect = maxTonesOrOptions;
-      return await this.callMedia.recognize(
+      return this.callMedia.recognize(
         this.callConnectionId,
         this.createRecognizeRequest(targetParticipant, options),
         {},
       );
     } else if (typeof maxTonesOrOptions !== "number" && !options) {
-      maxTonesOrOptions.operationContext = maxTonesOrOptions.operationContext;
       // New function signature logic
-      return await this.callMedia.recognize(
+      return this.callMedia.recognize(
         this.callConnectionId,
         this.createRecognizeRequest(targetParticipant, maxTonesOrOptions),
         {},
