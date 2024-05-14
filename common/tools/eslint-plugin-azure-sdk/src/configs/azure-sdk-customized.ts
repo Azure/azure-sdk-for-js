@@ -1,0 +1,62 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import type { FlatConfig, SharedConfig } from "@typescript-eslint/utils/ts-eslint";
+
+const baseConfig = (plugin: FlatConfig.Plugin, parser: FlatConfig.Parser): FlatConfig.Config => ({
+  name: "@azure/azure-sdk/base",
+  languageOptions: {
+    parser,
+    sourceType: "module",
+  },
+  plugins: {
+    "@azure/azure-sdk": plugin,
+  },
+});
+
+const rules: Record<string, SharedConfig.RuleEntry> = {
+  "@azure/azure-sdk/github-source-headers": "error",
+  "@azure/azure-sdk/ts-apiextractor-json-types": "error",
+  "@azure/azure-sdk/ts-apisurface-standardized-verbs": "error",
+  "@azure/azure-sdk/ts-config-include": "error",
+  "@azure/azure-sdk/ts-doc-internal-private-member": "warn",
+  "@azure/azure-sdk/ts-error-handling": "off",
+  "@azure/azure-sdk/ts-modules-only-named": "error",
+  "@azure/azure-sdk/ts-naming-drop-noun": "error",
+  "@azure/azure-sdk/ts-naming-options": "error",
+  "@azure/azure-sdk/ts-naming-subclients": "error",
+  "@azure/azure-sdk/ts-no-const-enums": "warn",
+  "@azure/azure-sdk/ts-no-window": "error",
+  "@azure/azure-sdk/ts-package-json-author": "error",
+  "@azure/azure-sdk/ts-package-json-bugs": "error",
+  "@azure/azure-sdk/ts-package-json-engine-is-present": "error",
+  "@azure/azure-sdk/ts-package-json-files-required": "error",
+  "@azure/azure-sdk/ts-package-json-homepage": "error",
+  "@azure/azure-sdk/ts-package-json-keywords": "error",
+  "@azure/azure-sdk/ts-package-json-license": "error",
+  "@azure/azure-sdk/ts-package-json-main-is-cjs": "error",
+  "@azure/azure-sdk/ts-package-json-module": "error",
+  "@azure/azure-sdk/ts-package-json-name": "error",
+  "@azure/azure-sdk/ts-package-json-repo": "error",
+  "@azure/azure-sdk/ts-package-json-required-scripts": "error",
+  "@azure/azure-sdk/ts-package-json-sdktype": "error",
+  "@azure/azure-sdk/ts-package-json-sideeffects": "error",
+  "@azure/azure-sdk/ts-package-json-types": "error",
+  "@azure/azure-sdk/ts-use-interface-parameters": "warn",
+  "@azure/azure-sdk/ts-use-promises": "error",
+  "@azure/azure-sdk/ts-versioning-semver": "error",
+  // https://github.com/Azure/azure-sdk-for-js/issues/7605
+  "@azure/azure-sdk/ts-apisurface-supportcancellation": "off",
+  // https://github.com/Azure/azure-sdk-for-js/issues/7609
+  "@azure/azure-sdk/ts-pagination-list": "off",
+  // https://github.com/Azure/azure-sdk-for-js/issues/7610
+  "@azure/azure-sdk/ts-doc-internal": "off",
+};
+
+export default (plugin: FlatConfig.Plugin, parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
+  baseConfig(plugin, parser),
+  {
+    name: "@azure/azure-sdk/recommended",
+    rules,
+  },
+];
