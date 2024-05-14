@@ -6,26 +6,193 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  BackupsGetVolumeRestoreStatusOptionalParams,
-  BackupsGetVolumeRestoreStatusResponse,
+  Backup,
+  BackupsListByVaultOptionalParams,
+  BackupsGetLatestStatusOptionalParams,
+  BackupsGetLatestStatusResponse,
+  BackupsGetVolumeLatestRestoreStatusOptionalParams,
+  BackupsGetVolumeLatestRestoreStatusResponse,
+  BackupsGetOptionalParams,
+  BackupsGetResponse,
+  BackupsCreateOptionalParams,
+  BackupsCreateResponse,
+  BackupsUpdateOptionalParams,
+  BackupsUpdateResponse,
+  BackupsDeleteOptionalParams,
+  BackupsDeleteResponse,
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Backups. */
 export interface Backups {
   /**
-   * Get the status of the restore for a volume
+   * List all backups Under a Backup Vault
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param backupVaultName The name of the Backup Vault
+   * @param options The options parameters.
+   */
+  listByVault(
+    resourceGroupName: string,
+    accountName: string,
+    backupVaultName: string,
+    options?: BackupsListByVaultOptionalParams,
+  ): PagedAsyncIterableIterator<Backup>;
+  /**
+   * Get the latest status of the backup for a volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
    * @param options The options parameters.
    */
-  getVolumeRestoreStatus(
+  getLatestStatus(
     resourceGroupName: string,
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: BackupsGetVolumeRestoreStatusOptionalParams,
-  ): Promise<BackupsGetVolumeRestoreStatusResponse>;
+    options?: BackupsGetLatestStatusOptionalParams,
+  ): Promise<BackupsGetLatestStatusResponse>;
+  /**
+   * Get the latest status of the restore for a volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  getVolumeLatestRestoreStatus(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: BackupsGetVolumeLatestRestoreStatusOptionalParams,
+  ): Promise<BackupsGetVolumeLatestRestoreStatusResponse>;
+  /**
+   * Get the specified Backup under Backup Vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param backupVaultName The name of the Backup Vault
+   * @param backupName The name of the backup
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    backupVaultName: string,
+    backupName: string,
+    options?: BackupsGetOptionalParams,
+  ): Promise<BackupsGetResponse>;
+  /**
+   * Create a backup under the Backup Vault
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param backupVaultName The name of the Backup Vault
+   * @param backupName The name of the backup
+   * @param body Backup object supplied in the body of the operation.
+   * @param options The options parameters.
+   */
+  beginCreate(
+    resourceGroupName: string,
+    accountName: string,
+    backupVaultName: string,
+    backupName: string,
+    body: Backup,
+    options?: BackupsCreateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupsCreateResponse>,
+      BackupsCreateResponse
+    >
+  >;
+  /**
+   * Create a backup under the Backup Vault
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param backupVaultName The name of the Backup Vault
+   * @param backupName The name of the backup
+   * @param body Backup object supplied in the body of the operation.
+   * @param options The options parameters.
+   */
+  beginCreateAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    backupVaultName: string,
+    backupName: string,
+    body: Backup,
+    options?: BackupsCreateOptionalParams,
+  ): Promise<BackupsCreateResponse>;
+  /**
+   * Patch a Backup under the Backup Vault
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param backupVaultName The name of the Backup Vault
+   * @param backupName The name of the backup
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    backupVaultName: string,
+    backupName: string,
+    options?: BackupsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupsUpdateResponse>,
+      BackupsUpdateResponse
+    >
+  >;
+  /**
+   * Patch a Backup under the Backup Vault
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param backupVaultName The name of the Backup Vault
+   * @param backupName The name of the backup
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    backupVaultName: string,
+    backupName: string,
+    options?: BackupsUpdateOptionalParams,
+  ): Promise<BackupsUpdateResponse>;
+  /**
+   * Delete a Backup under the Backup Vault
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param backupVaultName The name of the Backup Vault
+   * @param backupName The name of the backup
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    accountName: string,
+    backupVaultName: string,
+    backupName: string,
+    options?: BackupsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupsDeleteResponse>,
+      BackupsDeleteResponse
+    >
+  >;
+  /**
+   * Delete a Backup under the Backup Vault
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param backupVaultName The name of the Backup Vault
+   * @param backupName The name of the backup
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    backupVaultName: string,
+    backupName: string,
+    options?: BackupsDeleteOptionalParams,
+  ): Promise<BackupsDeleteResponse>;
 }

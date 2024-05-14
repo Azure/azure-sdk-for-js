@@ -42,6 +42,12 @@ import {
   VolumeGroupDetails as VolumeGroupDetailsMapper,
   SubvolumeInfo as SubvolumeInfoMapper,
   SubvolumePatchRequest as SubvolumePatchRequestMapper,
+  Backup as BackupMapper,
+  BackupPatch as BackupPatchMapper,
+  BackupVault as BackupVaultMapper,
+  BackupVaultPatch as BackupVaultPatchMapper,
+  BackupRestoreFiles as BackupRestoreFilesMapper,
+  BackupsMigrationRequest as BackupsMigrationRequestMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -71,7 +77,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-07-01",
+    defaultValue: "2023-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -198,6 +204,18 @@ export const quotaLimitName: OperationURLParameter = {
   },
 };
 
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -235,18 +253,6 @@ export const body5: OperationParameter = {
 export const body6: OperationParameter = {
   parameterPath: "body",
   mapper: NetAppAccountPatchMapper,
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
 };
 
 export const poolName: OperationURLParameter = {
@@ -492,4 +498,72 @@ export const body29: OperationParameter = {
 export const body30: OperationParameter = {
   parameterPath: "body",
   mapper: SubvolumePatchRequestMapper,
+};
+
+export const backupVaultName: OperationURLParameter = {
+  parameterPath: "backupVaultName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9\\-_]{0,63}$"),
+    },
+    serializedName: "backupVaultName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const backupName: OperationURLParameter = {
+  parameterPath: "backupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9\\-_.]{0,255}$"),
+    },
+    serializedName: "backupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body31: OperationParameter = {
+  parameterPath: "body",
+  mapper: BackupMapper,
+};
+
+export const body32: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: BackupPatchMapper,
+};
+
+export const body33: OperationParameter = {
+  parameterPath: "body",
+  mapper: BackupVaultMapper,
+};
+
+export const body34: OperationParameter = {
+  parameterPath: "body",
+  mapper: BackupVaultPatchMapper,
+};
+
+export const body35: OperationParameter = {
+  parameterPath: "body",
+  mapper: BackupRestoreFilesMapper,
+};
+
+export const body36: OperationParameter = {
+  parameterPath: "body",
+  mapper: BackupsMigrationRequestMapper,
 };

@@ -877,9 +877,9 @@ const listByVolumeNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.nextLink,
     Parameters.poolName,
     Parameters.volumeName,
   ],
