@@ -5507,8 +5507,8 @@ packages:
       tsconfig-paths: 3.15.0
     dev: false
 
-  /eslint-plugin-markdown@4.0.1(eslint@8.57.0):
-    resolution: {integrity: sha512-5/MnGvYU0i8MbHH5cg8S+Vl3DL+bqRNYshk1xUO86DilNBaxtTkhH+5FD0/yO03AmlI6+lfNFdk2yOw72EPzpA==}
+  /eslint-plugin-markdown@5.0.0(eslint@8.57.0):
+    resolution: {integrity: sha512-kY2u9yDhzvfZ0kmRTsvgm3mTnvZgTSGIIPeHg3yesSx4R5CTCnITUjCPhzCD1MUhNcqHU5Tr6lzx+02EclVPbw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=8'
@@ -19778,7 +19778,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk-helper.tgz:
-    resolution: {integrity: sha512-SPNj3knvD9q0h8ZM3fd+0MjWuXm14lBjMuSYXJ1ixyLkV+V5rWYKjh3TxyUZbqdE4zNGWKn6Iiqy0R1ZC94kQg==, tarball: file:projects/eslint-plugin-azure-sdk-helper.tgz}
+    resolution: {integrity: sha512-LfM43lm0cxvyhluqwKfDXMInvfh4TJhXKguBYtlVLvxIhYF38HEawaMx7rjlGn0HcR4kcexdL1WUCe3J4Op88A==, tarball: file:projects/eslint-plugin-azure-sdk-helper.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk-helper'
     version: 0.0.0
     dependencies:
@@ -19787,7 +19787,7 @@ packages:
       '@typescript-eslint/utils': 7.8.0(eslint@8.57.0)(typescript@5.4.5)
       eslint: 8.57.0
       eslint-plugin-import: 2.29.1(eslint@8.57.0)
-      eslint-plugin-markdown: 4.0.1(eslint@8.57.0)
+      eslint-plugin-markdown: 5.0.0(eslint@8.57.0)
       eslint-plugin-no-only-tests: 3.1.0
       eslint-plugin-promise: 6.1.1(eslint@8.57.0)
       eslint-plugin-tsdoc: 0.2.17
@@ -19797,7 +19797,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-jdY9Llcunp9vaevl1Y4NF6hnoW1oWaCPe9a8JDC7ksLWTtzxrjSXjbbvMgpTneqVKYE5ik/qR5HRtPP0I7lwNw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-jyKHi5Ubx6+jfXWWqJsGYQVUN/hKDtqrgOqQ8Fg2OoLhHZz/riIVl/9f1m/1Vs8BaYVOARBZctTJ028jtrFkAg==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -19815,7 +19815,7 @@ packages:
       eslint: 8.57.0
       eslint-config-prettier: 9.1.0(eslint@8.57.0)
       eslint-plugin-import: 2.29.1(eslint@8.57.0)
-      eslint-plugin-markdown: 4.0.1(eslint@8.57.0)
+      eslint-plugin-markdown: 5.0.0(eslint@8.57.0)
       eslint-plugin-no-only-tests: 3.1.0
       eslint-plugin-promise: 6.1.1(eslint@8.57.0)
       eslint-plugin-tsdoc: 0.2.17
@@ -21200,7 +21200,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-Gwxand1T17xQwbX1cCjHtETjlflTUwDo4hUfVhNd0z3BrKkinKJktZ3rPf0mz5xIavlxl+Ve8X/UnlLod/aIJg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-h+uhqPeVXpFWuwP2hECZ/VtNUBMda9US9itPi481shpCIS9lIXaTElGhR6+cdiasEfBgjOn5OW1jRks01yP2vw==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -21248,7 +21248,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-g10idDBTdtfELyAEvofF6Z5vt2dTL7gXS3+GEtRFgo4isbCw/CZOOmN63yfVIJcmNEv8/AuP/8puElSgFI8YpA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-HbWJ6LVOP5aHHrp0Ve4YP6TJ1sbzFMenebQu2Uy1OlsxjjxfZr0FbSj20aHxliyVxMGhMN107PL9YeoLqExrYQ==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -21775,7 +21775,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-NuplDYc1WdVFOVFPv1t0M1BrQddyOvMjF2l8LT44o+gIJkvin5NiVrE+RnAsAnpL61xQYgSuMGjQPzJwtgVtyg==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-CcTaHO08tDr9UWe44ob9/YIl4PpsYsQ7GczD6UAprlHR/Rcb3+XP2VKktNr4QcUZhsu6KHM8Dui6KbLmtmUtMg==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
