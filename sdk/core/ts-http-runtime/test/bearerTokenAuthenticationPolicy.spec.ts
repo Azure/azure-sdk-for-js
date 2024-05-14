@@ -4,6 +4,7 @@
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { AccessToken, TokenCredential } from "../src/auth/tokenCredential.js";
 import {
+  AuthorizeRequestOnChallengeOptions,
   PipelinePolicy,
   PipelineResponse,
   SendRequest,
@@ -238,6 +239,75 @@ describe("BearerTokenAuthenticationPolicy", function () {
       error?.message,
       "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs.",
     );
+  });
+
+  it("does not wait for token expiry after receiving an authentication challenge", async () => {
+    // tokens can live for a long time
+    const oneDayInMs = 24 * 60 * 60 * 1000;
+    const tokenExpiration = Date.now() + oneDayInMs;
+    const getToken = vi.fn<[], Promise<AccessToken | null>>();
+
+    // first time getToken is called to put the header on the initial request
+    getToken.mockResolvedValueOnce({
+      token: "mock-token",
+      expiresOnTimestamp: tokenExpiration,
+    });
+    // simulate failure of retriving the token, rejecting with an error would also work
+    // but returning null exercises a slightly different code path for better coverage
+    getToken.mockResolvedValueOnce(null);
+    const credential: TokenCredential = {
+      getToken,
+    };
+    const scopes = ["test-scope"];
+    const request = createPipelineRequest({ url: "https://example.com" });
+
+    async function authorizeRequestOnChallenge(
+      options: AuthorizeRequestOnChallengeOptions,
+    ): Promise<boolean> {
+      // this will trigger a second call into getToken, which should fail
+      // what we don't want is to wait for expiresOnTimestamp of the original credential before giving up
+      const token = await options.getAccessToken(scopes, {
+        claims: '{"access_token":{"nbf":{"essential":true, "value":"1603742800"}}}',
+      });
+      if (token) {
+        options.request.headers.set("Authorization", `Bearer ${token.token}`);
+        return true;
+      }
+      return false;
+    }
+
+    const policy = bearerTokenAuthenticationPolicy({
+      scopes,
+      credential,
+      challengeCallbacks: {
+        authorizeRequestOnChallenge,
+      },
+    });
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+
+    // first response is an auth challenge
+    const challengeResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "WWW-Authenticate": [
+          `Bearer authorization_uri="https://login.windows-ppe.net/", error="invalid_token"`,
+          `error_description="User session has been revoked"`,
+          `claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTYwMzc0MjgwMCJ9fX0="`,
+        ].join(", "),
+      }),
+      request,
+      status: 401,
+    };
+
+    next.mockResolvedValueOnce(challengeResponse);
+
+    let error: Error | undefined;
+    try {
+      await policy.sendRequest(request, next);
+    } catch (e: any) {
+      error = e;
+    }
+    assert.isDefined(error);
+    assert.equal(error?.message, "Failed to refresh access token.");
   });
 
   function createBearerTokenPolicy(
