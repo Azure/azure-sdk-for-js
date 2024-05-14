@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update the state of the specified private endpoint connection associated with the service.
  *
  * @summary Update the state of the specified private endpoint connection associated with the service.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/legacy/ServiceCreatePrivateEndpointConnection.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceCreatePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionCreateOrUpdate() {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";

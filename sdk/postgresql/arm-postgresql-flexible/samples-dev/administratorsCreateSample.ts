@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ActiveDirectoryAdministratorAdd,
-  PostgreSQLManagementFlexibleServerClient
+  PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/AdministratorAdd.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/AdministratorAdd.json
  */
 async function addsAnActiveDIrectoryAdministratorForTheServer() {
   const subscriptionId =
@@ -34,18 +34,18 @@ async function addsAnActiveDIrectoryAdministratorForTheServer() {
   const parameters: ActiveDirectoryAdministratorAdd = {
     principalName: "testuser1@microsoft.com",
     principalType: "User",
-    tenantId: "tttttttt-tttt-tttt-tttt-tttttttttttt"
+    tenantId: "tttttttt-tttt-tttt-tttt-tttttttttttt",
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.administrators.beginCreateAndWait(
     resourceGroupName,
     serverName,
     objectId,
-    parameters
+    parameters,
   );
   console.log(result);
 }

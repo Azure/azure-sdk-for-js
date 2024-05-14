@@ -3,15 +3,11 @@
 
 /**
  * @file Rule to require TSDoc comments to include internal or hidden tags if the object is internal.
- * @author Arpan Laha
+ *
  */
 
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
-import { getLocalExports, getRuleMetaData } from "../utils";
-import { Node } from "estree";
-import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
-import { Rule } from "eslint";
-import { TypeChecker } from "typescript";
+import { TSESTree, ESLintUtils } from "@typescript-eslint/utils";
+import { getLocalExports, createRule } from "../utils";
 import { globSync } from "glob";
 import { readFileSync } from "fs";
 import { relative } from "path";
@@ -19,45 +15,6 @@ import { relative } from "path";
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
-
-/**
- * Helper method for reporting on a node
- * @param node the Node being operated on
- * @param context the ESLint runtime context
- * @param converter a converter from TSESTree Nodes to TSNodes
- * @param typeChecker the TypeScript TypeChecker
- * @throws if the Node passes throught the initial checks and does not have an internal or hidden tag
- */
-const reportInternal = (
-  node: Node,
-  context: Rule.RuleContext,
-  converter: ParserWeakMapESTreeToTSNode,
-  typeChecker: TypeChecker,
-): void => {
-  const tsNode = converter.get(node as TSESTree.Node) as any;
-  const symbol = typeChecker.getTypeAtLocation(tsNode).getSymbol();
-
-  // if type is internal and has a TSDoc
-  if (!context.settings.exported.includes(symbol) && tsNode.jsDoc !== undefined) {
-    // fetch all tags
-    let TSDocTags: string[] = [];
-    tsNode.jsDoc.forEach((TSDocComment: any): void => {
-      TSDocTags = TSDocTags.concat(
-        TSDocComment.tags !== undefined
-          ? TSDocComment.tags.map((TSDocTag: any): string => TSDocTag.tagName.escapedText)
-          : [],
-      );
-    });
-
-    // see if any match hidden or internal
-    if (!TSDocTags.some((TSDocTag: string): boolean => /(internal)|(hidden)/.test(TSDocTag))) {
-      context.report({
-        node: node,
-        message: "internal items with TSDoc comments should include an @internal or @hidden tag",
-      });
-    }
-  }
-};
 
 /**
  * Determine whether this rule should examine a given file
@@ -92,12 +49,68 @@ try {
   exclude = [];
 }
 
-export = {
-  meta: getRuleMetaData(
-    "ts-doc-internal",
-    "require TSDoc comments to include an '@internal' or '@hidden' tag if the object is not public-facing",
-  ),
-  create: (context: Rule.RuleContext): Rule.RuleListener => {
+export default createRule({
+  name: "ts-doc-internal",
+  meta: {
+    type: "suggestion",
+    docs: {
+      description:
+        "require TSDoc comments to include an '@internal' or '@hidden' tag if the object is not public-facing",
+      recommended: "recommended",
+    },
+    messages: {
+      InternalShouldBeMarked:
+        "internal items with TSDoc comments should include an @internal or @hidden tag",
+    },
+    schema: [],
+    fixable: "code",
+  },
+  defaultOptions: [],
+  create(context) {
+    const parserServices = ESLintUtils.getParserServices(context);
+    const typeChecker = parserServices.program.getTypeChecker();
+    const converter = parserServices.esTreeNodeToTSNodeMap;
+
+    /**
+     * Helper method for reporting on a node
+     * @param node the Node being operated on
+     * @param context the ESLint runtime context
+     * @param converter a converter from TSESTree Nodes to TSNodes
+     * @param typeChecker the TypeScript TypeChecker
+     * @throws if the Node passes throught the initial checks and does not have an internal or hidden tag
+     */
+    const reportInternal = (node: TSESTree.Node): void => {
+      const tsNode = converter.get(node as TSESTree.Node) as any;
+      const symbol = typeChecker.getTypeAtLocation(tsNode).getSymbol();
+      const exported = context.settings.exported as Array<unknown>;
+
+      // if type is internal and has a TSDoc
+      if (!exported.includes(symbol) && tsNode.jsDoc !== undefined) {
+        // fetch all tags
+        let TSDocTags: string[] = [];
+        let hasDocComments = false;
+        tsNode.jsDoc.forEach((TSDocComment: any): void => {
+          hasDocComments = true;
+          TSDocTags = TSDocTags.concat(
+            TSDocComment.tags !== undefined
+              ? TSDocComment.tags.map((TSDocTag: any): string => TSDocTag.tagName.escapedText)
+              : [],
+          );
+        });
+
+        // see if any match hidden or internal
+        if (
+          hasDocComments &&
+          !TSDocTags.some((TSDocTag: string): boolean => /(internal)|(hidden)/.test(TSDocTag))
+        ) {
+          context.report({
+            node: (node as any).id ?? node,
+            messageId: "InternalShouldBeMarked",
+          });
+        }
+      }
+    };
+
     const fileName = context.filename;
 
     // on the first run, if on a .ts file (program.getSourceFile is file-type dependent)
@@ -111,40 +124,34 @@ export = {
       }
     }
 
-    const parserServices = context.sourceCode.parserServices as ParserServices;
-    if (
-      parserServices.program === undefined ||
-      parserServices.esTreeNodeToTSNodeMap === undefined
-    ) {
+    if (!shouldExamineFile(fileName, exclude)) {
       return {};
     }
 
-    const typeChecker = parserServices.program.getTypeChecker();
-    const converter = parserServices.esTreeNodeToTSNodeMap;
+    return {
+      // callback functions
 
-    return shouldExamineFile(fileName, exclude)
-      ? {
-          // callback functions
+      // container declarations
+      ":matches(TSInterfaceDeclaration, ClassDeclaration, TSModuleDeclaration)": (
+        node: TSESTree.Node,
+      ): void => reportInternal(node),
 
-          // container declarations
-          ":matches(TSInterfaceDeclaration, ClassDeclaration, TSModuleDeclaration)": (
-            node: Node,
-          ): void => reportInternal(node, context, converter, typeChecker),
-
-          // standalone functions
-          ":function": (node: Node): void => {
-            if (
-              context.sourceCode
-                .getAncestors(node)
-                .every(
-                  (ancestor: Node): boolean =>
-                    !["ClassBody", "TSInterfaceBody", "TSModuleBlock"].includes(ancestor.type),
-                )
-            ) {
-              reportInternal(node, context, converter, typeChecker);
-            }
-          },
+      // standalone functions
+      ":function": (node: TSESTree.Node): void => {
+        if (!context.sourceCode.getAncestors) {
+          return;
         }
-      : {};
+        if (
+          context.sourceCode
+            .getAncestors(node)
+            .every(
+              (ancestor: TSESTree.Node): boolean =>
+                !["ClassBody", "TSInterfaceBody", "TSModuleBlock"].includes(ancestor.type),
+            )
+        ) {
+          reportInternal(node);
+        }
+      },
+    };
   },
-};
+});

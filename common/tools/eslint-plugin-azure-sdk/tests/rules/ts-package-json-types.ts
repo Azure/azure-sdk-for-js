@@ -3,10 +3,10 @@
 
 /**
  * @file Testing the ts-package-json-types rule.
- * @author Arpan Laha
+ *
  */
 
-import { RuleTester } from "../ruleTester";
+import { createRuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-package-json-types";
 
 //------------------------------------------------------------------------------
@@ -239,20 +239,14 @@ const examplePackageBad = `{
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-package-json-types", rule, {
   valid: [
     {
       // only the fields we care about
-      code: '{"types": "typings/index.d.ts"}',
-      filename: "index/package.json",
+      code: '{"types": "typings/service-bus.d.ts"}',
+      filename: "service-bus/package.json",
     },
     {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
@@ -262,13 +256,13 @@ ruleTester.run("ts-package-json-types", rule, {
     {
       // incorrect format but in a file we don't care about
       code: '{"types": "typings/index.ts"}',
-      filename: "service-bus/not_package.json",
+      filename: "not_package.json",
     },
   ],
   invalid: [
     {
       code: '{"notTypes": "typings/index.d.ts"}',
-      filename: "index/package.json",
+      filename: "package.json",
       errors: [
         {
           message: "types does not exist at the outermost level",
@@ -328,11 +322,10 @@ ruleTester.run("ts-package-json-types", rule, {
     // example file with typings set, but to a non-matching package name
     {
       code: examplePackageGood,
-      filename: "wrongpackage/package.json",
+      filename: "invalid/package.json",
       errors: [
         {
-          message:
-            "provided types file should be named 'wrongpackage.d.ts' after the package directory",
+          message: "provided types file should be named 'invalid.d.ts' after the package directory",
         },
       ],
     },

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all the replicas for a given server.
  *
  * @summary List all the replicas for a given server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ReplicasListByServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ReplicasListByServer.json
  */
 async function replicasListByServer() {
   const subscriptionId =

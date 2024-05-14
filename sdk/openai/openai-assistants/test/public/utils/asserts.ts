@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { Assistant, AssistantCreationOptions } from "../../../src/index.js";
 
 export function assertAssistantEquality(
   assistant: AssistantCreationOptions,
-  response: Assistant
+  response: Assistant,
 ): void {
   assert.isNotNull(response);
   assert.equal(response.model, assistant.model);

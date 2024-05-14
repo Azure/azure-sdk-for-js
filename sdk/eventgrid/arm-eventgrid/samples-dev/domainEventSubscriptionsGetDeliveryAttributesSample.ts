@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get all delivery attributes for an event subscription for domain.
  *
  * @summary Get all delivery attributes for an event subscription for domain.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/DomainEventSubscriptions_GetDeliveryAttributes.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/DomainEventSubscriptions_GetDeliveryAttributes.json
  */
 async function domainEventSubscriptionsGetDeliveryAttributes() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function domainEventSubscriptionsGetDeliveryAttributes() {
   const result = await client.domainEventSubscriptions.getDeliveryAttributes(
     resourceGroupName,
     domainName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

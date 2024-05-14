@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -20,7 +20,11 @@ import {
   DiagnosticsImpl,
   DiscoverySolutionImpl,
   SolutionImpl,
-  TroubleshootersImpl
+  SimplifiedSolutionsImpl,
+  TroubleshootersImpl,
+  SolutionSelfHelpImpl,
+  DiscoverySolutionNLPTenantScopeImpl,
+  DiscoverySolutionNLPSubscriptionScopeImpl,
 } from "./operations";
 import {
   Operations,
@@ -28,7 +32,11 @@ import {
   Diagnostics,
   DiscoverySolution,
   Solution,
-  Troubleshooters
+  SimplifiedSolutions,
+  Troubleshooters,
+  SolutionSelfHelp,
+  DiscoverySolutionNLPTenantScope,
+  DiscoverySolutionNLPSubscriptionScope,
 } from "./operationsInterfaces";
 import { HelpRPOptionalParams } from "./models";
 
@@ -43,7 +51,7 @@ export class HelpRP extends coreClient.ServiceClient {
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: HelpRPOptionalParams
+    options?: HelpRPOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -55,10 +63,10 @@ export class HelpRP extends coreClient.ServiceClient {
     }
     const defaults: HelpRPOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-selfhelp/2.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-selfhelp/2.0.0-beta.5`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -68,20 +76,21 @@ export class HelpRP extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -91,7 +100,7 @@ export class HelpRP extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -101,21 +110,27 @@ export class HelpRP extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-09-01-preview";
+    this.apiVersion = options.apiVersion || "2024-03-01-preview";
     this.operations = new OperationsImpl(this);
     this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
     this.diagnostics = new DiagnosticsImpl(this);
     this.discoverySolution = new DiscoverySolutionImpl(this);
     this.solution = new SolutionImpl(this);
+    this.simplifiedSolutions = new SimplifiedSolutionsImpl(this);
     this.troubleshooters = new TroubleshootersImpl(this);
+    this.solutionSelfHelp = new SolutionSelfHelpImpl(this);
+    this.discoverySolutionNLPTenantScope =
+      new DiscoverySolutionNLPTenantScopeImpl(this);
+    this.discoverySolutionNLPSubscriptionScope =
+      new DiscoverySolutionNLPSubscriptionScopeImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -128,7 +143,7 @@ export class HelpRP extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -142,7 +157,7 @@ export class HelpRP extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -152,5 +167,9 @@ export class HelpRP extends coreClient.ServiceClient {
   diagnostics: Diagnostics;
   discoverySolution: DiscoverySolution;
   solution: Solution;
+  simplifiedSolutions: SimplifiedSolutions;
   troubleshooters: Troubleshooters;
+  solutionSelfHelp: SolutionSelfHelp;
+  discoverySolutionNLPTenantScope: DiscoverySolutionNLPTenantScope;
+  discoverySolutionNLPSubscriptionScope: DiscoverySolutionNLPSubscriptionScope;
 }

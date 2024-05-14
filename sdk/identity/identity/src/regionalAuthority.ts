@@ -123,6 +123,11 @@ export enum RegionalAuthority {
  * @internal
  */
 export function calculateRegionalAuthority(regionalAuthority?: string): string | undefined {
+  // Note: as of today only 3 credentials support regional authority, and the parameter
+  // is not exposed via the public API. Regional Authority is _only_ supported
+  // via the AZURE_REGIONAL_AUTHORITY_NAME env var and _only_ for: ClientSecretCredential, ClientCertificateCredential, and ClientAssertionCredential.
+
+  // Accepting the regionalAuthority parameter will allow us to support it in the future.
   let azureRegion = regionalAuthority;
 
   if (

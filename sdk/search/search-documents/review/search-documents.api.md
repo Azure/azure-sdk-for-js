@@ -1915,7 +1915,7 @@ export enum KnownTokenizerNames {
 
 // @public
 export enum KnownVectorQueryKind {
-    $DO_NOT_NORMALIZE$_text = "text",
+    Text = "text",
     Vector = "vector"
 }
 

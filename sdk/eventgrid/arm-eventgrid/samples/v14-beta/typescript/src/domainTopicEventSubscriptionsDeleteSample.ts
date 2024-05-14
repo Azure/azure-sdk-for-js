@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a nested existing event subscription for a domain topic.
  *
  * @summary Delete a nested existing event subscription for a domain topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/DomainTopicEventSubscriptions_Delete.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/DomainTopicEventSubscriptions_Delete.json
  */
 async function domainTopicEventSubscriptionsDelete() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function domainTopicEventSubscriptionsDelete() {
     resourceGroupName,
     domainName,
     topicName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

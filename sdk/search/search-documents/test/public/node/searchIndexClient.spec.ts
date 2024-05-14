@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { versionsToTest } from "@azure/test-utils";
+import { versionsToTest } from "@azure-tools/test-utils";
 import { assert } from "chai";
 import { Context, Suite } from "mocha";
 import {
@@ -275,7 +275,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
           kind: "azureOpenAI",
           name: "vectorizer",
           azureOpenAIParameters: {
-            apiKey: env.AZURE_OPENAI_KEY,
             deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
             resourceUri: env.AZURE_OPENAI_ENDPOINT,
           },

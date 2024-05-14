@@ -29,7 +29,8 @@ import { getDeliveryProperty } from "./utils/misc";
 import { singleMessagePromise } from "./streamingReceiver.spec";
 import { defer } from "./unit/unittestUtils";
 const should = chai.should();
-const assert = chai.assert;
+const expect = chai.expect;
+const assert: typeof chai.assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe("Streaming with sessions", () => {
@@ -509,7 +510,9 @@ describe("Streaming with sessions", () => {
       });
 
       const testError = (err: Error): void => {
-        should.equal(err.message, MessageAlreadySettled, "ErrorMessage is different than expected");
+        expect(err.message, "ErrorMessage is different than expected").includes(
+          MessageAlreadySettled,
+        );
         errorWasThrown = true;
       };
 

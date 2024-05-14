@@ -31,13 +31,12 @@
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "cross-env": "^7.0.0",
     "eslint": "^8.0.0",
-    "esm": "^3.0.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -83,7 +82,7 @@
     "unit-test:browser": "dev-tool run test:browser",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "extract-api": "api-extractor run --local",
+    "extract-api": "dev-tool run extract-api",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "build:samples": "echo Skipped."
   },

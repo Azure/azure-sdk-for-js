@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { env } from "@azure-tools/test-recorder";
+import { DeveloperSignOnClientId } from "../src/constants";
+
 export const PlaybackTenantId = "12345678-1234-1234-1234-123456789012";
 
 /**
@@ -57,3 +60,50 @@ export const openIdConfigurationResponse: Record<string, string | string[] | boo
   msgraph_host: "graph.microsoft.com",
   rbac_url: "https://pas.windows.net",
 };
+
+interface UsernamePasswordStaticResources {
+  clientId: string;
+  tenantId: string;
+  username: string;
+  password: string;
+}
+
+/**
+ * Certain tests rely on static resources fetched from the identity test secrets vault and "merged" into the test environment in CI.
+ *
+ * A helper function validates that these resources are present in the environment as they are not deployed per run.
+ *
+ * When in doubt, reach out to the feature crew for help.
+ *
+ * @returns A set of well-known static resources for the tests.
+ */
+export function getUsernamePasswordStaticResources(): UsernamePasswordStaticResources {
+  const clientId = DeveloperSignOnClientId;
+  const tenantId = env.AZURE_IDENTITY_TEST_TENANTID;
+  if (!tenantId) {
+    throw new Error(
+      "AZURE_IDENTITY_TEST_TENANTID must be present in the environment to run the tests.",
+    );
+  }
+
+  const username = env.AZURE_IDENTITY_TEST_USERNAME;
+  if (!username) {
+    throw new Error(
+      "AZURE_IDENTITY_TEST_USERNAME must be present in the environment to run the tests.",
+    );
+  }
+
+  const password = env.AZURE_IDENTITY_TEST_PASSWORD;
+  if (!password) {
+    throw new Error(
+      "AZURE_IDENTITY_TEST_PASSWORD must be present in the environment to run the tests.",
+    );
+  }
+
+  return {
+    clientId,
+    tenantId,
+    username,
+    password,
+  };
+}
