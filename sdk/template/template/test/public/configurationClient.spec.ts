@@ -58,7 +58,7 @@ describe("[AAD] ConfigurationClient functional tests", function () {
     // `afterEach` hook.
     recorder = new Recorder(context);
 
-    await recorder.start({ envSetupForPlayback: replaceableVariables });
+    await recorder.start({ envSetupForPlayback: replaceableVariables, removeCentralSanitizers: ["AZSDK3447"] });
 
     // We'll be able to refer to the instantiated `client` in tests, since we
     // initialize it before each test
