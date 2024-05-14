@@ -21,14 +21,18 @@ export async function createClient(
   recorder: Recorder,
   options?: ClientOptions
 ): Promise<AccessControlRestClient> {
-  await recorder.start({ envSetupForPlayback: replaceableVariables });
+  await recorder.start({
+    envSetupForPlayback: replaceableVariables, removeCentralSanitizers: [
+      "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    ],
+  });
 
-  let credential: TokenCredential = createTestCredential();
+  const credential: TokenCredential = createTestCredential();
   const client = AccessControlClient(env.ENDPOINT ?? "", credential, recorder.configureClientOptions({ ...options, allowInsecureConnection: true }));
   return client;
 }
 
-export function getWorkspaceName() {
+export function getWorkspaceName(): string {
   const url: string = env.ENDPOINT ?? "";
   const matches = url.match(/^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)/) ?? [];
 
