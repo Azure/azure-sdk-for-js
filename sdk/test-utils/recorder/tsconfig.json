@@ -1,10 +1,9 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "lib": ["dom"],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "declarationDir": "./types",
+    "outDir": "./dist-esm",
+    "lib": ["dom"]
   },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "./test/**/*.ts"]
+  "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

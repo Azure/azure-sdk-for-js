@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { HttpClient } from "@azure/core-rest-pipeline";
-import { logger } from "./log.js";
-import { getRealAndFakePairs } from "./utils/connectionStringHelpers.js";
-import { createRecordingRequest } from "./utils/createRecordingRequest.js";
-import { paths } from "./utils/paths.js";
+import { logger } from "./log";
+import { getRealAndFakePairs } from "./utils/connectionStringHelpers";
+import { createRecordingRequest } from "./utils/createRecordingRequest";
+import { paths } from "./utils/paths";
 import {
   BodyKeySanitizer,
   ConnectionStringSanitizer,
@@ -17,7 +17,7 @@ import {
   ProxyToolSanitizers,
   RecorderError,
   SanitizerOptions,
-} from "./utils/utils.js";
+} from "./utils/utils";
 
 /**
  * Returns the html document of all the available transforms in the proxy-tool
@@ -114,7 +114,7 @@ function makeBatchSanitizerBody(sanitizers: SanitizerOptions): SanitizerRequestB
  * This API is meant to remove the central sanitizers that were added by the proxy-tool
  * You'd need to pass the sanitizer ids that you want the test-proxy to remove for your recording
  *
- * Read more at https://github.com/Azure/azure-sdk-tools/pull/8142/files
+ * Read more at https://github.com/Azure/azure-sdk-tools/pull/8142
  */
 export async function removeCentralSanitizers(
   httpClient: HttpClient,

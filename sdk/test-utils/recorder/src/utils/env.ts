@@ -1,4 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const env = globalThis.process?.env as Record<string, string | undefined>;
+import * as dotenv from "dotenv";
+
+// Initialize the environment
+dotenv.config();
+
+export const env = process.env as Record<string, string | undefined>;

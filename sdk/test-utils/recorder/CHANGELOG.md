@@ -1,6 +1,28 @@
 # Release History
 
-## 4.1.0 (Unreleased)
+## 3.5.0 (2024-05-13)
+
+### Breaking Changes
+
+- Remove fallbackSanitizers at the recorder level in favour of the central sanitizers from test-proxy.
+
+### Features Added
+
+- Adds `removeCentralSanitizers` option to the `RecorderStartOptions` to allow users pass in the central sanitizer ids to skip the specific santiizers at the test proxy level.
+
+## 3.4.0 (2024-05-08)
+
+### Features Added
+
+- Added support for the TestProxy/removeSanitizers API, to support the removing the central sanitizers by id at the test-proxy level.
+
+## 3.3.0 (2024-05-07)
+
+### Features Added
+
+- Added support for the TestProxy/addSanitizers API, which improves the recording of tests by reducing flakiness and timeouts caused by concurrent requests. This helps to speed up the recording process and reduces the burden on the test proxy.
+
+## 3.2.0 (2024-04-17)
 
 ### Features Added
 
@@ -10,32 +32,14 @@
     - `BodyKeySanitizers` that redact sensitive information in the JSON body of the requests.
     - `FindReplaceSanitizers` that redact sensitive information based on provided regular expressions.
     - `HeaderSanitizers` that redact sensitive information in the headers of the requests.
-- Added support for the TestProxy/addSanitizers API, which improves the recording of tests by reducing flakiness and timeouts caused by concurrent requests. This helps to speed up the recording process and reduces the burden on the test proxy.
-- Adds `removeCentralSanitizers` option to the `RecorderStartOptions` to allow users pass in the central sanitizer ids to skip the specific santiizers at the test proxy level.
 
-## 4.0.0 (2024-04-09)
+## 3.1.2 (2024-04-10)
 
-### Features Added
+### Bugs Fixed
 
-- Enhanced the `addSanitizers` method and `SanitizerOptions` options bag by exposing the following sanitizer types for more flexible usage:
+- Minor bug where min version testing in min-max testing fails because the types of `@azure/core-client@1.0.0` is not extensive. Bumping the `@azure/core-client` version to latest. [#29247](https://github.com/Azure/azure-sdk-for-js/pull/29247)
 
-  - `FindReplaceSanitizer`: A sanitizer that finds and replaces specified strings.
-  - `RegexSanitizer`: A sanitizer that uses regular expressions for pattern matching and replacement.
-  - `StringSanitizer`: A sanitizer that handles string-based sanitization tasks.
-  - `HeaderSanitizer`: A sanitizer specifically designed for handling HTTP headers.
-  - `ConnectionStringSanitizer`: A sanitizer that securely handles connection strings.
-  - `RemoveHeaderSanitizer`: A sanitizer that removes specified headers from HTTP requests or responses.
-
-  This update aims to provide users with a more comprehensive and customizable sanitization process.
-
-### Breaking Changes
-
-- The `@azure-tools/test-recorder@4.0.0` package now supports `vitest` and `playwright` (stops support for `mocha` and `karma`), employs `process.env` in both Node and browser environments. This aligns with the latest testing frameworks and provides improved testing capabilities.
-
-  - The package has been simplified by removing the `dotenv` dependency and the `karma.conf` file, env shims for the browser. This streamlines the package dependencies and configuration files, respectively.
-  - These changes introduce a new `env` strategy for all SDKs once they migrate to ESM and depend on `@azure-tools/test-recorder` version 4, as we employ `process.env` through vitest to access environment variables in both Node and browser environments.
-
-## 3.1.0 (2024-03-14)
+## 3.1.0 (2023-03-14)
 
 ### Features Added
 
