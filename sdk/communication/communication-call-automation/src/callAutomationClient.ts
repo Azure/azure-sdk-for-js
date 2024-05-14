@@ -365,16 +365,23 @@ export class CallAutomationClient {
     callbackUrl: string,
     options: ConnectOptions = {},
   ): Promise<ConnectResult> {
-    const request: ConnectRequest = {
+    const connectRequest: ConnectRequest = {
       callLocator: callLocator,
       callbackUri: callbackUrl,
       callIntelligenceOptions: options.callIntelligenceOptions,
     };
-
-    request.callLocator.roomId = callLocator.id;
-    request.callLocator.kind =
-      callLocator.kind === "roomCallLocator" ? callLocator.kind : "roomCallLocator";
-
+    
+    if (callLocator.kind === "groupCallLocator") {
+      connectRequest.callLocator.kind = "groupCallLocator";
+      connectRequest.callLocator.groupCallId = callLocator.id;
+    } else if(callLocator.kind === "serverCallLocator"){
+      connectRequest.callLocator.kind = "serverCallLocator";
+      connectRequest.callLocator.serverCallId = callLocator.id;
+    } else {
+      connectRequest.callLocator.kind = "roomCallLocator";
+      connectRequest.callLocator.roomId = callLocator.id;
+    }
+    
     const optionsInternal = {
       ...options,
       repeatabilityFirstSent: new Date(),
@@ -382,7 +389,7 @@ export class CallAutomationClient {
     };
 
     const { callConnectionId, targets, sourceCallerIdNumber, answeredBy, source, ...result } =
-      await this.callAutomationApiClient.connect(request, optionsInternal);
+      await this.callAutomationApiClient.connect(connectRequest, optionsInternal);
 
     if (callConnectionId) {
       const callConnectionProperties: CallConnectionProperties = {
