@@ -1204,7 +1204,7 @@ packages:
     resolution: {integrity: sha512-KFICQ9ke2OIQms3ZCoidKmH/opUsP9rHub4pdH8JTHh4atiYq2AKviMIgMyBC3ZYdOfsFfnMrm5PcH+0VDRafw==}
     engines: {node: '>=18.0.0'}
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-auth': 1.7.2
       '@azure/core-util': 1.9.0
       '@azure/identity': 4.2.0
@@ -1213,8 +1213,8 @@ packages:
       - supports-color
     dev: false
 
-  /@azure-tools/test-recorder@3.4.0:
-    resolution: {integrity: sha512-X7/IQ/him9OOU/5dnfcIaSEnH+81PBdU+GgZjCnC7JEgchykTIZJSCtVFIfYT9XkUEJ++j2vXV17b5Qe/Hf9OA==}
+  /@azure-tools/test-recorder@3.5.0:
+    resolution: {integrity: sha512-al9B6XuI0GAQqaM6Ir9Fg8jIXwuWgizfyj3x8ePDdYyO+KFiAMlHy0wmy5ZNBnb4oTWTQ4NNbUwhaRlt2jdsKw==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@azure/core-auth': 1.7.2
@@ -1705,7 +1705,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/highlight': 7.24.5
-      picocolors: 1.0.0
+      picocolors: 1.0.1
     dev: false
 
   /@babel/compat-data@7.24.4:
@@ -1845,7 +1845,7 @@ packages:
       '@babel/helper-validator-identifier': 7.24.5
       chalk: 2.4.2
       js-tokens: 4.0.0
-      picocolors: 1.0.0
+      picocolors: 1.0.1
     dev: false
 
   /@babel/parser@7.24.5:
@@ -3842,7 +3842,7 @@ packages:
       istanbul-lib-source-maps: 5.0.4
       istanbul-reports: 3.1.7
       magicast: 0.3.4
-      picocolors: 1.0.0
+      picocolors: 1.0.1
       test-exclude: 6.0.0
       vitest: 1.6.0(@types/node@18.19.33)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
@@ -4323,10 +4323,10 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001617
-      electron-to-chromium: 1.4.764
+      caniuse-lite: 1.0.30001618
+      electron-to-chromium: 1.4.767
       node-releases: 2.0.14
-      update-browserslist-db: 1.0.15(browserslist@4.23.0)
+      update-browserslist-db: 1.0.16(browserslist@4.23.0)
     dev: false
 
   /buffer-alloc-unsafe@1.1.0:
@@ -4426,8 +4426,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001617:
-    resolution: {integrity: sha512-mLyjzNI9I+Pix8zwcrpxEbGlfqOkF9kM3ptzmKNw5tizSyYwMe+nGLTqMK9cO+0E+Bh6TsBxNAaHWEM8xwSsmA==}
+  /caniuse-lite@1.0.30001618:
+    resolution: {integrity: sha512-p407+D1tIkDvsEAPS22lJxLQQaG8OTBEqo0KhzfABGk0TU4juBNDSfH0hyAp/HRyx+M8L17z/ltyhxh27FTfQg==}
     dev: false
 
   /catharsis@0.9.0:
@@ -4828,8 +4828,8 @@ packages:
       which: 2.0.2
     dev: false
 
-  /csv-parse@5.5.5:
-    resolution: {integrity: sha512-erCk7tyU3yLWAhk6wvKxnyPtftuy/6Ak622gOO7BCJ05+TYffnPCJF905wmOQm+BpkX54OdAl8pveJwUdpnCXQ==}
+  /csv-parse@5.5.6:
+    resolution: {integrity: sha512-uNpm30m/AGSkLxxy7d9yRXpJQFrZzVWLFBkS+6ngPcZkw/5k3L/jjFuj7tVnEpRn+QgmiXr21nDlhCiUK4ij2A==}
     dev: false
 
   /custom-event@1.0.1:
@@ -5146,8 +5146,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium@1.4.764:
-    resolution: {integrity: sha512-ZXbPV46Y4dNCA+k7YHB+BYlzcoMtZ1yH6V0tQ1ul0wmA7RiwJfS29LSdRlE1myWBXRzEgm/Lz6tryj5WVQiLmg==}
+  /electron-to-chromium@1.4.767:
+    resolution: {integrity: sha512-nzzHfmQqBss7CE3apQHkHjXW77+8w3ubGCIoEijKCJebPufREaFETgGXWTkh32t259F3Kcq+R8MZdFdOJROgYw==}
     dev: false
 
   /emitter-component@1.1.2:
@@ -8276,8 +8276,8 @@ packages:
       postgres-interval: 1.2.0
     dev: false
 
-  /picocolors@1.0.0:
-    resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
+  /picocolors@1.0.1:
+    resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
     dev: false
 
   /picomatch@2.3.1:
@@ -8353,7 +8353,7 @@ packages:
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.7
-      picocolors: 1.0.0
+      picocolors: 1.0.1
       source-map-js: 1.2.0
     dev: false
 
@@ -9997,15 +9997,15 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /update-browserslist-db@1.0.15(browserslist@4.23.0):
-    resolution: {integrity: sha512-K9HWH62x3/EalU1U6sjSZiylm9C8tgq2mSvshZpqc7QE69RaA2qjhkW2HlNA0tFpEbtyFz7HTqbSdN4MSwUodA==}
+  /update-browserslist-db@1.0.16(browserslist@4.23.0):
+    resolution: {integrity: sha512-KVbTxlBYlckhF5wgfyZXTWnMn7MMZjMu9XG8bPlliUOP9ThaF4QnhP8qrjrH7DRzHfSk0oQv1wToW+iA5GajEQ==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
       browserslist: 4.23.0
       escalade: 3.1.2
-      picocolors: 1.0.0
+      picocolors: 1.0.1
     dev: false
 
   /uri-js@4.4.1:
@@ -10076,7 +10076,7 @@ packages:
       cac: 6.7.14
       debug: 4.3.4(supports-color@8.1.1)
       pathe: 1.1.2
-      picocolors: 1.0.0
+      picocolors: 1.0.1
       vite: 5.2.11(@types/node@18.19.33)
     transitivePeerDependencies:
       - '@types/node'
@@ -10164,7 +10164,7 @@ packages:
       local-pkg: 0.5.0
       magic-string: 0.30.10
       pathe: 1.1.2
-      picocolors: 1.0.0
+      picocolors: 1.0.1
       std-env: 3.7.0
       strip-literal: 2.1.0
       tinybench: 2.8.0
@@ -10574,7 +10574,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -10621,7 +10621,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -10631,7 +10631,7 @@ packages:
       autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
-      csv-parse: 5.5.5
+      csv-parse: 5.5.6
       dotenv: 16.4.5
       eslint: 8.57.0
       karma: 6.4.3(debug@4.3.4)
@@ -10668,7 +10668,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -10713,7 +10713,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -10760,7 +10760,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -10804,7 +10804,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -10853,7 +10853,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -10903,7 +10903,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -10979,7 +10979,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -11024,7 +11024,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11073,7 +11073,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -11157,7 +11157,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.39.5(@types/node@20.10.8)
       '@types/chai': 4.3.16
@@ -11280,7 +11280,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11322,7 +11322,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -11350,7 +11350,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11379,7 +11379,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11408,7 +11408,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11438,7 +11438,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11468,7 +11468,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11497,7 +11497,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11527,7 +11527,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11557,7 +11557,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -11584,7 +11584,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11614,7 +11614,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11644,7 +11644,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11675,7 +11675,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -11720,7 +11720,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11750,7 +11750,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -11777,7 +11777,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -11805,7 +11805,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11835,7 +11835,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -11863,7 +11863,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11893,7 +11893,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11923,7 +11923,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -11952,7 +11952,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -11979,7 +11979,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12009,7 +12009,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12039,7 +12039,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12069,7 +12069,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12098,7 +12098,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12127,7 +12127,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12157,7 +12157,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12187,7 +12187,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -12214,7 +12214,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -12241,7 +12241,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/arm-cosmosdb': 16.0.0-beta.6
       '@azure/core-lro': 2.7.2
@@ -12272,7 +12272,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12302,7 +12302,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -12330,7 +12330,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -12357,7 +12357,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -12384,7 +12384,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12414,7 +12414,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
@@ -12445,7 +12445,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12476,7 +12476,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12522,7 +12522,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12553,7 +12553,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12583,7 +12583,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12613,7 +12613,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -12641,7 +12641,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12671,7 +12671,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12701,7 +12701,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12733,7 +12733,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -12778,7 +12778,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12808,7 +12808,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12838,7 +12838,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12868,7 +12868,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12898,7 +12898,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12927,7 +12927,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12957,7 +12957,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -12987,7 +12987,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13017,7 +13017,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13046,7 +13046,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13076,7 +13076,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13105,7 +13105,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13135,7 +13135,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13165,7 +13165,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13194,7 +13194,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13223,7 +13223,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13253,7 +13253,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13283,7 +13283,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13312,7 +13312,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -13340,7 +13340,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13371,7 +13371,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -13399,7 +13399,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13429,7 +13429,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13460,7 +13460,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13490,7 +13490,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13519,7 +13519,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13548,7 +13548,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13578,7 +13578,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13608,7 +13608,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13637,7 +13637,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13667,7 +13667,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13696,7 +13696,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13726,7 +13726,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -13754,7 +13754,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13784,7 +13784,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13814,7 +13814,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13844,7 +13844,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13874,7 +13874,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
@@ -13905,7 +13905,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -13935,7 +13935,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -13962,7 +13962,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -13990,7 +13990,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14020,7 +14020,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14050,7 +14050,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -14079,7 +14079,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14108,7 +14108,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14138,7 +14138,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14168,7 +14168,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14198,7 +14198,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14227,7 +14227,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14257,7 +14257,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14287,7 +14287,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -14315,7 +14315,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14345,7 +14345,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14374,7 +14374,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14404,7 +14404,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14434,7 +14434,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14463,7 +14463,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -14491,7 +14491,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14521,7 +14521,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14551,7 +14551,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14581,7 +14581,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14611,7 +14611,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14641,7 +14641,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14671,7 +14671,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14701,7 +14701,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14731,7 +14731,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -14758,7 +14758,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14788,7 +14788,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -14816,7 +14816,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -14843,7 +14843,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14873,7 +14873,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14902,7 +14902,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -14931,7 +14931,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -14959,7 +14959,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -14984,7 +14984,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15014,7 +15014,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15044,7 +15044,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15073,7 +15073,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -15101,7 +15101,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -15129,7 +15129,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15158,7 +15158,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -15186,7 +15186,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15216,7 +15216,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -15244,7 +15244,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15274,7 +15274,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -15301,7 +15301,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15331,7 +15331,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -15359,7 +15359,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15389,7 +15389,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -15417,7 +15417,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15447,7 +15447,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15476,7 +15476,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15506,7 +15506,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15536,7 +15536,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15567,7 +15567,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -15612,7 +15612,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15642,7 +15642,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15672,7 +15672,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15701,7 +15701,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15731,7 +15731,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15761,7 +15761,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15791,7 +15791,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15820,7 +15820,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15850,7 +15850,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15879,7 +15879,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15909,7 +15909,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15939,7 +15939,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -15966,7 +15966,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -15996,7 +15996,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -16024,7 +16024,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -16052,7 +16052,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16082,7 +16082,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -16110,7 +16110,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16140,7 +16140,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16169,7 +16169,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16199,7 +16199,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16228,7 +16228,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16258,7 +16258,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16287,7 +16287,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16317,7 +16317,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16347,7 +16347,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16377,7 +16377,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16407,7 +16407,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16437,7 +16437,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16467,7 +16467,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16497,7 +16497,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
@@ -16528,7 +16528,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16558,7 +16558,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16588,7 +16588,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16618,7 +16618,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16648,7 +16648,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -16675,7 +16675,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -16703,7 +16703,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16733,7 +16733,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16763,7 +16763,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -16791,7 +16791,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16821,7 +16821,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16851,7 +16851,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16881,7 +16881,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16911,7 +16911,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16941,7 +16941,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16971,7 +16971,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17001,7 +17001,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17032,7 +17032,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -17059,7 +17059,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17089,7 +17089,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17120,7 +17120,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -17165,7 +17165,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -17193,7 +17193,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17223,7 +17223,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -17251,7 +17251,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17281,7 +17281,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17311,7 +17311,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17341,7 +17341,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17371,7 +17371,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17401,7 +17401,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17431,7 +17431,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17462,7 +17462,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17492,7 +17492,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17522,7 +17522,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17552,7 +17552,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17582,7 +17582,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -17610,7 +17610,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17640,7 +17640,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17669,7 +17669,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17698,7 +17698,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17727,7 +17727,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17757,7 +17757,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -17785,7 +17785,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17814,7 +17814,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17844,7 +17844,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17874,7 +17874,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -17901,7 +17901,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17931,7 +17931,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -17959,7 +17959,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -17988,7 +17988,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -18018,7 +18018,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -18048,7 +18048,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -18078,7 +18078,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -18107,7 +18107,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -18137,7 +18137,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -18167,7 +18167,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -18194,7 +18194,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -18244,7 +18244,7 @@ packages:
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -18289,7 +18289,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/communication-phone-numbers': 1.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -18336,7 +18336,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/communication-signaling': 1.0.0-beta.23
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -18432,7 +18432,7 @@ packages:
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-lro': 2.7.2
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -18474,7 +18474,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -18521,7 +18521,7 @@ packages:
     name: '@rush-temp/communication-job-router-1'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -18571,7 +18571,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -18616,7 +18616,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 3.4.2
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -18660,7 +18660,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -18705,7 +18705,7 @@ packages:
     name: '@rush-temp/communication-recipient-verification'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -18753,7 +18753,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
@@ -18787,7 +18787,7 @@ packages:
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -18835,7 +18835,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -18880,7 +18880,7 @@ packages:
     name: '@rush-temp/communication-tiering'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -18927,7 +18927,7 @@ packages:
     name: '@rush-temp/communication-toll-free-verification'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -18973,7 +18973,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -19002,7 +19002,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -19489,7 +19489,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -19534,7 +19534,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -19648,7 +19648,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -19694,7 +19694,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -19803,7 +19803,7 @@ packages:
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -19864,7 +19864,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -19910,7 +19910,7 @@ packages:
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
       '@types/chai-as-promised': 7.1.8
@@ -20049,7 +20049,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/functions': 3.5.1
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -20095,7 +20095,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -20142,7 +20142,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -20189,7 +20189,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -20234,7 +20234,7 @@ packages:
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.0
       '@azure/msal-node': 2.8.1
@@ -20262,7 +20262,7 @@ packages:
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@azure/msal-node': 2.8.1
       '@azure/msal-node-extensions': 1.0.16
@@ -20298,7 +20298,7 @@ packages:
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/jws': 3.2.10
@@ -20333,7 +20333,7 @@ packages:
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/keyvault-keys': 4.8.0
       '@azure/msal-browser': 3.14.0
@@ -20392,7 +20392,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -20437,7 +20437,7 @@ packages:
     name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
@@ -20482,7 +20482,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -20515,7 +20515,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -20589,7 +20589,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -20636,7 +20636,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -20681,7 +20681,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -20782,7 +20782,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -20828,7 +20828,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -20874,7 +20874,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@azure/maps-common': 1.0.0-beta.2
@@ -20921,7 +20921,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@azure/maps-common': 1.0.0-beta.2
@@ -20967,7 +20967,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
       '@types/chai-as-promised': 7.1.8
@@ -21009,7 +21009,7 @@ packages:
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -21078,7 +21078,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -21210,7 +21210,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -21291,7 +21291,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -21336,7 +21336,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/mocha': 10.0.6
@@ -21912,7 +21912,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -21956,7 +21956,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -22001,7 +22001,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -22046,7 +22046,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -22090,7 +22090,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -22137,7 +22137,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -22181,7 +22181,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@azure/storage-blob': 12.18.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -22228,7 +22228,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@azure/schema-registry': 1.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -22280,7 +22280,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/mocha': 10.0.6
@@ -22322,7 +22322,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/mocha': 10.0.6
@@ -22361,7 +22361,7 @@ packages:
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -22407,7 +22407,7 @@ packages:
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -22469,7 +22469,7 @@ packages:
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -22520,7 +22520,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -22568,7 +22568,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -22619,7 +22619,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -22710,7 +22710,7 @@ packages:
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
@@ -22756,7 +22756,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
       '@types/chai-as-promised': 7.1.8
@@ -22803,7 +22803,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -22851,7 +22851,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -22902,7 +22902,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
       '@types/chai-as-promised': 7.1.8
@@ -22945,7 +22945,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.33
@@ -22982,7 +22982,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
       '@types/chai-as-promised': 7.1.8
@@ -23026,7 +23026,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
@@ -23188,7 +23188,7 @@ packages:
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@opentelemetry/api': 1.8.0
       '@types/chai': 4.3.16
@@ -23424,7 +23424,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.4.0
+      '@azure-tools/test-recorder': 3.5.0
       '@microsoft/api-extractor': 7.43.4(@types/node@18.19.33)
       '@types/chai': 4.3.16
       '@types/jsonwebtoken': 9.0.6

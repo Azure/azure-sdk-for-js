@@ -1,8 +1,11 @@
 # Release History
 
+
 ## 1.6.0-beta.2 (upcoming)
 
 ### Features Added
+- New `messagingPolicy` property in `ChatThreadProperties` for `textOnlyChat`.
+- New `policyViolation` property in `ChatMessage` for data loss prevention.
 
 ## 1.6.0-beta.1 (2024-04-17)
 
