@@ -15,31 +15,31 @@ import {
   DatastoresGetResponse,
   DatastoresCreateOrUpdateOptionalParams,
   DatastoresCreateOrUpdateResponse,
-  DatastoresDeleteOptionalParams
+  DatastoresDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Datastores. */
 export interface Datastores {
   /**
-   * List datastores in a private cloud cluster
+   * List Datastore resources by Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
+   * @param clusterName Name of the cluster
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
-    options?: DatastoresListOptionalParams
+    options?: DatastoresListOptionalParams,
   ): PagedAsyncIterableIterator<Datastore>;
   /**
-   * Get a datastore in a private cloud cluster
+   * Get a Datastore
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param datastoreName Name of the datastore in the private cloud cluster
+   * @param clusterName Name of the cluster
+   * @param datastoreName Name of the datastore
    * @param options The options parameters.
    */
   get(
@@ -47,15 +47,15 @@ export interface Datastores {
     privateCloudName: string,
     clusterName: string,
     datastoreName: string,
-    options?: DatastoresGetOptionalParams
+    options?: DatastoresGetOptionalParams,
   ): Promise<DatastoresGetResponse>;
   /**
-   * Create or update a datastore in a private cloud cluster
+   * Create a Datastore
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param datastoreName Name of the datastore in the private cloud cluster
-   * @param datastore A datastore in a private cloud cluster
+   * @param clusterName Name of the cluster
+   * @param datastoreName Name of the datastore
+   * @param datastore Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -64,7 +64,7 @@ export interface Datastores {
     clusterName: string,
     datastoreName: string,
     datastore: Datastore,
-    options?: DatastoresCreateOrUpdateOptionalParams
+    options?: DatastoresCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatastoresCreateOrUpdateResponse>,
@@ -72,12 +72,12 @@ export interface Datastores {
     >
   >;
   /**
-   * Create or update a datastore in a private cloud cluster
+   * Create a Datastore
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param datastoreName Name of the datastore in the private cloud cluster
-   * @param datastore A datastore in a private cloud cluster
+   * @param clusterName Name of the cluster
+   * @param datastoreName Name of the datastore
+   * @param datastore Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -86,14 +86,14 @@ export interface Datastores {
     clusterName: string,
     datastoreName: string,
     datastore: Datastore,
-    options?: DatastoresCreateOrUpdateOptionalParams
+    options?: DatastoresCreateOrUpdateOptionalParams,
   ): Promise<DatastoresCreateOrUpdateResponse>;
   /**
-   * Delete a datastore in a private cloud cluster
+   * Delete a Datastore
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param datastoreName Name of the datastore in the private cloud cluster
+   * @param clusterName Name of the cluster
+   * @param datastoreName Name of the datastore
    * @param options The options parameters.
    */
   beginDelete(
@@ -101,14 +101,14 @@ export interface Datastores {
     privateCloudName: string,
     clusterName: string,
     datastoreName: string,
-    options?: DatastoresDeleteOptionalParams
+    options?: DatastoresDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete a datastore in a private cloud cluster
+   * Delete a Datastore
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param datastoreName Name of the datastore in the private cloud cluster
+   * @param clusterName Name of the cluster
+   * @param datastoreName Name of the datastore
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -116,6 +116,6 @@ export interface Datastores {
     privateCloudName: string,
     clusterName: string,
     datastoreName: string,
-    options?: DatastoresDeleteOptionalParams
+    options?: DatastoresDeleteOptionalParams,
   ): Promise<void>;
 }

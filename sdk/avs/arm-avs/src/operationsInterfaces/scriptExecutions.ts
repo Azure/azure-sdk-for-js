@@ -17,14 +17,14 @@ import {
   ScriptExecutionsCreateOrUpdateResponse,
   ScriptExecutionsDeleteOptionalParams,
   ScriptExecutionsGetExecutionLogsOptionalParams,
-  ScriptExecutionsGetExecutionLogsResponse
+  ScriptExecutionsGetExecutionLogsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScriptExecutions. */
 export interface ScriptExecutions {
   /**
-   * List script executions in a private cloud
+   * List ScriptExecution resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -32,27 +32,27 @@ export interface ScriptExecutions {
   list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ScriptExecutionsListOptionalParams
+    options?: ScriptExecutionsListOptionalParams,
   ): PagedAsyncIterableIterator<ScriptExecution>;
   /**
-   * Get an script execution by name in a private cloud
+   * Get a ScriptExecution
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptExecutionName Name of the user-invoked script execution resource
+   * @param scriptExecutionName Name of the script cmdlet.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
     scriptExecutionName: string,
-    options?: ScriptExecutionsGetOptionalParams
+    options?: ScriptExecutionsGetOptionalParams,
   ): Promise<ScriptExecutionsGetResponse>;
   /**
-   * Create or update a script execution in a private cloud
+   * Create a ScriptExecution
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param scriptExecutionName Name of the user-invoked script execution resource
-   * @param scriptExecution A script running in the private cloud
+   * @param privateCloudName Name of the private cloud
+   * @param scriptExecutionName Name of the script cmdlet.
+   * @param scriptExecution Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -60,7 +60,7 @@ export interface ScriptExecutions {
     privateCloudName: string,
     scriptExecutionName: string,
     scriptExecution: ScriptExecution,
-    options?: ScriptExecutionsCreateOrUpdateOptionalParams
+    options?: ScriptExecutionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ScriptExecutionsCreateOrUpdateResponse>,
@@ -68,11 +68,11 @@ export interface ScriptExecutions {
     >
   >;
   /**
-   * Create or update a script execution in a private cloud
+   * Create a ScriptExecution
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param scriptExecutionName Name of the user-invoked script execution resource
-   * @param scriptExecution A script running in the private cloud
+   * @param privateCloudName Name of the private cloud
+   * @param scriptExecutionName Name of the script cmdlet.
+   * @param scriptExecution Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -80,45 +80,45 @@ export interface ScriptExecutions {
     privateCloudName: string,
     scriptExecutionName: string,
     scriptExecution: ScriptExecution,
-    options?: ScriptExecutionsCreateOrUpdateOptionalParams
+    options?: ScriptExecutionsCreateOrUpdateOptionalParams,
   ): Promise<ScriptExecutionsCreateOrUpdateResponse>;
   /**
-   * Cancel a ScriptExecution in a private cloud
+   * Delete a ScriptExecution
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptExecutionName Name of the user-invoked script execution resource
+   * @param scriptExecutionName Name of the script cmdlet.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
     scriptExecutionName: string,
-    options?: ScriptExecutionsDeleteOptionalParams
+    options?: ScriptExecutionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Cancel a ScriptExecution in a private cloud
+   * Delete a ScriptExecution
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptExecutionName Name of the user-invoked script execution resource
+   * @param scriptExecutionName Name of the script cmdlet.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     scriptExecutionName: string,
-    options?: ScriptExecutionsDeleteOptionalParams
+    options?: ScriptExecutionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Return the logs for a script execution resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptExecutionName Name of the user-invoked script execution resource
+   * @param scriptExecutionName Name of the script cmdlet.
    * @param options The options parameters.
    */
   getExecutionLogs(
     resourceGroupName: string,
     privateCloudName: string,
     scriptExecutionName: string,
-    options?: ScriptExecutionsGetExecutionLogsOptionalParams
+    options?: ScriptExecutionsGetExecutionLogsOptionalParams,
   ): Promise<ScriptExecutionsGetExecutionLogsResponse>;
 }

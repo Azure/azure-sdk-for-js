@@ -12,10 +12,10 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
 import {
+  LocationsCheckQuotaAvailabilityOptionalParams,
+  LocationsCheckQuotaAvailabilityResponse,
   LocationsCheckTrialAvailabilityOptionalParams,
   LocationsCheckTrialAvailabilityResponse,
-  LocationsCheckQuotaAvailabilityOptionalParams,
-  LocationsCheckQuotaAvailabilityResponse
 } from "../models";
 
 /** Class containing Locations operations. */
@@ -31,79 +31,77 @@ export class LocationsImpl implements Locations {
   }
 
   /**
-   * Return trial status for subscription by region
-   * @param location Azure region
-   * @param options The options parameters.
-   */
-  checkTrialAvailability(
-    location: string,
-    options?: LocationsCheckTrialAvailabilityOptionalParams
-  ): Promise<LocationsCheckTrialAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      checkTrialAvailabilityOperationSpec
-    );
-  }
-
-  /**
    * Return quota for subscription by region
-   * @param location Azure region
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   checkQuotaAvailability(
     location: string,
-    options?: LocationsCheckQuotaAvailabilityOptionalParams
+    options?: LocationsCheckQuotaAvailabilityOptionalParams,
   ): Promise<LocationsCheckQuotaAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      checkQuotaAvailabilityOperationSpec
+      checkQuotaAvailabilityOperationSpec,
+    );
+  }
+
+  /**
+   * Return trial status for subscription by region
+   * @param location The name of the Azure region.
+   * @param options The options parameters.
+   */
+  checkTrialAvailability(
+    location: string,
+    options?: LocationsCheckTrialAvailabilityOptionalParams,
+  ): Promise<LocationsCheckTrialAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      { location, options },
+      checkTrialAvailabilityOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const checkTrialAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkTrialAvailability",
+const checkQuotaAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkQuotaAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Trial
+      bodyMapper: Mappers.Quota,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const checkTrialAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkTrialAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Trial,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.sku,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const checkQuotaAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkQuotaAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Quota
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

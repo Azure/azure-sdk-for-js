@@ -11,33 +11,31 @@ import {
   ScriptCmdlet,
   ScriptCmdletsListOptionalParams,
   ScriptCmdletsGetOptionalParams,
-  ScriptCmdletsGetResponse
+  ScriptCmdletsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScriptCmdlets. */
 export interface ScriptCmdlets {
   /**
-   * List script cmdlet resources available for a private cloud to create a script execution resource on
-   * a private cloud
+   * List ScriptCmdlet resources by ScriptPackage
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptPackageName Name of the script package in the private cloud
+   * @param scriptPackageName Name of the script package.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     privateCloudName: string,
     scriptPackageName: string,
-    options?: ScriptCmdletsListOptionalParams
+    options?: ScriptCmdletsListOptionalParams,
   ): PagedAsyncIterableIterator<ScriptCmdlet>;
   /**
-   * Return information about a script cmdlet resource in a specific package on a private cloud
+   * Get a ScriptCmdlet
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptPackageName Name of the script package in the private cloud
-   * @param scriptCmdletName Name of the script cmdlet resource in the script package in the private
-   *                         cloud
+   * @param scriptPackageName Name of the script package.
+   * @param scriptCmdletName Name of the script cmdlet.
    * @param options The options parameters.
    */
   get(
@@ -45,6 +43,6 @@ export interface ScriptCmdlets {
     privateCloudName: string,
     scriptPackageName: string,
     scriptCmdletName: string,
-    options?: ScriptCmdletsGetOptionalParams
+    options?: ScriptCmdletsGetOptionalParams,
   ): Promise<ScriptCmdletsGetResponse>;
 }

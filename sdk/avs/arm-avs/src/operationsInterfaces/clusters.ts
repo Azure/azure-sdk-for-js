@@ -20,14 +20,14 @@ import {
   ClustersUpdateResponse,
   ClustersDeleteOptionalParams,
   ClustersListZonesOptionalParams,
-  ClustersListZonesResponse
+  ClustersListZonesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Clusters. */
 export interface Clusters {
   /**
-   * List clusters in a private cloud
+   * List Cluster resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -35,27 +35,27 @@ export interface Clusters {
   list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ClustersListOptionalParams
+    options?: ClustersListOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
-   * Get a cluster by name in a private cloud
+   * Get a Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
+   * @param clusterName Name of the cluster
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
-    options?: ClustersGetOptionalParams
+    options?: ClustersGetOptionalParams,
   ): Promise<ClustersGetResponse>;
   /**
-   * Create or update a cluster in a private cloud
+   * Create a Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param clusterName Name of the cluster in the private cloud
-   * @param cluster A cluster in the private cloud
+   * @param privateCloudName Name of the private cloud
+   * @param clusterName Name of the cluster
+   * @param cluster Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -63,7 +63,7 @@ export interface Clusters {
     privateCloudName: string,
     clusterName: string,
     cluster: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersCreateOrUpdateResponse>,
@@ -71,11 +71,11 @@ export interface Clusters {
     >
   >;
   /**
-   * Create or update a cluster in a private cloud
+   * Create a Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param clusterName Name of the cluster in the private cloud
-   * @param cluster A cluster in the private cloud
+   * @param privateCloudName Name of the private cloud
+   * @param clusterName Name of the cluster
+   * @param cluster Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -83,14 +83,14 @@ export interface Clusters {
     privateCloudName: string,
     clusterName: string,
     cluster: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<ClustersCreateOrUpdateResponse>;
   /**
-   * Update a cluster in a private cloud
+   * Update a Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param clusterUpdate The cluster properties to be updated
+   * @param clusterName Name of the cluster
+   * @param clusterUpdate The cluster properties to be updated.
    * @param options The options parameters.
    */
   beginUpdate(
@@ -98,7 +98,7 @@ export interface Clusters {
     privateCloudName: string,
     clusterName: string,
     clusterUpdate: ClusterUpdate,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersUpdateResponse>,
@@ -106,11 +106,11 @@ export interface Clusters {
     >
   >;
   /**
-   * Update a cluster in a private cloud
+   * Update a Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param clusterUpdate The cluster properties to be updated
+   * @param clusterName Name of the cluster
+   * @param clusterUpdate The cluster properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
@@ -118,45 +118,45 @@ export interface Clusters {
     privateCloudName: string,
     clusterName: string,
     clusterUpdate: ClusterUpdate,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<ClustersUpdateResponse>;
   /**
-   * Delete a cluster in a private cloud
+   * Delete a Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
+   * @param clusterName Name of the cluster
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete a cluster in a private cloud
+   * Delete a Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
+   * @param clusterName Name of the cluster
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * List hosts by zone in a cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
+   * @param clusterName Name of the cluster
    * @param options The options parameters.
    */
   listZones(
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
-    options?: ClustersListZonesOptionalParams
+    options?: ClustersListZonesOptionalParams,
   ): Promise<ClustersListZonesResponse>;
 }

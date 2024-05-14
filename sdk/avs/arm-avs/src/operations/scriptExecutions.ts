@@ -16,7 +16,7 @@ import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -31,7 +31,7 @@ import {
   ScriptExecutionsDeleteOptionalParams,
   ScriptExecutionsGetExecutionLogsOptionalParams,
   ScriptExecutionsGetExecutionLogsResponse,
-  ScriptExecutionsListNextResponse
+  ScriptExecutionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,7 +48,7 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
   }
 
   /**
-   * List script executions in a private cloud
+   * List ScriptExecution resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -56,12 +56,12 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
   public list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ScriptExecutionsListOptionalParams
+    options?: ScriptExecutionsListOptionalParams,
   ): PagedAsyncIterableIterator<ScriptExecution> {
     const iter = this.listPagingAll(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +78,9 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
           resourceGroupName,
           privateCloudName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +88,7 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
     resourceGroupName: string,
     privateCloudName: string,
     options?: ScriptExecutionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ScriptExecution[]> {
     let result: ScriptExecutionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +104,7 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
         resourceGroupName,
         privateCloudName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,19 +116,19 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
   private async *listPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ScriptExecutionsListOptionalParams
+    options?: ScriptExecutionsListOptionalParams,
   ): AsyncIterableIterator<ScriptExecution> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * List script executions in a private cloud
+   * List ScriptExecution resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -136,39 +136,39 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
   private _list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ScriptExecutionsListOptionalParams
+    options?: ScriptExecutionsListOptionalParams,
   ): Promise<ScriptExecutionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
-   * Get an script execution by name in a private cloud
+   * Get a ScriptExecution
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptExecutionName Name of the user-invoked script execution resource
+   * @param scriptExecutionName Name of the script cmdlet.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
     scriptExecutionName: string,
-    options?: ScriptExecutionsGetOptionalParams
+    options?: ScriptExecutionsGetOptionalParams,
   ): Promise<ScriptExecutionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, scriptExecutionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Create or update a script execution in a private cloud
+   * Create a ScriptExecution
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param scriptExecutionName Name of the user-invoked script execution resource
-   * @param scriptExecution A script running in the private cloud
+   * @param privateCloudName Name of the private cloud
+   * @param scriptExecutionName Name of the script cmdlet.
+   * @param scriptExecution Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -176,7 +176,7 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
     privateCloudName: string,
     scriptExecutionName: string,
     scriptExecution: ScriptExecution,
-    options?: ScriptExecutionsCreateOrUpdateOptionalParams
+    options?: ScriptExecutionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ScriptExecutionsCreateOrUpdateResponse>,
@@ -185,21 +185,20 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ScriptExecutionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -208,8 +207,8 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -217,8 +216,8 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -229,27 +228,28 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
         privateCloudName,
         scriptExecutionName,
         scriptExecution,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ScriptExecutionsCreateOrUpdateResponse,
       OperationState<ScriptExecutionsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update a script execution in a private cloud
+   * Create a ScriptExecution
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param scriptExecutionName Name of the user-invoked script execution resource
-   * @param scriptExecution A script running in the private cloud
+   * @param privateCloudName Name of the private cloud
+   * @param scriptExecutionName Name of the script cmdlet.
+   * @param scriptExecution Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -257,48 +257,47 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
     privateCloudName: string,
     scriptExecutionName: string,
     scriptExecution: ScriptExecution,
-    options?: ScriptExecutionsCreateOrUpdateOptionalParams
+    options?: ScriptExecutionsCreateOrUpdateOptionalParams,
   ): Promise<ScriptExecutionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       privateCloudName,
       scriptExecutionName,
       scriptExecution,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Cancel a ScriptExecution in a private cloud
+   * Delete a ScriptExecution
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptExecutionName Name of the user-invoked script execution resource
+   * @param scriptExecutionName Name of the script cmdlet.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
     scriptExecutionName: string,
-    options?: ScriptExecutionsDeleteOptionalParams
+    options?: ScriptExecutionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -307,8 +306,8 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -316,8 +315,8 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -327,36 +326,37 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
         resourceGroupName,
         privateCloudName,
         scriptExecutionName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Cancel a ScriptExecution in a private cloud
+   * Delete a ScriptExecution
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptExecutionName Name of the user-invoked script execution resource
+   * @param scriptExecutionName Name of the script cmdlet.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     scriptExecutionName: string,
-    options?: ScriptExecutionsDeleteOptionalParams
+    options?: ScriptExecutionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       privateCloudName,
       scriptExecutionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -365,18 +365,18 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
    * Return the logs for a script execution resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptExecutionName Name of the user-invoked script execution resource
+   * @param scriptExecutionName Name of the script cmdlet.
    * @param options The options parameters.
    */
   getExecutionLogs(
     resourceGroupName: string,
     privateCloudName: string,
     scriptExecutionName: string,
-    options?: ScriptExecutionsGetExecutionLogsOptionalParams
+    options?: ScriptExecutionsGetExecutionLogsOptionalParams,
   ): Promise<ScriptExecutionsGetExecutionLogsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, scriptExecutionName, options },
-      getExecutionLogsOperationSpec
+      getExecutionLogsOperationSpec,
     );
   }
 
@@ -391,11 +391,11 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
     resourceGroupName: string,
     privateCloudName: string,
     nextLink: string,
-    options?: ScriptExecutionsListNextOptionalParams
+    options?: ScriptExecutionsListNextOptionalParams,
   ): Promise<ScriptExecutionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -403,38 +403,15 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptExecutionsList
+      bodyMapper: Mappers.ScriptExecutionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ScriptExecution
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -442,31 +419,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.scriptExecutionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ScriptExecution,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.scriptExecutionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptExecution
+      bodyMapper: Mappers.ScriptExecution,
     },
     201: {
-      bodyMapper: Mappers.ScriptExecution
+      bodyMapper: Mappers.ScriptExecution,
     },
     202: {
-      bodyMapper: Mappers.ScriptExecution
+      bodyMapper: Mappers.ScriptExecution,
     },
     204: {
-      bodyMapper: Mappers.ScriptExecution
+      bodyMapper: Mappers.ScriptExecution,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.scriptExecution,
   queryParameters: [Parameters.apiVersion],
@@ -474,16 +471,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName1,
-    Parameters.scriptExecutionName
+    Parameters.privateCloudName,
+    Parameters.scriptExecutionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -491,8 +487,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -500,22 +496,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.scriptExecutionName
+    Parameters.scriptExecutionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getExecutionLogsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}/getExecutionLogs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}/getExecutionLogs",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptExecution
+      bodyMapper: Mappers.ScriptExecution,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.scriptOutputStreamType,
   queryParameters: [Parameters.apiVersion],
@@ -524,30 +519,30 @@ const getExecutionLogsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.scriptExecutionName
+    Parameters.scriptExecutionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptExecutionsList
+      bodyMapper: Mappers.ScriptExecutionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

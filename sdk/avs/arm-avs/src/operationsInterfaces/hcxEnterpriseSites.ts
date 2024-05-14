@@ -14,14 +14,14 @@ import {
   HcxEnterpriseSitesGetResponse,
   HcxEnterpriseSitesCreateOrUpdateOptionalParams,
   HcxEnterpriseSitesCreateOrUpdateResponse,
-  HcxEnterpriseSitesDeleteOptionalParams
+  HcxEnterpriseSitesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a HcxEnterpriseSites. */
 export interface HcxEnterpriseSites {
   /**
-   * List HCX on-premises key in a private cloud
+   * List HcxEnterpriseSite resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -29,27 +29,27 @@ export interface HcxEnterpriseSites {
   list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: HcxEnterpriseSitesListOptionalParams
+    options?: HcxEnterpriseSitesListOptionalParams,
   ): PagedAsyncIterableIterator<HcxEnterpriseSite>;
   /**
-   * Get an HCX on-premises key by name in a private cloud
+   * Get a HcxEnterpriseSite
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site in the private cloud
+   * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
     hcxEnterpriseSiteName: string,
-    options?: HcxEnterpriseSitesGetOptionalParams
+    options?: HcxEnterpriseSitesGetOptionalParams,
   ): Promise<HcxEnterpriseSitesGetResponse>;
   /**
-   * Create or update an activation key for on-premises HCX site
+   * Create a HcxEnterpriseSite
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site in the private cloud
-   * @param hcxEnterpriseSite The HCX Enterprise Site
+   * @param privateCloudName Name of the private cloud
+   * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site
+   * @param hcxEnterpriseSite Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -57,19 +57,19 @@ export interface HcxEnterpriseSites {
     privateCloudName: string,
     hcxEnterpriseSiteName: string,
     hcxEnterpriseSite: HcxEnterpriseSite,
-    options?: HcxEnterpriseSitesCreateOrUpdateOptionalParams
+    options?: HcxEnterpriseSitesCreateOrUpdateOptionalParams,
   ): Promise<HcxEnterpriseSitesCreateOrUpdateResponse>;
   /**
-   * Delete HCX on-premises key in a private cloud
+   * Delete a HcxEnterpriseSite
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site in the private cloud
+   * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     privateCloudName: string,
     hcxEnterpriseSiteName: string,
-    options?: HcxEnterpriseSitesDeleteOptionalParams
+    options?: HcxEnterpriseSitesDeleteOptionalParams,
   ): Promise<void>;
 }

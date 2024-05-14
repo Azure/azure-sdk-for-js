@@ -23,7 +23,7 @@ import {
   HcxEnterpriseSitesCreateOrUpdateOptionalParams,
   HcxEnterpriseSitesCreateOrUpdateResponse,
   HcxEnterpriseSitesDeleteOptionalParams,
-  HcxEnterpriseSitesListNextResponse
+  HcxEnterpriseSitesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
   }
 
   /**
-   * List HCX on-premises key in a private cloud
+   * List HcxEnterpriseSite resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -48,12 +48,12 @@ export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
   public list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: HcxEnterpriseSitesListOptionalParams
+    options?: HcxEnterpriseSitesListOptionalParams,
   ): PagedAsyncIterableIterator<HcxEnterpriseSite> {
     const iter = this.listPagingAll(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
           resourceGroupName,
           privateCloudName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
     resourceGroupName: string,
     privateCloudName: string,
     options?: HcxEnterpriseSitesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<HcxEnterpriseSite[]> {
     let result: HcxEnterpriseSitesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +96,7 @@ export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
         resourceGroupName,
         privateCloudName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -108,19 +108,19 @@ export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
   private async *listPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: HcxEnterpriseSitesListOptionalParams
+    options?: HcxEnterpriseSitesListOptionalParams,
   ): AsyncIterableIterator<HcxEnterpriseSite> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * List HCX on-premises key in a private cloud
+   * List HcxEnterpriseSite resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -128,39 +128,39 @@ export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
   private _list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: HcxEnterpriseSitesListOptionalParams
+    options?: HcxEnterpriseSitesListOptionalParams,
   ): Promise<HcxEnterpriseSitesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
-   * Get an HCX on-premises key by name in a private cloud
+   * Get a HcxEnterpriseSite
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site in the private cloud
+   * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
     hcxEnterpriseSiteName: string,
-    options?: HcxEnterpriseSitesGetOptionalParams
+    options?: HcxEnterpriseSitesGetOptionalParams,
   ): Promise<HcxEnterpriseSitesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, hcxEnterpriseSiteName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Create or update an activation key for on-premises HCX site
+   * Create a HcxEnterpriseSite
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site in the private cloud
-   * @param hcxEnterpriseSite The HCX Enterprise Site
+   * @param privateCloudName Name of the private cloud
+   * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site
+   * @param hcxEnterpriseSite Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -168,7 +168,7 @@ export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
     privateCloudName: string,
     hcxEnterpriseSiteName: string,
     hcxEnterpriseSite: HcxEnterpriseSite,
-    options?: HcxEnterpriseSitesCreateOrUpdateOptionalParams
+    options?: HcxEnterpriseSitesCreateOrUpdateOptionalParams,
   ): Promise<HcxEnterpriseSitesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -176,28 +176,28 @@ export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
         privateCloudName,
         hcxEnterpriseSiteName,
         hcxEnterpriseSite,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
-   * Delete HCX on-premises key in a private cloud
+   * Delete a HcxEnterpriseSite
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site in the private cloud
+   * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     privateCloudName: string,
     hcxEnterpriseSiteName: string,
-    options?: HcxEnterpriseSitesDeleteOptionalParams
+    options?: HcxEnterpriseSitesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, hcxEnterpriseSiteName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -212,11 +212,11 @@ export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
     resourceGroupName: string,
     privateCloudName: string,
     nextLink: string,
-    options?: HcxEnterpriseSitesListNextOptionalParams
+    options?: HcxEnterpriseSitesListNextOptionalParams,
   ): Promise<HcxEnterpriseSitesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -224,38 +224,15 @@ export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/hcxEnterpriseSites",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/hcxEnterpriseSites",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HcxEnterpriseSiteList
+      bodyMapper: Mappers.HcxEnterpriseSiteListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/hcxEnterpriseSites/{hcxEnterpriseSiteName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.HcxEnterpriseSite
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -263,25 +240,45 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.hcxEnterpriseSiteName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/hcxEnterpriseSites/{hcxEnterpriseSiteName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HcxEnterpriseSite,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.hcxEnterpriseSiteName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/hcxEnterpriseSites/{hcxEnterpriseSiteName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/hcxEnterpriseSites/{hcxEnterpriseSiteName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.HcxEnterpriseSite
+      bodyMapper: Mappers.HcxEnterpriseSite,
     },
     201: {
-      bodyMapper: Mappers.HcxEnterpriseSite
+      bodyMapper: Mappers.HcxEnterpriseSite,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.hcxEnterpriseSite,
   queryParameters: [Parameters.apiVersion],
@@ -289,23 +286,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName1,
-    Parameters.hcxEnterpriseSiteName
+    Parameters.privateCloudName,
+    Parameters.hcxEnterpriseSiteName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/hcxEnterpriseSites/{hcxEnterpriseSiteName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/hcxEnterpriseSites/{hcxEnterpriseSiteName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -313,29 +309,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.hcxEnterpriseSiteName
+    Parameters.hcxEnterpriseSiteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HcxEnterpriseSiteList
+      bodyMapper: Mappers.HcxEnterpriseSiteListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

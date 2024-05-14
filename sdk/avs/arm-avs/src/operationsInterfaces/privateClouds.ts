@@ -10,8 +10,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateCloud,
-  PrivateCloudsListOptionalParams,
   PrivateCloudsListInSubscriptionOptionalParams,
+  PrivateCloudsListOptionalParams,
   PrivateCloudsGetOptionalParams,
   PrivateCloudsGetResponse,
   PrivateCloudsCreateOrUpdateOptionalParams,
@@ -20,33 +20,35 @@ import {
   PrivateCloudsUpdateOptionalParams,
   PrivateCloudsUpdateResponse,
   PrivateCloudsDeleteOptionalParams,
-  PrivateCloudsRotateVcenterPasswordOptionalParams,
-  PrivateCloudsRotateNsxtPasswordOptionalParams,
   PrivateCloudsListAdminCredentialsOptionalParams,
-  PrivateCloudsListAdminCredentialsResponse
+  PrivateCloudsListAdminCredentialsResponse,
+  PrivateCloudsRotateNsxtPasswordOptionalParams,
+  PrivateCloudsRotateNsxtPasswordResponse,
+  PrivateCloudsRotateVcenterPasswordOptionalParams,
+  PrivateCloudsRotateVcenterPasswordResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateClouds. */
 export interface PrivateClouds {
   /**
-   * List private clouds in a resource group
+   * List PrivateCloud resources by subscription ID
+   * @param options The options parameters.
+   */
+  listInSubscription(
+    options?: PrivateCloudsListInSubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<PrivateCloud>;
+  /**
+   * List PrivateCloud resources by resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
-    options?: PrivateCloudsListOptionalParams
+    options?: PrivateCloudsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateCloud>;
   /**
-   * List private clouds in a subscription
-   * @param options The options parameters.
-   */
-  listInSubscription(
-    options?: PrivateCloudsListInSubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<PrivateCloud>;
-  /**
-   * Get a private cloud
+   * Get a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -54,20 +56,20 @@ export interface PrivateClouds {
   get(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: PrivateCloudsGetOptionalParams
+    options?: PrivateCloudsGetOptionalParams,
   ): Promise<PrivateCloudsGetResponse>;
   /**
-   * Create or update a private cloud
+   * Create a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param privateCloud The private cloud
+   * @param privateCloud Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     privateCloudName: string,
     privateCloud: PrivateCloud,
-    options?: PrivateCloudsCreateOrUpdateOptionalParams
+    options?: PrivateCloudsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateCloudsCreateOrUpdateResponse>,
@@ -75,30 +77,30 @@ export interface PrivateClouds {
     >
   >;
   /**
-   * Create or update a private cloud
+   * Create a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param privateCloud The private cloud
+   * @param privateCloud Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     privateCloud: PrivateCloud,
-    options?: PrivateCloudsCreateOrUpdateOptionalParams
+    options?: PrivateCloudsCreateOrUpdateOptionalParams,
   ): Promise<PrivateCloudsCreateOrUpdateResponse>;
   /**
-   * Update a private cloud
+   * Update a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param privateCloudUpdate The private cloud properties to be updated
+   * @param privateCloudUpdate The private cloud properties to be updated.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     privateCloudName: string,
     privateCloudUpdate: PrivateCloudUpdate,
-    options?: PrivateCloudsUpdateOptionalParams
+    options?: PrivateCloudsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateCloudsUpdateResponse>,
@@ -106,20 +108,20 @@ export interface PrivateClouds {
     >
   >;
   /**
-   * Update a private cloud
+   * Update a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param privateCloudUpdate The private cloud properties to be updated
+   * @param privateCloudUpdate The private cloud properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     privateCloudUpdate: PrivateCloudUpdate,
-    options?: PrivateCloudsUpdateOptionalParams
+    options?: PrivateCloudsUpdateOptionalParams,
   ): Promise<PrivateCloudsUpdateResponse>;
   /**
-   * Delete a private cloud
+   * Delete a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -127,10 +129,10 @@ export interface PrivateClouds {
   beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: PrivateCloudsDeleteOptionalParams
+    options?: PrivateCloudsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete a private cloud
+   * Delete a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -138,51 +140,7 @@ export interface PrivateClouds {
   beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: PrivateCloudsDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Rotate the vCenter password
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  beginRotateVcenterPassword(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: PrivateCloudsRotateVcenterPasswordOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Rotate the vCenter password
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  beginRotateVcenterPasswordAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: PrivateCloudsRotateVcenterPasswordOptionalParams
-  ): Promise<void>;
-  /**
-   * Rotate the NSX-T Manager password
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  beginRotateNsxtPassword(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: PrivateCloudsRotateNsxtPasswordOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Rotate the NSX-T Manager password
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  beginRotateNsxtPasswordAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: PrivateCloudsRotateNsxtPasswordOptionalParams
+    options?: PrivateCloudsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * List the admin credentials for the private cloud
@@ -193,6 +151,60 @@ export interface PrivateClouds {
   listAdminCredentials(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: PrivateCloudsListAdminCredentialsOptionalParams
+    options?: PrivateCloudsListAdminCredentialsOptionalParams,
   ): Promise<PrivateCloudsListAdminCredentialsResponse>;
+  /**
+   * Rotate the NSX-T Manager password
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  beginRotateNsxtPassword(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: PrivateCloudsRotateNsxtPasswordOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PrivateCloudsRotateNsxtPasswordResponse>,
+      PrivateCloudsRotateNsxtPasswordResponse
+    >
+  >;
+  /**
+   * Rotate the NSX-T Manager password
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  beginRotateNsxtPasswordAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: PrivateCloudsRotateNsxtPasswordOptionalParams,
+  ): Promise<PrivateCloudsRotateNsxtPasswordResponse>;
+  /**
+   * Rotate the vCenter password
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  beginRotateVcenterPassword(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: PrivateCloudsRotateVcenterPasswordOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PrivateCloudsRotateVcenterPasswordResponse>,
+      PrivateCloudsRotateVcenterPasswordResponse
+    >
+  >;
+  /**
+   * Rotate the vCenter password
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  beginRotateVcenterPasswordAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: PrivateCloudsRotateVcenterPasswordOptionalParams,
+  ): Promise<PrivateCloudsRotateVcenterPasswordResponse>;
 }

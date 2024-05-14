@@ -15,14 +15,14 @@ import {
   GlobalReachConnectionsGetResponse,
   GlobalReachConnectionsCreateOrUpdateOptionalParams,
   GlobalReachConnectionsCreateOrUpdateResponse,
-  GlobalReachConnectionsDeleteOptionalParams
+  GlobalReachConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GlobalReachConnections. */
 export interface GlobalReachConnections {
   /**
-   * List global reach connections in a private cloud
+   * List GlobalReachConnection resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -30,27 +30,27 @@ export interface GlobalReachConnections {
   list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: GlobalReachConnectionsListOptionalParams
+    options?: GlobalReachConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<GlobalReachConnection>;
   /**
-   * Get a global reach connection by name in a private cloud
+   * Get a GlobalReachConnection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param globalReachConnectionName Name of the global reach connection in the private cloud
+   * @param globalReachConnectionName Name of the global reach connection
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
     globalReachConnectionName: string,
-    options?: GlobalReachConnectionsGetOptionalParams
+    options?: GlobalReachConnectionsGetOptionalParams,
   ): Promise<GlobalReachConnectionsGetResponse>;
   /**
-   * Create or update a global reach connection in a private cloud
+   * Create a GlobalReachConnection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param globalReachConnectionName Name of the global reach connection in the private cloud
-   * @param globalReachConnection A global reach connection in the private cloud
+   * @param privateCloudName Name of the private cloud
+   * @param globalReachConnectionName Name of the global reach connection
+   * @param globalReachConnection Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -58,7 +58,7 @@ export interface GlobalReachConnections {
     privateCloudName: string,
     globalReachConnectionName: string,
     globalReachConnection: GlobalReachConnection,
-    options?: GlobalReachConnectionsCreateOrUpdateOptionalParams
+    options?: GlobalReachConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GlobalReachConnectionsCreateOrUpdateResponse>,
@@ -66,11 +66,11 @@ export interface GlobalReachConnections {
     >
   >;
   /**
-   * Create or update a global reach connection in a private cloud
+   * Create a GlobalReachConnection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param globalReachConnectionName Name of the global reach connection in the private cloud
-   * @param globalReachConnection A global reach connection in the private cloud
+   * @param privateCloudName Name of the private cloud
+   * @param globalReachConnectionName Name of the global reach connection
+   * @param globalReachConnection Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -78,32 +78,32 @@ export interface GlobalReachConnections {
     privateCloudName: string,
     globalReachConnectionName: string,
     globalReachConnection: GlobalReachConnection,
-    options?: GlobalReachConnectionsCreateOrUpdateOptionalParams
+    options?: GlobalReachConnectionsCreateOrUpdateOptionalParams,
   ): Promise<GlobalReachConnectionsCreateOrUpdateResponse>;
   /**
-   * Delete a global reach connection in a private cloud
+   * Delete a GlobalReachConnection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param globalReachConnectionName Name of the global reach connection in the private cloud
+   * @param globalReachConnectionName Name of the global reach connection
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
     globalReachConnectionName: string,
-    options?: GlobalReachConnectionsDeleteOptionalParams
+    options?: GlobalReachConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete a global reach connection in a private cloud
+   * Delete a GlobalReachConnection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param globalReachConnectionName Name of the global reach connection in the private cloud
+   * @param globalReachConnectionName Name of the global reach connection
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     globalReachConnectionName: string,
-    options?: GlobalReachConnectionsDeleteOptionalParams
+    options?: GlobalReachConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

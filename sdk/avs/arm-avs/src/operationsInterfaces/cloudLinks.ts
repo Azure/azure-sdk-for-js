@@ -15,14 +15,14 @@ import {
   CloudLinksGetResponse,
   CloudLinksCreateOrUpdateOptionalParams,
   CloudLinksCreateOrUpdateResponse,
-  CloudLinksDeleteOptionalParams
+  CloudLinksDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CloudLinks. */
 export interface CloudLinks {
   /**
-   * List cloud link in a private cloud
+   * List CloudLink resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -30,27 +30,27 @@ export interface CloudLinks {
   list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: CloudLinksListOptionalParams
+    options?: CloudLinksListOptionalParams,
   ): PagedAsyncIterableIterator<CloudLink>;
   /**
-   * Get an cloud link by name in a private cloud
+   * Get a CloudLink
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param cloudLinkName Name of the cloud link resource
+   * @param cloudLinkName Name of the cloud link.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
     cloudLinkName: string,
-    options?: CloudLinksGetOptionalParams
+    options?: CloudLinksGetOptionalParams,
   ): Promise<CloudLinksGetResponse>;
   /**
-   * Create or update a cloud link in a private cloud
+   * Create a CloudLink
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param cloudLinkName Name of the cloud link resource
-   * @param cloudLink A cloud link in the private cloud
+   * @param privateCloudName Name of the private cloud
+   * @param cloudLinkName Name of the cloud link.
+   * @param cloudLink Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -58,7 +58,7 @@ export interface CloudLinks {
     privateCloudName: string,
     cloudLinkName: string,
     cloudLink: CloudLink,
-    options?: CloudLinksCreateOrUpdateOptionalParams
+    options?: CloudLinksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CloudLinksCreateOrUpdateResponse>,
@@ -66,11 +66,11 @@ export interface CloudLinks {
     >
   >;
   /**
-   * Create or update a cloud link in a private cloud
+   * Create a CloudLink
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param cloudLinkName Name of the cloud link resource
-   * @param cloudLink A cloud link in the private cloud
+   * @param privateCloudName Name of the private cloud
+   * @param cloudLinkName Name of the cloud link.
+   * @param cloudLink Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -78,32 +78,32 @@ export interface CloudLinks {
     privateCloudName: string,
     cloudLinkName: string,
     cloudLink: CloudLink,
-    options?: CloudLinksCreateOrUpdateOptionalParams
+    options?: CloudLinksCreateOrUpdateOptionalParams,
   ): Promise<CloudLinksCreateOrUpdateResponse>;
   /**
-   * Delete a cloud link in a private cloud
+   * Delete a CloudLink
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param cloudLinkName Name of the cloud link resource
+   * @param cloudLinkName Name of the cloud link.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
     cloudLinkName: string,
-    options?: CloudLinksDeleteOptionalParams
+    options?: CloudLinksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete a cloud link in a private cloud
+   * Delete a CloudLink
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param cloudLinkName Name of the cloud link resource
+   * @param cloudLinkName Name of the cloud link.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     cloudLinkName: string,
-    options?: CloudLinksDeleteOptionalParams
+    options?: CloudLinksDeleteOptionalParams,
   ): Promise<void>;
 }

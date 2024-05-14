@@ -7,30 +7,30 @@
  */
 
 import {
+  LocationsCheckQuotaAvailabilityOptionalParams,
+  LocationsCheckQuotaAvailabilityResponse,
   LocationsCheckTrialAvailabilityOptionalParams,
   LocationsCheckTrialAvailabilityResponse,
-  LocationsCheckQuotaAvailabilityOptionalParams,
-  LocationsCheckQuotaAvailabilityResponse
 } from "../models";
 
 /** Interface representing a Locations. */
 export interface Locations {
   /**
-   * Return trial status for subscription by region
-   * @param location Azure region
-   * @param options The options parameters.
-   */
-  checkTrialAvailability(
-    location: string,
-    options?: LocationsCheckTrialAvailabilityOptionalParams
-  ): Promise<LocationsCheckTrialAvailabilityResponse>;
-  /**
    * Return quota for subscription by region
-   * @param location Azure region
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   checkQuotaAvailability(
     location: string,
-    options?: LocationsCheckQuotaAvailabilityOptionalParams
+    options?: LocationsCheckQuotaAvailabilityOptionalParams,
   ): Promise<LocationsCheckQuotaAvailabilityResponse>;
+  /**
+   * Return trial status for subscription by region
+   * @param location The name of the Azure region.
+   * @param options The options parameters.
+   */
+  checkTrialAvailability(
+    location: string,
+    options?: LocationsCheckTrialAvailabilityOptionalParams,
+  ): Promise<LocationsCheckTrialAvailabilityResponse>;
 }

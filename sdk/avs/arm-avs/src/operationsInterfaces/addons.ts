@@ -15,14 +15,14 @@ import {
   AddonsGetResponse,
   AddonsCreateOrUpdateOptionalParams,
   AddonsCreateOrUpdateResponse,
-  AddonsDeleteOptionalParams
+  AddonsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Addons. */
 export interface Addons {
   /**
-   * List addons in a private cloud
+   * List Addon resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -30,27 +30,27 @@ export interface Addons {
   list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AddonsListOptionalParams
+    options?: AddonsListOptionalParams,
   ): PagedAsyncIterableIterator<Addon>;
   /**
-   * Get an addon by name in a private cloud
+   * Get a Addon
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param addonName Name of the addon for the private cloud
+   * @param addonName Name of the addon.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
     addonName: string,
-    options?: AddonsGetOptionalParams
+    options?: AddonsGetOptionalParams,
   ): Promise<AddonsGetResponse>;
   /**
-   * Create or update a addon in a private cloud
+   * Create a Addon
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param addonName Name of the addon for the private cloud
-   * @param addon A addon in the private cloud
+   * @param privateCloudName Name of the private cloud
+   * @param addonName Name of the addon.
+   * @param addon Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -58,7 +58,7 @@ export interface Addons {
     privateCloudName: string,
     addonName: string,
     addon: Addon,
-    options?: AddonsCreateOrUpdateOptionalParams
+    options?: AddonsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AddonsCreateOrUpdateResponse>,
@@ -66,11 +66,11 @@ export interface Addons {
     >
   >;
   /**
-   * Create or update a addon in a private cloud
+   * Create a Addon
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param addonName Name of the addon for the private cloud
-   * @param addon A addon in the private cloud
+   * @param privateCloudName Name of the private cloud
+   * @param addonName Name of the addon.
+   * @param addon Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -78,32 +78,32 @@ export interface Addons {
     privateCloudName: string,
     addonName: string,
     addon: Addon,
-    options?: AddonsCreateOrUpdateOptionalParams
+    options?: AddonsCreateOrUpdateOptionalParams,
   ): Promise<AddonsCreateOrUpdateResponse>;
   /**
-   * Delete a addon in a private cloud
+   * Delete a Addon
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param addonName Name of the addon for the private cloud
+   * @param addonName Name of the addon.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
     addonName: string,
-    options?: AddonsDeleteOptionalParams
+    options?: AddonsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete a addon in a private cloud
+   * Delete a Addon
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param addonName Name of the addon for the private cloud
+   * @param addonName Name of the addon.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     addonName: string,
-    options?: AddonsDeleteOptionalParams
+    options?: AddonsDeleteOptionalParams,
   ): Promise<void>;
 }

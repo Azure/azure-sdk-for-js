@@ -16,7 +16,7 @@ import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   AddonsCreateOrUpdateOptionalParams,
   AddonsCreateOrUpdateResponse,
   AddonsDeleteOptionalParams,
-  AddonsListNextResponse
+  AddonsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +46,7 @@ export class AddonsImpl implements Addons {
   }
 
   /**
-   * List addons in a private cloud
+   * List Addon resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -54,12 +54,12 @@ export class AddonsImpl implements Addons {
   public list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AddonsListOptionalParams
+    options?: AddonsListOptionalParams,
   ): PagedAsyncIterableIterator<Addon> {
     const iter = this.listPagingAll(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class AddonsImpl implements Addons {
           resourceGroupName,
           privateCloudName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class AddonsImpl implements Addons {
     resourceGroupName: string,
     privateCloudName: string,
     options?: AddonsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Addon[]> {
     let result: AddonsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class AddonsImpl implements Addons {
         resourceGroupName,
         privateCloudName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,19 +114,19 @@ export class AddonsImpl implements Addons {
   private async *listPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AddonsListOptionalParams
+    options?: AddonsListOptionalParams,
   ): AsyncIterableIterator<Addon> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * List addons in a private cloud
+   * List Addon resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -134,39 +134,39 @@ export class AddonsImpl implements Addons {
   private _list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AddonsListOptionalParams
+    options?: AddonsListOptionalParams,
   ): Promise<AddonsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
-   * Get an addon by name in a private cloud
+   * Get a Addon
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param addonName Name of the addon for the private cloud
+   * @param addonName Name of the addon.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
     addonName: string,
-    options?: AddonsGetOptionalParams
+    options?: AddonsGetOptionalParams,
   ): Promise<AddonsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, addonName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Create or update a addon in a private cloud
+   * Create a Addon
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param addonName Name of the addon for the private cloud
-   * @param addon A addon in the private cloud
+   * @param privateCloudName Name of the private cloud
+   * @param addonName Name of the addon.
+   * @param addon Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -174,7 +174,7 @@ export class AddonsImpl implements Addons {
     privateCloudName: string,
     addonName: string,
     addon: Addon,
-    options?: AddonsCreateOrUpdateOptionalParams
+    options?: AddonsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AddonsCreateOrUpdateResponse>,
@@ -183,21 +183,20 @@ export class AddonsImpl implements Addons {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AddonsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -206,8 +205,8 @@ export class AddonsImpl implements Addons {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -215,33 +214,34 @@ export class AddonsImpl implements Addons {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, privateCloudName, addonName, addon, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       AddonsCreateOrUpdateResponse,
       OperationState<AddonsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update a addon in a private cloud
+   * Create a Addon
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param addonName Name of the addon for the private cloud
-   * @param addon A addon in the private cloud
+   * @param privateCloudName Name of the private cloud
+   * @param addonName Name of the addon.
+   * @param addon Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -249,48 +249,47 @@ export class AddonsImpl implements Addons {
     privateCloudName: string,
     addonName: string,
     addon: Addon,
-    options?: AddonsCreateOrUpdateOptionalParams
+    options?: AddonsCreateOrUpdateOptionalParams,
   ): Promise<AddonsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       privateCloudName,
       addonName,
       addon,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a addon in a private cloud
+   * Delete a Addon
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param addonName Name of the addon for the private cloud
+   * @param addonName Name of the addon.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
     addonName: string,
-    options?: AddonsDeleteOptionalParams
+    options?: AddonsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -299,8 +298,8 @@ export class AddonsImpl implements Addons {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -308,42 +307,43 @@ export class AddonsImpl implements Addons {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, privateCloudName, addonName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete a addon in a private cloud
+   * Delete a Addon
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param addonName Name of the addon for the private cloud
+   * @param addonName Name of the addon.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     addonName: string,
-    options?: AddonsDeleteOptionalParams
+    options?: AddonsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       privateCloudName,
       addonName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -359,11 +359,11 @@ export class AddonsImpl implements Addons {
     resourceGroupName: string,
     privateCloudName: string,
     nextLink: string,
-    options?: AddonsListNextOptionalParams
+    options?: AddonsListNextOptionalParams,
   ): Promise<AddonsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -371,38 +371,15 @@ export class AddonsImpl implements Addons {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AddonList
+      bodyMapper: Mappers.AddonListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Addon
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -410,31 +387,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.addonName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Addon,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.addonName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Addon
+      bodyMapper: Mappers.Addon,
     },
     201: {
-      bodyMapper: Mappers.Addon
+      bodyMapper: Mappers.Addon,
     },
     202: {
-      bodyMapper: Mappers.Addon
+      bodyMapper: Mappers.Addon,
     },
     204: {
-      bodyMapper: Mappers.Addon
+      bodyMapper: Mappers.Addon,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.addon,
   queryParameters: [Parameters.apiVersion],
@@ -442,16 +439,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName1,
-    Parameters.addonName
+    Parameters.privateCloudName,
+    Parameters.addonName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -459,8 +455,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -468,29 +464,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.addonName
+    Parameters.addonName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AddonList
+      bodyMapper: Mappers.AddonListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
