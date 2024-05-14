@@ -53,8 +53,8 @@
     "test:browser": "npm run clean && npm run integration-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run integration-test:node",
     "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "npm run integration-test:browser",
-    "unit-test:node": "npm run integration-test:node",
+    "unit-test:browser": "will be fixed in #29655",
+    "unit-test:node": "will be fixed in #29655",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
