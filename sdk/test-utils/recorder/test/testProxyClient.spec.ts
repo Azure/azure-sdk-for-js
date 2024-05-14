@@ -7,17 +7,18 @@ import {
   PipelineRequest,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import { expect } from "chai";
-import { env, Recorder } from "../src";
-import { createRecordingRequest } from "../src/utils/createRecordingRequest";
-import { paths } from "../src/utils/paths";
-import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils";
+import { Recorder } from "../src/index.js";
+import { createRecordingRequest } from "../src/utils/createRecordingRequest.js";
+import { paths } from "../src/utils/paths.js";
+import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils.js";
+import { describe, it, beforeEach, afterEach, expect, type TaskContext } from "vitest";
+import { env } from "../src/index.js";
 
 const testRedirectedRequest = (
   client: Recorder,
   makeRequest: () => PipelineRequest,
   expectedModification: (req: PipelineRequest) => PipelineRequest,
-) => {
+): void => {
   const redirectedRequest = makeRequest();
   client["redirectRequest"](redirectedRequest);
   expect(redirectedRequest).to.deep.equal(expectedModification(makeRequest()));
@@ -26,11 +27,11 @@ const testRedirectedRequest = (
 describe("TestProxyClient functions", () => {
   let client: Recorder;
   let clientHttpClient: HttpClient;
-  let testContext: Mocha.Test | undefined;
-  beforeEach(function () {
-    client = new Recorder(this.currentTest);
+  let testContext: TaskContext | undefined;
+  beforeEach(async function (context) {
+    testContext = context;
+    client = new Recorder(testContext);
     clientHttpClient = client["httpClient"] as HttpClient;
-    testContext = this.currentTest;
   });
 
   afterEach(() => {
@@ -150,7 +151,8 @@ describe("TestProxyClient functions", () => {
         try {
           await client.start({ envSetupForPlayback: {} });
           throw new Error("should not have reached here, start() call should have failed");
-        } catch (error: any) {
+        } catch (error: unknown) {
+          expect(error instanceof RecorderError).to.equal(true);
           expect((error as RecorderError).name).to.equal("RecorderError");
           expect((error as RecorderError).message).to.equal("Start request failed.");
         }
@@ -168,7 +170,8 @@ describe("TestProxyClient functions", () => {
         try {
           await client.start({ envSetupForPlayback: {} });
           throw new Error("should not have reached here, start() call should have failed");
-        } catch (error: any) {
+        } catch (error: unknown) {
+          expect(error instanceof RecorderError).to.equal(true);
           expect((error as RecorderError).name).to.equal("RecorderError");
           expect((error as RecorderError).message).to.equal(
             "No recording ID returned for a successful start request.",
@@ -203,7 +206,8 @@ describe("TestProxyClient functions", () => {
           try {
             await client.stop();
             throw new Error("should not have reached here, stop() call should have failed");
-          } catch (error: any) {
+          } catch (error: unknown) {
+            expect(error instanceof RecorderError).to.equal(true);
             expect((error as RecorderError).name).to.equal("RecorderError");
             expect((error as RecorderError).message).to.equal(
               "Bad state, recordingId is not defined when called stop.",
@@ -226,7 +230,8 @@ describe("TestProxyClient functions", () => {
         try {
           await client.stop();
           throw new Error("should not have reached here, stop() call should have failed");
-        } catch (error: any) {
+        } catch (error: unknown) {
+          expect(error instanceof RecorderError).to.equal(true);
           expect((error as RecorderError).name).to.equal("RecorderError");
           expect((error as RecorderError).message).to.equal("Stop request failed.");
         }
