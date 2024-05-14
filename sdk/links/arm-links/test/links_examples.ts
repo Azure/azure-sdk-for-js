@@ -27,7 +27,8 @@ const replaceableVariables: Record<string, string> = {
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: ["AZSDK3493"]
 };
 
 export const testPollingOptions = {
