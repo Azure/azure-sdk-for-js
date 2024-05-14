@@ -18,7 +18,7 @@ import {
   GetUsagesInLocationListNextOptionalParams,
   GetUsagesInLocationListOptionalParams,
   GetUsagesInLocationListResponse,
-  GetUsagesInLocationListNextResponse
+  GetUsagesInLocationListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,7 +42,7 @@ export class GetUsagesInLocationImpl implements GetUsagesInLocation {
    */
   public list(
     location: string,
-    options?: GetUsagesInLocationListOptionalParams
+    options?: GetUsagesInLocationListOptionalParams,
   ): PagedAsyncIterableIterator<CsmUsageQuota> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -57,14 +57,14 @@ export class GetUsagesInLocationImpl implements GetUsagesInLocation {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: GetUsagesInLocationListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CsmUsageQuota[]> {
     let result: GetUsagesInLocationListResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +86,7 @@ export class GetUsagesInLocationImpl implements GetUsagesInLocation {
 
   private async *listPagingAll(
     location: string,
-    options?: GetUsagesInLocationListOptionalParams
+    options?: GetUsagesInLocationListOptionalParams,
   ): AsyncIterableIterator<CsmUsageQuota> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -101,11 +101,11 @@ export class GetUsagesInLocationImpl implements GetUsagesInLocation {
    */
   private _list(
     location: string,
-    options?: GetUsagesInLocationListOptionalParams
+    options?: GetUsagesInLocationListOptionalParams,
   ): Promise<GetUsagesInLocationListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -118,11 +118,11 @@ export class GetUsagesInLocationImpl implements GetUsagesInLocation {
   private _listNext(
     location: string,
     nextLink: string,
-    options?: GetUsagesInLocationListNextOptionalParams
+    options?: GetUsagesInLocationListNextOptionalParams,
   ): Promise<GetUsagesInLocationListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -130,43 +130,42 @@ export class GetUsagesInLocationImpl implements GetUsagesInLocation {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CsmUsageQuotaCollection
+      bodyMapper: Mappers.CsmUsageQuotaCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CsmUsageQuotaCollection
+      bodyMapper: Mappers.CsmUsageQuotaCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

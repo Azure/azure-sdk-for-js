@@ -24,7 +24,7 @@ import {
   DeletedWebAppsGetDeletedWebAppByLocationOptionalParams,
   DeletedWebAppsGetDeletedWebAppByLocationResponse,
   DeletedWebAppsListNextResponse,
-  DeletedWebAppsListByLocationNextResponse
+  DeletedWebAppsListByLocationNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
    * @param options The options parameters.
    */
   public list(
-    options?: DeletedWebAppsListOptionalParams
+    options?: DeletedWebAppsListOptionalParams,
   ): PagedAsyncIterableIterator<DeletedSite> {
     const iter = this.listPagingAll(options);
     return {
@@ -60,13 +60,13 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: DeletedWebAppsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeletedSite[]> {
     let result: DeletedWebAppsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
   }
 
   private async *listPagingAll(
-    options?: DeletedWebAppsListOptionalParams
+    options?: DeletedWebAppsListOptionalParams,
   ): AsyncIterableIterator<DeletedSite> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -101,7 +101,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
    */
   public listByLocation(
     location: string,
-    options?: DeletedWebAppsListByLocationOptionalParams
+    options?: DeletedWebAppsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<DeletedSite> {
     const iter = this.listByLocationPagingAll(location, options);
     return {
@@ -116,14 +116,14 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByLocationPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listByLocationPagingPage(
     location: string,
     options?: DeletedWebAppsListByLocationOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeletedSite[]> {
     let result: DeletedWebAppsListByLocationResponse;
     let continuationToken = settings?.continuationToken;
@@ -138,7 +138,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
       result = await this._listByLocationNext(
         location,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -149,7 +149,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
 
   private async *listByLocationPagingAll(
     location: string,
-    options?: DeletedWebAppsListByLocationOptionalParams
+    options?: DeletedWebAppsListByLocationOptionalParams,
   ): AsyncIterableIterator<DeletedSite> {
     for await (const page of this.listByLocationPagingPage(location, options)) {
       yield* page;
@@ -161,7 +161,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
    * @param options The options parameters.
    */
   private _list(
-    options?: DeletedWebAppsListOptionalParams
+    options?: DeletedWebAppsListOptionalParams,
   ): Promise<DeletedWebAppsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -173,11 +173,11 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
    */
   private _listByLocation(
     location: string,
-    options?: DeletedWebAppsListByLocationOptionalParams
+    options?: DeletedWebAppsListByLocationOptionalParams,
   ): Promise<DeletedWebAppsListByLocationResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listByLocationOperationSpec
+      listByLocationOperationSpec,
     );
   }
 
@@ -190,11 +190,11 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
   getDeletedWebAppByLocation(
     location: string,
     deletedSiteId: string,
-    options?: DeletedWebAppsGetDeletedWebAppByLocationOptionalParams
+    options?: DeletedWebAppsGetDeletedWebAppByLocationOptionalParams,
   ): Promise<DeletedWebAppsGetDeletedWebAppByLocationResponse> {
     return this.client.sendOperationRequest(
       { location, deletedSiteId, options },
-      getDeletedWebAppByLocationOperationSpec
+      getDeletedWebAppByLocationOperationSpec,
     );
   }
 
@@ -205,11 +205,11 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
    */
   private _listNext(
     nextLink: string,
-    options?: DeletedWebAppsListNextOptionalParams
+    options?: DeletedWebAppsListNextOptionalParams,
   ): Promise<DeletedWebAppsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -222,11 +222,11 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
   private _listByLocationNext(
     location: string,
     nextLink: string,
-    options?: DeletedWebAppsListByLocationNextOptionalParams
+    options?: DeletedWebAppsListByLocationNextOptionalParams,
   ): Promise<DeletedWebAppsListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listByLocationNextOperationSpec
+      listByLocationNextOperationSpec,
     );
   }
 }
@@ -238,96 +238,94 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedWebAppCollection
+      bodyMapper: Mappers.DeletedWebAppCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/deletedSites",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/deletedSites",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedWebAppCollection
+      bodyMapper: Mappers.DeletedWebAppCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDeletedWebAppByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/deletedSites/{deletedSiteId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedSite
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.deletedSiteId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getDeletedWebAppByLocationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/deletedSites/{deletedSiteId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeletedSite,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.deletedSiteId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedWebAppCollection
+      bodyMapper: Mappers.DeletedWebAppCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedWebAppCollection
+      bodyMapper: Mappers.DeletedWebAppCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

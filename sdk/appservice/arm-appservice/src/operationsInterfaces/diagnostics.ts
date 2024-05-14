@@ -46,7 +46,7 @@ import {
   DiagnosticsGetSiteDetectorSlotOptionalParams,
   DiagnosticsGetSiteDetectorSlotResponse,
   DiagnosticsExecuteSiteDetectorSlotOptionalParams,
-  DiagnosticsExecuteSiteDetectorSlotResponse
+  DiagnosticsExecuteSiteDetectorSlotResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,7 +61,7 @@ export interface Diagnostics {
   listHostingEnvironmentDetectorResponses(
     resourceGroupName: string,
     name: string,
-    options?: DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams
+    options?: DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams,
   ): PagedAsyncIterableIterator<DetectorResponse>;
   /**
    * Description for List Site Detector Responses
@@ -72,7 +72,7 @@ export interface Diagnostics {
   listSiteDetectorResponses(
     resourceGroupName: string,
     siteName: string,
-    options?: DiagnosticsListSiteDetectorResponsesOptionalParams
+    options?: DiagnosticsListSiteDetectorResponsesOptionalParams,
   ): PagedAsyncIterableIterator<DetectorResponse>;
   /**
    * Description for Get Diagnostics Categories
@@ -83,7 +83,7 @@ export interface Diagnostics {
   listSiteDiagnosticCategories(
     resourceGroupName: string,
     siteName: string,
-    options?: DiagnosticsListSiteDiagnosticCategoriesOptionalParams
+    options?: DiagnosticsListSiteDiagnosticCategoriesOptionalParams,
   ): PagedAsyncIterableIterator<DiagnosticCategory>;
   /**
    * Description for Get Site Analyses
@@ -96,7 +96,7 @@ export interface Diagnostics {
     resourceGroupName: string,
     siteName: string,
     diagnosticCategory: string,
-    options?: DiagnosticsListSiteAnalysesOptionalParams
+    options?: DiagnosticsListSiteAnalysesOptionalParams,
   ): PagedAsyncIterableIterator<AnalysisDefinition>;
   /**
    * Description for Get Detectors
@@ -109,7 +109,7 @@ export interface Diagnostics {
     resourceGroupName: string,
     siteName: string,
     diagnosticCategory: string,
-    options?: DiagnosticsListSiteDetectorsOptionalParams
+    options?: DiagnosticsListSiteDetectorsOptionalParams,
   ): PagedAsyncIterableIterator<DetectorDefinitionResource>;
   /**
    * Description for List Site Detector Responses
@@ -122,7 +122,7 @@ export interface Diagnostics {
     resourceGroupName: string,
     siteName: string,
     slot: string,
-    options?: DiagnosticsListSiteDetectorResponsesSlotOptionalParams
+    options?: DiagnosticsListSiteDetectorResponsesSlotOptionalParams,
   ): PagedAsyncIterableIterator<DetectorResponse>;
   /**
    * Description for Get Diagnostics Categories
@@ -135,7 +135,7 @@ export interface Diagnostics {
     resourceGroupName: string,
     siteName: string,
     slot: string,
-    options?: DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams
+    options?: DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams,
   ): PagedAsyncIterableIterator<DiagnosticCategory>;
   /**
    * Description for Get Site Analyses
@@ -150,7 +150,7 @@ export interface Diagnostics {
     siteName: string,
     diagnosticCategory: string,
     slot: string,
-    options?: DiagnosticsListSiteAnalysesSlotOptionalParams
+    options?: DiagnosticsListSiteAnalysesSlotOptionalParams,
   ): PagedAsyncIterableIterator<AnalysisDefinition>;
   /**
    * Description for Get Detectors
@@ -165,7 +165,7 @@ export interface Diagnostics {
     siteName: string,
     diagnosticCategory: string,
     slot: string,
-    options?: DiagnosticsListSiteDetectorsSlotOptionalParams
+    options?: DiagnosticsListSiteDetectorsSlotOptionalParams,
   ): PagedAsyncIterableIterator<DetectorDefinitionResource>;
   /**
    * Description for Get Hosting Environment Detector Response
@@ -178,7 +178,7 @@ export interface Diagnostics {
     resourceGroupName: string,
     name: string,
     detectorName: string,
-    options?: DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams
+    options?: DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams,
   ): Promise<DiagnosticsGetHostingEnvironmentDetectorResponseResponse>;
   /**
    * Description for Get site detector response
@@ -191,7 +191,7 @@ export interface Diagnostics {
     resourceGroupName: string,
     siteName: string,
     detectorName: string,
-    options?: DiagnosticsGetSiteDetectorResponseOptionalParams
+    options?: DiagnosticsGetSiteDetectorResponseOptionalParams,
   ): Promise<DiagnosticsGetSiteDetectorResponseResponse>;
   /**
    * Description for Get Diagnostics Category
@@ -204,7 +204,7 @@ export interface Diagnostics {
     resourceGroupName: string,
     siteName: string,
     diagnosticCategory: string,
-    options?: DiagnosticsGetSiteDiagnosticCategoryOptionalParams
+    options?: DiagnosticsGetSiteDiagnosticCategoryOptionalParams,
   ): Promise<DiagnosticsGetSiteDiagnosticCategoryResponse>;
   /**
    * Description for Get Site Analysis
@@ -219,7 +219,7 @@ export interface Diagnostics {
     siteName: string,
     diagnosticCategory: string,
     analysisName: string,
-    options?: DiagnosticsGetSiteAnalysisOptionalParams
+    options?: DiagnosticsGetSiteAnalysisOptionalParams,
   ): Promise<DiagnosticsGetSiteAnalysisResponse>;
   /**
    * Description for Execute Analysis
@@ -234,7 +234,7 @@ export interface Diagnostics {
     siteName: string,
     diagnosticCategory: string,
     analysisName: string,
-    options?: DiagnosticsExecuteSiteAnalysisOptionalParams
+    options?: DiagnosticsExecuteSiteAnalysisOptionalParams,
   ): Promise<DiagnosticsExecuteSiteAnalysisResponse>;
   /**
    * Description for Get Detector
@@ -249,7 +249,7 @@ export interface Diagnostics {
     siteName: string,
     diagnosticCategory: string,
     detectorName: string,
-    options?: DiagnosticsGetSiteDetectorOptionalParams
+    options?: DiagnosticsGetSiteDetectorOptionalParams,
   ): Promise<DiagnosticsGetSiteDetectorResponse>;
   /**
    * Description for Execute Detector
@@ -264,7 +264,7 @@ export interface Diagnostics {
     siteName: string,
     detectorName: string,
     diagnosticCategory: string,
-    options?: DiagnosticsExecuteSiteDetectorOptionalParams
+    options?: DiagnosticsExecuteSiteDetectorOptionalParams,
   ): Promise<DiagnosticsExecuteSiteDetectorResponse>;
   /**
    * Description for Get site detector response
@@ -279,7 +279,7 @@ export interface Diagnostics {
     siteName: string,
     detectorName: string,
     slot: string,
-    options?: DiagnosticsGetSiteDetectorResponseSlotOptionalParams
+    options?: DiagnosticsGetSiteDetectorResponseSlotOptionalParams,
   ): Promise<DiagnosticsGetSiteDetectorResponseSlotResponse>;
   /**
    * Description for Get Diagnostics Category
@@ -294,7 +294,7 @@ export interface Diagnostics {
     siteName: string,
     diagnosticCategory: string,
     slot: string,
-    options?: DiagnosticsGetSiteDiagnosticCategorySlotOptionalParams
+    options?: DiagnosticsGetSiteDiagnosticCategorySlotOptionalParams,
   ): Promise<DiagnosticsGetSiteDiagnosticCategorySlotResponse>;
   /**
    * Description for Get Site Analysis
@@ -311,7 +311,7 @@ export interface Diagnostics {
     diagnosticCategory: string,
     analysisName: string,
     slot: string,
-    options?: DiagnosticsGetSiteAnalysisSlotOptionalParams
+    options?: DiagnosticsGetSiteAnalysisSlotOptionalParams,
   ): Promise<DiagnosticsGetSiteAnalysisSlotResponse>;
   /**
    * Description for Execute Analysis
@@ -328,7 +328,7 @@ export interface Diagnostics {
     diagnosticCategory: string,
     analysisName: string,
     slot: string,
-    options?: DiagnosticsExecuteSiteAnalysisSlotOptionalParams
+    options?: DiagnosticsExecuteSiteAnalysisSlotOptionalParams,
   ): Promise<DiagnosticsExecuteSiteAnalysisSlotResponse>;
   /**
    * Description for Get Detector
@@ -345,7 +345,7 @@ export interface Diagnostics {
     diagnosticCategory: string,
     detectorName: string,
     slot: string,
-    options?: DiagnosticsGetSiteDetectorSlotOptionalParams
+    options?: DiagnosticsGetSiteDetectorSlotOptionalParams,
   ): Promise<DiagnosticsGetSiteDetectorSlotResponse>;
   /**
    * Description for Execute Detector
@@ -362,6 +362,6 @@ export interface Diagnostics {
     detectorName: string,
     diagnosticCategory: string,
     slot: string,
-    options?: DiagnosticsExecuteSiteDetectorSlotOptionalParams
+    options?: DiagnosticsExecuteSiteDetectorSlotOptionalParams,
   ): Promise<DiagnosticsExecuteSiteDetectorSlotResponse>;
 }

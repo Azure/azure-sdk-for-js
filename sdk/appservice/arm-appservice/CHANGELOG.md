@@ -1,15 +1,77 @@
 # Release History
+    
+## 15.0.0 (2024-05-14)
+    
+**Features**
 
-## 14.1.1 (Unreleased)
+  - Added operation WebApps.createOrUpdateSiteContainer
+  - Added operation WebApps.createOrUpdateSiteContainerSlot
+  - Added operation WebApps.deleteSiteContainer
+  - Added operation WebApps.deleteSiteContainerSlot
+  - Added operation WebApps.getSiteContainer
+  - Added operation WebApps.getSiteContainerSlot
+  - Added operation WebApps.listSiteContainers
+  - Added operation WebApps.listSiteContainersSlot
+  - Added Interface EnvironmentVariable
+  - Added Interface FunctionAppConfig
+  - Added Interface FunctionsAlwaysReadyConfig
+  - Added Interface FunctionsDeployment
+  - Added Interface FunctionsDeploymentStorage
+  - Added Interface FunctionsDeploymentStorageAuthentication
+  - Added Interface FunctionsRuntime
+  - Added Interface FunctionsScaleAndConcurrency
+  - Added Interface FunctionsScaleAndConcurrencyTriggers
+  - Added Interface FunctionsScaleAndConcurrencyTriggersHttp
+  - Added Interface SiteContainer
+  - Added Interface SiteContainerCollection
+  - Added Interface SiteDnsConfig
+  - Added Interface VolumeMount
+  - Added Interface WebAppsCreateOrUpdateSiteContainerOptionalParams
+  - Added Interface WebAppsCreateOrUpdateSiteContainerSlotOptionalParams
+  - Added Interface WebAppsDeleteSiteContainerOptionalParams
+  - Added Interface WebAppsDeleteSiteContainerSlotOptionalParams
+  - Added Interface WebAppsGetSiteContainerOptionalParams
+  - Added Interface WebAppsGetSiteContainerSlotOptionalParams
+  - Added Interface WebAppsListSiteContainersNextOptionalParams
+  - Added Interface WebAppsListSiteContainersOptionalParams
+  - Added Interface WebAppsListSiteContainersSlotNextOptionalParams
+  - Added Interface WebAppsListSiteContainersSlotOptionalParams
+  - Added Type Alias AuthenticationType
+  - Added Type Alias AuthType
+  - Added Type Alias AzureStorageProtocol
+  - Added Type Alias RuntimeName
+  - Added Type Alias WebAppsCreateOrUpdateSiteContainerResponse
+  - Added Type Alias WebAppsCreateOrUpdateSiteContainerSlotResponse
+  - Added Type Alias WebAppsGetSiteContainerResponse
+  - Added Type Alias WebAppsGetSiteContainerSlotResponse
+  - Added Type Alias WebAppsListSiteContainersNextResponse
+  - Added Type Alias WebAppsListSiteContainersResponse
+  - Added Type Alias WebAppsListSiteContainersSlotNextResponse
+  - Added Type Alias WebAppsListSiteContainersSlotResponse
+  - Interface AzureStorageInfoValue has a new optional parameter protocol
+  - Interface Site has a new optional parameter dnsConfiguration
+  - Interface Site has a new optional parameter functionAppConfig
+  - Interface Site has a new optional parameter vnetBackupRestoreEnabled
+  - Interface SitePatchResource has a new optional parameter dnsConfiguration
+  - Added Enum KnownAuthenticationType
+  - Added Enum KnownAzureStorageProtocol
+  - Added Enum KnownRuntimeName
+  - Added Enum KnownStorageType
+  - Enum KnownSkuName has a new value FlexConsumption
+  - Enum KnownSupportedTlsVersions has a new value One3
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlot has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlotAndWait has a new signature
+    
+    
 ## 14.1.0 (2023-11-16)
     
 **Features**

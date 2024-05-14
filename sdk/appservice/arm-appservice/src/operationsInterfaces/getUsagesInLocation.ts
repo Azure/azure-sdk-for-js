@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   CsmUsageQuota,
-  GetUsagesInLocationListOptionalParams
+  GetUsagesInLocationListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,6 +23,6 @@ export interface GetUsagesInLocation {
    */
   list(
     location: string,
-    options?: GetUsagesInLocationListOptionalParams
+    options?: GetUsagesInLocationListOptionalParams,
   ): PagedAsyncIterableIterator<CsmUsageQuota>;
 }

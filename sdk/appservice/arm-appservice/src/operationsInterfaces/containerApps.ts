@@ -18,7 +18,7 @@ import {
   ContainerAppsCreateOrUpdateResponse,
   ContainerAppsDeleteOptionalParams,
   ContainerAppsListSecretsOptionalParams,
-  ContainerAppsListSecretsResponse
+  ContainerAppsListSecretsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface ContainerApps {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ContainerAppsListBySubscriptionOptionalParams
+    options?: ContainerAppsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ContainerApp>;
   /**
    * Get the Container Apps in a given resource group.
@@ -38,7 +38,7 @@ export interface ContainerApps {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ContainerAppsListByResourceGroupOptionalParams
+    options?: ContainerAppsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ContainerApp>;
   /**
    * Get the properties of a Container App.
@@ -49,7 +49,7 @@ export interface ContainerApps {
   get(
     resourceGroupName: string,
     name: string,
-    options?: ContainerAppsGetOptionalParams
+    options?: ContainerAppsGetOptionalParams,
   ): Promise<ContainerAppsGetResponse>;
   /**
    * Description for Create or update a Container App.
@@ -62,7 +62,7 @@ export interface ContainerApps {
     resourceGroupName: string,
     name: string,
     containerAppEnvelope: ContainerApp,
-    options?: ContainerAppsCreateOrUpdateOptionalParams
+    options?: ContainerAppsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerAppsCreateOrUpdateResponse>,
@@ -80,7 +80,7 @@ export interface ContainerApps {
     resourceGroupName: string,
     name: string,
     containerAppEnvelope: ContainerApp,
-    options?: ContainerAppsCreateOrUpdateOptionalParams
+    options?: ContainerAppsCreateOrUpdateOptionalParams,
   ): Promise<ContainerAppsCreateOrUpdateResponse>;
   /**
    * Description for Delete a Container App.
@@ -91,7 +91,7 @@ export interface ContainerApps {
   beginDelete(
     resourceGroupName: string,
     name: string,
-    options?: ContainerAppsDeleteOptionalParams
+    options?: ContainerAppsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Description for Delete a Container App.
@@ -102,7 +102,7 @@ export interface ContainerApps {
   beginDeleteAndWait(
     resourceGroupName: string,
     name: string,
-    options?: ContainerAppsDeleteOptionalParams
+    options?: ContainerAppsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * List secrets for a container app
@@ -111,6 +111,6 @@ export interface ContainerApps {
    */
   listSecrets(
     name: string,
-    options?: ContainerAppsListSecretsOptionalParams
+    options?: ContainerAppsListSecretsOptionalParams,
   ): Promise<ContainerAppsListSecretsResponse>;
 }

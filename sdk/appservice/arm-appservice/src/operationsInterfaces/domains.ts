@@ -38,7 +38,7 @@ import {
   DomainsUpdateOwnershipIdentifierResponse,
   DomainsRenewOptionalParams,
   DomainsTransferOutOptionalParams,
-  DomainsTransferOutResponse
+  DomainsTransferOutResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +56,7 @@ export interface Domains {
    */
   listRecommendations(
     parameters: DomainRecommendationSearchParameters,
-    options?: DomainsListRecommendationsOptionalParams
+    options?: DomainsListRecommendationsOptionalParams,
   ): PagedAsyncIterableIterator<NameIdentifier>;
   /**
    * Description for Get all domains in a resource group.
@@ -65,7 +65,7 @@ export interface Domains {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DomainsListByResourceGroupOptionalParams
+    options?: DomainsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Domain>;
   /**
    * Description for Lists domain ownership identifiers.
@@ -76,7 +76,7 @@ export interface Domains {
   listOwnershipIdentifiers(
     resourceGroupName: string,
     domainName: string,
-    options?: DomainsListOwnershipIdentifiersOptionalParams
+    options?: DomainsListOwnershipIdentifiersOptionalParams,
   ): PagedAsyncIterableIterator<DomainOwnershipIdentifier>;
   /**
    * Description for Check if a domain is available for registration.
@@ -85,14 +85,14 @@ export interface Domains {
    */
   checkAvailability(
     identifier: NameIdentifier,
-    options?: DomainsCheckAvailabilityOptionalParams
+    options?: DomainsCheckAvailabilityOptionalParams,
   ): Promise<DomainsCheckAvailabilityResponse>;
   /**
    * Description for Generate a single sign-on request for the domain management portal.
    * @param options The options parameters.
    */
   getControlCenterSsoRequest(
-    options?: DomainsGetControlCenterSsoRequestOptionalParams
+    options?: DomainsGetControlCenterSsoRequestOptionalParams,
   ): Promise<DomainsGetControlCenterSsoRequestResponse>;
   /**
    * Description for Get a domain.
@@ -103,7 +103,7 @@ export interface Domains {
   get(
     resourceGroupName: string,
     domainName: string,
-    options?: DomainsGetOptionalParams
+    options?: DomainsGetOptionalParams,
   ): Promise<DomainsGetResponse>;
   /**
    * Description for Creates or updates a domain.
@@ -116,7 +116,7 @@ export interface Domains {
     resourceGroupName: string,
     domainName: string,
     domain: Domain,
-    options?: DomainsCreateOrUpdateOptionalParams
+    options?: DomainsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DomainsCreateOrUpdateResponse>,
@@ -134,7 +134,7 @@ export interface Domains {
     resourceGroupName: string,
     domainName: string,
     domain: Domain,
-    options?: DomainsCreateOrUpdateOptionalParams
+    options?: DomainsCreateOrUpdateOptionalParams,
   ): Promise<DomainsCreateOrUpdateResponse>;
   /**
    * Description for Delete a domain.
@@ -145,7 +145,7 @@ export interface Domains {
   delete(
     resourceGroupName: string,
     domainName: string,
-    options?: DomainsDeleteOptionalParams
+    options?: DomainsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Description for Creates or updates a domain.
@@ -158,7 +158,7 @@ export interface Domains {
     resourceGroupName: string,
     domainName: string,
     domain: DomainPatchResource,
-    options?: DomainsUpdateOptionalParams
+    options?: DomainsUpdateOptionalParams,
   ): Promise<DomainsUpdateResponse>;
   /**
    * Description for Get ownership identifier for domain
@@ -171,7 +171,7 @@ export interface Domains {
     resourceGroupName: string,
     domainName: string,
     name: string,
-    options?: DomainsGetOwnershipIdentifierOptionalParams
+    options?: DomainsGetOwnershipIdentifierOptionalParams,
   ): Promise<DomainsGetOwnershipIdentifierResponse>;
   /**
    * Description for Creates an ownership identifier for a domain or updates identifier details for an
@@ -187,7 +187,7 @@ export interface Domains {
     domainName: string,
     name: string,
     domainOwnershipIdentifier: DomainOwnershipIdentifier,
-    options?: DomainsCreateOrUpdateOwnershipIdentifierOptionalParams
+    options?: DomainsCreateOrUpdateOwnershipIdentifierOptionalParams,
   ): Promise<DomainsCreateOrUpdateOwnershipIdentifierResponse>;
   /**
    * Description for Delete ownership identifier for domain
@@ -200,7 +200,7 @@ export interface Domains {
     resourceGroupName: string,
     domainName: string,
     name: string,
-    options?: DomainsDeleteOwnershipIdentifierOptionalParams
+    options?: DomainsDeleteOwnershipIdentifierOptionalParams,
   ): Promise<void>;
   /**
    * Description for Creates an ownership identifier for a domain or updates identifier details for an
@@ -216,7 +216,7 @@ export interface Domains {
     domainName: string,
     name: string,
     domainOwnershipIdentifier: DomainOwnershipIdentifier,
-    options?: DomainsUpdateOwnershipIdentifierOptionalParams
+    options?: DomainsUpdateOwnershipIdentifierOptionalParams,
   ): Promise<DomainsUpdateOwnershipIdentifierResponse>;
   /**
    * Description for Renew a domain.
@@ -227,7 +227,7 @@ export interface Domains {
   renew(
     resourceGroupName: string,
     domainName: string,
-    options?: DomainsRenewOptionalParams
+    options?: DomainsRenewOptionalParams,
   ): Promise<void>;
   /**
    * Transfer out domain to another registrar
@@ -238,6 +238,6 @@ export interface Domains {
   transferOut(
     resourceGroupName: string,
     domainName: string,
-    options?: DomainsTransferOutOptionalParams
+    options?: DomainsTransferOutOptionalParams,
   ): Promise<DomainsTransferOutResponse>;
 }

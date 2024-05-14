@@ -16,7 +16,7 @@ import {
   GlobalGetDeletedWebAppResponse,
   GlobalGetDeletedWebAppSnapshotsOptionalParams,
   GlobalGetDeletedWebAppSnapshotsResponse,
-  GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams
+  GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams,
 } from "../models";
 
 /** Class containing Global operations. */
@@ -38,11 +38,11 @@ export class GlobalImpl implements Global {
    */
   getDeletedWebApp(
     deletedSiteId: string,
-    options?: GlobalGetDeletedWebAppOptionalParams
+    options?: GlobalGetDeletedWebAppOptionalParams,
   ): Promise<GlobalGetDeletedWebAppResponse> {
     return this.client.sendOperationRequest(
       { deletedSiteId, options },
-      getDeletedWebAppOperationSpec
+      getDeletedWebAppOperationSpec,
     );
   }
 
@@ -53,11 +53,11 @@ export class GlobalImpl implements Global {
    */
   getDeletedWebAppSnapshots(
     deletedSiteId: string,
-    options?: GlobalGetDeletedWebAppSnapshotsOptionalParams
+    options?: GlobalGetDeletedWebAppSnapshotsOptionalParams,
   ): Promise<GlobalGetDeletedWebAppSnapshotsResponse> {
     return this.client.sendOperationRequest(
       { deletedSiteId, options },
-      getDeletedWebAppSnapshotsOperationSpec
+      getDeletedWebAppSnapshotsOperationSpec,
     );
   }
 
@@ -70,11 +70,11 @@ export class GlobalImpl implements Global {
   getSubscriptionOperationWithAsyncResponse(
     location: string,
     operationId: string,
-    options?: GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams
+    options?: GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { location, operationId, options },
-      getSubscriptionOperationWithAsyncResponseOperationSpec
+      getSubscriptionOperationWithAsyncResponseOperationSpec,
     );
   }
 }
@@ -82,69 +82,67 @@ export class GlobalImpl implements Global {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getDeletedWebAppOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/deletedSites/{deletedSiteId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/deletedSites/{deletedSiteId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedSite
+      bodyMapper: Mappers.DeletedSite,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.deletedSiteId
+    Parameters.deletedSiteId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDeletedWebAppSnapshotsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/deletedSites/{deletedSiteId}/snapshots",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/deletedSites/{deletedSiteId}/snapshots",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: {
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Snapshot" } }
-        }
-      }
+          element: { type: { name: "Composite", className: "Snapshot" } },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.deletedSiteId
+    Parameters.deletedSiteId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const getSubscriptionOperationWithAsyncResponseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/operations/{operationId}",
-  httpMethod: "GET",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-    Parameters.operationId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+const getSubscriptionOperationWithAsyncResponseOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/operations/{operationId}",
+    httpMethod: "GET",
+    responses: {
+      204: {},
+      default: {
+        bodyMapper: Mappers.DefaultErrorResponse,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.location,
+      Parameters.operationId,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

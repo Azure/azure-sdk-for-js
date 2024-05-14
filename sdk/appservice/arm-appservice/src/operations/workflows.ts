@@ -15,7 +15,7 @@ import {
   RegenerateActionParameter,
   WorkflowsRegenerateAccessKeyOptionalParams,
   Workflow,
-  WorkflowsValidateOptionalParams
+  WorkflowsValidateOptionalParams,
 } from "../models";
 
 /** Class containing Workflows operations. */
@@ -43,11 +43,11 @@ export class WorkflowsImpl implements Workflows {
     name: string,
     workflowName: string,
     keyType: RegenerateActionParameter,
-    options?: WorkflowsRegenerateAccessKeyOptionalParams
+    options?: WorkflowsRegenerateAccessKeyOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, workflowName, keyType, options },
-      regenerateAccessKeyOperationSpec
+      regenerateAccessKeyOperationSpec,
     );
   }
 
@@ -64,11 +64,11 @@ export class WorkflowsImpl implements Workflows {
     name: string,
     workflowName: string,
     validate: Workflow,
-    options?: WorkflowsValidateOptionalParams
+    options?: WorkflowsValidateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, workflowName, validate, options },
-      validateOperationSpec
+      validateOperationSpec,
     );
   }
 }
@@ -76,14 +76,13 @@ export class WorkflowsImpl implements Workflows {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const regenerateAccessKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/regenerateAccessKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/regenerateAccessKey",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.keyType1,
   queryParameters: [Parameters.apiVersion],
@@ -92,21 +91,20 @@ const regenerateAccessKeyOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName1
+    Parameters.workflowName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/validate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/validate",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.validate,
   queryParameters: [Parameters.apiVersion],
@@ -115,9 +113,9 @@ const validateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName1
+    Parameters.workflowName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

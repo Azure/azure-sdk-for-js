@@ -16,7 +16,7 @@ import {
   ResourceHealthMetadataGetBySiteOptionalParams,
   ResourceHealthMetadataGetBySiteResponse,
   ResourceHealthMetadataGetBySiteSlotOptionalParams,
-  ResourceHealthMetadataGetBySiteSlotResponse
+  ResourceHealthMetadataGetBySiteSlotResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface ResourceHealthMetadataOperations {
    * @param options The options parameters.
    */
   list(
-    options?: ResourceHealthMetadataListOptionalParams
+    options?: ResourceHealthMetadataListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceHealthMetadata>;
   /**
    * Description for List all ResourceHealthMetadata for all sites in the resource group in the
@@ -37,7 +37,7 @@ export interface ResourceHealthMetadataOperations {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ResourceHealthMetadataListByResourceGroupOptionalParams
+    options?: ResourceHealthMetadataListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ResourceHealthMetadata>;
   /**
    * Description for Gets the category of ResourceHealthMetadata to use for the given site as a
@@ -49,7 +49,7 @@ export interface ResourceHealthMetadataOperations {
   listBySite(
     resourceGroupName: string,
     name: string,
-    options?: ResourceHealthMetadataListBySiteOptionalParams
+    options?: ResourceHealthMetadataListBySiteOptionalParams,
   ): PagedAsyncIterableIterator<ResourceHealthMetadata>;
   /**
    * Description for Gets the category of ResourceHealthMetadata to use for the given site as a
@@ -63,7 +63,7 @@ export interface ResourceHealthMetadataOperations {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: ResourceHealthMetadataListBySiteSlotOptionalParams
+    options?: ResourceHealthMetadataListBySiteSlotOptionalParams,
   ): PagedAsyncIterableIterator<ResourceHealthMetadata>;
   /**
    * Description for Gets the category of ResourceHealthMetadata to use for the given site
@@ -74,7 +74,7 @@ export interface ResourceHealthMetadataOperations {
   getBySite(
     resourceGroupName: string,
     name: string,
-    options?: ResourceHealthMetadataGetBySiteOptionalParams
+    options?: ResourceHealthMetadataGetBySiteOptionalParams,
   ): Promise<ResourceHealthMetadataGetBySiteResponse>;
   /**
    * Description for Gets the category of ResourceHealthMetadata to use for the given site
@@ -87,6 +87,6 @@ export interface ResourceHealthMetadataOperations {
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: ResourceHealthMetadataGetBySiteSlotOptionalParams
+    options?: ResourceHealthMetadataGetBySiteSlotOptionalParams,
   ): Promise<ResourceHealthMetadataGetBySiteSlotResponse>;
 }
