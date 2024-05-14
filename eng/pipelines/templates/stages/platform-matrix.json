@@ -4,10 +4,6 @@
   },
   "matrix": {
     "Agent": {
-      "windows-2022": {
-        "OSVmImage": "env:WINDOWSVMIMAGE",
-        "Pool": "env:WINDOWSPOOL"
-      },
       "ubuntu-20.04": {
         "OSVmImage": "env:LINUXVMIMAGE",
         "Pool": "env:LINUXPOOL"
@@ -17,39 +13,11 @@
         "Pool": "env:MACPOOL"
       }
     },
-    "NodeTestVersion": [
-      "18.x",
-      "20.x",
-      "22.x"
-    ],
+    "NodeTestVersion": ["18.x", "20.x", "22.x"],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
   },
   "include": [
-    {
-      "Agent": {
-        "windows-2022": {
-          "OSVmImage": "env:WINDOWSVMIMAGE",
-          "Pool": "env:WINDOWSPOOL"
-        }
-      },
-      "Scenario": {
-        "coverage": {
-          "TestType": "node",
-          "TestResultsFiles": "**/test-results.xml",
-          "PublishCodeCoverage": "true"
-        },
-        "sample": {
-          "TestType": "sample",
-          "TestResultsFiles": "**/test-results.xml"
-        },
-        "browser": {
-          "TestType": "browser",
-          "TestResultsFiles": "**/test-results.browser.xml"
-        }
-      },
-      "NodeTestVersion": "18.x"
-    },
     {
       "Agent": {
         "ubuntu-20.04": {
@@ -59,10 +27,7 @@
       },
       "TestType": "node",
       "NodeTestVersion": "18.x",
-      "DependencyVersion": [
-        "max",
-        "min"
-      ],
+      "DependencyVersion": ["max", "min"],
       "TestResultsFiles": "**/test-results.xml"
     }
   ]
