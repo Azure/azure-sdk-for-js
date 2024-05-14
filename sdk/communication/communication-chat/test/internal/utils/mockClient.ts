@@ -49,6 +49,16 @@ export const mockThread: RestModel.ChatThreadProperties = {
   createdOn: new Date("2020-06-26T18:06:06Z"),
 };
 
+export const mockThreadWithTextOnlyChat: RestModel.ChatThreadProperties = {
+  id: "threadid",
+  topic: "topic",
+  metadata: { threadType: "primary", secondaryThread: "test-id" },
+  retentionPolicy: { kind: "none" },
+  createdByCommunicationIdentifier: mockCommunicationIdentifier,
+  createdOn: new Date("2020-06-26T18:06:06Z"),
+  messagingPolicy: { textOnlyChat: true },
+};
+
 export const mockCreateThreadResult: RestModel.CreateChatThreadResult = {
   chatThread: mockThread,
   invalidParticipants: undefined,
@@ -160,6 +170,24 @@ export const mockMessageWithAttachment: RestModel.ChatMessage = {
   senderCommunicationIdentifier: mockCommunicationIdentifier,
   deletedOn: new Date("2020-06-26T18:06:06Z"),
   metadata: { tags: "tag" },
+};
+
+export const mockMessageWithDLP: RestModel.ChatMessage = {
+  id: "id",
+  type: "text",
+  version: "version",
+  sequenceId: "sequenceId",
+  content: {
+    message: "content",
+    topic: "topic",
+    attachments: [],
+  },
+  createdOn: new Date("2020-06-26T18:06:06Z"),
+  senderDisplayName: "senderDisplayName",
+  senderCommunicationIdentifier: mockCommunicationIdentifier,
+  deletedOn: new Date("2020-06-26T18:06:06Z"),
+  metadata: { tags: "tag" },
+  policyViolation: { state: "contentBlocked"}
 };
 
 export const mockImageAttachment: RestModel.ChatAttachment = {

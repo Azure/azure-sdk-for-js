@@ -24,11 +24,13 @@ import {
   mockChatMessageReadReceipt,
   mockMessage,
   mockMessageWithAttachment,
+  mockMessageWithDLP,
   mockImageAttachment,
   mockParticipant,
   mockParticipantWithMetadata,
   mockSdkModelParticipant,
   mockThread,
+  mockThreadWithTextOnlyChat,
 } from "./utils/mockClient";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
@@ -62,6 +64,43 @@ describe("[Mocked] ChatThreadClient", async function () {
       (responseUser as CommunicationUserIdentifier)?.communicationUserId,
       expectedIdentifier.communicationUser?.id,
     );
+
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${mockThread.id}?api-version=${API_VERSION}`,
+    );
+    assert.equal(request.method, "GET");
+  });
+
+  it("makes successful get properties request with text only chat", async function () {
+    const mockHttpClient = generateHttpClient(200, mockThreadWithTextOnlyChat);
+    chatThreadClient = createChatThreadClient(mockThread.id, mockHttpClient);
+
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const {
+      createdBy: responseUser,
+      messagingPolicy: responseMessagingPolicy,
+      ...response
+    } = await chatThreadClient.getProperties();
+    const {
+      createdByCommunicationIdentifier: expectedIdentifier,
+      messagingPolicy: expectedMessagingPolicy,
+      ...expected
+    } = mockThreadWithTextOnlyChat;
+
+    sinon.assert.calledOnce(spy);
+
+    assert.deepEqual(response, expected);
+    assert.equal(responseUser?.kind, "communicationUser");
+    assert.equal(
+      (responseUser as CommunicationUserIdentifier)?.communicationUserId,
+      expectedIdentifier.communicationUser?.id,
+    );
+    assert.deepEqual(responseMessagingPolicy, expectedMessagingPolicy);
+    assert.isTrue(responseMessagingPolicy?.textOnlyChat);
 
     const request = spy.getCall(0).args[0];
 
@@ -257,6 +296,43 @@ describe("[Mocked] ChatThreadClient", async function () {
     assert.deepEqual(responseMessage, expectedMessage);
     assert.deepEqual(responseAttachments, expectedAttachments);
     assert.deepEqual(repsonseContents, expectedContents);
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(request.method, "GET");
+  });
+
+  it("makes successful get message with data loss prevention", async function () {
+    const mockHttpClient = generateHttpClient(200, mockMessageWithDLP);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const {
+      sender: responseUser,
+      content: responseContent,
+      policyViolation: responsePolicyViolation,
+      ...responseMessage
+    } = await chatThreadClient.getMessage(mockMessageWithAttachment.id!);
+    const {
+      senderCommunicationIdentifier: expectedIdentifier,
+      content: expectedContent,
+      policyViolation: expectedPolicyViolation,
+      ...expectedMessage
+    } = mockMessageWithDLP;
+    const {
+      participants: expectedParticipants,
+      attachments: expectedAttachments,
+      ...expectedContents
+    } = expectedContent!;
+    const {
+      participants: responseParticipants,
+      attachments: responseAttachments,
+      ...repsonseContents
+    } = responseContent!;
+    sinon.assert.calledOnce(spy);
+    assert.deepEqual(responseMessage, expectedMessage);
+    assert.deepEqual(responseAttachments, expectedAttachments);
+    assert.deepEqual(repsonseContents, expectedContents);
+    assert.deepEqual(responsePolicyViolation?.result, expectedPolicyViolation?.state);
     const request = spy.getCall(0).args[0];
 
     assert.equal(request.method, "GET");
