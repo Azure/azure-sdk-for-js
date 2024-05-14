@@ -19,7 +19,10 @@ export async function createClient(
       AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
       ENDPOINT: "https://testaccount.dev.azuresynapse.net",
     },
-    removeCentralSanitizers: ["AZSDK3430", "AZSDK3493"],
+    removeCentralSanitizers: [
+      "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+      "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    ],
   });
 
   const client = new ArtifactsClient(credential, env.ENDPOINT ?? "", recorder.configureClientOptions({

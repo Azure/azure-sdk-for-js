@@ -357,7 +357,9 @@ export class Recorder {
 
         //  https://github.com/Azure/azure-sdk-tools/pull/8142/
         //  https://github.com/Azure/azure-sdk-tools/blob/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy/Common/SanitizerDictionary.cs
-        const removalList = ["AZSDK2003"];
+        const removalList = [
+          "AZSDK2003", // Location header in the response is not a secret, and is also sanitized by other URI sanitizers
+        ];
         // Central test proxy Sanitizers to be removed
         await removeCentralSanitizers(
           this.httpClient,
