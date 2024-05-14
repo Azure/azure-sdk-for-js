@@ -14,6 +14,7 @@ import {
   AnswerCallRequest,
   CallAutomationApiClient,
   CommunicationUserIdentifierModel,
+  ConnectRequest,
   CreateCallRequest,
   RedirectCallRequest,
   RejectCallRequest,
@@ -22,12 +23,13 @@ import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
 import {
   AnswerCallOptions,
+  ConnectOptions,
   CreateCallOptions,
   RedirectCallOptions,
   RejectCallOptions,
 } from "./models/options";
-import { AnswerCallResult, CreateCallResult } from "./models/responses";
-import { CallConnectionProperties, CallInvite } from "./models/models";
+import { AnswerCallResult, ConnectResult, CreateCallResult } from "./models/responses";
+import { CallConnectionProperties, CallInvite, CallLocator } from "./models/models";
 import {
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
@@ -38,6 +40,7 @@ import {
 } from "./utli/converters";
 import { randomUUID } from "@azure/core-util";
 import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
+
 /**
  * Client options used to configure CallAutomation Client API requests.
  */
@@ -349,5 +352,61 @@ export class CallAutomationClient {
     };
 
     return this.callAutomationApiClient.rejectCall(request, optionsInternal);
+  }
+
+  /**
+   * Create connection to room call.
+   * @param callLocator - Call locator to create connection.
+   * @param callbackUrl - The callback url
+   * @param options - Additional request options contains connect api options.
+   */
+  public async connect(
+    callLocator: CallLocator,
+    callbackUrl: string,
+    options: ConnectOptions = {},
+  ): Promise<ConnectResult> {
+    const request: ConnectRequest = {
+      callLocator: callLocator,
+      callbackUri: callbackUrl,
+      callIntelligenceOptions: options.callIntelligenceOptions,
+    };
+
+    request.callLocator.roomId = callLocator.id;
+    request.callLocator.kind =
+      callLocator.kind === "roomCallLocator" ? callLocator.kind : "roomCallLocator";
+
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date(),
+      repeatabilityRequestID: randomUUID(),
+    };
+
+    const { callConnectionId, targets, sourceCallerIdNumber, answeredBy, source, ...result } =
+      await this.callAutomationApiClient.connect(request, optionsInternal);
+
+    if (callConnectionId) {
+      const callConnectionProperties: CallConnectionProperties = {
+        ...result,
+        callConnectionId: callConnectionId,
+        source: source ? communicationIdentifierConverter(source) : undefined,
+        answeredby: communicationUserIdentifierConverter(answeredBy),
+        targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
+        sourceCallerIdNumber: sourceCallerIdNumber
+          ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
+          : undefined,
+      };
+      const callConnection = new CallConnection(
+        callConnectionId,
+        this.endpoint,
+        this.credential,
+        this.internalPipelineOptions,
+      );
+      const connectResult: ConnectResult = {
+        callConnectionProperties: callConnectionProperties,
+        callConnection: callConnection,
+      };
+      return connectResult;
+    }
+    throw "callConnectionProperties / callConnectionId is missing in connect result";
   }
 }

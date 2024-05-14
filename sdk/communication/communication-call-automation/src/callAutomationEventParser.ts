@@ -35,6 +35,7 @@ import {
   TranscriptionUpdated,
   TranscriptionFailed,
   HoldFailed,
+  ConnectFailed,
 } from "./models/events";
 
 import { CloudEventMapper } from "./models/mapper";
@@ -153,6 +154,9 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.HoldFailed":
       callbackEvent = { kind: "HoldFailed" } as HoldFailed;
+      break;
+    case "Microsoft.Communication.ConnectFailed":
+      callbackEvent = { kind: "ConnectFailed" } as ConnectFailed;
       break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);

@@ -34,6 +34,7 @@ import {
   TranscriptionUpdated as RestTranscriptionUpdated,
   TranscriptionFailed as RestTranscriptionFailed,
   HoldFailed as RestHoldFailed,
+  ConnectFailed as RestConnectFailed,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -67,7 +68,8 @@ export type CallAutomationEvent =
   | TranscriptionStopped
   | TranscriptionUpdated
   | TranscriptionFailed
-  | HoldFailed;
+  | HoldFailed
+  | ConnectFailed;
 
 export {
   RestAddParticipantSucceeded,
@@ -98,6 +100,7 @@ export {
   RestTranscriptionUpdated,
   RestTranscriptionFailed,
   RestHoldFailed,
+  RestConnectFailed,
 };
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
@@ -609,4 +612,21 @@ export interface HoldFailed
   resultInformation?: RestResultInformation;
   /** kind of this event. */
   kind: "HoldFailed";
+}
+
+export interface ConnectFailed
+  extends Omit<
+    RestConnectFailed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "ConnectFailed";
 }

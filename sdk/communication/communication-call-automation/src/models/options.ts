@@ -373,3 +373,11 @@ export interface UnholdOptions extends OperationOptions {
   /** Operation Context. */
   operationContext?: string;
 }
+
+/**
+ * Options to Connect request.
+ */
+export interface ConnectOptions extends OperationOptions {
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptions;
+}
