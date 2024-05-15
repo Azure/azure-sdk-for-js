@@ -16,13 +16,17 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a Fleet.
  *
  * @summary Creates or updates a Fleet.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2023-10-15/examples/Fleets_CreateOrUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/Fleets_CreateOrUpdate.json
  */
 async function createsAFleetResourceWithALongRunningOperation() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const fleetName = "fleet1";
   const resource = {
+    hubProfile: {
+      agentProfile: { vmSize: "Standard_DS1" },
+      dnsPrefix: "dnsprefix1",
+    },
     location: "East US",
     tags: { archv2: "", tier: "production" },
   };
@@ -31,7 +35,7 @@ async function createsAFleetResourceWithALongRunningOperation() {
   const result = await client.fleets.beginCreateOrUpdateAndWait(
     resourceGroupName,
     fleetName,
-    resource
+    resource,
   );
   console.log(result);
 }

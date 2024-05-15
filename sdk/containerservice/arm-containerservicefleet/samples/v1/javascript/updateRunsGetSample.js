@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a UpdateRun
  *
  * @summary Get a UpdateRun
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2023-10-15/examples/UpdateRuns_Get.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/UpdateRuns_Get.json
  */
 async function getsAnUpdateRunResource() {
   const subscriptionId =

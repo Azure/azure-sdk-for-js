@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a FleetMember
  *
  * @summary Delete a FleetMember
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2023-10-15/examples/FleetMembers_Delete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/FleetMembers_Delete.json
  */
 async function deletesAFleetMemberResourceAsynchronouslyWithALongRunningOperation() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
@@ -28,7 +28,7 @@ async function deletesAFleetMemberResourceAsynchronouslyWithALongRunningOperatio
   const result = await client.fleetMembers.beginDeleteAndWait(
     resourceGroupName,
     fleetName,
-    fleetMemberName
+    fleetMemberName,
   );
   console.log(result);
 }

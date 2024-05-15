@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create a FleetMember
  *
  * @summary Create a FleetMember
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2023-10-15/examples/FleetMembers_Create.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/FleetMembers_Create.json
  */
 async function createsAFleetMemberResourceWithALongRunningOperation() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
@@ -33,7 +33,7 @@ async function createsAFleetMemberResourceWithALongRunningOperation() {
     resourceGroupName,
     fleetName,
     fleetMemberName,
-    resource
+    resource,
   );
   console.log(result);
 }

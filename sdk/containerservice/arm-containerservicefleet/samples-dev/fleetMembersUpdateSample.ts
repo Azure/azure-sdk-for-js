@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a FleetMember
  *
  * @summary Update a FleetMember
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-02-02-preview/examples/FleetMembers_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/FleetMembers_Update.json
  */
 async function updatesAFleetMemberResourceSynchronously() {
   const subscriptionId =

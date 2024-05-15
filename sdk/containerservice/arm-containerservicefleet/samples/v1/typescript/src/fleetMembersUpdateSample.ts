@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   FleetMemberUpdate,
-  ContainerServiceFleetClient
+  ContainerServiceFleetClient,
 } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a FleetMember
  *
  * @summary Update a FleetMember
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2023-10-15/examples/FleetMembers_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/FleetMembers_Update.json
  */
 async function updatesAFleetMemberResourceSynchronously() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function updatesAFleetMemberResourceSynchronously() {
     resourceGroupName,
     fleetName,
     fleetMemberName,
-    properties
+    properties,
   );
   console.log(result);
 }

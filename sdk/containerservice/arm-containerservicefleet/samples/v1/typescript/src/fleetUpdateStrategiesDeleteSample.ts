@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a FleetUpdateStrategy
  *
  * @summary Delete a FleetUpdateStrategy
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2023-10-15/examples/UpdateStrategies_Delete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/UpdateStrategies_Delete.json
  */
 async function deleteAFleetUpdateStrategyResource() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function deleteAFleetUpdateStrategyResource() {
   const result = await client.fleetUpdateStrategies.beginDeleteAndWait(
     resourceGroupName,
     fleetName,
-    updateStrategyName
+    updateStrategyName,
   );
   console.log(result);
 }

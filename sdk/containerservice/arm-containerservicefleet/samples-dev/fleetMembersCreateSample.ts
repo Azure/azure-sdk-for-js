@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a FleetMember
  *
  * @summary Create a FleetMember
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-02-02-preview/examples/FleetMembers_Create.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/FleetMembers_Create.json
  */
 async function createsAFleetMemberResourceWithALongRunningOperation() {
   const subscriptionId =

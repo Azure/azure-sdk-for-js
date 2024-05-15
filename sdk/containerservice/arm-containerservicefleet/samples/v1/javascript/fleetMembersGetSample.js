@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a FleetMember
  *
  * @summary Get a FleetMember
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2023-10-15/examples/FleetMembers_Get.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/FleetMembers_Get.json
  */
 async function getsAFleetMemberResource() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";

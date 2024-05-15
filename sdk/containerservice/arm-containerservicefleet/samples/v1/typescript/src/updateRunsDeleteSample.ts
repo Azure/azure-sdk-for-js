@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a UpdateRun
  *
  * @summary Delete a UpdateRun
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2023-10-15/examples/UpdateRuns_Delete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/UpdateRuns_Delete.json
  */
 async function deleteAnUpdateRunResource() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function deleteAnUpdateRunResource() {
   const result = await client.updateRuns.beginDeleteAndWait(
     resourceGroupName,
     fleetName,
-    updateRunName
+    updateRunName,
   );
   console.log(result);
 }

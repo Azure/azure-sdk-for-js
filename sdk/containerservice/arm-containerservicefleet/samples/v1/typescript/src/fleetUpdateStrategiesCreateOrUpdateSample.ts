@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   FleetUpdateStrategy,
-  ContainerServiceFleetClient
+  ContainerServiceFleetClient,
 } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a FleetUpdateStrategy
  *
  * @summary Create a FleetUpdateStrategy
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2023-10-15/examples/UpdateStrategies_CreateOrUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/UpdateStrategies_CreateOrUpdate.json
  */
 async function createAFleetUpdateStrategy() {
   const subscriptionId =
@@ -37,10 +37,10 @@ async function createAFleetUpdateStrategy() {
         {
           name: "stage1",
           afterStageWaitInSeconds: 3600,
-          groups: [{ name: "group-a" }]
-        }
-      ]
-    }
+          groups: [{ name: "group-a" }],
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -48,7 +48,7 @@ async function createAFleetUpdateStrategy() {
     resourceGroupName,
     fleetName,
     updateStrategyName,
-    resource
+    resource,
   );
   console.log(result);
 }
