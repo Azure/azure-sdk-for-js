@@ -3,32 +3,37 @@
 
 /**
  * @file Rule to forbid usage of TypeScript's const enums.
- * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
-import { getRuleMetaData } from "../utils";
+import { createRule } from "../utils/ruleCreator";
 
-//------------------------------------------------------------------------------
-// Rule Definition
-//------------------------------------------------------------------------------
-
-export = {
-  meta: getRuleMetaData("ts-no-const-enums", "forbid usage of TypeScript's const enums", "code"),
-  create: (context: Rule.RuleContext): Rule.RuleListener =>
-    ({
-      // callback functions
-
+export default createRule({
+  name: "ts-no-const-enums",
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "forbid usage of TypeScript's const enums",
+      recommended: "recommended",
+    },
+    messages: {
+      noConstEnum: "const enums should not be used",
+    },
+    schema: [],
+    fixable: "code",
+  },
+  defaultOptions: [],
+  create(context) {
+    return {
       // check Enum to make sure it doesn't have a const keyword
-      TSEnumDeclaration: (node: any): void => {
-        if (node.const !== undefined) {
+      TSEnumDeclaration: (node): void => {
+        if (node.const) {
           context.report({
             node: node,
-            message: "const enums should not be used",
-            fix: (fixer: Rule.RuleFixer): Rule.Fix =>
-              fixer.removeRange([node.range[0], node.range[0] + "const ".length]),
+            messageId: "noConstEnum",
+            fix: (fixer) => fixer.removeRange([node.range[0], node.range[0] + "const ".length]),
           });
         }
       },
-    }) as Rule.RuleListener,
-};
+    };
+  },
+});

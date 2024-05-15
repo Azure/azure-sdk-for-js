@@ -15,7 +15,7 @@ import {
   PermissionBindingsGetResponse,
   PermissionBindingsCreateOrUpdateOptionalParams,
   PermissionBindingsCreateOrUpdateResponse,
-  PermissionBindingsDeleteOptionalParams
+  PermissionBindingsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface PermissionBindings {
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: PermissionBindingsListByNamespaceOptionalParams
+    options?: PermissionBindingsListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<PermissionBinding>;
   /**
    * Get properties of a permission binding.
@@ -43,7 +43,7 @@ export interface PermissionBindings {
     resourceGroupName: string,
     namespaceName: string,
     permissionBindingName: string,
-    options?: PermissionBindingsGetOptionalParams
+    options?: PermissionBindingsGetOptionalParams,
   ): Promise<PermissionBindingsGetResponse>;
   /**
    * Create or update a permission binding with the specified parameters.
@@ -58,7 +58,7 @@ export interface PermissionBindings {
     namespaceName: string,
     permissionBindingName: string,
     permissionBindingInfo: PermissionBinding,
-    options?: PermissionBindingsCreateOrUpdateOptionalParams
+    options?: PermissionBindingsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PermissionBindingsCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface PermissionBindings {
     namespaceName: string,
     permissionBindingName: string,
     permissionBindingInfo: PermissionBinding,
-    options?: PermissionBindingsCreateOrUpdateOptionalParams
+    options?: PermissionBindingsCreateOrUpdateOptionalParams,
   ): Promise<PermissionBindingsCreateOrUpdateResponse>;
   /**
    * Delete an existing permission binding.
@@ -91,7 +91,7 @@ export interface PermissionBindings {
     resourceGroupName: string,
     namespaceName: string,
     permissionBindingName: string,
-    options?: PermissionBindingsDeleteOptionalParams
+    options?: PermissionBindingsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an existing permission binding.
@@ -104,6 +104,6 @@ export interface PermissionBindings {
     resourceGroupName: string,
     namespaceName: string,
     permissionBindingName: string,
-    options?: PermissionBindingsDeleteOptionalParams
+    options?: PermissionBindingsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -1,5 +1,32 @@
 # Release History
+
+## 20.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 20.0.0 (2024-04-26)
     
+**Features**
+
+  - Added Interface AgentPoolWindowsProfile
+  - Added Interface ManagedClusterCostAnalysis
+  - Added Interface ManagedClusterMetricsProfile
+  - Interface AgentPool has a new optional parameter windowsProfile
+  - Interface KubernetesVersion has a new optional parameter isDefault
+  - Interface ManagedCluster has a new optional parameter metricsProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter windowsProfile
+
+**Breaking Changes**
+
+  - Interface IstioEgressGateway no longer has parameter nodeSelector
+    
+
 ## 20.0.0-beta.1 (2024-04-12)
     
 **Features**

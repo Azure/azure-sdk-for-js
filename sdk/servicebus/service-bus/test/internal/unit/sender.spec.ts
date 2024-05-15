@@ -13,7 +13,7 @@ import {
   PartitionKeySessionIdMismatchError,
 } from "../../../src/util/errors";
 
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 describe("Sender helper unit tests", () => {
   it("isServiceBusMessageBatch", () => {

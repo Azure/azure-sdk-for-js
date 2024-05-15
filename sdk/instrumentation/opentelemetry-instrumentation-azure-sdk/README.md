@@ -58,6 +58,8 @@ registerInstrumentations({
 // Continue to import any Azure SDK client libraries after registering the instrumentation.
 
 const { KeyClient } = require("@azure/keyvault-keys");
+const { DefaultAzureCredential } = require("@azure/identity"); 
+
 const keyClient = new KeyClient(url, new DefaultAzureCredential()); 
 
 async function main() {

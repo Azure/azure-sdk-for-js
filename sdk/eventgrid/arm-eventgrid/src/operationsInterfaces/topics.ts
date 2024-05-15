@@ -26,7 +26,7 @@ import {
   TopicsListSharedAccessKeysResponse,
   TopicRegenerateKeyRequest,
   TopicsRegenerateKeyOptionalParams,
-  TopicsRegenerateKeyResponse
+  TopicsRegenerateKeyResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface Topics {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: TopicsListBySubscriptionOptionalParams
+    options?: TopicsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Topic>;
   /**
    * List all the topics under a resource group.
@@ -46,7 +46,7 @@ export interface Topics {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: TopicsListByResourceGroupOptionalParams
+    options?: TopicsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Topic>;
   /**
    * List event types for a topic.
@@ -61,7 +61,7 @@ export interface Topics {
     providerNamespace: string,
     resourceTypeName: string,
     resourceName: string,
-    options?: TopicsListEventTypesOptionalParams
+    options?: TopicsListEventTypesOptionalParams,
   ): PagedAsyncIterableIterator<EventType>;
   /**
    * Get properties of a topic.
@@ -72,7 +72,7 @@ export interface Topics {
   get(
     resourceGroupName: string,
     topicName: string,
-    options?: TopicsGetOptionalParams
+    options?: TopicsGetOptionalParams,
   ): Promise<TopicsGetResponse>;
   /**
    * Asynchronously creates a new topic with the specified parameters.
@@ -85,7 +85,7 @@ export interface Topics {
     resourceGroupName: string,
     topicName: string,
     topicInfo: Topic,
-    options?: TopicsCreateOrUpdateOptionalParams
+    options?: TopicsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TopicsCreateOrUpdateResponse>,
@@ -103,7 +103,7 @@ export interface Topics {
     resourceGroupName: string,
     topicName: string,
     topicInfo: Topic,
-    options?: TopicsCreateOrUpdateOptionalParams
+    options?: TopicsCreateOrUpdateOptionalParams,
   ): Promise<TopicsCreateOrUpdateResponse>;
   /**
    * Delete existing topic.
@@ -114,7 +114,7 @@ export interface Topics {
   beginDelete(
     resourceGroupName: string,
     topicName: string,
-    options?: TopicsDeleteOptionalParams
+    options?: TopicsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<TopicsDeleteResponse>, TopicsDeleteResponse>
   >;
@@ -127,7 +127,7 @@ export interface Topics {
   beginDeleteAndWait(
     resourceGroupName: string,
     topicName: string,
-    options?: TopicsDeleteOptionalParams
+    options?: TopicsDeleteOptionalParams,
   ): Promise<TopicsDeleteResponse>;
   /**
    * Asynchronously updates a topic with the specified parameters.
@@ -140,7 +140,7 @@ export interface Topics {
     resourceGroupName: string,
     topicName: string,
     topicUpdateParameters: TopicUpdateParameters,
-    options?: TopicsUpdateOptionalParams
+    options?: TopicsUpdateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Asynchronously updates a topic with the specified parameters.
@@ -153,7 +153,7 @@ export interface Topics {
     resourceGroupName: string,
     topicName: string,
     topicUpdateParameters: TopicUpdateParameters,
-    options?: TopicsUpdateOptionalParams
+    options?: TopicsUpdateOptionalParams,
   ): Promise<void>;
   /**
    * List the two keys used to publish to a topic.
@@ -164,7 +164,7 @@ export interface Topics {
   listSharedAccessKeys(
     resourceGroupName: string,
     topicName: string,
-    options?: TopicsListSharedAccessKeysOptionalParams
+    options?: TopicsListSharedAccessKeysOptionalParams,
   ): Promise<TopicsListSharedAccessKeysResponse>;
   /**
    * Regenerate a shared access key for a topic.
@@ -177,7 +177,7 @@ export interface Topics {
     resourceGroupName: string,
     topicName: string,
     regenerateKeyRequest: TopicRegenerateKeyRequest,
-    options?: TopicsRegenerateKeyOptionalParams
+    options?: TopicsRegenerateKeyOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TopicsRegenerateKeyResponse>,
@@ -195,6 +195,6 @@ export interface Topics {
     resourceGroupName: string,
     topicName: string,
     regenerateKeyRequest: TopicRegenerateKeyRequest,
-    options?: TopicsRegenerateKeyOptionalParams
+    options?: TopicsRegenerateKeyOptionalParams,
   ): Promise<TopicsRegenerateKeyResponse>;
 }

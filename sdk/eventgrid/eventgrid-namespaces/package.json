@@ -58,8 +58,8 @@
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 \"dist-esm/test/**/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
@@ -86,7 +86,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/service-bus": "^7.0.0",
-    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
@@ -115,6 +115,6 @@
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.4.5"
   }
 }

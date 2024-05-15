@@ -4,19 +4,19 @@
 import {
   AwaitableSender,
   Connection,
-  ConnectionOptions,
-  CreateAwaitableSenderOptions,
-  CreateReceiverOptions,
-  CreateSenderOptions,
+  type ConnectionOptions,
+  type CreateAwaitableSenderOptions,
+  type CreateReceiverOptions,
+  type CreateSenderOptions,
   Receiver,
   Sender,
   generate_uuid,
 } from "rhea-promise";
-import { getFrameworkInfo, getPlatformInfo } from "./util/runtimeInfo";
-import { CbsClient } from "./cbs";
-import { ConnectionConfig } from "./connectionConfig/connectionConfig";
-import { Constants } from "./util/constants";
-import { isNode } from "./util/utils";
+import { getFrameworkInfo, getPlatformInfo } from "./util/runtimeInfo.js";
+import { CbsClient } from "./cbs.js";
+import { ConnectionConfig } from "./connectionConfig/connectionConfig.js";
+import { Constants } from "./util/constants.js";
+import { isNodeLike } from "@azure/core-util";
 
 /**
  * Provides contextual information like the underlying amqp connection, cbs session, tokenProvider,
@@ -177,11 +177,11 @@ export const ConnectionContextBase = {
     }
 
     const connectionOptions: ConnectionOptions = {
-      transport: Constants.TLS,
+      transport: (parameters.config.useDevelopmentEmulator ? Constants.TCP : Constants.TLS) as any,
       host: parameters.config.host,
       hostname: parameters.config.amqpHostname ?? parameters.config.host,
       username: parameters.config.sharedAccessKeyName,
-      port: parameters.config.port ?? 5671,
+      port: parameters.config.port ?? (parameters.config.useDevelopmentEmulator ? 5672 : 5671),
       reconnect: false,
       properties: {
         product: parameters.connectionProperties.product,
@@ -198,7 +198,7 @@ export const ConnectionContextBase = {
 
     if (
       parameters.config.webSocket ||
-      (!isNode && typeof self !== "undefined" && (self as any).WebSocket)
+      (!isNodeLike && typeof self !== "undefined" && (self as any).WebSocket)
     ) {
       const socket = parameters.config.webSocket || (self as any).WebSocket;
       const host = parameters.config.host;

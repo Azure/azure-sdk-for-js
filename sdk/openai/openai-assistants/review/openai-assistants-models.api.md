@@ -54,10 +54,7 @@ export interface AssistantThread {
 
 // @public
 export interface AssistantThreadCreationOptions {
-    messages?: {
-        role: string;
-        content: string;
-    }[];
+    messages?: ThreadInitializationMessage[];
     metadata?: Record<string, string>;
 }
 
@@ -502,7 +499,7 @@ export interface ThreadDeletionStatus extends DeletionStatus {
 export interface ThreadInitializationMessage {
     content: string;
     fileIds?: string[];
-    metadata: Record<string, string> | null;
+    metadata?: Record<string, string> | null;
     role: MessageRole;
 }
 

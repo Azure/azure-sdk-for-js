@@ -5,12 +5,12 @@
  * @summary Demonstrates the SearchIndexingBufferedSender with Autoflush based on size.
  */
 
+import { DefaultAzureCredential } from "@azure/identity";
 import {
-  AzureKeyCredential,
-  GeographyPoint,
-  SearchClient,
-  SearchIndexClient,
-  SearchIndexingBufferedSender,
+    GeographyPoint,
+    SearchClient,
+    SearchIndexClient,
+    SearchIndexingBufferedSender
 } from "@azure/search-documents";
 import { Hotel } from "./interfaces";
 import { createIndex, delay, documentKeyRetriever, WAIT_TIME } from "./setup";
@@ -26,7 +26,6 @@ dotenv.config();
  * by default.
  */
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-4";
 
 function getDocumentsArray(size: number): Hotel[] {
@@ -59,14 +58,14 @@ function getDocumentsArray(size: number): Hotel[] {
 }
 
 async function main(): Promise<void> {
-  if (!endpoint || !apiKey) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
 
   console.log(`Running SearchIndexingBufferedSender-uploadDocuments-With Auto Flush Sizes Sample`);
 
-  const credential = new AzureKeyCredential(apiKey);
+  const credential = new DefaultAzureCredential();
   const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
     endpoint,
     TEST_INDEX_NAME,

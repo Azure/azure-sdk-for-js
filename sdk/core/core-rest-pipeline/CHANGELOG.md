@@ -1,16 +1,22 @@
 # Release History
 
-## 1.16.0 (Unreleased)
+## 1.16.1 (Unreleased)
 
 ### Features Added
-
-- The FormData global is now a supported request body type in Node in addition to the browser.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
+- Tracing spans will now correctly sanitize query parameters in the http.url span attribute. [#29606](https://github.com/Azure/azure-sdk-for-js/pull/29606)
+
 ### Other Changes
+
+## 1.16.0 (2024-05-02)
+
+### Features Added
+
+- The FormData global is now a supported request body type in Node in addition to the browser.
 
 ## 1.15.2 (2024-04-09)
 
