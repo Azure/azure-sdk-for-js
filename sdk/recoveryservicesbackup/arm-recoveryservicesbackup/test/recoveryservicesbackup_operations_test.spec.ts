@@ -13,32 +13,28 @@ import {
   delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { NoOpCredential } from "@azure-tools/test-credential";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { RecoveryServicesBackupClient } from "../src/recoveryServicesBackupClient";
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
-import { DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3490", // .etag in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
-
-export function createTestCredential() {
-  return isPlaybackMode()
-    ? new NoOpCredential()
-    : new
-      DefaultAzureCredential()
-    ;
-}
 
 describe("RecoveryServicesBackup test", () => {
   let recorder: Recorder;
@@ -80,6 +76,7 @@ describe("RecoveryServicesBackup test", () => {
         sku: { name: "Standard" }
       },
       testPollingOptions);
+    console.log(res.name);
     assert.equal(res.name, vaultsname);
   });
 

@@ -1213,6 +1213,18 @@ packages:
       - supports-color
     dev: false
 
+  /@azure-tools/test-recorder@3.4.0:
+    resolution: {integrity: sha512-X7/IQ/him9OOU/5dnfcIaSEnH+81PBdU+GgZjCnC7JEgchykTIZJSCtVFIfYT9XkUEJ++j2vXV17b5Qe/Hf9OA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.7.2
+      '@azure/core-rest-pipeline': 1.16.0
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure-tools/test-recorder@3.5.0:
     resolution: {integrity: sha512-al9B6XuI0GAQqaM6Ir9Fg8jIXwuWgizfyj3x8ePDdYyO+KFiAMlHy0wmy5ZNBnb4oTWTQ4NNbUwhaRlt2jdsKw==}
     engines: {node: '>=18.0.0'}
@@ -16407,7 +16419,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.5.0
+      '@azure-tools/test-recorder': 3.4.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
@@ -16432,7 +16444,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-iuMNCEo0e26d6usdfqvb2lL34RkhcuICoSLFvu25G4lEkT76vQjqnIuTsdk2s0Tex4w3GQ9xKc5OY+Mr9jWcRQ==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-Wt2nAFUudKraagIhNggVcuaZwzKmztFlC6a9a9eHdalEfKHjvaRz6OaWUTIuYFmyC92Y9yiSLB0nBi9Hb3g88A==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
