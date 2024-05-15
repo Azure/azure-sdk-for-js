@@ -35,6 +35,7 @@ import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
+import { supportedQueryFeaturesBuilder } from "./utils/supportedQueryFeaturesBuilder";
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { ClientConfigDiagnostic, CosmosDiagnostics } from "./CosmosDiagnostics";
 import { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
@@ -260,9 +261,10 @@ export class ClientContext {
     request.headers = await this.buildHeaders(request);
     request.headers[HttpHeaders.IsQueryPlan] = "True";
     request.headers[HttpHeaders.QueryVersion] = "1.4";
-    request.headers[HttpHeaders.SupportedQueryFeatures] =
-      "NonValueAggregate, Aggregate, Distinct, MultipleOrderBy, OffsetAndLimit, OrderBy, Top, CompositeAggregate, GroupBy, MultipleAggregates, NonStreamingOrderBy";
     request.headers[HttpHeaders.ContentType] = QueryJsonContentType;
+    request.headers[HttpHeaders.SupportedQueryFeatures] = supportedQueryFeaturesBuilder(
+      options.disableNonStreamingOrderByQuery,
+    );
     if (typeof query === "string") {
       request.body = { query }; // Converts query text to query object.
     }
