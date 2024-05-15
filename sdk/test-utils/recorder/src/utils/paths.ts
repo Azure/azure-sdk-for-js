@@ -12,6 +12,7 @@ export const paths = {
   admin: "/admin",
   addSanitizer: "/addSanitizer",
   addSanitizers: "/addSanitizers",
+  removeSanitizers: "/removeSanitizers",
   info: "/info",
   available: "/available",
   active: "/active",

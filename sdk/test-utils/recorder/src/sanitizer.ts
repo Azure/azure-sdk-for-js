@@ -110,6 +110,36 @@ function makeBatchSanitizerBody(sanitizers: SanitizerOptions): SanitizerRequestB
 }
 
 /**
+ * Makes a /removeSanitizers request to the test proxy
+ * This API is meant to remove the central sanitizers that were added by the proxy-tool
+ * You'd need to pass the sanitizer ids that you want the test-proxy to remove for your recording
+ *
+ * Read more at https://github.com/Azure/azure-sdk-tools/pull/8142/files
+ */
+export async function removeCentralSanitizers(
+  httpClient: HttpClient,
+  url: string,
+  recordingId: string | undefined,
+  removalList: string[],
+): Promise<void> {
+  const uri = `${url}${paths.admin}${paths.removeSanitizers}`;
+  const req = createRecordingRequest(uri, undefined, recordingId);
+  req.headers.set("Content-Type", "application/json");
+  req.body = JSON.stringify({
+    Sanitizers: removalList,
+  });
+  logger.info("[removeSanitizers] Removing sanitizers", removalList);
+  const rsp = await httpClient.sendRequest({
+    ...req,
+    allowInsecureConnection: true,
+  });
+  if (rsp.status !== 200) {
+    logger.error("[removeSanitizers] removeSanitizers request failed", rsp);
+    throw new RecorderError("removeSanitizers request failed.");
+  }
+}
+
+/**
  * Makes an /addSanitizers request to the test proxy
  */
 export async function addSanitizers(

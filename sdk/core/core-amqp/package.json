@@ -87,8 +87,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
-    "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
+    "esbuild-plugin-polyfill-node": "^0.3.0",
     "@microsoft/api-extractor": "^7.43.1",
     "@types/debug": "^4.1.12",
     "@types/node": "^18.0.0",
