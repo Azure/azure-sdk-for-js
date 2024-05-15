@@ -20,7 +20,7 @@ describe.skip("Vector search feature", async () => {
         vectorIndexes: [
           { path: "/vector1", type: "flat" },
           { path: "/vector2", type: "quantizedFlat" },
-          { path: "/vector3", type: "diskANN" },
+          // { path: "/vector3", type: "diskANN" },
         ],
       };
       const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
@@ -45,7 +45,7 @@ describe.skip("Vector search feature", async () => {
           },
         ],
       };
-      const containerName = "vector embedding container";
+      const containerName = "JSApp-vector embedding container";
       // create container
       const { resource: containerdef } = await database.containers.createIfNotExists({
         id: containerName,
@@ -77,7 +77,7 @@ describe.skip("Vector search feature", async () => {
       let indexingPolicy: IndexingPolicy = {
         vectorIndexes: [{ path: "/vector1", type: "flat" }],
       };
-      const containerName = "vector embedding container failed";
+      const containerName = "JSApp- vector embedding container failed";
       // create container
       try {
         await database.containers.createIfNotExists({
@@ -200,19 +200,13 @@ describe.skip("Vector search feature", async () => {
 
   describe("Vector Search Query", async () => {
     let database: Database;
-    let container1: Container;
-    // let container2: Container;
+    let container: Container;
 
     before(async function () {
       database = await getTestDatabase("vector search database");
       const indexingPolicy: IndexingPolicy = {
-        vectorIndexes: [
-          { path: "/vector1", type: "flat" },
-          { path: "/vector2", type: "quantizedFlat" },
-          { path: "/vector3", type: "diskANN" },
-        ],
+        vectorIndexes: [{ path: "/vector1", type: "flat" }],
       };
-      // TODO: IF vector value is outside [-1 1] empty orderbyItems is observerd? Any rationale behind it.
       const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
         vectorEmbeddings: [
           {
@@ -221,24 +215,11 @@ describe.skip("Vector search feature", async () => {
             dimensions: 2,
             distanceFunction: "euclidean",
           },
-          {
-            path: "/vector2",
-            dataType: "int8",
-            dimensions: 2,
-            distanceFunction: "dotproduct",
-          },
-          {
-            path: "/vector3",
-            dataType: "uint8",
-            dimensions: 2,
-            distanceFunction: "cosine",
-          },
         ],
       };
       const containerName1 = "vector embedding container 1";
-      // const containerName2 = "vector embedding container 2";
-      // create container
-      container1 = (
+
+      container = (
         await database.containers.createIfNotExists({
           id: containerName1,
           vectorEmbeddingPolicy: vectorEmbeddingPolicy,
@@ -247,139 +228,67 @@ describe.skip("Vector search feature", async () => {
         })
       ).container;
       // insert some items
-      await container1.items.create({
+      await container.items.create({
         id: "1",
         vector1: [0.056419, -0.021141],
-        vector2: [0, -1],
-        vector3: [1, 2],
       });
-      await container1.items.create({
+      await container.items.create({
         id: "2",
         vector1: [0.066419, -0.031141],
-        vector2: [1, 0],
-        vector3: [2, 3],
       });
-      await container1.items.create({
+      await container.items.create({
         id: "3",
         vector1: [0.076419, -0.041141],
-        vector2: [2, 1],
-        vector3: [3, 4],
       });
     });
 
     it("should execute vector search query", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT c.id AS Id  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'})";
-      const iterator = container1.items.query(query);
-      // execute order by query on it
-      let id = 1;
-      while (iterator.hasMoreResults()) {
-        const { resources: result } = await iterator.fetchNext();
-        if (result !== undefined) {
-          assert.equal(result[0].Id, id.toString());
-          id++;
-        }
-      }
+        "SELECT c.id AS Id, VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'})";
+      await executeQueryAndVerifyOrder(container, query, 3, false);
     });
 
     it("should execute distinct vector search query", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT distinct c.id AS Id  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'})";
-      const iterator = container1.items.query(query);
-      // execute distinct order by query on it
-      let id = 1;
-      while (iterator.hasMoreResults()) {
-        const { resources: result } = await iterator.fetchNext();
-        if (result !== undefined) {
-          assert.equal(result[0].Id, id.toString());
-          id++;
-        }
-      }
+        "SELECT distinct c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'})";
+      await executeQueryAndVerifyOrder(container, query, 3, false);
     });
 
     it("should execute vector search query with limit in query", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT c.id AS Id  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 2";
-      const iterator = container1.items.query(query);
-      // execute order by query on it
-      let id = 3;
-      while (iterator.hasMoreResults()) {
-        const { resources: result } = await iterator.fetchNext();
-        if (result !== undefined) {
-          // should return 2 items as limit is 2 in descending order
-          assert.equal(result.length, 2);
-          assert.equal(result[0].Id, id.toString());
-          id--;
-          assert.equal(result[1].Id, id.toString());
-        }
-      }
+        "SELECT c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 2";
+      await executeQueryAndVerifyOrder(container, query, 2, true);
     });
 
     it("should execute distinct vector search query with limit in query", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT distinct c.id AS Id  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 2";
-      const iterator = container1.items.query(query);
-      // execute distinct order by query on it
-      let id = 3;
-      while (iterator.hasMoreResults()) {
-        const { resources: result } = await iterator.fetchNext();
-        if (result !== undefined) {
-          // should return 2 items as limit is 2 in descending order
-          assert.equal(result.length, 2);
-          assert.equal(result[0].Id, id.toString());
-          id--;
-          assert.equal(result[1].Id, id.toString());
-        }
-      }
+        "SELECT distinct c.id AS Id, VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 2";
+      await executeQueryAndVerifyOrder(container, query, 2, true);
     });
 
     it("should execute vector search query with top in query", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT TOP 2 c.id AS Id  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'})";
-      const iterator = container1.items.query(query);
-      // execute order by query on it
-      let id = 3;
-      while (iterator.hasMoreResults()) {
-        const { resources: result } = await iterator.fetchNext();
-        if (result !== undefined) {
-          // should return 2 items as top is 2 in descending order
-          assert.equal(result.length, 2);
-          assert.equal(result[0].Id, id.toString());
-          id--;
-          assert.equal(result[1].Id, id.toString());
-        }
-      }
+        "SELECT TOP 2 c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'})";
+      await executeQueryAndVerifyOrder(container, query, 2, true);
     });
 
     it("should execute distinct vector search query with top in query", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT distinct TOP 2 c.id AS Id  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'})";
-      const iterator = container1.items.query(query);
-      // execute distinct order by query on it
-      let id = 3;
-      while (iterator.hasMoreResults()) {
-        const { resources: result } = await iterator.fetchNext();
-        if (result !== undefined) {
-          // should return 2 items as top is 2 in descending order
-          assert.equal(result.length, 2);
-          assert.equal(result[0].Id, id.toString());
-          id--;
-          assert.equal(result[1].Id, id.toString());
-        }
-      }
+        "SELECT distinct TOP 2 c.id AS Id, VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'})";
+      await executeQueryAndVerifyOrder(container, query, 2, true);
     });
 
     it("should execute vector search query with filter in query", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT c.id AS Id  from c WHERE VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) >= 0.0";
-      const iterator = container1.items.query(query);
+        "SELECT c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore  from c WHERE VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) >= 0.0";
+      const iterator = container.items.query(query);
       // execute order by query on it
       let id = 1;
       while (iterator.hasMoreResults()) {
@@ -393,8 +302,8 @@ describe.skip("Vector search feature", async () => {
     it("should execute distinct vector search query with filter in query", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT distinct c.id AS Id  from c WHERE VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) >= 0.0";
-      const iterator = container1.items.query(query);
+        "SELECT distinct c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore  from c WHERE VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) >= 0.0";
+      const iterator = container.items.query(query);
       // execute distinct order by query on it
       let id = 1;
       while (iterator.hasMoreResults()) {
@@ -412,16 +321,12 @@ describe.skip("Vector search feature", async () => {
 
   describe("Vector Search Query large dataset", async () => {
     let database: Database;
-    let container1: Container;
+    let container: Container;
 
     before(async function () {
       database = await getTestDatabase("vector search database");
       const indexingPolicy: IndexingPolicy = {
-        vectorIndexes: [
-          { path: "/vector1", type: "flat" },
-          { path: "/vector2", type: "quantizedFlat" },
-          { path: "/vector3", type: "diskANN" },
-        ],
+        vectorIndexes: [{ path: "/vector1", type: "flat" }],
       };
       const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
         vectorEmbeddings: [
@@ -431,23 +336,11 @@ describe.skip("Vector search feature", async () => {
             dimensions: 2,
             distanceFunction: "euclidean",
           },
-          {
-            path: "/vector2",
-            dataType: "int8",
-            dimensions: 2,
-            distanceFunction: "dotproduct",
-          },
-          {
-            path: "/vector3",
-            dataType: "uint8",
-            dimensions: 2,
-            distanceFunction: "cosine",
-          },
         ],
       };
       const containerName = "vector embedding container 2";
 
-      container1 = (
+      container = (
         await database.containers.createIfNotExists({
           id: containerName,
           vectorEmbeddingPolicy: vectorEmbeddingPolicy,
@@ -459,97 +352,47 @@ describe.skip("Vector search feature", async () => {
       let vector1Value = 0.0001;
       const increment = 0.0001;
       for (let i = 0; i <= 2000; i++) {
-        await container1.items.create({
+        await container.items.create({
           id: i.toString(),
           vector1: [vector1Value, vector1Value],
-          vector2: [0, 0],
-          vector3: [0, 0],
         });
         vector1Value += increment;
       }
     });
 
-    it("should execute vector search query, large data", async function () {
+    it("should execute vector search query, large data OFFSET 0 LIMIT 1000", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT c.id AS Id  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 1000";
-      const iterator = container1.items.query(query);
-      // execute order by query on it
-      let id = 2000;
-      while (iterator.hasMoreResults()) {
-        const { resources: result } = await iterator.fetchNext();
-        if (result !== undefined) {
-          for (const item of result) {
-            assert.equal(item.Id, id.toString());
-            id--;
-          }
-        }
-      }
-      assert.equal(id, 1000);
+        "SELECT c.id AS Id, VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) AS similarityScore  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 1000";
+      await executeQueryAndVerifyOrder(container, query, 1000, true);
     });
 
-    it("should execute distinct vector search query, large data", async function () {
+    it("should execute distinct vector search query, large data OFFSET 0 LIMIT", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT DISTINCT c.id AS Id  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 1000";
-      const iterator = container1.items.query(query);
-      // execute order by query on it
-      let id = 2000;
-      while (iterator.hasMoreResults()) {
-        const { resources: result } = await iterator.fetchNext();
-        if (result !== undefined) {
-          for (const item of result) {
-            assert.equal(item.Id, id.toString());
-            id--;
-          }
-        }
-      }
-      assert.equal(id, 1000);
+        "SELECT DISTINCT c.id AS Id, VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 1000";
+      await executeQueryAndVerifyOrder(container, query, 1000, true);
     });
 
     it("should execute vector search query with top in query, large data", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT TOP 1000 c.id AS Id  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'})";
-      const iterator = container1.items.query(query);
-      // execute order by query on it
-      let id = 2000;
-      while (iterator.hasMoreResults()) {
-        const { resources: result } = await iterator.fetchNext();
-        if (result !== undefined) {
-          for (const item of result) {
-            assert.equal(item.Id, id.toString());
-            id--;
-          }
-        }
-      }
-      assert.equal(id, 1000);
+        "SELECT TOP 1000 c.id AS Id, VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'})";
+      await executeQueryAndVerifyOrder(container, query, 1000, true);
     });
 
     it("should execute distinct vector search query with top in query, large data", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT DISTINCT TOP 1000 c.id AS Id  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'})";
-      const iterator = container1.items.query(query);
-      // execute order by query on it
-      let id = 2000;
-      while (iterator.hasMoreResults()) {
-        const { resources: result } = await iterator.fetchNext();
-        if (result !== undefined) {
-          for (const item of result) {
-            assert.equal(item.Id, id.toString());
-            id--;
-          }
-        }
-      }
-      assert.equal(id, 1000);
+        "SELECT DISTINCT TOP 1000 c.id AS Id, VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'})";
+      await executeQueryAndVerifyOrder(container, query, 1000, true);
     });
 
     it("should execute vector search query, large data with offset 1000 and limit 500", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT c.id AS Id  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 1000 LIMIT 500";
-      const iterator = container1.items.query(query);
+        "SELECT c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 1000 LIMIT 500";
+      const iterator = container.items.query(query);
       // execute order by query on it
       // offset is set to 1000, so id should start from 1000
       let id = 1000;
@@ -569,8 +412,8 @@ describe.skip("Vector search feature", async () => {
     it("should execute distinct vector search query, large data with offset 1000 and limit 500", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT DISTINCT c.id AS Id  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 1000 LIMIT 500";
-      const iterator = container1.items.query(query);
+        "SELECT DISTINCT c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 1000 LIMIT 500";
+      const iterator = container.items.query(query);
       // execute order by query on it
       // offset is set to 1000, so id should start from 1000
       let id = 1000;
@@ -592,3 +435,32 @@ describe.skip("Vector search feature", async () => {
     });
   });
 });
+
+async function executeQueryAndVerifyOrder(
+  container: Container,
+  query: string,
+  size: number,
+  isDescending: boolean,
+): Promise<void> {
+  const iterator = container.items.query(query);
+  let prevScore = isDescending ? Number.MAX_VALUE : -Number.MIN_VALUE;
+  let count = 0;
+  // execute order by query on it
+  while (iterator.hasMoreResults()) {
+    const { resources: result } = await iterator.fetchNext();
+    if (result !== undefined) {
+      // check for order of similarityScore for items
+      for (const item of result) {
+        const currentScore = item.similarityScore;
+        if (isDescending) {
+          assert(prevScore > currentScore, "Elements are not in descending order");
+        } else {
+          assert(prevScore < currentScore, "Elements are not in ascending order");
+        }
+        prevScore = currentScore;
+        count++;
+      }
+    }
+  }
+  assert.equal(count, size);
+}
