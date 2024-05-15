@@ -118,4 +118,9 @@ export interface FeedOptions extends SharedOptions {
    * This value is ignored if the query includes top/offset+limit clauses.
    */
   vectorSearchBufferSize?: number;
+  /**
+   * Disable the nonStreamingOrderBy query feature in supported query features.
+   * Default: false. Set to true to avoid error from an old gateway that doesn't support this feature.
+   */
+  disableNonStreamingOrderByQuery?: boolean;
 }

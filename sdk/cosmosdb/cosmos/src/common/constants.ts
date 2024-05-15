@@ -476,3 +476,17 @@ export enum SasTokenPermissionKind {
   TriggerReplace = PermissionScopeValues.ScopeTriggerReplaceValue,
   TriggerDelete = PermissionScopeValues.ScopeTriggerDeleteValue,
 }
+
+export enum QueryFeature {
+  NonValueAggregate = "NonValueAggregate",
+  Aggregate = "Aggregate",
+  Distinct = "Distinct",
+  MultipleOrderBy = "MultipleOrderBy",
+  OffsetAndLimit = "OffsetAndLimit",
+  OrderBy = "OrderBy",
+  Top = "Top",
+  CompositeAggregate = "CompositeAggregate",
+  GroupBy = "GroupBy",
+  MultipleAggregates = "MultipleAggregates",
+  NonStreamingOrderBy = "NonStreamingOrderBy",
+}
