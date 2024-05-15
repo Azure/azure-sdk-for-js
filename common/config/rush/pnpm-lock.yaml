@@ -1190,6 +1190,19 @@ packages:
       - supports-color
     dev: false
 
+  /@azure-tools/test-credential@1.1.0:
+    resolution: {integrity: sha512-KFICQ9ke2OIQms3ZCoidKmH/opUsP9rHub4pdH8JTHh4atiYq2AKviMIgMyBC3ZYdOfsFfnMrm5PcH+0VDRafw==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure-tools/test-recorder': 3.1.0
+      '@azure/core-auth': 1.7.1
+      '@azure/core-util': 1.9.0
+      '@azure/identity': 4.0.1
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure-tools/test-recorder@3.1.0:
     resolution: {integrity: sha512-qDbZkrhz9OMyH3ijFAJVm1aUN3H1CVgAhW6826U9Pkk0TwcumjtHCx2mPzH8vY8Otl03s8So+Fac00PuyastVw==}
     engines: {node: '>=18.0.0'}
@@ -1444,6 +1457,14 @@ packages:
 
   /@azure/core-util@1.8.1:
     resolution: {integrity: sha512-L3voj0StUdJ+YKomvwnTv7gHzguJO+a6h30pmmZdRprJCM+RJlGMPxzuh4R7lhQu1jNmEtaHX5wvTgWLDAmbGQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 2.1.1
+      tslib: 2.6.2
+    dev: false
+
+  /@azure/core-util@1.9.0:
+    resolution: {integrity: sha512-AfalUQ1ZppaKuxPPMsFEUdX6GZPB3d9paR9d/TTL7Ow2De8cJaC7ibi7kWVlFAVPCYo31OcnGymc0R89DX8Oaw==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@azure/abort-controller': 2.1.1
@@ -13790,11 +13811,11 @@ packages:
     dev: false
 
   file:projects/arm-edgezones.tgz:
-    resolution: {integrity: sha512-61QB3QuXFT4visbjnCEVhQLd4ukhpwwKwLnSV6l6msV85qSx5bFIPBKj4Mz8gsTJjIFcm+MkjkE2ZDzQ5YQ3nw==, tarball: file:projects/arm-edgezones.tgz}
+    resolution: {integrity: sha512-SGoJhGFRAVDS12RFGm7HDSWNqxqMi5j4byi74Zn7GXtCK02x4qjhIOXo9k+dsCAMGen9wzGk5NB4395cniSlWw==, tarball: file:projects/arm-edgezones.tgz}
     name: '@rush-temp/arm-edgezones'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.4
+      '@azure-tools/test-credential': 1.1.0
       '@azure-tools/test-recorder': 3.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
