@@ -46,7 +46,7 @@ import {
   GetRevisionsResponse,
   GetSnapshotsResponse,
 } from "./generated/src/models";
-import { Instrumenter, TracingClient, createTracingClient } from "@azure/core-tracing";
+import { Instrumenter, TracingClient } from "@azure/core-tracing";
 import { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
 import {
@@ -82,6 +82,7 @@ import { InternalClientPipelineOptions } from "@azure/core-client";
 import { SecretReferenceValue } from "./secretReference";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { logger } from "./logger";
+import { tracing } from "./internal/tracing";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -188,7 +189,7 @@ export class AppConfigurationClient {
     );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
-    this.tracingClient = createTracingClient({
+    this.tracingClient = tracing.createTracingClient({
       namespace: "Microsoft.AppConfiguration",
       packageName: "@azure/app-configuration",
       packageVersion,
