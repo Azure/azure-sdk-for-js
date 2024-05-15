@@ -8,7 +8,7 @@ import { MockInstrumenter } from "./mockInstrumenter";
 import { MockTracingSpan } from "./mockTracingSpan";
 import { assert } from "chai";
 
-const instrumenter = new MockInstrumenter();
+export const instrumenter = new MockInstrumenter();
 
 /**
  * The supports Tracing function does the verification of whether the core-tracing is supported correctly with the client method

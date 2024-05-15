@@ -26,3 +26,5 @@ export * from "./fakeTestSecrets";
 export { createXhrHttpClient } from "./xhrHttpClient";
 
 export { createMockTracingContext } from "./tracing/mockContext";
+
+export { instrumenter } from "./tracing/chaiAzureTrace";

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import {
+  Instrumenter,
   OperationTracingOptions,
   OptionsWithTracingContext,
   Resolved,
@@ -11,6 +12,7 @@ import {
   TracingSpan,
   TracingSpanOptions,
 } from "./interfaces.js";
+
 import { getInstrumenter } from "./instrumenter.js";
 import { knownContextKeys } from "./tracingContext.js";
 
@@ -23,6 +25,10 @@ import { knownContextKeys } from "./tracingContext.js";
 export function createTracingClient(options: TracingClientOptions): TracingClient {
   const { namespace, packageName, packageVersion } = options;
 
+  function instrumenter(): Instrumenter {
+    return options.instrumenter ?? getInstrumenter();
+  }
+
   function startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
     operationOptions?: Options,
@@ -31,7 +37,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     span: TracingSpan;
     updatedOptions: OptionsWithTracingContext<Options>;
   } {
-    const startSpanResult = getInstrumenter().startSpan(name, {
+    const startSpanResult = instrumenter().startSpan(name, {
       ...spanOptions,
       packageName: packageName,
       packageVersion: packageVersion,
@@ -88,7 +94,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     callback: Callback,
     ...callbackArgs: CallbackArgs
   ): ReturnType<Callback> {
-    return getInstrumenter().withContext(context, callback, ...callbackArgs);
+    return instrumenter().withContext(context, callback, ...callbackArgs);
   }
 
   /**
@@ -98,7 +104,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
    * @returns An implementation-specific identifier for the span.
    */
   function parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined {
-    return getInstrumenter().parseTraceparentHeader(traceparentHeader);
+    return instrumenter().parseTraceparentHeader(traceparentHeader);
   }
 
   /**
@@ -108,7 +114,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
    * @returns The set of headers to add to a request.
    */
   function createRequestHeaders(tracingContext?: TracingContext): Record<string, string> {
-    return getInstrumenter().createRequestHeaders(tracingContext);
+    return instrumenter().createRequestHeaders(tracingContext);
   }
 
   return {

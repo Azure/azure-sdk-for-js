@@ -41,20 +41,19 @@ import {
   AppConfigurationGetKeyValuesHeaders,
   AppConfigurationGetRevisionsHeaders,
   AppConfigurationGetSnapshotsHeaders,
+  ConfigurationSnapshot,
   GetKeyValuesResponse,
   GetRevisionsResponse,
   GetSnapshotsResponse,
-  ConfigurationSnapshot,
 } from "./generated/src/models";
-import { InternalClientPipelineOptions } from "@azure/core-client";
+import { Instrumenter, TracingClient, createTracingClient } from "@azure/core-tracing";
+import { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
 import {
   PipelinePolicy,
-  bearerTokenAuthenticationPolicy,
   RestError,
+  bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
-import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   SendConfigurationSettingsOptions,
   assertResponse,
@@ -73,14 +72,16 @@ import {
   transformKeyValueResponseWithStatusCode,
   transformSnapshotResponse,
 } from "./internal/helpers";
+import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { appConfigurationApiVersion, packageVersion } from "./internal/constants";
+
 import { AppConfiguration } from "./generated/src/appConfiguration";
 import { FeatureFlagValue } from "./featureFlag";
+import { InternalClientPipelineOptions } from "@azure/core-client";
 import { SecretReferenceValue } from "./secretReference";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
-import { tracingClient } from "./internal/tracing";
 import { logger } from "./logger";
-import { OperationState, SimplePollerLike } from "@azure/core-lro";
-import { appConfigurationApiVersion } from "./internal/constants";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -106,6 +107,7 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
    * NOTE: this is an internal option, not for general client usage.
    */
   syncTokens?: SyncTokens;
+  instrumenter?: Instrumenter;
 }
 
 /**
@@ -114,6 +116,7 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
 export class AppConfigurationClient {
   private client: AppConfiguration;
   private _syncTokens: SyncTokens;
+  private tracingClient: TracingClient;
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
@@ -185,6 +188,12 @@ export class AppConfigurationClient {
     );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
+    this.tracingClient = createTracingClient({
+      namespace: "Microsoft.AppConfiguration",
+      packageName: "@azure/app-configuration",
+      packageVersion,
+      instrumenter: appConfigOptions.instrumenter,
+    });
   }
 
   /**
@@ -205,7 +214,7 @@ export class AppConfigurationClient {
       | AddConfigurationSettingParam<SecretReferenceValue>,
     options: AddConfigurationSettingOptions = {},
   ): Promise<AddConfigurationSettingResponse> {
-    return tracingClient.withSpan(
+    return this.tracingClient.withSpan(
       "AppConfigurationClient.addConfigurationSetting",
       options,
       async (updatedOptions) => {
@@ -248,7 +257,7 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: DeleteConfigurationSettingOptions = {},
   ): Promise<DeleteConfigurationSettingResponse> {
-    return tracingClient.withSpan(
+    return this.tracingClient.withSpan(
       "AppConfigurationClient.deleteConfigurationSetting",
       options,
       async (updatedOptions) => {
@@ -284,7 +293,7 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: GetConfigurationSettingOptions = {},
   ): Promise<GetConfigurationSettingResponse> {
-    return tracingClient.withSpan(
+    return this.tracingClient.withSpan(
       "AppConfigurationClient.getConfigurationSetting",
       options,
       async (updatedOptions) => {
@@ -428,7 +437,7 @@ export class AppConfigurationClient {
     options: SendConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
   ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
-    return tracingClient.withSpan(
+    return this.tracingClient.withSpan(
       "AppConfigurationClient.listConfigurationSettings",
       options,
       async (updatedOptions) => {
@@ -484,7 +493,7 @@ export class AppConfigurationClient {
     options: ListConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
   ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
-    return tracingClient.withSpan(
+    return this.tracingClient.withSpan(
       "AppConfigurationClient.listRevisions",
       options,
       async (updatedOptions) => {
@@ -519,7 +528,7 @@ export class AppConfigurationClient {
       | SetConfigurationSettingParam<SecretReferenceValue>,
     options: SetConfigurationSettingOptions = {},
   ): Promise<SetConfigurationSettingResponse> {
-    return tracingClient.withSpan(
+    return this.tracingClient.withSpan(
       "AppConfigurationClient.setConfigurationSetting",
       options,
       async (updatedOptions) => {
@@ -548,7 +557,7 @@ export class AppConfigurationClient {
     readOnly: boolean,
     options: SetReadOnlyOptions = {},
   ): Promise<SetReadOnlyResponse> {
-    return tracingClient.withSpan(
+    return this.tracingClient.withSpan(
       "AppConfigurationClient.setReadOnly",
       options,
       async (newOptions) => {
@@ -592,7 +601,7 @@ export class AppConfigurationClient {
     snapshot: SnapshotInfo,
     options: CreateSnapshotOptions = {},
   ): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>> {
-    return tracingClient.withSpan(
+    return this.tracingClient.withSpan(
       `${AppConfigurationClient.name}.beginCreateSnapshot`,
       options,
       (updatedOptions) =>
@@ -608,7 +617,7 @@ export class AppConfigurationClient {
     snapshot: SnapshotInfo,
     options: CreateSnapshotOptions = {},
   ): Promise<CreateSnapshotResponse> {
-    return tracingClient.withSpan(
+    return this.tracingClient.withSpan(
       `${AppConfigurationClient.name}.beginCreateSnapshotAndWait`,
       options,
       (updatedOptions) =>
@@ -627,7 +636,7 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   getSnapshot(name: string, options: GetSnapshotOptions = {}): Promise<GetSnapshotResponse> {
-    return tracingClient.withSpan(
+    return this.tracingClient.withSpan(
       "AppConfigurationClient.getSnapshot",
       options,
       async (updatedOptions) => {
@@ -656,7 +665,7 @@ export class AppConfigurationClient {
     name: string,
     options: UpdateSnapshotOptions = {},
   ): Promise<UpdateSnapshotResponse> {
-    return tracingClient.withSpan(
+    return this.tracingClient.withSpan(
       "AppConfigurationClient.recoverSnapshot",
       options,
       async (updatedOptions) => {
@@ -692,7 +701,7 @@ export class AppConfigurationClient {
     name: string,
     options: UpdateSnapshotOptions = {},
   ): Promise<UpdateSnapshotResponse> {
-    return tracingClient.withSpan(
+    return this.tracingClient.withSpan(
       "AppConfigurationClient.archiveSnapshot",
       options,
       async (updatedOptions) => {
@@ -752,7 +761,7 @@ export class AppConfigurationClient {
     options: ListSnapshotsOptions & PageSettings = {},
     pageLink: string | undefined,
   ): Promise<GetSnapshotsResponse & HttpResponseField<AppConfigurationGetSnapshotsHeaders>> {
-    return tracingClient.withSpan(
+    return this.tracingClient.withSpan(
       "AppConfigurationClient.listSnapshots",
       options,
       async (updatedOptions) => {

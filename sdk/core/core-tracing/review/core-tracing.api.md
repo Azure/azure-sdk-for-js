@@ -76,6 +76,8 @@ export interface TracingClient {
 
 // @public
 export interface TracingClientOptions {
+    // (undocumented)
+    instrumenter?: Instrumenter;
     namespace: string;
     packageName: string;
     packageVersion?: string;

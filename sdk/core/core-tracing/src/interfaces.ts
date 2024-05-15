@@ -112,6 +112,7 @@ export interface TracingClientOptions {
   packageName: string;
   /** An optional version of the package invoking this trace. */
   packageVersion?: string;
+  instrumenter?: Instrumenter;
 }
 
 /** The kind of span. */
