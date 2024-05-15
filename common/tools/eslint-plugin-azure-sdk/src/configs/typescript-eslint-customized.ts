@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import typescriptEslint from "typescript-eslint";
-import { SharedConfig } from "@typescript-eslint/utils/ts-eslint";
+import type { SharedConfig } from "@typescript-eslint/utils/ts-eslint";
 
 const rules: Record<string, SharedConfig.RuleEntry> = {
   "@typescript-eslint/no-invalid-this": "off",
@@ -65,18 +65,17 @@ const rules: Record<string, SharedConfig.RuleEntry> = {
 };
 
 export default {
+  name: "typescript-eslint-azsdk-customized",
   files: ["*.ts", "*.cts", "*.mts", "*.tsx", "*.json"],
-  excludedFiles: ["**/*.md/*.ts", "**/*.md/*.json", "**/src/**/*.json", "**/test/**/*.json"],
+  ignores: ["**/*.md/*.ts", "**/*.md/*.json", "**/src/**/*.json", "**/test/**/*.json"],
   plugins: {
     "@typescript-eslint": typescriptEslint.plugin,
   },
   languageOptions: {
     parser: typescriptEslint.parser,
     parserOptions: {
-      project: [
-        "./tsconfig.json",
-        "../../../common/tools/eslint-plugin-azure-sdk/tsconfig.lintjson.json",
-      ],
+      project: ["./tsconfig.json"],
+      extraFileExtensions: [".json"],
     },
   },
   rules,

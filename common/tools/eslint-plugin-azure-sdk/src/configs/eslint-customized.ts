@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import eslint from "@eslint/js";
-import { SharedConfig } from "@typescript-eslint/utils/ts-eslint";
+import type { SharedConfig } from "@typescript-eslint/utils/ts-eslint";
 
 const rules: Record<string, SharedConfig.RuleEntry> = {
   curly: ["error", "multi-line"],
@@ -32,9 +31,7 @@ const rules: Record<string, SharedConfig.RuleEntry> = {
   "no-shadow": "off",
 };
 
-export default {
-  plugins: {
-    eslint,
-  },
-  rules,
-};
+export default   {
+    name: "eslint-azsdk-customized",
+    rules,
+  };

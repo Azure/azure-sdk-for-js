@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
+import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
 import markdown from "eslint-plugin-markdown";
 import typescriptEslint from "typescript-eslint";
 
 const markdownConfigs: FlatConfig.ConfigArray = [
+    {
+    files: ["**/*.md"],
+    processor: "markdown/markdown",
+  },
   {
     plugins: {
       markdown,
@@ -13,11 +17,8 @@ const markdownConfigs: FlatConfig.ConfigArray = [
     },
   },
   {
-    files: ["**/*.md"],
-    processor: "markdown/markdown",
-  },
-  {
-    files: ["*.md/*.js"],
+    name: "markdown-azsdk-customized",
+    files: ["*.md/*.{js,javascript}"],
     rules: {
       "no-unused-vars": "off",
       "no-undef": "off",
@@ -36,8 +37,11 @@ const markdownConfigs: FlatConfig.ConfigArray = [
     },
   },
   {
-    files: ["*.md/*.ts"],
+    files: ["*.md/*.{ts,typescript}"],
     ...typescriptEslint.configs.disableTypeChecked,
+    rules: {
+      "@typescript-eslint/no-unused-vars": "off",
+    }
   },
 ];
 
