@@ -11,6 +11,9 @@ import OpenAI, { AzureOpenAI } from "openai";
 import { AuthMethod } from "./utils/types.js";
 import { AssistantTool } from "openai/resources/beta/assistants.mjs";
 
+interface Metadata {
+  foo: string;
+}
 describe("OpenAIAssistants", () => {
   let recorder: Recorder;
   let models: string[] = [];
@@ -31,6 +34,7 @@ describe("OpenAIAssistants", () => {
   matrix([authTypes] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
       let client: OpenAI | AzureOpenAI;
+      let deploymentName: string;
       const codeAssistant = {
         tools: [{ type: "code_interpreter" }] as AssistantTool[],
         model: "gpt-4-1106-preview",
@@ -59,387 +63,408 @@ describe("OpenAIAssistants", () => {
           const listLength = 1;
           const oneAssistantList = await client.beta.assistants.list({ limit: listLength });
           assert.equal(oneAssistantList.data.length, listLength);
-          assert.equal(oneAssistantList.first_id, oneAssistantList.lastId);
-          assert.equal(oneAssistantList.firstId, oneAssistantList.lastId);
-          assert.equal(oneAssistantList.data[0].id, oneAssistantList.firstId);
+          const firstID = (oneAssistantList as any).first_id;
+          const lastID = (oneAssistantList as any).last_id;
+          assert.equal(firstID, lastID);
+          assert.equal(oneAssistantList.data[0].id, firstID);
 
           const deleteAssistantResponse = await client.beta.assistants.del(assistantResponse.id);
           assert.equal(deleteAssistantResponse.deleted, true);
         });
 
-        // it("creates, gets, modifies, and deletes a thread", async function () {
-        //   const metadataValue = "bar";
-        //   const thread = {
-        //     metadata: { foo: metadataValue },
-        //   };
-        //   const threadResponse = await client.createThread(thread);
-        //   assert.isNotNull(threadResponse.id);
-        //   assert.equal(threadResponse.metadata?.foo, metadataValue);
-        //   const getThreadResponse = await client.getThread(threadResponse.id);
-        //   assert.equal(threadResponse.id, getThreadResponse.id);
-        //   assert.equal(getThreadResponse.metadata?.foo, metadataValue);
+        it("creates, gets, modifies, and deletes a thread", async function () {
+          const metadataValue = "bar";
+          const thread = {
+            metadata: { foo: metadataValue },
+          };
 
-        //   const newMetadataValue = "other value";
-        //   thread.metadata.foo = newMetadataValue;
+          deploymentName = "gpt-4-1106-preview";
+          const threadResponse = await client.beta.assistants.create({
+            model: deploymentName,
+            ...thread,
+          });
+          assert.isNotNull(threadResponse.id);
+          assert.equal((threadResponse.metadata as Metadata).foo, metadataValue);
+          const getThreadResponse = await client.beta.threads.retrieve(threadResponse.id);
+          assert.equal(threadResponse.id, getThreadResponse.id);
+          assert.equal((getThreadResponse.metadata as Metadata).foo, metadataValue);
 
-        //   const updateThreadResponse = await client.updateThread(threadResponse.id, thread);
-        //   assert.equal(threadResponse.id, updateThreadResponse.id);
-        //   assert.equal(updateThreadResponse.metadata?.foo, newMetadataValue);
-        //   const deleteThreadResponse = await client.deleteThread(threadResponse.id);
-        //   assert.equal(deleteThreadResponse.deleted, true);
-        // });
-        // it("creates, gets, modifies, and lists a message", async function () {
-        //   const thread = {
-        //     messages: [],
-        //   };
-        //   const threadResponse = await client.createThread(thread);
-        //   assert.isNotNull(threadResponse.id);
-        //   const role = "user";
-        //   const content = "explain the fibonacci sequence";
+          const newMetadataValue = "other value";
+          thread.metadata.foo = newMetadataValue;
 
-        //   const metadataValue = "bar";
-        //   const messageOptions = {
-        //     file_ids: [],
-        //     metadata: { foo: metadataValue },
-        //   };
-        //   const messageResponse = await client.createMessage(
-        //     threadResponse.id,
-        //     role,
-        //     content,
-        //     messageOptions,
-        //   );
+          const updateThreadResponse = await client.beta.threads.update(threadResponse.id, thread);
+          assert.equal(threadResponse.id, updateThreadResponse.id);
+          assert.equal((updateThreadResponse.metadata as any).foo, newMetadataValue);
+          const deleteThreadResponse = await client.beta.threads.del(threadResponse.id);
+          assert.equal(deleteThreadResponse.deleted, true);
+        });
 
-        //   let messageContent = messageResponse.content[0];
-        //   assert.isNotNull(messageResponse.id);
-        //   assert.equal(messageResponse.role, role);
-        //   if (messageContent.type === "text") {
-        //     assert.equal(messageContent.text.value, content);
-        //   }
-        //   assert.equal(messageResponse.metadata?.foo, metadataValue);
-        //   const getMessageResponse = await client.getMessage(
-        //     threadResponse.id,
-        //     messageResponse.id || "",
-        //   );
-        //   messageContent = getMessageResponse.content[0];
-        //   assert.equal(messageResponse.id, getMessageResponse.id);
-        //   assert.equal(getMessageResponse.role, role);
-        //   if (messageContent.type === "text") {
-        //     assert.equal(messageContent.text.value, content);
-        //   }
-        //   assert.equal(getMessageResponse.metadata?.foo, metadataValue);
+        it("creates, gets, modifies, and lists a message", async function () {
+          const thread = {
+            messages: [],
+          };
+          const threadResponse = await client.beta.threads.create(thread);
+          assert.isNotNull(threadResponse.id);
+          const role = "user";
+          const content = "explain the fibonacci sequence";
 
-        //   const newMetadataValue = "other value";
-        //   messageOptions.metadata.foo = newMetadataValue;
+          const metadataValue = "bar";
+          const messageOptions = {
+            metadata: { foo: metadataValue },
+          };
+          const messageResponse = await client.beta.threads.messages.create(threadResponse.id, {
+            role,
+            content,
+            ...messageOptions,
+          });
 
-        //   const updateMessageResponse = await client.updateMessage(
-        //     threadResponse.id,
-        //     messageResponse.id || "",
-        //     messageOptions,
-        //   );
-        //   assert.equal(messageResponse.id, updateMessageResponse.id);
-        //   assert.equal(updateMessageResponse.metadata?.foo, newMetadataValue);
+          let messageContent = messageResponse.content[0];
+          assert.isNotNull(messageResponse.id);
+          assert.equal(messageResponse.role, role);
+          if (messageContent.type === "text") {
+            assert.equal(messageContent.text.value, content);
+          }
+          assert.equal((messageResponse.metadata as any).foo, metadataValue);
+          const getMessageResponse = await client.beta.threads.messages.retrieve(
+            threadResponse.id,
+            messageResponse.id || "",
+          );
+          messageContent = getMessageResponse.content[0];
+          assert.equal(messageResponse.id, getMessageResponse.id);
+          assert.equal(getMessageResponse.role, role);
+          if (messageContent.type === "text") {
+            assert.equal(messageContent.text.value, content);
+          }
+          assert.equal((getMessageResponse.metadata as any).foo, metadataValue);
 
-        //   const listLength = 1;
-        //   const oneMessageList = await client.listMessages(threadResponse.id, {
-        //     limit: listLength,
-        //   });
-        //   assert.equal(oneMessageList.data.length, listLength);
-        //   assert.equal(oneMessageList.firstId, oneMessageList.lastId);
-        //   assert.equal(oneMessageList.firstId, oneMessageList.lastId);
-        //   assert.equal(oneMessageList.data[0].id, oneMessageList.firstId);
-        // });
-        // it("uploads, gets, and lists a file", async function () {
-        //   /*
-        //   // move to node only, currently failing in browser
-        //   const filename = "sample_file_for_upload.txt";
-        //   const text = "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.";
-        //   const uint8 = Uint8Array.from(text.split("").map(x => x.charCodeAt(0)));
-        //   const uploadedFile = await client.uploadFile(uint8, "assistants", { filename });
-        //   assert.isNotNull(uploadedFile.id);
-        //   assert.equal(uploadedFile.filename, filename);
-        //   assert.equal(uploadedFile.bytes, uint8.length);
-        //   */
-        //   const fileList = await client.listFiles();
-        //   assert.isNotEmpty(fileList.data);
-        //   assert.isNotNull(fileList.data[0].id);
-        // });
-        // it("create, lists, gets, and cancels a run", async function () {
-        //   const assistant = await client.createAssistant({
-        //     model: "gpt-4-1106-preview",
-        //     name: "JS CI Math Tutor",
-        //     instructions:
-        //       "You are a personal math tutor. Write and run code to answer math questions.",
-        //     tools: [{ type: "code_interpreter" }],
-        //   });
-        //   assert.isNotNull(assistant.id);
-        //   const thread = await client.createThread();
-        //   assert.isNotNull(thread.id);
+          const newMetadataValue = "other value";
+          messageOptions.metadata.foo = newMetadataValue;
 
-        //   const metadataValue = "bar";
-        //   const metadata = { foo: metadataValue };
-        //   const instructions =
-        //     "Please address the user as Jane Doe. The user has a premium account.";
-        //   const run = await client.createRun(thread.id, {
-        //     assistantId: assistant.id,
-        //     instructions,
-        //     metadata,
-        //   });
-        //   assert.isNotNull(run.id);
-        //   assert.equal(run.threadId, thread.id);
-        //   assert.equal(run.assistantId, assistant.id);
-        //   assert.equal(run.instructions, instructions);
-        //   assert.equal(run.metadata?.foo, metadataValue);
+          const updateMessageResponse = await client.beta.threads.messages.update(
+            threadResponse.id,
+            messageResponse.id || "",
+            messageOptions,
+          );
+          assert.equal(messageResponse.id, updateMessageResponse.id);
+          assert.equal((updateMessageResponse.metadata as any).foo, newMetadataValue);
 
-        //   const runSteps = await client.listRunSteps(thread.id, run.id);
-        //   // with no messages, there should be no steps
-        //   assert.equal(runSteps.data.length, 0);
-        //   assert.equal(runSteps.firstId, null);
-        //   assert.equal(runSteps.lastId, null);
+          const listLength = 1;
+          const oneMessageList = await client.beta.threads.messages.list(threadResponse.id, {
+            limit: listLength,
+          });
+          assert.equal(oneMessageList.data.length, listLength);
+          const firstID = (oneMessageList as any).first_id;
+          const lastID = (oneMessageList as any).last_id;
+          assert.equal(firstID, lastID);
+          assert.equal(oneMessageList.data[0].id, firstID);
+        });
 
-        //   const listLength = 1;
-        //   const list = await client.listRuns(thread.id, { limit: listLength });
-        //   assert.equal(list.data.length, listLength);
-        //   assert.equal(list.firstId, list.lastId);
-        //   assert.equal(list.firstId, list.lastId);
-        //   assert.equal(list.data[0].id, list.firstId);
+        it("uploads, gets, and lists a file", async function () {
+          /*
+          // move to node only, currently failing in browser
+          const filename = "sample_file_for_upload.txt";
+          const text = "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.";
+          const uint8 = Uint8Array.from(text.split("").map(x => x.charCodeAt(0)));
+          const uploadedFile = await client.uploadFile(uint8, "assistants", { filename });
+          assert.isNotNull(uploadedFile.id);
+          assert.equal(uploadedFile.filename, filename);
+          assert.equal(uploadedFile.bytes, uint8.length);
+          */
+          const fileList = await client.files.list();
+          assert.isNotEmpty(fileList.data);
+          assert.isNotNull(fileList.data[0].id);
+        });
 
-        //   const cancel = await client.cancelRun(thread.id, run.id);
-        //   assert.equal(cancel.id, run.id);
-        //   assert.equal(cancel.threadId, thread.id);
-        //   assert.equal(cancel.assistantId, assistant.id);
-        //   assert.equal(cancel.instructions, instructions);
-        //   assert.equal(cancel.status, "cancelling");
+        it("create, lists, gets, and cancels a run", async function () {
+          const assistant = await client.beta.assistants.create({
+            model: "gpt-4-1106-preview",
+            name: "JS CI Math Tutor",
+            instructions:
+              "You are a personal math tutor. Write and run code to answer math questions.",
+            tools: [{ type: "code_interpreter" }],
+          });
+          assert.isNotNull(assistant.id);
+          const thread = await client.beta.threads.create();
+          assert.isNotNull(thread.id);
 
-        //   const getRun = await client.getRun(thread.id, run.id);
-        //   assert.equal(getRun.id, run.id);
-        //   assert.equal(getRun.threadId, thread.id);
-        //   assert.equal(getRun.assistantId, assistant.id);
-        //   assert.equal(getRun.instructions, instructions);
-        //   assert.equal(getRun.metadata?.foo, metadataValue);
+          const metadataValue = "bar";
+          const metadata = { foo: metadataValue };
+          const instructions =
+            "Please address the user as Jane Doe. The user has a premium account.";
+          const run = await client.beta.threads.runs.create(thread.id, {
+            assistant_id: assistant.id,
+            instructions,
+            metadata,
+          });
+          assert.isNotNull(run.id);
+          assert.equal(run.thread_id, thread.id);
+          assert.equal(run.assistant_id, assistant.id);
+          assert.equal(run.instructions, instructions);
+          assert.equal((run.metadata as Metadata).foo, metadataValue);
 
-        //   const deleteThreadResponse = await client.deleteThread(thread.id);
-        //   assert.equal(deleteThreadResponse.deleted, true);
+          const runSteps = await client.beta.threads.runs.steps.list(thread.id, run.id);
+          // with no messages, there should be no steps
+          assert.equal(runSteps.data.length, 0);
+          assert.equal((runSteps as any).first_id, null);
+          assert.equal((runSteps as any).last_id, null);
 
-        //   const deleteAssistantResponse = await client.deleteAssistant(assistant.id);
-        //   assert.equal(deleteAssistantResponse.deleted, true);
-        // });
+          const listLength = 1;
+          const list = await client.beta.threads.runs.list(thread.id, { limit: listLength });
+          assert.equal(list.data.length, listLength);
+          const firstID = (list as any).first_id;
+          const lastID = (list as any).last_id;
+          assert.equal(firstID, lastID);
+          assert.equal(list.data[0].id, firstID);
+
+          const cancel = await client.beta.threads.runs.cancel(thread.id, run.id);
+          assert.equal(cancel.id, run.id);
+          assert.equal(cancel.thread_id, thread.id);
+          assert.equal(cancel.assistant_id, assistant.id);
+          assert.equal(cancel.instructions, instructions);
+          assert.equal(cancel.status, "cancelling");
+
+          const getRun = await client.beta.threads.runs.retrieve(thread.id, run.id);
+          assert.equal(getRun.id, run.id);
+          assert.equal(getRun.thread_id, thread.id);
+          assert.equal(getRun.assistant_id, assistant.id);
+          assert.equal(getRun.instructions, instructions);
+          assert.equal((getRun.metadata as Metadata).foo, metadataValue);
+
+          const deleteThreadResponse = await client.beta.threads.del(thread.id);
+          assert.equal(deleteThreadResponse.deleted, true);
+
+          const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+          assert.equal(deleteAssistantResponse.deleted, true);
+        });
       });
-      // describe("user scenarios", function () {
-      //   it("create and run code interpreter scenario", async function () {
-      //     const assistant = await client.createAssistant(codeAssistant);
-      //     assertAssistantEquality(codeAssistant, assistant);
-      //     const thread = await client.createThread();
-      //     assert.isNotNull(thread.id);
-      //     const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
-      //     const role = "user";
-      //     const message = await client.createMessage(thread.id, role, question);
+      describe("user scenarios", function () {
+        it("create and run code interpreter scenario", async function () {
+          const assistant = await client.beta.assistants.create(codeAssistant);
+          assertAssistantEquality(codeAssistant, assistant);
+          const thread = await client.beta.threads.create();
+          assert.isNotNull(thread.id);
+          const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
+          const role = "user";
+          const message = await client.beta.threads.messages.create(thread.id, {
+            role,
+            content: question,
+          });
 
-      //     const messageContent = message.content[0];
-      //     assert.isNotNull(message.id);
-      //     assert.equal(message.role, role);
-      //     if (messageContent.type === "text") {
-      //       assert.equal(messageContent.text.value, question);
-      //     }
+          const messageContent = message.content[0];
+          assert.isNotNull(message.id);
+          assert.equal(message.role, role);
+          if (messageContent.type === "text") {
+            assert.equal(messageContent.text.value, question);
+          }
 
-      //     const instructions =
-      //       "Please address the user as Jane Doe. The user has a premium account.";
-      //     let run = await client.createRun(thread.id, { assistantId: assistant.id, instructions });
-      //     assert.isNotNull(run.id);
-      //     assert.equal(run.threadId, thread.id);
-      //     assert.equal(run.assistantId, assistant.id);
-      //     assert.equal(run.instructions, instructions);
+          const instructions =
+            "Please address the user as Jane Doe. The user has a premium account.";
+          let run = await client.beta.threads.runs.create(thread.id, {
+            assistant_id: assistant.id,
+            instructions,
+          });
+          assert.isNotNull(run.id);
+          assert.equal(run.thread_id, thread.id);
+          assert.equal(run.assistant_id, assistant.id);
+          assert.equal(run.instructions, instructions);
 
-      //     do {
-      //       await new Promise((resolve) => setTimeout(resolve, 500));
-      //       run = await client.getRun(thread.id, run.id);
-      //       const listLength = 1;
-      //       const runSteps = await client.listRunSteps(thread.id, run.id, {
-      //         limit: listLength,
-      //       });
-      //       if (runSteps.data.length > 0) {
-      //         const runStep = runSteps.data[0];
-      //         assert.isNotNull(runStep.id);
-      //         assert.equal(runSteps.data.length, listLength);
+          do {
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            run = await client.beta.threads.runs.retrieve(thread.id, run.id);
+            const listLength = 1;
+            const runSteps = await client.beta.threads.runs.steps.list(thread.id, run.id, {
+              limit: listLength,
+            });
+            if (runSteps.data.length > 0) {
+              const runStep = runSteps.data[0];
+              assert.isNotNull(runStep.id);
+              assert.equal(runSteps.data.length, listLength);
 
-      //         const runMessage = await client.getRunStep(thread.id, run.id, runStep.id);
-      //         assert.equal(runStep.id, runMessage.id);
-      //         assert.equal(runMessage.runId, run.id);
-      //         assert.equal(runMessage.threadId, thread.id);
-      //         assert.equal(runMessage.assistantId, assistant.id);
-      //       }
-      //     } while (run.status === "queued" || run.status === "in_progress");
-      //     assert.equal(run.status, "completed");
+              const runMessage = await client.beta.threads.runs.steps.retrieve(
+                thread.id,
+                run.id,
+                runStep.id,
+              );
+              assert.equal(runStep.id, runMessage.id);
+              assert.equal(runMessage.run_id, run.id);
+              assert.equal(runMessage.thread_id, thread.id);
+              assert.equal(runMessage.assistant_id, assistant.id);
+            }
+          } while (run.status === "queued" || run.status === "in_progress");
+          assert.equal(run.status, "completed");
 
-      //     const runMessages = await client.listMessages(thread.id);
-      //     for (const runMessageDatum of runMessages.data) {
-      //       for (const item of runMessageDatum.content) {
-      //         assert.equal(item.type, "text");
-      //         if (item.type === "text") {
-      //           assert.isNotEmpty(item.text.value);
-      //         }
-      //       }
-      //     }
-      //     const deleteThreadResponse = await client.deleteThread(thread.id);
-      //     assert.equal(deleteThreadResponse.deleted, true);
+          const runMessages = await client.beta.threads.messages.list(thread.id);
+          for (const runMessageDatum of runMessages.data) {
+            for (const item of runMessageDatum.content) {
+              assert.equal(item.type, "text");
+              if (item.type === "text") {
+                assert.isNotEmpty(item.text.value);
+              }
+            }
+          }
+          const deleteThreadResponse = await client.beta.threads.del(thread.id);
+          assert.equal(deleteThreadResponse.deleted, true);
 
-      //     const deleteAssistantResponse = await client.deleteAssistant(assistant.id);
-      //     assert.equal(deleteAssistantResponse.deleted, true);
-      //   });
-      //   it("create and run function scenario for assistant", async function () {
-      //     const favoriteCityFunctionName = "getUserFavoriteCity";
-      //     const favoriteCityFunctionDescription = "Gets the user's favorite city.";
-      //     const getFavoriteCity = (): string => "Atlanta, GA";
-      //     const getUserFavoriteCityTool = {
-      //       type: "function",
-      //       function: {
-      //         name: favoriteCityFunctionName,
-      //         description: favoriteCityFunctionDescription,
-      //         parameters: {
-      //           type: "object",
-      //           properties: {},
-      //         },
-      //       },
-      //     };
+          const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+          assert.equal(deleteAssistantResponse.deleted, true);
+        });
+        it("create and run function scenario for assistant", async function () {
+          const favoriteCityFunctionName = "getUserFavoriteCity";
+          const favoriteCityFunctionDescription = "Gets the user's favorite city.";
+          const getFavoriteCity = (): string => "Atlanta, GA";
+          const getUserFavoriteCityTool = {
+            type: "function",
+            function: {
+              name: favoriteCityFunctionName,
+              description: favoriteCityFunctionDescription,
+              parameters: {
+                type: "object",
+                properties: {},
+              },
+            },
+          };
 
-      //     const getCityNickname = (city: string): string => {
-      //       switch (city) {
-      //         case "Atlanta, GA":
-      //           return "The ATL";
-      //         case "Seattle, WA":
-      //           return "The Emerald City";
-      //         case "Los Angeles, CA":
-      //           return "LA";
-      //         default:
-      //           return "Unknown";
-      //       }
-      //     };
+          const getCityNickname = (city: string): string => {
+            switch (city) {
+              case "Atlanta, GA":
+                return "The ATL";
+              case "Seattle, WA":
+                return "The Emerald City";
+              case "Los Angeles, CA":
+                return "LA";
+              default:
+                return "Unknown";
+            }
+          };
 
-      //     const getCityNicknameFunctionName = "getCityNickname";
-      //     const getCityNicknameFunctionDescription =
-      //       "Gets the nickname for a city, e.g. 'LA' for 'Los Angeles, CA'.";
-      //     const getCityNicknameTool = {
-      //       type: "function",
-      //       function: {
-      //         name: getCityNicknameFunctionName,
-      //         description: getCityNicknameFunctionDescription,
-      //         parameters: {
-      //           type: "object",
-      //           properties: {
-      //             city: {
-      //               type: "string",
-      //               description: "The city and state, e.g. San Francisco, CA",
-      //             },
-      //           },
-      //         },
-      //       },
-      //     };
+          const getCityNicknameFunctionName = "getCityNickname";
+          const getCityNicknameFunctionDescription =
+            "Gets the nickname for a city, e.g. 'LA' for 'Los Angeles, CA'.";
+          const getCityNicknameTool = {
+            type: "function",
+            function: {
+              name: getCityNicknameFunctionName,
+              description: getCityNicknameFunctionDescription,
+              parameters: {
+                type: "object",
+                properties: {
+                  city: {
+                    type: "string",
+                    description: "The city and state, e.g. San Francisco, CA",
+                  },
+                },
+              },
+            },
+          };
 
-      //     let favoriteCityCalled = false;
-      //     let nicknameCalled = false;
-      //     const getResolvedToolOutput = (toolCall: {
-      //       id: string;
-      //       function?: any;
-      //     }): { output: string } => {
-      //       const toolOutput = { toolCallId: toolCall.id, output: "" };
-      //       if (toolCall["function"]) {
-      //         const functionCall = toolCall["function"];
-      //         const functionName = functionCall.name;
-      //         const functionArgs = JSON.parse(functionCall["arguments"] ?? {});
-      //         switch (functionName) {
-      //           case favoriteCityFunctionName:
-      //             toolOutput.output = getFavoriteCity();
-      //             favoriteCityCalled = true;
-      //             break;
-      //           case getCityNicknameFunctionName:
-      //             toolOutput.output = getCityNickname(functionArgs["city"]);
-      //             nicknameCalled = true;
-      //             break;
-      //           default:
-      //             toolOutput.output = `Unknown function: ${functionName}`;
-      //             break;
-      //         }
-      //       }
+          let favoriteCityCalled = false;
+          let nicknameCalled = false;
+          const getResolvedToolOutput = (toolCall: {
+            id: string;
+            function?: any;
+          }): { output: string } => {
+            const toolOutput = { toolCallId: toolCall.id, output: "" };
+            if (toolCall["function"]) {
+              const functionCall = toolCall["function"];
+              const functionName = functionCall.name;
+              const functionArgs = JSON.parse(functionCall["arguments"] ?? {});
+              switch (functionName) {
+                case favoriteCityFunctionName:
+                  toolOutput.output = getFavoriteCity();
+                  favoriteCityCalled = true;
+                  break;
+                case getCityNicknameFunctionName:
+                  toolOutput.output = getCityNickname(functionArgs["city"]);
+                  nicknameCalled = true;
+                  break;
+                default:
+                  toolOutput.output = `Unknown function: ${functionName}`;
+                  break;
+              }
+            }
 
-      //       return toolOutput;
-      //     };
+            return toolOutput;
+          };
 
-      //     const instructions = `You are a helpful assistant. Use the provided functions to help answer questions.
-      //         Customize your responses to the user's preferences as much as possible and use friendly
-      //         nicknames for cities whenever possible.
-      //     `;
-      //     const functionAssistant = {
-      //       model: "gpt-4-1106-preview",
-      //       name: "JS SDK Test Assistant - Nickname",
-      //       instructions,
-      //       tools: [getUserFavoriteCityTool, getCityNicknameTool] as ToolDefinition[],
-      //     };
-      //     const assistant = await client.createAssistant(functionAssistant);
-      //     assert.isNotNull(assistant.id);
-      //     const thread = await client.createThread();
-      //     assert.isNotNull(thread.id);
-      //     const content = "What's the nickname of my favorite city?";
-      //     const role = "user";
-      //     const message = await client.createMessage(thread.id, role, content);
-      //     assert.isNotNull(message.id);
-      //     assert.equal(message.threadId, thread.id);
-      //     let run = await client.createRun(
-      //       thread.id,
-      //       {
-      //         assistantId: assistant.id,
-      //         tools: [getUserFavoriteCityTool, getCityNicknameTool] as ToolDefinition[],
-      //       },
-      //       {
-      //         requestOptions: { timeout: 10000 },
-      //       },
-      //     );
+          const instructions = `You are a helpful assistant. Use the provided functions to help answer questions.
+              Customize your responses to the user's preferences as much as possible and use friendly
+              nicknames for cities whenever possible.
+          `;
+          const functionAssistant = {
+            model: "gpt-4-1106-preview",
+            name: "JS SDK Test Assistant - Nickname",
+            instructions,
+            tools: [getUserFavoriteCityTool, getCityNicknameTool] as AssistantTool[],
+          };
+          const assistant = await client.beta.assistants.create(functionAssistant);
+          assert.isNotNull(assistant.id);
+          const thread = await client.beta.threads.create();
+          assert.isNotNull(thread.id);
+          const content = "What's the nickname of my favorite city?";
+          const role = "user";
+          const message = await client.beta.threads.messages.create(thread.id, { role, content });
+          assert.isNotNull(message.id);
+          assert.equal(message.thread_id, thread.id);
+          let run = await client.beta.threads.runs.create(
+            thread.id,
+            {
+              assistant_id: assistant.id,
+              tools: [getUserFavoriteCityTool, getCityNicknameTool] as AssistantTool[],
+            },
+            {
+              timeout: 10000,
+            },
+          );
 
-      //     const runId = run.id;
-      //     assert.isNotNull(runId);
+          const runId = run.id;
+          assert.isNotNull(runId);
 
-      //     do {
-      //       await new Promise((resolve) => setTimeout(resolve, 500));
-      //       run = await client.getRun(thread.id, run.id);
-      //       assert.equal(run.id, runId);
-      //       assert.equal(run.threadId, thread.id);
-      //       assert.equal(run.assistantId, assistant.id);
-      //       assert.equal(run.instructions, instructions);
+          do {
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            run = await client.beta.threads.runs.retrieve(thread.id, run.id);
+            assert.equal(run.id, runId);
+            assert.equal(run.thread_id, thread.id);
+            assert.equal(run.assistant_id, assistant.id);
+            assert.equal(run.instructions, instructions);
 
-      //       if (
-      //         run.status === "requires_action" &&
-      //         run.requiredAction?.type === "submit_tool_outputs"
-      //       ) {
-      //         const toolOutputs = [];
+            if (
+              run.status === "requires_action" &&
+              run.required_action?.type === "submit_tool_outputs"
+            ) {
+              const toolOutputs = [];
 
-      //         assert.notEqual(run.requiredAction?.submitToolOutputs?.toolCalls, undefined);
-      //         if (run.requiredAction?.submitToolOutputs?.toolCalls !== undefined) {
-      //           for (const toolCall of run.requiredAction.submitToolOutputs.toolCalls) {
-      //             toolOutputs.push(getResolvedToolOutput(toolCall));
-      //           }
-      //         }
-      //         run = await client.submitToolOutputsToRun(thread.id, run.id, toolOutputs);
-      //       }
-      //     } while (run.status === "queued" || run.status === "in_progress");
+              assert.notEqual(run.required_action?.submit_tool_outputs?.tool_calls, undefined);
+              if (run.required_action?.submit_tool_outputs?.tool_calls !== undefined) {
+                for (const toolCall of run.required_action.submit_tool_outputs.tool_calls) {
+                  toolOutputs.push(getResolvedToolOutput(toolCall));
+                }
+              }
+              run = await client.beta.threads.runs.submitToolOutputs(thread.id, run.id, {
+                tool_outputs: toolOutputs,
+              });
+            }
+          } while (run.status === "queued" || run.status === "in_progress");
 
-      //     assert.equal(favoriteCityCalled, true);
-      //     assert.equal(nicknameCalled, true);
+          assert.equal(favoriteCityCalled, true);
+          assert.equal(nicknameCalled, true);
 
-      //     const runMessages = await client.listMessages(thread.id);
-      //     for (const runMessageDatum of runMessages.data) {
-      //       for (const item of runMessageDatum.content) {
-      //         assert.equal(item.type, "text");
-      //         if (item.type === "text") {
-      //           assert.isNotEmpty(item.text?.value);
-      //         }
-      //       }
-      //     }
+          const runMessages = await client.beta.threads.messages.list(thread.id);
+          for (const runMessageDatum of runMessages.data) {
+            for (const item of runMessageDatum.content) {
+              assert.equal(item.type, "text");
+              if (item.type === "text") {
+                assert.isNotEmpty(item.text?.value);
+              }
+            }
+          }
 
-      //     const deleteThreadResponse = await client.deleteThread(thread.id);
-      //     assert.equal(deleteThreadResponse.deleted, true);
+          const deleteThreadResponse = await client.beta.threads.del(thread.id);
+          assert.equal(deleteThreadResponse.deleted, true);
 
-      //     const deleteAssistantResponse = await client.deleteAssistant(assistant.id);
-      //     assert.equal(deleteAssistantResponse.deleted, true);
-      //   });
-      // });
+          const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+          assert.equal(deleteAssistantResponse.deleted, true);
+        });
+      });
     });
   });
 });
