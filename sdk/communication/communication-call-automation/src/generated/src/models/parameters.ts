@@ -33,6 +33,8 @@ import {
   UnholdRequest as UnholdRequestMapper,
   StartHoldMusicRequest as StartHoldMusicRequestMapper,
   StopHoldMusicRequest as StopHoldMusicRequestMapper,
+  StartMediaStreamingRequest as StartMediaStreamingRequestMapper,
+  StopMediaStreamingRequest as StopMediaStreamingRequestMapper,
   StartDialogRequest as StartDialogRequestMapper,
   UpdateDialogRequest as UpdateDialogRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper,
@@ -243,6 +245,16 @@ export const startHoldMusicRequest: OperationParameter = {
 export const stopHoldMusicRequest: OperationParameter = {
   parameterPath: "stopHoldMusicRequest",
   mapper: StopHoldMusicRequestMapper,
+};
+
+export const startMediaStreamingRequest: OperationParameter = {
+  parameterPath: "startMediaStreamingRequest",
+  mapper: StartMediaStreamingRequestMapper,
+};
+
+export const stopMediaStreamingRequest: OperationParameter = {
+  parameterPath: "stopMediaStreamingRequest",
+  mapper: StopMediaStreamingRequestMapper,
 };
 
 export const startDialogRequest: OperationParameter = {

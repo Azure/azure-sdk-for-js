@@ -32,6 +32,10 @@ import {
   CallMediaStartHoldMusicOptionalParams,
   StopHoldMusicRequest,
   CallMediaStopHoldMusicOptionalParams,
+  StartMediaStreamingRequest,
+  CallMediaStartMediaStreamingOptionalParams,
+  StopMediaStreamingRequest,
+  CallMediaStopMediaStreamingOptionalParams,
 } from "../models";
 
 /** Interface representing a CallMedia. */
@@ -176,5 +180,27 @@ export interface CallMedia {
     callConnectionId: string,
     stopHoldMusicRequest: StopHoldMusicRequest,
     options?: CallMediaStopHoldMusicOptionalParams,
+  ): Promise<void>;
+  /**
+   * Starts media streaming in the call.
+   * @param callConnectionId The call connection id.
+   * @param startMediaStreamingRequest
+   * @param options The options parameters.
+   */
+  startMediaStreaming(
+    callConnectionId: string,
+    startMediaStreamingRequest: StartMediaStreamingRequest,
+    options?: CallMediaStartMediaStreamingOptionalParams,
+  ): Promise<void>;
+  /**
+   * Stops media streaming in the call.
+   * @param callConnectionId The call connection id.
+   * @param stopMediaStreamingRequest stop media streaming request payload.
+   * @param options The options parameters.
+   */
+  stopMediaStreaming(
+    callConnectionId: string,
+    stopMediaStreamingRequest: StopMediaStreamingRequest,
+    options?: CallMediaStopMediaStreamingOptionalParams,
   ): Promise<void>;
 }

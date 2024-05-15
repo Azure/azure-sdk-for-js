@@ -15,6 +15,7 @@ import {
   RecordingContent,
   RecordingChannel,
   RecordingFormat,
+  RecordingStorage,
   CallLocator,
   ChannelAffinity,
   CallIntelligenceOptions,
@@ -247,6 +248,8 @@ export interface StartRecordingOptions extends OperationOptions {
   recordingChannel?: RecordingChannel;
   /** The format type of call recording. */
   recordingFormat?: RecordingFormat;
+  /** Recording storage option. */
+  recordingStorage?: RecordingStorage;
   /** Pause on start call recording option. */
   pauseOnStart?: boolean;
   /**
