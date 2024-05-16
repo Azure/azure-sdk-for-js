@@ -3,6 +3,7 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
+  OnBehalfOfCredentialAssertionOptions,
   OnBehalfOfCredentialCertificateOptions,
   OnBehalfOfCredentialOptions,
   OnBehalfOfCredentialSecretOptions,
@@ -61,7 +62,7 @@ export class OnBehalfOfCredential implements TokenCredential {
   constructor(
     options: OnBehalfOfCredentialCertificateOptions &
       MultiTenantTokenCredentialOptions &
-      CredentialPersistenceOptions,
+      CredentialPersistenceOptions
   );
   /**
    * Creates an instance of the {@link OnBehalfOfCredential} with the details
@@ -87,22 +88,28 @@ export class OnBehalfOfCredential implements TokenCredential {
   constructor(
     options: OnBehalfOfCredentialSecretOptions &
       MultiTenantTokenCredentialOptions &
-      CredentialPersistenceOptions,
+      CredentialPersistenceOptions
   );
 
   constructor(options: OnBehalfOfCredentialOptions) {
     const { clientSecret } = options as OnBehalfOfCredentialSecretOptions;
     const { certificatePath, sendCertificateChain } =
       options as OnBehalfOfCredentialCertificateOptions;
+    const { getAssertion } = options as OnBehalfOfCredentialAssertionOptions;
     const {
       tenantId,
       clientId,
       userAssertionToken,
       additionallyAllowedTenants: additionallyAllowedTenantIds,
     } = options;
-    if (!tenantId || !clientId || !(clientSecret || certificatePath) || !userAssertionToken) {
+    if (
+      !tenantId ||
+      !clientId ||
+      !(clientSecret || certificatePath || getAssertion) ||
+      !userAssertionToken
+    ) {
       throw new Error(
-        `${credentialName}: tenantId, clientId, clientSecret (or certificatePath) and userAssertionToken are required parameters.`,
+        `${credentialName}: tenantId, clientId, clientSecret (or certificatePath or getAssertion) and userAssertionToken are required parameters.`
       );
     }
     this.certificatePath = certificatePath;
@@ -112,7 +119,7 @@ export class OnBehalfOfCredential implements TokenCredential {
 
     this.tenantId = tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      additionallyAllowedTenantIds,
+      additionallyAllowedTenantIds
     );
 
     this.msalClient = createMsalClient(clientId, this.tenantId, {
@@ -135,7 +142,7 @@ export class OnBehalfOfCredential implements TokenCredential {
         this.tenantId,
         newOptions,
         this.additionallyAllowedTenantIds,
-        logger,
+        logger
       );
 
       const arrayScopes = ensureScopes(scopes);
@@ -146,14 +153,14 @@ export class OnBehalfOfCredential implements TokenCredential {
           arrayScopes,
           this.userAssertionToken,
           clientCertificate,
-          newOptions,
+          newOptions
         );
       } else if (this.clientSecret) {
         return this.msalClient.getTokenOnBehalfOf(
           arrayScopes,
           this.userAssertionToken,
           this.clientSecret,
-          options,
+          options
         );
       } else {
         // this is a bug, as the constructor should have thrown an error if neither clientSecret nor certificatePath were provided
@@ -178,7 +185,7 @@ export class OnBehalfOfCredential implements TokenCredential {
 
   private async parseCertificate(
     configuration: ClientCertificatePEMCertificatePath,
-    sendCertificateChain?: boolean,
+    sendCertificateChain?: boolean
   ): Promise<Omit<CertificateParts, "privateKey"> & { certificateContents: string }> {
     const certificatePath = configuration.certificatePath;
     const certificateContents = await readFile(certificatePath, "utf8");

@@ -54,12 +54,35 @@ export interface OnBehalfOfCredentialCertificateOptions {
   sendCertificateChain?: boolean;
 }
 
+
+/**
+ * Defines the parameters to authenticate the {@link OnBehalfOfCredential} with an assertion.
+ */
+export interface OnBehalfOfCredentialAssertionOptions {
+  /**
+   * The Microsoft Entra tenant (directory) ID.
+   */
+  tenantId: string;
+  /**
+   * The client (application) ID of an App Registration in the tenant.
+   */
+  clientId: string;
+  /**
+   * A function that retrieves the client assertion for the credential to use
+   */
+  getAssertion: () => Promise<string>;
+  /**
+   * The user assertion for the On-Behalf-Of flow.
+   */
+  userAssertionToken: string;
+}
 /**
  * Optional parameters for the {@link OnBehalfOfCredential} class.
  */
 export type OnBehalfOfCredentialOptions = (
   | OnBehalfOfCredentialSecretOptions
   | OnBehalfOfCredentialCertificateOptions
+  | OnBehalfOfCredentialAssertionOptions
 ) &
   MultiTenantTokenCredentialOptions &
   CredentialPersistenceOptions &
