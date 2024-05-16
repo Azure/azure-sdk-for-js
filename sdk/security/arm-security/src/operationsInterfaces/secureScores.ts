@@ -11,7 +11,7 @@ import {
   SecureScoreItem,
   SecureScoresListOptionalParams,
   SecureScoresGetOptionalParams,
-  SecureScoresGetResponse
+  SecureScoresGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +22,7 @@ export interface SecureScores {
    * @param options The options parameters.
    */
   list(
-    options?: SecureScoresListOptionalParams
+    options?: SecureScoresListOptionalParams,
   ): PagedAsyncIterableIterator<SecureScoreItem>;
   /**
    * Get secure score for a specific Microsoft Defender for Cloud initiative within your current scope.
@@ -33,6 +33,6 @@ export interface SecureScores {
    */
   get(
     secureScoreName: string,
-    options?: SecureScoresGetOptionalParams
+    options?: SecureScoresGetOptionalParams,
   ): Promise<SecureScoresGetResponse>;
 }

@@ -20,13 +20,14 @@ import {
   RegulatoryComplianceControlsListResponse,
   RegulatoryComplianceControlsGetOptionalParams,
   RegulatoryComplianceControlsGetResponse,
-  RegulatoryComplianceControlsListNextResponse
+  RegulatoryComplianceControlsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RegulatoryComplianceControls operations. */
 export class RegulatoryComplianceControlsImpl
-  implements RegulatoryComplianceControls {
+  implements RegulatoryComplianceControls
+{
   private readonly client: SecurityCenter;
 
   /**
@@ -44,7 +45,7 @@ export class RegulatoryComplianceControlsImpl
    */
   public list(
     regulatoryComplianceStandardName: string,
-    options?: RegulatoryComplianceControlsListOptionalParams
+    options?: RegulatoryComplianceControlsListOptionalParams,
   ): PagedAsyncIterableIterator<RegulatoryComplianceControl> {
     const iter = this.listPagingAll(regulatoryComplianceStandardName, options);
     return {
@@ -61,16 +62,16 @@ export class RegulatoryComplianceControlsImpl
         return this.listPagingPage(
           regulatoryComplianceStandardName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     regulatoryComplianceStandardName: string,
     options?: RegulatoryComplianceControlsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RegulatoryComplianceControl[]> {
     let result: RegulatoryComplianceControlsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +86,7 @@ export class RegulatoryComplianceControlsImpl
       result = await this._listNext(
         regulatoryComplianceStandardName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -96,11 +97,11 @@ export class RegulatoryComplianceControlsImpl
 
   private async *listPagingAll(
     regulatoryComplianceStandardName: string,
-    options?: RegulatoryComplianceControlsListOptionalParams
+    options?: RegulatoryComplianceControlsListOptionalParams,
   ): AsyncIterableIterator<RegulatoryComplianceControl> {
     for await (const page of this.listPagingPage(
       regulatoryComplianceStandardName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -113,11 +114,11 @@ export class RegulatoryComplianceControlsImpl
    */
   private _list(
     regulatoryComplianceStandardName: string,
-    options?: RegulatoryComplianceControlsListOptionalParams
+    options?: RegulatoryComplianceControlsListOptionalParams,
   ): Promise<RegulatoryComplianceControlsListResponse> {
     return this.client.sendOperationRequest(
       { regulatoryComplianceStandardName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -130,15 +131,15 @@ export class RegulatoryComplianceControlsImpl
   get(
     regulatoryComplianceStandardName: string,
     regulatoryComplianceControlName: string,
-    options?: RegulatoryComplianceControlsGetOptionalParams
+    options?: RegulatoryComplianceControlsGetOptionalParams,
   ): Promise<RegulatoryComplianceControlsGetResponse> {
     return this.client.sendOperationRequest(
       {
         regulatoryComplianceStandardName,
         regulatoryComplianceControlName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -151,11 +152,11 @@ export class RegulatoryComplianceControlsImpl
   private _listNext(
     regulatoryComplianceStandardName: string,
     nextLink: string,
-    options?: RegulatoryComplianceControlsListNextOptionalParams
+    options?: RegulatoryComplianceControlsListNextOptionalParams,
   ): Promise<RegulatoryComplianceControlsListNextResponse> {
     return this.client.sendOperationRequest(
       { regulatoryComplianceStandardName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -163,65 +164,63 @@ export class RegulatoryComplianceControlsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards/{regulatoryComplianceStandardName}/regulatoryComplianceControls",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards/{regulatoryComplianceStandardName}/regulatoryComplianceControls",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegulatoryComplianceControlList
+      bodyMapper: Mappers.RegulatoryComplianceControlList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.filter, Parameters.apiVersion9],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.regulatoryComplianceStandardName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards/{regulatoryComplianceStandardName}/regulatoryComplianceControls/{regulatoryComplianceControlName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RegulatoryComplianceControl
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.regulatoryComplianceStandardName,
-    Parameters.regulatoryComplianceControlName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards/{regulatoryComplianceStandardName}/regulatoryComplianceControls/{regulatoryComplianceControlName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RegulatoryComplianceControl,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.regulatoryComplianceStandardName,
+    Parameters.regulatoryComplianceControlName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegulatoryComplianceControlList
+      bodyMapper: Mappers.RegulatoryComplianceControlList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.regulatoryComplianceStandardName
+    Parameters.regulatoryComplianceStandardName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

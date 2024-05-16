@@ -29,7 +29,7 @@ async function getTheAggregatedSecurityAnalyticsRecommendationOfYoursIoTSecurity
   const result = await client.iotSecuritySolutionsAnalyticsRecommendation.get(
     resourceGroupName,
     solutionName,
-    aggregatedRecommendationName
+    aggregatedRecommendationName,
   );
   console.log(result);
 }

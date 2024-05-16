@@ -30,7 +30,7 @@ async function deleteAnApplicationControlMachineGroup() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.adaptiveApplicationControls.delete(
     ascLocation,
-    groupName
+    groupName,
   );
   console.log(result);
 }
