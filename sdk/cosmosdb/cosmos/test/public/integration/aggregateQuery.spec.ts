@@ -272,6 +272,7 @@ describe("Aggregate Query", function (this: Suite) {
   it("should not error for MAX queries on with empty results", async () => {
     const queryIterator = container.items.query("SELECT VALUE MAX(r.missing) from r", {
       maxItemCount: 2,
+      disableNonStreamingOrderByQuery: true,
     });
     const response = await queryIterator.fetchAll();
     assert(response.resources.length === 0);
