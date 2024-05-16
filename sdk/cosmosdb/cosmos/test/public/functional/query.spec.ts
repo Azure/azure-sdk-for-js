@@ -256,7 +256,9 @@ describe("Queries", function (this: Suite) {
         await container.items.create({ id: "AndersenFamily" });
         await container.items.create({ id: "1" });
 
-        const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c");
+        const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c", {
+          disableNonStreamingOrderByQuery: true,
+        });
         const { resources: sum } = await queryIterator.fetchAll();
         assert.equal(sum.length, 0);
       });
@@ -276,7 +278,9 @@ describe("Queries", function (this: Suite) {
         await container.items.create({ id: "AndersenFamily" });
         await container.items.create({ id: "1" });
 
-        const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c");
+        const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c", {
+          disableNonStreamingOrderByQuery: true,
+        });
         const { resources: sum } = await queryIterator.fetchAll();
         assert.equal(sum.length, 0);
       });
@@ -296,7 +300,9 @@ describe("Queries", function (this: Suite) {
         await container.items.create({ id: "AndersenFamily" });
         await container.items.create({ id: "1" });
 
-        const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c");
+        const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c", {
+          disableNonStreamingOrderByQuery: true,
+        });
         const { resources: sum } = await queryIterator.fetchAll();
         assert.equal(sum.length, 0);
       });
@@ -316,7 +322,9 @@ describe("Queries", function (this: Suite) {
         await container.items.create({ id: "AndersenFamily" });
         await container.items.create({ id: "1" });
 
-        const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c");
+        const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c", {
+          disableNonStreamingOrderByQuery: true,
+        });
         const { resources: sum } = await queryIterator.fetchAll();
         assert.equal(sum.length, 1);
         assert.equal(sum[0], 66);
