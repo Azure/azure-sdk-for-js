@@ -266,6 +266,7 @@ describe("Cross Partition", function (this: Suite) {
       const options = {
         maxItemCount: 2,
         maxDegreeOfParallelism: 0,
+        disableNonStreamingOrderByQuery: true,
       };
 
       // validates the results size and order
@@ -283,6 +284,7 @@ describe("Cross Partition", function (this: Suite) {
         maxDegreeOfParallelism: -1,
         forceQueryPlan: true,
         populateQueryMetrics: true,
+        disableNonStreamingOrderByQuery: true,
       };
 
       // validates the results size and order
@@ -298,6 +300,7 @@ describe("Cross Partition", function (this: Suite) {
       const options = {
         maxItemCount: 2,
         maxDegreeOfParallelism: 1,
+        disableNonStreamingOrderByQuery: true,
       };
 
       // validates the results size and order
@@ -314,6 +317,7 @@ describe("Cross Partition", function (this: Suite) {
         maxItemCount: 2,
         maxDegreeOfParallelism: 3,
         bufferItems: true,
+        disableNonStreamingOrderByQuery: true,
       };
 
       // validates the results size and order
@@ -329,6 +333,7 @@ describe("Cross Partition", function (this: Suite) {
       const options = {
         maxItemCount: 2,
         maxDegreeOfParallelism: 0,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
@@ -349,6 +354,7 @@ describe("Cross Partition", function (this: Suite) {
       const options = {
         maxItemCount: 2,
         maxDegreeOfParallelism: 1,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
@@ -369,6 +375,7 @@ describe("Cross Partition", function (this: Suite) {
       const options = {
         maxItemCount: 2,
         maxDegreeOfParallelism: 3,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
@@ -389,6 +396,7 @@ describe("Cross Partition", function (this: Suite) {
       const options = {
         maxItemCount: 2,
         maxDegreeOfParallelism: -1,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
@@ -408,6 +416,7 @@ describe("Cross Partition", function (this: Suite) {
       const query = "SELECT DISTINCT VALUE r.spam3 FROM root r";
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       // validates the results size and order
@@ -419,6 +428,7 @@ describe("Cross Partition", function (this: Suite) {
       const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3 DESC";
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = ["eggs2", "eggs1", "eggs0"];
@@ -456,6 +466,7 @@ describe("Cross Partition", function (this: Suite) {
       const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
       const options = {
         maxItemCount: 1,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
@@ -473,6 +484,7 @@ describe("Cross Partition", function (this: Suite) {
       const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
       const options = {
         maxItemCount: 20,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
@@ -490,6 +502,7 @@ describe("Cross Partition", function (this: Suite) {
       const query = "SELECT * FROM root r order by r.spam";
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
@@ -511,6 +524,7 @@ describe("Cross Partition", function (this: Suite) {
       };
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
@@ -532,6 +546,7 @@ describe("Cross Partition", function (this: Suite) {
       };
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
@@ -553,6 +568,7 @@ describe("Cross Partition", function (this: Suite) {
       };
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions
@@ -578,6 +594,7 @@ describe("Cross Partition", function (this: Suite) {
       };
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions
@@ -604,6 +621,7 @@ describe("Cross Partition", function (this: Suite) {
       };
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
@@ -656,6 +674,7 @@ describe("Cross Partition", function (this: Suite) {
       const query = util.format("SELECT top %d * FROM root r", topCount);
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       // prepare expected behaviour verifier
@@ -682,6 +701,7 @@ describe("Cross Partition", function (this: Suite) {
       const query = util.format("SELECT top %d * FROM root r", topCount);
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       // prepare expected behaviour verifier
@@ -712,6 +732,7 @@ describe("Cross Partition", function (this: Suite) {
       };
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       // prepare expected behaviour verifier
@@ -742,6 +763,7 @@ describe("Cross Partition", function (this: Suite) {
       };
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions
@@ -766,6 +788,7 @@ describe("Cross Partition", function (this: Suite) {
       };
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions
@@ -792,6 +815,7 @@ describe("Cross Partition", function (this: Suite) {
       };
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       // prepare expected behaviour verifier
@@ -808,6 +832,7 @@ describe("Cross Partition", function (this: Suite) {
       const query = "SELECT * FROM root r order by r.cnt";
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions.sort(compare("cnt")).map(function (r) {
@@ -827,6 +852,7 @@ describe("Cross Partition", function (this: Suite) {
       const query = "SELECT * FROM root r order by r.number";
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions.sort(compare("number")).map(function (r) {
@@ -846,6 +872,7 @@ describe("Cross Partition", function (this: Suite) {
       const query = "SELECT * FROM root r order by r.boolVar";
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const queryIterator = container.items.query(query, options);
@@ -877,6 +904,7 @@ describe("Cross Partition", function (this: Suite) {
       };
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       // validates the results size and order
@@ -898,6 +926,7 @@ describe("Cross Partition", function (this: Suite) {
       };
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       // validates the results size and order
@@ -920,6 +949,7 @@ describe("Cross Partition", function (this: Suite) {
       };
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions
@@ -947,6 +977,7 @@ describe("Cross Partition", function (this: Suite) {
       };
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = documentDefinitions
@@ -970,6 +1001,7 @@ describe("Cross Partition", function (this: Suite) {
 
       const options = {
         maxItemCount: 2,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const queryIterator = container.items.query(query, options);
