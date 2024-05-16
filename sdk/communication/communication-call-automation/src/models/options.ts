@@ -4,8 +4,8 @@
 import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
 import { OperationOptions } from "@azure/core-client";
 import {
-  MediaStreamingConfiguration,
-  TranscriptionConfiguration,
+  MediaStreamingOptions,
+  TranscriptionOptions,
   CallRejectReason,
   FileSource,
   TextSource,
@@ -110,9 +110,9 @@ export interface CreateCallOptions extends OperationOptions {
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
   /** Configuration of Media streaming. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  mediaStreamingOptions?: MediaStreamingOptions;
   /** Configuration of live transcription. */
-  transcriptionConfiguration?: TranscriptionConfiguration;
+  transcriptionOptions?: TranscriptionOptions;
   /** The Custom Context. */
   customCallingContext?: CustomCallingContext;
 }
@@ -124,9 +124,9 @@ export interface AnswerCallOptions extends OperationOptions {
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
   /** Configuration of Media streaming. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  mediaStreamingOptions?: MediaStreamingOptions;
   /** Configuration of live transcription. */
-  transcriptionConfiguration?: TranscriptionConfiguration;
+  transcriptionOptions?: TranscriptionOptions;
   /** The operation context. */
   operationContext?: string;
 }
@@ -216,6 +216,14 @@ export interface PlayOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
+}
+
+/**
+ * Options to playToAll audio.
+ */
+export interface PlayToAllOptions extends PlayOptions {
+  /** If set play can barge into other existing queued-up/currently-processing requests. */
+  interruptCallMediaOperation?: boolean;
 }
 
 /**
@@ -362,8 +370,8 @@ export interface HoldOptions extends OperationOptions {
   playSource?: FileSource | TextSource | SsmlSource;
   /** Operation Context. */
   operationContext?: string;
-  /** Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation. */
-  operationCallbackUri?: string;
+  /** Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation. */
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -372,4 +380,24 @@ export interface HoldOptions extends OperationOptions {
 export interface UnholdOptions extends OperationOptions {
   /** Operation Context. */
   operationContext?: string;
+}
+
+/** Options for start media streaming request. */
+export interface StartMediaStreamingOptions extends OperationOptions {
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/** Options for stop media streaming request. */
+export interface StopMediaStreamingOptions extends OperationOptions {
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
 }
