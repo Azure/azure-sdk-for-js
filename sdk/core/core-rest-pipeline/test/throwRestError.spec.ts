@@ -2,7 +2,7 @@ import { it } from "vitest";
 import { RestError } from "../src/restError.js";
 import { createHttpHeaders } from "../src/httpHeaders.js";
 
-it.only("This test fails by throwing a RestError", () => {
+it("This test fails by throwing a RestError", () => {
   throw new RestError("RestError", {
     request: {
       headers: createHttpHeaders({
