@@ -7,9 +7,10 @@ import { DocumentModelAdministrationClient } from "../../src/documentModelAdmini
 
 import { assert } from "@azure-tools/test-utils";
 import { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
-import { OperationTracingOptions } from "@azure/core-tracing";
 import { CopyAuthorization } from "../../src/generated";
 import { FormRecognizerRequestBody } from "../../src/lro/analysis";
+import Sinon from "sinon";
+import { tracingClient } from "../../src/tracing";
 
 // #region FakeClient
 
@@ -49,6 +50,10 @@ function fakeIt<Args extends unknown[]>(
  * Check that method spans are created correctly.
  */
 describe("supports tracing", function () {
+  afterEach(function () {
+    Sinon.restore();
+  });
+
   describe("DocumentAnalysisClient", function () {
     let dac: DocumentAnalysisClient;
 
@@ -58,17 +63,21 @@ describe("supports tracing", function () {
       });
     });
 
-    it("beginAnalyzeDocument", () =>
-      assert.supportsTracing(
-        fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dac.beginAnalyzeDocument(
-            "test",
-            "test" as unknown as FormRecognizerRequestBody,
-            options,
-          );
-        }),
-        ["DocumentAnalysisClient.beginAnalyzeDocument"],
-      ));
+    it("beginAnalyzeDocument", async () => {
+      const withSpanSpy = Sinon.spy(tracingClient, "withSpan");
+
+      await fakeIt(async () => {
+        await dac.beginAnalyzeDocument("test", "test" as unknown as FormRecognizerRequestBody);
+      })();
+
+      const expected = [
+        "DocumentAnalysisClient.beginAnalyzeDocument",
+        "DocumentAnalysisClient.createAnalysisPoller-start",
+      ];
+
+      const actual = withSpanSpy.getCalls().map((call) => call.args[0]);
+      assert.sameOrderedMembers(actual, expected);
+    });
   });
 
   describe("DocumentModelAdministrationClient", function () {
@@ -84,79 +93,127 @@ describe("supports tracing", function () {
       );
     });
 
-    it("getModel", () =>
-      assert.supportsTracing(
-        fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.getDocumentModel("test", options);
-        }),
-        ["DocumentModelAdministrationClient.getDocumentModel"],
-      ));
+    it("getModel", async () => {
+      const withSpanSpy = Sinon.spy(tracingClient, "withSpan");
 
-    it("getOperation", () =>
-      assert.supportsTracing(
-        fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.getOperation("test", options);
-        }),
-        ["DocumentModelAdministrationClient.getOperation"],
-      ));
+      await fakeIt(async () => {
+        await dmac.getDocumentModel("test");
+      })();
 
-    it("getInfo", () =>
-      assert.supportsTracing(
-        fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.getResourceDetails(options);
-        }),
-        ["DocumentModelAdministrationClient.getResourceDetails"],
-      ));
+      const expected = ["DocumentModelAdministrationClient.getDocumentModel"];
 
-    it("deleteModel", () =>
-      assert.supportsTracing(
-        fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.deleteDocumentModel("test", options);
-        }),
-        ["DocumentModelAdministrationClient.deleteDocumentModel"],
-      ));
+      const actual = withSpanSpy.getCalls().map((call) => call.args[0]);
+      assert.sameOrderedMembers(actual, expected);
+    });
 
-    it("beginBuildDocumentModel", () =>
-      assert.supportsTracing(
-        fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await (await dmac.beginBuildDocumentModel("test", "test", "neural", options)).poll();
-        }),
-        ["DocumentModelAdministrationClient.beginBuildDocumentModel"],
-      ));
+    it("getOperation", async () => {
+      const withSpanSpy = Sinon.spy(tracingClient, "withSpan");
 
-    it("beginComposeDocumentModel", () =>
-      assert.supportsTracing(
-        fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.beginComposeDocumentModel("test", [], options);
-        }),
-        ["DocumentModelAdministrationClient.beginComposeDocumentModel"],
-      ));
+      await fakeIt(async () => {
+        await dmac.getOperation("test");
+      })();
 
-    it("getCopyAuthorization", () =>
-      assert.supportsTracing(
-        fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.getCopyAuthorization("test", options);
-        }),
-        ["DocumentModelAdministrationClient.getCopyAuthorization"],
-      ));
+      const expected = ["DocumentModelAdministrationClient.getOperation"];
 
-    it("beginCopyModel", () =>
-      assert.supportsTracing(
-        fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.beginCopyModelTo(
-            "test",
-            {
-              targetModelId: "test",
-              targetModelLocation: "test",
-              targetResourceId: "test",
-              targetResourceRegion: "test",
-              accessToken: "test",
-              expirationDateTime: new Date(),
-            } as CopyAuthorization,
-            options,
-          );
-        }),
-        ["DocumentModelAdministrationClient.beginCopyModel"],
-      ));
+      const actual = withSpanSpy.getCalls().map((call) => call.args[0]);
+      assert.sameOrderedMembers(actual, expected);
+    });
+
+    it("getInfo", async () => {
+      const withSpanSpy = Sinon.spy(tracingClient, "withSpan");
+
+      await fakeIt(async () => {
+        await dmac.getResourceDetails();
+      })();
+
+      const expected = ["DocumentModelAdministrationClient.getResourceDetails"];
+
+      const actual = withSpanSpy.getCalls().map((call) => call.args[0]);
+      assert.sameOrderedMembers(actual, expected);
+    });
+
+    it("deleteModel", async () => {
+      const withSpanSpy = Sinon.spy(tracingClient, "withSpan");
+
+      await fakeIt(async () => {
+        await dmac.deleteDocumentModel("test");
+      })();
+
+      const expected = ["DocumentModelAdministrationClient.deleteDocumentModel"];
+
+      const actual = withSpanSpy.getCalls().map((call) => call.args[0]);
+      assert.sameOrderedMembers(actual, expected);
+    });
+
+    it("beginBuildDocumentModel", async () => {
+      const withSpanSpy = Sinon.spy(tracingClient, "withSpan");
+
+      await fakeIt(async () => {
+        await dmac.beginBuildDocumentModel("test", "test", "neural");
+      })();
+
+      const expected = [
+        "DocumentModelAdministrationClient.beginBuildDocumentModel",
+        "DocumentModelAdministrationClient.createDocumentModelPoller-start",
+      ];
+
+      const actual = withSpanSpy.getCalls().map((call) => call.args[0]);
+      assert.sameOrderedMembers(actual, expected);
+    });
+
+    it("beginComposeDocumentModel", async () => {
+      const withSpanSpy = Sinon.spy(tracingClient, "withSpan");
+
+      await fakeIt(async () => {
+        await dmac.beginComposeDocumentModel("test", []);
+      })();
+
+      const expected = [
+        "DocumentModelAdministrationClient.beginComposeDocumentModel",
+        "DocumentModelAdministrationClient.createDocumentModelPoller-start",
+      ];
+
+      const actual = withSpanSpy.getCalls().map((call) => call.args[0]);
+
+      assert.sameOrderedMembers(actual, expected);
+    });
+
+    it("getCopyAuthorization", async () => {
+      const withSpanSpy = Sinon.spy(tracingClient, "withSpan");
+
+      await fakeIt(async () => {
+        await dmac.getCopyAuthorization("test");
+      })();
+
+      const expected = ["DocumentModelAdministrationClient.getCopyAuthorization"];
+
+      const actual = withSpanSpy.getCalls().map((call) => call.args[0]);
+
+      assert.sameOrderedMembers(actual, expected);
+    });
+
+    it("beginCopyModel", async () => {
+      const withSpanSpy = Sinon.spy(tracingClient, "withSpan");
+
+      await fakeIt(async () => {
+        await dmac.beginCopyModelTo("test", {
+          targetModelId: "test",
+          targetModelLocation: "test",
+          targetResourceId: "test",
+          targetResourceRegion: "test",
+          accessToken: "test",
+          expirationDateTime: new Date(),
+        } as CopyAuthorization);
+      })();
+
+      const expected = [
+        "DocumentModelAdministrationClient.beginCopyModel",
+        "DocumentModelAdministrationClient.createDocumentModelPoller-start",
+      ];
+
+      const actual = withSpanSpy.getCalls().map((call) => call.args[0]);
+
+      assert.sameOrderedMembers(actual, expected);
+    });
   });
 });

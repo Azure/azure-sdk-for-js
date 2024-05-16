@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { createTracingClient } from "@azure/core-tracing";
-import { TracingClient } from "@azure/core-tracing";
 import { FORM_RECOGNIZER_API_VERSION, SDK_VERSION } from "./constants";
 import {
   AnalyzeDocumentRequest,
@@ -28,6 +26,7 @@ import { DocumentModel } from "./documentModel";
 import { makeServiceClient, Mappers, SERIALIZER } from "./util";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ClassifyDocumentOptions } from "./options/ClassifyDocumentOptions";
+import { tracingClient } from "./tracing";
 
 /**
  * A client for interacting with the Form Recognizer service's analysis features.
@@ -61,7 +60,6 @@ import { ClassifyDocumentOptions } from "./options/ClassifyDocumentOptions";
  */
 export class DocumentAnalysisClient {
   private _restClient: GeneratedClient;
-  private _tracing: TracingClient;
 
   /**
    * Create a `DocumentAnalysisClient` instance from a resource endpoint and a an Azure Identity `TokenCredential`.
@@ -127,11 +125,6 @@ export class DocumentAnalysisClient {
     options: DocumentAnalysisClientOptions = {},
   ) {
     this._restClient = makeServiceClient(endpoint, credential, options);
-    this._tracing = createTracingClient({
-      packageName: "@azure/ai-form-recognizer",
-      packageVersion: SDK_VERSION,
-      namespace: "Microsoft.CognitiveServices",
-    });
   }
 
   // #region Analysis
@@ -255,7 +248,7 @@ export class DocumentAnalysisClient {
     document: FormRecognizerRequestBody,
     options: AnalyzeDocumentOptions<unknown> = {},
   ): Promise<AnalysisPoller<unknown>> {
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentAnalysisClient.beginAnalyzeDocument",
       options,
       // In the first version of the SDK, the document input was treated as a URL if it was a string, and we preserve
@@ -383,7 +376,7 @@ export class DocumentAnalysisClient {
     documentUrl: string,
     options: AnalyzeDocumentOptions<unknown> = {},
   ): Promise<AnalysisPoller<unknown>> {
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentAnalysisClient.beginAnalyzeDocumentFromUrl",
       options,
       this.analyze.bind(this, model, source("url", documentUrl)),
@@ -483,7 +476,7 @@ export class DocumentAnalysisClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ClassifyDocumentOptions = {},
   ): Promise<AnalysisPoller> {
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentAnalysisClient.beginClassifyDocument",
       options,
       this.classify.bind(this, classifierId, source("body", document)),
@@ -534,7 +527,7 @@ export class DocumentAnalysisClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ClassifyDocumentOptions = {},
   ): Promise<AnalysisPoller> {
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentAnalysisClient.beginClassifyDocumentFromUrl",
       options,
       this.classify.bind(this, classifierId, source("url", documentUrl)),
@@ -599,7 +592,7 @@ export class DocumentAnalysisClient {
       ctx: OperationContext,
       operationLocation: string,
     ): Promise<AnalyzeResultOperation> =>
-      this._tracing.withSpan(
+      tracingClient.withSpan(
         "DocumentAnalysisClient.createAnalysisPoller-getAnalyzeResult",
         definition.options,
         (finalOptions) =>
@@ -653,7 +646,7 @@ export class DocumentAnalysisClient {
       // If the user gave us a stored token, we'll poll it again
       resumeFrom !== undefined
         ? async (ctx: OperationContext) =>
-            this._tracing.withSpan(
+            tracingClient.withSpan(
               "DocumentAnalysisClient.createAnalysisPoller-resume",
               definition.options,
               async () => {
@@ -684,7 +677,7 @@ export class DocumentAnalysisClient {
             )
         : // Otherwise, we'll start a new operation from the initialModelId
           async (ctx: OperationContext) =>
-            this._tracing.withSpan(
+            tracingClient.withSpan(
               "DocumentAnalysisClient.createAnalysisPoller-start",
               definition.options,
               async () => {
@@ -711,7 +704,7 @@ export class DocumentAnalysisClient {
       {
         init: toInit,
         poll: async (ctx, { operationLocation, modelId }) =>
-          this._tracing.withSpan(
+          tracingClient.withSpan(
             "DocumentAnalysisClient.createAnalysisPoller-poll",
             {},
             async () => {

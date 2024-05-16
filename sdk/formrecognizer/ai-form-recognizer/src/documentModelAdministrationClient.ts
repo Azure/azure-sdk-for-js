@@ -3,8 +3,6 @@
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { TracingClient, createTracingClient } from "@azure/core-tracing";
-import { SDK_VERSION } from "./constants";
 import {
   CopyAuthorization,
   GeneratedClient,
@@ -52,6 +50,7 @@ import {
   DocumentClassifierDocumentTypeSources,
   AzureBlobSource,
 } from "./models";
+import { tracingClient } from "./tracing";
 
 /**
  * A client for interacting with the Form Recognizer service's model management features, such as creating, reading,
@@ -84,7 +83,6 @@ import {
  */
 export class DocumentModelAdministrationClient {
   private _restClient: GeneratedClient;
-  private _tracing: TracingClient;
 
   /**
    * Create a DocumentModelAdministrationClient instance from a resource endpoint and a an Azure Identity `TokenCredential`.
@@ -151,11 +149,6 @@ export class DocumentModelAdministrationClient {
     options: DocumentModelAdministrationClientOptions = {},
   ) {
     this._restClient = makeServiceClient(endpoint, credential, options);
-    this._tracing = createTracingClient({
-      packageName: "@azure/ai-form-recognizer",
-      packageVersion: SDK_VERSION,
-      namespace: "Microsoft.CognitiveServices",
-    });
   }
 
   // #region Model Creation
@@ -269,7 +262,7 @@ export class DocumentModelAdministrationClient {
           } as AzureBlobSource)
         : urlOrSource;
 
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentModelAdministrationClient.beginBuildDocumentModel",
       options,
       (finalOptions) =>
@@ -336,7 +329,7 @@ export class DocumentModelAdministrationClient {
     componentModelIds: Iterable<string>,
     options: BeginComposeDocumentModelOptions = {},
   ): Promise<DocumentModelPoller> {
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentModelAdministrationClient.beginComposeDocumentModel",
       options,
       (finalOptions) =>
@@ -383,7 +376,7 @@ export class DocumentModelAdministrationClient {
     destinationModelId: string,
     options: GetCopyAuthorizationOptions = {},
   ): Promise<CopyAuthorization> {
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentModelAdministrationClient.getCopyAuthorization",
       options,
       (finalOptions) =>
@@ -440,7 +433,7 @@ export class DocumentModelAdministrationClient {
     authorization: CopyAuthorization,
     options: BeginCopyModelOptions = {},
   ): Promise<DocumentModelPoller> {
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentModelAdministrationClient.beginCopyModel",
       options,
       (finalOptions) =>
@@ -527,7 +520,7 @@ export class DocumentModelAdministrationClient {
     docTypeSources: DocumentClassifierDocumentTypeSources,
     options: BeginBuildDocumentClassifierOptions = {},
   ): Promise<DocumentClassifierPoller> {
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentModelAdministrationClient.beginBuildDocumentClassifier",
       options,
       (finalOptions) =>
@@ -566,7 +559,7 @@ export class DocumentModelAdministrationClient {
     const toInit =
       resumeFrom === undefined
         ? (ctx: OperationContext) =>
-            this._tracing.withSpan(
+            tracingClient.withSpan(
               "DocumentModelAdministrationClient.createDocumentModelPoller-start",
               definition.options,
               async (options) => {
@@ -606,7 +599,7 @@ export class DocumentModelAdministrationClient {
               },
             )
         : (ctx: OperationContext) =>
-            this._tracing.withSpan(
+            tracingClient.withSpan(
               "DocumentModelAdministrationClient.createDocumentModelPoller-resume",
               definition.options,
               (options) => {
@@ -628,7 +621,7 @@ export class DocumentModelAdministrationClient {
       {
         init: async (ctx) => toTrainingPollOperationState(await toInit(ctx)),
         poll: async (ctx, { operationId }) =>
-          this._tracing.withSpan(
+          tracingClient.withSpan(
             "DocumentModelAdminstrationClient.createDocumentModelPoller-poll",
             definition.options,
             async (options) => {
@@ -714,7 +707,7 @@ export class DocumentModelAdministrationClient {
    * @returns basic information about this client's resource
    */
   public getResourceDetails(options: GetResourceDetailsOptions = {}): Promise<ResourceDetails> {
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentModelAdministrationClient.getResourceDetails",
       options,
       (finalOptions) => this._restClient.miscellaneous.getResourceInfo(finalOptions),
@@ -767,7 +760,7 @@ export class DocumentModelAdministrationClient {
     modelId: string,
     options: GetModelOptions = {},
   ): Promise<DocumentModelDetails> {
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentModelAdministrationClient.getDocumentModel",
       options,
       (finalOptions) => this._restClient.documentModels.getModel(modelId, finalOptions),
@@ -851,7 +844,7 @@ export class DocumentModelAdministrationClient {
     modelId: string,
     options: DeleteDocumentModelOptions = {},
   ): Promise<void> {
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentModelAdministrationClient.deleteDocumentModel",
       options,
       (finalOptions) => this._restClient.documentModels.deleteModel(modelId, finalOptions),
@@ -893,7 +886,7 @@ export class DocumentModelAdministrationClient {
     classifierId: string,
     options: OperationOptions = {},
   ): Promise<DocumentClassifierDetails> {
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentModelAdministrationClient.getDocumentClassifier",
       options,
       (finalOptions) =>
@@ -961,7 +954,7 @@ export class DocumentModelAdministrationClient {
     classifierId: string,
     options: OperationOptions = {},
   ): Promise<void> {
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentModelAdministrationClient.deleteDocumentClassifier",
       options,
       (finalOptions) =>
@@ -1002,7 +995,7 @@ export class DocumentModelAdministrationClient {
     operationId: string,
     options: GetOperationOptions = {},
   ): Promise<OperationDetails> {
-    return this._tracing.withSpan(
+    return tracingClient.withSpan(
       "DocumentModelAdministrationClient.getOperation",
       options,
       (finalOptions) => this._restClient.miscellaneous.getOperation(operationId, finalOptions),
