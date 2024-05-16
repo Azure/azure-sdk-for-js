@@ -370,8 +370,8 @@ export interface HoldOptions extends OperationOptions {
   playSource?: FileSource | TextSource | SsmlSource;
   /** Operation Context. */
   operationContext?: string;
-  /** Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation. */
-  operationCallbackUri?: string;
+  /** Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation. */
+  operationCallbackUrl?: string;
 }
 
 /**
