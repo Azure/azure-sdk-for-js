@@ -84,7 +84,7 @@ import { Tiering } from "@azure-tools/communication-tiering";
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new Tiering(connectionString);
 
-async main function() {
+async function main() {
   const resourceId = "5d41e908-de88-4bbf-94dc-fe9a1b51029b";
 
   // Get acquired numbers and limits for a resource
@@ -104,7 +104,7 @@ import { Tiering } from "@azure-tools/communication-tiering";
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new Tiering(connectionString);
 
-async main function() {
+async function main() {
   const resourceId = "5d41e908-de88-4bbf-94dc-fe9a1b51029b";
 
   // Get tier info for a resource
