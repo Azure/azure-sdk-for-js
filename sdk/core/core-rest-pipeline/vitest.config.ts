@@ -27,5 +27,9 @@ export default defineConfig({
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage",
     },
+    // Test: suppress all console logs
+    onConsoleLog: () => false,
+    // Test: suppress all stack traces with RestError errors
+    onStackTrace: error => error.name !== "RestError",
   },
 });
