@@ -16,7 +16,7 @@ import {
   WorkspaceSettingsCreateResponse,
   WorkspaceSettingsUpdateOptionalParams,
   WorkspaceSettingsUpdateResponse,
-  WorkspaceSettingsDeleteOptionalParams
+  WorkspaceSettingsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface WorkspaceSettings {
    * @param options The options parameters.
    */
   list(
-    options?: WorkspaceSettingsListOptionalParams
+    options?: WorkspaceSettingsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkspaceSetting>;
   /**
    * Settings about where we should store your security data and logs. If the result is empty, it means
@@ -38,7 +38,7 @@ export interface WorkspaceSettings {
    */
   get(
     workspaceSettingName: string,
-    options?: WorkspaceSettingsGetOptionalParams
+    options?: WorkspaceSettingsGetOptionalParams,
   ): Promise<WorkspaceSettingsGetResponse>;
   /**
    * creating settings about where we should store your security data and logs
@@ -49,7 +49,7 @@ export interface WorkspaceSettings {
   create(
     workspaceSettingName: string,
     workspaceSetting: WorkspaceSetting,
-    options?: WorkspaceSettingsCreateOptionalParams
+    options?: WorkspaceSettingsCreateOptionalParams,
   ): Promise<WorkspaceSettingsCreateResponse>;
   /**
    * Settings about where we should store your security data and logs
@@ -60,7 +60,7 @@ export interface WorkspaceSettings {
   update(
     workspaceSettingName: string,
     workspaceSetting: WorkspaceSetting,
-    options?: WorkspaceSettingsUpdateOptionalParams
+    options?: WorkspaceSettingsUpdateOptionalParams,
   ): Promise<WorkspaceSettingsUpdateResponse>;
   /**
    * Deletes the custom workspace settings for this subscription. new VMs will report to the default
@@ -70,6 +70,6 @@ export interface WorkspaceSettings {
    */
   delete(
     workspaceSettingName: string,
-    options?: WorkspaceSettingsDeleteOptionalParams
+    options?: WorkspaceSettingsDeleteOptionalParams,
   ): Promise<void>;
 }

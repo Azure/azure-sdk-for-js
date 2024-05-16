@@ -19,7 +19,7 @@ import {
   GovernanceRulesExecuteOptionalParams,
   GovernanceRulesExecuteResponse,
   GovernanceRulesOperationResultsOptionalParams,
-  GovernanceRulesOperationResultsResponse
+  GovernanceRulesOperationResultsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface GovernanceRules {
    */
   list(
     scope: string,
-    options?: GovernanceRulesListOptionalParams
+    options?: GovernanceRulesListOptionalParams,
   ): PagedAsyncIterableIterator<GovernanceRule>;
   /**
    * Get a specific governance rule for the requested scope by ruleId
@@ -49,7 +49,7 @@ export interface GovernanceRules {
   get(
     scope: string,
     ruleId: string,
-    options?: GovernanceRulesGetOptionalParams
+    options?: GovernanceRulesGetOptionalParams,
   ): Promise<GovernanceRulesGetResponse>;
   /**
    * Creates or updates a governance rule over a given scope
@@ -65,7 +65,7 @@ export interface GovernanceRules {
     scope: string,
     ruleId: string,
     governanceRule: GovernanceRule,
-    options?: GovernanceRulesCreateOrUpdateOptionalParams
+    options?: GovernanceRulesCreateOrUpdateOptionalParams,
   ): Promise<GovernanceRulesCreateOrUpdateResponse>;
   /**
    * Delete a Governance rule over a given scope
@@ -79,7 +79,7 @@ export interface GovernanceRules {
   beginDelete(
     scope: string,
     ruleId: string,
-    options?: GovernanceRulesDeleteOptionalParams
+    options?: GovernanceRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Governance rule over a given scope
@@ -93,7 +93,7 @@ export interface GovernanceRules {
   beginDeleteAndWait(
     scope: string,
     ruleId: string,
-    options?: GovernanceRulesDeleteOptionalParams
+    options?: GovernanceRulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Execute a governance rule
@@ -107,7 +107,7 @@ export interface GovernanceRules {
   beginExecute(
     scope: string,
     ruleId: string,
-    options?: GovernanceRulesExecuteOptionalParams
+    options?: GovernanceRulesExecuteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GovernanceRulesExecuteResponse>,
@@ -126,7 +126,7 @@ export interface GovernanceRules {
   beginExecuteAndWait(
     scope: string,
     ruleId: string,
-    options?: GovernanceRulesExecuteOptionalParams
+    options?: GovernanceRulesExecuteOptionalParams,
   ): Promise<GovernanceRulesExecuteResponse>;
   /**
    * Get governance rules long run operation result for the requested scope by ruleId and operationId
@@ -142,6 +142,6 @@ export interface GovernanceRules {
     scope: string,
     ruleId: string,
     operationId: string,
-    options?: GovernanceRulesOperationResultsOptionalParams
+    options?: GovernanceRulesOperationResultsOptionalParams,
   ): Promise<GovernanceRulesOperationResultsResponse>;
 }

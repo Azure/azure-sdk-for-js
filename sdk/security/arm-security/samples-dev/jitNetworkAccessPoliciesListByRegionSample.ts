@@ -29,7 +29,7 @@ async function getJitNetworkAccessPoliciesOnASubscriptionFromASecurityDataLocati
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.jitNetworkAccessPolicies.listByRegion(
-    ascLocation
+    ascLocation,
   )) {
     resArray.push(item);
   }

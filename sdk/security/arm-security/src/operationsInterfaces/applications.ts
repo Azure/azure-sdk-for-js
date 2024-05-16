@@ -17,6 +17,6 @@ export interface Applications {
    * @param options The options parameters.
    */
   list(
-    options?: ApplicationsListOptionalParams
+    options?: ApplicationsListOptionalParams,
   ): PagedAsyncIterableIterator<Application>;
 }

@@ -35,7 +35,7 @@ async function listAdaptiveNetworkHardeningsResourcesOfAnExtendedResource() {
     resourceGroupName,
     resourceNamespace,
     resourceType,
-    resourceName
+    resourceName,
   )) {
     resArray.push(item);
   }

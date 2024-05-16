@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all the security connectors in the specified resource group. Use the 'nextLink' property in the response to get the next page of security connectors for the specified resource group.
  *
  * @summary Lists all the security connectors in the specified resource group. Use the 'nextLink' property in the response to get the next page of security connectors for the specified resource group.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-03-01-preview/examples/SecurityConnectors/GetSecurityConnectorsResourceGroup_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-10-01-preview/examples/SecurityConnectors/GetSecurityConnectorsResourceGroup_example.json
  */
 async function listAllSecurityConnectorsOfASpecifiedResourceGroup() {
   const subscriptionId =
