@@ -438,6 +438,28 @@ describe("WebPubSubClient", function () {
       mock.verify();
       client.stop();
     });
+
+    it("SequenceAck as ping", async () => {
+      const client = new WebPubSubClient("wss://service.com");
+      const testWs = new TestWebSocketClient(client);
+      makeStartable(testWs);
+
+      const writeMessageSpy = sinon.spy(client["_protocol"], "writeMessage");
+      await client.start();
+
+      // simulate a update
+      client["_sequenceId"].tryUpdate(0);
+
+      // simulate a call
+      client["_trySendSequenceAck"]();
+
+      // expect quick sequenceAck message
+      sinon.assert.calledWith(
+        writeMessageSpy,
+        sinon.match.has("kind", "sequenceAck").and(sinon.match.has("sequenceId", 0)),
+      );
+      client.stop();
+    });
   });
 
   function makeStartable(ws: TestWebSocketClient): sinon.SinonStub<[fn: () => void], void> {

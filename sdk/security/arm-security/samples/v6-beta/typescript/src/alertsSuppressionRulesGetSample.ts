@@ -28,7 +28,7 @@ async function getSuppressionAlertRuleForSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.alertsSuppressionRules.get(
-    alertsSuppressionRuleName
+    alertsSuppressionRuleName,
   );
   console.log(result);
 }

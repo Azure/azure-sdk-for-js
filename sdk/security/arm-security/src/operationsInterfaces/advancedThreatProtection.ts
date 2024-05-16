@@ -11,7 +11,7 @@ import {
   AdvancedThreatProtectionGetResponse,
   AdvancedThreatProtectionSetting,
   AdvancedThreatProtectionCreateOptionalParams,
-  AdvancedThreatProtectionCreateResponse
+  AdvancedThreatProtectionCreateResponse,
 } from "../models";
 
 /** Interface representing a AdvancedThreatProtection. */
@@ -23,7 +23,7 @@ export interface AdvancedThreatProtection {
    */
   get(
     resourceId: string,
-    options?: AdvancedThreatProtectionGetOptionalParams
+    options?: AdvancedThreatProtectionGetOptionalParams,
   ): Promise<AdvancedThreatProtectionGetResponse>;
   /**
    * Creates or updates the Advanced Threat Protection settings on a specified resource.
@@ -34,6 +34,6 @@ export interface AdvancedThreatProtection {
   create(
     resourceId: string,
     advancedThreatProtectionSetting: AdvancedThreatProtectionSetting,
-    options?: AdvancedThreatProtectionCreateOptionalParams
+    options?: AdvancedThreatProtectionCreateOptionalParams,
   ): Promise<AdvancedThreatProtectionCreateResponse>;
 }

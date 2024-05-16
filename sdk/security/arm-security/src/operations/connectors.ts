@@ -23,7 +23,7 @@ import {
   ConnectorsCreateOrUpdateOptionalParams,
   ConnectorsCreateOrUpdateResponse,
   ConnectorsDeleteOptionalParams,
-  ConnectorsListNextResponse
+  ConnectorsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export class ConnectorsImpl implements Connectors {
    * @param options The options parameters.
    */
   public list(
-    options?: ConnectorsListOptionalParams
+    options?: ConnectorsListOptionalParams,
   ): PagedAsyncIterableIterator<ConnectorSetting> {
     const iter = this.listPagingAll(options);
     return {
@@ -59,13 +59,13 @@ export class ConnectorsImpl implements Connectors {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ConnectorsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConnectorSetting[]> {
     let result: ConnectorsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +86,7 @@ export class ConnectorsImpl implements Connectors {
   }
 
   private async *listPagingAll(
-    options?: ConnectorsListOptionalParams
+    options?: ConnectorsListOptionalParams,
   ): AsyncIterableIterator<ConnectorSetting> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -98,7 +98,7 @@ export class ConnectorsImpl implements Connectors {
    * @param options The options parameters.
    */
   private _list(
-    options?: ConnectorsListOptionalParams
+    options?: ConnectorsListOptionalParams,
   ): Promise<ConnectorsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -110,11 +110,11 @@ export class ConnectorsImpl implements Connectors {
    */
   get(
     connectorName: string,
-    options?: ConnectorsGetOptionalParams
+    options?: ConnectorsGetOptionalParams,
   ): Promise<ConnectorsGetResponse> {
     return this.client.sendOperationRequest(
       { connectorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -129,11 +129,11 @@ export class ConnectorsImpl implements Connectors {
   createOrUpdate(
     connectorName: string,
     connectorSetting: ConnectorSetting,
-    options?: ConnectorsCreateOrUpdateOptionalParams
+    options?: ConnectorsCreateOrUpdateOptionalParams,
   ): Promise<ConnectorsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { connectorName, connectorSetting, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -144,11 +144,11 @@ export class ConnectorsImpl implements Connectors {
    */
   delete(
     connectorName: string,
-    options?: ConnectorsDeleteOptionalParams
+    options?: ConnectorsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { connectorName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class ConnectorsImpl implements Connectors {
    */
   private _listNext(
     nextLink: string,
-    options?: ConnectorsListNextOptionalParams
+    options?: ConnectorsListNextOptionalParams,
   ): Promise<ConnectorsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,102 +171,98 @@ export class ConnectorsImpl implements Connectors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/connectors",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/connectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectorSettingList
+      bodyMapper: Mappers.ConnectorSettingList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/connectors/{connectorName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/connectors/{connectorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectorSetting
+      bodyMapper: Mappers.ConnectorSetting,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.connectorName
+    Parameters.connectorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/connectors/{connectorName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/connectors/{connectorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectorSetting
+      bodyMapper: Mappers.ConnectorSetting,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.connectorSetting,
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.connectorName
+    Parameters.connectorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/connectors/{connectorName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/connectors/{connectorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.connectorName
+    Parameters.connectorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectorSettingList
+      bodyMapper: Mappers.ConnectorSettingList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

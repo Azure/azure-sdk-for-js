@@ -34,15 +34,15 @@ async function updateOrCreateSuppressionRuleForSubscription() {
     suppressionAlertsScope: {
       allOf: [
         { field: "entities.ip.address" },
-        { field: "entities.process.commandline" }
-      ]
-    }
+        { field: "entities.process.commandline" },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.alertsSuppressionRules.update(
     alertsSuppressionRuleName,
-    alertsSuppressionRule
+    alertsSuppressionRule,
   );
   console.log(result);
 }

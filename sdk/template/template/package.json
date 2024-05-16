@@ -34,23 +34,23 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:node": "tshy && npm run build:test",
+    "build:node": "tshy",
     "build:samples": "echo Skipped.",
-    "build:test": "tshy && dev-tool run build-test",
-    "build": "npm run clean && npm run build:test && dev-tool run extract-api",
+    "build:test": "echo skipped. actual commands inlined in browser test scripts",
+    "build": "npm run clean && tshy && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tshy && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
-    "integration-test:browser": "dev-tool run test:vitest --browser",
+    "integration-test:browser": "tshy && dev-tool run build-test && dev-tool run test:vitest --browser",
     "integration-test:node": "dev-tool run test:vitest",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
     "lint": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js",
     "pack": "npm pack 2>&1",
-    "test:browser": "npm run clean && npm run build:test && npm run integration-test:browser",
+    "test:browser": "npm run clean && npm run integration-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run integration-test:node",
     "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "npm run integration-test:browser",
@@ -95,7 +95,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
-    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^1.5.3",
@@ -123,7 +123,8 @@
     "esmDialects": [
       "browser",
       "react-native"
-    ]
+    ],
+    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
