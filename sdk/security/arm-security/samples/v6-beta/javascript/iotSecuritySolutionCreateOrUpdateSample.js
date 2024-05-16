@@ -50,7 +50,7 @@ async function createOrUpdateAIoTSecuritySolution() {
   const result = await client.iotSecuritySolution.createOrUpdate(
     resourceGroupName,
     solutionName,
-    iotSecuritySolutionData
+    iotSecuritySolutionData,
   );
   console.log(result);
 }

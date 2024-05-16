@@ -13,7 +13,7 @@ import {
   SecurityOperatorsGetResponse,
   SecurityOperatorsCreateOrUpdateOptionalParams,
   SecurityOperatorsCreateOrUpdateResponse,
-  SecurityOperatorsDeleteOptionalParams
+  SecurityOperatorsDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a SecurityOperators. */
@@ -25,7 +25,7 @@ export interface SecurityOperators {
    */
   list(
     pricingName: string,
-    options?: SecurityOperatorsListOptionalParams
+    options?: SecurityOperatorsListOptionalParams,
   ): Promise<SecurityOperatorsListResponse>;
   /**
    * Get a specific security operator for the requested scope.
@@ -36,7 +36,7 @@ export interface SecurityOperators {
   get(
     pricingName: string,
     securityOperatorName: string,
-    options?: SecurityOperatorsGetOptionalParams
+    options?: SecurityOperatorsGetOptionalParams,
   ): Promise<SecurityOperatorsGetResponse>;
   /**
    * Creates Microsoft Defender for Cloud security operator on the given scope.
@@ -47,7 +47,7 @@ export interface SecurityOperators {
   createOrUpdate(
     pricingName: string,
     securityOperatorName: string,
-    options?: SecurityOperatorsCreateOrUpdateOptionalParams
+    options?: SecurityOperatorsCreateOrUpdateOptionalParams,
   ): Promise<SecurityOperatorsCreateOrUpdateResponse>;
   /**
    * Delete Microsoft Defender for Cloud securityOperator in the subscription.
@@ -58,6 +58,6 @@ export interface SecurityOperators {
   delete(
     pricingName: string,
     securityOperatorName: string,
-    options?: SecurityOperatorsDeleteOptionalParams
+    options?: SecurityOperatorsDeleteOptionalParams,
   ): Promise<void>;
 }

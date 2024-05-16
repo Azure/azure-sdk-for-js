@@ -17,12 +17,13 @@ import {
   Application,
   SecurityConnectorApplicationCreateOrUpdateOptionalParams,
   SecurityConnectorApplicationCreateOrUpdateResponse,
-  SecurityConnectorApplicationDeleteOptionalParams
+  SecurityConnectorApplicationDeleteOptionalParams,
 } from "../models";
 
 /** Class containing SecurityConnectorApplication operations. */
 export class SecurityConnectorApplicationImpl
-  implements SecurityConnectorApplication {
+  implements SecurityConnectorApplication
+{
   private readonly client: SecurityCenter;
 
   /**
@@ -45,11 +46,11 @@ export class SecurityConnectorApplicationImpl
     resourceGroupName: string,
     securityConnectorName: string,
     applicationId: string,
-    options?: SecurityConnectorApplicationGetOptionalParams
+    options?: SecurityConnectorApplicationGetOptionalParams,
   ): Promise<SecurityConnectorApplicationGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, securityConnectorName, applicationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -67,7 +68,7 @@ export class SecurityConnectorApplicationImpl
     securityConnectorName: string,
     applicationId: string,
     application: Application,
-    options?: SecurityConnectorApplicationCreateOrUpdateOptionalParams
+    options?: SecurityConnectorApplicationCreateOrUpdateOptionalParams,
   ): Promise<SecurityConnectorApplicationCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -75,9 +76,9 @@ export class SecurityConnectorApplicationImpl
         securityConnectorName,
         applicationId,
         application,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -93,11 +94,11 @@ export class SecurityConnectorApplicationImpl
     resourceGroupName: string,
     securityConnectorName: string,
     applicationId: string,
-    options?: SecurityConnectorApplicationDeleteOptionalParams
+    options?: SecurityConnectorApplicationDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, securityConnectorName, applicationId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -105,68 +106,65 @@ export class SecurityConnectorApplicationImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/applications/{applicationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/applications/{applicationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.Application,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.applicationId,
-    Parameters.securityConnectorName
+    Parameters.securityConnectorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/applications/{applicationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/applications/{applicationId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.Application,
     },
     201: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.Application,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.application,
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.applicationId,
-    Parameters.securityConnectorName
+    Parameters.securityConnectorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/applications/{applicationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/applications/{applicationId}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.applicationId,
-    Parameters.securityConnectorName
+    Parameters.securityConnectorName,
   ],
-  serializer
+  serializer,
 };

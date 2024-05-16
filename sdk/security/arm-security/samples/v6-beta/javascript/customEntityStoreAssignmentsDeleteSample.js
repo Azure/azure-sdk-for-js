@@ -27,7 +27,7 @@ async function deleteACustomEntityStoreAssignment() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.customEntityStoreAssignments.delete(
     resourceGroupName,
-    customEntityStoreAssignmentName
+    customEntityStoreAssignmentName,
   );
   console.log(result);
 }

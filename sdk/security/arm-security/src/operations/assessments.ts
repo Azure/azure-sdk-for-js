@@ -24,7 +24,7 @@ import {
   AssessmentsCreateOrUpdateOptionalParams,
   AssessmentsCreateOrUpdateResponse,
   AssessmentsDeleteOptionalParams,
-  AssessmentsListNextResponse
+  AssessmentsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,7 +49,7 @@ export class AssessmentsImpl implements Assessments {
    */
   public list(
     scope: string,
-    options?: AssessmentsListOptionalParams
+    options?: AssessmentsListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityAssessmentResponse> {
     const iter = this.listPagingAll(scope, options);
     return {
@@ -64,14 +64,14 @@ export class AssessmentsImpl implements Assessments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     scope: string,
     options?: AssessmentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecurityAssessmentResponse[]> {
     let result: AssessmentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +93,7 @@ export class AssessmentsImpl implements Assessments {
 
   private async *listPagingAll(
     scope: string,
-    options?: AssessmentsListOptionalParams
+    options?: AssessmentsListOptionalParams,
   ): AsyncIterableIterator<SecurityAssessmentResponse> {
     for await (const page of this.listPagingPage(scope, options)) {
       yield* page;
@@ -109,11 +109,11 @@ export class AssessmentsImpl implements Assessments {
    */
   private _list(
     scope: string,
-    options?: AssessmentsListOptionalParams
+    options?: AssessmentsListOptionalParams,
   ): Promise<AssessmentsListResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -126,11 +126,11 @@ export class AssessmentsImpl implements Assessments {
   get(
     resourceId: string,
     assessmentName: string,
-    options?: AssessmentsGetOptionalParams
+    options?: AssessmentsGetOptionalParams,
   ): Promise<AssessmentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceId, assessmentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -146,11 +146,11 @@ export class AssessmentsImpl implements Assessments {
     resourceId: string,
     assessmentName: string,
     assessment: SecurityAssessment,
-    options?: AssessmentsCreateOrUpdateOptionalParams
+    options?: AssessmentsCreateOrUpdateOptionalParams,
   ): Promise<AssessmentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceId, assessmentName, assessment, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -164,11 +164,11 @@ export class AssessmentsImpl implements Assessments {
   delete(
     resourceId: string,
     assessmentName: string,
-    options?: AssessmentsDeleteOptionalParams
+    options?: AssessmentsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceId, assessmentName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -183,11 +183,11 @@ export class AssessmentsImpl implements Assessments {
   private _listNext(
     scope: string,
     nextLink: string,
-    options?: AssessmentsListNextOptionalParams
+    options?: AssessmentsListNextOptionalParams,
   ): Promise<AssessmentsListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -199,96 +199,93 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityAssessmentList
+      bodyMapper: Mappers.SecurityAssessmentList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}",
+  path: "/{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityAssessmentResponse
+      bodyMapper: Mappers.SecurityAssessmentResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion11, Parameters.expand],
+  queryParameters: [Parameters.apiVersion21, Parameters.expand1],
   urlParameters: [
     Parameters.$host,
+    Parameters.assessmentName,
     Parameters.resourceId,
-    Parameters.assessmentName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}",
+  path: "/{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityAssessmentResponse
+      bodyMapper: Mappers.SecurityAssessmentResponse,
     },
     201: {
-      bodyMapper: Mappers.SecurityAssessmentResponse
+      bodyMapper: Mappers.SecurityAssessmentResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.assessment,
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
+    Parameters.assessmentName,
     Parameters.resourceId,
-    Parameters.assessmentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}",
+  path: "/{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
+    Parameters.assessmentName,
     Parameters.resourceId,
-    Parameters.assessmentName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityAssessmentList
+      bodyMapper: Mappers.SecurityAssessmentList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a security connector. If a security connector is already created and a subsequent request is issued for the same security connector id, then it will be updated.
  *
  * @summary Creates or updates a security connector. If a security connector is already created and a subsequent request is issued for the same security connector id, then it will be updated.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-03-01-preview/examples/SecurityConnectors/PutSecurityConnector_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-10-01-preview/examples/SecurityConnectors/PutSecurityConnector_example.json
  */
 async function createOrUpdateASecurityConnector() {
   const subscriptionId =
@@ -24,7 +24,7 @@ async function createOrUpdateASecurityConnector() {
   const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const securityConnectorName = "exampleSecurityConnectorName";
   const securityConnector = {
-    environmentData: { environmentType: "AwsAccount" },
+    environmentData: { environmentType: "AwsAccount", scanInterval: 4 },
     environmentName: "AWS",
     etag: "etag value (must be supplied for update)",
     hierarchyIdentifier: "exampleHierarchyId",
@@ -44,7 +44,7 @@ async function createOrUpdateASecurityConnector() {
   const result = await client.securityConnectors.createOrUpdate(
     resourceGroupName,
     securityConnectorName,
-    securityConnector
+    securityConnector,
   );
   console.log(result);
 }
