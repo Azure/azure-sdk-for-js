@@ -37,6 +37,7 @@ import {
 import { FileSource, TextSource, SsmlSource, DtmfTone } from "./models/models";
 import {
   PlayOptions,
+  PlayToAllOptions,
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,
   ContinuousDtmfRecognitionOptions,
@@ -160,7 +161,7 @@ export class CallMedia {
    */
   public async playToAll(
     playSources: (FileSource | TextSource | SsmlSource)[],
-    options: PlayOptions = { loop: false },
+    options: PlayToAllOptions = { loop: false },
   ): Promise<void> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
@@ -168,6 +169,10 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
+      interruptCallMediaOperation:
+        options.interruptCallMediaOperation !== undefined
+          ? options.interruptCallMediaOperation
+          : false,
       operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
     };
