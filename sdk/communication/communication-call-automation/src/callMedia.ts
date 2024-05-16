@@ -350,7 +350,6 @@ export class CallMedia {
         {},
       );
     } else if (typeof maxTonesOrOptions !== "number" && !options) {
-      maxTonesOrOptions.operationContext = maxTonesOrOptions.operationContext;
       // New function signature logic
       return this.callMedia.recognize(
         this.callConnectionId,
