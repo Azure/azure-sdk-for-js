@@ -33,5 +33,8 @@ export default defineConfig({
 
       return true;
     },
+    onConsoleLog() {
+      return false;
+    }
   },
 });
