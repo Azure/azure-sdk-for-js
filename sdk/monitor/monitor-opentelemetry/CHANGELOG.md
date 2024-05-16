@@ -1,16 +1,16 @@
 # Release History
 
-## 1.4.1 (Unreleased)
+## 1.5.0 (2024-05-10)
 
 ### Features Added
 
 - Allow setting log level for winston and bunyan via environment variable.
-
-### Breaking Changes
-
-### Bugs Fixed
+- Add Winston Log instrumentation.
+- Add log level configuration for Bunyan and Winston loggers.
 
 ### Other Changes
+
+- Updated OpenTelemetry dependencies.
 
 ## 1.4.0 (2024-04-16)
 
