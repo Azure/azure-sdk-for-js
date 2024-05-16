@@ -448,6 +448,7 @@ describe("Cross Partition", function (this: Suite) {
         maxItemCount: 2,
         maxDegreeOfParallelism: 3,
         bufferItems: true,
+        disableNonStreamingOrderByQuery: true,
       };
 
       const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
@@ -646,6 +647,7 @@ describe("Cross Partition", function (this: Suite) {
         maxDegreeOfParallelism: 3,
         forceQueryPlan: true,
         bufferItems: true,
+        disableNonStreamingOrderByQuery: true,
       };
 
       // prepare expected behaviour verifier

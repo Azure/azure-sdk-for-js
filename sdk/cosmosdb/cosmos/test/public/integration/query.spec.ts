@@ -277,7 +277,7 @@ describe("Test RU Capping query", function (this: Suite) {
     }
 
     const query1 = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
-    const queryOptions: FeedOptions = { maxItemCount: 100, disableNonStreamingOrderByQuery: true};
+    const queryOptions: FeedOptions = { maxItemCount: 100, disableNonStreamingOrderByQuery: true };
     const queryIterator1 = createdContainerSinglePartition.items.query(query1, queryOptions);
     const queryIterator1RUCapCalculate = createdContainerSinglePartition.items.query(
       query1,
