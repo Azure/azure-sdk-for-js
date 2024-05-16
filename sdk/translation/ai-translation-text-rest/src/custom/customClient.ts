@@ -169,14 +169,14 @@ export default function createClient(
     client.pipeline.addPolicy(
       coreRestPipeline.bearerTokenAuthenticationPolicy({
         credential: credential as TokenCredential,
-        scopes: DEFAULT_SCOPE,
+        scopes: options?.credentials?.scopes ?? DEFAULT_SCOPE,
       }),
     );
   } else if (isTranslatorTokenCredential(credential)) {
     client.pipeline.addPolicy(
       coreRestPipeline.bearerTokenAuthenticationPolicy({
         credential: (credential as TranslatorTokenCredential).tokenCredential,
-        scopes: DEFAULT_SCOPE,
+        scopes: options?.credentials?.scopes ?? DEFAULT_SCOPE,
       }),
     );
     client.pipeline.addPolicy(
