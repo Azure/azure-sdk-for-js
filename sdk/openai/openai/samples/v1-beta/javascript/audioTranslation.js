@@ -10,6 +10,8 @@
 const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 const { readFile } = require("fs/promises");
 
+// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
+// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 const { parseOpenAIError } = require("./parseOpenAIError.js");

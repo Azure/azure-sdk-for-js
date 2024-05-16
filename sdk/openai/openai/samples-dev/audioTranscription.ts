@@ -12,6 +12,8 @@ import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 import { createReadStream } from "fs";
 
+// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
+// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
 import "dotenv/config";
 

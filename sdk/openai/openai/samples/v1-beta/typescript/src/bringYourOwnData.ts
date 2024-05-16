@@ -9,6 +9,8 @@
 
 import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
 
+// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
+// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 import { parseOpenAIError } from "./parseOpenAIError.js";
