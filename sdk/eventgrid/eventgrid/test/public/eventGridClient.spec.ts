@@ -17,6 +17,8 @@ import {
   TraceParentHeaderName,
   TraceStateHeaderName,
 } from "../../src/cloudEventDistrubtedTracingEnricherPolicy";
+import { tracingClient } from "../../src/tracing";
+import Sinon from "sinon";
 
 describe("EventGridPublisherClient", function (this: Suite) {
   let recorder: Recorder;
@@ -36,6 +38,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
     });
 
     afterEach(async function () {
+      Sinon.reset();
       await recorder.stop();
     });
 
@@ -241,32 +244,32 @@ describe("EventGridPublisherClient", function (this: Suite) {
       it("enriches events with distributed tracing information", async function (this: Context) {
         let requestBody: string | undefined;
 
-        await assert.supportsTracing(
-          async (options) => {
-            await client.send(
-              [
-                {
-                  type: "Azure.Sdk.TestEvent1",
-                  id: recorder.variable(
-                    "cloudTracingEventId",
-                    `cloudTracingEventId${getRandomNumber()}`,
-                  ),
-                  time: new Date(recorder.variable("cloudTracingEventDate", new Date().toString())),
-                  source: "/earth/unitedstates/washington/kirkland/finnhill",
-                  subject: "Single with Trace Parent",
-                  data: {
-                    hello: "world",
-                  },
-                },
-              ],
-              {
-                ...options,
-                onResponse: (response) => (requestBody = response.request.body as string),
+        const withSpanSpy = Sinon.spy(tracingClient, "withSpan");
+
+        await client.send(
+          [
+            {
+              type: "Azure.Sdk.TestEvent1",
+              id: recorder.variable(
+                "cloudTracingEventId",
+                `cloudTracingEventId${getRandomNumber()}`,
+              ),
+              time: new Date(recorder.variable("cloudTracingEventDate", new Date().toString())),
+              source: "/earth/unitedstates/washington/kirkland/finnhill",
+              subject: "Single with Trace Parent",
+              data: {
+                hello: "world",
               },
-            );
+            },
+          ],
+          {
+            onResponse: (response) => (requestBody = response.request.body as string),
           },
-          ["EventGridPublisherClient.send"],
         );
+
+        const expected = ["EventGridPublisherClient.send"];
+        const spanNames = withSpanSpy.getCalls().map((call) => call.args[0]);
+        assert.sameMembers(expected, spanNames);
 
         const parsedBody = JSON.parse(requestBody || "");
         assert.isArray(parsedBody);

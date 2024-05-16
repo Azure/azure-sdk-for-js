@@ -29,7 +29,7 @@ describe("supports tracing", () => {
       `noLabelTests${Math.floor(Math.random() * 1000)}`,
     );
 
-    const spy = Sinon.spy(tracingClient, "withSpan");
+    const withSpanSpy = Sinon.spy(tracingClient, "withSpan");
 
     // We don't care about errors, only that we created a span for each operation
     await Promise.allSettled([
@@ -50,7 +50,7 @@ describe("supports tracing", () => {
 
     assert.sameMembers(
       expected,
-      spy.getCalls().map((call) => call.args[0]),
+      withSpanSpy.getCalls().map((call) => call.args[0]),
     );
   });
 });
