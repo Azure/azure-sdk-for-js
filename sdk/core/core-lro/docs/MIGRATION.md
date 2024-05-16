@@ -95,7 +95,7 @@ const serializeState = await poller.serialize();
 
 ## `core-lro-shim`
 
-There are situations where we don't want to breaking existing code and want to keep backward compatibility. Here we prepare `core-lro-shim` scripts for you, in which we implemented v2 `SimplePollerLike` interfaces with v3 interfaces.
+There are situations where we don't want to break existing code and want to keep backward compatibility. Here we prepare `core-lro-shim` scripts for you, in which we implemented v2 `SimplePollerLike` interfaces with v3 interfaces.
 
 Once you copy them into your environment and the only thing you need to do is to update your lro references to that shim.
 
