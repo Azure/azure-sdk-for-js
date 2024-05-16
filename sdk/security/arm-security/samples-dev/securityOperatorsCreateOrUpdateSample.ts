@@ -30,7 +30,7 @@ async function createASecurityOperatorOnTheGivenScope() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.securityOperators.createOrUpdate(
     pricingName,
-    securityOperatorName
+    securityOperatorName,
   );
   console.log(result);
 }

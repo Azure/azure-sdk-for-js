@@ -30,7 +30,7 @@ async function getAIoTSecuritySolution() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.iotSecuritySolution.get(
     resourceGroupName,
-    solutionName
+    solutionName,
   );
   console.log(result);
 }

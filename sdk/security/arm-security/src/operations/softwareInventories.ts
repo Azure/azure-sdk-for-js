@@ -24,7 +24,7 @@ import {
   SoftwareInventoriesGetOptionalParams,
   SoftwareInventoriesGetResponse,
   SoftwareInventoriesListByExtendedResourceNextResponse,
-  SoftwareInventoriesListBySubscriptionNextResponse
+  SoftwareInventoriesListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,14 +54,14 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
     resourceNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: SoftwareInventoriesListByExtendedResourceOptionalParams
+    options?: SoftwareInventoriesListByExtendedResourceOptionalParams,
   ): PagedAsyncIterableIterator<Software> {
     const iter = this.listByExtendedResourcePagingAll(
       resourceGroupName,
       resourceNamespace,
       resourceType,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
           resourceType,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,7 +92,7 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
     resourceType: string,
     resourceName: string,
     options?: SoftwareInventoriesListByExtendedResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Software[]> {
     let result: SoftwareInventoriesListByExtendedResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
         resourceNamespace,
         resourceType,
         resourceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +116,7 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
         resourceType,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -130,14 +130,14 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
     resourceNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: SoftwareInventoriesListByExtendedResourceOptionalParams
+    options?: SoftwareInventoriesListByExtendedResourceOptionalParams,
   ): AsyncIterableIterator<Software> {
     for await (const page of this.listByExtendedResourcePagingPage(
       resourceGroupName,
       resourceNamespace,
       resourceType,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,7 +148,7 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: SoftwareInventoriesListBySubscriptionOptionalParams
+    options?: SoftwareInventoriesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Software> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -163,13 +163,13 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: SoftwareInventoriesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Software[]> {
     let result: SoftwareInventoriesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -190,7 +190,7 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: SoftwareInventoriesListBySubscriptionOptionalParams
+    options?: SoftwareInventoriesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Software> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -211,7 +211,7 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
     resourceNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: SoftwareInventoriesListByExtendedResourceOptionalParams
+    options?: SoftwareInventoriesListByExtendedResourceOptionalParams,
   ): Promise<SoftwareInventoriesListByExtendedResourceResponse> {
     return this.client.sendOperationRequest(
       {
@@ -219,9 +219,9 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
         resourceNamespace,
         resourceType,
         resourceName,
-        options
+        options,
       },
-      listByExtendedResourceOperationSpec
+      listByExtendedResourceOperationSpec,
     );
   }
 
@@ -230,11 +230,11 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: SoftwareInventoriesListBySubscriptionOptionalParams
+    options?: SoftwareInventoriesListBySubscriptionOptionalParams,
   ): Promise<SoftwareInventoriesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -254,7 +254,7 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
     resourceType: string,
     resourceName: string,
     softwareName: string,
-    options?: SoftwareInventoriesGetOptionalParams
+    options?: SoftwareInventoriesGetOptionalParams,
   ): Promise<SoftwareInventoriesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -263,9 +263,9 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
         resourceType,
         resourceName,
         softwareName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -285,7 +285,7 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
     resourceType: string,
     resourceName: string,
     nextLink: string,
-    options?: SoftwareInventoriesListByExtendedResourceNextOptionalParams
+    options?: SoftwareInventoriesListByExtendedResourceNextOptionalParams,
   ): Promise<SoftwareInventoriesListByExtendedResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -294,9 +294,9 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
         resourceType,
         resourceName,
         nextLink,
-        options
+        options,
       },
-      listByExtendedResourceNextOperationSpec
+      listByExtendedResourceNextOperationSpec,
     );
   }
 
@@ -307,11 +307,11 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: SoftwareInventoriesListBySubscriptionNextOptionalParams
+    options?: SoftwareInventoriesListBySubscriptionNextOptionalParams,
   ): Promise<SoftwareInventoriesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -319,59 +319,17 @@ export class SoftwareInventoriesImpl implements SoftwareInventories {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByExtendedResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Security/softwareInventories",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Security/softwareInventories",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SoftwaresList
+      bodyMapper: Mappers.SoftwaresList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion15],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceNamespace,
-    Parameters.resourceType,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/softwareInventories",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SoftwaresList
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
-  queryParameters: [Parameters.apiVersion15],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Security/softwareInventories/{softwareName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Software
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion15],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -379,50 +337,89 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceNamespace,
     Parameters.resourceType,
     Parameters.resourceName,
-    Parameters.softwareName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/softwareInventories",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SoftwaresList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Security/softwareInventories/{softwareName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Software,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceNamespace,
+    Parameters.resourceType,
+    Parameters.resourceName,
+    Parameters.softwareName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByExtendedResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SoftwaresList
+      bodyMapper: Mappers.SoftwaresList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.resourceNamespace,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SoftwaresList
+      bodyMapper: Mappers.SoftwaresList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
