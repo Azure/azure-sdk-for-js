@@ -368,6 +368,7 @@ export class CallAutomationClient {
     const connectRequest: ConnectRequest = {
       callLocator: callLocator,
       callbackUri: callbackUrl,
+      operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
     };
 

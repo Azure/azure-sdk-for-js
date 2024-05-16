@@ -332,6 +332,7 @@ export interface ConnectFailed extends Omit<RestConnectFailed, "callConnectionId
 // @public
 export interface ConnectOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
+    operationContext?: string;
 }
 
 // @public

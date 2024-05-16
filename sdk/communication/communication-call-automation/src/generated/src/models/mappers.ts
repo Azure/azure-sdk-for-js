@@ -672,6 +672,12 @@ export const ConnectRequest: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
       callIntelligenceOptions: {
         serializedName: "callIntelligenceOptions",
         type: {
@@ -3055,8 +3061,8 @@ export const MediaStreamingFailed: coreClient.CompositeMapper = {
           className: "RestResultInformation",
         },
       },
-      mediaStreamingUpdateResult: {
-        serializedName: "mediaStreamingUpdateResult",
+      mediaStreamingUpdate: {
+        serializedName: "mediaStreamingUpdate",
         type: {
           name: "Composite",
           className: "MediaStreamingUpdate",
@@ -3131,8 +3137,8 @@ export const MediaStreamingStarted: coreClient.CompositeMapper = {
           className: "RestResultInformation",
         },
       },
-      mediaStreamingUpdateResult: {
-        serializedName: "mediaStreamingUpdateResult",
+      mediaStreamingUpdate: {
+        serializedName: "mediaStreamingUpdate",
         type: {
           name: "Composite",
           className: "MediaStreamingUpdate",
@@ -3180,8 +3186,8 @@ export const MediaStreamingStopped: coreClient.CompositeMapper = {
           className: "RestResultInformation",
         },
       },
-      mediaStreamingUpdateResult: {
-        serializedName: "mediaStreamingUpdateResult",
+      mediaStreamingUpdate: {
+        serializedName: "mediaStreamingUpdate",
         type: {
           name: "Composite",
           className: "MediaStreamingUpdate",
