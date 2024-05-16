@@ -5,13 +5,13 @@
  * @summary Demonstrates the SynonymMap Operations.
  */
 
-import { AzureKeyCredential, SearchIndexClient, SynonymMap } from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+import { SearchIndexClient, SynonymMap } from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_SYNONYM_MAP_NAME = "example-synonymmap-sample-1";
 
 async function createSynonymMap(synonymMapName: string, client: SearchIndexClient): Promise<void> {
@@ -56,11 +56,11 @@ async function deleteSynonymMap(synonymMapName: string, client: SearchIndexClien
 
 async function main(): Promise<void> {
   console.log(`Running Index Operations Sample....`);
-  if (!endpoint || !apiKey) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new SearchIndexClient(endpoint, new DefaultAzureCredential());
   try {
     await createSynonymMap(TEST_SYNONYM_MAP_NAME, client);
     await getAndUpdateSynonymMap(TEST_SYNONYM_MAP_NAME, client);

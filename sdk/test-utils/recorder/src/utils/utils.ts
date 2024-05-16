@@ -298,6 +298,15 @@ export interface RecorderStartOptions {
    * When a service uses a custom SSL certificate to communicate with the client.
    */
   tlsValidationCert?: string;
+  /**
+   * Central test-proxy sanitizers to be disabled
+   *
+   * More info:
+   *
+   *  https://github.com/Azure/azure-sdk-tools/pull/8142/
+   *  https://github.com/Azure/azure-sdk-tools/blob/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy/Common/SanitizerDictionary.cs
+   */
+  removeCentralSanitizers?: string[];
 }
 
 /**

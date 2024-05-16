@@ -30,6 +30,7 @@ export {
 export {
   delay,
   parseConnectionString,
+  isLoopbackAddress,
   defaultCancellableLock,
   ParsedOutput,
   WebSocketOptions,
