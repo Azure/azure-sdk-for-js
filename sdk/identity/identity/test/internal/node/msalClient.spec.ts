@@ -21,6 +21,7 @@ import { msalPlugins } from "../../../src/msal/nodeFlows/msalPlugins";
 import sinon from "sinon";
 import { DeveloperSignOnClientId } from "../../../src/constants";
 import { Context } from "mocha";
+import { getUsernamePasswordStaticResources } from "../../msalTestUtils";
 
 describe("MsalClient", function () {
   describe("recorded tests", function () {
@@ -70,6 +71,20 @@ describe("MsalClient", function () {
           `To complete the test recording, please go to ${info.verificationUri} and use code ${info.userCode} to authenticate.`,
         );
       });
+      assert.isNotEmpty(accessToken.token);
+      assert.isNotNaN(accessToken.expiresOnTimestamp);
+    });
+
+    it("supports getTokenByUsernamePassword", async function () {
+      const scopes = ["https://vault.azure.net/.default"];
+      const { username, password, clientId, tenantId } = getUsernamePasswordStaticResources();
+
+      const clientOptions = recorder.configureClientOptions({});
+      const client = msalClient.createMsalClient(clientId, tenantId, {
+        tokenCredentialOptions: { additionalPolicies: clientOptions.additionalPolicies },
+      });
+
+      const accessToken = await client.getTokenByUsernamePassword(scopes, username, password);
       assert.isNotEmpty(accessToken.token);
       assert.isNotNaN(accessToken.expiresOnTimestamp);
     });
