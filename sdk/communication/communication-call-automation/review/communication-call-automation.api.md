@@ -167,7 +167,7 @@ export class CallMedia {
     cancelAllOperations(): Promise<void>;
     hold(targetParticipant: CommunicationIdentifier, options?: HoldOptions): Promise<void>;
     play(playSources: (FileSource | TextSource | SsmlSource)[], playTo: CommunicationIdentifier[], options?: PlayOptions): Promise<void>;
-    playToAll(playSources: (FileSource | TextSource | SsmlSource)[], options?: PlayOptions): Promise<void>;
+    playToAll(playSources: (FileSource | TextSource | SsmlSource)[], options?: PlayToAllOptions): Promise<void>;
     sendDtmfTones(tones: Tone[] | DtmfTone[], targetParticipant: CommunicationIdentifier, options?: SendDtmfTonesOptions): Promise<SendDtmfTonesResult>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
     // @deprecated
@@ -564,6 +564,11 @@ export interface PlaySource {
     // @deprecated (undocumented)
     playsourcacheid?: string;
     playSourceCacheId?: string;
+}
+
+// @public
+export interface PlayToAllOptions extends PlayOptions {
+    interruptCallMediaOperation?: boolean;
 }
 
 // @public

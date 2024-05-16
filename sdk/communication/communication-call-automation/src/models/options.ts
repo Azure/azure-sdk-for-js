@@ -219,6 +219,14 @@ export interface PlayOptions extends OperationOptions {
 }
 
 /**
+ * Options to playToAll audio.
+ */
+export interface PlayToAllOptions extends PlayOptions {
+  /** If set play can barge into other existing queued-up/currently-processing requests. */
+  interruptCallMediaOperation?: boolean;
+}
+
+/**
  * Options to get call connection properties.
  */
 export type GetCallConnectionPropertiesOptions = OperationOptions;
