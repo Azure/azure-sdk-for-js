@@ -52,7 +52,7 @@ export interface EventHubMessageAnnotations extends MessageAnnotations {
    */
   "x-opt-partition-key"?: string | null;
   /**
-   * Annontation for the sequence number of the event.
+   * Annotation for the sequence number of the event.
    */
   "x-opt-sequence-number"?: number;
   /**

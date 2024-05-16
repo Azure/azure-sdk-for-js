@@ -118,13 +118,13 @@ export class EventDataBatchImpl implements EventDataBatch {
   private _context: ConnectionContext;
   /**
    * The Id of the partition to which the batch is expected to be sent to.
-   * Specifying this will throw an error if the batch was created using a `paritionKey`.
+   * Specifying this will throw an error if the batch was created using a `partitionKey`.
    */
   private _partitionId?: string;
   /**
    * A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
-   * Specifying this will throw an error if the batch was created using a `paritionId`.
+   * Specifying this will throw an error if the batch was created using a `partitionId`.
    */
   private _partitionKey?: string;
   /**
