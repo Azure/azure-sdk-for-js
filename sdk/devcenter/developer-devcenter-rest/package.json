@@ -136,7 +136,7 @@
   "//sampleConfiguration": {
     "productName": "Azure DevCenter",
     "productSlugs": [
-      "azure-devcenter"
+      "azure"
     ],
     "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/developer-devcenter"
   }

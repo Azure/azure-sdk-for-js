@@ -25,6 +25,7 @@ This release targets Azure Dev Center 2023-04-01 General Available API, which is
     - StopOnDisconnectEnableStatusOutput
 
 ### Breaking Changes
+
 - Rename interfaces to match operation names in Dev Center API documentation
     - ListSchedules was renamed to ListSchedulesByPool
     - GetSchedule was renamed to GetScheduleByPool
