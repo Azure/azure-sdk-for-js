@@ -19,7 +19,7 @@ Determines what part of the script to run. Has to be either Install or Launch
 #>
 [CmdletBinding()]
 Param (
-  [string] $EmulatorMsiUrl = "https://aka.ms/cosmosdb-emulator",
+  [string] $EmulatorMsiUrl = "https://downloadtestemulator.blob.core.windows.net/emulator/emulator0415updated.msi",
   [string] $StartParameters,
   [string] $Emulator,
   [Parameter(Mandatory=$True)]
@@ -53,7 +53,7 @@ if ($Stage -eq "Install")
     Remove-Item -Path (Join-Path $targetDir '*') -Recurse
     Clear-Content -Path $logFile
 
-    $installProcess  = Start-Process msiexec -Wait -PassThru -ArgumentList "/a https://downloadtestemulator.blob.core.windows.net/emulator/emulator0415updated.msi TARGETDIR=$targetDir /qn /liew $logFile"
+    $installProcess  = Start-Process msiexec -Wait -PassThru -ArgumentList "/a $EmulatorMsiUrl TARGETDIR=$targetDir /qn /liew $logFile"
     Get-Content $logFile
     Write-Host "Exit Code: $($installProcess.ExitCode)"
   }
