@@ -374,12 +374,12 @@ export class CallAutomationClient {
     if (callLocator.kind === "groupCallLocator") {
       connectRequest.callLocator.kind = "groupCallLocator";
       connectRequest.callLocator.groupCallId = callLocator.id;
-    } else if (callLocator.kind === "serverCallLocator") {
-      connectRequest.callLocator.kind = "serverCallLocator";
-      connectRequest.callLocator.serverCallId = callLocator.id;
-    } else {
+    } else if (callLocator.kind === "roomCallLocator") {
       connectRequest.callLocator.kind = "roomCallLocator";
       connectRequest.callLocator.roomId = callLocator.id;
+    } else {
+      connectRequest.callLocator.kind = "serverCallLocator";
+      connectRequest.callLocator.serverCallId = callLocator.id;
     }
 
     const optionsInternal = {
@@ -396,7 +396,7 @@ export class CallAutomationClient {
         ...result,
         callConnectionId: callConnectionId,
         source: source ? communicationIdentifierConverter(source) : undefined,
-        answeredby: communicationUserIdentifierConverter(answeredBy),
+        answeredby: answeredBy ? communicationUserIdentifierConverter(answeredBy) : undefined,
         targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
         sourceCallerIdNumber: sourceCallerIdNumber
           ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
