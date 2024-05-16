@@ -92,7 +92,7 @@ import { RecipientVerificationClient } from "@azure-tools/communication-recipien
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new RecipientVerificationClient(connectionString);
 
-async main function() {
+async function main() {
   // body of the request
   const VerificationRequest = {
     identity: "+11234567890",
@@ -114,7 +114,7 @@ import { RecipientVerificationClient } from "@azure-tools/communication-recipien
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new RecipientVerificationClient(connectionString);
 
-async main function() {
+async function main() {
   // id that is used to reference users phone number
   const verificationId = "7e5dd7e1-5203-41ab-960e-65c1eb804fc6";
 
@@ -138,7 +138,7 @@ import { RecipientVerificationClient } from "@azure-tools/communication-recipien
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new RecipientVerificationClient(connectionString);
 
-async main function() {
+async function main() {
   // id that is used to reference users phone number
   const verificationId = "4d313ff0-3aeb-477e-8c15-7c9a893e8999";
 
@@ -156,7 +156,7 @@ import { RecipientVerificationClient } from "@azure-tools/communication-recipien
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new RecipientVerificationClient(connectionString);
 
-async main function() {
+async function main() {
   // get all verifications for a resource
   var verifications = await client.getVerifications();
 
