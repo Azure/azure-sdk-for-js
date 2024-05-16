@@ -453,7 +453,7 @@ export class CallMedia {
       operationContext:
         options.operationContext !== undefined ? options.operationContext : undefined,
       operationCallbackUri:
-        options.operationCallbackUri !== undefined ? options.operationCallbackUri : undefined,
+        options.operationCallbackUrl !== undefined ? options.operationCallbackUrl : undefined,
     };
     return this.callMedia.hold(this.callConnectionId, holdRequest);
   }

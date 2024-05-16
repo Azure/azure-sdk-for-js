@@ -441,7 +441,7 @@ export interface HoldFailed extends Omit<RestHoldFailed, "callConnectionId" | "s
 
 // @public
 export interface HoldOptions extends OperationOptions {
-    operationCallbackUri?: string;
+    operationCallbackUrl?: string;
     operationContext?: string;
     playSource?: FileSource | TextSource | SsmlSource;
 }
