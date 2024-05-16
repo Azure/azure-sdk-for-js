@@ -5,7 +5,7 @@ import type { Debugger } from "@azure/logger";
 import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
 import { logger as coreLogger } from "../log.js";
-import { Sanitizer } from "../util/sanitizer.js";
+import { createSanitizerAllowedValues, sanitizeObject } from "../util/sanitizer.js";
 
 /**
  * The programmatic identifier of the logPolicy.
@@ -44,7 +44,7 @@ export interface LogPolicyOptions {
  */
 export function logPolicy(options: LogPolicyOptions = {}): PipelinePolicy {
   const logger = options.logger ?? coreLogger.info;
-  const sanitizer = new Sanitizer({
+  const sanitizerAllowedValues = createSanitizerAllowedValues({
     additionalAllowedHeaderNames: options.additionalAllowedHeaderNames,
     additionalAllowedQueryParameters: options.additionalAllowedQueryParameters,
   });
@@ -55,12 +55,12 @@ export function logPolicy(options: LogPolicyOptions = {}): PipelinePolicy {
         return next(request);
       }
 
-      logger(`Request: ${sanitizer.sanitize(request)}`);
+      logger(`Request: ${sanitizeObject(request, sanitizerAllowedValues)}`);
 
       const response = await next(request);
 
       logger(`Response status code: ${response.status}`);
-      logger(`Headers: ${sanitizer.sanitize(response.headers)}`);
+      logger(`Headers: ${sanitizeObject(response.headers, sanitizerAllowedValues)}`);
 
       return response;
     },

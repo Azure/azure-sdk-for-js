@@ -14,7 +14,7 @@ import { getUserAgentValue } from "../util/userAgent.js";
 import { logger } from "../log.js";
 import { getErrorMessage, isError } from "@azure/core-util";
 import { isRestError } from "../restError.js";
-import { Sanitizer } from "../util/sanitizer.js";
+import { createSanitizerAllowedValues, sanitizeUrl } from "../util/sanitizer.js";
 
 /**
  * The programmatic identifier of the tracingPolicy.
@@ -46,7 +46,7 @@ export interface TracingPolicyOptions {
  */
 export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolicy {
   const userAgent = getUserAgentValue(options.userAgentPrefix);
-  const sanitizer = new Sanitizer({
+  const sanitizerAllowedValues = createSanitizerAllowedValues({
     additionalAllowedQueryParameters: options.additionalAllowedQueryParameters,
   });
   const tracingClient = tryCreateTracingClient();
@@ -59,7 +59,7 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
       }
 
       const spanAttributes = {
-        "http.url": sanitizer.sanitizeUrl(request.url),
+        "http.url": sanitizeUrl(request.url, sanitizerAllowedValues),
         "http.method": request.method,
         "http.user_agent": userAgent,
         requestId: request.requestId,

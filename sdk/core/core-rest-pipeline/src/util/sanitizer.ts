@@ -72,113 +72,153 @@ const defaultAllowedHeaderNames = [
 const defaultAllowedQueryParameters: string[] = ["api-version"];
 
 /**
+ * Sets of allowed header names and query parameters for the santizer functions.
+ * Use {@link createSanitizerAllowedValues} to create custom sets that include the default values which should always be sanitized.
+ */
+export interface SanitizerAllowedValues {
+  allowedHeaderNames: Set<string>;
+  allowedQueryParameters: Set<string>;
+}
+
+/**
+ * Set of default allowed values for the sanitizers.
+ */
+const defaultAllowedValues: SanitizerAllowedValues = {
+  allowedHeaderNames: new Set(defaultAllowedHeaderNames.map((x) => x.toLowerCase())),
+  allowedQueryParameters: new Set(defaultAllowedQueryParameters.map((x) => x.toLowerCase())),
+};
+
+/**
+ * Create sets of allowed header names and query parameters to be used in the sanitizer functions.
+ * This function will add the additional names and query parameters specified in the options to the
+ * default set.
+ *
+ * @param options - Options bag containing additional header names and query parameters to allow.
+ * @returns SanitizerAllowedValues object which can be passed to the sanitize functions.
  * @internal
  */
-export class Sanitizer {
-  private allowedHeaderNames: Set<string>;
-  private allowedQueryParameters: Set<string>;
-
-  constructor({
-    additionalAllowedHeaderNames: allowedHeaderNames = [],
-    additionalAllowedQueryParameters: allowedQueryParameters = [],
-  }: SanitizerOptions = {}) {
-    allowedHeaderNames = defaultAllowedHeaderNames.concat(allowedHeaderNames);
-    allowedQueryParameters = defaultAllowedQueryParameters.concat(allowedQueryParameters);
-
-    this.allowedHeaderNames = new Set(allowedHeaderNames.map((n) => n.toLowerCase()));
-    this.allowedQueryParameters = new Set(allowedQueryParameters.map((p) => p.toLowerCase()));
+export function createSanitizerAllowedValues(
+  options: SanitizerOptions = {},
+): SanitizerAllowedValues {
+  if (!options.additionalAllowedHeaderNames && !options.additionalAllowedQueryParameters) {
+    // no need to create more sets here, just return the default
+    return defaultAllowedValues;
   }
 
-  public sanitize(obj: unknown): string {
-    const seen = new Set<unknown>();
-    return JSON.stringify(
-      obj,
-      (key: string, value: unknown) => {
-        // Ensure Errors include their interesting non-enumerable members
-        if (value instanceof Error) {
-          return {
-            ...value,
-            name: value.name,
-            message: value.message,
-          };
+  const allowedHeaderNames = defaultAllowedHeaderNames.concat(
+    options.additionalAllowedHeaderNames ?? [],
+  );
+  const allowedQueryParameters = defaultAllowedQueryParameters.concat(
+    options.additionalAllowedQueryParameters ?? [],
+  );
+
+  return {
+    allowedHeaderNames: new Set(allowedHeaderNames.map((x) => x.toLowerCase())),
+    allowedQueryParameters: new Set(allowedQueryParameters.map((x) => x.toLowerCase())),
+  };
+}
+
+export function sanitizeObject(
+  obj: unknown,
+  allowedValues: SanitizerAllowedValues = defaultAllowedValues,
+): string {
+  const seen = new Set<unknown>();
+  return JSON.stringify(
+    obj,
+    (key: string, value: unknown) => {
+      // Ensure Errors include their interesting non-enumerable members
+      if (value instanceof Error) {
+        return {
+          ...value,
+          name: value.name,
+          message: value.message,
+        };
+      }
+
+      if (key === "headers") {
+        return sanitizeHeaders(value as UnknownObject, allowedValues);
+      } else if (key === "url") {
+        return sanitizeUrl(value as string, allowedValues);
+      } else if (key === "query") {
+        return sanitizeQuery(value as UnknownObject, allowedValues);
+      } else if (key === "body") {
+        // Don't log the request body
+        return undefined;
+      } else if (key === "response") {
+        // Don't log response again
+        return undefined;
+      } else if (key === "operationSpec") {
+        // When using sendOperationRequest, the request carries a massive
+        // field with the autorest spec. No need to log it.
+        return undefined;
+      } else if (Array.isArray(value) || isObject(value)) {
+        if (seen.has(value)) {
+          return "[Circular]";
         }
-
-        if (key === "headers") {
-          return this.sanitizeHeaders(value as UnknownObject);
-        } else if (key === "url") {
-          return this.sanitizeUrl(value as string);
-        } else if (key === "query") {
-          return this.sanitizeQuery(value as UnknownObject);
-        } else if (key === "body") {
-          // Don't log the request body
-          return undefined;
-        } else if (key === "response") {
-          // Don't log response again
-          return undefined;
-        } else if (key === "operationSpec") {
-          // When using sendOperationRequest, the request carries a massive
-          // field with the autorest spec. No need to log it.
-          return undefined;
-        } else if (Array.isArray(value) || isObject(value)) {
-          if (seen.has(value)) {
-            return "[Circular]";
-          }
-          seen.add(value);
-        }
-
-        return value;
-      },
-      2,
-    );
-  }
-
-  public sanitizeUrl(value: string): string {
-    if (typeof value !== "string" || value === null) {
-      return value;
-    }
-
-    const url = new URL(value);
-
-    if (!url.search) {
-      return value;
-    }
-
-    for (const [key] of url.searchParams) {
-      if (!this.allowedQueryParameters.has(key.toLowerCase())) {
-        url.searchParams.set(key, RedactedString);
+        seen.add(value);
       }
-    }
 
-    return url.toString();
-  }
-
-  private sanitizeHeaders(obj: UnknownObject): UnknownObject {
-    const sanitized: UnknownObject = {};
-    for (const key of Object.keys(obj)) {
-      if (this.allowedHeaderNames.has(key.toLowerCase())) {
-        sanitized[key] = obj[key];
-      } else {
-        sanitized[key] = RedactedString;
-      }
-    }
-    return sanitized;
-  }
-
-  private sanitizeQuery(value: UnknownObject): UnknownObject {
-    if (typeof value !== "object" || value === null) {
       return value;
-    }
+    },
+    2,
+  );
+}
 
-    const sanitized: UnknownObject = {};
-
-    for (const k of Object.keys(value)) {
-      if (this.allowedQueryParameters.has(k.toLowerCase())) {
-        sanitized[k] = value[k];
-      } else {
-        sanitized[k] = RedactedString;
-      }
-    }
-
-    return sanitized;
+export function sanitizeUrl(
+  value: string,
+  { allowedQueryParameters }: SanitizerAllowedValues = defaultAllowedValues,
+): string {
+  if (typeof value !== "string" || value === null) {
+    return value;
   }
+
+  const url = new URL(value);
+
+  if (!url.search) {
+    return value;
+  }
+
+  for (const [key] of url.searchParams) {
+    if (!allowedQueryParameters.has(key.toLowerCase())) {
+      url.searchParams.set(key, RedactedString);
+    }
+  }
+
+  return url.toString();
+}
+
+function sanitizeHeaders(
+  obj: UnknownObject,
+  { allowedHeaderNames }: SanitizerAllowedValues = defaultAllowedValues,
+): UnknownObject {
+  const sanitized: UnknownObject = {};
+  for (const key of Object.keys(obj)) {
+    if (allowedHeaderNames.has(key.toLowerCase())) {
+      sanitized[key] = obj[key];
+    } else {
+      sanitized[key] = RedactedString;
+    }
+  }
+  return sanitized;
+}
+
+function sanitizeQuery(
+  value: UnknownObject,
+  { allowedQueryParameters }: SanitizerAllowedValues = defaultAllowedValues,
+): UnknownObject {
+  if (typeof value !== "object" || value === null) {
+    return value;
+  }
+
+  const sanitized: UnknownObject = {};
+
+  for (const k of Object.keys(value)) {
+    if (allowedQueryParameters.has(k.toLowerCase())) {
+      sanitized[k] = value[k];
+    } else {
+      sanitized[k] = RedactedString;
+    }
+  }
+
+  return sanitized;
 }
