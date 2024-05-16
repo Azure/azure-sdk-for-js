@@ -30,7 +30,6 @@ import {
   CallInvite,
   ContinuousDtmfRecognitionOptions,
   SendDtmfTonesOptions,
-  CallAutomationEventProcessor,
   CreateCallOptions,
   AnswerCallOptions,
   PlayOptions,
@@ -77,12 +76,7 @@ describe("CallMedia Unit Tests", async function () {
   });
 
   it("can instantiate", async function () {
-    new CallMedia(
-      CALL_CONNECTION_ID,
-      baseUri,
-      { key: generateToken() },
-      new CallAutomationEventProcessor(),
-    );
+    new CallMedia(CALL_CONNECTION_ID, baseUri, { key: generateToken() });
   });
 
   it("makes successful Play file request", async function () {
@@ -388,59 +382,6 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
     assert.equal(request.method, "POST");
     assert.equal(data.operationContext, options.operationContext);
-  });
-
-  it("makes successful Start Hold Music request", async function () {
-    const mockHttpClient = generateHttpClient(200);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-
-    const playSource: TextSource = {
-      text: "test test test",
-      customVoiceEndpointId: "customVoiceEndpointId",
-      kind: "textSource",
-    };
-
-    const participantToHold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-
-    await callMedia.startHoldMusic(participantToHold, playSource);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
-    assert.equal(data.playSourceInfo.kind, "text");
-    assert.equal(data.playSourceInfo.text.text, playSource.text);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful Start Hold Music request with no playSource", async function () {
-    const mockHttpClient = generateHttpClient(200);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const participantToHold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-
-    await callMedia.startHoldMusic(participantToHold);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
-    assert.equal(request.method, "POST");
-    assert.isUndefined(data.playSourceInfo);
-  });
-
-  it("makes successful Stop Hold Music request", async function () {
-    const mockHttpClient = generateHttpClient(200);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-
-    const participantToUnhold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-
-    await callMedia.stopHoldMusic(participantToUnhold);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
-    assert.equal(request.method, "POST");
   });
 
   it("makes successful Start Transcription request", async function () {

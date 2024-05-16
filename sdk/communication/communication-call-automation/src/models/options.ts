@@ -4,8 +4,8 @@
 import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
 import { OperationOptions } from "@azure/core-client";
 import {
-  MediaStreamingConfiguration,
-  TranscriptionConfiguration,
+  MediaStreamingOptions,
+  TranscriptionOptions,
   CallRejectReason,
   FileSource,
   TextSource,
@@ -110,9 +110,9 @@ export interface CreateCallOptions extends OperationOptions {
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
   /** Configuration of Media streaming. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  mediaStreamingOptions?: MediaStreamingOptions;
   /** Configuration of live transcription. */
-  transcriptionConfiguration?: TranscriptionConfiguration;
+  transcriptionOptions?: TranscriptionOptions;
   /** The Custom Context. */
   customCallingContext?: CustomCallingContext;
 }
@@ -124,9 +124,9 @@ export interface AnswerCallOptions extends OperationOptions {
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
   /** Configuration of Media streaming. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  mediaStreamingOptions?: MediaStreamingOptions;
   /** Configuration of live transcription. */
-  transcriptionConfiguration?: TranscriptionConfiguration;
+  transcriptionOptions?: TranscriptionOptions;
   /** The operation context. */
   operationContext?: string;
 }
@@ -372,4 +372,14 @@ export interface HoldOptions extends OperationOptions {
 export interface UnholdOptions extends OperationOptions {
   /** Operation Context. */
   operationContext?: string;
+}
+
+/**
+ * Options to Connect request.
+ */
+export interface ConnectOptions extends OperationOptions {
+  /** Used by customers to correlate the request to the response event. */
+  operationContext?: string;
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptions;
 }

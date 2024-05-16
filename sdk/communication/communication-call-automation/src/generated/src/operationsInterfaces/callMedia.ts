@@ -13,6 +13,8 @@ import {
   CallMediaStartTranscriptionOptionalParams,
   StopTranscriptionRequest,
   CallMediaStopTranscriptionOptionalParams,
+  UpdateTranscriptionRequest,
+  CallMediaUpdateTranscriptionOptionalParams,
   CallMediaCancelAllMediaOperationsOptionalParams,
   RecognizeRequest,
   CallMediaRecognizeOptionalParams,
@@ -22,16 +24,14 @@ import {
   SendDtmfTonesRequest,
   CallMediaSendDtmfTonesOptionalParams,
   CallMediaSendDtmfTonesResponse,
-  UpdateTranscriptionRequest,
-  CallMediaUpdateTranscriptionOptionalParams,
   HoldRequest,
   CallMediaHoldOptionalParams,
   UnholdRequest,
   CallMediaUnholdOptionalParams,
-  StartHoldMusicRequest,
-  CallMediaStartHoldMusicOptionalParams,
-  StopHoldMusicRequest,
-  CallMediaStopHoldMusicOptionalParams,
+  StartMediaStreamingRequest,
+  CallMediaStartMediaStreamingOptionalParams,
+  StopMediaStreamingRequest,
+  CallMediaStopMediaStreamingOptionalParams,
 } from "../models";
 
 /** Interface representing a CallMedia. */
@@ -68,6 +68,17 @@ export interface CallMedia {
     callConnectionId: string,
     stopTranscriptionRequest: StopTranscriptionRequest,
     options?: CallMediaStopTranscriptionOptionalParams,
+  ): Promise<void>;
+  /**
+   * API to change transcription language.
+   * @param callConnectionId The call connection id
+   * @param updateTranscriptionRequest The UpdateTranscription request
+   * @param options The options parameters.
+   */
+  updateTranscription(
+    callConnectionId: string,
+    updateTranscriptionRequest: UpdateTranscriptionRequest,
+    options?: CallMediaUpdateTranscriptionOptionalParams,
   ): Promise<void>;
   /**
    * Cancel all media operations in a call.
@@ -123,17 +134,6 @@ export interface CallMedia {
     options?: CallMediaSendDtmfTonesOptionalParams,
   ): Promise<CallMediaSendDtmfTonesResponse>;
   /**
-   * API to change transcription language.
-   * @param callConnectionId The call connection id
-   * @param updateTranscriptionRequest The UpdateTranscription request
-   * @param options The options parameters.
-   */
-  updateTranscription(
-    callConnectionId: string,
-    updateTranscriptionRequest: UpdateTranscriptionRequest,
-    options?: CallMediaUpdateTranscriptionOptionalParams,
-  ): Promise<void>;
-  /**
    * Hold participant from the call using identifier.
    * @param callConnectionId The call connection id.
    * @param holdRequest The participants to be hold from the call.
@@ -156,25 +156,25 @@ export interface CallMedia {
     options?: CallMediaUnholdOptionalParams,
   ): Promise<void>;
   /**
-   * Hold participant from the call using identifier.
+   * Starts media streaming in the call.
    * @param callConnectionId The call connection id.
-   * @param startHoldMusicRequest The participants to be hold from the call.
+   * @param startMediaStreamingRequest
    * @param options The options parameters.
    */
-  startHoldMusic(
+  startMediaStreaming(
     callConnectionId: string,
-    startHoldMusicRequest: StartHoldMusicRequest,
-    options?: CallMediaStartHoldMusicOptionalParams,
+    startMediaStreamingRequest: StartMediaStreamingRequest,
+    options?: CallMediaStartMediaStreamingOptionalParams,
   ): Promise<void>;
   /**
-   * Unhold participants from the call using identifier.
+   * Stops media streaming in the call.
    * @param callConnectionId The call connection id.
-   * @param stopHoldMusicRequest The participants to be hold from the call.
+   * @param stopMediaStreamingRequest stop media streaming request payload.
    * @param options The options parameters.
    */
-  stopHoldMusic(
+  stopMediaStreaming(
     callConnectionId: string,
-    stopHoldMusicRequest: StopHoldMusicRequest,
-    options?: CallMediaStopHoldMusicOptionalParams,
+    stopMediaStreamingRequest: StopMediaStreamingRequest,
+    options?: CallMediaStopMediaStreamingOptionalParams,
   ): Promise<void>;
 }
