@@ -33,7 +33,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", function (this
 
     await container.items.create(doc);
     const query = "SELECT * from " + containerId;
-    const queryIterator = container.items.query(query);
+    const queryIterator = container.items.query(query, { disableNonStreamingOrderByQuery: true });
 
     const { resources } = await queryIterator.fetchAll();
     assert.equal(resources[0]["id"], "myId");
@@ -67,7 +67,10 @@ describe("Test Query Metrics", function (this: Suite) {
 
     await createdContainer.items.create(doc);
     const query = "SELECT * from " + collectionId;
-    const queryOptions: FeedOptions = { populateQueryMetrics: true };
+    const queryOptions: FeedOptions = {
+      populateQueryMetrics: true,
+      disableNonStreamingOrderByQuery: true,
+    };
     const queryIterator = createdContainer.items.query(query, queryOptions);
 
     while (queryIterator.hasMoreResults()) {
@@ -113,7 +116,10 @@ describe("Partition key in FeedOptions", function (this: Suite) {
     await container.items.create({ id: "foo" });
     await container.items.create({ id: "bar" });
     const query = "SELECT * from C";
-    const queryIterator = container.items.query(query, { partitionKey: "foo" });
+    const queryIterator = container.items.query(query, {
+      partitionKey: "foo",
+      disableNonStreamingOrderByQuery: true,
+    });
 
     const { resources } = await queryIterator.fetchAll();
     assert.equal(resources.length, 1);
@@ -161,7 +167,7 @@ describe("aggregate query over null value", function (this: Suite) {
       "SELECT COUNT(c.source) AS _COUNT, c.source FROM c " +
       "WHERE c.referenceNumber IN ('AAAAGDD', 'AAAAHGM') GROUP BY c.source";
 
-    const queryIterator = container.items.query(query);
+    const queryIterator = container.items.query(query, { disableNonStreamingOrderByQuery: true });
 
     const { resources } = await queryIterator.fetchAll();
 
@@ -226,7 +232,11 @@ describe("Test Index metrics", function (this: Suite) {
     //  aggregate query
     const query2 = "SELECT * from " + collectionId + " order by " + collectionId + ".name";
     const queryList = [query1, query2];
-    const queryOptions: FeedOptions = { populateIndexMetrics: true, maxItemCount: 1 };
+    const queryOptions: FeedOptions = {
+      populateIndexMetrics: true,
+      maxItemCount: 1,
+      disableNonStreamingOrderByQuery: true,
+    };
     for (const query of queryList) {
       const queryIterator = container.items.query(query, queryOptions);
       while (queryIterator.hasMoreResults()) {
@@ -267,7 +277,7 @@ describe("Test RU Capping query", function (this: Suite) {
     }
 
     const query1 = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
-    const queryOptions: FeedOptions = { maxItemCount: 100 };
+    const queryOptions: FeedOptions = { maxItemCount: 100, disableNonStreamingOrderByQuery: true};
     const queryIterator1 = createdContainerSinglePartition.items.query(query1, queryOptions);
     const queryIterator1RUCapCalculate = createdContainerSinglePartition.items.query(
       query1,
@@ -361,7 +371,11 @@ describe("Test RU Capping query", function (this: Suite) {
       });
 
       const query = `SELECT count(${collectionId}.name) from ${collectionId} GROUP BY ${collectionId}.name`;
-      const queryOptions: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 4 };
+      const queryOptions: FeedOptions = {
+        maxItemCount: 10,
+        maxDegreeOfParallelism: 4,
+        disableNonStreamingOrderByQuery: true,
+      };
       queryIterator = createdContainerMultiPartition.items.query(query, queryOptions);
       queryIteratorRUCapCalculate = createdContainerMultiPartition.items.query(query, queryOptions);
     });
