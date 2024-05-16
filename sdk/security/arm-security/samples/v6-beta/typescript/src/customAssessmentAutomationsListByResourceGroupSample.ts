@@ -30,7 +30,7 @@ async function listCustomAssessmentAutomationsInASubscriptionAndAResourceGroup()
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.customAssessmentAutomations.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

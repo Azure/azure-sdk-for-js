@@ -29,7 +29,7 @@ async function getSecurityAlertsOnASubscriptionFromASecurityDataLocation() {
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.alerts.listSubscriptionLevelByRegion(
-    ascLocation
+    ascLocation,
   )) {
     resArray.push(item);
   }

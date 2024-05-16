@@ -33,12 +33,12 @@ async function createApplication() {
     conditionSets: [
       {
         conditions: [
-          { operator: "contains", property: "$.Id", value: "-prod-" }
-        ]
-      }
+          { operator: "contains", property: "$.Id", value: "-prod-" },
+        ],
+      },
     ],
     displayName: "GCP Admin's application",
-    sourceResourceType: "Assessments"
+    sourceResourceType: "Assessments",
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
@@ -46,7 +46,7 @@ async function createApplication() {
     resourceGroupName,
     securityConnectorName,
     applicationId,
-    application
+    application,
   );
   console.log(result);
 }

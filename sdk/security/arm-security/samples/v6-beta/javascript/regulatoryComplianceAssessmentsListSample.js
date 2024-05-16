@@ -28,7 +28,7 @@ async function getAllAssessmentsMappedToSelectedRegulatoryComplianceControl() {
   const resArray = new Array();
   for await (let item of client.regulatoryComplianceAssessments.list(
     regulatoryComplianceStandardName,
-    regulatoryComplianceControlName
+    regulatoryComplianceControlName,
   )) {
     resArray.push(item);
   }

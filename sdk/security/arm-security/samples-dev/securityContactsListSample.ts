@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all security contact configurations for the subscription
  *
  * @summary List all security contact configurations for the subscription
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2020-01-01-preview/examples/SecurityContacts/GetSecurityContactsSubscription_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-12-01-preview/examples/SecurityContacts/GetSecurityContactsSubscription_example.json
  */
 async function listSecurityContactData() {
   const subscriptionId =

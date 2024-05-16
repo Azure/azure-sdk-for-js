@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the security automations in the specified subscription. Use the 'nextLink' property in the response to get the next page of security automations for the specified subscription.
  *
  * @summary Lists all the security automations in the specified subscription. Use the 'nextLink' property in the response to get the next page of security automations for the specified subscription.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/Automations/GetAutomationsSubscription_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-12-01-preview/examples/Automations/GetAutomationsSubscription_example.json
  */
 async function listAllSecurityAutomationsOfASpecifiedSubscription() {
   const subscriptionId =

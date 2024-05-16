@@ -12,7 +12,7 @@ import {
   SoftwareInventoriesListByExtendedResourceOptionalParams,
   SoftwareInventoriesListBySubscriptionOptionalParams,
   SoftwareInventoriesGetOptionalParams,
-  SoftwareInventoriesGetResponse
+  SoftwareInventoriesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface SoftwareInventories {
     resourceNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: SoftwareInventoriesListByExtendedResourceOptionalParams
+    options?: SoftwareInventoriesListByExtendedResourceOptionalParams,
   ): PagedAsyncIterableIterator<Software>;
   /**
    * Gets the software inventory of all virtual machines in the subscriptions.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SoftwareInventoriesListBySubscriptionOptionalParams
+    options?: SoftwareInventoriesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Software>;
   /**
    * Gets a single software data of the virtual machine.
@@ -57,6 +57,6 @@ export interface SoftwareInventories {
     resourceType: string,
     resourceName: string,
     softwareName: string,
-    options?: SoftwareInventoriesGetOptionalParams
+    options?: SoftwareInventoriesGetOptionalParams,
   ): Promise<SoftwareInventoriesGetResponse>;
 }

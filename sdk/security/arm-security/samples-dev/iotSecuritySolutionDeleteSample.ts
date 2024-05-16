@@ -30,7 +30,7 @@ async function deleteAnIoTSecuritySolution() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.iotSecuritySolution.delete(
     resourceGroupName,
-    solutionName
+    solutionName,
   );
   console.log(result);
 }

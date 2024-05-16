@@ -16,16 +16,20 @@ require("dotenv").config();
  * This sample demonstrates how to Create security contact configurations for the subscription
  *
  * @summary Create security contact configurations for the subscription
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2020-01-01-preview/examples/SecurityContacts/CreateSecurityContact_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-12-01-preview/examples/SecurityContacts/CreateSecurityContact_example.json
  */
 async function createSecurityContactData() {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const securityContactName = "default";
   const securityContact = {
-    alertNotifications: { minimalSeverity: "Low", state: "On" },
     emails: "john@contoso.com;jane@contoso.com",
+    isEnabled: true,
     notificationsByRole: { roles: ["Owner"], state: "On" },
+    notificationsSources: [
+      { minimalRiskLevel: "Critical", sourceType: "AttackPath" },
+      { minimalSeverity: "Medium", sourceType: "Alert" },
+    ],
     phone: "(214)275-4038",
   };
   const credential = new DefaultAzureCredential();

@@ -12,7 +12,7 @@ import {
   IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams,
   IotSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams,
   IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse,
-  IotSecuritySolutionsAnalyticsAggregatedAlertDismissOptionalParams
+  IotSecuritySolutionsAnalyticsAggregatedAlertDismissOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface IotSecuritySolutionsAnalyticsAggregatedAlert {
   list(
     resourceGroupName: string,
     solutionName: string,
-    options?: IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams
+    options?: IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams,
   ): PagedAsyncIterableIterator<IoTSecurityAggregatedAlert>;
   /**
    * Use this method to get a single the aggregated alert of yours IoT Security solution. This
@@ -43,7 +43,7 @@ export interface IotSecuritySolutionsAnalyticsAggregatedAlert {
     resourceGroupName: string,
     solutionName: string,
     aggregatedAlertName: string,
-    options?: IotSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams
+    options?: IotSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams,
   ): Promise<IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse>;
   /**
    * Use this method to dismiss an aggregated IoT Security Solution Alert.
@@ -57,6 +57,6 @@ export interface IotSecuritySolutionsAnalyticsAggregatedAlert {
     resourceGroupName: string,
     solutionName: string,
     aggregatedAlertName: string,
-    options?: IotSecuritySolutionsAnalyticsAggregatedAlertDismissOptionalParams
+    options?: IotSecuritySolutionsAnalyticsAggregatedAlertDismissOptionalParams,
   ): Promise<void>;
 }
