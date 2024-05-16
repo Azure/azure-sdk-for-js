@@ -5,8 +5,8 @@ import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context, Suite } from "mocha";
 
-import { OpenAIClient } from "@azure/openai";
 import { versionsToTest } from "@azure-tools/test-utils";
+import { OpenAIClient } from "@azure/openai";
 import {
   AutocompleteResult,
   AzureKeyCredential,
@@ -19,7 +19,6 @@ import {
 } from "../../../src";
 import { SearchFieldArray, SelectArray } from "../../../src/indexModels";
 import { delay, serviceVersions } from "../../../src/serviceUtils";
-import { COMPRESSION_DISABLED } from "../../compressionDisabled";
 import { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
@@ -597,10 +596,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         if (isLiveMode()) {
           this.skip();
         }
-        // Currently unable to create a compression resource
-        if (COMPRESSION_DISABLED) {
-          this.skip();
-        }
+
         const embeddings = await openAIClient.getEmbeddings(
           env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
           ["What are the most luxurious hotels?"],

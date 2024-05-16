@@ -11,7 +11,7 @@ import {
   AscLocation,
   LocationsListOptionalParams,
   LocationsGetOptionalParams,
-  LocationsGetResponse
+  LocationsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface Locations {
    * @param options The options parameters.
    */
   list(
-    options?: LocationsListOptionalParams
+    options?: LocationsListOptionalParams,
   ): PagedAsyncIterableIterator<AscLocation>;
   /**
    * Details of a specific location
@@ -34,6 +34,6 @@ export interface Locations {
    */
   get(
     ascLocation: string,
-    options?: LocationsGetOptionalParams
+    options?: LocationsGetOptionalParams,
   ): Promise<LocationsGetResponse>;
 }

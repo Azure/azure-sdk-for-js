@@ -14,7 +14,7 @@ import {
   AdaptiveApplicationControlGroup,
   AdaptiveApplicationControlsPutOptionalParams,
   AdaptiveApplicationControlsPutResponse,
-  AdaptiveApplicationControlsDeleteOptionalParams
+  AdaptiveApplicationControlsDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a AdaptiveApplicationControls. */
@@ -24,7 +24,7 @@ export interface AdaptiveApplicationControls {
    * @param options The options parameters.
    */
   list(
-    options?: AdaptiveApplicationControlsListOptionalParams
+    options?: AdaptiveApplicationControlsListOptionalParams,
   ): Promise<AdaptiveApplicationControlsListResponse>;
   /**
    * Gets an application control VM/server group.
@@ -36,7 +36,7 @@ export interface AdaptiveApplicationControls {
   get(
     ascLocation: string,
     groupName: string,
-    options?: AdaptiveApplicationControlsGetOptionalParams
+    options?: AdaptiveApplicationControlsGetOptionalParams,
   ): Promise<AdaptiveApplicationControlsGetResponse>;
   /**
    * Update an application control machine group
@@ -50,7 +50,7 @@ export interface AdaptiveApplicationControls {
     ascLocation: string,
     groupName: string,
     body: AdaptiveApplicationControlGroup,
-    options?: AdaptiveApplicationControlsPutOptionalParams
+    options?: AdaptiveApplicationControlsPutOptionalParams,
   ): Promise<AdaptiveApplicationControlsPutResponse>;
   /**
    * Delete an application control machine group
@@ -62,6 +62,6 @@ export interface AdaptiveApplicationControls {
   delete(
     ascLocation: string,
     groupName: string,
-    options?: AdaptiveApplicationControlsDeleteOptionalParams
+    options?: AdaptiveApplicationControlsDeleteOptionalParams,
   ): Promise<void>;
 }

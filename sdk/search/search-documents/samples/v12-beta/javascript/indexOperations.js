@@ -5,12 +5,12 @@
  * @summary Demonstrates the Index Operations.
  */
 
-const { AzureKeyCredential, SearchIndexClient } = require("@azure/search-documents");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SearchIndexClient } = require("@azure/search-documents");
 
 require("dotenv").config();
 
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-1";
 
 async function createIndex(indexName, client) {
@@ -133,11 +133,11 @@ async function deleteIndex(indexName, client) {
 
 async function main() {
   console.log(`Running Index Operations Sample....`);
-  if (!endpoint || !apiKey) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new SearchIndexClient(endpoint, new DefaultAzureCredential());
   try {
     await createIndex(TEST_INDEX_NAME, client);
     await getAndUpdateIndex(TEST_INDEX_NAME, client);

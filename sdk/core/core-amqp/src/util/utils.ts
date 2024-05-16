@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock";
+import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock.js";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { WebSocketImpl } from "rhea-promise";
 import { delay as wrapperDelay } from "@azure/core-util";
@@ -50,14 +50,6 @@ export interface WebSocketOptions {
    */
   webSocketConstructorOptions?: any;
 }
-
-/**
- * @internal
- *
- * A constant that indicates whether the environment is node.js or browser based.
- */
-export const isNode =
-  typeof process !== "undefined" && Boolean(process.version) && Boolean(process.versions?.node);
 
 /**
  * Defines an object with possible properties defined in T.
@@ -186,6 +178,15 @@ export async function delay<T>(
   if (value !== undefined) {
     return value;
   }
+}
+
+/**
+ * Checks if an address is localhost.
+ * @param address - The address to check.
+ * @returns true if the address is localhost, false otherwise.
+ */
+export function isLoopbackAddress(address: string): boolean {
+  return /^(.*:\/\/)?(127\.[\d.]+|[0:]+1|localhost)/.test(address.toLowerCase());
 }
 
 /**

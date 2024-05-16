@@ -24,13 +24,14 @@ import {
   ExternalSecuritySolutionsGetOptionalParams,
   ExternalSecuritySolutionsGetResponse,
   ExternalSecuritySolutionsListNextResponse,
-  ExternalSecuritySolutionsListByHomeRegionNextResponse
+  ExternalSecuritySolutionsListByHomeRegionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ExternalSecuritySolutions operations. */
 export class ExternalSecuritySolutionsImpl
-  implements ExternalSecuritySolutions {
+  implements ExternalSecuritySolutions
+{
   private readonly client: SecurityCenter;
 
   /**
@@ -46,7 +47,7 @@ export class ExternalSecuritySolutionsImpl
    * @param options The options parameters.
    */
   public list(
-    options?: ExternalSecuritySolutionsListOptionalParams
+    options?: ExternalSecuritySolutionsListOptionalParams,
   ): PagedAsyncIterableIterator<ExternalSecuritySolution> {
     const iter = this.listPagingAll(options);
     return {
@@ -61,13 +62,13 @@ export class ExternalSecuritySolutionsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ExternalSecuritySolutionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ExternalSecuritySolution[]> {
     let result: ExternalSecuritySolutionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +89,7 @@ export class ExternalSecuritySolutionsImpl
   }
 
   private async *listPagingAll(
-    options?: ExternalSecuritySolutionsListOptionalParams
+    options?: ExternalSecuritySolutionsListOptionalParams,
   ): AsyncIterableIterator<ExternalSecuritySolution> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -103,7 +104,7 @@ export class ExternalSecuritySolutionsImpl
    */
   public listByHomeRegion(
     ascLocation: string,
-    options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
+    options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams,
   ): PagedAsyncIterableIterator<ExternalSecuritySolution> {
     const iter = this.listByHomeRegionPagingAll(ascLocation, options);
     return {
@@ -118,14 +119,14 @@ export class ExternalSecuritySolutionsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByHomeRegionPagingPage(ascLocation, options, settings);
-      }
+      },
     };
   }
 
   private async *listByHomeRegionPagingPage(
     ascLocation: string,
     options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ExternalSecuritySolution[]> {
     let result: ExternalSecuritySolutionsListByHomeRegionResponse;
     let continuationToken = settings?.continuationToken;
@@ -140,7 +141,7 @@ export class ExternalSecuritySolutionsImpl
       result = await this._listByHomeRegionNext(
         ascLocation,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -151,11 +152,11 @@ export class ExternalSecuritySolutionsImpl
 
   private async *listByHomeRegionPagingAll(
     ascLocation: string,
-    options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
+    options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams,
   ): AsyncIterableIterator<ExternalSecuritySolution> {
     for await (const page of this.listByHomeRegionPagingPage(
       ascLocation,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -166,7 +167,7 @@ export class ExternalSecuritySolutionsImpl
    * @param options The options parameters.
    */
   private _list(
-    options?: ExternalSecuritySolutionsListOptionalParams
+    options?: ExternalSecuritySolutionsListOptionalParams,
   ): Promise<ExternalSecuritySolutionsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -179,11 +180,11 @@ export class ExternalSecuritySolutionsImpl
    */
   private _listByHomeRegion(
     ascLocation: string,
-    options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
+    options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams,
   ): Promise<ExternalSecuritySolutionsListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
       { ascLocation, options },
-      listByHomeRegionOperationSpec
+      listByHomeRegionOperationSpec,
     );
   }
 
@@ -200,16 +201,16 @@ export class ExternalSecuritySolutionsImpl
     resourceGroupName: string,
     ascLocation: string,
     externalSecuritySolutionsName: string,
-    options?: ExternalSecuritySolutionsGetOptionalParams
+    options?: ExternalSecuritySolutionsGetOptionalParams,
   ): Promise<ExternalSecuritySolutionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         ascLocation,
         externalSecuritySolutionsName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -220,11 +221,11 @@ export class ExternalSecuritySolutionsImpl
    */
   private _listNext(
     nextLink: string,
-    options?: ExternalSecuritySolutionsListNextOptionalParams
+    options?: ExternalSecuritySolutionsListNextOptionalParams,
   ): Promise<ExternalSecuritySolutionsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -238,11 +239,11 @@ export class ExternalSecuritySolutionsImpl
   private _listByHomeRegionNext(
     ascLocation: string,
     nextLink: string,
-    options?: ExternalSecuritySolutionsListByHomeRegionNextOptionalParams
+    options?: ExternalSecuritySolutionsListByHomeRegionNextOptionalParams,
   ): Promise<ExternalSecuritySolutionsListByHomeRegionNextResponse> {
     return this.client.sendOperationRequest(
       { ascLocation, nextLink, options },
-      listByHomeRegionNextOperationSpec
+      listByHomeRegionNextOperationSpec,
     );
   }
 }
@@ -250,102 +251,99 @@ export class ExternalSecuritySolutionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/externalSecuritySolutions",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/externalSecuritySolutions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExternalSecuritySolutionList
+      bodyMapper: Mappers.ExternalSecuritySolutionList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByHomeRegionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/ExternalSecuritySolutions",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/ExternalSecuritySolutions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExternalSecuritySolutionList
+      bodyMapper: Mappers.ExternalSecuritySolutionList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.ascLocation
+    Parameters.ascLocation,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/ExternalSecuritySolutions/{externalSecuritySolutionsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/ExternalSecuritySolutions/{externalSecuritySolutionsName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExternalSecuritySolution
+      bodyMapper: Mappers.ExternalSecuritySolution,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
-    Parameters.externalSecuritySolutionsName
+    Parameters.resourceGroupName,
+    Parameters.externalSecuritySolutionsName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExternalSecuritySolutionList
+      bodyMapper: Mappers.ExternalSecuritySolutionList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByHomeRegionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExternalSecuritySolutionList
+      bodyMapper: Mappers.ExternalSecuritySolutionList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.ascLocation,
     Parameters.nextLink,
-    Parameters.ascLocation
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

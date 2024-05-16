@@ -75,6 +75,7 @@ After calling `useIdentityPlugin`, the native broker plugin is registered to the
 
 Once the plugin is registered, you can enable WAM broker authentication by passing `brokerOptions` with an `enabled` property set to `true` to a credential constructor. In the following example, we use the `InteractiveBrowserCredential`.
 
+<!-- eslint-skip -->
 ```typescript
 import { nativeBrokerPlugin } from "@azure/identity-broker";
 import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
@@ -108,6 +109,7 @@ For a complete example of using an Electron app for retrieving a window handle, 
 
 When the `useDefaultBrokerAccount` option is set to `true`, the credential will attempt to silently use the default broker account. If using the default account fails, the credential will fall back to interactive authentication.
 
+<!-- eslint-skip -->
 ```typescript
 import { nativeBrokerPlugin } from "@azure/identity-broker";
 import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
@@ -145,7 +147,7 @@ See the Azure Identity [troubleshooting guide][https://github.com/Azure/azure-sd
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```typescript
-import { setLogLevel } from ("@azure/logger");
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
