@@ -141,7 +141,7 @@ to be used with a Mixed Reality client library:
 // to the client.
 const accessToken = GetMixedRealityAccessTokenFromWebService();
 
-RemoteRenderingClient client = new RemoteRenderingClient(remoteRenderingEndpoint, accountId, accessToken);
+const client = new RemoteRenderingClient(remoteRenderingEndpoint, accountId, accessToken);
 ```
 
 ## Key concepts
@@ -201,7 +201,7 @@ The code is as follows:
 ```typescript Snippet:StartAComplexAssetConversion
   const inputSettings: AssetConversionInputSettings = {
     storageContainerUrl: inputStorageUrl,
-    blobPrefix: "Bicycle"
+    blobPrefix: "Bicycle",
     relativeInputAssetPath: "bicycle.gltf"
   };
   const outputSettings: AssetConversionOutputSettings = {
