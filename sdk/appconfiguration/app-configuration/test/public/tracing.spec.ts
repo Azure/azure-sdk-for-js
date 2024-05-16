@@ -6,6 +6,8 @@ import { createAppConfigurationClientForTests, startRecorder } from "./utils/tes
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
 import { Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
+import { tracingClient } from "../../src/internal/tracing";
+import Sinon from "sinon";
 
 describe("supports tracing", () => {
   let client: AppConfigurationClient;
@@ -17,6 +19,7 @@ describe("supports tracing", () => {
   });
 
   afterEach(async () => {
+    Sinon.restore();
     await recorder.stop();
   });
 
@@ -25,31 +28,29 @@ describe("supports tracing", () => {
       "noLabelTests",
       `noLabelTests${Math.floor(Math.random() * 1000)}`,
     );
-    await assert.supportsTracing(
-      async (options) => {
-        const promises: Promise<any>[] = [
-          client.addConfigurationSetting({ key }, options),
-          client.getConfigurationSetting({ key }, options),
-          client.setConfigurationSetting({ key, value: "new-value" }, options),
-          client.setReadOnly({ key }, true, options),
-          client.deleteConfigurationSetting({ key }, options),
-        ];
-        // We don't care about errors, only that we created (and closed) the appropriate spans.
-        await Promise.all(promises.map((p) => p.catch(() => undefined)));
-      },
-      [
-        "AppConfigurationClient.addConfigurationSetting",
-        "AppConfigurationClient.getConfigurationSetting",
-        "AppConfigurationClient.setConfigurationSetting",
-        "AppConfigurationClient.setReadOnly",
-        "AppConfigurationClient.deleteConfigurationSetting",
-      ],
+
+    const spy = Sinon.spy(tracingClient, "withSpan");
+
+    // We don't care about errors, only that we created a span for each operation
+    await Promise.allSettled([
+      client.addConfigurationSetting({ key }),
+      client.getConfigurationSetting({ key }),
+      client.setConfigurationSetting({ key, value: "new-value" }),
+      client.setReadOnly({ key }, true),
+      client.deleteConfigurationSetting({ key }),
+    ]);
+
+    const expected = [
+      "AppConfigurationClient.addConfigurationSetting",
+      "AppConfigurationClient.getConfigurationSetting",
+      "AppConfigurationClient.setConfigurationSetting",
+      "AppConfigurationClient.setReadOnly",
+      "AppConfigurationClient.deleteConfigurationSetting",
+    ];
+
+    assert.sameMembers(
+      expected,
+      spy.getCalls().map((call) => call.args[0]),
     );
-    try {
-      await client.setReadOnly({ key: key }, false);
-      await client.deleteConfigurationSetting({ key: key });
-    } catch (e: any) {
-      /** empty because key is already deleted */
-    }
   });
 });
