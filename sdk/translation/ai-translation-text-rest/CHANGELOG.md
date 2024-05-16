@@ -1,11 +1,12 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0 (Unreleased)
 
 ### Features Added
 - Added support for AAD authentication.
 
 ### Breaking Changes
+- GetLanguages got renamed to GetSupportedLanguages
 
 ### Bugs Fixed
 
