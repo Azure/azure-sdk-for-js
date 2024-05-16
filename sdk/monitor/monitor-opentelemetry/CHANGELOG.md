@@ -1,21 +1,22 @@
 # Release History
 
-## 1.4.1 (Unreleased)
+## 1.5.0 (2024-05-10)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Allow setting log level for winston and bunyan via environment variable.
+- Add Winston Log instrumentation.
+- Add log level configuration for Bunyan and Winston loggers.
 
 ### Other Changes
 
-## 1.4.0 (2024-04-16)
+- Updated OpenTelemetry dependencies.
 
-- Capture live metrics and live metrics activation in statsbeat.
+## 1.4.0 (2024-04-16)
 
 ### Features Added
 
+- Capture live metrics and live metrics activation in statsbeat.
 - Add support for Trace based sampling for logs.
 - Add support for Winston log instrumentation.
 
