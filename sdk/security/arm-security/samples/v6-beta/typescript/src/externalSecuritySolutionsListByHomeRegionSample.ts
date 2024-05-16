@@ -29,7 +29,7 @@ async function getExternalSecuritySolutionsOnASubscriptionFromSecurityDataLocati
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.externalSecuritySolutions.listByHomeRegion(
-    ascLocation
+    ascLocation,
   )) {
     resArray.push(item);
   }

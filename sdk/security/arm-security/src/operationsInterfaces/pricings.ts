@@ -7,40 +7,80 @@
  */
 
 import {
-  PricingsListOptionalParams,
-  PricingsListResponse,
   PricingsGetOptionalParams,
   PricingsGetResponse,
   Pricing,
   PricingsUpdateOptionalParams,
-  PricingsUpdateResponse
+  PricingsUpdateResponse,
+  PricingsDeleteOptionalParams,
+  PricingsListOptionalParams,
+  PricingsListResponse,
 } from "../models";
 
 /** Interface representing a Pricings. */
 export interface Pricings {
   /**
-   * Lists Microsoft Defender for Cloud pricing configurations in the subscription.
-   * @param options The options parameters.
-   */
-  list(options?: PricingsListOptionalParams): Promise<PricingsListResponse>;
-  /**
-   * Gets a provided Microsoft Defender for Cloud pricing configuration in the subscription.
+   * Get the Defender plans pricing configurations of the selected scope (valid scopes are resource id or
+   * a subscription id). At the resource level, supported resource types are 'VirtualMachines, VMSS and
+   * ARC Machines'.
+   * @param scopeId The scope id of the pricing. Valid scopes are: subscription (format:
+   *                'subscriptions/{subscriptionId}'), or a specific resource (format:
+   *                'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName})
+   *                - Supported resources are (VirtualMachines)
    * @param pricingName name of the pricing configuration
    * @param options The options parameters.
    */
   get(
+    scopeId: string,
     pricingName: string,
-    options?: PricingsGetOptionalParams
+    options?: PricingsGetOptionalParams,
   ): Promise<PricingsGetResponse>;
   /**
-   * Updates a provided Microsoft Defender for Cloud pricing configuration in the subscription.
+   * Updates a provided Microsoft Defender for Cloud pricing configuration in the scope. Valid scopes
+   * are: subscription id or a specific resource id (Supported resources are: 'VirtualMachines, VMSS and
+   * ARC Machines' and only for plan='VirtualMachines' and subPlan='P1').
+   * @param scopeId The scope id of the pricing. Valid scopes are: subscription (format:
+   *                'subscriptions/{subscriptionId}'), or a specific resource (format:
+   *                'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName})
+   *                - Supported resources are (VirtualMachines)
    * @param pricingName name of the pricing configuration
    * @param pricing Pricing object
    * @param options The options parameters.
    */
   update(
+    scopeId: string,
     pricingName: string,
     pricing: Pricing,
-    options?: PricingsUpdateOptionalParams
+    options?: PricingsUpdateOptionalParams,
   ): Promise<PricingsUpdateResponse>;
+  /**
+   * Deletes a provided Microsoft Defender for Cloud pricing configuration in a specific resource. Valid
+   * only for resource scope (Supported resources are: 'VirtualMachines, VMSS and ARC MachinesS').
+   * @param scopeId The identifier of the resource, (format:
+   *                'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName})
+   * @param pricingName name of the pricing configuration
+   * @param options The options parameters.
+   */
+  delete(
+    scopeId: string,
+    pricingName: string,
+    options?: PricingsDeleteOptionalParams,
+  ): Promise<void>;
+  /**
+   * Lists Microsoft Defender for Cloud pricing configurations of the scopeId, that match the optional
+   * given $filter. Valid scopes are: subscription id or a specific resource id (Supported resources are:
+   * 'VirtualMachines, VMSS and ARC Machines'). Valid $filter is: 'name in
+   * ({planName1},{planName2},...)'. If $filter is not provided, the unfiltered list will be returned. If
+   * '$filter=name in (planName1,planName2)' is provided, the returned list includes the pricings set for
+   * 'planName1' and 'planName2' only.
+   * @param scopeId The scope id of the pricing. Valid scopes are: subscription (format:
+   *                'subscriptions/{subscriptionId}'), or a specific resource (format:
+   *                'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName})
+   *                - Supported resources are (VirtualMachines)
+   * @param options The options parameters.
+   */
+  list(
+    scopeId: string,
+    options?: PricingsListOptionalParams,
+  ): Promise<PricingsListResponse>;
 }

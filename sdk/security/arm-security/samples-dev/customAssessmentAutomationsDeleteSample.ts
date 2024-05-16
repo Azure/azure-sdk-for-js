@@ -31,7 +31,7 @@ async function deleteACustomAssessmentAutomation() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.customAssessmentAutomations.delete(
     resourceGroupName,
-    customAssessmentAutomationName
+    customAssessmentAutomationName,
   );
   console.log(result);
 }

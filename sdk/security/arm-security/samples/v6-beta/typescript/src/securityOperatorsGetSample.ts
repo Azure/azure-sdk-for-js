@@ -30,7 +30,7 @@ async function getASpecificSecurityOperatorByScopeAndSecurityOperatorName() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.securityOperators.get(
     pricingName,
-    securityOperatorName
+    securityOperatorName,
   );
   console.log(result);
 }

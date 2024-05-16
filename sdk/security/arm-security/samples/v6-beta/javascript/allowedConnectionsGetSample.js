@@ -29,7 +29,7 @@ async function getAllowedConnections() {
   const result = await client.allowedConnections.get(
     resourceGroupName,
     ascLocation,
-    connectionType
+    connectionType,
   );
   console.log(result);
 }
