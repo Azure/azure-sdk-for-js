@@ -9053,8 +9053,8 @@ export const MLTableJobInput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MLTableJobInput",
-    uberParent: "AssetJobInput",
-    polymorphicDiscriminator: AssetJobInput.type.polymorphicDiscriminator,
+    uberParent: "JobInput",
+    polymorphicDiscriminator: JobInput.type.polymorphicDiscriminator,
     modelProperties: {
       ...AssetJobInput.type.modelProperties,
       ...JobInput.type.modelProperties
@@ -9067,8 +9067,8 @@ export const CustomModelJobInput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CustomModelJobInput",
-    uberParent: "AssetJobInput",
-    polymorphicDiscriminator: AssetJobInput.type.polymorphicDiscriminator,
+    uberParent: "JobInput",
+    polymorphicDiscriminator: JobInput.type.polymorphicDiscriminator,
     modelProperties: {
       ...AssetJobInput.type.modelProperties,
       ...JobInput.type.modelProperties
@@ -9081,8 +9081,8 @@ export const MLFlowModelJobInput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MLFlowModelJobInput",
-    uberParent: "AssetJobInput",
-    polymorphicDiscriminator: AssetJobInput.type.polymorphicDiscriminator,
+    uberParent: "JobInput",
+    polymorphicDiscriminator: JobInput.type.polymorphicDiscriminator,
     modelProperties: {
       ...AssetJobInput.type.modelProperties,
       ...JobInput.type.modelProperties
@@ -9095,8 +9095,8 @@ export const TritonModelJobInput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TritonModelJobInput",
-    uberParent: "AssetJobInput",
-    polymorphicDiscriminator: AssetJobInput.type.polymorphicDiscriminator,
+    uberParent: "JobInput",
+    polymorphicDiscriminator: JobInput.type.polymorphicDiscriminator,
     modelProperties: {
       ...AssetJobInput.type.modelProperties,
       ...JobInput.type.modelProperties
@@ -9109,8 +9109,8 @@ export const UriFileJobInput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UriFileJobInput",
-    uberParent: "AssetJobInput",
-    polymorphicDiscriminator: AssetJobInput.type.polymorphicDiscriminator,
+    uberParent: "JobInput",
+    polymorphicDiscriminator: JobInput.type.polymorphicDiscriminator,
     modelProperties: {
       ...AssetJobInput.type.modelProperties,
       ...JobInput.type.modelProperties
@@ -9123,8 +9123,8 @@ export const UriFolderJobInput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UriFolderJobInput",
-    uberParent: "AssetJobInput",
-    polymorphicDiscriminator: AssetJobInput.type.polymorphicDiscriminator,
+    uberParent: "JobInput",
+    polymorphicDiscriminator: JobInput.type.polymorphicDiscriminator,
     modelProperties: {
       ...AssetJobInput.type.modelProperties,
       ...JobInput.type.modelProperties
@@ -9137,8 +9137,8 @@ export const CustomModelJobOutput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CustomModelJobOutput",
-    uberParent: "AssetJobOutput",
-    polymorphicDiscriminator: AssetJobOutput.type.polymorphicDiscriminator,
+    uberParent: "JobOutput",
+    polymorphicDiscriminator: JobOutput.type.polymorphicDiscriminator,
     modelProperties: {
       ...AssetJobOutput.type.modelProperties,
       ...JobOutput.type.modelProperties
@@ -9151,8 +9151,8 @@ export const MLFlowModelJobOutput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MLFlowModelJobOutput",
-    uberParent: "AssetJobOutput",
-    polymorphicDiscriminator: AssetJobOutput.type.polymorphicDiscriminator,
+    uberParent: "JobOutput",
+    polymorphicDiscriminator: JobOutput.type.polymorphicDiscriminator,
     modelProperties: {
       ...AssetJobOutput.type.modelProperties,
       ...JobOutput.type.modelProperties
@@ -9165,8 +9165,8 @@ export const MLTableJobOutput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MLTableJobOutput",
-    uberParent: "AssetJobOutput",
-    polymorphicDiscriminator: AssetJobOutput.type.polymorphicDiscriminator,
+    uberParent: "JobOutput",
+    polymorphicDiscriminator: JobOutput.type.polymorphicDiscriminator,
     modelProperties: {
       ...AssetJobOutput.type.modelProperties,
       ...JobOutput.type.modelProperties
@@ -9179,8 +9179,8 @@ export const TritonModelJobOutput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TritonModelJobOutput",
-    uberParent: "AssetJobOutput",
-    polymorphicDiscriminator: AssetJobOutput.type.polymorphicDiscriminator,
+    uberParent: "JobOutput",
+    polymorphicDiscriminator: JobOutput.type.polymorphicDiscriminator,
     modelProperties: {
       ...AssetJobOutput.type.modelProperties,
       ...JobOutput.type.modelProperties
@@ -9193,8 +9193,8 @@ export const UriFileJobOutput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UriFileJobOutput",
-    uberParent: "AssetJobOutput",
-    polymorphicDiscriminator: AssetJobOutput.type.polymorphicDiscriminator,
+    uberParent: "JobOutput",
+    polymorphicDiscriminator: JobOutput.type.polymorphicDiscriminator,
     modelProperties: {
       ...AssetJobOutput.type.modelProperties,
       ...JobOutput.type.modelProperties
@@ -9207,8 +9207,8 @@ export const UriFolderJobOutput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UriFolderJobOutput",
-    uberParent: "AssetJobOutput",
-    polymorphicDiscriminator: AssetJobOutput.type.polymorphicDiscriminator,
+    uberParent: "JobOutput",
+    polymorphicDiscriminator: JobOutput.type.polymorphicDiscriminator,
     modelProperties: {
       ...AssetJobOutput.type.modelProperties,
       ...JobOutput.type.modelProperties
@@ -11890,18 +11890,18 @@ export let discriminators = {
   "ScheduleActionBase.CreateJob": JobScheduleAction,
   "TriggerBase.Recurrence": RecurrenceTrigger,
   "TriggerBase.Cron": CronTrigger,
-  "AssetJobInput.mltable": MLTableJobInput,
-  "AssetJobInput.custom_model": CustomModelJobInput,
-  "AssetJobInput.mlflow_model": MLFlowModelJobInput,
-  "AssetJobInput.triton_model": TritonModelJobInput,
-  "AssetJobInput.uri_file": UriFileJobInput,
-  "AssetJobInput.uri_folder": UriFolderJobInput,
-  "AssetJobOutput.custom_model": CustomModelJobOutput,
-  "AssetJobOutput.mlflow_model": MLFlowModelJobOutput,
-  "AssetJobOutput.mltable": MLTableJobOutput,
-  "AssetJobOutput.triton_model": TritonModelJobOutput,
-  "AssetJobOutput.uri_file": UriFileJobOutput,
-  "AssetJobOutput.uri_folder": UriFolderJobOutput,
+  "JobInput.mltable": MLTableJobInput,
+  "JobInput.custom_model": CustomModelJobInput,
+  "JobInput.mlflow_model": MLFlowModelJobInput,
+  "JobInput.triton_model": TritonModelJobInput,
+  "JobInput.uri_file": UriFileJobInput,
+  "JobInput.uri_folder": UriFolderJobInput,
+  "JobOutput.custom_model": CustomModelJobOutput,
+  "JobOutput.mlflow_model": MLFlowModelJobOutput,
+  "JobOutput.mltable": MLTableJobOutput,
+  "JobOutput.triton_model": TritonModelJobOutput,
+  "JobOutput.uri_file": UriFileJobOutput,
+  "JobOutput.uri_folder": UriFolderJobOutput,
   "ForecastHorizon.Auto": AutoForecastHorizon,
   "ForecastHorizon.Custom": CustomForecastHorizon,
   "TableVertical.Classification": Classification,
