@@ -2,23 +2,16 @@
 // Licensed under the MIT license.
 
 import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
-import markdown from "eslint-plugin-markdown";
 import typescriptEslint from "typescript-eslint";
 
 const markdownConfigs: FlatConfig.ConfigArray = [
-    {
+  {
     files: ["**/*.md"],
     processor: "markdown/markdown",
   },
   {
-    plugins: {
-      markdown,
-      "@typescript-eslint": typescriptEslint.plugin,
-    },
-  },
-  {
-    name: "markdown-azsdk-customized",
-    files: ["*.md/*.{js,javascript}"],
+    name: "markdown-js-azsdk-customized",
+    files: ["*.md/*.js"],
     rules: {
       "no-unused-vars": "off",
       "no-undef": "off",
@@ -37,11 +30,18 @@ const markdownConfigs: FlatConfig.ConfigArray = [
     },
   },
   {
-    files: ["*.md/*.{ts,typescript}"],
+    name: "markdown-ts-azsdk-customized",
+    files: ["*.md/*.ts"],
+    languageOptions: {
+      parserOptions: {
+        project: true,
+        programs: null,
+      },
+    },
     ...typescriptEslint.configs.disableTypeChecked,
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
-    }
+    },
   },
 ];
 
