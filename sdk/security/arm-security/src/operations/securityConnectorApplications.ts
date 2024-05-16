@@ -18,13 +18,14 @@ import {
   SecurityConnectorApplicationsListNextOptionalParams,
   SecurityConnectorApplicationsListOptionalParams,
   SecurityConnectorApplicationsListResponse,
-  SecurityConnectorApplicationsListNextResponse
+  SecurityConnectorApplicationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SecurityConnectorApplications operations. */
 export class SecurityConnectorApplicationsImpl
-  implements SecurityConnectorApplications {
+  implements SecurityConnectorApplications
+{
   private readonly client: SecurityCenter;
 
   /**
@@ -45,12 +46,12 @@ export class SecurityConnectorApplicationsImpl
   public list(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: SecurityConnectorApplicationsListOptionalParams
+    options?: SecurityConnectorApplicationsListOptionalParams,
   ): PagedAsyncIterableIterator<Application> {
     const iter = this.listPagingAll(
       resourceGroupName,
       securityConnectorName,
-      options
+      options,
     );
     return {
       next() {
@@ -67,9 +68,9 @@ export class SecurityConnectorApplicationsImpl
           resourceGroupName,
           securityConnectorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +78,7 @@ export class SecurityConnectorApplicationsImpl
     resourceGroupName: string,
     securityConnectorName: string,
     options?: SecurityConnectorApplicationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Application[]> {
     let result: SecurityConnectorApplicationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +86,7 @@ export class SecurityConnectorApplicationsImpl
       result = await this._list(
         resourceGroupName,
         securityConnectorName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -97,7 +98,7 @@ export class SecurityConnectorApplicationsImpl
         resourceGroupName,
         securityConnectorName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -109,12 +110,12 @@ export class SecurityConnectorApplicationsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: SecurityConnectorApplicationsListOptionalParams
+    options?: SecurityConnectorApplicationsListOptionalParams,
   ): AsyncIterableIterator<Application> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       securityConnectorName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -130,11 +131,11 @@ export class SecurityConnectorApplicationsImpl
   private _list(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: SecurityConnectorApplicationsListOptionalParams
+    options?: SecurityConnectorApplicationsListOptionalParams,
   ): Promise<SecurityConnectorApplicationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, securityConnectorName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -150,11 +151,11 @@ export class SecurityConnectorApplicationsImpl
     resourceGroupName: string,
     securityConnectorName: string,
     nextLink: string,
-    options?: SecurityConnectorApplicationsListNextOptionalParams
+    options?: SecurityConnectorApplicationsListNextOptionalParams,
   ): Promise<SecurityConnectorApplicationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, securityConnectorName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -162,45 +163,44 @@ export class SecurityConnectorApplicationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/applications",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/applications",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationsList
+      bodyMapper: Mappers.ApplicationsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.securityConnectorName
+    Parameters.securityConnectorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationsList
+      bodyMapper: Mappers.ApplicationsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.securityConnectorName
+    Parameters.resourceGroupName,
+    Parameters.securityConnectorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

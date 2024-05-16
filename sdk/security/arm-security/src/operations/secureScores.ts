@@ -20,7 +20,7 @@ import {
   SecureScoresListResponse,
   SecureScoresGetOptionalParams,
   SecureScoresGetResponse,
-  SecureScoresListNextResponse
+  SecureScoresListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class SecureScoresImpl implements SecureScores {
    * @param options The options parameters.
    */
   public list(
-    options?: SecureScoresListOptionalParams
+    options?: SecureScoresListOptionalParams,
   ): PagedAsyncIterableIterator<SecureScoreItem> {
     const iter = this.listPagingAll(options);
     return {
@@ -56,13 +56,13 @@ export class SecureScoresImpl implements SecureScores {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: SecureScoresListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecureScoreItem[]> {
     let result: SecureScoresListResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class SecureScoresImpl implements SecureScores {
   }
 
   private async *listPagingAll(
-    options?: SecureScoresListOptionalParams
+    options?: SecureScoresListOptionalParams,
   ): AsyncIterableIterator<SecureScoreItem> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -95,7 +95,7 @@ export class SecureScoresImpl implements SecureScores {
    * @param options The options parameters.
    */
   private _list(
-    options?: SecureScoresListOptionalParams
+    options?: SecureScoresListOptionalParams,
   ): Promise<SecureScoresListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -109,11 +109,11 @@ export class SecureScoresImpl implements SecureScores {
    */
   get(
     secureScoreName: string,
-    options?: SecureScoresGetOptionalParams
+    options?: SecureScoresGetOptionalParams,
   ): Promise<SecureScoresGetResponse> {
     return this.client.sendOperationRequest(
       { secureScoreName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -124,11 +124,11 @@ export class SecureScoresImpl implements SecureScores {
    */
   private _listNext(
     nextLink: string,
-    options?: SecureScoresListNextOptionalParams
+    options?: SecureScoresListNextOptionalParams,
   ): Promise<SecureScoresListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -136,59 +136,57 @@ export class SecureScoresImpl implements SecureScores {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/secureScores",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/secureScores",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecureScoresList
+      bodyMapper: Mappers.SecureScoresList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/secureScores/{secureScoreName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/secureScores/{secureScoreName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecureScoreItem
+      bodyMapper: Mappers.SecureScoreItem,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.secureScoreName
+    Parameters.secureScoreName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecureScoresList
+      bodyMapper: Mappers.SecureScoresList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
