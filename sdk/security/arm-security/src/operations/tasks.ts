@@ -33,7 +33,7 @@ import {
   TasksUpdateResourceGroupLevelTaskStateOptionalParams,
   TasksListNextResponse,
   TasksListByHomeRegionNextResponse,
-  TasksListByResourceGroupNextResponse
+  TasksListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export class TasksImpl implements Tasks {
    * @param options The options parameters.
    */
   public list(
-    options?: TasksListOptionalParams
+    options?: TasksListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityTask> {
     const iter = this.listPagingAll(options);
     return {
@@ -69,13 +69,13 @@ export class TasksImpl implements Tasks {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: TasksListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecurityTask[]> {
     let result: TasksListResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +96,7 @@ export class TasksImpl implements Tasks {
   }
 
   private async *listPagingAll(
-    options?: TasksListOptionalParams
+    options?: TasksListOptionalParams,
   ): AsyncIterableIterator<SecurityTask> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -111,7 +111,7 @@ export class TasksImpl implements Tasks {
    */
   public listByHomeRegion(
     ascLocation: string,
-    options?: TasksListByHomeRegionOptionalParams
+    options?: TasksListByHomeRegionOptionalParams,
   ): PagedAsyncIterableIterator<SecurityTask> {
     const iter = this.listByHomeRegionPagingAll(ascLocation, options);
     return {
@@ -126,14 +126,14 @@ export class TasksImpl implements Tasks {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByHomeRegionPagingPage(ascLocation, options, settings);
-      }
+      },
     };
   }
 
   private async *listByHomeRegionPagingPage(
     ascLocation: string,
     options?: TasksListByHomeRegionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecurityTask[]> {
     let result: TasksListByHomeRegionResponse;
     let continuationToken = settings?.continuationToken;
@@ -148,7 +148,7 @@ export class TasksImpl implements Tasks {
       result = await this._listByHomeRegionNext(
         ascLocation,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -159,11 +159,11 @@ export class TasksImpl implements Tasks {
 
   private async *listByHomeRegionPagingAll(
     ascLocation: string,
-    options?: TasksListByHomeRegionOptionalParams
+    options?: TasksListByHomeRegionOptionalParams,
   ): AsyncIterableIterator<SecurityTask> {
     for await (const page of this.listByHomeRegionPagingPage(
       ascLocation,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -180,12 +180,12 @@ export class TasksImpl implements Tasks {
   public listByResourceGroup(
     resourceGroupName: string,
     ascLocation: string,
-    options?: TasksListByResourceGroupOptionalParams
+    options?: TasksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SecurityTask> {
     const iter = this.listByResourceGroupPagingAll(
       resourceGroupName,
       ascLocation,
-      options
+      options,
     );
     return {
       next() {
@@ -202,9 +202,9 @@ export class TasksImpl implements Tasks {
           resourceGroupName,
           ascLocation,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -212,7 +212,7 @@ export class TasksImpl implements Tasks {
     resourceGroupName: string,
     ascLocation: string,
     options?: TasksListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecurityTask[]> {
     let result: TasksListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -220,7 +220,7 @@ export class TasksImpl implements Tasks {
       result = await this._listByResourceGroup(
         resourceGroupName,
         ascLocation,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -232,7 +232,7 @@ export class TasksImpl implements Tasks {
         resourceGroupName,
         ascLocation,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -244,12 +244,12 @@ export class TasksImpl implements Tasks {
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
     ascLocation: string,
-    options?: TasksListByResourceGroupOptionalParams
+    options?: TasksListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<SecurityTask> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       ascLocation,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -271,11 +271,11 @@ export class TasksImpl implements Tasks {
    */
   private _listByHomeRegion(
     ascLocation: string,
-    options?: TasksListByHomeRegionOptionalParams
+    options?: TasksListByHomeRegionOptionalParams,
   ): Promise<TasksListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
       { ascLocation, options },
-      listByHomeRegionOperationSpec
+      listByHomeRegionOperationSpec,
     );
   }
 
@@ -289,11 +289,11 @@ export class TasksImpl implements Tasks {
   getSubscriptionLevelTask(
     ascLocation: string,
     taskName: string,
-    options?: TasksGetSubscriptionLevelTaskOptionalParams
+    options?: TasksGetSubscriptionLevelTaskOptionalParams,
   ): Promise<TasksGetSubscriptionLevelTaskResponse> {
     return this.client.sendOperationRequest(
       { ascLocation, taskName, options },
-      getSubscriptionLevelTaskOperationSpec
+      getSubscriptionLevelTaskOperationSpec,
     );
   }
 
@@ -309,11 +309,11 @@ export class TasksImpl implements Tasks {
     ascLocation: string,
     taskName: string,
     taskUpdateActionType: TaskUpdateActionType,
-    options?: TasksUpdateSubscriptionLevelTaskStateOptionalParams
+    options?: TasksUpdateSubscriptionLevelTaskStateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { ascLocation, taskName, taskUpdateActionType, options },
-      updateSubscriptionLevelTaskStateOperationSpec
+      updateSubscriptionLevelTaskStateOperationSpec,
     );
   }
 
@@ -328,11 +328,11 @@ export class TasksImpl implements Tasks {
   private _listByResourceGroup(
     resourceGroupName: string,
     ascLocation: string,
-    options?: TasksListByResourceGroupOptionalParams
+    options?: TasksListByResourceGroupOptionalParams,
   ): Promise<TasksListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ascLocation, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -349,11 +349,11 @@ export class TasksImpl implements Tasks {
     resourceGroupName: string,
     ascLocation: string,
     taskName: string,
-    options?: TasksGetResourceGroupLevelTaskOptionalParams
+    options?: TasksGetResourceGroupLevelTaskOptionalParams,
   ): Promise<TasksGetResourceGroupLevelTaskResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ascLocation, taskName, options },
-      getResourceGroupLevelTaskOperationSpec
+      getResourceGroupLevelTaskOperationSpec,
     );
   }
 
@@ -372,7 +372,7 @@ export class TasksImpl implements Tasks {
     ascLocation: string,
     taskName: string,
     taskUpdateActionType: TaskUpdateActionType,
-    options?: TasksUpdateResourceGroupLevelTaskStateOptionalParams
+    options?: TasksUpdateResourceGroupLevelTaskStateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -380,9 +380,9 @@ export class TasksImpl implements Tasks {
         ascLocation,
         taskName,
         taskUpdateActionType,
-        options
+        options,
       },
-      updateResourceGroupLevelTaskStateOperationSpec
+      updateResourceGroupLevelTaskStateOperationSpec,
     );
   }
 
@@ -393,11 +393,11 @@ export class TasksImpl implements Tasks {
    */
   private _listNext(
     nextLink: string,
-    options?: TasksListNextOptionalParams
+    options?: TasksListNextOptionalParams,
   ): Promise<TasksListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -411,11 +411,11 @@ export class TasksImpl implements Tasks {
   private _listByHomeRegionNext(
     ascLocation: string,
     nextLink: string,
-    options?: TasksListByHomeRegionNextOptionalParams
+    options?: TasksListByHomeRegionNextOptionalParams,
   ): Promise<TasksListByHomeRegionNextResponse> {
     return this.client.sendOperationRequest(
       { ascLocation, nextLink, options },
-      listByHomeRegionNextOperationSpec
+      listByHomeRegionNextOperationSpec,
     );
   }
 
@@ -432,11 +432,11 @@ export class TasksImpl implements Tasks {
     resourceGroupName: string,
     ascLocation: string,
     nextLink: string,
-    options?: TasksListByResourceGroupNextOptionalParams
+    options?: TasksListByResourceGroupNextOptionalParams,
   ): Promise<TasksListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ascLocation, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -448,205 +448,201 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityTaskList
+      bodyMapper: Mappers.SecurityTaskList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByHomeRegionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/tasks",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/tasks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityTaskList
+      bodyMapper: Mappers.SecurityTaskList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.ascLocation
+    Parameters.ascLocation,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getSubscriptionLevelTaskOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/tasks/{taskName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/tasks/{taskName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityTask
+      bodyMapper: Mappers.SecurityTask,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.ascLocation,
-    Parameters.taskName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateSubscriptionLevelTaskStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/tasks/{taskName}/{taskUpdateActionType}",
-  httpMethod: "POST",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.ascLocation,
     Parameters.taskName,
-    Parameters.taskUpdateActionType
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+const updateSubscriptionLevelTaskStateOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/tasks/{taskName}/{taskUpdateActionType}",
+    httpMethod: "POST",
+    responses: {
+      204: {},
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.ascLocation,
+      Parameters.taskName,
+      Parameters.taskUpdateActionType,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/tasks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/tasks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityTaskList
+      bodyMapper: Mappers.SecurityTaskList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.ascLocation,
     Parameters.resourceGroupName,
-    Parameters.ascLocation
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getResourceGroupLevelTaskOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/tasks/{taskName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/tasks/{taskName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityTask
+      bodyMapper: Mappers.SecurityTask,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.ascLocation,
-    Parameters.taskName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateResourceGroupLevelTaskStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/tasks/{taskName}/{taskUpdateActionType}",
-  httpMethod: "POST",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion6],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
     Parameters.taskName,
-    Parameters.taskUpdateActionType
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+const updateResourceGroupLevelTaskStateOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/tasks/{taskName}/{taskUpdateActionType}",
+    httpMethod: "POST",
+    responses: {
+      204: {},
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.ascLocation,
+      Parameters.taskName,
+      Parameters.taskUpdateActionType,
+      Parameters.resourceGroupName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityTaskList
+      bodyMapper: Mappers.SecurityTaskList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByHomeRegionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityTaskList
+      bodyMapper: Mappers.SecurityTaskList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.ascLocation,
     Parameters.nextLink,
-    Parameters.ascLocation
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityTaskList
+      bodyMapper: Mappers.SecurityTaskList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.ascLocation,
     Parameters.nextLink,
-    Parameters.ascLocation
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

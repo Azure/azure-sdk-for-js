@@ -16923,7 +16923,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-0/aUmpvksKiDdjbVQKQKqtkz98ZUDMMf4YxRzXkrnHlRsrgwGMCU/KYgHyB/orng6FbTAGU0CuYqvHETQ+vhwg==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-2vBN5Am03jIDkisfpDkibLkKhOJKwQ79q3b6suTJA9Kca1lzG/L0bAU4wbaqx15y3Sf0gLarmoc+bSQjeMXMVg==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -16939,6 +16939,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.7

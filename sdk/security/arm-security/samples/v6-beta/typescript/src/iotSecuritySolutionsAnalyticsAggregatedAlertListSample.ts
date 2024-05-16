@@ -31,7 +31,7 @@ async function getTheAggregatedAlertListOfYoursIoTSecuritySolution() {
   const resArray = new Array();
   for await (let item of client.iotSecuritySolutionsAnalyticsAggregatedAlert.list(
     resourceGroupName,
-    solutionName
+    solutionName,
   )) {
     resArray.push(item);
   }

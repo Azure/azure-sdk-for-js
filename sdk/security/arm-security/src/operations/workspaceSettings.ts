@@ -25,7 +25,7 @@ import {
   WorkspaceSettingsUpdateOptionalParams,
   WorkspaceSettingsUpdateResponse,
   WorkspaceSettingsDeleteOptionalParams,
-  WorkspaceSettingsListNextResponse
+  WorkspaceSettingsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,7 +47,7 @@ export class WorkspaceSettingsImpl implements WorkspaceSettings {
    * @param options The options parameters.
    */
   public list(
-    options?: WorkspaceSettingsListOptionalParams
+    options?: WorkspaceSettingsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkspaceSetting> {
     const iter = this.listPagingAll(options);
     return {
@@ -62,13 +62,13 @@ export class WorkspaceSettingsImpl implements WorkspaceSettings {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: WorkspaceSettingsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkspaceSetting[]> {
     let result: WorkspaceSettingsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class WorkspaceSettingsImpl implements WorkspaceSettings {
   }
 
   private async *listPagingAll(
-    options?: WorkspaceSettingsListOptionalParams
+    options?: WorkspaceSettingsListOptionalParams,
   ): AsyncIterableIterator<WorkspaceSetting> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -102,7 +102,7 @@ export class WorkspaceSettingsImpl implements WorkspaceSettings {
    * @param options The options parameters.
    */
   private _list(
-    options?: WorkspaceSettingsListOptionalParams
+    options?: WorkspaceSettingsListOptionalParams,
   ): Promise<WorkspaceSettingsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -115,11 +115,11 @@ export class WorkspaceSettingsImpl implements WorkspaceSettings {
    */
   get(
     workspaceSettingName: string,
-    options?: WorkspaceSettingsGetOptionalParams
+    options?: WorkspaceSettingsGetOptionalParams,
   ): Promise<WorkspaceSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { workspaceSettingName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -132,11 +132,11 @@ export class WorkspaceSettingsImpl implements WorkspaceSettings {
   create(
     workspaceSettingName: string,
     workspaceSetting: WorkspaceSetting,
-    options?: WorkspaceSettingsCreateOptionalParams
+    options?: WorkspaceSettingsCreateOptionalParams,
   ): Promise<WorkspaceSettingsCreateResponse> {
     return this.client.sendOperationRequest(
       { workspaceSettingName, workspaceSetting, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -149,11 +149,11 @@ export class WorkspaceSettingsImpl implements WorkspaceSettings {
   update(
     workspaceSettingName: string,
     workspaceSetting: WorkspaceSetting,
-    options?: WorkspaceSettingsUpdateOptionalParams
+    options?: WorkspaceSettingsUpdateOptionalParams,
   ): Promise<WorkspaceSettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       { workspaceSettingName, workspaceSetting, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -165,11 +165,11 @@ export class WorkspaceSettingsImpl implements WorkspaceSettings {
    */
   delete(
     workspaceSettingName: string,
-    options?: WorkspaceSettingsDeleteOptionalParams
+    options?: WorkspaceSettingsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { workspaceSettingName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -180,11 +180,11 @@ export class WorkspaceSettingsImpl implements WorkspaceSettings {
    */
   private _listNext(
     nextLink: string,
-    options?: WorkspaceSettingsListNextOptionalParams
+    options?: WorkspaceSettingsListNextOptionalParams,
   ): Promise<WorkspaceSettingsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -192,124 +192,119 @@ export class WorkspaceSettingsImpl implements WorkspaceSettings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceSettingList
+      bodyMapper: Mappers.WorkspaceSettingList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceSetting
+      bodyMapper: Mappers.WorkspaceSetting,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.workspaceSettingName
+    Parameters.workspaceSettingName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceSetting
+      bodyMapper: Mappers.WorkspaceSetting,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.workspaceSetting,
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.workspaceSettingName
+    Parameters.workspaceSettingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceSetting
+      bodyMapper: Mappers.WorkspaceSetting,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.workspaceSetting,
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.workspaceSettingName
+    Parameters.workspaceSettingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
   httpMethod: "DELETE",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.workspaceSettingName
+    Parameters.workspaceSettingName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceSettingList
+      bodyMapper: Mappers.WorkspaceSettingList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

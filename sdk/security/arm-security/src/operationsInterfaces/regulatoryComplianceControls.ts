@@ -11,7 +11,7 @@ import {
   RegulatoryComplianceControl,
   RegulatoryComplianceControlsListOptionalParams,
   RegulatoryComplianceControlsGetOptionalParams,
-  RegulatoryComplianceControlsGetResponse
+  RegulatoryComplianceControlsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface RegulatoryComplianceControls {
    */
   list(
     regulatoryComplianceStandardName: string,
-    options?: RegulatoryComplianceControlsListOptionalParams
+    options?: RegulatoryComplianceControlsListOptionalParams,
   ): PagedAsyncIterableIterator<RegulatoryComplianceControl>;
   /**
    * Selected regulatory compliance control details and state
@@ -35,6 +35,6 @@ export interface RegulatoryComplianceControls {
   get(
     regulatoryComplianceStandardName: string,
     regulatoryComplianceControlName: string,
-    options?: RegulatoryComplianceControlsGetOptionalParams
+    options?: RegulatoryComplianceControlsGetOptionalParams,
   ): Promise<RegulatoryComplianceControlsGetResponse>;
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a security connector
  *
  * @summary Updates a security connector
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-03-01-preview/examples/SecurityConnectors/PatchSecurityConnector_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-10-01-preview/examples/SecurityConnectors/PatchSecurityConnector_example.json
  */
 async function updateASecurityConnector() {
   const subscriptionId =
@@ -36,19 +36,19 @@ async function updateASecurityConnector() {
     offerings: [
       {
         nativeCloudConnection: {
-          cloudRoleArn: "arn:aws:iam::00000000:role/ASCMonitor"
+          cloudRoleArn: "arn:aws:iam::00000000:role/ASCMonitor",
         },
-        offeringType: "CspmMonitorAws"
-      }
+        offeringType: "CspmMonitorAws",
+      },
     ],
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.securityConnectors.update(
     resourceGroupName,
     securityConnectorName,
-    securityConnector
+    securityConnector,
   );
   console.log(result);
 }

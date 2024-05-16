@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SecureScoreControlsListBySecureScoreOptionalParams,
-  SecurityCenter
+  SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,7 +32,7 @@ async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative(
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.secureScoreControls.listBySecureScore(
-    secureScoreName
+    secureScoreName,
   )) {
     resArray.push(item);
   }
@@ -52,14 +52,14 @@ async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeW
   const secureScoreName = "ascScore";
   const expand = "definition";
   const options: SecureScoreControlsListBySecureScoreOptionalParams = {
-    expand
+    expand,
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.secureScoreControls.listBySecureScore(
     secureScoreName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

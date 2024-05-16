@@ -25,7 +25,7 @@ import {
   AllowedConnectionsGetOptionalParams,
   AllowedConnectionsGetResponse,
   AllowedConnectionsListNextResponse,
-  AllowedConnectionsListByHomeRegionNextResponse
+  AllowedConnectionsListByHomeRegionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +46,7 @@ export class AllowedConnectionsImpl implements AllowedConnections {
    * @param options The options parameters.
    */
   public list(
-    options?: AllowedConnectionsListOptionalParams
+    options?: AllowedConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<AllowedConnectionsResource> {
     const iter = this.listPagingAll(options);
     return {
@@ -61,13 +61,13 @@ export class AllowedConnectionsImpl implements AllowedConnections {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: AllowedConnectionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AllowedConnectionsResource[]> {
     let result: AllowedConnectionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class AllowedConnectionsImpl implements AllowedConnections {
   }
 
   private async *listPagingAll(
-    options?: AllowedConnectionsListOptionalParams
+    options?: AllowedConnectionsListOptionalParams,
   ): AsyncIterableIterator<AllowedConnectionsResource> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -103,7 +103,7 @@ export class AllowedConnectionsImpl implements AllowedConnections {
    */
   public listByHomeRegion(
     ascLocation: string,
-    options?: AllowedConnectionsListByHomeRegionOptionalParams
+    options?: AllowedConnectionsListByHomeRegionOptionalParams,
   ): PagedAsyncIterableIterator<AllowedConnectionsResource> {
     const iter = this.listByHomeRegionPagingAll(ascLocation, options);
     return {
@@ -118,14 +118,14 @@ export class AllowedConnectionsImpl implements AllowedConnections {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByHomeRegionPagingPage(ascLocation, options, settings);
-      }
+      },
     };
   }
 
   private async *listByHomeRegionPagingPage(
     ascLocation: string,
     options?: AllowedConnectionsListByHomeRegionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AllowedConnectionsResource[]> {
     let result: AllowedConnectionsListByHomeRegionResponse;
     let continuationToken = settings?.continuationToken;
@@ -140,7 +140,7 @@ export class AllowedConnectionsImpl implements AllowedConnections {
       result = await this._listByHomeRegionNext(
         ascLocation,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -151,11 +151,11 @@ export class AllowedConnectionsImpl implements AllowedConnections {
 
   private async *listByHomeRegionPagingAll(
     ascLocation: string,
-    options?: AllowedConnectionsListByHomeRegionOptionalParams
+    options?: AllowedConnectionsListByHomeRegionOptionalParams,
   ): AsyncIterableIterator<AllowedConnectionsResource> {
     for await (const page of this.listByHomeRegionPagingPage(
       ascLocation,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -166,7 +166,7 @@ export class AllowedConnectionsImpl implements AllowedConnections {
    * @param options The options parameters.
    */
   private _list(
-    options?: AllowedConnectionsListOptionalParams
+    options?: AllowedConnectionsListOptionalParams,
   ): Promise<AllowedConnectionsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -179,11 +179,11 @@ export class AllowedConnectionsImpl implements AllowedConnections {
    */
   private _listByHomeRegion(
     ascLocation: string,
-    options?: AllowedConnectionsListByHomeRegionOptionalParams
+    options?: AllowedConnectionsListByHomeRegionOptionalParams,
   ): Promise<AllowedConnectionsListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
       { ascLocation, options },
-      listByHomeRegionOperationSpec
+      listByHomeRegionOperationSpec,
     );
   }
 
@@ -201,11 +201,11 @@ export class AllowedConnectionsImpl implements AllowedConnections {
     resourceGroupName: string,
     ascLocation: string,
     connectionType: ConnectionType,
-    options?: AllowedConnectionsGetOptionalParams
+    options?: AllowedConnectionsGetOptionalParams,
   ): Promise<AllowedConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ascLocation, connectionType, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -216,11 +216,11 @@ export class AllowedConnectionsImpl implements AllowedConnections {
    */
   private _listNext(
     nextLink: string,
-    options?: AllowedConnectionsListNextOptionalParams
+    options?: AllowedConnectionsListNextOptionalParams,
   ): Promise<AllowedConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -234,11 +234,11 @@ export class AllowedConnectionsImpl implements AllowedConnections {
   private _listByHomeRegionNext(
     ascLocation: string,
     nextLink: string,
-    options?: AllowedConnectionsListByHomeRegionNextOptionalParams
+    options?: AllowedConnectionsListByHomeRegionNextOptionalParams,
   ): Promise<AllowedConnectionsListByHomeRegionNextResponse> {
     return this.client.sendOperationRequest(
       { ascLocation, nextLink, options },
-      listByHomeRegionNextOperationSpec
+      listByHomeRegionNextOperationSpec,
     );
   }
 }
@@ -246,102 +246,99 @@ export class AllowedConnectionsImpl implements AllowedConnections {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/allowedConnections",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/allowedConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AllowedConnectionsList
+      bodyMapper: Mappers.AllowedConnectionsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByHomeRegionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/allowedConnections",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/allowedConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AllowedConnectionsList
+      bodyMapper: Mappers.AllowedConnectionsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.ascLocation
+    Parameters.ascLocation,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/allowedConnections/{connectionType}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/allowedConnections/{connectionType}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AllowedConnectionsResource
+      bodyMapper: Mappers.AllowedConnectionsResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
-    Parameters.connectionType
+    Parameters.resourceGroupName,
+    Parameters.connectionType,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AllowedConnectionsList
+      bodyMapper: Mappers.AllowedConnectionsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByHomeRegionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AllowedConnectionsList
+      bodyMapper: Mappers.AllowedConnectionsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.ascLocation,
     Parameters.nextLink,
-    Parameters.ascLocation
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

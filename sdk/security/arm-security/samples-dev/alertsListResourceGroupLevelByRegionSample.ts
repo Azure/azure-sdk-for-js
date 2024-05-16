@@ -31,7 +31,7 @@ async function getSecurityAlertsOnAResourceGroupFromASecurityDataLocation() {
   const resArray = new Array();
   for await (let item of client.alerts.listResourceGroupLevelByRegion(
     ascLocation,
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
