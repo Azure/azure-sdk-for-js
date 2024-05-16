@@ -36,7 +36,7 @@ async function updateOrCreateSuppressionRuleForSubscription() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.alertsSuppressionRules.update(
     alertsSuppressionRuleName,
-    alertsSuppressionRule
+    alertsSuppressionRule,
   );
   console.log(result);
 }

@@ -12,13 +12,14 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
-  PricingsListOptionalParams,
-  PricingsListResponse,
   PricingsGetOptionalParams,
   PricingsGetResponse,
   Pricing,
   PricingsUpdateOptionalParams,
-  PricingsUpdateResponse
+  PricingsUpdateResponse,
+  PricingsDeleteOptionalParams,
+  PricingsListOptionalParams,
+  PricingsListResponse,
 } from "../models";
 
 /** Class containing Pricings operations. */
@@ -34,105 +35,173 @@ export class PricingsImpl implements Pricings {
   }
 
   /**
-   * Lists Microsoft Defender for Cloud pricing configurations in the subscription.
-   * @param options The options parameters.
-   */
-  list(options?: PricingsListOptionalParams): Promise<PricingsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * Gets a provided Microsoft Defender for Cloud pricing configuration in the subscription.
+   * Get the Defender plans pricing configurations of the selected scope (valid scopes are resource id or
+   * a subscription id). At the resource level, supported resource types are 'VirtualMachines, VMSS and
+   * ARC Machines'.
+   * @param scopeId The scope id of the pricing. Valid scopes are: subscription (format:
+   *                'subscriptions/{subscriptionId}'), or a specific resource (format:
+   *                'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName})
+   *                - Supported resources are (VirtualMachines)
    * @param pricingName name of the pricing configuration
    * @param options The options parameters.
    */
   get(
+    scopeId: string,
     pricingName: string,
-    options?: PricingsGetOptionalParams
+    options?: PricingsGetOptionalParams,
   ): Promise<PricingsGetResponse> {
     return this.client.sendOperationRequest(
-      { pricingName, options },
-      getOperationSpec
+      { scopeId, pricingName, options },
+      getOperationSpec,
     );
   }
 
   /**
-   * Updates a provided Microsoft Defender for Cloud pricing configuration in the subscription.
+   * Updates a provided Microsoft Defender for Cloud pricing configuration in the scope. Valid scopes
+   * are: subscription id or a specific resource id (Supported resources are: 'VirtualMachines, VMSS and
+   * ARC Machines' and only for plan='VirtualMachines' and subPlan='P1').
+   * @param scopeId The scope id of the pricing. Valid scopes are: subscription (format:
+   *                'subscriptions/{subscriptionId}'), or a specific resource (format:
+   *                'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName})
+   *                - Supported resources are (VirtualMachines)
    * @param pricingName name of the pricing configuration
    * @param pricing Pricing object
    * @param options The options parameters.
    */
   update(
+    scopeId: string,
     pricingName: string,
     pricing: Pricing,
-    options?: PricingsUpdateOptionalParams
+    options?: PricingsUpdateOptionalParams,
   ): Promise<PricingsUpdateResponse> {
     return this.client.sendOperationRequest(
-      { pricingName, pricing, options },
-      updateOperationSpec
+      { scopeId, pricingName, pricing, options },
+      updateOperationSpec,
+    );
+  }
+
+  /**
+   * Deletes a provided Microsoft Defender for Cloud pricing configuration in a specific resource. Valid
+   * only for resource scope (Supported resources are: 'VirtualMachines, VMSS and ARC MachinesS').
+   * @param scopeId The identifier of the resource, (format:
+   *                'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName})
+   * @param pricingName name of the pricing configuration
+   * @param options The options parameters.
+   */
+  delete(
+    scopeId: string,
+    pricingName: string,
+    options?: PricingsDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { scopeId, pricingName, options },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
+   * Lists Microsoft Defender for Cloud pricing configurations of the scopeId, that match the optional
+   * given $filter. Valid scopes are: subscription id or a specific resource id (Supported resources are:
+   * 'VirtualMachines, VMSS and ARC Machines'). Valid $filter is: 'name in
+   * ({planName1},{planName2},...)'. If $filter is not provided, the unfiltered list will be returned. If
+   * '$filter=name in (planName1,planName2)' is provided, the returned list includes the pricings set for
+   * 'planName1' and 'planName2' only.
+   * @param scopeId The scope id of the pricing. Valid scopes are: subscription (format:
+   *                'subscriptions/{subscriptionId}'), or a specific resource (format:
+   *                'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName})
+   *                - Supported resources are (VirtualMachines)
+   * @param options The options parameters.
+   */
+  list(
+    scopeId: string,
+    options?: PricingsListOptionalParams,
+  ): Promise<PricingsListResponse> {
+    return this.client.sendOperationRequest(
+      { scopeId, options },
+      listOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PricingList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings/{pricingName}",
+  path: "/{scopeId}/providers/Microsoft.Security/pricings/{pricingName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Pricing
+      bodyMapper: Mappers.Pricing,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion26],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.pricingName
+    Parameters.scopeId,
+    Parameters.pricingName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings/{pricingName}",
+  path: "/{scopeId}/providers/Microsoft.Security/pricings/{pricingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Pricing
+      bodyMapper: Mappers.Pricing,
+    },
+    201: {
+      bodyMapper: Mappers.Pricing,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.pricing,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion26],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.pricingName
+    Parameters.scopeId,
+    Parameters.pricingName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/{scopeId}/providers/Microsoft.Security/pricings/{pricingName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion26],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.scopeId,
+    Parameters.pricingName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/{scopeId}/providers/Microsoft.Security/pricings",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PricingList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.filter, Parameters.apiVersion26],
+  urlParameters: [Parameters.$host, Parameters.scopeId],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

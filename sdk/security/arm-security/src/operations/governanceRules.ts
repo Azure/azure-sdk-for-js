@@ -16,7 +16,7 @@ import { SecurityCenter } from "../securityCenter";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -33,7 +33,7 @@ import {
   GovernanceRulesExecuteResponse,
   GovernanceRulesOperationResultsOptionalParams,
   GovernanceRulesOperationResultsResponse,
-  GovernanceRulesListNextResponse
+  GovernanceRulesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export class GovernanceRulesImpl implements GovernanceRules {
    */
   public list(
     scope: string,
-    options?: GovernanceRulesListOptionalParams
+    options?: GovernanceRulesListOptionalParams,
   ): PagedAsyncIterableIterator<GovernanceRule> {
     const iter = this.listPagingAll(scope, options);
     return {
@@ -74,14 +74,14 @@ export class GovernanceRulesImpl implements GovernanceRules {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     scope: string,
     options?: GovernanceRulesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<GovernanceRule[]> {
     let result: GovernanceRulesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class GovernanceRulesImpl implements GovernanceRules {
 
   private async *listPagingAll(
     scope: string,
-    options?: GovernanceRulesListOptionalParams
+    options?: GovernanceRulesListOptionalParams,
   ): AsyncIterableIterator<GovernanceRule> {
     for await (const page of this.listPagingPage(scope, options)) {
       yield* page;
@@ -120,11 +120,11 @@ export class GovernanceRulesImpl implements GovernanceRules {
    */
   private _list(
     scope: string,
-    options?: GovernanceRulesListOptionalParams
+    options?: GovernanceRulesListOptionalParams,
   ): Promise<GovernanceRulesListResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -140,11 +140,11 @@ export class GovernanceRulesImpl implements GovernanceRules {
   get(
     scope: string,
     ruleId: string,
-    options?: GovernanceRulesGetOptionalParams
+    options?: GovernanceRulesGetOptionalParams,
   ): Promise<GovernanceRulesGetResponse> {
     return this.client.sendOperationRequest(
       { scope, ruleId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -162,11 +162,11 @@ export class GovernanceRulesImpl implements GovernanceRules {
     scope: string,
     ruleId: string,
     governanceRule: GovernanceRule,
-    options?: GovernanceRulesCreateOrUpdateOptionalParams
+    options?: GovernanceRulesCreateOrUpdateOptionalParams,
   ): Promise<GovernanceRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { scope, ruleId, governanceRule, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -182,25 +182,24 @@ export class GovernanceRulesImpl implements GovernanceRules {
   async beginDelete(
     scope: string,
     ruleId: string,
-    options?: GovernanceRulesDeleteOptionalParams
+    options?: GovernanceRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -209,8 +208,8 @@ export class GovernanceRulesImpl implements GovernanceRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -218,20 +217,20 @@ export class GovernanceRulesImpl implements GovernanceRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { scope, ruleId, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -249,7 +248,7 @@ export class GovernanceRulesImpl implements GovernanceRules {
   async beginDeleteAndWait(
     scope: string,
     ruleId: string,
-    options?: GovernanceRulesDeleteOptionalParams
+    options?: GovernanceRulesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(scope, ruleId, options);
     return poller.pollUntilDone();
@@ -267,7 +266,7 @@ export class GovernanceRulesImpl implements GovernanceRules {
   async beginExecute(
     scope: string,
     ruleId: string,
-    options?: GovernanceRulesExecuteOptionalParams
+    options?: GovernanceRulesExecuteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GovernanceRulesExecuteResponse>,
@@ -276,21 +275,20 @@ export class GovernanceRulesImpl implements GovernanceRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<GovernanceRulesExecuteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -299,8 +297,8 @@ export class GovernanceRulesImpl implements GovernanceRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -308,15 +306,15 @@ export class GovernanceRulesImpl implements GovernanceRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { scope, ruleId, options },
-      spec: executeOperationSpec
+      spec: executeOperationSpec,
     });
     const poller = await createHttpPoller<
       GovernanceRulesExecuteResponse,
@@ -324,7 +322,7 @@ export class GovernanceRulesImpl implements GovernanceRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -342,7 +340,7 @@ export class GovernanceRulesImpl implements GovernanceRules {
   async beginExecuteAndWait(
     scope: string,
     ruleId: string,
-    options?: GovernanceRulesExecuteOptionalParams
+    options?: GovernanceRulesExecuteOptionalParams,
   ): Promise<GovernanceRulesExecuteResponse> {
     const poller = await this.beginExecute(scope, ruleId, options);
     return poller.pollUntilDone();
@@ -362,11 +360,11 @@ export class GovernanceRulesImpl implements GovernanceRules {
     scope: string,
     ruleId: string,
     operationId: string,
-    options?: GovernanceRulesOperationResultsOptionalParams
+    options?: GovernanceRulesOperationResultsOptionalParams,
   ): Promise<GovernanceRulesOperationResultsResponse> {
     return this.client.sendOperationRequest(
       { scope, ruleId, operationId, options },
-      operationResultsOperationSpec
+      operationResultsOperationSpec,
     );
   }
 
@@ -382,11 +380,11 @@ export class GovernanceRulesImpl implements GovernanceRules {
   private _listNext(
     scope: string,
     nextLink: string,
-    options?: GovernanceRulesListNextOptionalParams
+    options?: GovernanceRulesListNextOptionalParams,
   ): Promise<GovernanceRulesListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -398,127 +396,125 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GovernanceRuleList
+      bodyMapper: Mappers.GovernanceRuleList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [Parameters.$host, Parameters.scope1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Security/governanceRules/{ruleId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GovernanceRule
+      bodyMapper: Mappers.GovernanceRule,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Security/governanceRules/{ruleId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GovernanceRule
+      bodyMapper: Mappers.GovernanceRule,
     },
     201: {
-      bodyMapper: Mappers.GovernanceRule
+      bodyMapper: Mappers.GovernanceRule,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.governanceRule,
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Security/governanceRules/{ruleId}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
-  serializer
+  serializer,
 };
 const executeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Security/governanceRules/{ruleId}/execute",
+  path: "/{scope}/providers/Microsoft.Security/governanceRules/{ruleId}/execute",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.GovernanceRulesExecuteHeaders
+      headersMapper: Mappers.GovernanceRulesExecuteHeaders,
     },
     201: {
-      headersMapper: Mappers.GovernanceRulesExecuteHeaders
+      headersMapper: Mappers.GovernanceRulesExecuteHeaders,
     },
     202: {
-      headersMapper: Mappers.GovernanceRulesExecuteHeaders
+      headersMapper: Mappers.GovernanceRulesExecuteHeaders,
     },
     204: {
-      headersMapper: Mappers.GovernanceRulesExecuteHeaders
+      headersMapper: Mappers.GovernanceRulesExecuteHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.executeGovernanceRuleParams,
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const operationResultsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Security/governanceRules/{ruleId}/operationResults/{operationId}",
+  path: "/{scope}/providers/Microsoft.Security/governanceRules/{ruleId}/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationResultAutoGenerated
+      bodyMapper: Mappers.OperationResultAutoGenerated,
     },
     202: {
-      headersMapper: Mappers.GovernanceRulesOperationResultsHeaders
+      headersMapper: Mappers.GovernanceRulesOperationResultsHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.scope1,
     Parameters.ruleId,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GovernanceRuleList
+      bodyMapper: Mappers.GovernanceRuleList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
