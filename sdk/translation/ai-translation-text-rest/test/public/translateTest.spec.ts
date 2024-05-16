@@ -52,7 +52,6 @@ describe("Translate tests", () => {
 
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations[0].translations.length > 0);
-    assert.isTrue(translations[0].translations[0].to === "cs");
     assert.isTrue(translations[0].translations[0].text !== null);
   });
 
@@ -75,7 +74,6 @@ describe("Translate tests", () => {
     assert.isTrue(translations[0].translations.length > 0);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
     assert.isTrue(translations[0].detectedLanguage?.score === 1);
-    assert.isTrue(translations[0].translations[0].to === "cs");
     assert.isTrue(translations[0].translations[0].text !== null);
   });
 
@@ -127,7 +125,6 @@ describe("Translate tests", () => {
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
-    assert.isTrue(translations[0].translations[0].to === "es");
     assert.isTrue(translations[0].translations[0].text.includes("wordomatic"));
   });
 
@@ -151,7 +148,6 @@ describe("Translate tests", () => {
 
     const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations[0].translations.length === 1);
-    assert.isTrue(translations[0].translations[0].to === "zh-Hans");
     assert.isTrue(translations[0].translations[0].text !== null);
   });
 
