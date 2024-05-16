@@ -237,6 +237,8 @@ export interface ConnectRequest {
   callLocator: CallLocator;
   /** The callback URI. */
   callbackUri: string;
+  /** Used by customers to correlate the request to the response event. */
+  operationContext?: string;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptionsInternal;
 }
@@ -1100,7 +1102,7 @@ export interface MediaStreamingFailed {
    * Defines the result for MediaStreamingUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly mediaStreamingUpdateResult?: MediaStreamingUpdate;
+  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
 }
 
 export interface MediaStreamingUpdate {
@@ -1133,7 +1135,7 @@ export interface MediaStreamingStarted {
    * Defines the result for MediaStreamingUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly mediaStreamingUpdateResult?: MediaStreamingUpdate;
+  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
 }
 
 export interface MediaStreamingStopped {
@@ -1160,7 +1162,7 @@ export interface MediaStreamingStopped {
    * Defines the result for MediaStreamingUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly mediaStreamingUpdateResult?: MediaStreamingUpdate;
+  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
 }
 
 export interface HoldFailed {
@@ -1321,7 +1323,7 @@ export interface ConnectFailed {
   serverCallId?: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId?: string;
-  /** Used by customers to set the context for creating a new call. This property will be null for answering a call. */
+  /** Used by customers to set the context for connecting to a call. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: RestResultInformation;

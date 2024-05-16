@@ -378,6 +378,8 @@ export interface UnholdOptions extends OperationOptions {
  * Options to Connect request.
  */
 export interface ConnectOptions extends OperationOptions {
+  /** Used by customers to correlate the request to the response event. */
+  operationContext?: string;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
 }

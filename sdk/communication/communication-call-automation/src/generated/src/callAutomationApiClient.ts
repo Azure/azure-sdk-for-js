@@ -181,7 +181,7 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Create a connection to a CallLocator and return connectionId.
+   * Create a connection to a CallLocator.
    * @param connectRequest The create connection request.
    * @param options The options parameters.
    */
