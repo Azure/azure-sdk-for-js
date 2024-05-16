@@ -19,12 +19,13 @@ import {
   AdaptiveApplicationControlGroup,
   AdaptiveApplicationControlsPutOptionalParams,
   AdaptiveApplicationControlsPutResponse,
-  AdaptiveApplicationControlsDeleteOptionalParams
+  AdaptiveApplicationControlsDeleteOptionalParams,
 } from "../models";
 
 /** Class containing AdaptiveApplicationControls operations. */
 export class AdaptiveApplicationControlsImpl
-  implements AdaptiveApplicationControls {
+  implements AdaptiveApplicationControls
+{
   private readonly client: SecurityCenter;
 
   /**
@@ -40,7 +41,7 @@ export class AdaptiveApplicationControlsImpl
    * @param options The options parameters.
    */
   list(
-    options?: AdaptiveApplicationControlsListOptionalParams
+    options?: AdaptiveApplicationControlsListOptionalParams,
   ): Promise<AdaptiveApplicationControlsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -55,11 +56,11 @@ export class AdaptiveApplicationControlsImpl
   get(
     ascLocation: string,
     groupName: string,
-    options?: AdaptiveApplicationControlsGetOptionalParams
+    options?: AdaptiveApplicationControlsGetOptionalParams,
   ): Promise<AdaptiveApplicationControlsGetResponse> {
     return this.client.sendOperationRequest(
       { ascLocation, groupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -75,11 +76,11 @@ export class AdaptiveApplicationControlsImpl
     ascLocation: string,
     groupName: string,
     body: AdaptiveApplicationControlGroup,
-    options?: AdaptiveApplicationControlsPutOptionalParams
+    options?: AdaptiveApplicationControlsPutOptionalParams,
   ): Promise<AdaptiveApplicationControlsPutResponse> {
     return this.client.sendOperationRequest(
       { ascLocation, groupName, body, options },
-      putOperationSpec
+      putOperationSpec,
     );
   }
 
@@ -93,11 +94,11 @@ export class AdaptiveApplicationControlsImpl
   delete(
     ascLocation: string,
     groupName: string,
-    options?: AdaptiveApplicationControlsDeleteOptionalParams
+    options?: AdaptiveApplicationControlsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { ascLocation, groupName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -105,91 +106,87 @@ export class AdaptiveApplicationControlsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applicationWhitelistings",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applicationWhitelistings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdaptiveApplicationControlGroups
+      bodyMapper: Mappers.AdaptiveApplicationControlGroups,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
-    Parameters.apiVersion10,
+    Parameters.apiVersion20,
     Parameters.includePathRecommendations,
-    Parameters.summary
+    Parameters.summary,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdaptiveApplicationControlGroup
+      bodyMapper: Mappers.AdaptiveApplicationControlGroup,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.ascLocation,
-    Parameters.groupName
+    Parameters.groupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const putOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AdaptiveApplicationControlGroup
+      bodyMapper: Mappers.AdaptiveApplicationControlGroup,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion10],
+  requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.ascLocation,
-    Parameters.groupName
+    Parameters.groupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.ascLocation,
-    Parameters.groupName
+    Parameters.groupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

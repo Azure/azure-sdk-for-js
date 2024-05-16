@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SecureScoreControlDefinitionItem,
   SecureScoreControlDefinitionsListOptionalParams,
-  SecureScoreControlDefinitionsListBySubscriptionOptionalParams
+  SecureScoreControlDefinitionsListBySubscriptionOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -21,7 +21,7 @@ export interface SecureScoreControlDefinitions {
    * @param options The options parameters.
    */
   list(
-    options?: SecureScoreControlDefinitionsListOptionalParams
+    options?: SecureScoreControlDefinitionsListOptionalParams,
   ): PagedAsyncIterableIterator<SecureScoreControlDefinitionItem>;
   /**
    * For a specified subscription, list the available security controls, their assessments, and the max
@@ -29,6 +29,6 @@ export interface SecureScoreControlDefinitions {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SecureScoreControlDefinitionsListBySubscriptionOptionalParams
+    options?: SecureScoreControlDefinitionsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SecureScoreControlDefinitionItem>;
 }

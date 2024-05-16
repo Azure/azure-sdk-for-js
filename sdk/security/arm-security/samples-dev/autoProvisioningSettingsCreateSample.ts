@@ -29,14 +29,13 @@ async function createAutoProvisioningSettingsForSubscription() {
     name: "default",
     type: "Microsoft.Security/autoProvisioningSettings",
     autoProvision: "On",
-    id:
-      "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/autoProvisioningSettings/default"
+    id: "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/autoProvisioningSettings/default",
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.autoProvisioningSettings.create(
     settingName,
-    setting
+    setting,
   );
   console.log(result);
 }

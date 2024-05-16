@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a security connector.
  *
  * @summary Deletes a security connector.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-03-01-preview/examples/SecurityConnectors/DeleteSecurityConnector_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-10-01-preview/examples/SecurityConnectors/DeleteSecurityConnector_example.json
  */
 async function deleteASecurityConnector() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function deleteASecurityConnector() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.securityConnectors.delete(
     resourceGroupName,
-    securityConnectorName
+    securityConnectorName,
   );
   console.log(result);
 }
