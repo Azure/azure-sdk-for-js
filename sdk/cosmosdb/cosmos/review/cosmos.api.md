@@ -1010,6 +1010,7 @@ export interface FeedOptions extends SharedOptions {
     continuation?: string;
     continuationToken?: string;
     continuationTokenLimitInKB?: number;
+    disableNonStreamingOrderByQuery?: boolean;
     enableScanInQuery?: boolean;
     forceQueryPlan?: boolean;
     maxDegreeOfParallelism?: number;

@@ -1,6 +1,9 @@
 # Release History
 ## 4.0.1-beta.3 (2024-05-08)
+
 - Added support for Vector Search.
+- Add query feedOption to disable nonStreamingOrderBy query feature
+
 ## 4.0.1-beta.2 (2024-01-22)
 
 ### Bugs Fixed
