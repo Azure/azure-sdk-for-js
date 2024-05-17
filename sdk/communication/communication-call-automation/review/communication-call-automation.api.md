@@ -69,7 +69,6 @@ export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: CallAutomationClientOptions);
     answerCall(incomingCallContext: string, callbackUrl: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
-    connect(callLocator: CallLocator, callbackUrl: string, options?: ConnectOptions): Promise<ConnectResult>;
     createCall(targetParticipant: CallInvite, callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
     createGroupCall(targetParticipants: CommunicationIdentifier[], callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
     getCallConnection(callConnectionId: string): CallConnection;
@@ -85,7 +84,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | HoldFailed | ConnectFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayStarted | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | HoldFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed;
 
 // @public
 export interface CallConnected extends Omit<RestCallConnected, "callConnectionId" | "serverCallId" | "correlationId"> {
@@ -160,7 +159,7 @@ export interface CallLocator {
 }
 
 // @public
-export type CallLocatorType = "serverCallLocator" | "groupCallLocator" | "roomCallLocator";
+export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
 
 // @public
 export class CallMedia {
@@ -168,14 +167,16 @@ export class CallMedia {
     cancelAllOperations(): Promise<void>;
     hold(targetParticipant: CommunicationIdentifier, options?: HoldOptions): Promise<void>;
     play(playSources: (FileSource | TextSource | SsmlSource)[], playTo: CommunicationIdentifier[], options?: PlayOptions): Promise<void>;
-    playToAll(playSources: (FileSource | TextSource | SsmlSource)[], options?: PlayOptions): Promise<void>;
+    playToAll(playSources: (FileSource | TextSource | SsmlSource)[], options?: PlayToAllOptions): Promise<void>;
     sendDtmfTones(tones: Tone[] | DtmfTone[], targetParticipant: CommunicationIdentifier, options?: SendDtmfTonesOptions): Promise<SendDtmfTonesResult>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
+    startMediaStreaming(options?: StartMediaStreamingOptions): Promise<void>;
     // @deprecated
     startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, options: CallMediaRecognizeDtmfOptions): Promise<void>;
     startRecognizing(targetParticipant: CommunicationIdentifier, options: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<void>;
     startTranscription(options?: StartTranscriptionOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
+    stopMediaStreaming(options?: StopMediaStreamingOptions): Promise<void>;
     stopTranscription(options?: StopTranscriptionOptions): Promise<void>;
     unhold(targetParticipant: CommunicationIdentifier, options?: UnholdOptions): Promise<void>;
     updateTranscription(locale: string): Promise<void>;
@@ -320,24 +321,6 @@ export interface ChoiceResult {
     recognizedPhrase?: string;
 }
 
-// @public (undocumented)
-export interface ConnectFailed extends Omit<RestConnectFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "ConnectFailed";
-    resultInformation?: ResultInformation;
-    serverCallId: string;
-}
-
-// @public
-export interface ConnectOptions extends OperationOptions {
-    callIntelligenceOptions?: CallIntelligenceOptions;
-    operationContext?: string;
-}
-
-// @public
-export type ConnectResult = CallResult;
-
 // @public
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
     operationCallbackUrl?: string;
@@ -460,7 +443,7 @@ export interface HoldFailed extends Omit<RestHoldFailed, "callConnectionId" | "s
 
 // @public
 export interface HoldOptions extends OperationOptions {
-    operationCallbackUri?: string;
+    operationCallbackUrl?: string;
     operationContext?: string;
     playSource?: FileSource | TextSource | SsmlSource;
 }
@@ -500,6 +483,15 @@ export type MediaStreamingAudioChannelType = string;
 // @public
 export type MediaStreamingContentType = string;
 
+// @public (undocumented)
+export interface MediaStreamingFailed extends Omit<RestMediaStreamingFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "MediaStreamingFailed";
+    resultInformation?: RestResultInformation;
+    serverCallId: string;
+}
+
 // @public
 export interface MediaStreamingOptions {
     audioChannelType: MediaStreamingAudioChannelType;
@@ -507,6 +499,24 @@ export interface MediaStreamingOptions {
     startMediaStreaming?: boolean;
     transportType: MediaStreamingTransportType;
     transportUrl: string;
+}
+
+// @public (undocumented)
+export interface MediaStreamingStarted extends Omit<RestMediaStreamingStarted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "MediaStreamingStarted";
+    resultInformation?: RestResultInformation;
+    serverCallId: string;
+}
+
+// @public (undocumented)
+export interface MediaStreamingStopped extends Omit<RestMediaStreamingStopped, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "MediaStreamingStopped";
+    resultInformation?: RestResultInformation;
+    serverCallId: string;
 }
 
 // @public
@@ -583,6 +593,20 @@ export interface PlaySource {
     // @deprecated (undocumented)
     playsourcacheid?: string;
     playSourceCacheId?: string;
+}
+
+// @public
+export interface PlayStarted extends Omit<RestPlayStarted, "callConnectionId" | "serverCallId" | "correlationId"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "PlayStarted";
+    resultInformation?: RestResultInformation;
+    serverCallId: string;
+}
+
+// @public
+export interface PlayToAllOptions extends PlayOptions {
+    interruptCallMediaOperation?: boolean;
 }
 
 // @public
@@ -776,15 +800,6 @@ export interface RestCancelAddParticipantSucceeded {
     serverCallId?: string;
 }
 
-// @public
-export interface RestConnectFailed {
-    callConnectionId?: string;
-    correlationId?: string;
-    operationContext?: string;
-    resultInformation?: RestResultInformation;
-    serverCallId?: string;
-}
-
 // @public (undocumented)
 export interface RestContinuousDtmfRecognitionStopped {
     callConnectionId?: string;
@@ -824,6 +839,37 @@ export interface RestHoldFailed {
     serverCallId?: string;
 }
 
+// @public (undocumented)
+export interface RestMediaStreamingFailed {
+    readonly callConnectionId?: string;
+    correlationId?: string;
+    // Warning: (ae-forgotten-export) The symbol "MediaStreamingUpdate" needs to be exported by the entry point index.d.ts
+    readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+    readonly operationContext?: string;
+    readonly resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestMediaStreamingStarted {
+    readonly callConnectionId?: string;
+    correlationId?: string;
+    readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+    readonly operationContext?: string;
+    readonly resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestMediaStreamingStopped {
+    readonly callConnectionId?: string;
+    correlationId?: string;
+    readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+    readonly operationContext?: string;
+    readonly resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
 // @public
 export interface RestParticipantsUpdated {
     callConnectionId?: string;
@@ -856,6 +902,15 @@ export interface RestPlayFailed {
     callConnectionId?: string;
     correlationId?: string;
     failedPlaySourceIndex?: number;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestPlayStarted {
+    callConnectionId?: string;
+    correlationId?: string;
     operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
@@ -1055,6 +1110,12 @@ export interface SsmlSource extends PlaySource {
 }
 
 // @public
+export interface StartMediaStreamingOptions extends OperationOptions {
+    operationCallbackUri?: string;
+    operationContext?: string;
+}
+
+// @public
 export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: CallLocator;
@@ -1070,6 +1131,11 @@ export interface StartRecordingOptions extends OperationOptions {
 export interface StartTranscriptionOptions extends OperationOptions {
     locale?: string;
     operationContext?: string;
+}
+
+// @public
+export interface StopMediaStreamingOptions extends OperationOptions {
+    operationCallbackUri?: string;
 }
 
 // @public
