@@ -36,9 +36,6 @@ import {
   RedirectCallOptionalParams,
   RejectCallRequest,
   RejectCallOptionalParams,
-  ConnectRequest,
-  ConnectOptionalParams,
-  ConnectResponse,
 } from "./models";
 
 export class CallAutomationApiClient extends coreClient.ServiceClient {
@@ -180,21 +177,6 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
     );
   }
 
-  /**
-   * Create a connection to a CallLocator.
-   * @param connectRequest The create connection request.
-   * @param options The options parameters.
-   */
-  connect(
-    connectRequest: ConnectRequest,
-    options?: ConnectOptionalParams,
-  ): Promise<ConnectResponse> {
-    return this.sendOperationRequest(
-      { connectRequest, options },
-      connectOperationSpec,
-    );
-  }
-
   callConnection: CallConnection;
   callMedia: CallMedia;
   callRecording: CallRecording;
@@ -279,29 +261,6 @@ const rejectCallOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.rejectCallRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent,
-  ],
-  mediaType: "json",
-  serializer,
-};
-const connectOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections:connect",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CallConnectionPropertiesInternal,
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
-  },
-  requestBody: Parameters.connectRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [

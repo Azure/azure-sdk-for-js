@@ -231,30 +231,6 @@ export interface RejectCallRequest {
   callRejectReason?: CallRejectReason;
 }
 
-/** The request payload for creating a connection to a CallLocator. */
-export interface ConnectRequest {
-  /** The call locator. */
-  callLocator: CallLocator;
-  /** The callback URI. */
-  callbackUri: string;
-  /** Used by customers to correlate the request to the response event. */
-  operationContext?: string;
-  /** AI options for the call. */
-  callIntelligenceOptions?: CallIntelligenceOptionsInternal;
-}
-
-/** The locator used for joining or taking action on a call */
-export interface CallLocator {
-  /** The group call id */
-  groupCallId?: string;
-  /** The server call id. */
-  serverCallId?: string;
-  /** The Acs room id */
-  roomId?: string;
-  /** The call locator kind. */
-  kind?: CallLocatorKind;
-}
-
 /** The request payload for transferring call to a participant. */
 export interface TransferToParticipantRequest {
   /** The identity of the target where call should be transferred to. */
@@ -660,6 +636,16 @@ export interface StartCallRecordingRequest {
   /** When set to true will start recording in Pause mode, which can be resumed. */
   pauseOnStart?: boolean;
   recordingStorage?: RecordingStorage;
+}
+
+/** The locator used for joining or taking action on a call. */
+export interface CallLocator {
+  /** The group call id */
+  groupCallId?: string;
+  /** The server call id. */
+  serverCallId?: string;
+  /** The call locator kind. */
+  kind?: CallLocatorKind;
 }
 
 /** Channel affinity for a participant */
@@ -1315,20 +1301,6 @@ export interface TranscriptionUpdated {
   readonly correlationId?: string;
 }
 
-/** The ConnectFailed event. */
-export interface ConnectFailed {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers to set the context for connecting to a call. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-}
-
 /** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
 export enum KnownCommunicationIdentifierModelKind {
   /** Unknown */
@@ -1554,27 +1526,6 @@ export enum KnownCallRejectReason {
  */
 export type CallRejectReason = string;
 
-/** Known values of {@link CallLocatorKind} that the service accepts. */
-export enum KnownCallLocatorKind {
-  /** GroupCallLocator */
-  GroupCallLocator = "groupCallLocator",
-  /** ServerCallLocator */
-  ServerCallLocator = "serverCallLocator",
-  /** RoomCallLocator */
-  RoomCallLocator = "roomCallLocator",
-}
-
-/**
- * Defines values for CallLocatorKind. \
- * {@link KnownCallLocatorKind} can be used interchangeably with CallLocatorKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **groupCallLocator** \
- * **serverCallLocator** \
- * **roomCallLocator**
- */
-export type CallLocatorKind = string;
-
 /** Known values of {@link PlaySourceType} that the service accepts. */
 export enum KnownPlaySourceType {
   /** File */
@@ -1697,6 +1648,24 @@ export enum KnownTone {
  * **asterisk**
  */
 export type Tone = string;
+
+/** Known values of {@link CallLocatorKind} that the service accepts. */
+export enum KnownCallLocatorKind {
+  /** GroupCallLocator */
+  GroupCallLocator = "groupCallLocator",
+  /** ServerCallLocator */
+  ServerCallLocator = "serverCallLocator",
+}
+
+/**
+ * Defines values for CallLocatorKind. \
+ * {@link KnownCallLocatorKind} can be used interchangeably with CallLocatorKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **groupCallLocator** \
+ * **serverCallLocator**
+ */
+export type CallLocatorKind = string;
 
 /** Known values of {@link RecordingContentType} that the service accepts. */
 export enum KnownRecordingContentType {
@@ -2039,17 +2008,6 @@ export interface RejectCallOptionalParams extends coreClient.OperationOptions {
   /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
   repeatabilityFirstSent?: Date;
 }
-
-/** Optional parameters. */
-export interface ConnectOptionalParams extends coreClient.OperationOptions {
-  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
-  repeatabilityRequestID?: string;
-  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
-  repeatabilityFirstSent?: Date;
-}
-
-/** Contains response data for the connect operation. */
-export type ConnectResponse = CallConnectionPropertiesInternal;
 
 /** Optional parameters. */
 export interface CallConnectionGetCallOptionalParams
