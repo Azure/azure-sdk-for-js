@@ -115,7 +115,21 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://aka.ms/azsdk-javascript-face-ref"
+    "apiRefLink": "https://aka.ms/azsdk-javascript-face-ref",
+    "extraFiles": {
+      "./samples-dev/data/detection1.jpg": [
+        "javascript/data/detection1.jpg",
+        "typescript/src/data/detection1.jpg"
+      ],
+      "./samples-dev/data/detection5.jpg": [
+        "javascript/data/detection5.jpg",
+        "typescript/src/data/detection5.jpg"
+      ],
+      "./samples-dev/data/nine-faces.png": [
+        "javascript/data/nine-faces.png",
+        "typescript/src/data/nine-faces.png"
+      ]
+    }
   },
   "exports": {
     "./package.json": "./package.json",
