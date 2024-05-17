@@ -11,6 +11,7 @@ export interface IndexingPolicy {
   /** An array of {@link IncludedPath} represents the paths to be excluded for indexing. */
   excludedPaths?: IndexedPath[];
   spatialIndexes?: SpatialIndex[];
+  /** An array of {@link VectorIndex} represents the vector index paths to be included for indexing. */
   vectorIndexes?: VectorIndex[];
 }
 
