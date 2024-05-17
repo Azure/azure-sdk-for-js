@@ -153,7 +153,11 @@ describe("Aggregate Query", function (this: Suite) {
     query: string | SqlQuerySpec,
     expectedResults: any[],
   ): Promise<void> {
-    const options: FeedOptions = { maxDegreeOfParallelism: 2, maxItemCount: 1 };
+    const options: FeedOptions = {
+      maxDegreeOfParallelism: 2,
+      maxItemCount: 1,
+      disableNonStreamingOrderByQuery: true,
+    };
 
     const queryIterator = container.items.query(query, options);
     const fetchAllRequestCharge = await validateFetchAll(queryIterator, expectedResults);
@@ -272,6 +276,7 @@ describe("Aggregate Query", function (this: Suite) {
   it("should not error for MAX queries on with empty results", async () => {
     const queryIterator = container.items.query("SELECT VALUE MAX(r.missing) from r", {
       maxItemCount: 2,
+      disableNonStreamingOrderByQuery: true,
     });
     const response = await queryIterator.fetchAll();
     assert(response.resources.length === 0);
