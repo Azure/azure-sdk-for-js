@@ -16,7 +16,6 @@ import {
   AnswerCallRequest as AnswerCallRequestMapper,
   RedirectCallRequest as RedirectCallRequestMapper,
   RejectCallRequest as RejectCallRequestMapper,
-  ConnectRequest as ConnectRequestMapper,
   TransferToParticipantRequest as TransferToParticipantRequestMapper,
   AddParticipantRequest as AddParticipantRequestMapper,
   RemoveParticipantRequest as RemoveParticipantRequestMapper,
@@ -122,11 +121,6 @@ export const redirectCallRequest: OperationParameter = {
 export const rejectCallRequest: OperationParameter = {
   parameterPath: "rejectCallRequest",
   mapper: RejectCallRequestMapper,
-};
-
-export const connectRequest: OperationParameter = {
-  parameterPath: "connectRequest",
-  mapper: ConnectRequestMapper,
 };
 
 export const callConnectionId: OperationURLParameter = {

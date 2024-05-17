@@ -653,75 +653,6 @@ export const RejectCallRequest: coreClient.CompositeMapper = {
   },
 };
 
-export const ConnectRequest: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ConnectRequest",
-    modelProperties: {
-      callLocator: {
-        serializedName: "callLocator",
-        type: {
-          name: "Composite",
-          className: "CallLocator",
-        },
-      },
-      callbackUri: {
-        serializedName: "callbackUri",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      operationContext: {
-        serializedName: "operationContext",
-        type: {
-          name: "String",
-        },
-      },
-      callIntelligenceOptions: {
-        serializedName: "callIntelligenceOptions",
-        type: {
-          name: "Composite",
-          className: "CallIntelligenceOptionsInternal",
-        },
-      },
-    },
-  },
-};
-
-export const CallLocator: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CallLocator",
-    modelProperties: {
-      groupCallId: {
-        serializedName: "groupCallId",
-        type: {
-          name: "String",
-        },
-      },
-      serverCallId: {
-        serializedName: "serverCallId",
-        type: {
-          name: "String",
-        },
-      },
-      roomId: {
-        serializedName: "roomId",
-        type: {
-          name: "String",
-        },
-      },
-      kind: {
-        serializedName: "kind",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const TransferToParticipantRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1808,6 +1739,33 @@ export const StartCallRecordingRequest: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RecordingStorage",
+        },
+      },
+    },
+  },
+};
+
+export const CallLocator: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CallLocator",
+    modelProperties: {
+      groupCallId: {
+        serializedName: "groupCallId",
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        type: {
+          name: "String",
+        },
+      },
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String",
         },
       },
     },
@@ -3456,46 +3414,6 @@ export const TranscriptionUpdated: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ConnectFailed: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ConnectFailed",
-    modelProperties: {
-      callConnectionId: {
-        serializedName: "callConnectionId",
-        type: {
-          name: "String",
-        },
-      },
-      serverCallId: {
-        serializedName: "serverCallId",
-        type: {
-          name: "String",
-        },
-      },
-      correlationId: {
-        serializedName: "correlationId",
-        type: {
-          name: "String",
-        },
-      },
-      operationContext: {
-        serializedName: "operationContext",
-        type: {
-          name: "String",
-        },
-      },
-      resultInformation: {
-        serializedName: "resultInformation",
-        type: {
-          name: "Composite",
-          className: "RestResultInformation",
         },
       },
     },
