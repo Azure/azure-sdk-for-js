@@ -207,10 +207,25 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
     },
     onProgress: httpPoller.onProgress,
     poll: httpPoller.poll,
-    pollUntilDone: httpPoller.pollUntilDone,
+    pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }) {
+      function abortListener(): void {
+        abortController.abort();
+      }
+      const inputAbortSignal = pollOptions?.abortSignal;
+      const abortSignal = abortController.signal;
+      if (inputAbortSignal?.aborted) {
+        abortController.abort();
+      } else if (!abortSignal.aborted) {
+        inputAbortSignal?.addEventListener("abort", abortListener, {
+          once: true,
+        });
+      }
+      return httpPoller.pollUntilDone({ abortSignal: abortController.signal });
+    },
     submitted: httpPoller.submitted,
   };
   await httpPoller.submitted();
   return simplePoller;
 }
+
 ```
