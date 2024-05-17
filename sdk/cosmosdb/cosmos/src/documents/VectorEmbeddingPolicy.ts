@@ -1,9 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+/**
+ * Represents the policy configuration for vector embeddings in the Azure Cosmos DB service.
+ */
 export interface VectorEmbeddingPolicy {
+  /**
+   * The vector embeddings to be configured.
+   */
   vectorEmbeddings: VectorEmbedding[];
 }
+/**
+ * Represents a vector embedding.
+ * A vector embedding is used to define a vector field in the documents.
+ */
 export interface VectorEmbedding {
   /**
    * The path to the vector field in the document.

@@ -49,8 +49,19 @@ export interface Index {
   dataType: keyof typeof DataType;
   precision?: number;
 }
-
+/**
+ * Represents a vector index in the Azure Cosmos DB service.
+ * A vector index is used to index vector fields in the documents.
+ */
 export interface VectorIndex {
+  /**
+   * The path to the vector field in the document.
+   * for example, path: "/path/to/vector".
+   */
   path: string;
+  /**
+   * The index type of the vector.
+   * Currently, flat, diskANN, and quantizedFlat are supported.
+   */
   type: "flat" | "diskANN" | "quantizedFlat";
 }
