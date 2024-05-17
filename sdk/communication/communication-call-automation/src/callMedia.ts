@@ -213,6 +213,10 @@ export class CallMedia {
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,
+        playPrompts:
+          recognizeOptions.playPrompts !== undefined
+            ? recognizeOptions.playPrompts.map((source) => this.createPlaySourceInternal(source))
+            : undefined,
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
@@ -234,6 +238,10 @@ export class CallMedia {
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,
+        playPrompts:
+          recognizeOptions.playPrompts !== undefined
+            ? recognizeOptions.playPrompts.map((source) => this.createPlaySourceInternal(source))
+            : undefined,
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
@@ -260,6 +268,10 @@ export class CallMedia {
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,
+        playPrompts:
+          recognizeOptions.playPrompts !== undefined
+            ? recognizeOptions.playPrompts.map((source) => this.createPlaySourceInternal(source))
+            : undefined,
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
@@ -293,6 +305,10 @@ export class CallMedia {
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,
+        playPrompts:
+          recognizeOptions.playPrompts !== undefined
+            ? recognizeOptions.playPrompts.map((source) => this.createPlaySourceInternal(source))
+            : undefined,
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,

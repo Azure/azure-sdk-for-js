@@ -41,6 +41,7 @@ import {
   PlayToAllOptions,
   StopMediaStreamingOptions,
   StartMediaStreamingOptions,
+  CallMediaRecognizeSpeechOrDtmfOptions,
 } from "../src";
 
 // Current directory imports
@@ -303,6 +304,138 @@ describe("CallMedia Unit Tests", async function () {
 
     assert.equal(data.recognizeInputType, "speech");
     assert.equal(data.recognizeOptions.speechOptions.endSilenceTimeoutInMs, 2000);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful StartRecognizing DTMF Prompts request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+
+    const prompts: (FileSource | TextSource | SsmlSource)[] = [
+      { kind: "fileSource", url: MEDIA_URL_WAV },
+      { kind: "textSource", text: "test" },
+      { kind: "ssmlSource", ssmlText: "test" },
+    ];
+    const recognizeOptions: CallMediaRecognizeDtmfOptions = {
+      playPrompts: prompts,
+      kind: "callMediaRecognizeDtmfOptions",
+      maxTonesToCollect: 5,
+    };
+
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.recognizeInputType, "dtmf");
+    assert.equal(data.recognizeOptions.dtmfOptions.maxTonesToCollect, 5);
+    assert.equal(data.playPrompts.length, 3);
+    assert.equal(data.playPrompts[0].kind, "file");
+    assert.equal(data.playPrompts[1].kind, "text");
+    assert.equal(data.playPrompts[2].kind, "ssml");
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful StartRecognizing Choices Prompts request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+    const choice: RecognitionChoice = {
+      label: "choice",
+      phrases: ["test"],
+    };
+
+    const prompts: (FileSource | TextSource | SsmlSource)[] = [
+      { kind: "fileSource", url: MEDIA_URL_WAV },
+      { kind: "textSource", text: "test" },
+      { kind: "ssmlSource", ssmlText: "test" },
+    ];
+
+    const recognizeOptions: CallMediaRecognizeChoiceOptions = {
+      playPrompts: prompts,
+      choices: [choice],
+      kind: "callMediaRecognizeChoiceOptions",
+    };
+
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.recognizeInputType, "choices");
+    assert.equal(data.recognizeOptions.choices[0].phrases[0], "test");
+    assert.equal(data.playPrompts.length, 3);
+    assert.equal(data.playPrompts[0].kind, "file");
+    assert.equal(data.playPrompts[1].kind, "text");
+    assert.equal(data.playPrompts[2].kind, "ssml");
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful StartRecognizing Speech Prompts request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+
+    const prompts: (FileSource | TextSource | SsmlSource)[] = [
+      { kind: "fileSource", url: MEDIA_URL_WAV },
+      { kind: "textSource", text: "test" },
+      { kind: "ssmlSource", ssmlText: "test" },
+    ];
+
+    const recognizeOptions: CallMediaRecognizeSpeechOptions = {
+      playPrompts: prompts,
+      kind: "callMediaRecognizeSpeechOptions",
+      speechModelEndpointId: "customModelEndpointId",
+    };
+
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.recognizeInputType, "speech");
+    assert.equal(data.recognizeOptions.speechOptions.endSilenceTimeoutInMs, 2000);
+    assert.equal(data.playPrompts.length, 3);
+    assert.equal(data.playPrompts[0].kind, "file");
+    assert.equal(data.playPrompts[1].kind, "text");
+    assert.equal(data.playPrompts[2].kind, "ssml");
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful StartRecognizing SpeechOrDTMF With DTMF Prompts request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+
+    const prompts: (FileSource | TextSource | SsmlSource)[] = [
+      { kind: "fileSource", url: MEDIA_URL_WAV },
+      { kind: "textSource", text: "test" },
+      { kind: "ssmlSource", ssmlText: "test" },
+    ];
+
+    const recognizeOptions: CallMediaRecognizeSpeechOrDtmfOptions = {
+      playPrompts: prompts,
+      maxTonesToCollect: 5,
+      kind: "callMediaRecognizeSpeechOrDtmfOptions",
+      speechModelEndpointId: "customModelEndpointId",
+    };
+
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.recognizeInputType, "speechOrDtmf");
+    assert.equal(data.recognizeOptions.dtmfOptions.maxTonesToCollect, 5);
+    assert.equal(data.playPrompts.length, 3);
+    assert.equal(data.playPrompts[0].kind, "file");
+    assert.equal(data.playPrompts[1].kind, "text");
+    assert.equal(data.playPrompts[2].kind, "ssml");
     assert.equal(request.method, "POST");
   });
 

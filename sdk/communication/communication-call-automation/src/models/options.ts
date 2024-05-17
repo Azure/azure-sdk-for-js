@@ -25,6 +25,8 @@ import {
 export interface CallMediaRecognizeOptions extends OperationOptions {
   /** The source of the audio to be played for recognition. */
   playPrompt?: FileSource | TextSource | SsmlSource;
+  /** The list source of the audio to be played for recognition. */
+  playPrompts?: (FileSource | TextSource | SsmlSource)[];
   /** If set recognize can barge into other existing queued-up/currently-processing requests. */
   interruptCallMediaOperation?: boolean;
   /** @deprecated Not in use, instead use interruptCallMediaOperation for similar functionality*/
