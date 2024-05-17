@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0 (2023-05-17)
+## 3.0.0 (Unreleased)
 
 GA the v3 version. To migrate the existing applications to v3, please refer to [Migration Guide](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro/docs/MIGRATION.md).
 
