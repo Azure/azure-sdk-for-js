@@ -2533,7 +2533,7 @@ export class Users {
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
 }
 
-// @public (undocumented)
+// @public
 export interface VectorEmbedding {
     dataType: "float16" | "float32" | "uint8" | "int8";
     dimensions: number;
@@ -2541,17 +2541,14 @@ export interface VectorEmbedding {
     path: string;
 }
 
-// @public (undocumented)
+// @public
 export interface VectorEmbeddingPolicy {
-    // (undocumented)
     vectorEmbeddings: VectorEmbedding[];
 }
 
-// @public (undocumented)
+// @public
 export interface VectorIndex {
-    // (undocumented)
     path: string;
-    // (undocumented)
     type: "flat" | "diskANN" | "quantizedFlat";
 }
 
