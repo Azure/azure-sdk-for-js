@@ -21,22 +21,22 @@ import { Factory, PipelineResource } from "../src/models";
 import { dataFlow } from "../src/models/parameters";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-
-describe.skip("Datafactory test", () => {
+describe("Datafactory test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DataFactoryManagementClient;
@@ -118,7 +118,7 @@ describe.skip("Datafactory test", () => {
           connectionString: {
             type: "SecureString",
             value:
-              "DefaultEndpointsProtocol=https;AccountName=examplestorageaccount;AccountKey=<storage key>"
+              "DefaultEndpointsProtocol=https;AccountName=examplestorageaccount;"
           }
         }
       }

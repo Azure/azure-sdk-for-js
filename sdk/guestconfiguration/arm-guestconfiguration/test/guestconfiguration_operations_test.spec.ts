@@ -13,31 +13,26 @@ import {
   delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { NoOpCredential } from "@azure-tools/test-credential";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { GuestConfigurationClient } from "../src/guestConfigurationClient";
-import { DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
-
-export function createTestCredential() {
-  return isPlaybackMode()
-    ? new NoOpCredential()
-    : new
-      DefaultAzureCredential()
-    ;
-}
 
 describe("GuestConfiguration test", () => {
   let recorder: Recorder;
