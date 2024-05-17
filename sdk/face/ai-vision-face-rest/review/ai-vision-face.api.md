@@ -896,15 +896,6 @@ export interface CreateLivenessSessionContent {
     sendResultsToClient?: boolean;
 }
 
-// @public
-export interface CreateLivenessSessionContentForMultipart {
-    authTokenTimeToLiveInSeconds?: number;
-    deviceCorrelationId?: string;
-    deviceCorrelationIdSetInClient?: boolean;
-    livenessOperationMode: LivenessOperationMode;
-    sendResultsToClient?: boolean;
-}
-
 // @public (undocumented)
 export interface CreateLivenessSessionDefaultHeaders {
     "x-ms-error-code"?: string;
@@ -949,7 +940,7 @@ export type CreateLivenessWithVerifySessionContent = FormData | Array<CreateLive
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentParametersPartDescriptor {
     // (undocumented)
-    body: CreateLivenessSessionContentForMultipart;
+    body: CreateLivenessSessionContent;
     // (undocumented)
     name: "Parameters";
 }
@@ -3850,7 +3841,7 @@ export type LivenessDecisionOutput = string | "uncertain" | "realface" | "spooff
 export type LivenessModelOutput = string | "2020-02-15-preview.01" | "2021-11-12-preview.03" | "2022-10-15-preview.04" | "2023-03-02-preview.05";
 
 // @public
-export type LivenessOperationMode = string | "Passive";
+export type LivenessOperationMode = string | "Passive" | "PassiveActive";
 
 // @public
 export interface LivenessOutputsTargetOutput {
