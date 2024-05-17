@@ -77,7 +77,6 @@ export type CallAutomationEvent =
   | MediaStreamingStarted
   | MediaStreamingStopped
   | MediaStreamingFailed
-  | HoldFailed
   | ConnectFailed;
 
 export {
