@@ -89,7 +89,7 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "^1.1.0",
+    "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.0.0",
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
