@@ -69,6 +69,7 @@ export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: CallAutomationClientOptions);
     answerCall(incomingCallContext: string, callbackUrl: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
+    connect(callLocator: CallLocator, callbackUrl: string, options?: ConnectOptions): Promise<ConnectResult>;
     createCall(targetParticipant: CallInvite, callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
     createGroupCall(targetParticipants: CommunicationIdentifier[], callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
     getCallConnection(callConnectionId: string): CallConnection;
@@ -84,7 +85,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayStarted | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | HoldFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayStarted | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | HoldFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | HoldFailed | ConnectFailed;
 
 // @public
 export interface CallConnected extends Omit<RestCallConnected, "callConnectionId" | "serverCallId" | "correlationId"> {
@@ -159,7 +160,7 @@ export interface CallLocator {
 }
 
 // @public
-export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
+export type CallLocatorType = "serverCallLocator" | "groupCallLocator" | "roomCallLocator";
 
 // @public
 export class CallMedia {
@@ -320,6 +321,24 @@ export interface ChoiceResult {
     label?: string;
     recognizedPhrase?: string;
 }
+
+// @public (undocumented)
+export interface ConnectFailed extends Omit<RestConnectFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "ConnectFailed";
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
+// @public
+export interface ConnectOptions extends OperationOptions {
+    callIntelligenceOptions?: CallIntelligenceOptions;
+    operationContext?: string;
+}
+
+// @public
+export type ConnectResult = CallResult;
 
 // @public
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
@@ -797,6 +816,15 @@ export interface RestCancelAddParticipantSucceeded {
     correlationId?: string;
     invitationId?: string;
     operationContext?: string;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestConnectFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
 
