@@ -18,7 +18,7 @@ import {
   TasksUpdateSubscriptionLevelTaskStateOptionalParams,
   TasksGetResourceGroupLevelTaskOptionalParams,
   TasksGetResourceGroupLevelTaskResponse,
-  TasksUpdateResourceGroupLevelTaskStateOptionalParams
+  TasksUpdateResourceGroupLevelTaskStateOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface Tasks {
    * @param options The options parameters.
    */
   list(
-    options?: TasksListOptionalParams
+    options?: TasksListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityTask>;
   /**
    * Recommended tasks that will help improve the security of the subscription proactively
@@ -39,7 +39,7 @@ export interface Tasks {
    */
   listByHomeRegion(
     ascLocation: string,
-    options?: TasksListByHomeRegionOptionalParams
+    options?: TasksListByHomeRegionOptionalParams,
   ): PagedAsyncIterableIterator<SecurityTask>;
   /**
    * Recommended tasks that will help improve the security of the subscription proactively
@@ -52,7 +52,7 @@ export interface Tasks {
   listByResourceGroup(
     resourceGroupName: string,
     ascLocation: string,
-    options?: TasksListByResourceGroupOptionalParams
+    options?: TasksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SecurityTask>;
   /**
    * Recommended tasks that will help improve the security of the subscription proactively
@@ -64,7 +64,7 @@ export interface Tasks {
   getSubscriptionLevelTask(
     ascLocation: string,
     taskName: string,
-    options?: TasksGetSubscriptionLevelTaskOptionalParams
+    options?: TasksGetSubscriptionLevelTaskOptionalParams,
   ): Promise<TasksGetSubscriptionLevelTaskResponse>;
   /**
    * Recommended tasks that will help improve the security of the subscription proactively
@@ -78,7 +78,7 @@ export interface Tasks {
     ascLocation: string,
     taskName: string,
     taskUpdateActionType: TaskUpdateActionType,
-    options?: TasksUpdateSubscriptionLevelTaskStateOptionalParams
+    options?: TasksUpdateSubscriptionLevelTaskStateOptionalParams,
   ): Promise<void>;
   /**
    * Recommended tasks that will help improve the security of the subscription proactively
@@ -93,7 +93,7 @@ export interface Tasks {
     resourceGroupName: string,
     ascLocation: string,
     taskName: string,
-    options?: TasksGetResourceGroupLevelTaskOptionalParams
+    options?: TasksGetResourceGroupLevelTaskOptionalParams,
   ): Promise<TasksGetResourceGroupLevelTaskResponse>;
   /**
    * Recommended tasks that will help improve the security of the subscription proactively
@@ -110,6 +110,6 @@ export interface Tasks {
     ascLocation: string,
     taskName: string,
     taskUpdateActionType: TaskUpdateActionType,
-    options?: TasksUpdateResourceGroupLevelTaskStateOptionalParams
+    options?: TasksUpdateResourceGroupLevelTaskStateOptionalParams,
   ): Promise<void>;
 }
