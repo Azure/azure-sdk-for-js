@@ -20,6 +20,7 @@ import {
   SsmlSource,
   RecognitionChoice,
   DtmfTone,
+  MediaStreamingOptions,
 } from "../src/models/models";
 import {
   CallMediaRecognizeDtmfOptions,
@@ -37,6 +38,9 @@ import {
   StopTranscriptionOptions,
   HoldOptions,
   UnholdOptions,
+  PlayToAllOptions,
+  StopMediaStreamingOptions,
+  StartMediaStreamingOptions,
 } from "../src";
 
 // Current directory imports
@@ -179,6 +183,63 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(data.playSources[0].kind, "file");
     assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
+  });
+
+  it("makes successful PlayToAll barge in request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const playSource: FileSource[] = [
+      {
+        url: MEDIA_URL_WAV,
+        kind: "fileSource",
+      },
+    ];
+
+    const options: PlayToAllOptions = {
+      interruptCallMediaOperation: true,
+      operationContext: "interruptMediaContext",
+    };
+
+    await callMedia.playToAll(playSource, options);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.playSources[0].kind, "file");
+    assert.equal(data.playSources[0].file.uri, playSource[0].url);
+    assert.equal(request.method, "POST");
+    assert.equal(data.operationContext, options.operationContext);
+    assert.equal(data.interruptCallMediaOperation, options.interruptCallMediaOperation);
+  });
+
+  it("makes successful PlayToAll barge in request with PlayOptions instead of PlayToAllOptions", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const playSource: FileSource[] = [
+      {
+        url: MEDIA_URL_WAV,
+        kind: "fileSource",
+      },
+    ];
+
+    const options: PlayOptions = {
+      operationContext: "interruptMediaContext",
+    };
+
+    await callMedia.playToAll(playSource, options);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.playSources[0].kind, "file");
+    assert.equal(data.playSources[0].file.uri, playSource[0].url);
+    assert.equal(request.method, "POST");
+    assert.equal(data.operationContext, options.operationContext);
+    assert.equal(data.interruptCallMediaOperation, false);
   });
 
   it("makes successful StartRecognizing DTMF request", async function () {
@@ -338,7 +399,7 @@ describe("CallMedia Unit Tests", async function () {
     const options: HoldOptions = {
       playSource: playSource,
       operationContext: "withPlaySource",
-      operationCallbackUri: "https://localhost",
+      operationCallbackUrl: "https://localhost",
     };
     await callMedia.hold(participantToHold, options);
     const request = spy.getCall(0).args[0];
@@ -432,6 +493,60 @@ describe("CallMedia Unit Tests", async function () {
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.locale, locale);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful start media streaming request with options", async function () {
+    const mockHttpClient = generateHttpClient(202);
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const options: StartMediaStreamingOptions = {
+      operationContext: "startMediaStreamContext",
+      operationCallbackUri: "https://localhost",
+    };
+    await callMedia.startMediaStreaming(options);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+    assert.equal(data.operationContext, options.operationContext);
+    assert.equal(data.operationCallbackUri, options.operationCallbackUri);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful start media streaming request without options", async function () {
+    const mockHttpClient = generateHttpClient(202);
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    await callMedia.startMediaStreaming();
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+    assert.isUndefined(data.operationContext);
+    assert.isUndefined(data.operationCallbackUri);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful stop media streaming request with options", async function () {
+    const mockHttpClient = generateHttpClient(202);
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const options: StopMediaStreamingOptions = {
+      operationCallbackUri: "https://localhost",
+    };
+    await callMedia.stopMediaStreaming(options);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+    assert.equal(data.operationCallbackUri, options.operationCallbackUri);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful stop media streaming request without options", async function () {
+    const mockHttpClient = generateHttpClient(202);
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    await callMedia.stopMediaStreaming();
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+    assert.isUndefined(data.operationCallbackUri);
     assert.equal(request.method, "POST");
   });
 });
@@ -695,6 +810,137 @@ describe("Call Media Client Live Tests", function () {
       8000,
     );
     assert.isDefined(continuousDtmfRecognitionStopped);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("Creates a call, start media streaming, and hangs up.", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "create_call_start_media_streaming_and_hang_up";
+    await loadPersistedEvents(testName);
+    const phoneNumbers = await getPhoneNumbers(recorder);
+    assert.isAtLeast(
+      phoneNumbers.length,
+      2,
+      "Invalid PSTN setup, test needs at least 2 phone numbers",
+    );
+    callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+    receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+
+    const callInvite: CallInvite = {
+      targetParticipant: receiverPhoneUser,
+      sourceCallIdNumber: callerPhoneUser,
+    };
+    const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+    const mediaStreamingOptions: MediaStreamingOptions = {
+      transportUrl: "wss://localhost",
+      transportType: "websocket",
+      contentType: "audio",
+      audioChannelType: "mixed",
+      startMediaStreaming: false,
+    };
+
+    const creatCallOptions: CreateCallOptions = {
+      mediaStreamingOptions: mediaStreamingOptions,
+    };
+
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      creatCallOptions,
+    );
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    await callConnection.getCallMedia().startMediaStreaming();
+    const mediaStreamingStarted = await waitForEvent(
+      "MediaStreamingStarted",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(mediaStreamingStarted);
+
+    await callConnection.getCallMedia().stopMediaStreaming();
+    const mediaStreamingStopped = await waitForEvent(
+      "MediaStreamingStopped",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(mediaStreamingStopped);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("Answers a call, start media streaming, and hangs up", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "answer_call_start_media_streaming_and_hang_up";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      const mediaStreamingOptions: MediaStreamingOptions = {
+        transportUrl: "wss://localhost",
+        transportType: "websocket",
+        contentType: "audio",
+        audioChannelType: "mixed",
+        startMediaStreaming: false,
+      };
+      const answerCallOptions: AnswerCallOptions = {
+        mediaStreamingOptions: mediaStreamingOptions,
+      };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOptions,
+      );
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    await callConnection.getCallMedia().startMediaStreaming();
+    const mediaStreamingStarted = await waitForEvent(
+      "MediaStreamingStarted",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(mediaStreamingStarted);
+
+    await callConnection.getCallMedia().stopMediaStreaming();
+    const mediaStreamingStopped = await waitForEvent(
+      "MediaStreamingStopped",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(mediaStreamingStopped);
 
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);

@@ -23,6 +23,8 @@ import {
   UpdateTranscriptionRequest,
   HoldRequest,
   UnholdRequest,
+  StopMediaStreamingRequest,
+  StartMediaStreamingRequest,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -35,6 +37,7 @@ import {
 import { FileSource, TextSource, SsmlSource, DtmfTone } from "./models/models";
 import {
   PlayOptions,
+  PlayToAllOptions,
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,
   ContinuousDtmfRecognitionOptions,
@@ -45,6 +48,8 @@ import {
   StopTranscriptionOptions,
   HoldOptions,
   UnholdOptions,
+  StopMediaStreamingOptions,
+  StartMediaStreamingOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { SendDtmfTonesResult } from "./models/responses";
@@ -156,7 +161,7 @@ export class CallMedia {
    */
   public async playToAll(
     playSources: (FileSource | TextSource | SsmlSource)[],
-    options: PlayOptions = { loop: false },
+    options: PlayToAllOptions = { loop: false },
   ): Promise<void> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
@@ -164,6 +169,10 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
+      interruptCallMediaOperation:
+        options.interruptCallMediaOperation !== undefined
+          ? options.interruptCallMediaOperation
+          : false,
       operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
     };
@@ -452,7 +461,7 @@ export class CallMedia {
       operationContext:
         options.operationContext !== undefined ? options.operationContext : undefined,
       operationCallbackUri:
-        options.operationCallbackUri !== undefined ? options.operationCallbackUri : undefined,
+        options.operationCallbackUrl !== undefined ? options.operationCallbackUrl : undefined,
     };
     return this.callMedia.hold(this.callConnectionId, holdRequest);
   }
@@ -510,6 +519,37 @@ export class CallMedia {
       this.callConnectionId,
       updateTranscriptionRequest,
       {},
+    );
+  }
+
+  /**
+   * Starts media streaming in the call.
+   * @param options - Additional attributes for start media streaming.
+   */
+  public async startMediaStreaming(options: StartMediaStreamingOptions = {}): Promise<void> {
+    const startMediaStreamingRequest: StartMediaStreamingRequest = {
+      operationContext: options.operationContext,
+      operationCallbackUri: options.operationCallbackUri,
+    };
+    return this.callMedia.startMediaStreaming(
+      this.callConnectionId,
+      startMediaStreamingRequest,
+      options,
+    );
+  }
+
+  /**
+   * Stops media streaming in the call.
+   * @param options - Additional attributes for stop media streaming.
+   */
+  public async stopMediaStreaming(options: StopMediaStreamingOptions = {}): Promise<void> {
+    const stopMediaStreamingRequest: StopMediaStreamingRequest = {
+      operationCallbackUri: options.operationCallbackUri,
+    };
+    return this.callMedia.stopMediaStreaming(
+      this.callConnectionId,
+      stopMediaStreamingRequest,
+      options,
     );
   }
 }

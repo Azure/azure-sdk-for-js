@@ -219,6 +219,14 @@ export interface PlayOptions extends OperationOptions {
 }
 
 /**
+ * Options to playToAll audio.
+ */
+export interface PlayToAllOptions extends PlayOptions {
+  /** If set play can barge into other existing queued-up/currently-processing requests. */
+  interruptCallMediaOperation?: boolean;
+}
+
+/**
  * Options to get call connection properties.
  */
 export type GetCallConnectionPropertiesOptions = OperationOptions;
@@ -362,8 +370,8 @@ export interface HoldOptions extends OperationOptions {
   playSource?: FileSource | TextSource | SsmlSource;
   /** Operation Context. */
   operationContext?: string;
-  /** Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation. */
-  operationCallbackUri?: string;
+  /** Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation. */
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -372,6 +380,26 @@ export interface HoldOptions extends OperationOptions {
 export interface UnholdOptions extends OperationOptions {
   /** Operation Context. */
   operationContext?: string;
+}
+
+/** Options for start media streaming request. */
+export interface StartMediaStreamingOptions extends OperationOptions {
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/** Options for stop media streaming request. */
+export interface StopMediaStreamingOptions extends OperationOptions {
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
 }
 
 /**
