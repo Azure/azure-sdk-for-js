@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+import "./env.js"
 import {
   Recorder,
   RecorderStartOptions,
