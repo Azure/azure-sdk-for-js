@@ -110,9 +110,7 @@ export function createRegistryClient(
     return new ContainerRegistryClient(endpoint, recorder.configureClientOptions(clientOptions));
   }
 
-  const credential = createTestCredential(
-    { ...tokenCredentialOptions, httpClient },
-  );
+  const credential = createTestCredential({ ...tokenCredentialOptions, httpClient });
 
   return new ContainerRegistryClient(
     endpoint,
@@ -135,9 +133,7 @@ export function createBlobClient(
     serviceVersion: serviceVersion as ContainerRegistryServiceVersions,
   };
 
-  const credential = createTestCredential(
-    { ...tokenCredentialOptions }
-  );
+  const credential = createTestCredential(tokenCredentialOptions);
 
   return new ContainerRegistryContentClient(
     endpoint,
