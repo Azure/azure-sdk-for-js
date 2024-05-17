@@ -1,16 +1,18 @@
 # Release History
+## 4.0.1-beta.3 (2024-05-17)
+
+- Added support for Vector Search.
+- Add query feedOption to disable nonStreamingOrderBy query feature
 
 ## 4.0.1-beta.2 (2024-01-22)
 
 ### Bugs Fixed
 - The earlier release version 4.0.1-beta.1 encountered compatibility issues with certain browser environments due to the disablement of SharedArrayBuffer. This version resolves that issue.
 
-
 ## 4.0.1-beta.1 (2024-01-17)
   
 ### Features Added
 - We have implemented support for Request Unit (RU) caps in Query operations. Clients can now seamlessly integrate RU caps into their fetch functions by specifying the desired cap within the operation options. If the specified RU cap is surpassed during the operation, clients will promptly receive an error notification, providing enhanced control and transparency over resource consumption.
-  
 
 ### Breaking Changes
 

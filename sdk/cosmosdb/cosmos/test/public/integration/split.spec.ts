@@ -78,7 +78,11 @@ describe("Partition Splits", () => {
     const { resources } = await client
       .database(container.database.id)
       .container(container.id)
-      .items.query("SELECT * FROM root r", { maxItemCount: 2, maxDegreeOfParallelism: 1 })
+      .items.query("SELECT * FROM root r", {
+        maxItemCount: 2,
+        maxDegreeOfParallelism: 1,
+        disableNonStreamingOrderByQuery: true,
+      })
       .fetchAll();
 
     // TODO. These should be equal but right now they are not
@@ -117,7 +121,11 @@ describe("Partition Splits", () => {
       await client
         .database(container.database.id)
         .container(container.id)
-        .items.query("SELECT * FROM root r", { maxItemCount: 2, maxDegreeOfParallelism: 1 })
+        .items.query("SELECT * FROM root r", {
+          maxItemCount: 2,
+          maxDegreeOfParallelism: 1,
+          disableNonStreamingOrderByQuery: true,
+        })
         .fetchAll();
       assert.fail("Expected query to fail");
     } catch (e: any) {
@@ -129,7 +137,11 @@ describe("Partition Splits", () => {
       await client
         .database(container.database.id)
         .container(container.id)
-        .items.query("SELECT * FROM root r", { maxItemCount: 2, maxDegreeOfParallelism: 1 })
+        .items.query("SELECT * FROM root r", {
+          maxItemCount: 2,
+          maxDegreeOfParallelism: 1,
+          disableNonStreamingOrderByQuery: true,
+        })
         .fetchNext();
       assert.fail("Expected query to fail");
     } catch (e: any) {
@@ -141,7 +153,11 @@ describe("Partition Splits", () => {
       const iterator = client
         .database(container.database.id)
         .container(container.id)
-        .items.query("SELECT * FROM root r", { maxItemCount: 2, maxDegreeOfParallelism: 1 })
+        .items.query("SELECT * FROM root r", {
+          maxItemCount: 2,
+          maxDegreeOfParallelism: 1,
+          disableNonStreamingOrderByQuery: true,
+        })
         .getAsyncIterator();
       const results = [];
       for await (const result of iterator) {

@@ -40,6 +40,7 @@ export class QueryIterator<T> {
   private queryExecutionContext: ExecutionContext;
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
+  private nonStreamingOrderBy: boolean = false;
   /**
    * @hidden
    */
@@ -181,10 +182,8 @@ export class QueryIterator<T> {
    */
   public async fetchNext(options?: QueryOperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      let ruConsumedManager: RUConsumedManager | undefined;
-      if (options && options.ruCapPerOperation) {
-        ruConsumedManager = new RUConsumedManager();
-      }
+      // Enabling RU metrics for all the fetchNext operations
+      const ruConsumedManager: RUConsumedManager = new RUConsumedManager();
       this.queryPlanPromise = withMetadataDiagnostics(
         async (metadataNode: DiagnosticNodeInternal) => {
           return this.fetchQueryPlan(metadataNode);
@@ -290,9 +289,14 @@ export class QueryIterator<T> {
       const { result, headers } = response;
       // concatenate the results and fetch more
       mergeHeaders(this.fetchAllLastResHeaders, headers);
-
       if (result !== undefined) {
-        this.fetchAllTempResources.push(result);
+        if (
+          this.nonStreamingOrderBy &&
+          typeof result === "object" &&
+          Object.keys(result).length === 0
+        ) {
+          // ignore empty results from NonStreamingOrderBy Endpoint components.
+        } else this.fetchAllTempResources.push(result);
       }
     }
     return new FeedResponse(
@@ -313,6 +317,7 @@ export class QueryIterator<T> {
 
     const queryPlan = queryPlanResponse.result;
     const queryInfo = queryPlan.queryInfo;
+    this.nonStreamingOrderBy = queryInfo.hasNonStreamingOrderBy ? true : false;
     if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
       throw new Error("Aggregate queries must use the VALUE keyword");
     }
