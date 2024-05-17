@@ -20,7 +20,7 @@ import {
   SharedGalleryImagesListResponse,
   SharedGalleryImagesGetOptionalParams,
   SharedGalleryImagesGetResponse,
-  SharedGalleryImagesListNextResponse
+  SharedGalleryImagesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
   public list(
     location: string,
     galleryUniqueName: string,
-    options?: SharedGalleryImagesListOptionalParams
+    options?: SharedGalleryImagesListOptionalParams,
   ): PagedAsyncIterableIterator<SharedGalleryImage> {
     const iter = this.listPagingAll(location, galleryUniqueName, options);
     return {
@@ -63,9 +63,9 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
           location,
           galleryUniqueName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -73,7 +73,7 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
     location: string,
     galleryUniqueName: string,
     options?: SharedGalleryImagesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SharedGalleryImage[]> {
     let result: SharedGalleryImagesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
         location,
         galleryUniqueName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,12 +101,12 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
   private async *listPagingAll(
     location: string,
     galleryUniqueName: string,
-    options?: SharedGalleryImagesListOptionalParams
+    options?: SharedGalleryImagesListOptionalParams,
   ): AsyncIterableIterator<SharedGalleryImage> {
     for await (const page of this.listPagingPage(
       location,
       galleryUniqueName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -121,11 +121,11 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
   private _list(
     location: string,
     galleryUniqueName: string,
-    options?: SharedGalleryImagesListOptionalParams
+    options?: SharedGalleryImagesListOptionalParams,
   ): Promise<SharedGalleryImagesListResponse> {
     return this.client.sendOperationRequest(
       { location, galleryUniqueName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -141,11 +141,11 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
     location: string,
     galleryUniqueName: string,
     galleryImageName: string,
-    options?: SharedGalleryImagesGetOptionalParams
+    options?: SharedGalleryImagesGetOptionalParams,
   ): Promise<SharedGalleryImagesGetResponse> {
     return this.client.sendOperationRequest(
       { location, galleryUniqueName, galleryImageName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -160,11 +160,11 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
     location: string,
     galleryUniqueName: string,
     nextLink: string,
-    options?: SharedGalleryImagesListNextOptionalParams
+    options?: SharedGalleryImagesListNextOptionalParams,
   ): Promise<SharedGalleryImagesListNextResponse> {
     return this.client.sendOperationRequest(
       { location, galleryUniqueName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -172,38 +172,36 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedGalleryImageList
+      bodyMapper: Mappers.SharedGalleryImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion3, Parameters.sharedTo],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location1,
-    Parameters.galleryUniqueName
+    Parameters.galleryUniqueName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedGalleryImage
+      bodyMapper: Mappers.SharedGalleryImage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -211,29 +209,29 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.location1,
     Parameters.galleryImageName,
-    Parameters.galleryUniqueName
+    Parameters.galleryUniqueName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedGalleryImageList
+      bodyMapper: Mappers.SharedGalleryImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.location1,
-    Parameters.galleryUniqueName
+    Parameters.galleryUniqueName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

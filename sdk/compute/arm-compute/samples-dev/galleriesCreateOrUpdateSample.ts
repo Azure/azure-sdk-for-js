@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/CommunityGallery_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/CommunityGallery_Create.json
  */
 async function createACommunityGallery() {
   const subscriptionId =
@@ -34,17 +34,17 @@ async function createACommunityGallery() {
         eula: "eula",
         publicNamePrefix: "PirPublic",
         publisherContact: "pir@microsoft.com",
-        publisherUri: "uri"
+        publisherUri: "uri",
       },
-      permissions: "Community"
-    }
+      permissions: "Community",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleries.beginCreateOrUpdateAndWait(
     resourceGroupName,
     galleryName,
-    gallery
+    gallery,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function createACommunityGallery() {
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/Gallery_Create_WithSharingProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/Gallery_Create_WithSharingProfile.json
  */
 async function createOrUpdateASimpleGalleryWithSharingProfile() {
   const subscriptionId =
@@ -64,14 +64,14 @@ async function createOrUpdateASimpleGalleryWithSharingProfile() {
   const gallery: Gallery = {
     description: "This is the gallery description.",
     location: "West US",
-    sharingProfile: { permissions: "Groups" }
+    sharingProfile: { permissions: "Groups" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleries.beginCreateOrUpdateAndWait(
     resourceGroupName,
     galleryName,
-    gallery
+    gallery,
   );
   console.log(result);
 }
@@ -80,7 +80,7 @@ async function createOrUpdateASimpleGalleryWithSharingProfile() {
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/Gallery_Create_SoftDeletionEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/Gallery_Create_SoftDeletionEnabled.json
  */
 async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
   const subscriptionId =
@@ -91,14 +91,14 @@ async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
   const gallery: Gallery = {
     description: "This is the gallery description.",
     location: "West US",
-    softDeletePolicy: { isSoftDeleteEnabled: true }
+    softDeletePolicy: { isSoftDeleteEnabled: true },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleries.beginCreateOrUpdateAndWait(
     resourceGroupName,
     galleryName,
-    gallery
+    gallery,
   );
   console.log(result);
 }
@@ -107,7 +107,7 @@ async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/Gallery_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/Gallery_Create.json
  */
 async function createOrUpdateASimpleGallery() {
   const subscriptionId =
@@ -117,14 +117,14 @@ async function createOrUpdateASimpleGallery() {
   const galleryName = "myGalleryName";
   const gallery: Gallery = {
     description: "This is the gallery description.",
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleries.beginCreateOrUpdateAndWait(
     resourceGroupName,
     galleryName,
-    gallery
+    gallery,
   );
   console.log(result);
 }

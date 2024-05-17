@@ -24,9 +24,9 @@ import {
   DocumentIngress,
   Exception,
   MonitoringDataPoint,
-  PingOptionalParams,
-  PingResponse,
-  PostResponse,
+  IsSubscribedOptionalParams,
+  IsSubscribedResponse,
+  PublishResponse,
   RemoteDependency,
   Request,
   Trace,
@@ -42,9 +42,10 @@ import {
 import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
 import { ConnectionStringParser } from "../../utils/connectionStringParser";
-import { DEFAULT_BREEZE_ENDPOINT, DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
+import { DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
 import { QuickPulseOpenTelemetryMetricNames, QuickpulseExporterOptions } from "./types";
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
+import { getInstance } from "../../utils/statsbeat";
 
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
@@ -110,6 +111,7 @@ export class LiveMetrics {
         times: { user: number; nice: number; sys: number; idle: number; irq: number };
       }[]
     | undefined;
+  private statsbeatOptionsUpdated = false;
 
   /**
    * Initializes a new instance of the StandardMetrics class.
@@ -131,17 +133,19 @@ export class LiveMetrics {
       roleName: roleName,
       machineName: machineName,
       streamId: streamId,
+      performanceCollectionSupported: true,
+      isWebApp: process.env["WEBSITE_SITE_NAME"] ? true : false,
     };
     const parsedConnectionString = ConnectionStringParser.parse(
       this.config.azureMonitorExporterOptions.connectionString,
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
-      instrumentationKey: parsedConnectionString.instrumentationkey || DEFAULT_BREEZE_ENDPOINT,
+      instrumentationKey: parsedConnectionString.instrumentationkey || "",
     });
     let exporterOptions: QuickpulseExporterOptions = {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
-      instrumentationKey: parsedConnectionString.instrumentationkey || DEFAULT_BREEZE_ENDPOINT,
+      instrumentationKey: parsedConnectionString.instrumentationkey || "",
       postCallback: this.quickPulseDone.bind(this),
       getDocumentsFn: this.getDocuments.bind(this),
       baseMonitoringDataPoint: this.baseMonitoringDataPoint,
@@ -162,12 +166,12 @@ export class LiveMetrics {
     if (!this.isCollectingData) {
       // If not collecting, Ping
       try {
-        let params: PingOptionalParams = {
-          xMsQpsTransmissionTime: getTransmissionTime(),
+        let params: IsSubscribedOptionalParams = {
+          transmissionTime: getTransmissionTime(),
           monitoringDataPoint: this.baseMonitoringDataPoint,
         };
         await context.with(suppressTracing(context.active()), async () => {
-          let response = await this.pingSender.ping(params);
+          let response = await this.pingSender.isSubscribed(params);
           this.quickPulseDone(response);
         });
       } catch (error) {
@@ -181,7 +185,7 @@ export class LiveMetrics {
     }
   }
 
-  private async quickPulseDone(response: PostResponse | PingResponse | undefined) {
+  private async quickPulseDone(response: PublishResponse | IsSubscribedResponse | undefined) {
     if (!response) {
       if (!this.isCollectingData) {
         if (Date.now() - this.lastSuccessTime >= MAX_PING_WAIT_TIME) {
@@ -208,12 +212,14 @@ export class LiveMetrics {
         this.handle.unref();
       }
 
-      this.pingSender.handlePermanentRedirect(response.xMsQpsServiceEndpointRedirectV2);
-      this.quickpulseExporter
-        .getSender()
-        .handlePermanentRedirect(response.xMsQpsServiceEndpointRedirectV2);
-      if (response.xMsQpsServicePollingIntervalHint) {
-        this.pingInterval = Number(response.xMsQpsServicePollingIntervalHint);
+      const endpointRedirect = (response as IsSubscribedResponse).xMsQpsServiceEndpointRedirectV2;
+      if (endpointRedirect) {
+        this.pingSender.handlePermanentRedirect(endpointRedirect);
+        this.quickpulseExporter.getSender().handlePermanentRedirect(endpointRedirect);
+      }
+      const pollingInterval = (response as IsSubscribedResponse).xMsQpsServicePollingIntervalHint;
+      if (pollingInterval) {
+        this.pingInterval = Number(pollingInterval);
       } else {
         this.pingInterval = PING_INTERVAL;
       }
@@ -224,6 +230,11 @@ export class LiveMetrics {
   public activateMetrics(options?: { collectionInterval: number }) {
     if (this.meterProvider) {
       return;
+    }
+    // Turn on live metrics active collection for statsbeat
+    if (!this.statsbeatOptionsUpdated) {
+      getInstance().setStatsbeatFeatures({ liveMetrics: true });
+      this.statsbeatOptionsUpdated = true;
     }
     this.lastCpus = os.cpus();
     this.totalDependencyCount = 0;
@@ -464,7 +475,7 @@ export class LiveMetrics {
     }
     this.lastDependencyDuration = {
       count: this.totalDependencyCount,
-      duration: this.requestDuration,
+      duration: this.dependencyDuration,
       time: currentTime,
     };
   }

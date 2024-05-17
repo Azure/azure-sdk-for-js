@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within a resource group.
  *
  * @summary Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within a resource group.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Profiles_ListByResourceGroup.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Profiles_ListByResourceGroup.json
  */
 async function profilesListByResourceGroup() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -27,7 +27,7 @@ async function profilesListByResourceGroup() {
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.profiles.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

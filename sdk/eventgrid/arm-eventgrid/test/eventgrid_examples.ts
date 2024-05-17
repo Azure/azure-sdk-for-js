@@ -13,25 +13,33 @@ import {
   delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential";
+import { NoOpCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { EventGridManagementClient } from "../src/eventGridManagementClient";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
+
+export function createTestCredential() {
+  return isPlaybackMode() ? new NoOpCredential() : new DefaultAzureCredential();
+}
 
 describe("Eventgrid test", () => {
   let recorder: Recorder;
@@ -47,10 +55,14 @@ describe("Eventgrid test", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new EventGridManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new EventGridManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "east us2 euap";
     resourceGroupName = "myjstest";
     topicName = "mytopicxxx";
@@ -64,7 +76,12 @@ describe("Eventgrid test", () => {
   });
 
   it("topics create test", async function () {
-    const res = await client.topics.beginCreateOrUpdateAndWait(resourceGroupName, topicName, { location }, testPollingOptions);
+    const res = await client.topics.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      topicName,
+      { location },
+      testPollingOptions,
+    );
     assert.equal(res.name, topicName);
   });
 
@@ -77,17 +94,27 @@ describe("Eventgrid test", () => {
   });
 
   it("domains create test", async function () {
-    const res = await client.domains.beginCreateOrUpdateAndWait(resourceGroupName, domainName, { location: location }, testPollingOptions);
+    const res = await client.domains.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      domainName,
+      { location: location },
+      testPollingOptions,
+    );
     assert.equal(res.name, domainName);
   });
 
   it("domains update test", async function () {
-    const res = await client.domains.beginUpdateAndWait(resourceGroupName, domainName, {
-      tags: {
-        tag1: "value1",
-        tag2: "value2"
-      }
-    }, testPollingOptions);
+    const res = await client.domains.beginUpdateAndWait(
+      resourceGroupName,
+      domainName,
+      {
+        tags: {
+          tag1: "value1",
+          tag2: "value2",
+        },
+      },
+      testPollingOptions,
+    );
     //It's void response
   });
 
@@ -101,33 +128,46 @@ describe("Eventgrid test", () => {
     for await (let item of client.domains.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1)
+    assert.equal(resArray.length, 1);
   });
 
   it("domaintopics create test", async function () {
-    const res = await client.topics.beginCreateOrUpdateAndWait(resourceGroupName, domaintopicName, { location }, testPollingOptions);
+    const res = await client.topics.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      domaintopicName,
+      { location },
+      testPollingOptions,
+    );
     assert.equal(res.name, domaintopicName);
   });
 
   it("domainTopicEventSubscriptions create test", async function () {
     //before test this case please create an eventhub namespace "czweventhub" and an eventhub "czweh"
-    const res = await client.domainTopicEventSubscriptions.beginCreateOrUpdateAndWait(resourceGroupName,
+    const res = await client.domainTopicEventSubscriptions.beginCreateOrUpdateAndWait(
+      resourceGroupName,
       domainName,
       domaintopicName,
       eventSubscriptionName,
       {
-        topic: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.EventGrid/domains/mydomainxxx/topics/testDomainTopic",
+        topic:
+          "/subscriptions/" +
+          subscriptionId +
+          "/resourceGroups/myjstest/providers/Microsoft.EventGrid/domains/mydomainxxx/topics/testDomainTopic",
         destination: {
           endpointType: "EventHub",
-          resourceId: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/czweventhub/eventhubs/czweh",
+          resourceId:
+            "/subscriptions/" +
+            subscriptionId +
+            "/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/czweventhub/eventhubs/czweh",
         },
         filter: {
           advancedFilters: [],
-          enableAdvancedFilteringOnArrays: true
+          enableAdvancedFilteringOnArrays: true,
         },
-        eventDeliverySchema: "EventGridSchema"
+        eventDeliverySchema: "EventGridSchema",
       },
-      testPollingOptions);
+      testPollingOptions,
+    );
     console.log(res);
     assert.equal(res.name, eventSubscriptionName);
   });
@@ -137,11 +177,12 @@ describe("Eventgrid test", () => {
     for await (let item of client.domainTopicEventSubscriptions.list(
       resourceGroupName,
       domainName,
-      domaintopicName)) {
+      domaintopicName,
+    )) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
-    console.log('********************************')
+    console.log("********************************");
   });
 
   it("domainTopicEventSubscriptions get test", async function () {
@@ -149,27 +190,33 @@ describe("Eventgrid test", () => {
       resourceGroupName,
       domainName,
       domaintopicName,
-      eventSubscriptionName);
+      eventSubscriptionName,
+    );
     assert.equal(res.name, eventSubscriptionName);
   });
 
   it("domainTopicEventSubscriptions update test", async function () {
-    const res = await client.domainTopicEventSubscriptions.beginUpdateAndWait(resourceGroupName,
+    const res = await client.domainTopicEventSubscriptions.beginUpdateAndWait(
+      resourceGroupName,
       domainName,
       domaintopicName,
       eventSubscriptionName,
       {
         destination: {
           endpointType: "EventHub",
-          resourceId: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/czweventhub/eventhubs/czweh",
+          resourceId:
+            "/subscriptions/" +
+            subscriptionId +
+            "/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/czweventhub/eventhubs/czweh",
         },
         filter: {
           advancedFilters: [],
-          enableAdvancedFilteringOnArrays: true
+          enableAdvancedFilteringOnArrays: true,
         },
-        eventDeliverySchema: "EventGridSchema"
+        eventDeliverySchema: "EventGridSchema",
       },
-      testPollingOptions);
+      testPollingOptions,
+    );
     console.log(res);
     assert.equal(res.name, eventSubscriptionName);
   });
@@ -179,19 +226,27 @@ describe("Eventgrid test", () => {
       resourceGroupName,
       domainName,
       topicName,
-      eventSubscriptionName, testPollingOptions);
+      eventSubscriptionName,
+      testPollingOptions,
+    );
     const resArray = new Array();
     for await (let item of client.domainTopicEventSubscriptions.list(
       resourceGroupName,
       domainName,
-      topicName)) {
+      topicName,
+    )) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
   it("domaintopics delete test", async function () {
-    const res = await client.domainTopics.beginDeleteAndWait(resourceGroupName, domainName, domaintopicName, testPollingOptions);
+    const res = await client.domainTopics.beginDeleteAndWait(
+      resourceGroupName,
+      domainName,
+      domaintopicName,
+      testPollingOptions,
+    );
     const resArray = new Array();
     for await (let item of client.domainTopics.listByDomain(resourceGroupName, domainName)) {
       resArray.push(item);
@@ -200,8 +255,16 @@ describe("Eventgrid test", () => {
   });
 
   it("topics delete test", async function () {
-    const res = await client.topics.beginDeleteAndWait(resourceGroupName, topicName, testPollingOptions);
-    const res1 = await client.topics.beginDeleteAndWait(resourceGroupName, domaintopicName, testPollingOptions);// when create a domaintopic, it will create a topic with the same name, so we also need to delete that resource to make test pass.
+    const res = await client.topics.beginDeleteAndWait(
+      resourceGroupName,
+      topicName,
+      testPollingOptions,
+    );
+    const res1 = await client.topics.beginDeleteAndWait(
+      resourceGroupName,
+      domaintopicName,
+      testPollingOptions,
+    ); // when create a domaintopic, it will create a topic with the same name, so we also need to delete that resource to make test pass.
     const resArray = new Array();
     for await (let item of client.topics.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
@@ -210,7 +273,11 @@ describe("Eventgrid test", () => {
   });
 
   it("domains delete test", async function () {
-    const res = await client.domains.beginDeleteAndWait(resourceGroupName, domainName, testPollingOptions);
+    const res = await client.domains.beginDeleteAndWait(
+      resourceGroupName,
+      domainName,
+      testPollingOptions,
+    );
     const resArray = new Array();
     for await (let item of client.domains.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);

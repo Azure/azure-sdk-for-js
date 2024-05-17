@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new security policy within the specified profile.
  *
  * @summary Creates a new security policy within the specified profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/SecurityPolicies_Create.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/SecurityPolicies_Create.json
  */
 async function securityPoliciesCreate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -32,22 +32,19 @@ async function securityPoliciesCreate() {
         {
           domains: [
             {
-              id:
-                "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/customdomains/testdomain1"
+              id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/customdomains/testdomain1",
             },
             {
-              id:
-                "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/customdomains/testdomain2"
-            }
+              id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/customdomains/testdomain2",
+            },
           ],
-          patternsToMatch: ["/*"]
-        }
+          patternsToMatch: ["/*"],
+        },
       ],
       wafPolicy: {
-        id:
-          "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Network/frontdoorwebapplicationfirewallpolicies/wafTest"
-      }
-    }
+        id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Network/frontdoorwebapplicationfirewallpolicies/wafTest",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -55,7 +52,7 @@ async function securityPoliciesCreate() {
     resourceGroupName,
     profileName,
     securityPolicyName,
-    securityPolicy
+    securityPolicy,
   );
   console.log(result);
 }

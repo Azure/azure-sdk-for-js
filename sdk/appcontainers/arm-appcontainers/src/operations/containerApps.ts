@@ -16,7 +16,7 @@ import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -45,7 +45,7 @@ import {
   ContainerAppsStopOptionalParams,
   ContainerAppsStopResponse,
   ContainerAppsListBySubscriptionNextResponse,
-  ContainerAppsListByResourceGroupNextResponse
+  ContainerAppsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -66,7 +66,7 @@ export class ContainerAppsImpl implements ContainerApps {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ContainerAppsListBySubscriptionOptionalParams
+    options?: ContainerAppsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ContainerApp> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -81,13 +81,13 @@ export class ContainerAppsImpl implements ContainerApps {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ContainerAppsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ContainerApp[]> {
     let result: ContainerAppsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -108,7 +108,7 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ContainerAppsListBySubscriptionOptionalParams
+    options?: ContainerAppsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<ContainerApp> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -122,7 +122,7 @@ export class ContainerAppsImpl implements ContainerApps {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ContainerAppsListByResourceGroupOptionalParams
+    options?: ContainerAppsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ContainerApp> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -139,16 +139,16 @@ export class ContainerAppsImpl implements ContainerApps {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ContainerAppsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ContainerApp[]> {
     let result: ContainerAppsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -163,7 +163,7 @@ export class ContainerAppsImpl implements ContainerApps {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -174,11 +174,11 @@ export class ContainerAppsImpl implements ContainerApps {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ContainerAppsListByResourceGroupOptionalParams
+    options?: ContainerAppsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ContainerApp> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -189,11 +189,11 @@ export class ContainerAppsImpl implements ContainerApps {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ContainerAppsListBySubscriptionOptionalParams
+    options?: ContainerAppsListBySubscriptionOptionalParams,
   ): Promise<ContainerAppsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -204,11 +204,11 @@ export class ContainerAppsImpl implements ContainerApps {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ContainerAppsListByResourceGroupOptionalParams
+    options?: ContainerAppsListByResourceGroupOptionalParams,
   ): Promise<ContainerAppsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -221,11 +221,11 @@ export class ContainerAppsImpl implements ContainerApps {
   get(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsGetOptionalParams
+    options?: ContainerAppsGetOptionalParams,
   ): Promise<ContainerAppsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -240,7 +240,7 @@ export class ContainerAppsImpl implements ContainerApps {
     resourceGroupName: string,
     containerAppName: string,
     containerAppEnvelope: ContainerApp,
-    options?: ContainerAppsCreateOrUpdateOptionalParams
+    options?: ContainerAppsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerAppsCreateOrUpdateResponse>,
@@ -249,21 +249,20 @@ export class ContainerAppsImpl implements ContainerApps {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ContainerAppsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -272,8 +271,8 @@ export class ContainerAppsImpl implements ContainerApps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -281,8 +280,8 @@ export class ContainerAppsImpl implements ContainerApps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -292,9 +291,9 @@ export class ContainerAppsImpl implements ContainerApps {
         resourceGroupName,
         containerAppName,
         containerAppEnvelope,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ContainerAppsCreateOrUpdateResponse,
@@ -302,7 +301,7 @@ export class ContainerAppsImpl implements ContainerApps {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -319,13 +318,13 @@ export class ContainerAppsImpl implements ContainerApps {
     resourceGroupName: string,
     containerAppName: string,
     containerAppEnvelope: ContainerApp,
-    options?: ContainerAppsCreateOrUpdateOptionalParams
+    options?: ContainerAppsCreateOrUpdateOptionalParams,
   ): Promise<ContainerAppsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       containerAppName,
       containerAppEnvelope,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -339,25 +338,24 @@ export class ContainerAppsImpl implements ContainerApps {
   async beginDelete(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsDeleteOptionalParams
+    options?: ContainerAppsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -366,8 +364,8 @@ export class ContainerAppsImpl implements ContainerApps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -375,20 +373,20 @@ export class ContainerAppsImpl implements ContainerApps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, containerAppName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -403,12 +401,12 @@ export class ContainerAppsImpl implements ContainerApps {
   async beginDeleteAndWait(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsDeleteOptionalParams
+    options?: ContainerAppsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       containerAppName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -424,7 +422,7 @@ export class ContainerAppsImpl implements ContainerApps {
     resourceGroupName: string,
     containerAppName: string,
     containerAppEnvelope: ContainerApp,
-    options?: ContainerAppsUpdateOptionalParams
+    options?: ContainerAppsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerAppsUpdateResponse>,
@@ -433,21 +431,20 @@ export class ContainerAppsImpl implements ContainerApps {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ContainerAppsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -456,8 +453,8 @@ export class ContainerAppsImpl implements ContainerApps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -465,8 +462,8 @@ export class ContainerAppsImpl implements ContainerApps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -476,16 +473,16 @@ export class ContainerAppsImpl implements ContainerApps {
         resourceGroupName,
         containerAppName,
         containerAppEnvelope,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ContainerAppsUpdateResponse,
       OperationState<ContainerAppsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -502,13 +499,13 @@ export class ContainerAppsImpl implements ContainerApps {
     resourceGroupName: string,
     containerAppName: string,
     containerAppEnvelope: ContainerApp,
-    options?: ContainerAppsUpdateOptionalParams
+    options?: ContainerAppsUpdateOptionalParams,
   ): Promise<ContainerAppsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       containerAppName,
       containerAppEnvelope,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -522,11 +519,11 @@ export class ContainerAppsImpl implements ContainerApps {
   listCustomHostNameAnalysis(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsListCustomHostNameAnalysisOptionalParams
+    options?: ContainerAppsListCustomHostNameAnalysisOptionalParams,
   ): Promise<ContainerAppsListCustomHostNameAnalysisResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, options },
-      listCustomHostNameAnalysisOperationSpec
+      listCustomHostNameAnalysisOperationSpec,
     );
   }
 
@@ -539,11 +536,11 @@ export class ContainerAppsImpl implements ContainerApps {
   listSecrets(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsListSecretsOptionalParams
+    options?: ContainerAppsListSecretsOptionalParams,
   ): Promise<ContainerAppsListSecretsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, options },
-      listSecretsOperationSpec
+      listSecretsOperationSpec,
     );
   }
 
@@ -556,11 +553,11 @@ export class ContainerAppsImpl implements ContainerApps {
   getAuthToken(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsGetAuthTokenOptionalParams
+    options?: ContainerAppsGetAuthTokenOptionalParams,
   ): Promise<ContainerAppsGetAuthTokenResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, options },
-      getAuthTokenOperationSpec
+      getAuthTokenOperationSpec,
     );
   }
 
@@ -573,7 +570,7 @@ export class ContainerAppsImpl implements ContainerApps {
   async beginStart(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsStartOptionalParams
+    options?: ContainerAppsStartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerAppsStartResponse>,
@@ -582,21 +579,20 @@ export class ContainerAppsImpl implements ContainerApps {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ContainerAppsStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -605,8 +601,8 @@ export class ContainerAppsImpl implements ContainerApps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -614,15 +610,15 @@ export class ContainerAppsImpl implements ContainerApps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, containerAppName, options },
-      spec: startOperationSpec
+      spec: startOperationSpec,
     });
     const poller = await createHttpPoller<
       ContainerAppsStartResponse,
@@ -630,7 +626,7 @@ export class ContainerAppsImpl implements ContainerApps {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -645,12 +641,12 @@ export class ContainerAppsImpl implements ContainerApps {
   async beginStartAndWait(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsStartOptionalParams
+    options?: ContainerAppsStartOptionalParams,
   ): Promise<ContainerAppsStartResponse> {
     const poller = await this.beginStart(
       resourceGroupName,
       containerAppName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -664,7 +660,7 @@ export class ContainerAppsImpl implements ContainerApps {
   async beginStop(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsStopOptionalParams
+    options?: ContainerAppsStopOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerAppsStopResponse>,
@@ -673,21 +669,20 @@ export class ContainerAppsImpl implements ContainerApps {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ContainerAppsStopResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -696,8 +691,8 @@ export class ContainerAppsImpl implements ContainerApps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -705,15 +700,15 @@ export class ContainerAppsImpl implements ContainerApps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, containerAppName, options },
-      spec: stopOperationSpec
+      spec: stopOperationSpec,
     });
     const poller = await createHttpPoller<
       ContainerAppsStopResponse,
@@ -721,7 +716,7 @@ export class ContainerAppsImpl implements ContainerApps {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -736,12 +731,12 @@ export class ContainerAppsImpl implements ContainerApps {
   async beginStopAndWait(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsStopOptionalParams
+    options?: ContainerAppsStopOptionalParams,
   ): Promise<ContainerAppsStopResponse> {
     const poller = await this.beginStop(
       resourceGroupName,
       containerAppName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -753,11 +748,11 @@ export class ContainerAppsImpl implements ContainerApps {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ContainerAppsListBySubscriptionNextOptionalParams
+    options?: ContainerAppsListBySubscriptionNextOptionalParams,
   ): Promise<ContainerAppsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -770,11 +765,11 @@ export class ContainerAppsImpl implements ContainerApps {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ContainerAppsListByResourceGroupNextOptionalParams
+    options?: ContainerAppsListByResourceGroupNextOptionalParams,
   ): Promise<ContainerAppsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -786,83 +781,80 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppCollection
+      bodyMapper: Mappers.ContainerAppCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppCollection
+      bodyMapper: Mappers.ContainerAppCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    404: {
-      isError: true
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContainerApp,
+    },
+    404: {
+      isError: true,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.containerAppName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     201: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     202: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     204: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.containerAppEnvelope,
   queryParameters: [Parameters.apiVersion],
@@ -870,15 +862,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.containerAppName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -886,39 +877,38 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.containerAppName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     201: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     202: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     204: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.containerAppEnvelope,
   queryParameters: [Parameters.apiVersion],
@@ -926,179 +916,174 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.containerAppName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listCustomHostNameAnalysisOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/listCustomHostNameAnalysis",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/listCustomHostNameAnalysis",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomHostnameAnalysisResult
+      bodyMapper: Mappers.CustomHostnameAnalysisResult,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.customHostname],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.containerAppName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSecretsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/listSecrets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/listSecrets",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SecretsCollection
+      bodyMapper: Mappers.SecretsCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.containerAppName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAuthTokenOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/getAuthtoken",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/getAuthtoken",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppAuthToken
+      bodyMapper: Mappers.ContainerAppAuthToken,
     },
     404: {
-      isError: true
+      isError: true,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.containerAppName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const startOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/start",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/start",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     201: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     202: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     204: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName1
+    Parameters.containerAppName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const stopOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/stop",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/stop",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     201: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     202: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     204: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName1
+    Parameters.containerAppName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppCollection
+      bodyMapper: Mappers.ContainerAppCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppCollection
+      bodyMapper: Mappers.ContainerAppCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

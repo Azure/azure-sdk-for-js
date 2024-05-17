@@ -37,11 +37,11 @@
     "build:node": "tsc -p . && dev-tool run bundle --browser-test false",
     "build:samples": "echo skipped.",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build:debug": "tsc -p . && dev-tool run bundle && api-extractor run --local",
+    "build:debug": "tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
-    "extract-api": "rimraf review && mkdirp ./review && api-extractor run --local",
+    "extract-api": "rimraf review && mkdirp ./review && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
     "generate:client": "echo skipped",
     "integration-test:browser": "dev-tool run test:browser",
@@ -56,7 +56,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "unit-test:browser": "dev-tool run test:browser",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && mkdirp ./review && api-extractor run --local"
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && mkdirp ./review && dev-tool run extract-api"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -75,10 +75,10 @@
     "@types/node": "^18.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
-    "mkdirp": "^2.1.2",
+    "mkdirp": "^3.0.1",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.5",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
@@ -99,9 +99,8 @@
     "karma-source-map-support": "~1.4.0",
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
-    "c8": "^8.0.0",
-    "ts-node": "^10.0.0",
-    "esm": "^3.2.18"
+    "nyc": "^15.1.0",
+    "ts-node": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest/README.md",
   "//metadata": {

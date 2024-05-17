@@ -21,6 +21,6 @@ export interface JobsExecutions {
   list(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsExecutionsListOptionalParams
+    options?: JobsExecutionsListOptionalParams,
   ): PagedAsyncIterableIterator<JobExecution>;
 }

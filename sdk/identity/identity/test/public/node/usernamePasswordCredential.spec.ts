@@ -4,15 +4,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, delay, env, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, delay } from "@azure-tools/test-recorder";
 
 import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
 import { UsernamePasswordCredential } from "../../../src";
-import { assert } from "@azure/test-utils";
-
-// https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/identity/Azure.Identity/src/Constants.cs#L9
-const DeveloperSignOnClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";
+import { assert } from "@azure-tools/test-utils";
+import { getUsernamePasswordStaticResources } from "../../msalTestUtils";
 
 describe("UsernamePasswordCredential", function () {
   let cleanup: MsalTestCleanup;
@@ -30,14 +28,13 @@ describe("UsernamePasswordCredential", function () {
   const scope = "https://vault.azure.net/.default";
 
   it("authenticates", async function (this: Context) {
-    const tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
-    const clientId = isLiveMode() ? DeveloperSignOnClientId : env.AZURE_CLIENT_ID!;
+    const { tenantId, clientId, username, password } = getUsernamePasswordStaticResources();
 
     const credential = new UsernamePasswordCredential(
       tenantId,
       clientId,
-      env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
-      env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
+      username,
+      password,
       recorder.configureClientOptions({}),
     );
 
@@ -47,14 +44,13 @@ describe("UsernamePasswordCredential", function () {
   });
 
   it("allows cancelling the authentication", async function () {
-    const tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
-    const clientId = isLiveMode() ? DeveloperSignOnClientId : env.AZURE_CLIENT_ID!;
+    const { tenantId, clientId, username, password } = getUsernamePasswordStaticResources();
 
     const credential = new UsernamePasswordCredential(
       tenantId,
       clientId,
-      env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
-      env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
+      username,
+      password,
       recorder.configureClientOptions({
         authorityHost: "https://fake-authority.com",
       }),
@@ -79,16 +75,15 @@ describe("UsernamePasswordCredential", function () {
   });
 
   it("supports tracing", async function (this: Context) {
-    const tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
-    const clientId = isLiveMode() ? DeveloperSignOnClientId : env.AZURE_CLIENT_ID!;
+    const { clientId, tenantId, username, password } = getUsernamePasswordStaticResources();
 
     await assert.supportsTracing(
       async (tracingOptions) => {
         const credential = new UsernamePasswordCredential(
           tenantId,
           clientId,
-          env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
-          env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
+          username,
+          password,
           recorder.configureClientOptions({}),
         );
 

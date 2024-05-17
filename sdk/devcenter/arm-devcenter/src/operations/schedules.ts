@@ -16,7 +16,7 @@ import { DevCenterClient } from "../devCenterClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,8 @@ import {
   SchedulesUpdateOptionalParams,
   SchedulesUpdateResponse,
   SchedulesDeleteOptionalParams,
-  SchedulesListByPoolNextResponse
+  SchedulesDeleteResponse,
+  SchedulesListByPoolNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,13 +60,13 @@ export class SchedulesImpl implements Schedules {
     resourceGroupName: string,
     projectName: string,
     poolName: string,
-    options?: SchedulesListByPoolOptionalParams
+    options?: SchedulesListByPoolOptionalParams,
   ): PagedAsyncIterableIterator<Schedule> {
     const iter = this.listByPoolPagingAll(
       resourceGroupName,
       projectName,
       poolName,
-      options
+      options,
     );
     return {
       next() {
@@ -83,9 +84,9 @@ export class SchedulesImpl implements Schedules {
           projectName,
           poolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +95,7 @@ export class SchedulesImpl implements Schedules {
     projectName: string,
     poolName: string,
     options?: SchedulesListByPoolOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Schedule[]> {
     let result: SchedulesListByPoolResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +104,7 @@ export class SchedulesImpl implements Schedules {
         resourceGroupName,
         projectName,
         poolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +117,7 @@ export class SchedulesImpl implements Schedules {
         projectName,
         poolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -129,13 +130,13 @@ export class SchedulesImpl implements Schedules {
     resourceGroupName: string,
     projectName: string,
     poolName: string,
-    options?: SchedulesListByPoolOptionalParams
+    options?: SchedulesListByPoolOptionalParams,
   ): AsyncIterableIterator<Schedule> {
     for await (const page of this.listByPoolPagingPage(
       resourceGroupName,
       projectName,
       poolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -152,11 +153,11 @@ export class SchedulesImpl implements Schedules {
     resourceGroupName: string,
     projectName: string,
     poolName: string,
-    options?: SchedulesListByPoolOptionalParams
+    options?: SchedulesListByPoolOptionalParams,
   ): Promise<SchedulesListByPoolResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, poolName, options },
-      listByPoolOperationSpec
+      listByPoolOperationSpec,
     );
   }
 
@@ -173,11 +174,11 @@ export class SchedulesImpl implements Schedules {
     projectName: string,
     poolName: string,
     scheduleName: string,
-    options?: SchedulesGetOptionalParams
+    options?: SchedulesGetOptionalParams,
   ): Promise<SchedulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, poolName, scheduleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -196,7 +197,7 @@ export class SchedulesImpl implements Schedules {
     poolName: string,
     scheduleName: string,
     body: Schedule,
-    options?: SchedulesCreateOrUpdateOptionalParams
+    options?: SchedulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SchedulesCreateOrUpdateResponse>,
@@ -205,21 +206,20 @@ export class SchedulesImpl implements Schedules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SchedulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -228,8 +228,8 @@ export class SchedulesImpl implements Schedules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -237,8 +237,8 @@ export class SchedulesImpl implements Schedules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -250,9 +250,9 @@ export class SchedulesImpl implements Schedules {
         poolName,
         scheduleName,
         body,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       SchedulesCreateOrUpdateResponse,
@@ -260,7 +260,7 @@ export class SchedulesImpl implements Schedules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -281,7 +281,7 @@ export class SchedulesImpl implements Schedules {
     poolName: string,
     scheduleName: string,
     body: Schedule,
-    options?: SchedulesCreateOrUpdateOptionalParams
+    options?: SchedulesCreateOrUpdateOptionalParams,
   ): Promise<SchedulesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -289,7 +289,7 @@ export class SchedulesImpl implements Schedules {
       poolName,
       scheduleName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -309,7 +309,7 @@ export class SchedulesImpl implements Schedules {
     poolName: string,
     scheduleName: string,
     body: ScheduleUpdate,
-    options?: SchedulesUpdateOptionalParams
+    options?: SchedulesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SchedulesUpdateResponse>,
@@ -318,21 +318,20 @@ export class SchedulesImpl implements Schedules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SchedulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -341,8 +340,8 @@ export class SchedulesImpl implements Schedules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -350,8 +349,8 @@ export class SchedulesImpl implements Schedules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -363,9 +362,9 @@ export class SchedulesImpl implements Schedules {
         poolName,
         scheduleName,
         body,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       SchedulesUpdateResponse,
@@ -373,7 +372,7 @@ export class SchedulesImpl implements Schedules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -394,7 +393,7 @@ export class SchedulesImpl implements Schedules {
     poolName: string,
     scheduleName: string,
     body: ScheduleUpdate,
-    options?: SchedulesUpdateOptionalParams
+    options?: SchedulesUpdateOptionalParams,
   ): Promise<SchedulesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -402,7 +401,7 @@ export class SchedulesImpl implements Schedules {
       poolName,
       scheduleName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -420,25 +419,29 @@ export class SchedulesImpl implements Schedules {
     projectName: string,
     poolName: string,
     scheduleName: string,
-    options?: SchedulesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: SchedulesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SchedulesDeleteResponse>,
+      SchedulesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<SchedulesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -447,8 +450,8 @@ export class SchedulesImpl implements Schedules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -456,20 +459,23 @@ export class SchedulesImpl implements Schedules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, projectName, poolName, scheduleName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      SchedulesDeleteResponse,
+      OperationState<SchedulesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -488,14 +494,14 @@ export class SchedulesImpl implements Schedules {
     projectName: string,
     poolName: string,
     scheduleName: string,
-    options?: SchedulesDeleteOptionalParams
-  ): Promise<void> {
+    options?: SchedulesDeleteOptionalParams,
+  ): Promise<SchedulesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       projectName,
       poolName,
       scheduleName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -513,11 +519,11 @@ export class SchedulesImpl implements Schedules {
     projectName: string,
     poolName: string,
     nextLink: string,
-    options?: SchedulesListByPoolNextOptionalParams
+    options?: SchedulesListByPoolNextOptionalParams,
   ): Promise<SchedulesListByPoolNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, poolName, nextLink, options },
-      listByPoolNextOperationSpec
+      listByPoolNextOperationSpec,
     );
   }
 }
@@ -525,39 +531,15 @@ export class SchedulesImpl implements Schedules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByPoolOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleListResult
+      bodyMapper: Mappers.ScheduleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
@@ -566,31 +548,52 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.projectName,
     Parameters.poolName,
-    Parameters.scheduleName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Schedule,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.top],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.projectName,
+    Parameters.poolName,
+    Parameters.scheduleName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.Schedule,
     },
     201: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.Schedule,
     },
     202: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.Schedule,
     },
     204: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.Schedule,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body16,
   queryParameters: [Parameters.apiVersion, Parameters.top],
@@ -600,32 +603,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.projectName,
     Parameters.poolName,
-    Parameters.scheduleName
+    Parameters.scheduleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.Schedule,
     },
     201: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.Schedule,
     },
     202: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.Schedule,
     },
     204: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.Schedule,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body17,
   queryParameters: [Parameters.apiVersion, Parameters.top],
@@ -635,24 +637,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.projectName,
     Parameters.poolName,
-    Parameters.scheduleName
+    Parameters.scheduleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.SchedulesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.SchedulesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.SchedulesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.SchedulesDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
@@ -661,21 +670,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.projectName,
     Parameters.poolName,
-    Parameters.scheduleName
+    Parameters.scheduleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByPoolNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleListResult
+      bodyMapper: Mappers.ScheduleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -683,8 +692,8 @@ const listByPoolNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.projectName,
-    Parameters.poolName
+    Parameters.poolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

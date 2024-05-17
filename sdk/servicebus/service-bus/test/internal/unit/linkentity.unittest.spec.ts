@@ -16,7 +16,7 @@ import { receiverLogger } from "../../../src/log";
 import { MessageSession } from "../../../src/session/messageSession";
 import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 describe("LinkEntity unit tests", () => {
   class LinkForTests extends LinkEntity<Receiver> {

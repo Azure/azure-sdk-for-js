@@ -3,11 +3,10 @@
 
 /**
  * @file Ensuring the plugin is properly structured
- * @author Arpan Laha
+ *
  */
 
-import { describe, it } from "mocha";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 import plugin from "../src";
 
 /**
@@ -80,22 +79,13 @@ const testRule = (ruleName: string, rules: any): void => {
             assert.isString(description, "description is not a string");
           });
         });
-        describe("category", (): void => {
-          it("category should be a member of docs", (): void => {
-            assert.property(docs, "category", "category is not a member of docs");
-          });
-          const category = docs.category;
-          it("category should be a string", (): void => {
-            assert.isString(category, "category is not a string");
-          });
-        });
         describe("recommended", (): void => {
           it("recommended should be a member of docs", (): void => {
             assert.property(docs, "recommended", "recommended is not a member of docs");
           });
           const recommended = docs.recommended;
-          it("recommended should be a boolean", (): void => {
-            assert.isBoolean(recommended, "recommended is not a boolean");
+          it("recommended should be 'recommended'", (): void => {
+            assert.strictEqual(recommended, "recommended");
           });
         });
         describe("url", (): void => {

@@ -43,8 +43,6 @@ extends:
         safeName: azurecommunicationidentity
       - name: azure-communication-phone-numbers
         safeName: azurecommunicationphonenumbers
-      - name: azure-communication-network-traversal
-        safeName: azurecommunicationnetworktraversal
       - name: azure-tools-communication-short-codes
         safeName: azuretoolscommunicationshortcodes
       - name: azure-tools-communication-alpha-ids

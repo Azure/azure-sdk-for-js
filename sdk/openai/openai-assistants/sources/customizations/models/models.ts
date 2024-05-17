@@ -13,6 +13,24 @@ import {
   RunStatus,
 } from "../../generated/src/models/models.js";
 
+/** The request details to use when creating a new assistant. */
+export interface AssistantCreationOptions {
+  /** The ID of the model to use. (In Azure AI Studio, corresponds to "Deployment name") */
+  model: string;
+  /** The name of the new assistant. */
+  name?: string | null;
+  /** The description of the new assistant. */
+  description?: string | null;
+  /** The system instructions for the new assistant to use. */
+  instructions?: string | null;
+  /** The collection of tools to enable for the new assistant. */
+  tools?: ToolDefinition[];
+  /** A list of previously uploaded file IDs to attach to the assistant. */
+  fileIds?: string[];
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata?: Record<string, string> | null;
+}
+
 /** An abstract representation of a required action for an assistant thread run to continue. */
 export interface RequiredAction {
   /** the discriminator possible values: submit_tool_outputs */

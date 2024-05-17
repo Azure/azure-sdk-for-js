@@ -31,6 +31,8 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   public enableLiveMetrics?: boolean;
   /** Enable Standard Metrics feature */
   public enableStandardMetrics?: boolean;
+  /** Enable log sampling based on trace (Default true) */
+  public enableTraceBasedSamplingForLogs?: boolean;
 
   public browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
 
@@ -84,6 +86,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
       this.browserSdkLoaderOptions = jsonConfig.browserSdkLoaderOptions;
       this.enableLiveMetrics = jsonConfig.enableLiveMetrics;
       this.enableStandardMetrics = jsonConfig.enableStandardMetrics;
+      this.enableTraceBasedSamplingForLogs = jsonConfig.enableTraceBasedSamplingForLogs;
     } catch (err) {
       Logger.getInstance().info("Missing or invalid JSON config file: ", err);
     }

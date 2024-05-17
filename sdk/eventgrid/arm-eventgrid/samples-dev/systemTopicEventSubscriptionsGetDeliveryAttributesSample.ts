@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get all delivery attributes for an event subscription.
  *
  * @summary Get all delivery attributes for an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/SystemTopicEventSubscriptions_GetDeliveryAttributes.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/SystemTopicEventSubscriptions_GetDeliveryAttributes.json
  */
 async function systemTopicEventSubscriptionsGetDeliveryAttributes() {
   const subscriptionId =
@@ -30,11 +30,12 @@ async function systemTopicEventSubscriptionsGetDeliveryAttributes() {
   const eventSubscriptionName = "examplesubscription1";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
-  const result = await client.systemTopicEventSubscriptions.getDeliveryAttributes(
-    resourceGroupName,
-    systemTopicName,
-    eventSubscriptionName
-  );
+  const result =
+    await client.systemTopicEventSubscriptions.getDeliveryAttributes(
+      resourceGroupName,
+      systemTopicName,
+      eventSubscriptionName,
+    );
   console.log(result);
 }
 

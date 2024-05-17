@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified private endpoint connection.
  *
  * @summary Deletes the specified private endpoint connection.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PrivateEndpointConnectionDelete.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PrivateEndpointConnectionDelete.json
  */
 async function privateEndpointConnectionDelete() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -29,11 +29,12 @@ async function privateEndpointConnectionDelete() {
     "testprivateEndpointConnection5testprivateEndpointConnection5.24d6b4b5-e65c-4330-bbe9-3a290d62f8e0";
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnectionOperations.beginDeleteAndWait(
-    resourceGroupName,
-    accountName,
-    privateEndpointConnectionName
-  );
+  const result =
+    await client.privateEndpointConnectionOperations.beginDeleteAndWait(
+      resourceGroupName,
+      accountName,
+      privateEndpointConnectionName,
+    );
   console.log(result);
 }
 

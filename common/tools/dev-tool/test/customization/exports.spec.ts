@@ -1,6 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { describe, it, assert, beforeEach } from "vitest";
 import { Project, SourceFile } from "ts-morph";
 import { augmentExports } from "../../src/util/customization/exports";
-import { expect } from "chai";
 
 describe("Exports", () => {
   let project: Project;
@@ -20,14 +23,14 @@ describe("Exports", () => {
   it("should add custom exports to the original file", () => {
     augmentExports(customFile, originalFile);
 
-    expect(originalFile.getExportDeclarations()).to.have.lengthOf(1);
+    assert.equal(originalFile.getExportDeclarations().length, 1);
 
     const exportDeclaration = originalFile.getExportDeclarations()[0];
-    expect(exportDeclaration.getModuleSpecifier()?.getLiteralValue()).to.equal("./module");
+    assert.equal(exportDeclaration.getModuleSpecifier()?.getLiteralValue(), "./module");
 
     const namedExports = exportDeclaration.getNamedExports();
-    expect(namedExports).to.have.lengthOf(1);
-    expect(namedExports[0].getName()).to.equal("Foo");
+    assert.lengthOf(namedExports, 1);
+    assert.equal(namedExports[0].getName(), "Foo");
   });
 
   it("should add named exports to the existing module export if it exists", () => {
@@ -38,14 +41,14 @@ describe("Exports", () => {
 
     augmentExports(customFile, originalFile);
 
-    expect(originalFile.getExportDeclarations()).to.have.lengthOf(1);
+    assert.equal(originalFile.getExportDeclarations().length, 1);
 
     const exportDeclaration = originalFile.getExportDeclarations()[0];
-    expect(exportDeclaration.getModuleSpecifier()?.getLiteralValue()).to.equal("./module");
+    assert.equal(exportDeclaration.getModuleSpecifier()?.getLiteralValue(), "./module");
 
     const namedExports = exportDeclaration.getNamedExports();
-    expect(namedExports).to.have.lengthOf(2);
-    expect(namedExports.map((e) => e.getName())).contains("Foo");
-    expect(namedExports.map((e) => e.getName())).contains("Bar");
+    assert.lengthOf(namedExports, 2);
+    const namedExportNames = namedExports.map((e) => e.getName());
+    assert.includeMembers(namedExportNames, ["Foo", "Bar"]);
   });
 });

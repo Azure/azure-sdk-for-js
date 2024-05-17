@@ -21,7 +21,7 @@ const logger = credentialLogger("AuthorizationCodeCredential");
  * that was obtained through the authorization code flow, described in more detail
  * in the Microsoft Entra ID documentation:
  *
- * https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow
+ * https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow
  */
 export class AuthorizationCodeCredential implements TokenCredential {
   private msalFlow: MsalFlow;

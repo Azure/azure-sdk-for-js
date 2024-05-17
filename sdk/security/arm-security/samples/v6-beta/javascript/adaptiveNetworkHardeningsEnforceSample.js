@@ -56,7 +56,7 @@ async function enforcesTheGivenRulesOnTheNsgSListedInTheRequest() {
     resourceType,
     resourceName,
     adaptiveNetworkHardeningResourceName,
-    body
+    body,
   );
   console.log(result);
 }

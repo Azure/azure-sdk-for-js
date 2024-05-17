@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to delete the VMSS VM run command.
  *
  * @summary The operation to delete the VMSS VM run command.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Delete.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Delete.json
  */
 async function deleteVirtualMachineScaleSetVMRunCommand() {
   const subscriptionId =
@@ -30,12 +30,13 @@ async function deleteVirtualMachineScaleSetVMRunCommand() {
   const runCommandName = "myRunCommand";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetVMRunCommands.beginDeleteAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    instanceId,
-    runCommandName
-  );
+  const result =
+    await client.virtualMachineScaleSetVMRunCommands.beginDeleteAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      runCommandName,
+    );
   console.log(result);
 }
 

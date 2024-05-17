@@ -81,7 +81,7 @@
 
 # PRLabel: %Communication - Alpha IDs
 # ServiceLabel: %Communication - Alpha IDs
-/sdk/communication/communication-alpha-ids/ @danielav7
+/sdk/communication/communication-alpha-ids/ @miguhern
 
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
@@ -103,10 +103,6 @@
 # ServiceLabel: %Communication - Phone Numbers
 /sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @RoyHerrod @danielav7
 
-# PRLabel: %Communication - Network Traversal
-# ServiceLabel: %Communication - Network Traversal
-/sdk/communication/communication-network-traversal/ @ajpeacock0 @nathpete-msft
-
 # PRLabel: %Communication - Rooms
 # ServiceLabel: %Communication - Rooms
 /sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @shwali-msft @allchiang-msft
@@ -117,7 +113,7 @@
 
 # PRLabel: %Communication - Short Codes
 # ServiceLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @danielav7
+/sdk/communication/communication-short-codes/ @miguhern
 
 # PRLabel: %Communication - Common
 # ServiceLabel: %Communication - Common
@@ -282,7 +278,7 @@
 /common/smoke-test/ @xirzec @jeremymeng
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng @mpodwysocki
+/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng @mpodwysocki @maorleger
 
 
 # Management Plane
@@ -456,6 +452,10 @@
 
 # PRLabel: %Mgmt
 /sdk/devspaces/arm-devspaces/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/deviceregistry/arm-deviceregistry/ @qiaozha @MaryGao
+
 # PRLabel: %Mgmt
 /sdk/defendereasm/arm-defendereasm/ @qiaozha @MaryGao
 
@@ -496,6 +496,9 @@
 /sdk/frontdoor/arm-frontdoor/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/guestconfiguration/arm-guestconfiguration/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/hanaonazure/arm-hanaonazure/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -524,6 +527,9 @@
 
 # PRLabel: %Mgmt
 /sdk/hybridnetwork/arm-hybridnetwork/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/newrelicobservability/arm-newrelicobservability/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao
@@ -581,6 +587,9 @@
 
 # PRLabel: %Mgmt
 /sdk/machinelearningcompute/arm-machinelearningcompute/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/migrationdiscovery/arm-migrationdiscoverysap/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/machinelearningexperimentation/arm-machinelearningexperimentation/ @qiaozha @MaryGao
@@ -742,6 +751,9 @@
 /sdk/search/arm-search/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/standbypool/arm-standbypool/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/springappdiscovery/arm-springappdiscovery/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -782,6 +794,9 @@
 
 # PRLabel: %Mgmt
 /sdk/storage/arm-storage/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/storageactions/arm-storageactions/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/storage/arm-storage-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
@@ -867,6 +882,12 @@
 # PRLabel: %Mgmt
 /sdk/dnsresolver/arm-dnsresolver/ @qiaozha @MaryGao
 
+# PRLabel: %Mgmt
+/sdk/workloads/arm-workloads/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/workloads/arm-workloadssapvirtualinstance/ @qiaozha @MaryGao
+
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
 /sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber
@@ -935,7 +956,7 @@
 #/<NotInRepo>/          @antcp @AzureAppServiceCLI
 
 # ServiceLabel: %App Configuration %Service Attention
-#/<NotInRepo>/          @shenmuxiaosen @avanigupta
+#/<NotInRepo>/          @Eskibear @avanigupta
 
 # ServiceLabel: %ARO %Service Attention
 #/<NotInRepo>/          @mjudeikis @jim-minter @julienstroheker @amanohar
@@ -1118,9 +1139,6 @@
 # ServiceLabel: %Digital Twins %Service Attention
 #/<NotInRepo>/          @sourabhguha @inesk-vt
 
-# ServiceLabel: %Event Grid %Service Attention
-#/<NotInRepo>/          @jfggdl
-
 # ServiceLabel: %Event Hubs %Service Attention
 #/<NotInRepo>/          @kasun04
 
@@ -1197,7 +1215,7 @@
 #/<NotInRepo>/          @azmonapplicationinsights
 
 # ServiceLabel: %Monitor - Exporter %Service Attention
-#/<NotInRepo>/          @@cijothomas @@reyang @@rajkumar-rangaraj @@TimothyMothra @@vishweshbankwar @@ramthi
+#/<NotInRepo>/          @JacksonWeber @hectorhdzg @ramthi
 
 # ServiceLabel: %MySQL %Service Attention
 #/<NotInRepo>/          @ambhatna @savjani
@@ -1264,9 +1282,6 @@
 
 # ServiceLabel: %Redis Cache %Service Attention
 #/<NotInRepo>/          @yegu-ms
-
-# ServiceLabel: %Relay %Service Attention
-#/<NotInRepo>/          @jfggdl
 
 # ServiceLabel: %Reservations %Service Attention
 #/<NotInRepo>/          @Rkapso
@@ -1485,6 +1500,7 @@
 
 # Add owners for notifications for specific pipelines
 /eng/pipelines/aggregate-reports.yml         @xirzec @jeremymeng
+/eng/common/pipelines/codeowners-linter.yml  @xirzec @jeremymeng
 
 # PRLabel: %Mgmt
 /**/ci.mgmt.yml   @qiaozha @MaryGao

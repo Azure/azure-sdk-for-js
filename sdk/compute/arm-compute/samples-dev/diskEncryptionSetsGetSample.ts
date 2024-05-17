@@ -30,7 +30,7 @@ async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed() 
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.get(
     resourceGroupName,
-    diskEncryptionSetName
+    diskEncryptionSetName,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function getInformationAboutADiskEncryptionSet() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.get(
     resourceGroupName,
-    diskEncryptionSetName
+    diskEncryptionSetName,
   );
   console.log(result);
 }

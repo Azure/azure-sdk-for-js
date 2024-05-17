@@ -143,6 +143,7 @@ export function supports(
   allVersions: ReadonlyArray<string>,
 ): TestFunctionWrapper {
   const run = isVersionInSupportedRange(currentVersion, supported, allVersions);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const either = function (match: any, skip: any) {
     return run.isSupported
       ? match

@@ -29,7 +29,7 @@ import {
   AssessmentsMetadataCreateInSubscriptionResponse,
   AssessmentsMetadataDeleteInSubscriptionOptionalParams,
   AssessmentsMetadataListNextResponse,
-  AssessmentsMetadataListBySubscriptionNextResponse
+  AssessmentsMetadataListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,7 +50,7 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
    * @param options The options parameters.
    */
   public list(
-    options?: AssessmentsMetadataListOptionalParams
+    options?: AssessmentsMetadataListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityAssessmentMetadataResponse> {
     const iter = this.listPagingAll(options);
     return {
@@ -65,13 +65,13 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: AssessmentsMetadataListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecurityAssessmentMetadataResponse[]> {
     let result: AssessmentsMetadataListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
   }
 
   private async *listPagingAll(
-    options?: AssessmentsMetadataListOptionalParams
+    options?: AssessmentsMetadataListOptionalParams,
   ): AsyncIterableIterator<SecurityAssessmentMetadataResponse> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -104,7 +104,7 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: AssessmentsMetadataListBySubscriptionOptionalParams
+    options?: AssessmentsMetadataListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SecurityAssessmentMetadataResponse> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -119,13 +119,13 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: AssessmentsMetadataListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecurityAssessmentMetadataResponse[]> {
     let result: AssessmentsMetadataListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -146,7 +146,7 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: AssessmentsMetadataListBySubscriptionOptionalParams
+    options?: AssessmentsMetadataListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<SecurityAssessmentMetadataResponse> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -158,7 +158,7 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
    * @param options The options parameters.
    */
   private _list(
-    options?: AssessmentsMetadataListOptionalParams
+    options?: AssessmentsMetadataListOptionalParams,
   ): Promise<AssessmentsMetadataListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -170,11 +170,11 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
    */
   get(
     assessmentMetadataName: string,
-    options?: AssessmentsMetadataGetOptionalParams
+    options?: AssessmentsMetadataGetOptionalParams,
   ): Promise<AssessmentsMetadataGetResponse> {
     return this.client.sendOperationRequest(
       { assessmentMetadataName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -183,11 +183,11 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: AssessmentsMetadataListBySubscriptionOptionalParams
+    options?: AssessmentsMetadataListBySubscriptionOptionalParams,
   ): Promise<AssessmentsMetadataListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -198,11 +198,11 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
    */
   getInSubscription(
     assessmentMetadataName: string,
-    options?: AssessmentsMetadataGetInSubscriptionOptionalParams
+    options?: AssessmentsMetadataGetInSubscriptionOptionalParams,
   ): Promise<AssessmentsMetadataGetInSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { assessmentMetadataName, options },
-      getInSubscriptionOperationSpec
+      getInSubscriptionOperationSpec,
     );
   }
 
@@ -215,11 +215,11 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
   createInSubscription(
     assessmentMetadataName: string,
     assessmentMetadata: SecurityAssessmentMetadataResponse,
-    options?: AssessmentsMetadataCreateInSubscriptionOptionalParams
+    options?: AssessmentsMetadataCreateInSubscriptionOptionalParams,
   ): Promise<AssessmentsMetadataCreateInSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { assessmentMetadataName, assessmentMetadata, options },
-      createInSubscriptionOperationSpec
+      createInSubscriptionOperationSpec,
     );
   }
 
@@ -231,11 +231,11 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
    */
   deleteInSubscription(
     assessmentMetadataName: string,
-    options?: AssessmentsMetadataDeleteInSubscriptionOptionalParams
+    options?: AssessmentsMetadataDeleteInSubscriptionOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { assessmentMetadataName, options },
-      deleteInSubscriptionOperationSpec
+      deleteInSubscriptionOperationSpec,
     );
   }
 
@@ -246,11 +246,11 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
    */
   private _listNext(
     nextLink: string,
-    options?: AssessmentsMetadataListNextOptionalParams
+    options?: AssessmentsMetadataListNextOptionalParams,
   ): Promise<AssessmentsMetadataListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -261,11 +261,11 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: AssessmentsMetadataListBySubscriptionNextOptionalParams
+    options?: AssessmentsMetadataListBySubscriptionNextOptionalParams,
   ): Promise<AssessmentsMetadataListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -277,145 +277,140 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityAssessmentMetadataResponseList
+      bodyMapper: Mappers.SecurityAssessmentMetadataResponseList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
+  path: "/providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityAssessmentMetadataResponse
+      bodyMapper: Mappers.SecurityAssessmentMetadataResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [Parameters.$host, Parameters.assessmentMetadataName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityAssessmentMetadataResponseList
+      bodyMapper: Mappers.SecurityAssessmentMetadataResponseList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getInSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityAssessmentMetadataResponse
+      bodyMapper: Mappers.SecurityAssessmentMetadataResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.assessmentMetadataName
+    Parameters.assessmentMetadataName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createInSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityAssessmentMetadataResponse
+      bodyMapper: Mappers.SecurityAssessmentMetadataResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.assessmentMetadata,
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.assessmentMetadataName
+    Parameters.assessmentMetadataName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteInSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.assessmentMetadataName
+    Parameters.assessmentMetadataName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityAssessmentMetadataResponseList
+      bodyMapper: Mappers.SecurityAssessmentMetadataResponseList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityAssessmentMetadataResponseList
+      bodyMapper: Mappers.SecurityAssessmentMetadataResponseList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

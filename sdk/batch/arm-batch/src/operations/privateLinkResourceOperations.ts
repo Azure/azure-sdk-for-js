@@ -20,13 +20,14 @@ import {
   PrivateLinkResourceListByBatchAccountResponse,
   PrivateLinkResourceGetOptionalParams,
   PrivateLinkResourceGetResponse,
-  PrivateLinkResourceListByBatchAccountNextResponse
+  PrivateLinkResourceListByBatchAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateLinkResourceOperations operations. */
 export class PrivateLinkResourceOperationsImpl
-  implements PrivateLinkResourceOperations {
+  implements PrivateLinkResourceOperations
+{
   private readonly client: BatchManagementClient;
 
   /**
@@ -46,12 +47,12 @@ export class PrivateLinkResourceOperationsImpl
   public listByBatchAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateLinkResourceListByBatchAccountOptionalParams
+    options?: PrivateLinkResourceListByBatchAccountOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
     const iter = this.listByBatchAccountPagingAll(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return {
       next() {
@@ -68,9 +69,9 @@ export class PrivateLinkResourceOperationsImpl
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,7 +79,7 @@ export class PrivateLinkResourceOperationsImpl
     resourceGroupName: string,
     accountName: string,
     options?: PrivateLinkResourceListByBatchAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkResource[]> {
     let result: PrivateLinkResourceListByBatchAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +87,7 @@ export class PrivateLinkResourceOperationsImpl
       result = await this._listByBatchAccount(
         resourceGroupName,
         accountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -98,7 +99,7 @@ export class PrivateLinkResourceOperationsImpl
         resourceGroupName,
         accountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +111,12 @@ export class PrivateLinkResourceOperationsImpl
   private async *listByBatchAccountPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateLinkResourceListByBatchAccountOptionalParams
+    options?: PrivateLinkResourceListByBatchAccountOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
     for await (const page of this.listByBatchAccountPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -130,11 +131,11 @@ export class PrivateLinkResourceOperationsImpl
   private _listByBatchAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateLinkResourceListByBatchAccountOptionalParams
+    options?: PrivateLinkResourceListByBatchAccountOptionalParams,
   ): Promise<PrivateLinkResourceListByBatchAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listByBatchAccountOperationSpec
+      listByBatchAccountOperationSpec,
     );
   }
 
@@ -150,11 +151,11 @@ export class PrivateLinkResourceOperationsImpl
     resourceGroupName: string,
     accountName: string,
     privateLinkResourceName: string,
-    options?: PrivateLinkResourceGetOptionalParams
+    options?: PrivateLinkResourceGetOptionalParams,
   ): Promise<PrivateLinkResourceGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, privateLinkResourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -169,11 +170,11 @@ export class PrivateLinkResourceOperationsImpl
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: PrivateLinkResourceListByBatchAccountNextOptionalParams
+    options?: PrivateLinkResourceListByBatchAccountNextOptionalParams,
   ): Promise<PrivateLinkResourceListByBatchAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
-      listByBatchAccountNextOperationSpec
+      listByBatchAccountNextOperationSpec,
     );
   }
 }
@@ -181,38 +182,36 @@ export class PrivateLinkResourceOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByBatchAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListPrivateLinkResourcesResult
+      bodyMapper: Mappers.ListPrivateLinkResourcesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.maxresults],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.accountName1
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateLinkResources/{privateLinkResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateLinkResources/{privateLinkResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResource
+      bodyMapper: Mappers.PrivateLinkResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -220,29 +219,29 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.privateLinkResourceName
+    Parameters.privateLinkResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBatchAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListPrivateLinkResourcesResult
+      bodyMapper: Mappers.ListPrivateLinkResourcesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

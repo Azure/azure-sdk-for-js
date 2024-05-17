@@ -135,6 +135,7 @@ describe("Main functions", () => {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
+      enableLiveMetrics: true,
       instrumentationOptions: {
         azureSdk: {
           enabled: true,
@@ -176,6 +177,7 @@ describe("Main functions", () => {
     let current = 0;
     current |= StatsbeatFeature.AAD_HANDLING;
     current |= StatsbeatFeature.DISK_RETRY;
+    current |= StatsbeatFeature.LIVE_METRICS;
     env.AZURE_MONITOR_STATSBEAT_FEATURES = current.toString();
     process.env = env;
     let config: AzureMonitorOpenTelemetryOptions = {
@@ -190,6 +192,7 @@ describe("Main functions", () => {
     assert.ok(numberOutput & StatsbeatFeature.DISK_RETRY, "DISK_RETRY not set");
     assert.ok(numberOutput & StatsbeatFeature.DISTRO, "DISTRO not set");
     assert.ok(!(numberOutput & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
+    assert.ok(numberOutput & StatsbeatFeature.LIVE_METRICS, "LIVE_METRICS is not set");
   });
 
   it("should capture the app service SDK prefix correctly", () => {

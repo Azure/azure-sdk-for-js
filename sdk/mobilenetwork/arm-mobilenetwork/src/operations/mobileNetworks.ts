@@ -16,7 +16,7 @@ import { MobileNetworkManagementClient } from "../mobileNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,11 +32,11 @@ import {
   MobileNetworksGetResponse,
   MobileNetworksCreateOrUpdateOptionalParams,
   MobileNetworksCreateOrUpdateResponse,
-  TagsObject,
+  IdentityAndTagsObject,
   MobileNetworksUpdateTagsOptionalParams,
   MobileNetworksUpdateTagsResponse,
   MobileNetworksListBySubscriptionNextResponse,
-  MobileNetworksListByResourceGroupNextResponse
+  MobileNetworksListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +57,7 @@ export class MobileNetworksImpl implements MobileNetworks {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: MobileNetworksListBySubscriptionOptionalParams
+    options?: MobileNetworksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<MobileNetwork> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -72,13 +72,13 @@ export class MobileNetworksImpl implements MobileNetworks {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: MobileNetworksListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MobileNetwork[]> {
     let result: MobileNetworksListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class MobileNetworksImpl implements MobileNetworks {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: MobileNetworksListBySubscriptionOptionalParams
+    options?: MobileNetworksListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<MobileNetwork> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -113,7 +113,7 @@ export class MobileNetworksImpl implements MobileNetworks {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: MobileNetworksListByResourceGroupOptionalParams
+    options?: MobileNetworksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<MobileNetwork> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -130,16 +130,16 @@ export class MobileNetworksImpl implements MobileNetworks {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: MobileNetworksListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MobileNetwork[]> {
     let result: MobileNetworksListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -154,7 +154,7 @@ export class MobileNetworksImpl implements MobileNetworks {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -165,11 +165,11 @@ export class MobileNetworksImpl implements MobileNetworks {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: MobileNetworksListByResourceGroupOptionalParams
+    options?: MobileNetworksListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<MobileNetwork> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -184,25 +184,24 @@ export class MobileNetworksImpl implements MobileNetworks {
   async beginDelete(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: MobileNetworksDeleteOptionalParams
+    options?: MobileNetworksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -211,8 +210,8 @@ export class MobileNetworksImpl implements MobileNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -220,20 +219,20 @@ export class MobileNetworksImpl implements MobileNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, mobileNetworkName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -248,12 +247,12 @@ export class MobileNetworksImpl implements MobileNetworks {
   async beginDeleteAndWait(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: MobileNetworksDeleteOptionalParams
+    options?: MobileNetworksDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       mobileNetworkName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -267,11 +266,11 @@ export class MobileNetworksImpl implements MobileNetworks {
   get(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: MobileNetworksGetOptionalParams
+    options?: MobileNetworksGetOptionalParams,
   ): Promise<MobileNetworksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mobileNetworkName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -286,7 +285,7 @@ export class MobileNetworksImpl implements MobileNetworks {
     resourceGroupName: string,
     mobileNetworkName: string,
     parameters: MobileNetwork,
-    options?: MobileNetworksCreateOrUpdateOptionalParams
+    options?: MobileNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MobileNetworksCreateOrUpdateResponse>,
@@ -295,21 +294,20 @@ export class MobileNetworksImpl implements MobileNetworks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MobileNetworksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -318,8 +316,8 @@ export class MobileNetworksImpl implements MobileNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -327,15 +325,15 @@ export class MobileNetworksImpl implements MobileNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, mobileNetworkName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       MobileNetworksCreateOrUpdateResponse,
@@ -343,7 +341,7 @@ export class MobileNetworksImpl implements MobileNetworks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -360,33 +358,33 @@ export class MobileNetworksImpl implements MobileNetworks {
     resourceGroupName: string,
     mobileNetworkName: string,
     parameters: MobileNetwork,
-    options?: MobileNetworksCreateOrUpdateOptionalParams
+    options?: MobileNetworksCreateOrUpdateOptionalParams,
   ): Promise<MobileNetworksCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       mobileNetworkName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates mobile network tags.
+   * Updates mobile network tags and managed identity.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param parameters Parameters supplied to update mobile network tags.
+   * @param parameters Parameters supplied to update mobile network tags and/or identity.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     mobileNetworkName: string,
-    parameters: TagsObject,
-    options?: MobileNetworksUpdateTagsOptionalParams
+    parameters: IdentityAndTagsObject,
+    options?: MobileNetworksUpdateTagsOptionalParams,
   ): Promise<MobileNetworksUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mobileNetworkName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -395,11 +393,11 @@ export class MobileNetworksImpl implements MobileNetworks {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: MobileNetworksListBySubscriptionOptionalParams
+    options?: MobileNetworksListBySubscriptionOptionalParams,
   ): Promise<MobileNetworksListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -410,11 +408,11 @@ export class MobileNetworksImpl implements MobileNetworks {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: MobileNetworksListByResourceGroupOptionalParams
+    options?: MobileNetworksListByResourceGroupOptionalParams,
   ): Promise<MobileNetworksListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -425,11 +423,11 @@ export class MobileNetworksImpl implements MobileNetworks {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: MobileNetworksListBySubscriptionNextOptionalParams
+    options?: MobileNetworksListBySubscriptionNextOptionalParams,
   ): Promise<MobileNetworksListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -442,11 +440,11 @@ export class MobileNetworksImpl implements MobileNetworks {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: MobileNetworksListByResourceGroupNextOptionalParams
+    options?: MobileNetworksListByResourceGroupNextOptionalParams,
   ): Promise<MobileNetworksListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -454,8 +452,7 @@ export class MobileNetworksImpl implements MobileNetworks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -463,61 +460,59 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.mobileNetworkName
+    Parameters.mobileNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MobileNetwork
+      bodyMapper: Mappers.MobileNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.mobileNetworkName
+    Parameters.mobileNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MobileNetwork
+      bodyMapper: Mappers.MobileNetwork,
     },
     201: {
-      bodyMapper: Mappers.MobileNetwork
+      bodyMapper: Mappers.MobileNetwork,
     },
     202: {
-      bodyMapper: Mappers.MobileNetwork
+      bodyMapper: Mappers.MobileNetwork,
     },
     204: {
-      bodyMapper: Mappers.MobileNetwork
+      bodyMapper: Mappers.MobileNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -525,110 +520,107 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.mobileNetworkName
+    Parameters.mobileNetworkName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MobileNetwork
+      bodyMapper: Mappers.MobileNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.mobileNetworkName
+    Parameters.mobileNetworkName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/mobileNetworks",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/mobileNetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MobileNetworkListResult
+      bodyMapper: Mappers.MobileNetworkListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MobileNetworkListResult
+      bodyMapper: Mappers.MobileNetworkListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MobileNetworkListResult
+      bodyMapper: Mappers.MobileNetworkListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MobileNetworkListResult
+      bodyMapper: Mappers.MobileNetworkListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

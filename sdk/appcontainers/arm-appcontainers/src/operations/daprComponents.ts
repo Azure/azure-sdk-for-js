@@ -25,7 +25,7 @@ import {
   DaprComponentsDeleteOptionalParams,
   DaprComponentsListSecretsOptionalParams,
   DaprComponentsListSecretsResponse,
-  DaprComponentsListNextResponse
+  DaprComponentsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,12 +50,12 @@ export class DaprComponentsImpl implements DaprComponents {
   public list(
     resourceGroupName: string,
     environmentName: string,
-    options?: DaprComponentsListOptionalParams
+    options?: DaprComponentsListOptionalParams,
   ): PagedAsyncIterableIterator<DaprComponent> {
     const iter = this.listPagingAll(
       resourceGroupName,
       environmentName,
-      options
+      options,
     );
     return {
       next() {
@@ -72,9 +72,9 @@ export class DaprComponentsImpl implements DaprComponents {
           resourceGroupName,
           environmentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class DaprComponentsImpl implements DaprComponents {
     resourceGroupName: string,
     environmentName: string,
     options?: DaprComponentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DaprComponent[]> {
     let result: DaprComponentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class DaprComponentsImpl implements DaprComponents {
         resourceGroupName,
         environmentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +110,12 @@ export class DaprComponentsImpl implements DaprComponents {
   private async *listPagingAll(
     resourceGroupName: string,
     environmentName: string,
-    options?: DaprComponentsListOptionalParams
+    options?: DaprComponentsListOptionalParams,
   ): AsyncIterableIterator<DaprComponent> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       environmentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -130,11 +130,11 @@ export class DaprComponentsImpl implements DaprComponents {
   private _list(
     resourceGroupName: string,
     environmentName: string,
-    options?: DaprComponentsListOptionalParams
+    options?: DaprComponentsListOptionalParams,
   ): Promise<DaprComponentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -149,11 +149,11 @@ export class DaprComponentsImpl implements DaprComponents {
     resourceGroupName: string,
     environmentName: string,
     componentName: string,
-    options?: DaprComponentsGetOptionalParams
+    options?: DaprComponentsGetOptionalParams,
   ): Promise<DaprComponentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, componentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -170,7 +170,7 @@ export class DaprComponentsImpl implements DaprComponents {
     environmentName: string,
     componentName: string,
     daprComponentEnvelope: DaprComponent,
-    options?: DaprComponentsCreateOrUpdateOptionalParams
+    options?: DaprComponentsCreateOrUpdateOptionalParams,
   ): Promise<DaprComponentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -178,9 +178,9 @@ export class DaprComponentsImpl implements DaprComponents {
         environmentName,
         componentName,
         daprComponentEnvelope,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -195,11 +195,11 @@ export class DaprComponentsImpl implements DaprComponents {
     resourceGroupName: string,
     environmentName: string,
     componentName: string,
-    options?: DaprComponentsDeleteOptionalParams
+    options?: DaprComponentsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, componentName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -214,11 +214,11 @@ export class DaprComponentsImpl implements DaprComponents {
     resourceGroupName: string,
     environmentName: string,
     componentName: string,
-    options?: DaprComponentsListSecretsOptionalParams
+    options?: DaprComponentsListSecretsOptionalParams,
   ): Promise<DaprComponentsListSecretsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, componentName, options },
-      listSecretsOperationSpec
+      listSecretsOperationSpec,
     );
   }
 
@@ -233,11 +233,11 @@ export class DaprComponentsImpl implements DaprComponents {
     resourceGroupName: string,
     environmentName: string,
     nextLink: string,
-    options?: DaprComponentsListNextOptionalParams
+    options?: DaprComponentsListNextOptionalParams,
   ): Promise<DaprComponentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -245,38 +245,36 @@ export class DaprComponentsImpl implements DaprComponents {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DaprComponentsCollection
+      bodyMapper: Mappers.DaprComponentsCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName
+    Parameters.environmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DaprComponent
+      bodyMapper: Mappers.DaprComponent,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -284,22 +282,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.componentName,
-    Parameters.environmentName
+    Parameters.environmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DaprComponent
+      bodyMapper: Mappers.DaprComponent,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.daprComponentEnvelope,
   queryParameters: [Parameters.apiVersion],
@@ -308,22 +305,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.componentName,
-    Parameters.environmentName
+    Parameters.environmentName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -331,22 +327,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.componentName,
-    Parameters.environmentName
+    Parameters.environmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSecretsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/listSecrets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/listSecrets",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DaprSecretsCollection
+      bodyMapper: Mappers.DaprSecretsCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -354,29 +349,29 @@ const listSecretsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.componentName,
-    Parameters.environmentName
+    Parameters.environmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DaprComponentsCollection
+      bodyMapper: Mappers.DaprComponentsCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.environmentName
+    Parameters.environmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

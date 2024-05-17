@@ -17,7 +17,7 @@ import {
   ConnectedEnvironmentsCertificatesDeleteOptionalParams,
   CertificatePatch,
   ConnectedEnvironmentsCertificatesUpdateOptionalParams,
-  ConnectedEnvironmentsCertificatesUpdateResponse
+  ConnectedEnvironmentsCertificatesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ConnectedEnvironmentsCertificates {
   list(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsCertificatesListOptionalParams
+    options?: ConnectedEnvironmentsCertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<Certificate>;
   /**
    * Get the specified Certificate.
@@ -45,7 +45,7 @@ export interface ConnectedEnvironmentsCertificates {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     certificateName: string,
-    options?: ConnectedEnvironmentsCertificatesGetOptionalParams
+    options?: ConnectedEnvironmentsCertificatesGetOptionalParams,
   ): Promise<ConnectedEnvironmentsCertificatesGetResponse>;
   /**
    * Create or Update a Certificate.
@@ -58,7 +58,7 @@ export interface ConnectedEnvironmentsCertificates {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     certificateName: string,
-    options?: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams
+    options?: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsCertificatesCreateOrUpdateResponse>;
   /**
    * Deletes the specified Certificate.
@@ -71,7 +71,7 @@ export interface ConnectedEnvironmentsCertificates {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     certificateName: string,
-    options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams
+    options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Patches a certificate. Currently only patching of tags is supported
@@ -86,6 +86,6 @@ export interface ConnectedEnvironmentsCertificates {
     connectedEnvironmentName: string,
     certificateName: string,
     certificateEnvelope: CertificatePatch,
-    options?: ConnectedEnvironmentsCertificatesUpdateOptionalParams
+    options?: ConnectedEnvironmentsCertificatesUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsCertificatesUpdateResponse>;
 }

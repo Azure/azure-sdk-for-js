@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
-
+import { createTestCredential } from "@azure-tools/test-credential";
 import {
-  AzureKeyCredential,
-  SearchClient,
-  SearchIndexClient,
-  SearchIndexerClient,
-} from "../../../src";
+  assertEnvironmentVariable,
+  env,
+  Recorder,
+  RecorderStartOptions,
+} from "@azure-tools/test-recorder";
+import { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
+import { isDefined } from "@azure/core-util";
 import { OpenAIClient } from "@azure/openai";
+import { SearchClient, SearchIndexClient, SearchIndexerClient } from "../../../src";
 
 export interface Clients<IndexModel extends object> {
   searchClient: SearchClient<IndexModel>;
@@ -19,58 +21,84 @@ export interface Clients<IndexModel extends object> {
   openAIClient: OpenAIClient;
 }
 
-const envSetupForPlayback: { [k: string]: string } = {
-  SEARCH_API_ADMIN_KEY: "admin_key",
-  SEARCH_API_ADMIN_KEY_ALT: "admin_key_alt",
-  ENDPOINT: "https://endpoint",
-  OPENAI_DEPLOYMENT_NAME: "deployment-name",
-  OPENAI_ENDPOINT: "https://openai.endpoint",
-  OPENAI_KEY: "openai-key",
-};
-
-export const testEnv = new Proxy(envSetupForPlayback, {
-  get: (target, key: string) => {
-    return env[key] || target[key];
-  },
-});
-
-const generalSanitizers = [];
-
-if (env.ENDPOINT) {
-  generalSanitizers.push({
-    regex: false,
-    value: "subdomain",
-    target: env.ENDPOINT.match(/:\/\/(.*).search.windows.net/)![1],
-  });
+interface Env {
+  ENDPOINT: string;
+  AZURE_OPENAI_DEPLOYMENT_NAME: string;
+  AZURE_OPENAI_ENDPOINT: string;
 }
 
-if (env.OPENAI_ENDPOINT) {
-  generalSanitizers.push({
-    regex: false,
-    value: "subdomain",
-    target: env.OPENAI_ENDPOINT.match(/:\/\/(.*).openai.azure.com/)![1],
-  });
+// modifies URIs in the environment to end in a trailing slash
+const uriEnvVars = ["ENDPOINT", "AZURE_OPENAI_ENDPOINT"] as const;
+
+function fixEnvironment(): RecorderStartOptions {
+  const envSetupForPlayback = {
+    ENDPOINT: "https://subdomain.search.windows.net/",
+    AZURE_OPENAI_DEPLOYMENT_NAME: "deployment-name",
+    AZURE_OPENAI_ENDPOINT: "https://subdomain.openai.azure.com/",
+  };
+
+  appendTrailingSlashesToEnvironment(envSetupForPlayback);
+  const generalSanitizers = getSubdomainSanitizers();
+
+  return {
+    envSetupForPlayback,
+    sanitizerOptions: {
+      generalSanitizers,
+    },
+  };
 }
 
-const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback,
-  sanitizerOptions: {
-    generalSanitizers,
-  },
-};
+function appendTrailingSlashesToEnvironment(envSetupForPlayback: Env): void {
+  for (const envBag of [env, envSetupForPlayback]) {
+    for (const name of uriEnvVars) {
+      const value = envBag[name];
+      if (value) {
+        envBag[name] = value.endsWith("/") ? value : `${value}/`;
+      }
+    }
+  }
+}
+
+function getSubdomainSanitizers(): FindReplaceSanitizer[] {
+  const uriDomainMap: Pick<Env, (typeof uriEnvVars)[number]> = {
+    ENDPOINT: "search.windows.net",
+    AZURE_OPENAI_ENDPOINT: "openai.azure.com",
+  };
+
+  const subdomains = Object.entries(uriDomainMap)
+    .map(([name, domain]) => {
+      const uri = env[name];
+      const subdomain = uri?.match(String.raw`\/\/(.*?)\.` + domain)?.[1];
+
+      return subdomain;
+    })
+    .filter(isDefined);
+
+  const generalSanitizers = subdomains.map((target) => {
+    return {
+      target,
+      value: "subdomain",
+    };
+  });
+
+  return generalSanitizers;
+}
 
 export async function createClients<IndexModel extends object>(
   serviceVersion: string,
   recorder: Recorder,
   indexName: string,
 ): Promise<Clients<IndexModel>> {
+  const recorderOptions = fixEnvironment();
   await recorder.start(recorderOptions);
 
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
-  const endPoint: string = env.ENDPOINT ?? "https://endpoint";
-  const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
-  const openAIEndpoint = env.OPENAI_ENDPOINT ?? "https://openai.endpoint";
-  const openAIKey = new AzureKeyCredential(env.OPENAI_KEY ?? "openai-key");
+
+  const credential = createTestCredential();
+
+  const endPoint: string = assertEnvironmentVariable("ENDPOINT");
+  const openAIEndpoint = assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT");
+
   const searchClient = new SearchClient<IndexModel>(
     endPoint,
     indexName,
@@ -95,7 +123,7 @@ export async function createClients<IndexModel extends object>(
   );
   const openAIClient = new OpenAIClient(
     openAIEndpoint,
-    openAIKey,
+    credential,
     recorder.configureClientOptions({}),
   );
 

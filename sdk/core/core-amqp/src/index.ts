@@ -1,23 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="es2015" />
+/// <reference lib="es2020" />
 
-export { RequestResponseLink, SendRequestOptions } from "./requestResponseLink";
-export { retry, RetryOptions, RetryConfig, RetryOperationType, RetryMode } from "./retry";
-export { TokenType } from "./auth/token";
-
-export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig/connectionConfig";
-
-export { CbsClient, CbsResponse } from "./cbs";
-export { Constants, StandardAbortMessage } from "./util/constants";
-export { AmqpMessageHeader } from "./messageHeader";
-export { AmqpMessageProperties } from "./messageProperties";
+export { RequestResponseLink, SendRequestOptions } from "./requestResponseLink.js";
+export { retry, RetryOptions, RetryConfig, RetryOperationType, RetryMode } from "./retry.js";
+export { TokenType } from "./auth/token.js";
+export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig/connectionConfig.js";
+export { CbsClient, CbsResponse } from "./cbs.js";
+export { Constants, StandardAbortMessage } from "./util/constants.js";
+export { AmqpMessageHeader } from "./messageHeader.js";
+export { AmqpMessageProperties } from "./messageProperties.js";
 export {
   ConnectionContextBase,
   ConnectionProperties,
   CreateConnectionContextBaseParameters,
-} from "./ConnectionContextBase";
+} from "./ConnectionContextBase.js";
 export {
   MessagingError,
   isMessagingError,
@@ -28,15 +26,16 @@ export {
   isSystemError,
   SystemErrorConditionMapper,
   NetworkSystemError,
-} from "./errors";
+} from "./errors.js";
 export {
   delay,
   parseConnectionString,
+  isLoopbackAddress,
   defaultCancellableLock,
   ParsedOutput,
   WebSocketOptions,
-} from "./util/utils";
-export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage";
-export { logger } from "./log";
-export * from "./internals";
-export { AcquireLockProperties, CancellableAsyncLock } from "./util/lock";
+} from "./util/utils.js";
+export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage.js";
+export { logger } from "./log.js";
+export * from "./internals.js";
+export { AcquireLockProperties, CancellableAsyncLock } from "./util/lock.js";

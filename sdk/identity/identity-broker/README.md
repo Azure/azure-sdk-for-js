@@ -65,8 +65,8 @@ useIdentityPlugin(nativeBrokerPlugin);
 const credential = new InteractiveBrowserCredential({
   brokerOptions: {
     enabled: true,
-    },
-  });
+  },
+});
 ```
 
 After calling `useIdentityPlugin`, the native broker plugin is registered to the `@azure/identity` package and will be available on the `InteractiveBrowserCredential` that supports WAM broker authentication. This credential has `brokerOptions` in the constructor options.
@@ -75,6 +75,7 @@ After calling `useIdentityPlugin`, the native broker plugin is registered to the
 
 Once the plugin is registered, you can enable WAM broker authentication by passing `brokerOptions` with an `enabled` property set to `true` to a credential constructor. In the following example, we use the `InteractiveBrowserCredential`.
 
+<!-- eslint-skip -->
 ```typescript
 import { nativeBrokerPlugin } from "@azure/identity-broker";
 import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
@@ -101,7 +102,41 @@ main().catch((error) => {
   process.exit(1);
 });
 ```
-For an example of using an Electron app for retrieving a window handle, see [this sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-broker/samples/v1/typescript/src/index.ts).
+
+For a complete example of using an Electron app for retrieving a window handle, see [this sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-broker/samples/v1/typescript/src/index.ts).
+
+### Use the default account for sign-in
+
+When the `useDefaultBrokerAccount` option is set to `true`, the credential will attempt to silently use the default broker account. If using the default account fails, the credential will fall back to interactive authentication.
+
+<!-- eslint-skip -->
+```typescript
+import { nativeBrokerPlugin } from "@azure/identity-broker";
+import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
+
+useIdentityPlugin(nativeBrokerPlugin);
+
+async function main() {
+  const credential = new InteractiveBrowserCredential({
+    brokerOptions: {
+      enabled: true,
+      useDefaultBrokerAccount: true,
+      parentWindowHandle: <insert_current_window_handle>
+    },
+  });
+
+  // We'll use the Microsoft Graph scope as an example
+  const scope = "https://graph.microsoft.com/.default";
+
+  // Print out part of the access token
+  console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
+}
+
+main().catch((error) => {
+  console.error("An error occurred:", error);
+  process.exit(1);
+});
+```
 
 ## Troubleshooting
 
@@ -112,7 +147,7 @@ See the Azure Identity [troubleshooting guide][https://github.com/Azure/azure-sd
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```typescript
-import { setLogLevel } from ("@azure/logger");
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

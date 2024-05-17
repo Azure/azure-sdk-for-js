@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to This does not restore the pool to its previous state before the resize operation: it only stops any further changes being made, and the pool maintains its current state. After stopping, the pool stabilizes at the number of nodes it was at when the stop operation was done. During the stop operation, the pool allocation state changes first to stopping and then to steady. A resize operation need not be an explicit resize pool request; this API can also be used to halt the initial sizing of the pool when it is created.
  *
  * @summary This does not restore the pool to its previous state before the resize operation: it only stops any further changes being made, and the pool maintains its current state. After stopping, the pool stabilizes at the number of nodes it was at when the stop operation was done. During the stop operation, the pool allocation state changes first to stopping and then to steady. A resize operation need not be an explicit resize pool request; this API can also be used to halt the initial sizing of the pool when it is created.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolStopResize.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolStopResize.json
  */
 async function stopPoolResize() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function stopPoolResize() {
   const result = await client.poolOperations.stopResize(
     resourceGroupName,
     accountName,
-    poolName
+    poolName,
   );
   console.log(result);
 }

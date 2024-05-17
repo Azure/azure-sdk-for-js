@@ -15,12 +15,12 @@ import {
 import { SipRoutingClient, SipTrunk, SipTrunkRoute } from "../../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { randomUUID } from "@azure/core-util";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 
-if (isNode) {
+if (isNodeLike) {
   dotenv.config();
 }
 

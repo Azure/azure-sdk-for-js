@@ -30,7 +30,9 @@ import { testLogger } from "./utils/misc";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
-const assert = chai.assert;
+
+const assert: typeof chai.assert = chai.assert;
+const expect = chai.expect;
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -794,7 +796,7 @@ describe("Batching Receiver", () => {
           });
           throw new Error(`Test failure`);
         } catch (err: any) {
-          err.message.should.equal(StandardAbortMessage);
+          expect(err.message).includes(StandardAbortMessage);
         }
       },
     );
@@ -811,10 +813,120 @@ describe("Batching Receiver", () => {
           });
           throw new Error(`Test failure`);
         } catch (err: any) {
-          err.message.should.equal(StandardAbortMessage);
+          expect(err.message).includes(StandardAbortMessage);
         }
       },
     );
+
+    const getMessage = () => ({ body: `${Date.now()}-${Math.random().toString()}` });
+
+    it(noSessionTestClientType + ": deleteMessages", async function (): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
+
+      const numMessages = 3;
+      const toSend = [];
+      for (let i = 0; i < numMessages; i++) {
+        toSend.push(getMessage());
+      }
+      await sender.sendMessages(toSend);
+
+      await testPeekMsgsLength(receiver2, numMessages);
+
+      // wait for things to be ready
+      await delay(10 * 1000);
+      await receiver2.deleteMessages({ maxMessageCount: numMessages });
+
+      await testPeekMsgsLength(receiver2, 0);
+    });
+
+    it(noSessionTestClientType + ": purgeMessages", async function (): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
+
+      const numMessages = 5000;
+      let i = 0;
+      let batch = await sender.createMessageBatch();
+      while (i < numMessages) {
+        const message = getMessage();
+        if (!batch.tryAddMessage(message)) {
+          // Send the current batch as it is full and create a new one
+          await sender.sendMessages(batch);
+          batch = await sender.createMessageBatch();
+        } else {
+          i++;
+        }
+      }
+      if (batch.count) {
+        // Send the last batch
+        await sender.sendMessages(batch);
+      }
+
+      // wait for things to be ready
+      await delay(10 * 1000);
+      await receiver2.purgeMessages();
+
+      await testPeekMsgsLength(receiver2, 0);
+    });
+
+    it(
+      TestClientType.PartitionedQueue +
+        ": deleteMessages with max message count of zero throws error",
+      async function (): Promise<void> {
+        await beforeEachTest(TestClientType.PartitionedQueue, "receiveAndDelete");
+
+        const numMessages = 3;
+        const toSend = [];
+        for (let i = 0; i < numMessages; i++) {
+          toSend.push(getMessage());
+        }
+        await sender.sendMessages(toSend);
+
+        await testPeekMsgsLength(receiver, numMessages);
+
+        try {
+          await receiver.deleteMessages({ maxMessageCount: 0 });
+          throw new Error("Test failure");
+        } catch (err: any) {
+          err.message.should.equal(
+            "Error 0: TypeError: 'messageCount' must be a number greater than 0.",
+          );
+        }
+      },
+    );
+
+    it(withSessionTestClientType + ": deleteMessages (session)", async function (): Promise<void> {
+      const randomSessionId = Math.random().toString();
+      const names = await serviceBusClient.test.createTestEntities(withSessionTestClientType);
+      const sender2 = serviceBusClient.test.addToCleanup(
+        serviceBusClient.createSender(names.queue ?? names.topic!),
+      );
+      const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver({
+        ...names,
+        sessionId: randomSessionId,
+      });
+
+      const numMessages = 3;
+      const toSend = [];
+      for (let i = 0; i < numMessages; i++) {
+        const testMessage = {
+          ...getMessage(),
+          sessionId: randomSessionId,
+          timeToLive: 24 * 60 * 60 * 1000,
+        };
+        toSend.push(testMessage);
+      }
+      await sender2.sendMessages(toSend);
+
+      const peeked = await receiver2.peekMessages(numMessages + 1);
+      assert.equal(peeked.length, numMessages);
+
+      // wait for things to be ready
+      await delay(10 * 1000);
+      await receiver2.deleteMessages({ maxMessageCount: numMessages });
+
+      await testPeekMsgsLength(receiver2, 0);
+    });
   });
 
   describe("Batch Receiver - disconnects", () => {
@@ -973,10 +1085,8 @@ describe("Batching Receiver", () => {
           await receiver.receiveMessages(10);
           throw new Error(testFailureMessage);
         } catch (err: any) {
-          assert.deepNestedInclude(err, {
-            name: "Error",
-            message: "Test: fake connection failure",
-          });
+          assert.ok(err.name === "Error");
+          assert.ok(err.message.match(/Test: fake connection failure/));
         }
 
         await onDetachedCalledPromise;
@@ -1247,10 +1357,8 @@ describe("Batching Receiver", () => {
           await sessionReceiver.receiveMessages(10);
           throw new Error(testFailureMessage);
         } catch (err: any) {
-          assert.deepNestedInclude(err, {
-            name: "Error",
-            message: "Test: fake connection failure",
-          });
+          assert.equal(err?.name, "Error");
+          expect(err?.message).includes("Test: fake connection failure");
         }
 
         await drainRequestedPromise;

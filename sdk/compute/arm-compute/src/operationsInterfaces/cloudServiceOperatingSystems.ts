@@ -15,7 +15,7 @@ import {
   CloudServiceOperatingSystemsGetOSVersionOptionalParams,
   CloudServiceOperatingSystemsGetOSVersionResponse,
   CloudServiceOperatingSystemsGetOSFamilyOptionalParams,
-  CloudServiceOperatingSystemsGetOSFamilyResponse
+  CloudServiceOperatingSystemsGetOSFamilyResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface CloudServiceOperatingSystems {
    */
   listOSVersions(
     location: string,
-    options?: CloudServiceOperatingSystemsListOSVersionsOptionalParams
+    options?: CloudServiceOperatingSystemsListOSVersionsOptionalParams,
   ): PagedAsyncIterableIterator<OSVersion>;
   /**
    * Gets a list of all guest operating system families available to be specified in the XML service
@@ -41,7 +41,7 @@ export interface CloudServiceOperatingSystems {
    */
   listOSFamilies(
     location: string,
-    options?: CloudServiceOperatingSystemsListOSFamiliesOptionalParams
+    options?: CloudServiceOperatingSystemsListOSFamiliesOptionalParams,
   ): PagedAsyncIterableIterator<OSFamily>;
   /**
    * Gets properties of a guest operating system version that can be specified in the XML service
@@ -53,7 +53,7 @@ export interface CloudServiceOperatingSystems {
   getOSVersion(
     location: string,
     osVersionName: string,
-    options?: CloudServiceOperatingSystemsGetOSVersionOptionalParams
+    options?: CloudServiceOperatingSystemsGetOSVersionOptionalParams,
   ): Promise<CloudServiceOperatingSystemsGetOSVersionResponse>;
   /**
    * Gets properties of a guest operating system family that can be specified in the XML service
@@ -65,6 +65,6 @@ export interface CloudServiceOperatingSystems {
   getOSFamily(
     location: string,
     osFamilyName: string,
-    options?: CloudServiceOperatingSystemsGetOSFamilyOptionalParams
+    options?: CloudServiceOperatingSystemsGetOSFamilyOptionalParams,
   ): Promise<CloudServiceOperatingSystemsGetOSFamilyResponse>;
 }

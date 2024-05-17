@@ -9,7 +9,7 @@
 import {
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityWithLocationExecuteOptionalParams,
-  CheckNameAvailabilityWithLocationExecuteResponse
+  CheckNameAvailabilityWithLocationExecuteResponse,
 } from "../models";
 
 /** Interface representing a CheckNameAvailabilityWithLocation. */
@@ -23,6 +23,6 @@ export interface CheckNameAvailabilityWithLocation {
   execute(
     locationName: string,
     nameAvailabilityRequest: CheckNameAvailabilityRequest,
-    options?: CheckNameAvailabilityWithLocationExecuteOptionalParams
+    options?: CheckNameAvailabilityWithLocationExecuteOptionalParams,
   ): Promise<CheckNameAvailabilityWithLocationExecuteResponse>;
 }

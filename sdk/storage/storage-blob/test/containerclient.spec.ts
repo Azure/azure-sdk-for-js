@@ -14,7 +14,7 @@ import {
   uriSanitizers,
 } from "./utils";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue, assert } from "@azure/test-utils";
+import { getYieldedValue, assert } from "@azure-tools/test-utils";
 import {
   ContainerClient,
   BlockBlobTier,

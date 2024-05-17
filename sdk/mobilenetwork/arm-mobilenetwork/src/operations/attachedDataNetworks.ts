@@ -16,7 +16,7 @@ import { MobileNetworkManagementClient } from "../mobileNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   TagsObject,
   AttachedDataNetworksUpdateTagsOptionalParams,
   AttachedDataNetworksUpdateTagsResponse,
-  AttachedDataNetworksListByPacketCoreDataPlaneNextResponse
+  AttachedDataNetworksListByPacketCoreDataPlaneNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,13 +59,13 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams
+    options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams,
   ): PagedAsyncIterableIterator<AttachedDataNetwork> {
     const iter = this.listByPacketCoreDataPlanePagingAll(
       resourceGroupName,
       packetCoreControlPlaneName,
       packetCoreDataPlaneName,
-      options
+      options,
     );
     return {
       next() {
@@ -83,9 +83,9 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
           packetCoreControlPlaneName,
           packetCoreDataPlaneName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AttachedDataNetwork[]> {
     let result: AttachedDataNetworksListByPacketCoreDataPlaneResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         resourceGroupName,
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +116,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -129,13 +129,13 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams
+    options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams,
   ): AsyncIterableIterator<AttachedDataNetwork> {
     for await (const page of this.listByPacketCoreDataPlanePagingPage(
       resourceGroupName,
       packetCoreControlPlaneName,
       packetCoreDataPlaneName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -154,25 +154,24 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
-    options?: AttachedDataNetworksDeleteOptionalParams
+    options?: AttachedDataNetworksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -181,8 +180,8 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -190,8 +189,8 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -202,14 +201,14 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
         attachedDataNetworkName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -228,14 +227,14 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
-    options?: AttachedDataNetworksDeleteOptionalParams
+    options?: AttachedDataNetworksDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       packetCoreControlPlaneName,
       packetCoreDataPlaneName,
       attachedDataNetworkName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -253,7 +252,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
-    options?: AttachedDataNetworksGetOptionalParams
+    options?: AttachedDataNetworksGetOptionalParams,
   ): Promise<AttachedDataNetworksGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -261,9 +260,9 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
         attachedDataNetworkName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -283,7 +282,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
     parameters: AttachedDataNetwork,
-    options?: AttachedDataNetworksCreateOrUpdateOptionalParams
+    options?: AttachedDataNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AttachedDataNetworksCreateOrUpdateResponse>,
@@ -292,21 +291,20 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AttachedDataNetworksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -315,8 +313,8 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -324,8 +322,8 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -337,9 +335,9 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         packetCoreDataPlaneName,
         attachedDataNetworkName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       AttachedDataNetworksCreateOrUpdateResponse,
@@ -347,7 +345,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -369,7 +367,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
     parameters: AttachedDataNetwork,
-    options?: AttachedDataNetworksCreateOrUpdateOptionalParams
+    options?: AttachedDataNetworksCreateOrUpdateOptionalParams,
   ): Promise<AttachedDataNetworksCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -377,7 +375,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
       packetCoreDataPlaneName,
       attachedDataNetworkName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -397,7 +395,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
     parameters: TagsObject,
-    options?: AttachedDataNetworksUpdateTagsOptionalParams
+    options?: AttachedDataNetworksUpdateTagsOptionalParams,
   ): Promise<AttachedDataNetworksUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -406,9 +404,9 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         packetCoreDataPlaneName,
         attachedDataNetworkName,
         parameters,
-        options
+        options,
       },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -423,16 +421,16 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams
+    options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams,
   ): Promise<AttachedDataNetworksListByPacketCoreDataPlaneResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
-        options
+        options,
       },
-      listByPacketCoreDataPlaneOperationSpec
+      listByPacketCoreDataPlaneOperationSpec,
     );
   }
 
@@ -450,7 +448,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     nextLink: string,
-    options?: AttachedDataNetworksListByPacketCoreDataPlaneNextOptionalParams
+    options?: AttachedDataNetworksListByPacketCoreDataPlaneNextOptionalParams,
   ): Promise<AttachedDataNetworksListByPacketCoreDataPlaneNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -458,9 +456,9 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
         nextLink,
-        options
+        options,
       },
-      listByPacketCoreDataPlaneNextOperationSpec
+      listByPacketCoreDataPlaneNextOperationSpec,
     );
   }
 }
@@ -468,8 +466,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -477,8 +474,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -487,22 +484,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
     Parameters.packetCoreDataPlaneName,
-    Parameters.attachedDataNetworkName
+    Parameters.attachedDataNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDataNetwork
+      bodyMapper: Mappers.AttachedDataNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -511,31 +507,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
     Parameters.packetCoreDataPlaneName,
-    Parameters.attachedDataNetworkName
+    Parameters.attachedDataNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDataNetwork
+      bodyMapper: Mappers.AttachedDataNetwork,
     },
     201: {
-      bodyMapper: Mappers.AttachedDataNetwork
+      bodyMapper: Mappers.AttachedDataNetwork,
     },
     202: {
-      bodyMapper: Mappers.AttachedDataNetwork
+      bodyMapper: Mappers.AttachedDataNetwork,
     },
     204: {
-      bodyMapper: Mappers.AttachedDataNetwork
+      bodyMapper: Mappers.AttachedDataNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -545,23 +540,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
     Parameters.packetCoreDataPlaneName,
-    Parameters.attachedDataNetworkName
+    Parameters.attachedDataNetworkName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDataNetwork
+      bodyMapper: Mappers.AttachedDataNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -571,23 +565,22 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
     Parameters.packetCoreDataPlaneName,
-    Parameters.attachedDataNetworkName
+    Parameters.attachedDataNetworkName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByPacketCoreDataPlaneOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDataNetworkListResult
+      bodyMapper: Mappers.AttachedDataNetworkListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -595,21 +588,21 @@ const listByPacketCoreDataPlaneOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName
+    Parameters.packetCoreDataPlaneName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByPacketCoreDataPlaneNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDataNetworkListResult
+      bodyMapper: Mappers.AttachedDataNetworkListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -617,8 +610,8 @@ const listByPacketCoreDataPlaneNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
     Parameters.packetCoreDataPlaneName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -1,5 +1,7 @@
 # Azure Perf library for JavaScript
 
+**Note: This project is a test utility that assits with performance testing of the packages maintained at the Azure SDK for JavaScript repository. This is not intended for the public utilization.**
+
 ## Getting started
 
 To start a new perf test project for the your SDK in the js repository, follow the steps in the [GettingStarted.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/perf/GettingStarted.md).

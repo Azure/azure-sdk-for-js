@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfTest } from "@azure/test-utils-perf";
+import { PerfTest } from "@azure-tools/test-perf";
 import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
 
 import * as dotenv from "dotenv";

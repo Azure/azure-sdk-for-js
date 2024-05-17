@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { toProcessingSpanOptions } from "../../src/partitionPump";
 import Sinon from "sinon";

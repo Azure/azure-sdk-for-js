@@ -19,7 +19,7 @@ import Sinon from "sinon";
 import { tracingClient } from "../../../src/diagnostics/tracing";
 
 chai.use(chaiAsPromised);
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 describe("utils", () => {
   describe("waitForTimeoutAbortOrResolve", () => {

@@ -18,7 +18,7 @@ import {
   VolumeQuotaRulePatch,
   VolumeQuotaRulesUpdateOptionalParams,
   VolumeQuotaRulesUpdateResponse,
-  VolumeQuotaRulesDeleteOptionalParams
+  VolumeQuotaRulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface VolumeQuotaRules {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumeQuotaRulesListByVolumeOptionalParams
+    options?: VolumeQuotaRulesListByVolumeOptionalParams,
   ): PagedAsyncIterableIterator<VolumeQuotaRule>;
   /**
    * Get details of the specified quota rule
@@ -54,7 +54,7 @@ export interface VolumeQuotaRules {
     poolName: string,
     volumeName: string,
     volumeQuotaRuleName: string,
-    options?: VolumeQuotaRulesGetOptionalParams
+    options?: VolumeQuotaRulesGetOptionalParams,
   ): Promise<VolumeQuotaRulesGetResponse>;
   /**
    * Create the specified quota rule within the given volume
@@ -73,7 +73,7 @@ export interface VolumeQuotaRules {
     volumeName: string,
     volumeQuotaRuleName: string,
     body: VolumeQuotaRule,
-    options?: VolumeQuotaRulesCreateOptionalParams
+    options?: VolumeQuotaRulesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VolumeQuotaRulesCreateResponse>,
@@ -97,7 +97,7 @@ export interface VolumeQuotaRules {
     volumeName: string,
     volumeQuotaRuleName: string,
     body: VolumeQuotaRule,
-    options?: VolumeQuotaRulesCreateOptionalParams
+    options?: VolumeQuotaRulesCreateOptionalParams,
   ): Promise<VolumeQuotaRulesCreateResponse>;
   /**
    * Patch a quota rule
@@ -116,7 +116,7 @@ export interface VolumeQuotaRules {
     volumeName: string,
     volumeQuotaRuleName: string,
     body: VolumeQuotaRulePatch,
-    options?: VolumeQuotaRulesUpdateOptionalParams
+    options?: VolumeQuotaRulesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VolumeQuotaRulesUpdateResponse>,
@@ -140,7 +140,7 @@ export interface VolumeQuotaRules {
     volumeName: string,
     volumeQuotaRuleName: string,
     body: VolumeQuotaRulePatch,
-    options?: VolumeQuotaRulesUpdateOptionalParams
+    options?: VolumeQuotaRulesUpdateOptionalParams,
   ): Promise<VolumeQuotaRulesUpdateResponse>;
   /**
    * Delete quota rule
@@ -157,7 +157,7 @@ export interface VolumeQuotaRules {
     poolName: string,
     volumeName: string,
     volumeQuotaRuleName: string,
-    options?: VolumeQuotaRulesDeleteOptionalParams
+    options?: VolumeQuotaRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete quota rule
@@ -174,6 +174,6 @@ export interface VolumeQuotaRules {
     poolName: string,
     volumeName: string,
     volumeQuotaRuleName: string,
-    options?: VolumeQuotaRulesDeleteOptionalParams
+    options?: VolumeQuotaRulesDeleteOptionalParams,
   ): Promise<void>;
 }

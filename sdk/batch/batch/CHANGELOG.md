@@ -1,5 +1,26 @@
 # Release History
 
+## 11.1.0 (2024-04-03)
+
+### Features
+
+- Added `upgradePolicy` property of type `UpgradePolicy` to `PoolSpecification` and `CloudPool` to supported Automatic OS Upgrade for pools.
+  - `UpgradePolicy` has three properties, `mode` of type `UpgradeMode`, `automaticOSUpgradePolicy` of type `AutomaticOSUpgradePolicy`, and `rollingUpgradePolicy` of type `RollingUpgradePolicy`
+
+- Added `resourceTags` property to `PoolSpecification` and `CloudPool`
+  - Users are able to specify resource tags for a pool. This feature is currently only supported for pool creation but will be updatable in the future.
+
+- Added `securityProfile` property of type `SecurityProfile` to `VirtualMachineConfiguration` for pool creation.
+  - It supportS Trusted Launch which provides advanced security to Guest OS preventing boot-kits/rootkits (like un-signed driver or kernel modification) to be introduced into boot-chain.
+
+- Added `caching`, `managedDisk`, `diskSizeGB`, and `writeAcceleratorEnabled` properties to `OSDisk` for pool creation.
+
+- Added `serviceArtifactReference` property to `VirtualMachineConfiguration`.
+
+- Added `standardssd_lrs` value to `StorageAccountType` enum.
+
+- Added `scaleSetVmResourceID` property to `VirtualMachineInfo`.
+
 ## 11.0.0 (2023-05-01)
 
 ### Breaking Changes

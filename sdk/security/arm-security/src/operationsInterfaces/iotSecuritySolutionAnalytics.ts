@@ -10,7 +10,7 @@ import {
   IotSecuritySolutionAnalyticsListOptionalParams,
   IotSecuritySolutionAnalyticsListResponse,
   IotSecuritySolutionAnalyticsGetOptionalParams,
-  IotSecuritySolutionAnalyticsGetResponse
+  IotSecuritySolutionAnalyticsGetResponse,
 } from "../models";
 
 /** Interface representing a IotSecuritySolutionAnalytics. */
@@ -25,7 +25,7 @@ export interface IotSecuritySolutionAnalytics {
   list(
     resourceGroupName: string,
     solutionName: string,
-    options?: IotSecuritySolutionAnalyticsListOptionalParams
+    options?: IotSecuritySolutionAnalyticsListOptionalParams,
   ): Promise<IotSecuritySolutionAnalyticsListResponse>;
   /**
    * Use this method to get IoT Security Analytics metrics.
@@ -37,6 +37,6 @@ export interface IotSecuritySolutionAnalytics {
   get(
     resourceGroupName: string,
     solutionName: string,
-    options?: IotSecuritySolutionAnalyticsGetOptionalParams
+    options?: IotSecuritySolutionAnalyticsGetOptionalParams,
   ): Promise<IotSecuritySolutionAnalyticsGetResponse>;
 }

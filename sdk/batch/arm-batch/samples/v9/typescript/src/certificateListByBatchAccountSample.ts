@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CertificateListByBatchAccountOptionalParams,
-  BatchManagementClient
+  BatchManagementClient,
 } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  *
  * @summary Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/CertificateList.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/CertificateList.json
  */
 async function listCertificates() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function listCertificates() {
   const resArray = new Array();
   for await (let item of client.certificateOperations.listByBatchAccount(
     resourceGroupName,
-    accountName
+    accountName,
   )) {
     resArray.push(item);
   }
@@ -44,7 +44,7 @@ async function listCertificates() {
  * This sample demonstrates how to Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  *
  * @summary Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/CertificateListWithFilter.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/CertificateListWithFilter.json
  */
 async function listCertificatesFilterAndSelect() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -56,7 +56,7 @@ async function listCertificatesFilterAndSelect() {
     "properties/provisioningStateTransitionTime gt '2017-05-01' or properties/provisioningState eq 'Failed'";
   const options: CertificateListByBatchAccountOptionalParams = {
     select,
-    filter
+    filter,
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -64,7 +64,7 @@ async function listCertificatesFilterAndSelect() {
   for await (let item of client.certificateOperations.listByBatchAccount(
     resourceGroupName,
     accountName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

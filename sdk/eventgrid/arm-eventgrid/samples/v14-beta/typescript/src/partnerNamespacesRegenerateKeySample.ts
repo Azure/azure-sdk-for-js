@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PartnerNamespaceRegenerateKeyRequest,
-  EventGridManagementClient
+  EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Regenerate a shared access key for a partner namespace.
  *
  * @summary Regenerate a shared access key for a partner namespace.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerNamespaces_RegenerateKey.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerNamespaces_RegenerateKey.json
  */
 async function partnerNamespacesRegenerateKey() {
   const subscriptionId =
@@ -31,14 +31,14 @@ async function partnerNamespacesRegenerateKey() {
     process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const partnerNamespaceName = "examplePartnerNamespaceName1";
   const regenerateKeyRequest: PartnerNamespaceRegenerateKeyRequest = {
-    keyName: "key1"
+    keyName: "key1",
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.partnerNamespaces.regenerateKey(
     resourceGroupName,
     partnerNamespaceName,
-    regenerateKeyRequest
+    regenerateKeyRequest,
   );
   console.log(result);
 }

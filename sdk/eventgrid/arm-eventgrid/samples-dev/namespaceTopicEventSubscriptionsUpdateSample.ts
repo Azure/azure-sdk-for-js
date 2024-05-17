@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SubscriptionUpdateParameters,
-  EventGridManagementClient
+  EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update an existing event subscription of a namespace topic.
  *
  * @summary Update an existing event subscription of a namespace topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/NamespaceTopicEventSubscriptions_Update.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/NamespaceTopicEventSubscriptions_Update.json
  */
 async function namespaceTopicEventSubscriptionsUpdate() {
   const subscriptionId =
@@ -38,20 +38,21 @@ async function namespaceTopicEventSubscriptionsUpdate() {
       queue: {
         eventTimeToLive: "P1D",
         maxDeliveryCount: 3,
-        receiveLockDurationInSeconds: 60
-      }
+        receiveLockDurationInSeconds: 60,
+      },
     },
-    eventDeliverySchema: "CloudEventSchemaV1_0"
+    eventDeliverySchema: "CloudEventSchemaV1_0",
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
-  const result = await client.namespaceTopicEventSubscriptions.beginUpdateAndWait(
-    resourceGroupName,
-    namespaceName,
-    topicName,
-    eventSubscriptionName,
-    eventSubscriptionUpdateParameters
-  );
+  const result =
+    await client.namespaceTopicEventSubscriptions.beginUpdateAndWait(
+      resourceGroupName,
+      namespaceName,
+      topicName,
+      eventSubscriptionName,
+      eventSubscriptionUpdateParameters,
+    );
   console.log(result);
 }
 

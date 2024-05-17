@@ -1,14 +1,22 @@
 # Release History
 
-## 5.11.4 (Unreleased)
+## 5.12.0 (Unreleased)
 
 ### Features Added
+
+- Adds support for connecting to the development emulator. The connection string for the development emulator should have the `";UseDevelopmentEmulator=true"` slug.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.11.4 (2024-03-21)
+
+### Other Changes
+
+- The minimum value of timeout for all operations is no longer 60 seconds. The user can now set the timeout to lower values if needed. The default timeout value is still 60 seconds.
 
 ## 5.11.3 (2023-11-07)
 

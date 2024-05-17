@@ -9,7 +9,7 @@
   "license": "ISC",
   "dependencies": {
     "@azure/service-bus": "^7.0.0",
-    "@azure/test-utils-perf": "^1.0.0",
+    "@azure-tools/test-perf": "^1.0.0",
     "dotenv": "^16.0.0",
     "uuid": "^8.3.0"
   },
@@ -20,7 +20,7 @@
     "rimraf": "^5.0.5",
     "tslib": "^2.2.0",
     "ts-node": "^10.0.0",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.5",
     "@azure/dev-tool": "^1.0.0"
   },
   "private": true,

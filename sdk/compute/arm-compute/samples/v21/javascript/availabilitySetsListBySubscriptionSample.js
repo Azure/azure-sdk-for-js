@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all availability sets in a subscription.
  *
  * @summary Lists all availability sets in a subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/availabilitySetExamples/AvailabilitySet_ListBySubscription.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/availabilitySetExamples/AvailabilitySet_ListBySubscription.json
  */
 async function listAvailabilitySetsInASubscription() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";

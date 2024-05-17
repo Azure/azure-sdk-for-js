@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BatchAccountUpdateParameters,
-  BatchManagementClient
+  BatchManagementClient,
 } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the properties of an existing Batch account.
  *
  * @summary Updates the properties of an existing Batch account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountUpdate.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/BatchAccountUpdate.json
  */
 async function batchAccountUpdate() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -31,15 +31,15 @@ async function batchAccountUpdate() {
   const parameters: BatchAccountUpdateParameters = {
     autoStorage: {
       storageAccountId:
-        "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
-    }
+        "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const result = await client.batchAccountOperations.update(
     resourceGroupName,
     accountName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

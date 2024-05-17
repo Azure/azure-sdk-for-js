@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the properties of an existing pool.
  *
  * @summary Updates the properties of an existing pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolUpdate_EnableAutoScale.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolUpdate_EnableAutoScale.json
  */
 async function updatePoolEnableAutoscale() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -27,7 +27,7 @@ async function updatePoolEnableAutoscale() {
   const accountName = "sampleacct";
   const poolName = "testpool";
   const parameters: Pool = {
-    scaleSettings: { autoScale: { formula: "$TargetDedicatedNodes=34" } }
+    scaleSettings: { autoScale: { formula: "$TargetDedicatedNodes=34" } },
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -35,7 +35,7 @@ async function updatePoolEnableAutoscale() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -44,7 +44,7 @@ async function updatePoolEnableAutoscale() {
  * This sample demonstrates how to Updates the properties of an existing pool.
  *
  * @summary Updates the properties of an existing pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolUpdate_OtherProperties.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolUpdate_OtherProperties.json
  */
 async function updatePoolOtherProperties() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -55,25 +55,22 @@ async function updatePoolOtherProperties() {
   const parameters: Pool = {
     applicationPackages: [
       {
-        id:
-          "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_1234"
+        id: "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_1234",
       },
       {
-        id:
-          "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_5678",
-        version: "1.0"
-      }
+        id: "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_5678",
+        version: "1.0",
+      },
     ],
     certificates: [
       {
-        id:
-          "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/certificates/sha1-1234567",
+        id: "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/certificates/sha1-1234567",
         storeLocation: "LocalMachine",
-        storeName: "MY"
-      }
+        storeName: "MY",
+      },
     ],
     metadata: [{ name: "key1", value: "value1" }],
-    targetNodeCommunicationMode: "Simplified"
+    targetNodeCommunicationMode: "Simplified",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -81,7 +78,7 @@ async function updatePoolOtherProperties() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -90,7 +87,7 @@ async function updatePoolOtherProperties() {
  * This sample demonstrates how to Updates the properties of an existing pool.
  *
  * @summary Updates the properties of an existing pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolUpdate_RemoveStartTask.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolUpdate_RemoveStartTask.json
  */
 async function updatePoolRemoveStartTask() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -105,7 +102,7 @@ async function updatePoolRemoveStartTask() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -114,7 +111,7 @@ async function updatePoolRemoveStartTask() {
  * This sample demonstrates how to Updates the properties of an existing pool.
  *
  * @summary Updates the properties of an existing pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolUpdate_ResizePool.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolUpdate_ResizePool.json
  */
 async function updatePoolResizePool() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -128,9 +125,9 @@ async function updatePoolResizePool() {
         nodeDeallocationOption: "TaskCompletion",
         resizeTimeout: "PT8M",
         targetDedicatedNodes: 5,
-        targetLowPriorityNodes: 0
-      }
-    }
+        targetLowPriorityNodes: 0,
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -138,7 +135,7 @@ async function updatePoolResizePool() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

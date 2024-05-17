@@ -22,7 +22,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -64,16 +64,19 @@ describe("quantum test", () => {
       resourcename,
       {
         location,
-        providers: [
-          {
-            providerId: "microsoft-qc",
-            providerSku: "learn-and-develop",
-          }
-        ],
-        storageAccount: "/subscriptions/" + subscriptionId + "/resourcegroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/czwtestsa",
+        properties: {
+          providers: [
+            {
+              providerId: "microsoft-qc",
+              providerSku: "learn-and-develop",
+            }
+          ],
+          storageAccount: "/subscriptions/" + subscriptionId + "/resourcegroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/czwtestsa",
+        },
         identity: { type: "SystemAssigned" }
       },
       testPollingOptions);
+    await delay(10000);
     assert.equal(res.name, resourcename);
   });
 

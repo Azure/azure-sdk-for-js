@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List shared gallery images by subscription id or tenant id.
  *
  * @summary List shared gallery images by subscription id or tenant id.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/sharedGalleryExamples/SharedGalleryImages_List.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/sharedGalleryExamples/SharedGalleryImages_List.json
  */
 async function listSharedGalleryImages() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function listSharedGalleryImages() {
   const resArray = new Array();
   for await (let item of client.sharedGalleryImages.list(
     location,
-    galleryUniqueName
+    galleryUniqueName,
   )) {
     resArray.push(item);
   }

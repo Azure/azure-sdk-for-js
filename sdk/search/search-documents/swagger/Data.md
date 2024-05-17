@@ -10,13 +10,13 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b62ddd0ffb844fbfb688a04546800d60645a18ef/specification/search/data-plane/Azure.Search/preview/2023-10-01-Preview/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/a0151afd7cd14913fc86cb793bde49c71122eb1e/specification/search/data-plane/Azure.Search/preview/2024-03-01-Preview/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
-  "@autorest/typescript": "6.0.0-alpha.17.20220318.1"
+  "@autorest/typescript": "6.0.14"
 core-http-compat-mode: true
-package-version: 12.0.0-beta.4
+package-version: 12.1.0-beta.2
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -79,7 +79,7 @@ modelerfour:
       Text: $DO_NOT_NORMALIZE$_text
 ```
 
-### Change score to \_score & highlights to \_highlights in SuggestResult
+### Preserve underscore prefix in some result type properties
 
 ```yaml
 modelerfour:
@@ -87,6 +87,8 @@ modelerfour:
     override:
       Score: $DO_NOT_NORMALIZE$_score
       Highlights: $DO_NOT_NORMALIZE$_highlights
+      RerankerScore: $DO_NOT_NORMALIZE$_rerankerScore
+      Captions: $DO_NOT_NORMALIZE$_captions
 ```
 
 ### Mark score, key and text fields as required in AnswerResult Object
@@ -99,7 +101,7 @@ directive:
       $.required = ['score', 'key', 'text'];
 ```
 
-### Rename Vector property `K`
+### Renames
 
 ```yaml
 directive:
@@ -108,13 +110,37 @@ directive:
     transform: $["x-ms-client-name"] = "KNearestNeighborsCount";
 ```
 
-### Rename QueryResultDocumentSemanticFieldState
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchRequest.properties.semanticConfiguration
+    transform: $["x-ms-client-name"] = "semanticConfigurationName";
+```
 
-Simplify `QueryResultDocumentSemanticFieldState` name by renaming it to `SemanticFieldState`
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.RawVectorQuery
+    transform: $["x-ms-client-name"] = "VectorizedQuery";
+```
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.definitions.QueryResultDocumentSemanticFieldState
     transform: $["x-ms-enum"].name = "SemanticFieldState";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnswerResult
+    transform: $["x-ms-client-name"] = "QueryAnswerResult";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.CaptionResult
+    transform: $["x-ms-client-name"] = "QueryCaptionResult";
 ```

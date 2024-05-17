@@ -30,7 +30,7 @@ async function startCloudService() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.cloudServices.beginStartAndWait(
     resourceGroupName,
-    cloudServiceName
+    cloudServiceName,
   );
   console.log(result);
 }

@@ -1,20 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 import { OperationOptions } from "@azure-rest/core-client";
 import {
   AzureExtensionsOptions,
-  ChatCompletionsNamedToolSelection,
+  ChatCompletionsNamedToolSelectionUnion,
   ChatCompletionsResponseFormat,
-  ChatCompletionsToolDefinition,
+  ChatCompletionsToolDefinitionUnion,
   FunctionCallPreset,
   FunctionDefinition,
   FunctionName,
@@ -24,33 +16,9 @@ import {
   ImageSize,
 } from "./models.js";
 
-export interface ClientOpenAIClientGetAudioTranscriptionAsPlainTextOptions
-  extends OperationOptions {}
+export interface GeneratedGetChatCompletionsOptions extends OperationOptions {}
 
-export interface ClientOpenAIClientGetAudioTranscriptionAsResponseObjectOptions
-  extends OperationOptions {
-  /** The content type for the operation. Always multipart/form-data for this operation. */
-  contentType?: string;
-}
-
-export interface ClientOpenAIClientGetAudioTranslationAsPlainTextOptions extends OperationOptions {}
-
-export interface ClientOpenAIClientGetAudioTranslationAsResponseObjectOptions
-  extends OperationOptions {
-  /** The content type for the operation. Always multipart/form-data for this operation. */
-  contentType?: string;
-}
-
-export interface ClientOpenAIClientGetCompletionsOptions extends OperationOptions {}
-
-export interface ClientOpenAIClientGetChatCompletionsOptions extends OperationOptions {}
-
-export interface ClientOpenAIClientGetChatCompletionsWithAzureExtensionsOptions
-  extends OperationOptions {}
-
-export interface ClientOpenAIClientGetImageGenerationsOptions extends OperationOptions {}
-
-export interface ClientOpenAIClientGetEmbeddingsOptions extends OperationOptions {}
+export interface GetImageGenerationsOptions extends OperationOptions {}
 
 /** Represents the request data used to generate images. */
 export interface GetImagesOptions extends OperationOptions {
@@ -91,6 +59,8 @@ export interface GetEmbeddingsOptions extends OperationOptions {
    * resource URI that's connected to.
    */
   model?: string;
+  /** The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models. */
+  dimensions?: number;
 }
 
 /**
@@ -255,9 +225,9 @@ export interface GetChatCompletionsOptions extends OperationOptions {
   /** An object specifying the format that the model must output. Used to enable JSON mode. */
   responseFormat?: ChatCompletionsResponseFormat;
   /** The available tool definitions that the chat completions request can use, including caller-defined functions. */
-  tools?: ChatCompletionsToolDefinition[];
+  tools?: ChatCompletionsToolDefinitionUnion[];
   /** If specified, the model will configure which of the provided tools it can use for the chat completions response. */
-  toolChoice?: ChatCompletionsNamedToolSelection;
+  toolChoice?: ChatCompletionsNamedToolSelectionUnion;
   /**
    *   The configuration entries for Azure OpenAI chat extensions that use them.
    *   This additional specification is only compatible with Azure OpenAI.

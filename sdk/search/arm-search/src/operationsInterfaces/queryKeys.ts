@@ -12,32 +12,32 @@ import {
   QueryKeysListBySearchServiceOptionalParams,
   QueryKeysCreateOptionalParams,
   QueryKeysCreateResponse,
-  QueryKeysDeleteOptionalParams
+  QueryKeysDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a QueryKeys. */
 export interface QueryKeys {
   /**
-   * Returns the list of query API keys for the given Azure Cognitive Search service.
+   * Returns the list of query API keys for the given Azure AI Search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param options The options parameters.
    */
   listBySearchService(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: QueryKeysListBySearchServiceOptionalParams
+    options?: QueryKeysListBySearchServiceOptionalParams,
   ): PagedAsyncIterableIterator<QueryKey>;
   /**
    * Generates a new query key for the specified search service. You can create up to 50 query keys per
    * service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param name The name of the new query API key.
    * @param options The options parameters.
    */
@@ -45,15 +45,15 @@ export interface QueryKeys {
     resourceGroupName: string,
     searchServiceName: string,
     name: string,
-    options?: QueryKeysCreateOptionalParams
+    options?: QueryKeysCreateOptionalParams,
   ): Promise<QueryKeysCreateResponse>;
   /**
    * Deletes the specified query key. Unlike admin keys, query keys are not regenerated. The process for
    * regenerating a query key is to delete and then recreate it.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param key The query key to be deleted. Query keys are identified by value, not by name.
    * @param options The options parameters.
    */
@@ -61,6 +61,6 @@ export interface QueryKeys {
     resourceGroupName: string,
     searchServiceName: string,
     key: string,
-    options?: QueryKeysDeleteOptionalParams
+    options?: QueryKeysDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -8,8 +8,6 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { AbortError } from '@azure/abort-controller';
-import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
-import { HttpClient } from '@azure/core-rest-pipeline';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
@@ -69,6 +67,7 @@ export class ChangeFeedIterator<T> {
 
 // @public
 export interface ChangeFeedIteratorOptions {
+    changeFeedMode?: ChangeFeedMode;
     changeFeedStartFrom?: ChangeFeedStartFrom;
     maxItemCount?: number;
     sessionToken?: string;
@@ -88,6 +87,14 @@ export class ChangeFeedIteratorResponse<T> {
     readonly subStatusCode?: number;
 }
 
+// @public (undocumented)
+export enum ChangeFeedMode {
+    // (undocumented)
+    AllVersionsAndDeletes = "Full-Fidelity Feed",
+    // (undocumented)
+    LatestVersion = "Incremental Feed"
+}
+
 // @public
 export interface ChangeFeedOptions {
     continuation?: string;
@@ -95,6 +102,13 @@ export interface ChangeFeedOptions {
     sessionToken?: string;
     startFromBeginning?: boolean;
     startTime?: Date;
+}
+
+// @public
+export class ChangeFeedPolicy {
+    constructor(retentionDuration: ChangeFeedRetentionTimeSpan);
+    // (undocumented)
+    retentionDuration: number;
 }
 
 // @public
@@ -117,6 +131,11 @@ export class ChangeFeedResponse<T> {
     readonly result: T;
     get sessionToken(): string;
     readonly statusCode: number;
+}
+
+// @public (undocumented)
+export class ChangeFeedRetentionTimeSpan {
+    static fromMinutes(minutes: number): ChangeFeedRetentionTimeSpan;
 }
 
 // @public
@@ -308,6 +327,15 @@ export type ClientSideRequestStatistics = {
     totalResponsePayloadLengthInBytes: number;
 };
 
+// @public (undocumented)
+export interface ComputedProperty {
+    // (undocumented)
+    [key: string]: any;
+    name: string;
+    // (undocumented)
+    query: string;
+}
+
 // @public
 export class Conflict {
     constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
@@ -448,6 +476,7 @@ export const Constants: {
         ContinuationToken: string;
         PageSize: string;
         ItemCount: string;
+        ChangeFeedWireFormatVersion: string;
         ActivityId: string;
         CorrelatedActivityId: string;
         PreTriggerInclude: string;
@@ -507,6 +536,7 @@ export const Constants: {
         IsBatchAtomic: string;
         BatchContinueOnError: string;
         DedicatedGatewayPerRequestCacheStaleness: string;
+        DedicatedGatewayPerRequestBypassCache: string;
         ForceRefresh: string;
         PriorityLevel: string;
     };
@@ -559,6 +589,8 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
+    AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
+    ChangeFeedIfNoneMatchStartFromNowHeader: string;
 };
 
 // @public
@@ -594,6 +626,8 @@ export class Container {
 
 // @public (undocumented)
 export interface ContainerDefinition {
+    changeFeedPolicy?: ChangeFeedPolicy;
+    computedProperties?: ComputedProperty[];
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
     geospatialConfig?: {
@@ -674,7 +708,6 @@ export interface CosmosClientOptions {
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     endpoint: string;
-    httpClient?: HttpClient;
     key?: string;
     permissionFeed?: PermissionDefinition[];
     resourceTokens?: {
@@ -1809,8 +1842,6 @@ export interface RequestContext {
     // (undocumented)
     headers?: CosmosHeaders_2;
     // (undocumented)
-    httpClient?: HttpClient;
-    // (undocumented)
     method: HTTPMethod;
     // (undocumented)
     operationType?: OperationType;
@@ -2119,7 +2150,8 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 
 // @public
 export interface SharedOptions {
-    abortSignal?: AbortSignal_2;
+    abortSignal?: AbortSignal;
+    bypassIntegratedCache?: boolean;
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;

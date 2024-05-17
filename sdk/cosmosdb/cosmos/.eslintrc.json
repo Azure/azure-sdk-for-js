@@ -7,6 +7,7 @@
   "rules": {
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/no-extraneous-class": "error",
+    "@typescript-eslint/no-duplicate-enum-values": "warn",
     "dot-notation": "off",
     "some-rule": "off",
     "@azure/azure-sdk/ts-package-json-module": "warn",

@@ -7,7 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { HealthReport, HealthReportsListOptionalParams } from "../models";
+import {
+  HealthReport,
+  HealthReportsListOptionalParams,
+  HealthReportsGetOptionalParams,
+  HealthReportsGetResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a HealthReports. */
@@ -21,6 +26,17 @@ export interface HealthReports {
    */
   list(
     scope: string,
-    options?: HealthReportsListOptionalParams
+    options?: HealthReportsListOptionalParams,
   ): PagedAsyncIterableIterator<HealthReport>;
+  /**
+   * Get health report of resource
+   * @param resourceId The identifier of the resource.
+   * @param healthReportName The health report Key - Unique key for the health report type
+   * @param options The options parameters.
+   */
+  get(
+    resourceId: string,
+    healthReportName: string,
+    options?: HealthReportsGetOptionalParams,
+  ): Promise<HealthReportsGetResponse>;
 }
