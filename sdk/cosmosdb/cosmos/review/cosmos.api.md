@@ -1185,7 +1185,6 @@ export interface IndexingPolicy {
     indexingMode?: keyof typeof IndexingMode;
     // (undocumented)
     spatialIndexes?: SpatialIndex[];
-    // (undocumented)
     vectorIndexes?: VectorIndex[];
 }
 
@@ -1643,7 +1642,6 @@ export interface QueryInfo {
     groupByAliasToAggregateType: GroupByAliasToAggregateType;
     // (undocumented)
     groupByExpressions?: GroupByExpressions;
-    // (undocumented)
     hasNonStreamingOrderBy: boolean;
     // (undocumented)
     hasSelectValue: boolean;
