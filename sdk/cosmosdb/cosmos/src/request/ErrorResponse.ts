@@ -45,6 +45,10 @@ export interface QueryInfo {
   rewrittenQuery?: any;
   distinctType: string;
   hasSelectValue: boolean;
+  /**
+   * determines whether the query is of non streaming orderby type.
+   */
+  hasNonStreamingOrderBy: boolean;
 }
 
 export type GroupByExpressions = string[];
@@ -66,3 +70,5 @@ export class ErrorResponse extends Error {
   [key: string]: any;
   diagnostics?: CosmosDiagnostics;
 }
+
+export const nonStreamingEndpointEmptyResult = { result: "empty response" };
