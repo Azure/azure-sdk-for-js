@@ -5,21 +5,22 @@ import processors from "./processors";
 import rules from "./rules";
 import { name, version } from "../package.json";
 
-import customized from "./configs/index";
+import azsdkConfigs from "./configs/index";
+import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
 
-const plugin = {
+const plugin: Omit<FlatConfig.Plugin, "configs"> = {
   meta: {
     name,
     version,
   },
-  configs: {},
-  rules,
   processors,
+  rules,
 };
 
 // assign configs here so we can reference `plugin`
-Object.assign(plugin.configs, {
-  recommended: customized(plugin),
-});
+const configs = azsdkConfigs(plugin);
 
-export default plugin;
+export = {
+  ...plugin,
+  configs,
+};

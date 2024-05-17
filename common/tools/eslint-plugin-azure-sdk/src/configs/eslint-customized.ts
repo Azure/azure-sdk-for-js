@@ -31,7 +31,7 @@ const rules: Record<string, SharedConfig.RuleEntry> = {
   "no-shadow": "off",
 };
 
-export default   {
-    name: "eslint-azsdk-customized",
-    rules,
-  };
+export default {
+  name: "eslint-azsdk-customized",
+  rules,
+};

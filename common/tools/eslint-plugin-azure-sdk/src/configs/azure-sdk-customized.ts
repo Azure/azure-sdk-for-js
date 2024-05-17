@@ -109,7 +109,7 @@ const rules: Record<string, SharedConfig.RuleEntry> = {
 export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
   {
     name: "@azure/azure-sdk/recommended-ts",
-    files: ["*.ts", "*.cts", "*.mts", "*.tsx"],
+    files: ["**/*.ts", "**/*.cts", "**/*.mts", "**/*.tsx"],
     ignores: ["**/*.md/*.ts"],
     languageOptions: {
       parser,
