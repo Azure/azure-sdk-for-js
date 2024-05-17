@@ -1,14 +1,9 @@
 # Release History
 
-## 3.0.0-beta.3 (Unreleased)
+## 3.0.0 (Unreleased)
 
-### Features Added
+GA the v3 version. To migrate the existing applications to v3, please refer to [Migration Guide](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro/docs/MIGRATION.md).
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 3.0.0-beta.2 (2024-04-26)
 
