@@ -57,12 +57,7 @@ steps:
 
         Write-Host "Installing $($packageAtVersion)"
         # Install matching version of package
-        try{
         npm install --no-package-lock $packageAtVersion
-        } catch {
-          Write-Host "Error encountered during installation: $_"
-         Write-Host "Error $($Error[0].Exception)"
-        }
 
         Set-Location $currentLocation
       }

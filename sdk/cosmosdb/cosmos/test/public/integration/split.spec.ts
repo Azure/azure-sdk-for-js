@@ -78,7 +78,11 @@ describe("Partition Splits", () => {
     const { resources } = await client
       .database(container.database.id)
       .container(container.id)
-      .items.query("SELECT * FROM root r", { maxItemCount: 2, maxDegreeOfParallelism: 1, disableNonStreamingOrderByQuery: true })
+      .items.query("SELECT * FROM root r", {
+        maxItemCount: 2,
+        maxDegreeOfParallelism: 1,
+        disableNonStreamingOrderByQuery: true,
+      })
       .fetchAll();
 
     // TODO. These should be equal but right now they are not
