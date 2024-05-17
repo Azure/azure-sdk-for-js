@@ -12,7 +12,7 @@ import {
   SubAssessmentsListAllOptionalParams,
   SubAssessmentsListOptionalParams,
   SubAssessmentsGetOptionalParams,
-  SubAssessmentsGetResponse
+  SubAssessmentsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface SubAssessments {
    */
   listAll(
     scope: string,
-    options?: SubAssessmentsListAllOptionalParams
+    options?: SubAssessmentsListAllOptionalParams,
   ): PagedAsyncIterableIterator<SecuritySubAssessment>;
   /**
    * Get security sub-assessments on all your scanned resources inside a scope
@@ -40,7 +40,7 @@ export interface SubAssessments {
   list(
     scope: string,
     assessmentName: string,
-    options?: SubAssessmentsListOptionalParams
+    options?: SubAssessmentsListOptionalParams,
   ): PagedAsyncIterableIterator<SecuritySubAssessment>;
   /**
    * Get a security sub-assessment on your scanned resource
@@ -55,6 +55,6 @@ export interface SubAssessments {
     scope: string,
     assessmentName: string,
     subAssessmentName: string,
-    options?: SubAssessmentsGetOptionalParams
+    options?: SubAssessmentsGetOptionalParams,
   ): Promise<SubAssessmentsGetResponse>;
 }

@@ -27,8 +27,6 @@ dotenv.config();
 async function discoverySolutionsUsingIssueSummaryAndServiceId() {
   const discoverSolutionRequest: DiscoveryNlpRequest = {
     issueSummary: "how to retrieve certs from deleted keyvault.",
-    resourceId:
-      "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourceGroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read",
     serviceId: "0d0fcd2e-c4fd-4349-8497-200edb39s3ca",
   };
   const options: DiscoverySolutionNLPTenantScopePostOptionalParams = {

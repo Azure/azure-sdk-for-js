@@ -15,9 +15,12 @@ import {
   AutomationsGetResponse,
   AutomationsCreateOrUpdateOptionalParams,
   AutomationsCreateOrUpdateResponse,
+  AutomationUpdateModel,
+  AutomationsUpdateOptionalParams,
+  AutomationsUpdateResponse,
   AutomationsDeleteOptionalParams,
   AutomationsValidateOptionalParams,
-  AutomationsValidateResponse
+  AutomationsValidateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +32,7 @@ export interface Automations {
    * @param options The options parameters.
    */
   list(
-    options?: AutomationsListOptionalParams
+    options?: AutomationsListOptionalParams,
   ): PagedAsyncIterableIterator<Automation>;
   /**
    * Lists all the security automations in the specified resource group. Use the 'nextLink' property in
@@ -40,7 +43,7 @@ export interface Automations {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AutomationsListByResourceGroupOptionalParams
+    options?: AutomationsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Automation>;
   /**
    * Retrieves information about the model of a security automation.
@@ -52,7 +55,7 @@ export interface Automations {
   get(
     resourceGroupName: string,
     automationName: string,
-    options?: AutomationsGetOptionalParams
+    options?: AutomationsGetOptionalParams,
   ): Promise<AutomationsGetResponse>;
   /**
    * Creates or updates a security automation. If a security automation is already created and a
@@ -67,8 +70,22 @@ export interface Automations {
     resourceGroupName: string,
     automationName: string,
     automation: Automation,
-    options?: AutomationsCreateOrUpdateOptionalParams
+    options?: AutomationsCreateOrUpdateOptionalParams,
   ): Promise<AutomationsCreateOrUpdateResponse>;
+  /**
+   * Updates a security automation
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param automationName The security automation name.
+   * @param automation The update model of security automation resource
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    automationName: string,
+    automation: AutomationUpdateModel,
+    options?: AutomationsUpdateOptionalParams,
+  ): Promise<AutomationsUpdateResponse>;
   /**
    * Deletes a security automation.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
@@ -79,7 +96,7 @@ export interface Automations {
   delete(
     resourceGroupName: string,
     automationName: string,
-    options?: AutomationsDeleteOptionalParams
+    options?: AutomationsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Validates the security automation model before create or update. Any validation errors are returned
@@ -94,6 +111,6 @@ export interface Automations {
     resourceGroupName: string,
     automationName: string,
     automation: Automation,
-    options?: AutomationsValidateOptionalParams
+    options?: AutomationsValidateOptionalParams,
   ): Promise<AutomationsValidateResponse>;
 }

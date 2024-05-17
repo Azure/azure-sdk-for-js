@@ -31,7 +31,7 @@ async function getSecurityRecommendationTasksInAResourceGroup() {
   const resArray = new Array();
   for await (let item of client.tasks.listByResourceGroup(
     resourceGroupName,
-    ascLocation
+    ascLocation,
   )) {
     resArray.push(item);
   }

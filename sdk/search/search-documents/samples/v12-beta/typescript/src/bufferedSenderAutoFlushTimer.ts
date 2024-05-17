@@ -5,13 +5,13 @@
  * @summary Demonstrates the SearchIndexingBufferedSender with Autoflush based on timer.
  */
 
+import { DefaultAzureCredential } from "@azure/identity";
 import {
-  AzureKeyCredential,
-  DEFAULT_FLUSH_WINDOW,
-  GeographyPoint,
-  SearchClient,
-  SearchIndexClient,
-  SearchIndexingBufferedSender,
+    DEFAULT_FLUSH_WINDOW,
+    GeographyPoint,
+    SearchClient,
+    SearchIndexClient,
+    SearchIndexingBufferedSender
 } from "@azure/search-documents";
 import { Hotel } from "./interfaces";
 import { createIndex, delay, documentKeyRetriever, WAIT_TIME } from "./setup";
@@ -27,18 +27,17 @@ dotenv.config();
  * by default.
  */
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-5";
 
 export async function main(): Promise<void> {
-  if (!endpoint || !apiKey) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
 
   console.log(`Running SearchIndexingBufferedSender-uploadDocuments-With Auto Flush Timer Sample`);
 
-  const credential = new AzureKeyCredential(apiKey);
+  const credential = new DefaultAzureCredential();
   const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
     endpoint,
     TEST_INDEX_NAME,

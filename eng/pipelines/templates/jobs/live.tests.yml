@@ -143,6 +143,25 @@ jobs:
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
         displayName: "Get package path"
 
+      - pwsh: |
+          Start-Process "node" -ArgumentList "launch.js run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
+          for ($i = 0; $i -lt 10; $i++) {
+              try {
+                  Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
+                  exit 0
+              } catch {
+                  Write-Warning "Failed to successfully connect to browser credential relay. Retrying..."
+                  Start-Sleep 6
+              }
+          }
+          Write-Error "Could not connect to browser credential relay."
+          exit 1
+        displayName: "Start browser credential relay"
+        condition: and(succeeded(), eq(variables['TestType'], 'browser'))
+        env:
+          TEST_MODE: "live"
+          ${{ insert }}: ${{ parameters.EnvVars }}
+
       - template: ../steps/use-node-test-version.yml
 
       - script: |

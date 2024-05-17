@@ -38,6 +38,9 @@ class StatsbeatConfiguration {
     if (statsbeatOptions.bunyan === true) {
       instrumentationBitMap |= StatsbeatInstrumentation.BUNYAN;
     }
+    if (statsbeatOptions.winston === true) {
+      instrumentationBitMap |= StatsbeatInstrumentation.WINSTON;
+    }
 
     let featureBitMap = StatsbeatFeature.NONE;
     featureBitMap |= StatsbeatFeature.DISTRO;

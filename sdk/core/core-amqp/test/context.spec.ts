@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { describe, it, assert } from "vitest";
-import { CbsClient, ConnectionConfig, ConnectionContextBase } from "../src/index.js";
+import { CbsClient, ConnectionConfig, ConnectionContextBase, Constants } from "../src/index.js";
 import { Connection } from "rhea-promise";
 import type { ConnectionOptions as TlsConnectionOptions } from "node:tls";
 
@@ -27,6 +27,7 @@ describe("ConnectionContextBase", function () {
     assert.isDefined(context.negotiateClaimLock);
     assert.isFalse(context.wasConnectionCloseCalled);
     assert.instanceOf(context.connection, Connection);
+    assert.equal(context.connection.options.transport, "tls");
     assert.equal(context.connection.options.properties!.product, "MSJSClient");
     assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
     assert.equal(context.connection.options.properties!.version, "1.0.0");
@@ -281,6 +282,25 @@ describe("ConnectionContextBase", function () {
         },
       });
     }, /user-agent string cannot be more than 512 characters/);
+  });
+
+  it("disables tls when connecting to the development emulator", async function () {
+    const connectionString =
+      "Endpoint=sb://localhost;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep;UseDevelopmentEmulator=true";
+    const path = "mypath";
+    const config = ConnectionConfig.create(connectionString, path);
+    const context = ConnectionContextBase.create({
+      config: config,
+      connectionProperties: {
+        product: "MSJSClient",
+        userAgent: "/js-amqp-client",
+        version: "1.0.0",
+      },
+    });
+    assert.isDefined(context.connection);
+    assert.instanceOf(context.connection, Connection);
+    assert.equal(context.connection.options.transport, Constants.TCP);
+    assert.equal((context.connection.options as TlsConnectionOptions).port, 5672);
   });
 
   describe("#refreshConnection", function () {

@@ -1,5 +1,11 @@
 # Release History
 
+## 12.1.0-beta.2 (2024-05-07)
+
+### Breaking Changes
+
+- Fixed an incorrect enum variant in `KnownVectorQueryKind` [#29601](https://github.com/Azure/azure-sdk-for-js/pull/29601)
+
 ## 12.1.0-beta.1 (2024-02-06)
 
 ### Breaking Changes

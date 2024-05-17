@@ -44,6 +44,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
     postgreSql: config.instrumentationOptions?.postgreSql?.enabled,
     redis: config.instrumentationOptions?.redis?.enabled,
     bunyan: config.instrumentationOptions?.bunyan?.enabled,
+    winston: config.instrumentationOptions?.winston?.enabled,
     // Features
     browserSdkLoader: config.browserSdkLoaderOptions.enabled,
     aadHandling: !!config.azureMonitorExporterOptions?.credential,

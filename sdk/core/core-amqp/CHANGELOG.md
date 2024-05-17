@@ -2,10 +2,13 @@
 
 ## 4.3.0 (Unreleased)
 
-### Other Changes
-
+### Breaking Changes
 - Moved to ESM core with builds for ESM, CommonJS, React-Native and Browser.
 - Moved unit tests from mocha to vitest.
+
+### Other Changes
+
+- Adds support for connecting to the development emulator. The connection string for the development emulator should have the `";UseDevelopmentEmulator=true"` slug.
 
 ## 4.2.2 (2024-05-02)
 
