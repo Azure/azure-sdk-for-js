@@ -208,6 +208,7 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     operationCallbackUrl?: string;
     operationContext?: string;
     playPrompt?: FileSource | TextSource | SsmlSource;
+    playPrompts?: (FileSource | TextSource | SsmlSource)[];
     speechModelEndpointId?: string;
     // @deprecated (undocumented)
     stopCurrentOperations?: boolean;
