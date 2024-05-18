@@ -5,7 +5,6 @@
  * Demonstrates how to get completions for the provided prompt and parse output for content filter
  *
  * @summary get completions.
- * @azsdk-weight 100
  */
 
 import { AzureOpenAI } from "openai";

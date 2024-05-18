@@ -2,38 +2,39 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to transcribe the content of an audio file.
+ * Demonstrates how to generate images from prompts using Azure OpenAI Batch Image Generation.
  *
- * @summary audio transcription.
- * @azsdk-weight 100
+ * @summary generates images from prompts using Azure OpenAI Batch Image Generation.
  */
 
 import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-import { createReadStream } from "fs";
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
 import "dotenv/config";
 
-// You will need to set these environment variables or edit the following values
-const audioFilePath = process.env["AUDIO_FILE_PATH"] || "<audio file path>";
+// The prompt to generate images from
+const prompt = "a monkey eating a banana";
+const size = "1024x1024";
+
+// The number of images to generate
+const n = 1;
 
 export async function main() {
-  console.log("== Transcribe Audio Sample ==");
+  console.log("== Batch Image Generation ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "whisper-deployment";
+  const deployment = "dall-e-3";
   const apiVersion = "2024-04-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const result = await client.audio.transcriptions.create({
-    model: "",
-    file: createReadStream(audioFilePath),
-  });
+  const results = await client.images.generate({ prompt, model: "", n, size });
 
-  console.log(`Transcription: ${result.text}`);
+  for (const image of results.data) {
+    console.log(`Image generation result URL: ${image.url}`);
+  }
 }
 
 main().catch((err) => {

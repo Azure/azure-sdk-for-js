@@ -2,38 +2,44 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to transcribe the content of an audio file.
+ * Demonstrates how to list chat completions for a chat context.
  *
- * @summary audio transcription.
- * @azsdk-weight 100
+ * @summary list chat completions.
  */
 
 import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-import { createReadStream } from "fs";
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
 import "dotenv/config";
 
-// You will need to set these environment variables or edit the following values
-const audioFilePath = process.env["AUDIO_FILE_PATH"] || "<audio file path>";
-
 export async function main() {
-  console.log("== Transcribe Audio Sample ==");
+  console.log("== Streaming Chat Completions Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "whisper-deployment";
+  const deployment = "gpt-35-turbo";
   const apiVersion = "2024-04-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const result = await client.audio.transcriptions.create({
+  const events = await client.chat.completions.create({
+    messages: [
+      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
+      { role: "user", content: "Can you help me?" },
+      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
+      { role: "user", content: "What's the best way to train a parrot?" },
+    ],
     model: "",
-    file: createReadStream(audioFilePath),
+    max_tokens: 128,
+    stream: true,
   });
 
-  console.log(`Transcription: ${result.text}`);
+  for await (const event of events) {
+    for (const choice of event.choices) {
+      console.log(choice.delta?.content);
+    }
+  }
 }
 
 main().catch((err) => {

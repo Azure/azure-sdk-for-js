@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to transcribe the content of an audio file.
+ * Demonstrates how to translate the content of an audio file.
  *
- * @summary audio transcription.
- * @azsdk-weight 100
+ * @summary audio translation.
  */
 
 import { AzureOpenAI } from "openai";
@@ -21,19 +20,19 @@ import "dotenv/config";
 const audioFilePath = process.env["AUDIO_FILE_PATH"] || "<audio file path>";
 
 export async function main() {
-  console.log("== Transcribe Audio Sample ==");
+  console.log("== Translate Audio Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "whisper-deployment";
   const apiVersion = "2024-04-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const result = await client.audio.transcriptions.create({
+  const result = await client.audio.translations.create({
     model: "",
     file: createReadStream(audioFilePath),
   });
 
-  console.log(`Transcription: ${result.text}`);
+  console.log(`Translation: ${result.text}`);
 }
 
 main().catch((err) => {

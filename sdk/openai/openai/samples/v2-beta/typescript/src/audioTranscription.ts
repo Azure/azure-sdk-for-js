@@ -5,7 +5,6 @@
  * Demonstrates how to transcribe the content of an audio file.
  *
  * @summary audio transcription.
- * @azsdk-weight 100
  */
 
 import { AzureOpenAI } from "openai";

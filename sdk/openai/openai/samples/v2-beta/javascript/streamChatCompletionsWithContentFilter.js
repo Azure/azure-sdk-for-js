@@ -5,18 +5,17 @@
  * Demonstrates how to get completions for the provided prompt and parse output for content filter
  *
  * @summary get completions.
- * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai";
-import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+const { AzureOpenAI } = require("openai");
+const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
-import "dotenv/config";
+require("dotenv/config");
 
-export async function main() {
+async function main() {
   console.log("== Streaming Chat Completions Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
@@ -39,7 +38,7 @@ export async function main() {
   for await (const event of events) {
     for (const choice of event.choices) {
       console.log(`Chunk: ${choice.delta?.content}`);
-      const filterResults = (choice as any).content_filter_results;
+      const filterResults = choice.content_filter_results;
       if (!filterResults) {
         continue;
       }
@@ -69,3 +68,5 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

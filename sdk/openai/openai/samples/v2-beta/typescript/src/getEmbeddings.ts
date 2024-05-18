@@ -2,40 +2,37 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to transcribe the content of an audio file.
+ * Demonstrates how to get embedding vectors for a piece of text using Azure OpenAI.
  *
- * @summary audio transcription.
- * @azsdk-weight 100
+ * @summary generates embedding vectors from a prompt using Azure OpenAI Get Embeddings.
  */
 
 import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-import { createReadStream } from "fs";
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
 import "dotenv/config";
 
-// You will need to set these environment variables or edit the following values
-const audioFilePath = process.env["AUDIO_FILE_PATH"] || "<audio file path>";
+// The prompt to generate the embeddings vector
+const input = ["This is the sample text to be embedded"];
 
 export async function main() {
-  console.log("== Transcribe Audio Sample ==");
+  console.log("== Get embeddings sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "whisper-deployment";
   const apiVersion = "2024-04-01-preview";
+  const deployment = "text-embedding-3-large";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const result = await client.audio.transcriptions.create({
-    model: "",
-    file: createReadStream(audioFilePath),
-  });
+  const embeddings = await client.embeddings.create({ input, model: deployment });
 
-  console.log(`Transcription: ${result.text}`);
+  for (const embeddingData of embeddings.data) {
+    console.log(`The embedding values are ${embeddingData.embedding}`);
+  }
 }
 
 main().catch((err) => {
-  console.error("The sample encountered an error:", err);
+  parseOpenAIError(err);
 });

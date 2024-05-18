@@ -2,29 +2,28 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to get chat completions for a chat context.
+ * Demonstrates how to list chat completions for a chat context.
  *
- * @summary get chat completions.
- * @azsdk-weight 100
+ * @summary list chat completions.
  */
 
-import { AzureOpenAI } from "openai";
-import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+const { AzureOpenAI } = require("openai");
+const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
-import "dotenv/config";
+require("dotenv/config");
 
-export async function main() {
-  console.log("== Chat Completions Sample ==");
+async function main() {
+  console.log("== Streaming Chat Completions Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-35-turbo";
   const apiVersion = "2024-04-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const result = await client.chat.completions.create({
+  const events = await client.chat.completions.create({
     messages: [
       { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
       { role: "user", content: "Can you help me?" },
@@ -32,13 +31,19 @@ export async function main() {
       { role: "user", content: "What's the best way to train a parrot?" },
     ],
     model: "",
+    max_tokens: 128,
+    stream: true,
   });
 
-  for (const choice of result.choices) {
-    console.log(choice.message);
+  for await (const event of events) {
+    for (const choice of event.choices) {
+      console.log(choice.delta?.content);
+    }
   }
 }
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

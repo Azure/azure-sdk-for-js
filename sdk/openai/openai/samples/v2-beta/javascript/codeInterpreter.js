@@ -6,13 +6,12 @@
  *
  *
  * @summary interpreting code.
- * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai";
-import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
+const { AzureOpenAI } = require("openai");
+const { getBearerTokenProvider, DefaultAzureCredential } = require("@azure/identity");
 
-export async function main() {
+async function main() {
   // Create AzureOpenAI client with Microsoft Entra ID
   const credential = new DefaultAzureCredential();
   const scope = "https://cognitiveservices.azure.com/.default";
@@ -81,3 +80,5 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

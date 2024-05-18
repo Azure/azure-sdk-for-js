@@ -6,7 +6,6 @@
  *
  *
  * @summary interpreting code.
- * @azsdk-weight 100
  */
 
 import { AzureOpenAI } from "openai";
