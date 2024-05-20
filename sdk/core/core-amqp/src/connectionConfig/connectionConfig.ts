@@ -3,7 +3,7 @@
 
 import { WebSocketImpl } from "rhea-promise";
 import { isDefined } from "@azure/core-util";
-import { isLoopbackAddress, parseConnectionString } from "../util/utils.js";
+import { parseConnectionString } from "../util/utils.js";
 
 /**
  * Describes the options that can be provided while creating a connection config.
@@ -88,10 +88,7 @@ export interface ConnectionConfig {
 function getHost(endpoint: string): string {
   const matches = /.*:\/\/([^/]*)/.exec(endpoint);
   const match = matches?.[1];
-  if (!match) {
-    return isLoopbackAddress(endpoint) ? endpoint : "";
-  }
-  return match;
+  return !match ? endpoint : match;
 }
 
 /**
@@ -155,12 +152,6 @@ export const ConnectionConfig = {
       throw new TypeError("Missing 'endpoint' in configuration");
     }
     config.endpoint = String(config.endpoint);
-
-    if (config.useDevelopmentEmulator && !isLoopbackAddress(config.endpoint)) {
-      throw new TypeError(
-        `When using the development environment, the endpoint should be a localhost. Given endpoint is "${config.endpoint}".`,
-      );
-    }
 
     if (!config.host) {
       throw new TypeError("Missing 'host' in configuration");

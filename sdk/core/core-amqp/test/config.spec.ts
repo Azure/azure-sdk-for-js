@@ -5,7 +5,7 @@ import { describe, it, assert } from "vitest";
 import { ConnectionConfig } from "../src/index.js";
 import { isSharedAccessSignature } from "../src/connectionConfig/connectionConfig.js";
 
-describe("ConnectionConfig", function () {
+describe.only("ConnectionConfig", function () {
   describe("Base", function () {
     it("populates config properties from an Event Hubs connection string", function () {
       const config = ConnectionConfig.create(
@@ -292,7 +292,7 @@ describe("ConnectionConfig", function () {
         ConnectionConfig.validate(config);
       });
 
-      it("Rejects non-local host", async function () {
+      it("Accepts non-local host", async function () {
         const connectionString =
           "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
         const config: ConnectionConfig = {
@@ -303,9 +303,7 @@ describe("ConnectionConfig", function () {
           sharedAccessKey: "abcd",
           useDevelopmentEmulator: true,
         };
-        assert.throw(() => {
-          ConnectionConfig.validate(config);
-        }, new RegExp("When using the development environment"));
+        ConnectionConfig.validate(config);
       });
     });
   });
