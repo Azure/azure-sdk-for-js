@@ -23,7 +23,7 @@ import {
   DataVersionsGetResponse,
   DataVersionsCreateOrUpdateOptionalParams,
   DataVersionsCreateOrUpdateResponse,
-  DataVersionsListNextResponse
+  DataVersionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,13 +50,13 @@ export class DataVersionsImpl implements DataVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DataVersionsListOptionalParams
+    options?: DataVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<DataVersionBase> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       name,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class DataVersionsImpl implements DataVersions {
           workspaceName,
           name,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class DataVersionsImpl implements DataVersions {
     workspaceName: string,
     name: string,
     options?: DataVersionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataVersionBase[]> {
     let result: DataVersionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class DataVersionsImpl implements DataVersions {
         resourceGroupName,
         workspaceName,
         name,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +107,7 @@ export class DataVersionsImpl implements DataVersions {
         workspaceName,
         name,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,13 +120,13 @@ export class DataVersionsImpl implements DataVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DataVersionsListOptionalParams
+    options?: DataVersionsListOptionalParams,
   ): AsyncIterableIterator<DataVersionBase> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       name,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,11 +143,11 @@ export class DataVersionsImpl implements DataVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DataVersionsListOptionalParams
+    options?: DataVersionsListOptionalParams,
   ): Promise<DataVersionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -164,11 +164,11 @@ export class DataVersionsImpl implements DataVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: DataVersionsDeleteOptionalParams
+    options?: DataVersionsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, version, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -185,11 +185,11 @@ export class DataVersionsImpl implements DataVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: DataVersionsGetOptionalParams
+    options?: DataVersionsGetOptionalParams,
   ): Promise<DataVersionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, version, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -208,11 +208,11 @@ export class DataVersionsImpl implements DataVersions {
     name: string,
     version: string,
     body: DataVersionBase,
-    options?: DataVersionsCreateOrUpdateOptionalParams
+    options?: DataVersionsCreateOrUpdateOptionalParams,
   ): Promise<DataVersionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, version, body, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -229,11 +229,11 @@ export class DataVersionsImpl implements DataVersions {
     workspaceName: string,
     name: string,
     nextLink: string,
-    options?: DataVersionsListNextOptionalParams
+    options?: DataVersionsListNextOptionalParams,
   ): Promise<DataVersionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -241,16 +241,15 @@ export class DataVersionsImpl implements DataVersions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataVersionBaseResourceArmPaginatedResult
+      bodyMapper: Mappers.DataVersionBaseResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
@@ -258,28 +257,27 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.orderBy,
     Parameters.top,
     Parameters.listViewType,
-    Parameters.tags
+    Parameters.tags,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions/{version}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions/{version}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -288,22 +286,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.name,
-    Parameters.version
+    Parameters.version,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions/{version}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions/{version}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataVersionBase
+      bodyMapper: Mappers.DataVersionBase,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -312,25 +309,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.name,
-    Parameters.version
+    Parameters.version,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions/{version}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions/{version}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataVersionBase
+      bodyMapper: Mappers.DataVersionBase,
     },
     201: {
-      bodyMapper: Mappers.DataVersionBase
+      bodyMapper: Mappers.DataVersionBase,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body9,
   queryParameters: [Parameters.apiVersion],
@@ -340,39 +336,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.name1,
-    Parameters.version
+    Parameters.version,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataVersionBaseResourceArmPaginatedResult
+      bodyMapper: Mappers.DataVersionBaseResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.orderBy,
-    Parameters.top,
-    Parameters.listViewType,
-    Parameters.tags
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
