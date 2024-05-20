@@ -637,7 +637,7 @@ export interface HoldFailed
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "HoldFailed";
 }
@@ -654,7 +654,7 @@ export interface MediaStreamingStarted
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "MediaStreamingStarted";
 }
@@ -671,7 +671,7 @@ export interface MediaStreamingStopped
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "MediaStreamingStopped";
 }
@@ -688,7 +688,7 @@ export interface MediaStreamingFailed
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "MediaStreamingFailed";
 }

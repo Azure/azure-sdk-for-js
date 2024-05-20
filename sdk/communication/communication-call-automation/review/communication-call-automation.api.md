@@ -438,7 +438,7 @@ export interface HoldFailed extends Omit<RestHoldFailed, "callConnectionId" | "s
     callConnectionId: string;
     correlationId: string;
     kind: "HoldFailed";
-    resultInformation?: RestResultInformation;
+    resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
@@ -489,7 +489,7 @@ export interface MediaStreamingFailed extends Omit<RestMediaStreamingFailed, "ca
     callConnectionId: string;
     correlationId: string;
     kind: "MediaStreamingFailed";
-    resultInformation?: RestResultInformation;
+    resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
@@ -507,7 +507,7 @@ export interface MediaStreamingStarted extends Omit<RestMediaStreamingStarted, "
     callConnectionId: string;
     correlationId: string;
     kind: "MediaStreamingStarted";
-    resultInformation?: RestResultInformation;
+    resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
@@ -516,7 +516,7 @@ export interface MediaStreamingStopped extends Omit<RestMediaStreamingStopped, "
     callConnectionId: string;
     correlationId: string;
     kind: "MediaStreamingStopped";
-    resultInformation?: RestResultInformation;
+    resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
