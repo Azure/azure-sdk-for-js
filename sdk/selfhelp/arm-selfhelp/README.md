@@ -53,15 +53,14 @@ const { HelpRP } = require("@azure/arm-selfhelp");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new HelpRP(new DefaultAzureCredential(), subscriptionId);
+const client = new HelpRP(new DefaultAzureCredential());
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new HelpRP(credential, subscriptionId);
+// const client = new HelpRP(credential);
 ```
 
 

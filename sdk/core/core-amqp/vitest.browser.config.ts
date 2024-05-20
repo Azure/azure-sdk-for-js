@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { defineConfig } from "vitest/config";
-import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
-import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
+import { polyfillNode } from "esbuild-plugin-polyfill-node";
 
 export default defineConfig({
   optimizeDeps: {
@@ -14,11 +13,11 @@ export default defineConfig({
       },
       // Enable esbuild polyfill plugins
       plugins: [
-        NodeGlobalsPolyfillPlugin({
-          buffer: true,
-          process: true,
-        }),
-        NodeModulesPolyfillPlugin(),
+        polyfillNode({
+          polyfills: {
+            buffer: true,
+            process: true,
+        }}),
       ],
     },
   },

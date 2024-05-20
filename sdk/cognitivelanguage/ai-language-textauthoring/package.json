@@ -81,7 +81,7 @@
     "typescript": "~5.4.5",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "mocha": "^10.0.0",
     "nyc": "^15.1.0",
     "ts-node": "^10.0.0",

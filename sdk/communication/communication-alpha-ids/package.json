@@ -76,7 +76,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
     "@azure/core-util": "^1.9.0",
-    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",

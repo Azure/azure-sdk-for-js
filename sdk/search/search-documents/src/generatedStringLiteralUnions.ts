@@ -315,7 +315,8 @@ export type SearchIndexerDataSourceType =
   | "azureblob"
   | "azuretable"
   | "mysql"
-  | "adlsgen2";
+  | "adlsgen2"
+  | "onelake";
 export type SemanticErrorMode = "partial" | "fail";
 export type SemanticErrorReason = "maxWaitExceeded" | "capacityOverloaded" | "transient";
 export type SemanticSearchResultsType = "baseResults" | "rerankedResults";
@@ -444,10 +445,14 @@ export type TextTranslationSkillLanguage =
   | "ml"
   | "pa";
 export type VectorFilterMode = "postFilter" | "preFilter";
-export type VectorQueryKind = "vector" | "text";
+export type VectorQueryKind = "vector" | "text" | "imageUrl" | "imageBinary";
 export type VectorSearchAlgorithmKind = "hnsw" | "exhaustiveKnn";
-export type VectorSearchAlgorithmMetric = "cosine" | "euclidean" | "dotProduct";
-export type VectorSearchVectorizerKind = "azureOpenAI" | "customWebApi";
+export type VectorSearchAlgorithmMetric = "cosine" | "euclidean" | "dotProduct" | "hamming";
+export type VectorSearchVectorizerKind =
+  | "azureOpenAI"
+  | "customWebApi"
+  | "aiServicesVision"
+  | "aml";
 export type VisualFeature =
   | "adult"
   | "brands"

@@ -33,12 +33,17 @@ export class DiscoverySolutionNLPSubscriptionScopeImpl
   /**
    * Search for relevant Azure Diagnostics, Solutions and Troubleshooters using a natural language issue
    * summary and subscription.
+   * @param subscriptionId The Azure subscription ID.
    * @param options The options parameters.
    */
   post(
+    subscriptionId: string,
     options?: DiscoverySolutionNLPSubscriptionScopePostOptionalParams,
   ): Promise<DiscoverySolutionNLPSubscriptionScopePostResponse> {
-    return this.client.sendOperationRequest({ options }, postOperationSpec);
+    return this.client.sendOperationRequest(
+      { subscriptionId, options },
+      postOperationSpec,
+    );
   }
 }
 // Operation Specifications

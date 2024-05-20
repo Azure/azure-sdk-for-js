@@ -190,6 +190,7 @@ export interface ConnectionConfig {
     port?: number;
     sharedAccessKey: string;
     sharedAccessKeyName: string;
+    useDevelopmentEmulator?: boolean;
     webSocket?: WebSocketImpl;
     webSocketConstructorOptions?: any;
     webSocketEndpointPath?: string;
@@ -259,6 +260,7 @@ export const Constants: {
     readonly partitionId: "partitionId";
     readonly readOperation: "READ";
     readonly TLS: "tls";
+    readonly TCP: "tcp";
     readonly establishConnection: "establishConnection";
     readonly defaultConsumerGroup: "$default";
     readonly eventHub: "eventhub";

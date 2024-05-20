@@ -278,7 +278,7 @@
 /common/smoke-test/ @xirzec @jeremymeng
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng @mpodwysocki
+/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng @mpodwysocki @maorleger
 
 
 # Management Plane

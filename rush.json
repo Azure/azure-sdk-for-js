@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -578,7 +578,11 @@
     {
       "packageName": "@azure/dev-tool",
       "projectFolder": "common/tools/dev-tool",
-      "versionPolicyName": "utility"
+      "versionPolicyName": "utility",
+      // Add Identity to decoupledLocalDependencies so that dev-tool uses the package from npm, avoiding a cyclic dependency.
+      "decoupledLocalDependencies": [
+        "@azure/identity"
+      ]
     },
     {
       "packageName": "@azure/eventgrid",
@@ -2202,6 +2206,11 @@
       "packageName": "@azure/arm-standbypool",
       "projectFolder": "sdk/standbypool/arm-standbypool",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/ai-vision-face",
+      "projectFolder": "sdk/face/ai-vision-face-rest",
+      "versionPolicyName": "client"
     }
   ]
 }

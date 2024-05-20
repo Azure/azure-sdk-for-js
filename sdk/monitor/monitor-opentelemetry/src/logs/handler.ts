@@ -10,6 +10,7 @@ import { InternalConfig } from "../shared/config";
 import { MetricHandler } from "../metrics/handler";
 import { AzureLogRecordProcessor } from "./logRecordProcessor";
 import { AzureBatchLogRecordProcessor } from "./batchLogRecordProcessor";
+import { logLevelToSeverityNumber } from "../utils/logUtils";
 
 /**
  * Azure Monitor OpenTelemetry Log Handler
@@ -55,14 +56,22 @@ export class LogHandler {
    * Start auto collection of telemetry
    */
   private _initializeInstrumentations() {
+    const logLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
+
     if (this._config.instrumentationOptions.bunyan?.enabled) {
       this._instrumentations.push(
-        new BunyanInstrumentation(this._config.instrumentationOptions.bunyan),
+        new BunyanInstrumentation({
+          ...this._config.instrumentationOptions.bunyan,
+          logSeverity: logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined,
+        }),
       );
     }
     if (this._config.instrumentationOptions.winston?.enabled) {
       this._instrumentations.push(
-        new WinstonInstrumentation(this._config.instrumentationOptions.winston),
+        new WinstonInstrumentation({
+          ...this._config.instrumentationOptions.winston,
+          logSeverity: logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined,
+        }),
       );
     }
   }
