@@ -95,12 +95,15 @@ export class CallConnection {
   public async getCallConnectionProperties(
     options: GetCallConnectionPropertiesOptions = {},
   ): Promise<CallConnectionProperties> {
-    const { targets, sourceCallerIdNumber, answeredBy, source, ...result } =
+    const { targets, sourceCallerIdNumber, answeredBy, source, answeredFor, ...result } =
       await this.callConnection.getCall(this.callConnectionId, options);
     const callConnectionProperties: CallConnectionProperties = {
       ...result,
       source: source ? communicationIdentifierConverter(source) : undefined,
       answeredby: communicationUserIdentifierConverter(answeredBy),
+      answeredFor: answeredFor
+        ? phoneNumberIdentifierConverter(answeredFor)
+        : undefined,
       targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
       sourceCallerIdNumber: sourceCallerIdNumber
         ? phoneNumberIdentifierConverter(sourceCallerIdNumber)

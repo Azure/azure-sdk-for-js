@@ -60,6 +60,8 @@ export interface CallConnectionProperties {
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
   answeredby?: CommunicationUserIdentifier;
+  /** Identity of the original Pstn target of an incoming Call. Only populated when the original target is a Pstn number. */
+  answeredFor?: PhoneNumberIdentifier;
 }
 
 /** Contract model of an ACS call participant */

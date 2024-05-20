@@ -113,6 +113,7 @@ export class CallConnection {
 // @public
 export interface CallConnectionProperties {
     answeredby?: CommunicationUserIdentifier;
+    answeredFor?: PhoneNumberIdentifier;
     callbackUrl?: string;
     callConnectionId?: string;
     callConnectionState?: CallConnectionStateModel;
