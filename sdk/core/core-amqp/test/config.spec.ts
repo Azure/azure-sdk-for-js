@@ -5,7 +5,7 @@ import { describe, it, assert } from "vitest";
 import { ConnectionConfig } from "../src/index.js";
 import { isSharedAccessSignature } from "../src/connectionConfig/connectionConfig.js";
 
-describe.only("ConnectionConfig", function () {
+describe("ConnectionConfig", function () {
   describe("Base", function () {
     it("populates config properties from an Event Hubs connection string", function () {
       const config = ConnectionConfig.create(
