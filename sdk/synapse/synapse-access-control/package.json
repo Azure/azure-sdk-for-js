@@ -75,7 +75,7 @@
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
     "karma-source-map-support": "~1.4.0",
-    "sinon": "^17.0.0",
+    "sinon": "^18.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
     "typescript": "~5.4.5"

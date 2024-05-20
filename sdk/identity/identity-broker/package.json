@@ -82,7 +82,7 @@
     "puppeteer": "^22.2.0",
     "rimraf": "^5.0.1",
     "typescript": "~5.4.5",
-    "sinon": "^17.0.0"
+    "sinon": "^18.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure Identity Brokered Auth Plugin",

@@ -107,7 +107,7 @@
     "nyc": "^15.1.0",
     "puppeteer": "^22.2.0",
     "rimraf": "^5.0.5",
-    "sinon": "^17.0.0",
+    "sinon": "^18.0.0",
     "source-map-support": "^0.5.9",
     "typescript": "~5.4.5",
     "ws": "^8.2.0",
