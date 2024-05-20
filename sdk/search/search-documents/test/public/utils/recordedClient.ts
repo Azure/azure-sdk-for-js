@@ -7,8 +7,8 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
+  SanitizerOptions,
 } from "@azure-tools/test-recorder";
-import { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
 import { isDefined } from "@azure/core-util";
 import { OpenAIClient } from "@azure/openai";
 import { SearchClient, SearchIndexClient, SearchIndexerClient } from "../../../src";
@@ -23,30 +23,11 @@ export interface Clients<IndexModel extends object> {
 
 interface Env {
   ENDPOINT: string;
-  AZURE_OPENAI_DEPLOYMENT_NAME: string;
   AZURE_OPENAI_ENDPOINT: string;
 }
 
 // modifies URIs in the environment to end in a trailing slash
 const uriEnvVars = ["ENDPOINT", "AZURE_OPENAI_ENDPOINT"] as const;
-
-function fixEnvironment(): RecorderStartOptions {
-  const envSetupForPlayback = {
-    ENDPOINT: "https://subdomain.search.windows.net/",
-    AZURE_OPENAI_DEPLOYMENT_NAME: "deployment-name",
-    AZURE_OPENAI_ENDPOINT: "https://subdomain.openai.azure.com/",
-  };
-
-  appendTrailingSlashesToEnvironment(envSetupForPlayback);
-  const generalSanitizers = getSubdomainSanitizers();
-
-  return {
-    envSetupForPlayback,
-    sanitizerOptions: {
-      generalSanitizers,
-    },
-  };
-}
 
 function appendTrailingSlashesToEnvironment(envSetupForPlayback: Env): void {
   for (const envBag of [env, envSetupForPlayback]) {
@@ -59,7 +40,28 @@ function appendTrailingSlashesToEnvironment(envSetupForPlayback: Env): void {
   }
 }
 
-function getSubdomainSanitizers(): FindReplaceSanitizer[] {
+function createRecorderStartOptions(): RecorderStartOptions {
+  const envSetupForPlayback = {
+    ENDPOINT: "https://subdomain.search.windows.net/",
+    AZURE_OPENAI_ENDPOINT: "https://subdomain.openai.azure.com/",
+  };
+
+  appendTrailingSlashesToEnvironment(envSetupForPlayback);
+  const generalSanitizers = getSubdomainSanitizers();
+  const bodyKeySanitizer = {
+    jsonPath: "$..deploymentId",
+    value: "deployment-name",
+  };
+  return {
+    envSetupForPlayback,
+    sanitizerOptions: {
+      generalSanitizers,
+      bodyKeySanitizers: [bodyKeySanitizer],
+    },
+  };
+}
+
+function getSubdomainSanitizers(): SanitizerOptions["generalSanitizers"] {
   const uriDomainMap: Pick<Env, (typeof uriEnvVars)[number]> = {
     ENDPOINT: "search.windows.net",
     AZURE_OPENAI_ENDPOINT: "openai.azure.com",
@@ -89,7 +91,7 @@ export async function createClients<IndexModel extends object>(
   recorder: Recorder,
   indexName: string,
 ): Promise<Clients<IndexModel>> {
-  const recorderOptions = fixEnvironment();
+  const recorderOptions = createRecorderStartOptions();
   await recorder.start(recorderOptions);
 
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);

@@ -36,6 +36,7 @@ export async function createIndex(
       azureOpenAIParameters: {
         deploymentId: assertEnvironmentVariable("AZURE_OPENAI_DEPLOYMENT_NAME"),
         resourceUri: assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT"),
+        modelName: "text-embedding-ada-002",
       },
     },
   ];
