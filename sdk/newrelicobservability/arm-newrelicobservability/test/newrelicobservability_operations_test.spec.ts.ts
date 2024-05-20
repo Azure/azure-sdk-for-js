@@ -13,20 +13,20 @@ import {
   delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { CreateTestCredentialOptions, createTestCredential } from "@azure-tools/test-credential";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { NewRelicObservability } from "../src/newRelicObservability";
 
 const replaceableVariables: Record<string, string> = {
-  NewRelic_CLIENT_ID: "azure_client_id",
-  NewRelic_CLIENT_SECRET: "azure_client_secret",
-  NewRelic_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   NewRelic_SUBSCRIPTION_ID: "azure_subscription_id"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -36,9 +36,6 @@ export const testPollingOptions = {
 describe("NewRelicObservability test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
-  let clientId: string;
-  let tenantId: string;
-  let clientSecret: string;
   let client: NewRelicObservability;
   let location: string;
   let resourceGroup: string;
@@ -48,16 +45,8 @@ describe("NewRelicObservability test", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
     subscriptionId = env.NewRelic_SUBSCRIPTION_ID || '';
-    clientId = env.NewRelic_CLIENT_ID || '';
-    tenantId = env.NewRelic_TENANT_ID || '';
-    clientSecret = env.NewRelic_CLIENT_SECRET || '';
-    const credentialOptions: CreateTestCredentialOptions = {
-      tenantId,
-      clientId,
-      clientSecret
-    }
     // This is an example of how the environment variables are used
-    const credential = createTestCredential(undefined, credentialOptions);
+    const credential = createTestCredential();
     client = new NewRelicObservability(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "centraluseuap";
     resourceGroup = "myjstest";
@@ -96,7 +85,7 @@ describe("NewRelicObservability test", () => {
       },
       testPollingOptions);
     assert.equal(res.name, resourcename);
-    await delay(100000)
+    await delay(isPlaybackMode() ? 1000 : 100000);
   });
 
   it("monitors get test", async function () {
@@ -115,7 +104,7 @@ describe("NewRelicObservability test", () => {
 
   it("monitors delete test", async function () {
     const resArray = new Array();
-    const res = await client.monitors.beginDeleteAndWait(resourceGroup, "v-ziweichen@microsoft.com", resourcename
+    const res = await client.monitors.beginDeleteAndWait(resourceGroup, "v-ziweichen@microsoft.com", resourcename, testPollingOptions
     )
     for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
