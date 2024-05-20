@@ -41,9 +41,10 @@ export class EncryptionQueryBuilder {
   }
 
   public addDateParameter(name: string, value: Date, path: string): void {
+    const date = value.toISOString();
     this.parameters.push({
       name: name,
-      value: value.toISOString(),
+      value: date,
       type: TypeMarker.String,
       path: path,
     });

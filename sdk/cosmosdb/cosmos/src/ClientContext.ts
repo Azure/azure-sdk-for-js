@@ -103,14 +103,12 @@ export class ClientContext {
       );
     }
     if (this.enableEncryption) {
+      this.encryptionKeyTimeToLiveInHours = cosmosClientOptions.encryptionKeyTimeToLiveInHours ?? 2;
       this.encryptionKeyStoreProvider = new EncryptionKeyStoreProvider(
         cosmosClientOptions.keyEncryptionKeyResolver,
         EncryptionKeyResolverName.AzureKeyVault,
         this.encryptionKeyTimeToLiveInHours,
       );
-      this.encryptionKeyTimeToLiveInHours = cosmosClientOptions.encryptionKeyTimeToLiveInHours
-        ? cosmosClientOptions.encryptionKeyTimeToLiveInHours
-        : 2;
       ProtectedDataEncryptionKey.clearCacheOnTtlExpiry(this.encryptionKeyTimeToLiveInHours);
     }
     this.initializeDiagnosticSettings(diagnosticLevel);

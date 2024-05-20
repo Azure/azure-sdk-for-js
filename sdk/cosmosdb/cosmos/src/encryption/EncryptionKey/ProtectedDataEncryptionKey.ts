@@ -11,10 +11,11 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
   public encryptedValue: Buffer;
 
   public name: string;
-
   private static protectedDataEncryptionKeyCache: {
     [key: string]: [Date, ProtectedDataEncryptionKey];
   } = {};
+
+  public cacheTimeToLive: number;
 
   private constructor(
     name: string,
@@ -26,6 +27,7 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
     this.name = name;
     this.keyEncryptionKey = keyEncryptionKey;
     this.encryptedValue = encryptedKey;
+    ProtectedDataEncryptionKey.clearCacheOnTtlExpiry(this.cacheTimeToLive);
   }
 
   public static async create(
@@ -53,7 +55,11 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
     keyEncryptionKey: KeyEncryptionKey,
     encryptedValue: Buffer,
     forceRefresh?: boolean,
+    cacheTimeToLive?: number,
   ): Promise<ProtectedDataEncryptionKey> {
+    if (cacheTimeToLive) {
+      return this.create(name, keyEncryptionKey, encryptedValue);
+    }
     const key = JSON.stringify([name, keyEncryptionKey, encryptedValue.toString("hex")]);
     if (this.protectedDataEncryptionKeyCache[key] === undefined || forceRefresh) {
       const protectedKey = await this.create(name, keyEncryptionKey, encryptedValue);

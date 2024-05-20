@@ -390,6 +390,7 @@ export class Container {
     } else {
       await withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
         const readResponse = await this.readInternal(diagnosticNode);
+        const containerRid = readResponse.resource._rid;
         const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
         if (!clientEncryptionPolicy) return;
         const partitionKeyPaths = readResponse.resource.partitionKey.paths;
@@ -397,6 +398,7 @@ export class Container {
 
         const encryptionSettings = EncryptionSettings.create(
           key,
+          containerRid,
           partitionKeyPaths,
           clientEncryptionPolicy,
         );

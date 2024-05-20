@@ -207,6 +207,7 @@ export async function getHeaders({
 
   if (clientOptions.enableEncryption) {
     headers[Constants.HttpHeaders.IsClientEncryptedHeader] = true;
+    headers[Constants.HttpHeaders.IntendedCollectionHeader] = options.collectionRid;
   }
 
   if (

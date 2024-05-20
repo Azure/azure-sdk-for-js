@@ -18,7 +18,7 @@ import { TypeMarker } from "./enums/TypeMarker";
 import { ClientContext } from "../ClientContext";
 import { ClientEncryptionKeyRequest, ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { ResourceType } from "../common";
+import { Constants, ResourceType, StatusCodes, SubStatusCodes } from "../common";
 import { RequestOptions } from "../request";
 
 import { withDiagnostics } from "../utils/diagnostics";
@@ -192,7 +192,6 @@ export class EncryptionProcessor {
     cipherText.forEach((value, index) => {
       cipherTextWithTypeMarker[index + 1] = value;
     });
-
     let encryptedValue = Buffer.from(cipherTextWithTypeMarker).toString("base64");
     if (isValueId) {
       encryptedValue = encryptedValue.replace(/\//g, "_").replace(/\+/g, "-");
@@ -352,10 +351,12 @@ export class EncryptionProcessor {
           resourceId: id,
           diagnosticNode,
         });
+        const containerRid = response.result._rid;
         const clientEncryptionPolicy = response.result.clientEncryptionPolicy;
         const partitionKeyPaths = response.result.partitionKey.paths;
         const updatedEncryptionSetting = EncryptionSettings.create(
           key,
+          containerRid,
           partitionKeyPaths,
           clientEncryptionPolicy,
         );
@@ -409,9 +410,9 @@ export class EncryptionProcessor {
           throw new Error(
             "The Client Encryption Key with key id: " +
               propertySetting.encryptionKeyId +
-              "on database: " +
+              " on database: " +
               this.databaseId +
-              "needs to be rewrapped with a valid Key Encryption Key using rewrapClientEncryptionKey." +
+              " needs to be rewrapped with a valid Key Encryption Key using rewrapClientEncryptionKey." +
               " The Key Encryption Key used to wrap the Client Encryption Key has been revoked",
           );
         }
@@ -427,10 +428,9 @@ export class EncryptionProcessor {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const path = `/dbs/${this.databaseId}/clientencryptionkeys/${cekId}`;
       const id = `dbs/${this.databaseId}/clientencryptionkeys/${cekId}`;
-      let options: RequestOptions;
+      const options: RequestOptions = {};
       if (cekEtag) {
-        options.accessCondition.type = "IfNoneMatch";
-        options.accessCondition.condition = cekEtag;
+        options.accessCondition = { type: "IfNoneMatch", condition: cekEtag };
       }
       const response = await this.clientContext.read<ClientEncryptionKeyRequest>({
         path: path,

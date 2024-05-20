@@ -28,7 +28,7 @@ export class KeyEncryptionKey {
     name: string,
     path: string,
     keyStoreProvider: EncryptionKeyStoreProvider,
-  ) {
+  ): KeyEncryptionKey {
     if (!KeyEncryptionKey.keyEncryptionKeyCache) {
       KeyEncryptionKey.keyEncryptionKeyCache = {};
     }
