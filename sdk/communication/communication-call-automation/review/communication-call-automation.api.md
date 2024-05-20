@@ -362,7 +362,6 @@ export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuo
 // @public
 export interface CreateCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
-    customCallingContext?: CustomCallingContext;
     mediaStreamingOptions?: MediaStreamingOptions;
     operationContext?: string;
     sourceCallIdNumber?: PhoneNumberIdentifier;
@@ -680,16 +679,22 @@ export interface RecordingStateResult {
     // (undocumented)
     recordingId: string;
     // (undocumented)
+    recordingKind: string;
+    // (undocumented)
     recordingState: RecordingState;
 }
 
 // @public
-export type RecordingStorage = "acs" | "blobStorage";
+export interface RecordingStorage {
+    recordingDestinationContainerUrl?: string;
+    recordingStorageKind: RecordingStorageKind;
+}
 
 // @public
-export interface RedirectCallOptions extends OperationOptions {
-    customCallingContext?: CustomCallingContext;
-}
+export type RecordingStorageKind = "azureCommunicationServices" | "azureBlobStorage";
+
+// @public
+export type RedirectCallOptions = OperationOptions;
 
 // @public
 export interface RejectCallOptions extends OperationOptions {
@@ -1128,6 +1133,7 @@ export interface StartRecordingOptions extends OperationOptions {
     recordingContent?: RecordingContent;
     recordingFormat?: RecordingFormat;
     recordingStateCallbackEndpointUrl?: string;
+    recordingStorage?: RecordingStorage;
 }
 
 // @public

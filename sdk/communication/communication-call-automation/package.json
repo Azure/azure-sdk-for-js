@@ -84,8 +84,7 @@
     "@azure/core-util": "^1.6.1",
     "@azure/logger": "^1.0.0",
     "events": "^3.0.0",
-    "tslib": "^2.2.0",
-    "uuid": "^8.3.2"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "^1.0.1",
@@ -100,7 +99,6 @@
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
     "@types/sinon": "^17.0.0",
-    "@types/uuid": "^8.3.2",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",

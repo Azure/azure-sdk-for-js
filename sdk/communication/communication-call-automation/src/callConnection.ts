@@ -209,7 +209,7 @@ export class CallConnection {
       ),
       sourceDisplayName: targetParticipant.sourceDisplayName,
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
       customCallingContext: this.createCustomCallingContextInternal(
         targetParticipant.customCallingContext!,
@@ -248,7 +248,7 @@ export class CallConnection {
   ): Promise<TransferCallResult> {
     const transferToParticipantRequest: TransferToParticipantRequest = {
       targetParticipant: communicationIdentifierModelConverter(targetParticipant),
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
       transferee: options.transferee && communicationIdentifierModelConverter(options.transferee),
       customCallingContext: this.createCustomCallingContextInternal(options.customCallingContext!),
@@ -281,7 +281,7 @@ export class CallConnection {
   ): Promise<RemoveParticipantResult> {
     const removeParticipantRequest: RemoveParticipantRequest = {
       participantToRemove: communicationIdentifierModelConverter(participant),
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
     };
     const optionsInternal = {
@@ -330,9 +330,10 @@ export class CallConnection {
     return muteParticipantResult;
   }
 
-  /** Cancel add participant request.
+  /** Cancel add participant operation.
    *
    * @param invitationId - Invitation ID used to cancel the add participant request.
+   * @param options - Additional attributes for cancel add participant operation.
    */
   public async cancelAddParticipantOperation(
     invitationId: string,
@@ -345,7 +346,7 @@ export class CallConnection {
     } = options;
     const cancelAddParticipantRequest = {
       invitationId,
-      operationContext: operationContext ? operationContext : randomUUID(),
+      operationContext: options.operationContext,
       operationCallbackUri,
     };
     const optionsInternal = {

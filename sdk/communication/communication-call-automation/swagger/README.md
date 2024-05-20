@@ -57,12 +57,6 @@ directive:
       from: SsmlSource
       to: SsmlSourceInternal
   - rename-model:
-      from: ResultInformation
-      to: RestResultInformation
-  - rename-model:
-      from: ToneInfo
-      to: RestToneInfo
-  - rename-model:
       from: CallIntelligenceOptions
       to: CallIntelligenceOptionsInternal
   - rename-model:

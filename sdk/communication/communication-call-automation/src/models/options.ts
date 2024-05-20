@@ -15,6 +15,7 @@ import {
   RecordingContent,
   RecordingChannel,
   RecordingFormat,
+  RecordingStorage,
   CallLocator,
   ChannelAffinity,
   CallIntelligenceOptions,
@@ -115,8 +116,6 @@ export interface CreateCallOptions extends OperationOptions {
   mediaStreamingOptions?: MediaStreamingOptions;
   /** Configuration of live transcription. */
   transcriptionOptions?: TranscriptionOptions;
-  /** The Custom Context. */
-  customCallingContext?: CustomCallingContext;
 }
 
 /**
@@ -136,11 +135,7 @@ export interface AnswerCallOptions extends OperationOptions {
 /**
  * Options to redirect call.
  */
-export interface RedirectCallOptions extends OperationOptions {
-  /** The Custom Context. */
-  customCallingContext?: CustomCallingContext;
-}
-
+export type RedirectCallOptions = OperationOptions;
 /**
  * Options to reject call.
  */
@@ -257,6 +252,8 @@ export interface StartRecordingOptions extends OperationOptions {
   recordingChannel?: RecordingChannel;
   /** The format type of call recording. */
   recordingFormat?: RecordingFormat;
+  /** Recording storage option. */
+  recordingStorage?: RecordingStorage;
   /** Pause on start call recording option. */
   pauseOnStart?: boolean;
   /**
