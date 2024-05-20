@@ -118,12 +118,13 @@ export interface CallConnectionProperties {
     callConnectionId?: string;
     callConnectionState?: CallConnectionStateModel;
     correlationId?: string;
-    mediaSubscriptionId?: string;
+    mediaStreamingSubscription?: MediaStreamingSubscription;
     serverCallId?: string;
     source?: CommunicationIdentifier;
     sourceCallerIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
     targetParticipants?: CommunicationIdentifier[];
+    transcriptionSubscription?: TranscriptionSubscription;
 }
 
 // @public

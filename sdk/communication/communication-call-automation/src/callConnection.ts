@@ -101,9 +101,7 @@ export class CallConnection {
       ...result,
       source: source ? communicationIdentifierConverter(source) : undefined,
       answeredby: communicationUserIdentifierConverter(answeredBy),
-      answeredFor: answeredFor
-        ? phoneNumberIdentifierConverter(answeredFor)
-        : undefined,
+      answeredFor: answeredFor ? phoneNumberIdentifierConverter(answeredFor) : undefined,
       targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
       sourceCallerIdNumber: sourceCallerIdNumber
         ? phoneNumberIdentifierConverter(sourceCallerIdNumber)

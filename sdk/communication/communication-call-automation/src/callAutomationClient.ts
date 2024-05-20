@@ -158,8 +158,15 @@ export class CallAutomationClient {
       repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: randomUUID(),
     };
-    const { callConnectionId, answeredBy, targets, sourceCallerIdNumber, source, answeredFor, ...result } =
-      await this.callAutomationApiClient.createCall(request, optionsInternal);
+    const {
+      callConnectionId,
+      answeredBy,
+      targets,
+      sourceCallerIdNumber,
+      source,
+      answeredFor,
+      ...result
+    } = await this.callAutomationApiClient.createCall(request, optionsInternal);
 
     if (callConnectionId) {
       const callConnectionPropertiesDto: CallConnectionProperties = {
@@ -167,9 +174,7 @@ export class CallAutomationClient {
         callConnectionId: callConnectionId,
         source: source ? communicationIdentifierConverter(source) : undefined,
         answeredby: communicationUserIdentifierConverter(answeredBy),
-        answeredFor: answeredFor
-          ? phoneNumberIdentifierConverter(answeredFor)
-          : undefined,
+        answeredFor: answeredFor ? phoneNumberIdentifierConverter(answeredFor) : undefined,
         targetParticipants: targets?.map((returnedTarget) =>
           communicationIdentifierConverter(returnedTarget),
         ),
@@ -277,8 +282,15 @@ export class CallAutomationClient {
       repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: randomUUID(),
     };
-    const { callConnectionId, targets, sourceCallerIdNumber, answeredBy, source, answeredFor, ...result } =
-      await this.callAutomationApiClient.answerCall(request, optionsInternal);
+    const {
+      callConnectionId,
+      targets,
+      sourceCallerIdNumber,
+      answeredBy,
+      source,
+      answeredFor,
+      ...result
+    } = await this.callAutomationApiClient.answerCall(request, optionsInternal);
 
     if (callConnectionId) {
       const callConnectionProperties: CallConnectionProperties = {
@@ -286,9 +298,7 @@ export class CallAutomationClient {
         callConnectionId: callConnectionId,
         source: source ? communicationIdentifierConverter(source) : undefined,
         answeredby: communicationUserIdentifierConverter(answeredBy),
-        answeredFor: answeredFor
-          ? phoneNumberIdentifierConverter(answeredFor)
-          : undefined,
+        answeredFor: answeredFor ? phoneNumberIdentifierConverter(answeredFor) : undefined,
         targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
         sourceCallerIdNumber: sourceCallerIdNumber
           ? phoneNumberIdentifierConverter(sourceCallerIdNumber)

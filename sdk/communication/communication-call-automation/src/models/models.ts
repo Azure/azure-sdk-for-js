@@ -8,7 +8,11 @@ import {
   MicrosoftTeamsAppIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
-import { CallConnectionStateModel } from "../generated/src";
+import {
+  CallConnectionStateModel,
+  MediaStreamingSubscription,
+  TranscriptionSubscription,
+} from "../generated/src";
 
 export {
   CallConnectionStateModel,
@@ -54,8 +58,10 @@ export interface CallConnectionProperties {
   callConnectionState?: CallConnectionStateModel;
   /** The callback URL. */
   callbackUrl?: string;
-  /** SubscriptionId for media streaming */
-  mediaSubscriptionId?: string;
+  /** Subscription for media streaming */
+  mediaStreamingSubscription?: MediaStreamingSubscription;
+  /** Subscription for transcription */
+  transcriptionSubscription?: TranscriptionSubscription;
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
