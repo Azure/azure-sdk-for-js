@@ -2928,6 +2928,13 @@ export interface FileGetRangeListOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * This header is allowed only when prevShareSnapshot parameter is set.
+   * Determines whether the changed ranges for a file that has been renamed or moved between the target snapshot (or the live file) and the previous snapshot should be listed.
+   * If the value is true, the valid changed ranges for the file will be returned. If the value is false, the operation will result in a failure with 409 (Conflict) response.
+   * The default value is false.
+   */
+  includeRenames?: boolean;
 }
 
 /**
@@ -4216,6 +4223,7 @@ export class ShareFileClient extends StorageClient {
           await this.context.getRangeList({
             ...updatedOptions,
             prevsharesnapshot: prevShareSnapshot,
+            supportRename: options.includeRenames,
             range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
             ...this.shareClientConfig,
           }),

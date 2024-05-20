@@ -305,6 +305,52 @@ describe("FileClient Node.js only", () => {
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 
+  it("uploadRangeFromURL - destination OAuth", async function (this: Context) {
+    // Pipeline config doesn't support well for file OAuth, disable live test for now.
+    // Should add this back after pipeline config is enabled.
+    if (isLiveMode()) {
+      this.skip();
+    }
+    await fileClient.create(1024);
+
+    const fileContent = "a".repeat(512) + "b".repeat(512);
+    await fileClient.uploadRange(fileContent, 0, fileContent.length);
+
+    // Get a SAS for fileURL
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;;
+    const expiresOn = new Date(recorder.variable("now", new Date().toISOString()));
+    expiresOn.setDate(expiresOn.getDate() + 1);
+    const sas = generateFileSASQueryParameters(
+      {
+        expiresOn,
+        shareName,
+        filePath: `${dirName}/${fileName}`,
+        permissions: FileSASPermissions.parse("r"),
+      },
+      credential
+    );
+
+    const fileName2 = recorder.variable("file2", getUniqueName("file2"));
+    const fileURL2 = dirClient.getFileClient(fileName2);
+    const fileClientWithOAuthToken = new ShareFileClient(
+      fileURL2.url,
+      createTestCredential(),
+      { fileRequestIntent: "backup" }
+    );
+
+    configureStorageClient(recorder, fileClientWithOAuthToken);
+    await fileClientWithOAuthToken.create(1024);
+
+    await fileClientWithOAuthToken.uploadRangeFromURL(`${fileClient.url}?${sas}`, 0, 0, 512);
+    await fileClientWithOAuthToken.uploadRangeFromURL(`${fileClient.url}?${sas}`, 512, 512, 512);
+
+    const range1 = await fileURL2.download(0, 512);
+    const range2 = await fileURL2.download(512, 512);
+
+    assert.equal(await bodyToString(range1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(range2, 512), "b".repeat(512));
+  });
+
   it("uploadRangeFromURL with fileLastWriteOn", async () => {
     await fileClient.create(1024);
 

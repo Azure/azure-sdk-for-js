@@ -2,21 +2,23 @@
 
 ## 12.23.0-beta.2 (Unreleased)
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
 
 - Allow HTTP connections
 
 ## 12.23.0-beta.1 (2023-11-01)
 
-### Other Changes
 
 - Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
+
+## 12.17.1-beta.1 (2024-04-18)
+
+### Features Added
+
+- Added support for service version 2024-05-04.
+- Added ability to call ShareFileClient.getRangeListDiff() on a file that has been renamed.
+- Added support OAuth for interface ShareFileClient.uploadRangeFromURL().
+- Added support to return clientName property in file/directory handle properties in ShareFileClient.listHandles() and ShareDirectoryClient.listHandles().
 
 ## 12.17.0 (2023-11-09)
 
