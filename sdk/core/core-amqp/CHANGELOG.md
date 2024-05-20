@@ -1,6 +1,6 @@
 # Release History
 
-## 4.3.0 (Unreleased)
+## 4.3.0 (2024-05-20)
 
 ### Breaking Changes
 - Moved to ESM core with builds for ESM, CommonJS, React-Native and Browser.

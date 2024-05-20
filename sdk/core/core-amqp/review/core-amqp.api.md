@@ -428,9 +428,6 @@ export enum ErrorNameConditionMapper {
 }
 
 // @public
-export function isLoopbackAddress(address: string): boolean;
-
-// @public
 export function isMessagingError(error: Error | MessagingError): error is MessagingError;
 
 // @public
