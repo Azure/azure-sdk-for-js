@@ -596,11 +596,11 @@ export interface PlaySource {
 }
 
 // @public
-export interface PlayStarted extends Omit<RestPlayStarted, "callConnectionId" | "serverCallId" | "correlationId"> {
+export interface PlayStarted extends Omit<RestPlayStarted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "PlayStarted";
-    resultInformation?: RestResultInformation;
+    resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
@@ -661,6 +661,9 @@ export type RecordingContent = "audio" | "audioVideo";
 export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 // @public
+export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
+
+// @public
 export type RecordingState = string;
 
 // @public
@@ -675,10 +678,10 @@ export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, "
 export interface RecordingStateResult {
     // (undocumented)
     recordingId: string;
-    // Warning: (ae-forgotten-export) The symbol "RecordingKind" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "RecordingKind_2" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    recordingKind: RecordingKind;
+    recordingKind: RecordingKind_2;
     // (undocumented)
     recordingState: RecordingState;
 }
@@ -960,7 +963,7 @@ export interface RestRecordingStateChanged {
     correlationId?: string;
     readonly recordingId?: string;
     // (undocumented)
-    recordingKind?: RecordingKind;
+    recordingKind?: RecordingKind_2;
     serverCallId?: string;
     readonly startDateTime?: Date;
     // (undocumented)

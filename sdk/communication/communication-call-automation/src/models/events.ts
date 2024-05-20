@@ -306,7 +306,10 @@ export interface RecordingStateChanged
 
 /** Event when Media play was successfully started. */
 export interface PlayStarted
-  extends Omit<RestPlayStarted, "callConnectionId" | "serverCallId" | "correlationId"> {
+  extends Omit<
+    RestPlayStarted,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -314,7 +317,7 @@ export interface PlayStarted
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "PlayStarted";
 }
