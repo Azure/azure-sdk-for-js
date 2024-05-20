@@ -438,7 +438,6 @@ export interface HoldFailed extends Omit<RestHoldFailed, "callConnectionId" | "s
     callConnectionId: string;
     correlationId: string;
     kind: "HoldFailed";
-    // Warning: (ae-forgotten-export) The symbol "RestResultInformation" needs to be exported by the entry point index.d.ts
     resultInformation?: RestResultInformation;
     serverCallId: string;
 }
@@ -594,7 +593,6 @@ export interface PlayOptions extends OperationOptions {
 export interface PlaySource {
     // @deprecated (undocumented)
     playsourcacheid?: string;
-    playSourceCacheId?: string;
 }
 
 // @public
@@ -650,7 +648,6 @@ export interface RecognizeFailed extends Omit<RestRecognizeFailed, "callConnecti
 
 // @public
 export enum RecognizeInputType {
-    Choices = "choices",
     Dtmf = "dtmf"
 }
 
@@ -678,8 +675,10 @@ export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, "
 export interface RecordingStateResult {
     // (undocumented)
     recordingId: string;
+    // Warning: (ae-forgotten-export) The symbol "RecordingKind" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    recordingKind: string;
+    recordingKind: RecordingKind;
     // (undocumented)
     recordingState: RecordingState;
 }
@@ -960,8 +959,6 @@ export interface RestRecordingStateChanged {
     callConnectionId?: string;
     correlationId?: string;
     readonly recordingId?: string;
-    // Warning: (ae-forgotten-export) The symbol "RecordingKind" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     recordingKind?: RecordingKind;
     serverCallId?: string;
@@ -988,6 +985,13 @@ export interface RestRemoveParticipantSucceeded {
     participant?: CommunicationIdentifierModel;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestResultInformation {
+    code?: number;
+    message?: string;
+    subCode?: number;
 }
 
 // @public (undocumented)

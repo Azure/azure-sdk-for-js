@@ -98,8 +98,6 @@ export enum VoiceKind {
 export interface PlaySource {
   /** @deprecated Not in use, instead use playsourcecacheid for similar functionality*/
   playsourcacheid?: string;
-  /** Sets the play source cache id.*/
-  playSourceCacheId?: string;
 }
 
 /** The FileSource model. */
@@ -174,8 +172,6 @@ export interface RecognitionChoice {
 export enum RecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
-  /** Choices */
-  Choices = "choices",
 }
 
 /** Call invitee details. */
