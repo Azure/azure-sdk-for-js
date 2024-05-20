@@ -4,14 +4,12 @@
 export { AzureKeyCredential } from "@azure/core-auth";
 
 export {
-  ReceiveResult,
-  ReceiveDetails,
   BrokerProperties,
   AcknowledgeResult,
   FailedLockToken,
   ReleaseResult,
   RejectResult,
-  PublishCloudEventsOptions,
+  PublishCloudEventsOptions as SendCloudEventsOptions,
   ReceiveCloudEventsOptions,
   AcknowledgeCloudEventsOptions,
   ReleaseCloudEventsOptions,
@@ -29,6 +27,6 @@ export { PublishResultOutput } from "./cadl-generated/rest";
 
 export { OperationOptions } from "@azure-rest/core-client";
 
-export { CloudEvent, PublishCloudEventOptions } from "./models";
+export { CloudEvent, SendCloudEventOptions, ReceiveResult, ReceiveDetails } from "./models";
 
 export { EventGridDeserializer } from "@azure/eventgrid";

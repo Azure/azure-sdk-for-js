@@ -47,12 +47,12 @@ export interface CloudEvent<T> {
 export class EventGridClient {
     constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: EventGridClientOptions);
     acknowledgeCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: AcknowledgeCloudEventsOptions): Promise<AcknowledgeResult>;
-    publishCloudEvent<T>(event: CloudEvent<T>, topicName: string, options?: PublishCloudEventOptions): Promise<void>;
-    publishCloudEvents<T>(events: CloudEvent<T>[], topicName: string, options?: PublishCloudEventsOptions): Promise<void>;
-    receiveCloudEvents(topicName: string, eventSubscriptionName: string, options?: ReceiveCloudEventsOptions): Promise<ReceiveResult>;
+    receiveCloudEvents<T>(topicName: string, eventSubscriptionName: string, options?: ReceiveCloudEventsOptions): Promise<ReceiveResult<T>>;
     rejectCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RejectCloudEventsOptions): Promise<RejectResult>;
     releaseCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: ReleaseCloudEventsOptions): Promise<ReleaseResult>;
     renewCloudEventLocks(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RenewCloudEventLocksOptions): Promise<RenewCloudEventLocksResult>;
+    sendCloudEvent<T>(event: CloudEvent<T>, topicName: string, options?: SendCloudEventOptions): Promise<void>;
+    sendCloudEvents<T>(events: CloudEvent<T>[], topicName: string, options?: SendCloudEventsOptions): Promise<void>;
 }
 
 // @public (undocumented)
@@ -69,17 +69,6 @@ export interface FailedLockToken {
 
 export { OperationOptions }
 
-// @public (undocumented)
-export interface PublishCloudEventOptions extends OperationOptions {
-    binaryMode?: boolean;
-    contentType?: string;
-}
-
-// @public (undocumented)
-export interface PublishCloudEventsOptions extends OperationOptions {
-    contentType?: string;
-}
-
 // @public
 export interface PublishResultOutput {
 }
@@ -91,15 +80,14 @@ export interface ReceiveCloudEventsOptions extends OperationOptions {
 }
 
 // @public
-export interface ReceiveDetails {
+export interface ReceiveDetails<T> {
     brokerProperties: BrokerProperties;
-    // Warning: (ae-forgotten-export) The symbol "CloudEvent_2" needs to be exported by the entry point index.d.ts
-    event: CloudEvent_2;
+    event: CloudEvent<T>;
 }
 
 // @public
-export interface ReceiveResult {
-    value: ReceiveDetails[];
+export interface ReceiveResult<T> {
+    details: ReceiveDetails<T>[];
 }
 
 // @public (undocumented)
@@ -134,6 +122,17 @@ export interface RenewCloudEventLocksOptions extends OperationOptions {
 export interface RenewCloudEventLocksResult {
     failedLockTokens: FailedLockToken[];
     succeededLockTokens: string[];
+}
+
+// @public (undocumented)
+export interface SendCloudEventOptions extends OperationOptions {
+    binaryMode?: boolean;
+    contentType?: string;
+}
+
+// @public (undocumented)
+export interface SendCloudEventsOptions extends OperationOptions {
+    contentType?: string;
 }
 
 // (No @packageDocumentation comment for this package)

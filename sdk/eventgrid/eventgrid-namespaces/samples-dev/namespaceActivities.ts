@@ -36,14 +36,14 @@ export async function main(): Promise<void> {
     specversion: "1.0",
   };
   // Publish the Cloud Event
-  await client.publishCloudEvent(cloudEvent, topicName);
+  await client.sendCloudEvent(cloudEvent, topicName);
   // Receive the Published Cloud Event
-  const receiveResult: ReceiveResult = await client.receiveCloudEvents(
+  const receiveResult: ReceiveResult<any> = await client.receiveCloudEvents(
     topicName,
     eventSubscripionName,
   );
   // The Received Cloud Event ID must be equal to the ID of the Event that was published.
-  console.log(`Received Event ID: ${receiveResult.value[0].event.id}`);
+  console.log(`Received Event ID: ${receiveResult.details[0].event.id}`);
 }
 
 main().catch((err) => {

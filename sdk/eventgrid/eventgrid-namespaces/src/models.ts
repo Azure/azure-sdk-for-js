@@ -2,13 +2,22 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure-rest/core-client";
+import { BrokerProperties } from "./cadl-generated";
 
-export interface PublishCloudEventOptions extends OperationOptions {
+export interface SendCloudEventOptions extends OperationOptions {
   /** binary mode */
   binaryMode?: boolean;
 
   /** content type */
   contentType?: string;
+}
+
+/** Receive operation details per Cloud Event. */
+export interface ReceiveDetails<T> {
+  /** The Event Broker details. */
+  brokerProperties: BrokerProperties;
+  /** Cloud Event details. */
+  event: CloudEvent<T>;
 }
 
 /**
@@ -55,6 +64,12 @@ export interface CloudEvent<T> {
    * The version of the CloudEvents specification which the event uses.
    */
   specversion?: string | "1.0";
+}
+
+/** Details of the Receive operation response. */
+export interface ReceiveResult<T> {
+  /** Array of receive responses, one per cloud event. */
+  details: ReceiveDetails<T>[];
 }
 
 export const cloudEventReservedPropertyNames = [

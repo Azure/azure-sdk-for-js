@@ -3,11 +3,10 @@
 
 import { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
 import {
-  ReceiveResult,
   AcknowledgeResult,
   ReleaseResult,
   RejectResult,
-  PublishCloudEventsOptions,
+  PublishCloudEventsOptions as SendCloudEventsOptions,
   ReceiveCloudEventsOptions,
   AcknowledgeCloudEventsOptions,
   ReleaseCloudEventsOptions,
@@ -19,7 +18,12 @@ import {
 import { randomUUID } from "@azure/core-util";
 import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient";
 import { EventGridClientOptions } from "./cadl-generated/api";
-import { PublishCloudEventOptions, CloudEvent, cloudEventReservedPropertyNames } from "./models";
+import {
+  SendCloudEventOptions,
+  CloudEvent,
+  cloudEventReservedPropertyNames,
+  ReceiveResult,
+} from "./models";
 import { publishCloudEventInBinaryMode } from "./eventGridNamespacesPublishBinaryMode";
 
 /**
@@ -50,10 +54,10 @@ export class EventGridNamespacesClient {
    * @param options - Options to publish
    *
    */
-  async publishCloudEvent<T>(
+  async sendCloudEvent<T>(
     event: CloudEvent<T>,
     topicName: string,
-    options: PublishCloudEventOptions = { requestOptions: {} },
+    options: SendCloudEventOptions = { requestOptions: {} },
   ): Promise<void> {
     const cloudEventWireModel: CloudEventWireModel = convertCloudEventToModelType(event);
 
@@ -84,10 +88,10 @@ export class EventGridNamespacesClient {
    * @param options - Options to publish
    *
    */
-  async publishCloudEvents<T>(
+  async sendCloudEvents<T>(
     events: CloudEvent<T>[],
     topicName: string,
-    options: PublishCloudEventsOptions = { requestOptions: {} },
+    options: SendCloudEventsOptions = { requestOptions: {} },
   ): Promise<void> {
     const eventsWireModel: Array<CloudEventWireModel> = [];
     for (const individualevent of events) {
@@ -104,12 +108,34 @@ export class EventGridNamespacesClient {
    * @param options - Options to receive
    *
    */
-  receiveCloudEvents(
+  async receiveCloudEvents<T>(
     topicName: string,
     eventSubscriptionName: string,
     options: ReceiveCloudEventsOptions = { requestOptions: {} },
-  ): Promise<ReceiveResult> {
-    return this._client.receiveCloudEvents(topicName, eventSubscriptionName, options);
+  ): Promise<ReceiveResult<T>> {
+    const result = await this._client.receiveCloudEvents(topicName, eventSubscriptionName, options);
+
+    const modifiedResult: ReceiveResult<T> = {
+      details: result.value.map((receiveDetails) => {
+        const cloudEvent: CloudEvent<T> = {
+          type: receiveDetails.event.type,
+          source: receiveDetails.event.source,
+          id: receiveDetails.event.id,
+          time: receiveDetails.event.time,
+          dataschema: receiveDetails.event.dataschema,
+          datacontenttype: receiveDetails.event.datacontenttype,
+          data: receiveDetails.event.data as T,
+          subject: receiveDetails.event.subject,
+          specversion: receiveDetails.event.specversion,
+        };
+        return {
+          brokerProperties: receiveDetails.brokerProperties,
+          event: cloudEvent,
+        };
+      }),
+    };
+
+    return modifiedResult;
   }
 
   /**
