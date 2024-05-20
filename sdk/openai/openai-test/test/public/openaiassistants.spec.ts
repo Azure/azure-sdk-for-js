@@ -5,7 +5,6 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert, matrix } from "@azure-tools/test-utils";
 import { assertAssistantEquality } from "./utils/asserts.js";
 import { createClient, startRecorder } from "./utils/createClient.js";
-import { getModels } from "./utils/utils.js";
 import { Context } from "mocha";
 import OpenAI, { AzureOpenAI } from "openai";
 import { AuthMethod } from "./utils/types.js";
@@ -16,13 +15,9 @@ interface Metadata {
 }
 describe("OpenAIAssistants", () => {
   let recorder: Recorder;
-  let models: string[] = [];
 
   beforeEach(async function (this: Context) {
     recorder = await startRecorder(this.currentTest);
-    if (!models.length) {
-      models = await getModels(recorder);
-    }
   });
 
   afterEach(async function () {
@@ -34,7 +29,6 @@ describe("OpenAIAssistants", () => {
   matrix([authTypes] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
       let client: OpenAI | AzureOpenAI;
-      let deploymentName: string;
       const codeAssistant = {
         tools: [{ type: "code_interpreter" }] as AssistantTool[],
         model: "gpt-4-1106-preview",
@@ -45,7 +39,7 @@ describe("OpenAIAssistants", () => {
       };
 
       beforeEach(async function (this: Context) {
-        client = createClient(authMethod, "completions");
+        client = createClient(authMethod, "dalle");
       });
 
       describe("all CRUD APIs", function () {
@@ -63,8 +57,8 @@ describe("OpenAIAssistants", () => {
           const listLength = 1;
           const oneAssistantList = await client.beta.assistants.list({ limit: listLength });
           assert.equal(oneAssistantList.data.length, listLength);
-          const firstID = (oneAssistantList as any).first_id;
-          const lastID = (oneAssistantList as any).last_id;
+          const firstID = (oneAssistantList as any).body.first_id;
+          const lastID = (oneAssistantList as any).body.last_id;
           assert.equal(firstID, lastID);
           assert.equal(oneAssistantList.data[0].id, firstID);
 
@@ -78,11 +72,7 @@ describe("OpenAIAssistants", () => {
             metadata: { foo: metadataValue },
           };
 
-          deploymentName = "gpt-4-1106-preview";
-          const threadResponse = await client.beta.assistants.create({
-            model: deploymentName,
-            ...thread,
-          });
+          const threadResponse = await client.beta.threads.create(thread);
           assert.isNotNull(threadResponse.id);
           assert.equal((threadResponse.metadata as Metadata).foo, metadataValue);
           const getThreadResponse = await client.beta.threads.retrieve(threadResponse.id);
@@ -153,8 +143,8 @@ describe("OpenAIAssistants", () => {
             limit: listLength,
           });
           assert.equal(oneMessageList.data.length, listLength);
-          const firstID = (oneMessageList as any).first_id;
-          const lastID = (oneMessageList as any).last_id;
+          const firstID = (oneMessageList as any).body.first_id;
+          const lastID = (oneMessageList as any).body.last_id;
           assert.equal(firstID, lastID);
           assert.equal(oneMessageList.data[0].id, firstID);
         });
@@ -205,14 +195,14 @@ describe("OpenAIAssistants", () => {
           const runSteps = await client.beta.threads.runs.steps.list(thread.id, run.id);
           // with no messages, there should be no steps
           assert.equal(runSteps.data.length, 0);
-          assert.equal((runSteps as any).first_id, null);
-          assert.equal((runSteps as any).last_id, null);
+          assert.equal((runSteps as any).body.first_id, null);
+          assert.equal((runSteps as any).body.last_id, null);
 
           const listLength = 1;
           const list = await client.beta.threads.runs.list(thread.id, { limit: listLength });
           assert.equal(list.data.length, listLength);
-          const firstID = (list as any).first_id;
-          const lastID = (list as any).last_id;
+          const firstID = (list as any).body.first_id;
+          const lastID = (list as any).body.last_id;
           assert.equal(firstID, lastID);
           assert.equal(list.data[0].id, firstID);
 
@@ -249,14 +239,12 @@ describe("OpenAIAssistants", () => {
             role,
             content: question,
           });
-
           const messageContent = message.content[0];
           assert.isNotNull(message.id);
           assert.equal(message.role, role);
           if (messageContent.type === "text") {
             assert.equal(messageContent.text.value, question);
           }
-
           const instructions =
             "Please address the user as Jane Doe. The user has a premium account.";
           let run = await client.beta.threads.runs.create(thread.id, {
@@ -269,7 +257,7 @@ describe("OpenAIAssistants", () => {
           assert.equal(run.instructions, instructions);
 
           do {
-            await new Promise((resolve) => setTimeout(resolve, 500));
+            await new Promise((resolve) => setTimeout(resolve, 20000));
             run = await client.beta.threads.runs.retrieve(thread.id, run.id);
             const listLength = 1;
             const runSteps = await client.beta.threads.runs.steps.list(thread.id, run.id, {
@@ -308,6 +296,7 @@ describe("OpenAIAssistants", () => {
           const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
           assert.equal(deleteAssistantResponse.deleted, true);
         });
+
         it("create and run function scenario for assistant", async function () {
           const favoriteCityFunctionName = "getUserFavoriteCity";
           const favoriteCityFunctionDescription = "Gets the user's favorite city.";
@@ -363,7 +352,7 @@ describe("OpenAIAssistants", () => {
             id: string;
             function?: any;
           }): { output: string } => {
-            const toolOutput = { toolCallId: toolCall.id, output: "" };
+            const toolOutput = { tool_call_id: toolCall.id, output: "" };
             if (toolCall["function"]) {
               const functionCall = toolCall["function"];
               const functionName = functionCall.name;
@@ -444,7 +433,6 @@ describe("OpenAIAssistants", () => {
               });
             }
           } while (run.status === "queued" || run.status === "in_progress");
-
           assert.equal(favoriteCityCalled, true);
           assert.equal(nicknameCalled, true);
 

@@ -436,7 +436,7 @@ describe("Completions", function () {
             );
           });
 
-          it.only("bring your own data", async function (this: Context) {
+          it("bring your own data", async function (this: Context) {
             if (authMethod === "OpenAIKey") {
               this.skip();
             }

@@ -17,7 +17,7 @@ import {
   ContentFilterResultsForPrompt,
 } from "./types.js";
 import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
-import { CompletionChoice } from "openai/resources/index";
+import { ChatCompletionTokenLogprob, CompletionChoice } from "openai/resources/index";
 
 export function assertChatCompletions(
   completions: OpenAI.Chat.Completions.ChatCompletion,

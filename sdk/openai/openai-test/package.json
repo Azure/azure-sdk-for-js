@@ -39,7 +39,6 @@
   "dependencies": {},
   "devDependencies": {
     "openai": "^4.41.1",
-    "@azure/openai-support": "^1.0.0-beta.1",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-utils": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.13.0",

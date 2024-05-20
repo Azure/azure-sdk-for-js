@@ -79,7 +79,6 @@ export function createClient(
         azureADTokenProvider: getBearerTokenProvider(credential, scope),
         apiVersion,
         endpoint,
-        dangerouslyAllowBrowser: true,
         ...clientOptions,
       });
     }
