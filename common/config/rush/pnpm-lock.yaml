@@ -2175,6 +2175,11 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: false
 
+  /@eslint/js@9.2.0:
+    resolution: {integrity: sha512-ESiIudvhoYni+MdsI8oD7skpprZ89qKocwRM2KEvhhBJ9nl5MRh7BXU5GTod7Mdygq+AUl+QzId6iWJKR/wABA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    dev: false
+
   /@grpc/grpc-js@1.10.8:
     resolution: {integrity: sha512-vYVqYzHicDqyKB+NQhAc54I1QWCBLCrYG6unqOIcBTHx+7x8C9lcoLj3KVJXs2VB4lUbpWY+Kk9NipcbXYWmvg==}
     engines: {node: '>=12.10.0'}
@@ -3351,11 +3356,28 @@ packages:
       '@types/node': 18.19.33
     dev: false
 
+  /@types/eslint-config-prettier@6.11.3:
+    resolution: {integrity: sha512-3wXCiM8croUnhg9LdtZUJQwNcQYGWxxdOWDjPe1ykCqJFPVpzAKfs/2dgSoCtAvdPeaponcWPI7mPcGGp9dkKQ==}
+    dev: false
+
   /@types/eslint@8.44.9:
     resolution: {integrity: sha512-6yBxcvwnnYoYT1Uk2d+jvIfsuP4mb2EdIxFnrPABj5a/838qe5bGkNLFOiipX4ULQ7XVQvTxOh7jO+BTAiqsEw==}
     dependencies:
       '@types/estree': 1.0.5
       '@types/json-schema': 7.0.15
+    dev: false
+
+  /@types/eslint@8.56.10:
+    resolution: {integrity: sha512-Shavhk87gCtY2fhXDctcfS3e6FdxWkCx1iUZ9eEUbh7rTqlZT0/IzOkCOVt0fCjcFuZ9FPYfuezTBImfHCDBGQ==}
+    dependencies:
+      '@types/estree': 1.0.5
+      '@types/json-schema': 7.0.15
+    dev: false
+
+  /@types/eslint__js@8.42.3:
+    resolution: {integrity: sha512-alfG737uhmPdnvkrLdZLcEKJ/B8s9Y4hrZ+YAdzUeoArBlSUERA2E87ROfOaS4jd/C45fzOoZzidLc1IPwLqOw==}
+    dependencies:
+      '@types/eslint': 8.56.10
     dev: false
 
   /@types/estree@1.0.5:
@@ -9874,6 +9896,25 @@ packages:
     resolution: {integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==}
     dependencies:
       is-typedarray: 1.0.0
+    dev: false
+
+  /typescript-eslint@7.8.0(eslint@8.57.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-sheFG+/D8N/L7gC3WT0Q8sB97Nm573Yfr+vZFzl/4nBdYcmviBPtwGSX9TJ7wpVg28ocerKVOt+k2eGmHzcgVA==}
+    engines: {node: ^18.18.0 || >=20.0.0}
+    peerDependencies:
+      eslint: ^8.56.0
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 7.8.0(@typescript-eslint/parser@7.8.0)(eslint@8.57.0)(typescript@5.4.5)
+      '@typescript-eslint/parser': 7.8.0(eslint@8.57.0)(typescript@5.4.5)
+      '@typescript-eslint/utils': 7.8.0(eslint@8.57.0)(typescript@5.4.5)
+      eslint: 8.57.0
+      typescript: 5.4.5
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /typescript@4.2.4:
@@ -19425,7 +19466,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-E6hCQMEd3k/bMSLX4bqUFnLwErLlVNhdap6vnRuOWS30rMbANrRITtVCrkMkgwP2Egi1EZzSpvAAKFZzjrLXdA==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-k8stQJDSHPXhmgkSNs/ulMJwPPnxXB/w5BgGtOWu9J9M+rjtGoPTiPsuwsNrUHEuz9xvroMdxbKLNJNXiHLu9A==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -19717,31 +19758,42 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk-helper.tgz:
-    resolution: {integrity: sha512-LfM43lm0cxvyhluqwKfDXMInvfh4TJhXKguBYtlVLvxIhYF38HEawaMx7rjlGn0HcR4kcexdL1WUCe3J4Op88A==, tarball: file:projects/eslint-plugin-azure-sdk-helper.tgz}
+    resolution: {integrity: sha512-kRAOQE31wzflYYlkqF/owv9V8ejpolAkmcglKEucRqNuhNQ4eP/YDYvCo+Wm+8cFYZNuEaucT6h6rnBVUyEOLg==, tarball: file:projects/eslint-plugin-azure-sdk-helper.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk-helper'
     version: 0.0.0
     dependencies:
+      '@eslint/js': 9.2.0
+      '@types/eslint': 8.44.9
+      '@types/estree': 1.0.5
       '@typescript-eslint/eslint-plugin': 7.8.0(@typescript-eslint/parser@7.8.0)(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/parser': 7.8.0(eslint@8.57.0)(typescript@5.4.5)
+      '@typescript-eslint/typescript-estree': 7.8.0(typescript@5.4.5)
       '@typescript-eslint/utils': 7.8.0(eslint@8.57.0)(typescript@5.4.5)
       eslint: 8.57.0
+      eslint-config-prettier: 9.1.0(eslint@8.57.0)
       eslint-plugin-import: 2.29.1(eslint@8.57.0)
       eslint-plugin-markdown: 5.0.0(eslint@8.57.0)
       eslint-plugin-no-only-tests: 3.1.0
       eslint-plugin-promise: 6.1.1(eslint@8.57.0)
       eslint-plugin-tsdoc: 0.2.17
+      glob: 10.3.15
+      tslib: 2.6.2
       typescript: 5.4.5
+      typescript-eslint: 7.8.0(eslint@8.57.0)(typescript@5.4.5)
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-jyKHi5Ubx6+jfXWWqJsGYQVUN/hKDtqrgOqQ8Fg2OoLhHZz/riIVl/9f1m/1Vs8BaYVOARBZctTJ028jtrFkAg==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-xRRhvi+SVAszKGJ0D4R+iF4l4rxU4TGxNSBXqGmQLtBMn14PlJlm0VHT9fIDaZ37yRPxvcSxx6eyp9aUOpfNcw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
       '@eslint/eslintrc': 3.1.0
-      '@types/eslint': 8.44.9
+      '@eslint/js': 9.2.0
+      '@types/eslint': 8.56.10
+      '@types/eslint-config-prettier': 6.11.3
+      '@types/eslint__js': 8.42.3
       '@types/estree': 1.0.5
       '@types/node': 18.19.33
       '@typescript-eslint/eslint-plugin': 7.8.0(@typescript-eslint/parser@7.8.0)(eslint@8.57.0)(typescript@5.4.5)
@@ -19764,6 +19816,7 @@ packages:
       source-map-support: 0.5.21
       tslib: 2.6.2
       typescript: 5.4.5
+      typescript-eslint: 7.8.0(eslint@8.57.0)(typescript@5.4.5)
       vitest: 1.6.0(@types/node@18.19.33)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -20212,7 +20265,7 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-tltADNWL/WbSJjT0wYa9GutUPP9afP5xoUpXb9zrMdU5dZpMXwXQOOFdFwLH5B21OrlrT1cRHWuPqOKdG9eDMQ==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-57sXv2WiScpT3AbpWmzAzUjdtGy63ukxyB0m4iS8K6R21n8o0+KXZU7siFFV7hRldzj2xUxYMMpgdedI0yrCXg==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
@@ -22339,7 +22392,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-GESktsjXx8HGFREpbEfHE/qbiq2Bd2Iz02KF7v2SxM2Cp2+SKZhYi6/avQSu744XcYKdky6BXoWb9ff0KZBXBg==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-rrxywwpWHVWVIv7Xm1kK1gQpHwQtlKpjdItNlFBJ600vjwKLzDyUxhiYSlfl8daICjJdig+n84lophu77HkSVg==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
