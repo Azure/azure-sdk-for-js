@@ -16,8 +16,6 @@ import {
   QueryCaptionType as BaseCaptions,
   SearchRequest as GeneratedSearchRequest,
   SuggestRequest,
-  VectorizableTextQuery as GeneratedVectorizableTextQuery,
-  VectorizedQuery as GeneratedVectorizedQuery,
   VectorQueryUnion as GeneratedVectorQuery,
 } from "./generated/data/models";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
@@ -46,8 +44,6 @@ import {
   SuggestDocumentsResult,
   SuggestOptions,
   UploadDocumentsOptions,
-  VectorizableTextQuery,
-  VectorizedQuery,
   VectorQuery,
 } from "./indexModels";
 import { logger } from "./logger";
@@ -326,6 +322,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       select,
       vectorSearchOptions,
       semanticSearchOptions,
+      hybridSearch,
       ...restOptions
     } = options as typeof options & { queryType: "semantic" };
 
@@ -357,6 +354,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       semanticConfigurationName: configurationName,
       debug: debugMode,
       vectorFilterMode: filterMode,
+      hybridSearch: hybridSearch,
     };
 
     const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", options);
@@ -931,16 +929,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     return output;
   }
 
-  private convertVectorQuery(): undefined;
-  private convertVectorQuery(vectorQuery: VectorizedQuery<TModel>): GeneratedVectorizedQuery;
-  private convertVectorQuery(
-    vectorQuery: VectorizableTextQuery<TModel>,
-  ): GeneratedVectorizableTextQuery;
-  private convertVectorQuery(vectorQuery: VectorQuery<TModel>): GeneratedVectorQuery;
-  private convertVectorQuery(vectorQuery?: VectorQuery<TModel>): GeneratedVectorQuery | undefined {
-    if (!vectorQuery) {
-      return vectorQuery;
-    }
+  private convertVectorQuery<T extends VectorQuery<TModel>>(vectorQuery: T): GeneratedVectorQuery {
     return { ...vectorQuery, fields: this.convertVectorQueryFields(vectorQuery?.fields) };
   }
 }
