@@ -5,44 +5,44 @@
  * @file All rules
  */
 
-import githubSourceHeaders from "./github-source-headers";
-import tsApiExtractorPublicTypes from "./ts-apiextractor-json-types";
-import tsApisurfaceStandardizedVerbs from "./ts-apisurface-standardized-verbs";
-import tsApisurfaceSupportcancellation from "./ts-apisurface-supportcancellation";
-import tsConfigInclude from "./ts-config-include";
-import tsDocInternal from "./ts-doc-internal";
-import tsDocInternalPrivateMember from "./ts-doc-internal-private-member";
-import tsErrorHandling from "./ts-error-handling";
-import tsModulesOnlyNamed from "./ts-modules-only-named";
-import tsNamingDropNoun from "./ts-naming-drop-noun";
-import tsNamingOptions from "./ts-naming-options";
-import tsNamingSubclients from "./ts-naming-subclients";
-import tsNoConstEnums from "./ts-no-const-enums";
-import tsNoWindow from "./ts-no-window";
-import tsPackageJsonAuthor from "./ts-package-json-author";
-import tsPackageJsonBugs from "./ts-package-json-bugs";
-import tsPackageJsonEngineIsPresent from "./ts-package-json-engine-is-present";
-import tsPackageJsonFilesRequired from "./ts-package-json-files-required";
-import tsPackageJsonHomepage from "./ts-package-json-homepage";
-import tsPackageJsonKeywords from "./ts-package-json-keywords";
-import tsPackageJsonLicense from "./ts-package-json-license";
-import tsPackageJsonMainIsCjs from "./ts-package-json-main-is-cjs";
-import tsPackageJsonModule from "./ts-package-json-module";
-import tsPackageJsonName from "./ts-package-json-name";
-import tsPackageJsonRepo from "./ts-package-json-repo";
-import tsPackageJsonRequiredScripts from "./ts-package-json-required-scripts";
-import tsPackageJsonSdkType from "./ts-package-json-sdktype";
-import tsPackageJsonSideEffects from "./ts-package-json-sideeffects";
-import tsPackageJsonTypes from "./ts-package-json-types";
-import tsPaginationList from "./ts-pagination-list";
-import tsUseInterfaceParameters from "./ts-use-interface-parameters";
-import tsUsePromises from "./ts-use-promises";
-import tsVersioningSemver from "./ts-versioning-semver";
+import githubSourceHeaders from "./github-source-headers.js";
+import tsApiExtractorPublicTypes from "./ts-apiextractor-json-types.js";
+import tsApisurfaceStandardizedVerbs from "./ts-apisurface-standardized-verbs.js";
+import tsApisurfaceSupportcancellation from "./ts-apisurface-supportcancellation.js";
+import tsConfigInclude from "./ts-config-include.js";
+import tsDocInternal from "./ts-doc-internal.js";
+import tsDocInternalPrivateMember from "./ts-doc-internal-private-member.js";
+import tsErrorHandling from "./ts-error-handling.js";
+import tsModulesOnlyNamed from "./ts-modules-only-named.js";
+import tsNamingDropNoun from "./ts-naming-drop-noun.js";
+import tsNamingOptions from "./ts-naming-options.js";
+import tsNamingSubclients from "./ts-naming-subclients.js";
+import tsNoConstEnums from "./ts-no-const-enums.js";
+import tsNoWindow from "./ts-no-window.js";
+import tsPackageJsonAuthor from "./ts-package-json-author.js";
+import tsPackageJsonBugs from "./ts-package-json-bugs.js";
+import tsPackageJsonEngineIsPresent from "./ts-package-json-engine-is-present.js";
+import tsPackageJsonFilesRequired from "./ts-package-json-files-required.js";
+import tsPackageJsonHomepage from "./ts-package-json-homepage.js";
+import tsPackageJsonKeywords from "./ts-package-json-keywords.js";
+import tsPackageJsonLicense from "./ts-package-json-license.js";
+import tsPackageJsonMainIsCjs from "./ts-package-json-main-is-cjs.js";
+import tsPackageJsonModule from "./ts-package-json-module.js";
+import tsPackageJsonName from "./ts-package-json-name.js";
+import tsPackageJsonRepo from "./ts-package-json-repo.js";
+import tsPackageJsonRequiredScripts from "./ts-package-json-required-scripts.js";
+import tsPackageJsonSdkType from "./ts-package-json-sdktype.js";
+import tsPackageJsonSideEffects from "./ts-package-json-sideeffects.js";
+import tsPackageJsonTypes from "./ts-package-json-types.js";
+import tsPaginationList from "./ts-pagination-list.js";
+import tsUseInterfaceParameters from "./ts-use-interface-parameters.js";
+import tsUsePromises from "./ts-use-promises.js";
+import tsVersioningSemver from "./ts-versioning-semver.js";
 
 /**
  * An object containing all rules defined by the plugin
  */
-export = {
+export default {
   "github-source-headers": githubSourceHeaders,
   "ts-apiextractor-json-types": tsApiExtractorPublicTypes,
   "ts-apisurface-standardized-verbs": tsApisurfaceStandardizedVerbs,

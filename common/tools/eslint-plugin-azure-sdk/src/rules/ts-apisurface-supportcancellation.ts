@@ -8,7 +8,8 @@
 
 import { TSESTree, ESLintUtils, ParserServicesWithTypeInformation } from "@typescript-eslint/utils";
 import { Symbol as TSSymbol, Type, TypeChecker, TypeFlags } from "typescript";
-import { getPublicMethods, createRule } from "../utils";
+
+import { getPublicMethods, createRule } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition

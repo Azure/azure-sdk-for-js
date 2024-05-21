@@ -7,8 +7,8 @@
  */
 
 import { TSESTree } from "@typescript-eslint/utils";
-import { createRule, getVerifiers, stripPath } from "../utils";
-import { VerifierMessages, stripFileName } from "../utils/verifiers";
+import { createRule, getVerifiers, stripPath } from "../utils/index.js";
+import { VerifierMessages, stripFileName } from "../utils/verifiers.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition

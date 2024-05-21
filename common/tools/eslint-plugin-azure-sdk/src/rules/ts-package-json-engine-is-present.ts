@@ -12,7 +12,7 @@ import {
   createRule,
   getVerifiers,
   stripPath,
-} from "../utils";
+} from "../utils/index.js";
 
 /**
  * definition of LTS Node versions

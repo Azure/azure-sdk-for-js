@@ -24,20 +24,13 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "main": "dist-esm/src/index.js",
-  "exports": {
-    ".": {
-      "types": "./dist-esm/src/index.d.ts",
-      "default": "./dist-esm/src/index.js"
-    },
-    "./package.json": "./package.json"
-  },
+  "main": "./dist/commonjs/index.js",
   "files": [
     "prettier.json",
-    "dist-esm/"
+    "dist/"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tshy",
     "build:samples": "echo Skipped.",
     "build:test": "echo Skipped.",
     "clean": "rimraf --glob dist* types",
@@ -84,6 +77,7 @@
   "devDependencies": {
     "@types/eslint__js": "8.42.3",
     "@types/eslint-config-prettier": "6.11.3",
+    "@types/eslint": "~8.56.10",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "~7.8.0",
     "@typescript-eslint/utils": "~7.8.0",
@@ -96,7 +90,34 @@
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
-    "vitest": "^1.4.0",
-    "@types/eslint": "~8.56.10"
-  }
+    "tshy": "^1.13.1",
+    "vitest": "^1.4.0"
+  },
+  "tshy": {
+    "project": "./tsconfig.build.json",
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "types": "./dist/commonjs/index.d.ts",
+  "type": "module"
 }

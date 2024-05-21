@@ -7,7 +7,7 @@
  */
 
 import { TSESTree } from "@typescript-eslint/utils";
-import { createRule } from "../utils";
+import { createRule } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition

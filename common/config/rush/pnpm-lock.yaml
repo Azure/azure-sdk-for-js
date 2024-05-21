@@ -20480,7 +20480,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-xRRhvi+SVAszKGJ0D4R+iF4l4rxU4TGxNSBXqGmQLtBMn14PlJlm0VHT9fIDaZ37yRPxvcSxx6eyp9aUOpfNcw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-gB/IaMqpgZCOFh07ahwjlQ18Xf51QWFUSt9+cpRCTCQAi9IPb7DNyFwjP8lfJ/geJefZ9JsIx8vdbNUdgq7fMg==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -20509,6 +20509,7 @@ packages:
       prettier: 3.2.5
       rimraf: 5.0.7
       source-map-support: 0.5.21
+      tshy: 1.14.0
       tslib: 2.6.2
       typescript: 5.4.5
       typescript-eslint: 7.8.0(eslint@8.57.0)(typescript@5.4.5)
@@ -21980,7 +21981,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-wX7n8gHZvyrjovFWVcXBHIvD+rOE1Rh0PX8kImlW7YdHNlwiT/4GkgS/l7pc6Stt/BKqKPhQYoNGsUg2mmkIzA==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-VNk6zld7/oXfKhhFjUhDzBuspNUuYcbRRgewl8i/i/8UPWGgjvlqo9PLlm4/HvOKfdCFpSeYM/iAkxZosIC1Dg==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:

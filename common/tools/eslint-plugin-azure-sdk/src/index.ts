@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import processors from "./processors";
-import rules from "./rules";
-import { name, version } from "../package.json";
-
-import azsdkConfigs from "./configs/index";
 import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
+
+import processors from "./processors/index.js";
+import rules from "./rules/index.js";
+import azsdkConfigs from "./configs/index.js";
 
 const plugin: Omit<FlatConfig.Plugin, "configs"> = {
   meta: {
-    name,
-    version,
+    name: "@azure/eslint-plugin-azure-sdk",
+    version: "3.1.0",
   },
   processors,
   rules,
@@ -20,7 +19,7 @@ const plugin: Omit<FlatConfig.Plugin, "configs"> = {
 // assign configs here so we can reference `plugin`
 const configs = azsdkConfigs(plugin);
 
-export = {
+export default {
   ...plugin,
   configs,
 };

@@ -7,12 +7,12 @@ import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
 import markdown from "eslint-plugin-markdown";
 
-import eslintCustomized from "./eslint-customized";
-import markdownCustomized from "./markdown-customized";
-import azureSdkCustomized from "./azure-sdk-customized";
+import eslintCustomized from "./eslint-customized.js";
+import markdownCustomized from "./markdown-customized.js";
+import azureSdkCustomized from "./azure-sdk-customized.js";
 
 // to keep compat with old .eslintrc style usage
-import rootConfig from "./azure-sdk-base";
+import rootConfig from "./azure-sdk-base.js";
 
 function recommended(plugin: FlatConfig.Plugin) {
   return typescriptEslint.config(

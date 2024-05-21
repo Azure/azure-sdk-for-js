@@ -5,9 +5,10 @@
  * @file Rule to force the inclusion of type declarations in the package.
  */
 
-import { createRule, getVerifiers, stripPath } from "../utils";
 import { TSESTree } from "@typescript-eslint/utils";
-import { VerifierMessages, stripFileName } from "../utils/verifiers";
+
+import { createRule, getVerifiers, stripPath } from "../utils/index.js";
+import { VerifierMessages, stripFileName } from "../utils/verifiers.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition
