@@ -4,20 +4,7 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { Paged } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccountSas {
@@ -162,16 +149,6 @@ export interface DataProductsCatalogsListBySubscriptionOptionalParams extends Op
 }
 
 // @public (undocumented)
-export interface DataProductsCatalogsOperations {
-    // (undocumented)
-    get: (subscriptionId: string, resourceGroupName: string, options?: DataProductsCatalogsGetOptionalParams) => Promise<DataProductsCatalog>;
-    // (undocumented)
-    listByResourceGroup: (subscriptionId: string, resourceGroupName: string, options?: DataProductsCatalogsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataProductsCatalog>;
-    // (undocumented)
-    listBySubscription: (subscriptionId: string, options?: DataProductsCatalogsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DataProductsCatalog>;
-}
-
-// @public (undocumented)
 export interface DataProductsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -199,32 +176,6 @@ export interface DataProductsListBySubscriptionOptionalParams extends OperationO
 
 // @public (undocumented)
 export interface DataProductsListRolesAssignmentsOptionalParams extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface DataProductsOperations {
-    // (undocumented)
-    addUserRole: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: RoleAssignmentCommonProperties, options?: DataProductsAddUserRoleOptionalParams) => Promise<RoleAssignmentDetail>;
-    // (undocumented)
-    create: (subscriptionId: string, resourceGroupName: string, dataProductName: string, resource: DataProduct, options?: DataProductsCreateOptionalParams) => PollerLike<OperationState<DataProduct>, DataProduct>;
-    // (undocumented)
-    delete: (subscriptionId: string, resourceGroupName: string, dataProductName: string, options?: DataProductsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    // (undocumented)
-    generateStorageAccountSasToken: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: AccountSas, options?: DataProductsGenerateStorageAccountSasTokenOptionalParams) => Promise<AccountSasToken>;
-    // (undocumented)
-    get: (subscriptionId: string, resourceGroupName: string, dataProductName: string, options?: DataProductsGetOptionalParams) => Promise<DataProduct>;
-    // (undocumented)
-    listByResourceGroup: (subscriptionId: string, resourceGroupName: string, options?: DataProductsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataProduct>;
-    // (undocumented)
-    listBySubscription: (subscriptionId: string, options?: DataProductsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DataProduct>;
-    // (undocumented)
-    listRolesAssignments: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: Record<string, any>, options?: DataProductsListRolesAssignmentsOptionalParams) => Promise<ListRoleAssignments>;
-    // (undocumented)
-    removeUserRole: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: RoleAssignmentDetail, options?: DataProductsRemoveUserRoleOptionalParams) => Promise<void>;
-    // (undocumented)
-    rotateKey: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: KeyVaultInfo, options?: DataProductsRotateKeyOptionalParams) => Promise<void>;
-    // (undocumented)
-    update: (subscriptionId: string, resourceGroupName: string, dataProductName: string, properties: DataProductUpdate, options?: DataProductsUpdateOptionalParams) => PollerLike<OperationState<DataProduct>, DataProduct>;
 }
 
 // @public (undocumented)
@@ -314,24 +265,6 @@ export interface DataTypesGetOptionalParams extends OperationOptions {
 export interface DataTypesListByDataProductOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
-export interface DataTypesOperations {
-    // (undocumented)
-    create: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, resource: DataType, options?: DataTypesCreateOptionalParams) => PollerLike<OperationState<DataType>, DataType>;
-    // (undocumented)
-    delete: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, options?: DataTypesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    // (undocumented)
-    deleteData: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, body: Record<string, any>, options?: DataTypesDeleteDataOptionalParams) => PollerLike<OperationState<void>, void>;
-    // (undocumented)
-    generateStorageContainerSasToken: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, body: ContainerSaS, options?: DataTypesGenerateStorageContainerSasTokenOptionalParams) => Promise<ContainerSasToken>;
-    // (undocumented)
-    get: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, options?: DataTypesGetOptionalParams) => Promise<DataType>;
-    // (undocumented)
-    listByDataProduct: (subscriptionId: string, resourceGroupName: string, dataProductName: string, options?: DataTypesListByDataProductOptionalParams) => PagedAsyncIterableIterator<DataType>;
-    // (undocumented)
-    update: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, properties: DataTypeUpdate, options?: DataTypesUpdateOptionalParams) => PollerLike<OperationState<DataType>, DataType>;
-}
-
 // @public
 export type DataTypeState = string;
 
@@ -418,21 +351,6 @@ export interface ManagedServiceIdentity {
 // @public
 export type ManagedServiceIdentityType = string;
 
-// @public (undocumented)
-export class NetworkAnalyticsClient {
-    constructor(credential: TokenCredential, options?: NetworkAnalyticsClientOptions);
-    readonly dataProducts: DataProductsOperations;
-    readonly dataProductsCatalogs: DataProductsCatalogsOperations;
-    readonly dataTypes: DataTypesOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public (undocumented)
-export interface NetworkAnalyticsClientOptions extends ClientOptions {
-    apiVersion?: string;
-}
-
 // @public
 export interface Operation {
     actionType?: ActionType;
@@ -452,12 +370,6 @@ export interface OperationDisplay {
 
 // @public (undocumented)
 export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface OperationsOperations {
-    // (undocumented)
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
@@ -504,18 +416,6 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
-
-// Warning: (ae-forgotten-export) The symbol "NetworkAnalyticsContext" needs to be exported by the entry point index.d.ts
-//
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: NetworkAnalyticsContext | NetworkAnalyticsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => PromiseLike<TResult>;
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface RoleAssignmentCommonProperties {

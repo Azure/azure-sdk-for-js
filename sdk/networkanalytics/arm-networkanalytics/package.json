@@ -1,118 +1,234 @@
 {
   "name": "@azure/arm-networkanalytics",
-  "sdk-type": "mgmt",
-  "author": "Microsoft Corporation",
-  "description": "A generated SDK for MicrosoftNetworkAnalytics.",
-  "version": "1.0.1",
+  "version": "1.0.0-beta.1",
+  "description": "A generated SDK for NetworkAnalyticsClient.",
   "engines": {
     "node": ">=18.0.0"
   },
-  "dependencies": {
-    "@azure/core-lro": "^2.5.4",
-    "@azure/abort-controller": "^1.0.0",
-    "@azure/core-paging": "^1.2.0",
-    "@azure/core-client": "^1.7.0",
-    "@azure/core-auth": "^1.3.0",
-    "@azure/core-rest-pipeline": "^1.12.0",
-    "tslib": "^2.2.0"
+  "sideEffects": false,
+  "autoPublish": false,
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./models": "./src/models/index.ts",
+      "./api/operations": "./src/api/operations/index.ts",
+      "./api/dataProductsCatalogs": "./src/api/dataProductsCatalogs/index.ts",
+      "./api/dataTypes": "./src/api/dataTypes/index.ts",
+      "./api/dataProducts": "./src/api/dataProducts/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
   },
+  "type": "module",
   "keywords": [
     "node",
     "azure",
+    "cloud",
     "typescript",
     "browser",
     "isomorphic"
   ],
+  "author": "Microsoft Corporation",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist-esm/src/index.js",
-  "types": "./types/arm-networkanalytics.d.ts",
-  "devDependencies": {
-    "@microsoft/api-extractor": "^7.31.1",
-    "mkdirp": "^3.0.1",
-    "typescript": "~5.4.5",
-    "uglify-js": "^3.4.9",
-    "rimraf": "^5.0.0",
-    "dotenv": "^16.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^4.0.1",
-    "@azure-tools/test-recorder": "^3.0.0",
-    "@azure-tools/test-credential": "^1.0.0",
-    "mocha": "^10.0.0",
-    "@types/mocha": "^10.0.0",
-    "@types/chai": "^4.2.8",
-    "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
-    "@types/node": "^18.0.0",
-    "ts-node": "^10.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "dist-esm/**/*.js",
-    "dist-esm/**/*.js.map",
-    "dist-esm/**/*.d.ts",
-    "dist-esm/**/*.d.ts.map",
-    "src/**/*.ts",
+    "dist",
     "README.md",
     "LICENSE",
-    "tsconfig.json",
-    "review/*",
-    "CHANGELOG.md",
-    "types/*"
+    "review/*"
   ],
+  "dependencies": {
+    "@azure-rest/core-client": "^2.0.0",
+    "@azure/core-auth": "^1.6.0",
+    "@azure/core-rest-pipeline": "^1.5.0",
+    "@azure/logger": "^1.0.0",
+    "tslib": "^2.6.2",
+    "@azure/core-lro": "3.0.0-beta.1",
+    "@azure/abort-controller": "^2.0.0",
+    "@azure/core-paging": "^1.5.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0",
+    "@microsoft/api-extractor": "^7.40.3",
+    "@types/node": "^18.0.0",
+    "eslint": "^8.55.0",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
+    "mkdirp": "^3.0.1",
+    "typescript": "~5.4.5",
+    "tshy": "1.11.1",
+    "@azure/core-util": "^1.0.0",
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure/identity": "^4.0.1",
+    "@azure-tools/test-recorder": "^4.0.0",
+    "@vitest/browser": "^1.3.1",
+    "@vitest/coverage-istanbul": "^1.3.1",
+    "playwright": "^1.41.2",
+    "vitest": "^1.3.1",
+    "@azure/dev-tool": "^1.0.0"
+  },
   "scripts": {
-    "build": "npm run clean && tsc && dev-tool run bundle && npm run minify && mkdirp ./review && npm run extract-api",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
-    "prepack": "npm run build",
-    "pack": "npm pack 2>&1",
-    "extract-api": "dev-tool run extract-api",
-    "lint": "echo skipped",
-    "audit": "echo skipped",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "build:node": "echo skipped",
-    "build:browser": "echo skipped",
-    "build:test": "echo skipped",
-    "build:samples": "echo skipped.",
-    "check-format": "echo skipped",
-    "execute:samples": "echo skipped",
-    "format": "echo skipped",
-    "test": "npm run integration-test",
-    "test:node": "echo skipped",
-    "test:browser": "echo skipped",
+    "extract-api": "rimraf review && mkdirp ./review && dev-tool run extract-api",
+    "pack": "npm pack 2>&1",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts --fix --fix-type [problem,suggestion]",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
-    "unit-test:browser": "echo skipped",
+    "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
+    "unit-test:node": "dev-tool run test:vitest",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.ts'",
-    "integration-test:browser": "echo skipped"
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:samples": "dev-tool samples publish --force",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
+    "generate:client": "echo skipped",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "build:test": "npm run clean && tshy && dev-tool run build-test",
+    "build": "npm run clean && tshy && mkdirp ./review && dev-tool run extract-api",
+    "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test"
   },
-  "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/microsoftNetworkAnalytics.ts",
-        "prefix": "packageDetails"
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
       }
-    ]
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./api/dataProductsCatalogs": {
+      "browser": {
+        "types": "./dist/browser/api/dataProductsCatalogs/index.d.ts",
+        "default": "./dist/browser/api/dataProductsCatalogs/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/dataProductsCatalogs/index.d.ts",
+        "default": "./dist/react-native/api/dataProductsCatalogs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataProductsCatalogs/index.d.ts",
+        "default": "./dist/esm/api/dataProductsCatalogs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataProductsCatalogs/index.d.ts",
+        "default": "./dist/commonjs/api/dataProductsCatalogs/index.js"
+      }
+    },
+    "./api/dataTypes": {
+      "browser": {
+        "types": "./dist/browser/api/dataTypes/index.d.ts",
+        "default": "./dist/browser/api/dataTypes/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/dataTypes/index.d.ts",
+        "default": "./dist/react-native/api/dataTypes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataTypes/index.d.ts",
+        "default": "./dist/esm/api/dataTypes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataTypes/index.d.ts",
+        "default": "./dist/commonjs/api/dataTypes/index.js"
+      }
+    },
+    "./api/dataProducts": {
+      "browser": {
+        "types": "./dist/browser/api/dataProducts/index.d.ts",
+        "default": "./dist/browser/api/dataProducts/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/dataProducts/index.d.ts",
+        "default": "./dist/react-native/api/dataProducts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataProducts/index.d.ts",
+        "default": "./dist/esm/api/dataProducts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataProducts/index.d.ts",
+        "default": "./dist/commonjs/api/dataProducts/index.js"
+      }
+    }
   },
-  "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/networkanalytics/arm-networkanalytics",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-networkanalytics?view=azure-node-preview"
-  }
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts"
 }

@@ -1427,6 +1427,16 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@azure/core-lro@3.0.0-beta.1:
+    resolution: {integrity: sha512-KbkVHWhLnlDQRtIZGCPQFB6y2xgeL7p5iICRYTCDjHBpWX9W/I3HkkvbvK4SordNsKwWbLKfPLrOJKJdsJocEQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      tslib: 2.6.2
+    dev: false
+
   /@azure/core-paging@1.6.2:
     resolution: {integrity: sha512-YKWi9YuCU04B55h25cnOYZHxXYtEvQEbKST5vqRga7hWY9ydd3FZHdeQF8pyh+acWZvppw13M/LMGx0LABUVMA==}
     engines: {node: '>=18.0.0'}
@@ -9736,6 +9746,23 @@ packages:
       strip-bom: 3.0.0
     dev: false
 
+  /tshy@1.11.1:
+    resolution: {integrity: sha512-AzATR8weBaUW46Nh4B1k5cfxVuADKJTXe95xHh7BzcI1RjQQy6HeUXQDY+erGEGTLpiv6N6xMFmtEsMMc7x40Q==}
+    engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
+    hasBin: true
+    dependencies:
+      chalk: 5.3.0
+      chokidar: 3.6.0
+      foreground-child: 3.1.1
+      mkdirp: 3.0.1
+      polite-json: 4.0.1
+      resolve-import: 1.4.5
+      rimraf: 5.0.7
+      sync-content: 1.0.2
+      typescript: 5.3.3
+      walk-up-path: 3.0.1
+    dev: false
+
   /tshy@1.14.0:
     resolution: {integrity: sha512-YiUujgi4Jb+t2I48LwSRzHkBpniH9WjjktNozn+nlsGmVemKSjDNY7EwBRPvPCr5zAC/3ITAYWH9Z7kUinGSrw==}
     engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
@@ -15588,33 +15615,52 @@ packages:
     dev: false
 
   file:projects/arm-networkanalytics.tgz:
-    resolution: {integrity: sha512-slnWBVpxw1dS7QIII5hBWkK2GoqDVy2BvohOuTSHDmJntEUvZvE4bcSR3ZiCOI1oIIA7PBWh4KVrSVQTHzgdAg==, tarball: file:projects/arm-networkanalytics.tgz}
+    resolution: {integrity: sha512-JGyO1a83/eibyao+b91Jnpw2Qp0HAaAMxfNHIK5313XlhbMEuwYpsNA0rqRYYLLnwdwo9pMAY+R7o2xzljKVAQ==, tarball: file:projects/arm-networkanalytics.tgz}
     name: '@rush-temp/arm-networkanalytics'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
       '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
-      '@azure/core-lro': 2.7.2
+      '@azure/core-lro': 3.0.0-beta.1
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.7(@types/node@18.19.33)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
       '@types/node': 18.19.33
+      '@vitest/browser': 1.6.0(playwright@1.44.0)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      eslint: 8.57.0
+      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
+      playwright: 1.44.0
+      prettier: 3.2.5
       rimraf: 5.0.7
-      ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.3.3)
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.4.5
       uglify-js: 3.17.4
+      vitest: 1.6.0(@types/node@18.19.33)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/arm-networkcloud.tgz:
@@ -22339,7 +22385,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-GESktsjXx8HGFREpbEfHE/qbiq2Bd2Iz02KF7v2SxM2Cp2+SKZhYi6/avQSu744XcYKdky6BXoWb9ff0KZBXBg==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-rrxywwpWHVWVIv7Xm1kK1gQpHwQtlKpjdItNlFBJ600vjwKLzDyUxhiYSlfl8daICjJdig+n84lophu77HkSVg==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
