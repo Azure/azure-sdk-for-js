@@ -5,8 +5,8 @@
   "sdk-type": "utility",
   "private": true,
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "~7.8.0",
-    "@typescript-eslint/parser": "~7.8.0",
+    "@typescript-eslint/eslint-plugin": "~7.10.0",
+    "@typescript-eslint/parser": "~7.10.0",
     "eslint": "^8.0.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-no-only-tests": "^3.0.0",
@@ -17,13 +17,13 @@
   "dependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.1.0",
     "@eslint/js": "~9.2.0",
-    "@typescript-eslint/typescript-estree": "~7.8.0",
+    "@typescript-eslint/typescript-estree": "~7.10.0",
     "@types/eslint": "~8.44.0",
     "@types/estree": "~1.0.0",
-    "@typescript-eslint/utils": "~7.8.0",
+    "@typescript-eslint/utils": "~7.10.0",
     "eslint-config-prettier": "^9.0.0",
     "glob": "^10.3.10",
-    "typescript-eslint": "~7.8.0",
+    "typescript-eslint": "~7.10.0",
     "typescript": "~5.4.5",
     "tslib": "^2.6.2"
   },
