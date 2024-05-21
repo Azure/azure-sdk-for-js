@@ -16,14 +16,20 @@ class StatsbeatConfiguration {
   private currentStatsbeatOptions: StatsbeatOptions = {};
   private initializedByShim = false;
 
-  constructor () {
+  constructor() {
     // Check for shim initialization upon construction
     try {
-      if (JSON.parse(process.env[AZURE_MONITOR_STATSBEAT_FEATURES] || "{}").feature & StatsbeatFeature.SHIM) {
+      if (
+        JSON.parse(process.env[AZURE_MONITOR_STATSBEAT_FEATURES] || "{}").feature &
+        StatsbeatFeature.SHIM
+      ) {
         this.initializedByShim = true;
       }
     } catch (error) {
-      InternalLogger.getInstance().error("Failed to parse statsbeat config environment variable.", error);
+      InternalLogger.getInstance().error(
+        "Failed to parse statsbeat config environment variable.",
+        error,
+      );
     }
   }
 
