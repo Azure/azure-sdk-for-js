@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import "./env.js"
 import {
   Recorder,
   RecorderStartOptions,
@@ -18,6 +17,11 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK3430",// $..id in the response body is not a secret, it is a random generated id used through recorder.variable()
+    "AZSDK2030",// "operation-location" is not a secret in itself, main endpoint is masked through other sanitizers (envSetupForPlayback and generalSanitizers) 
+    "AZSDK3496" // $..resourceLocation is not a secret in itself, main endpoint is masked through other sanitizers (envSetupForPlayback and generalSanitizers) 
+  ]
 };
 
 /**
