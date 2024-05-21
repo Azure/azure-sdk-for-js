@@ -27,7 +27,12 @@ const envSetupForPlayback: Record<string, string> = {
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
-  envSetupForPlayback,
+  envSetupForPlayback: envSetupForPlayback,
+  //  https://github.com/Azure/azure-sdk-tools/blob/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy/Common/SanitizerDictionary.cs
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK2030"
+  ]
 };
 
 /**
