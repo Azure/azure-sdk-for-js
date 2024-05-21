@@ -23,12 +23,12 @@ import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
 import {
   AnswerCallOptions,
-  ConnectOptions,
+  ConnectCallOptions,
   CreateCallOptions,
   RedirectCallOptions,
   RejectCallOptions,
 } from "./models/options";
-import { AnswerCallResult, ConnectResult, CreateCallResult } from "./models/responses";
+import { AnswerCallResult, ConnectCallResult, CreateCallResult } from "./models/responses";
 import { CallConnectionProperties, CallInvite, CallLocator } from "./models/models";
 import {
   communicationIdentifierConverter,
@@ -209,8 +209,6 @@ export class CallAutomationClient {
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
-      mediaStreamingOptions: options.mediaStreamingOptions,
-      transcriptionOptions: options.transcriptionOptions,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
         targetParticipant.sourceCallIdNumber,
       ),
@@ -237,7 +235,6 @@ export class CallAutomationClient {
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
-      transcriptionOptions: options.transcriptionOptions,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
     };
@@ -256,17 +253,9 @@ export class CallAutomationClient {
     callbackUrl: string,
     options: AnswerCallOptions = {},
   ): Promise<AnswerCallResult> {
-    const {
-      callIntelligenceOptions,
-      mediaStreamingOptions,
-      transcriptionOptions,
-      operationContext,
-      ...operationOptions
-    } = options;
+    const { callIntelligenceOptions, operationContext, ...operationOptions } = options;
     const request: AnswerCallRequest = {
       incomingCallContext: incomingCallContext,
-      mediaStreamingOptions: mediaStreamingOptions,
-      transcriptionOptions: transcriptionOptions,
       callIntelligenceOptions: callIntelligenceOptions,
       operationContext: operationContext,
       callbackUri: callbackUrl,
@@ -360,11 +349,11 @@ export class CallAutomationClient {
    * @param callbackUrl - The callback url
    * @param options - Additional request options contains connect api options.
    */
-  public async connect(
+  public async connectCall(
     callLocator: CallLocator,
     callbackUrl: string,
-    options: ConnectOptions = {},
-  ): Promise<ConnectResult> {
+    options: ConnectCallOptions = {},
+  ): Promise<ConnectCallResult> {
     const connectRequest: ConnectRequest = {
       callLocator: callLocator,
       callbackUri: callbackUrl,
@@ -409,7 +398,7 @@ export class CallAutomationClient {
         this.credential,
         this.internalPipelineOptions,
       );
-      const connectResult: ConnectResult = {
+      const connectResult: ConnectCallResult = {
         callConnectionProperties: callConnectionProperties,
         callConnection: callConnection,
       };

@@ -61,6 +61,7 @@ export class CallRecording {
     startCallRecordingRequest.recordingFormatType = options.recordingFormat;
     startCallRecordingRequest.recordingStateCallbackUri = options.recordingStateCallbackEndpointUrl;
     startCallRecordingRequest.pauseOnStart = options.pauseOnStart;
+    startCallRecordingRequest.recordingStorage = options.recordingStorage;
 
     if (options.channelAffinity) {
       startCallRecordingRequest.channelAffinity = [];
@@ -104,6 +105,7 @@ export class CallRecording {
 
     const result: RecordingStateResult = {
       recordingId: response.recordingId!,
+      recordingKind: response.recordingKind!,
       recordingState: response.recordingState!,
     };
 
@@ -123,6 +125,7 @@ export class CallRecording {
 
     const result: RecordingStateResult = {
       recordingId: response.recordingId!,
+      recordingKind: response.recordingKind!,
       recordingState: response.recordingState!,
     };
 

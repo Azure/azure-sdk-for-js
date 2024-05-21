@@ -1922,7 +1922,7 @@ export const AddParticipantFailed: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       participant: {
@@ -1936,10 +1936,10 @@ export const AddParticipantFailed: coreClient.CompositeMapper = {
   },
 };
 
-export const RestResultInformation: coreClient.CompositeMapper = {
+export const ResultInformation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RestResultInformation",
+    className: "ResultInformation",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -1996,7 +1996,7 @@ export const AddParticipantSucceeded: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       participant: {
@@ -2109,7 +2109,7 @@ export const CallTransferAccepted: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       transferTarget: {
@@ -2163,7 +2163,7 @@ export const CallTransferFailed: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
     },
@@ -2248,7 +2248,7 @@ export const RemoveParticipantSucceeded: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       participant: {
@@ -2295,7 +2295,7 @@ export const RemoveParticipantFailed: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       participant: {
@@ -2381,7 +2381,7 @@ export const CancelAddParticipantFailed: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       invitationId: {
@@ -2480,7 +2480,7 @@ export const PlayStarted: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
     },
@@ -2520,7 +2520,7 @@ export const PlayCompleted: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
     },
@@ -2560,7 +2560,7 @@ export const PlayFailed: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       failedPlaySourceIndex: {
@@ -2639,7 +2639,7 @@ export const RecognizeCompleted: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       recognitionType: {
@@ -2763,7 +2763,7 @@ export const RecognizeFailed: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       failedPlaySourceIndex: {
@@ -2836,7 +2836,7 @@ export const ContinuousDtmfRecognitionToneFailed: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       operationContext: {
@@ -2890,7 +2890,7 @@ export const ContinuousDtmfRecognitionToneReceived: coreClient.CompositeMapper =
           serializedName: "resultInformation",
           type: {
             name: "Composite",
-            className: "RestResultInformation",
+            className: "ResultInformation",
           },
         },
         operationContext: {
@@ -2936,7 +2936,7 @@ export const ContinuousDtmfRecognitionStopped: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
     },
@@ -2976,7 +2976,7 @@ export const SendDtmfTonesCompleted: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
     },
@@ -3016,7 +3016,7 @@ export const SendDtmfTonesFailed: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
     },
@@ -3058,7 +3058,7 @@ export const MediaStreamingFailed: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       mediaStreamingUpdate: {
@@ -3134,7 +3134,7 @@ export const MediaStreamingStarted: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       mediaStreamingUpdate: {
@@ -3183,7 +3183,7 @@ export const MediaStreamingStopped: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       mediaStreamingUpdate: {
@@ -3230,7 +3230,7 @@ export const HoldFailed: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
     },
@@ -3253,7 +3253,7 @@ export const TranscriptionFailed: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       transcriptionUpdate: {
@@ -3325,7 +3325,7 @@ export const TranscriptionStarted: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       transcriptionUpdate: {
@@ -3376,7 +3376,7 @@ export const TranscriptionStopped: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       transcriptionUpdate: {
@@ -3427,7 +3427,7 @@ export const TranscriptionUpdated: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
       transcriptionUpdate: {
@@ -3495,7 +3495,7 @@ export const ConnectFailed: coreClient.CompositeMapper = {
         serializedName: "resultInformation",
         type: {
           name: "Composite",
-          className: "RestResultInformation",
+          className: "ResultInformation",
         },
       },
     },

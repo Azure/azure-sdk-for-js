@@ -4,8 +4,6 @@
 import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
 import { OperationOptions } from "@azure/core-client";
 import {
-  MediaStreamingOptions,
-  TranscriptionOptions,
   CallRejectReason,
   FileSource,
   TextSource,
@@ -15,6 +13,7 @@ import {
   RecordingContent,
   RecordingChannel,
   RecordingFormat,
+  RecordingStorage,
   CallLocator,
   ChannelAffinity,
   CallIntelligenceOptions,
@@ -35,8 +34,6 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
   interruptPrompt?: boolean;
   /** Time to wait for first input after prompt. */
   initialSilenceTimeoutInSeconds?: number;
-  /** speechModelEndpointId. */
-  speechModelEndpointId?: string;
   /**
    * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
@@ -109,12 +106,6 @@ export interface CreateCallOptions extends OperationOptions {
   operationContext?: string;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
-  /** Configuration of Media streaming. */
-  mediaStreamingOptions?: MediaStreamingOptions;
-  /** Configuration of live transcription. */
-  transcriptionOptions?: TranscriptionOptions;
-  /** The Custom Context. */
-  customCallingContext?: CustomCallingContext;
 }
 
 /**
@@ -123,10 +114,6 @@ export interface CreateCallOptions extends OperationOptions {
 export interface AnswerCallOptions extends OperationOptions {
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
-  /** Configuration of Media streaming. */
-  mediaStreamingOptions?: MediaStreamingOptions;
-  /** Configuration of live transcription. */
-  transcriptionOptions?: TranscriptionOptions;
   /** The operation context. */
   operationContext?: string;
 }
@@ -134,10 +121,7 @@ export interface AnswerCallOptions extends OperationOptions {
 /**
  * Options to redirect call.
  */
-export interface RedirectCallOptions extends OperationOptions {
-  /** The Custom Context. */
-  customCallingContext?: CustomCallingContext;
-}
+export type RedirectCallOptions = OperationOptions;
 
 /**
  * Options to reject call.
@@ -162,8 +146,6 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
   transferee?: CommunicationIdentifier;
   /** Used by customer to send custom context to targets. */
   customCallingContext?: CustomCallingContext;
-  /** The source caller Id, a phone number, that's will be used as the transferor's(Contoso) caller id when transfering a call a pstn target. */
-  sourceCallIdNumber?: PhoneNumberIdentifier;
 }
 
 /** Options to add participants. */
@@ -219,14 +201,6 @@ export interface PlayOptions extends OperationOptions {
 }
 
 /**
- * Options to playToAll audio.
- */
-export interface PlayToAllOptions extends PlayOptions {
-  /** If set play can barge into other existing queued-up/currently-processing requests. */
-  interruptCallMediaOperation?: boolean;
-}
-
-/**
  * Options to get call connection properties.
  */
 export type GetCallConnectionPropertiesOptions = OperationOptions;
@@ -255,6 +229,8 @@ export interface StartRecordingOptions extends OperationOptions {
   recordingChannel?: RecordingChannel;
   /** The format type of call recording. */
   recordingFormat?: RecordingFormat;
+  /** Recording storage option. */
+  recordingStorage?: RecordingStorage;
   /** Pause on start call recording option. */
   pauseOnStart?: boolean;
   /**
@@ -345,67 +321,9 @@ export interface CancelAddParticipantOperationOptions extends OperationOptions {
 }
 
 /**
- * Options to start transcription
- */
-export interface StartTranscriptionOptions extends OperationOptions {
-  /** Defines Locale for the transcription e,g en-US */
-  locale?: string;
-  /** The value to identify context of the operation. */
-  operationContext?: string;
-}
-
-/**
- * Options to stop transcription
- */
-export interface StopTranscriptionOptions extends OperationOptions {
-  /** The value to identify context of the operation. */
-  operationContext?: string;
-}
-
-/**
- * Options to hold participant.
- */
-export interface HoldOptions extends OperationOptions {
-  /** A PlaySource representing the source to play. */
-  playSource?: FileSource | TextSource | SsmlSource;
-  /** Operation Context. */
-  operationContext?: string;
-  /** Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation. */
-  operationCallbackUrl?: string;
-}
-
-/**
- * Options to Unhold participant.
- */
-export interface UnholdOptions extends OperationOptions {
-  /** Operation Context. */
-  operationContext?: string;
-}
-
-/** Options for start media streaming request. */
-export interface StartMediaStreamingOptions extends OperationOptions {
-  /**
-   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
-   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
-   */
-  operationCallbackUri?: string;
-  /** The value to identify context of the operation. */
-  operationContext?: string;
-}
-
-/** Options for stop media streaming request. */
-export interface StopMediaStreamingOptions extends OperationOptions {
-  /**
-   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
-   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
-   */
-  operationCallbackUri?: string;
-}
-
-/**
  * Options to Connect request.
  */
-export interface ConnectOptions extends OperationOptions {
+export interface ConnectCallOptions extends OperationOptions {
   /** Used by customers to correlate the request to the response event. */
   operationContext?: string;
   /** AI options for the call. */

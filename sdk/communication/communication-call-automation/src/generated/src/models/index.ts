@@ -697,12 +697,12 @@ export interface AddParticipantFailed {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** Participant */
   participant?: CommunicationIdentifierModel;
 }
 
-export interface RestResultInformation {
+export interface ResultInformation {
   /** Code of the current result. This can be helpful to Call Automation team to troubleshoot the issue if this result was unexpected. */
   code?: number;
   /** Subcode of the current result. This can be helpful to Call Automation team to troubleshoot the issue if this result was unexpected. */
@@ -722,7 +722,7 @@ export interface AddParticipantSucceeded {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** Participant */
   participant?: CommunicationIdentifierModel;
 }
@@ -762,7 +762,7 @@ export interface CallTransferAccepted {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** Target who the call is transferred to. */
   transferTarget?: CommunicationIdentifierModel;
   /** the participant who is being transferred away. */
@@ -780,7 +780,7 @@ export interface CallTransferFailed {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
 }
 
 /** The participants updated in a call event. */
@@ -808,7 +808,7 @@ export interface RemoveParticipantSucceeded {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** Participant */
   participant?: CommunicationIdentifierModel;
 }
@@ -824,7 +824,7 @@ export interface RemoveParticipantFailed {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** Participant */
   participant?: CommunicationIdentifierModel;
 }
@@ -854,7 +854,7 @@ export interface CancelAddParticipantFailed {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** Invitation ID used to cancel the request. */
   invitationId?: string;
 }
@@ -891,7 +891,7 @@ export interface PlayStarted {
   /** Gets or sets used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Gets or sets contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
 }
 
 export interface PlayCompleted {
@@ -904,7 +904,7 @@ export interface PlayCompleted {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
 }
 
 export interface PlayFailed {
@@ -917,9 +917,7 @@ export interface PlayFailed {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-  /** Contains the index of the failed play source. */
-  failedPlaySourceIndex?: number;
+  resultInformation?: ResultInformation;
 }
 
 export interface PlayCanceled {
@@ -943,7 +941,7 @@ export interface RecognizeCompleted {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /**
    * Determines the sub-type of the recognize operation.
    * In case of cancel operation the this field is not set and is returned empty
@@ -991,9 +989,7 @@ export interface RecognizeFailed {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-  /** Contains the index of the failed play source. */
-  failedPlaySourceIndex?: number;
+  resultInformation?: ResultInformation;
 }
 
 export interface RecognizeCanceled {
@@ -1015,7 +1011,7 @@ export interface ContinuousDtmfRecognitionToneFailed {
   /** Correlation ID for event to call correlation. */
   correlationId?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
 }
@@ -1034,7 +1030,7 @@ export interface ContinuousDtmfRecognitionToneReceived {
   /** Correlation ID for event to call correlation. Also called ChainId or skype chain ID. */
   correlationId?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
 }
@@ -1049,7 +1045,7 @@ export interface ContinuousDtmfRecognitionStopped {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
 }
 
 export interface SendDtmfTonesCompleted {
@@ -1062,7 +1058,7 @@ export interface SendDtmfTonesCompleted {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
 }
 
 export interface SendDtmfTonesFailed {
@@ -1075,7 +1071,7 @@ export interface SendDtmfTonesFailed {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
 }
 
 export interface MediaStreamingFailed {
@@ -1097,7 +1093,7 @@ export interface MediaStreamingFailed {
    * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resultInformation?: RestResultInformation;
+  readonly resultInformation?: ResultInformation;
   /**
    * Defines the result for MediaStreamingUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1130,7 +1126,7 @@ export interface MediaStreamingStarted {
    * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resultInformation?: RestResultInformation;
+  readonly resultInformation?: ResultInformation;
   /**
    * Defines the result for MediaStreamingUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1157,7 +1153,7 @@ export interface MediaStreamingStopped {
    * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resultInformation?: RestResultInformation;
+  readonly resultInformation?: ResultInformation;
   /**
    * Defines the result for MediaStreamingUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1175,7 +1171,7 @@ export interface HoldFailed {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
 }
 
 export interface TranscriptionFailed {
@@ -1188,7 +1184,7 @@ export interface TranscriptionFailed {
    * Contains the resulting SIP code, sub-code and message.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resultInformation?: RestResultInformation;
+  readonly resultInformation?: ResultInformation;
   /**
    * Defines the result for TranscriptionUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1226,7 +1222,7 @@ export interface TranscriptionStarted {
    * Contains the resulting SIP code, sub-code and message.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resultInformation?: RestResultInformation;
+  readonly resultInformation?: ResultInformation;
   /**
    * Defines the result for TranscriptionUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1259,7 +1255,7 @@ export interface TranscriptionStopped {
    * Contains the resulting SIP code, sub-code and message.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resultInformation?: RestResultInformation;
+  readonly resultInformation?: ResultInformation;
   /**
    * Defines the result for TranscriptionUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1292,7 +1288,7 @@ export interface TranscriptionUpdated {
    * Contains the resulting SIP code, sub-code and message.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resultInformation?: RestResultInformation;
+  readonly resultInformation?: ResultInformation;
   /**
    * Defines the result for TranscriptionUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1326,7 +1322,7 @@ export interface ConnectFailed {
   /** Used by customers to set the context for connecting to a call. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
 }
 
 /** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */

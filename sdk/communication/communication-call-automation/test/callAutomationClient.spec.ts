@@ -4,7 +4,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import Sinon, { SinonStubbedInstance } from "sinon";
 import { CallConnectionProperties, CallLocator } from "../src/models/models";
-import { AnswerCallResult, CreateCallResult, ConnectResult } from "../src/models/responses";
+import { AnswerCallResult, CreateCallResult, ConnectCallResult } from "../src/models/responses";
 import {
   CALL_CALLBACK_URL,
   CALL_INCOMING_CALL_CONTEXT,
@@ -187,11 +187,11 @@ describe("Call Automation Client Unit Tests", () => {
   });
 
   it("Create Connection", async () => {
-    const connectResultMock: ConnectResult = {
+    const connectResultMock: ConnectCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
     };
-    client.connect.returns(
+    client.connectCall.returns(
       new Promise((resolve) => {
         resolve(connectResultMock);
       }),
@@ -200,13 +200,13 @@ describe("Call Automation Client Unit Tests", () => {
       id: "test",
       kind: "roomCallLocator",
     };
-    const promiseResult = client.connect(callLocator, CALL_CALLBACK_URL);
+    const promiseResult = client.connectCall(callLocator, CALL_CALLBACK_URL);
 
     // asserts
     promiseResult
-      .then((result: ConnectResult) => {
+      .then((result: ConnectCallResult) => {
         assert.isNotNull(result);
-        assert.isTrue(client.connect.calledWith(callLocator, CALL_CALLBACK_URL));
+        assert.isTrue(client.connectCall.calledWith(callLocator, CALL_CALLBACK_URL));
         assert.equal(result, connectResultMock);
         return;
       })

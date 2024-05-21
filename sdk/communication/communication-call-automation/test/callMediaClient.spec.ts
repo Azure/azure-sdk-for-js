@@ -20,7 +20,6 @@ import {
   SsmlSource,
   RecognitionChoice,
   DtmfTone,
-  MediaStreamingOptions,
 } from "../src/models/models";
 import {
   CallMediaRecognizeDtmfOptions,
@@ -34,13 +33,6 @@ import {
   CreateCallOptions,
   AnswerCallOptions,
   PlayOptions,
-  StartTranscriptionOptions,
-  StopTranscriptionOptions,
-  HoldOptions,
-  UnholdOptions,
-  PlayToAllOptions,
-  StopMediaStreamingOptions,
-  StartMediaStreamingOptions,
 } from "../src";
 
 // Current directory imports
@@ -185,63 +177,6 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(request.method, "POST");
   });
 
-  it("makes successful PlayToAll barge in request", async function () {
-    const mockHttpClient = generateHttpClient(202);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-
-    const playSource: FileSource[] = [
-      {
-        url: MEDIA_URL_WAV,
-        kind: "fileSource",
-      },
-    ];
-
-    const options: PlayToAllOptions = {
-      interruptCallMediaOperation: true,
-      operationContext: "interruptMediaContext",
-    };
-
-    await callMedia.playToAll(playSource, options);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-
-    assert.equal(data.playSources[0].kind, "file");
-    assert.equal(data.playSources[0].file.uri, playSource[0].url);
-    assert.equal(request.method, "POST");
-    assert.equal(data.operationContext, options.operationContext);
-    assert.equal(data.interruptCallMediaOperation, options.interruptCallMediaOperation);
-  });
-
-  it("makes successful PlayToAll barge in request with PlayOptions instead of PlayToAllOptions", async function () {
-    const mockHttpClient = generateHttpClient(202);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-
-    const playSource: FileSource[] = [
-      {
-        url: MEDIA_URL_WAV,
-        kind: "fileSource",
-      },
-    ];
-
-    const options: PlayOptions = {
-      operationContext: "interruptMediaContext",
-    };
-
-    await callMedia.playToAll(playSource, options);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-
-    assert.equal(data.playSources[0].kind, "file");
-    assert.equal(data.playSources[0].file.uri, playSource[0].url);
-    assert.equal(request.method, "POST");
-    assert.equal(data.operationContext, options.operationContext);
-    assert.equal(data.interruptCallMediaOperation, false);
-  });
-
   it("makes successful StartRecognizing DTMF request", async function () {
     const mockHttpClient = generateHttpClient(202);
 
@@ -294,7 +229,6 @@ describe("CallMedia Unit Tests", async function () {
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeSpeechOptions = {
       kind: "callMediaRecognizeSpeechOptions",
-      speechModelEndpointId: "customModelEndpointId",
     };
 
     await callMedia.startRecognizing(targetParticipant, recognizeOptions);
@@ -380,173 +314,6 @@ describe("CallMedia Unit Tests", async function () {
     assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
     assert.deepEqual(data.tones, tones);
     assert.equal(data.operationContext, sendDtmfOptions.operationContext);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful hold request", async function () {
-    const mockHttpClient = generateHttpClient(200);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-
-    const playSource: TextSource = {
-      text: "test test test",
-      customVoiceEndpointId: "customVoiceEndpointId",
-      kind: "textSource",
-    };
-
-    const participantToHold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const options: HoldOptions = {
-      playSource: playSource,
-      operationContext: "withPlaySource",
-      operationCallbackUrl: "https://localhost",
-    };
-    await callMedia.hold(participantToHold, options);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
-    assert.equal(data.playSourceInfo.kind, "text");
-    assert.equal(data.playSourceInfo.text.text, playSource.text);
-    assert.equal(data.operationContext, "withPlaySource");
-    assert.equal(data.operationCallbackUri, "https://localhost");
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful Hold request with no playSource", async function () {
-    const mockHttpClient = generateHttpClient(200);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-
-    const participantToHold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    await callMedia.hold(participantToHold);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
-    assert.equal(request.method, "POST");
-    assert.isUndefined(data.playSourceInfo);
-  });
-
-  it("makes successful unhold request", async function () {
-    const mockHttpClient = generateHttpClient(200);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-
-    const participantToUnhold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const options: UnholdOptions = {
-      operationContext: "unholdContext",
-    };
-    await callMedia.unhold(participantToUnhold, options);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
-    assert.equal(request.method, "POST");
-    assert.equal(data.operationContext, options.operationContext);
-  });
-
-  it("makes successful Start Transcription request", async function () {
-    const mockHttpClient = generateHttpClient(202);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const startTranscriptionOptions: StartTranscriptionOptions = {
-      locale: "en-US",
-      operationContext: "test_operation_context",
-    };
-
-    await callMedia.startTranscription(startTranscriptionOptions);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-
-    assert.equal(data.locale, startTranscriptionOptions.locale);
-    assert.equal(data.operationContext, startTranscriptionOptions.operationContext);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful Stop TranscriptionOptions request", async function () {
-    const mockHttpClient = generateHttpClient(202);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const stopTranscriptionOptions: StopTranscriptionOptions = {
-      operationContext: "test_operation_context",
-    };
-
-    await callMedia.stopTranscription(stopTranscriptionOptions);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-
-    assert.equal(data.operationContext, stopTranscriptionOptions.operationContext);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful Update Transcription request", async function () {
-    const mockHttpClient = generateHttpClient(202);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const locale = "en-US";
-
-    await callMedia.updateTranscription(locale);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-
-    assert.equal(data.locale, locale);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful start media streaming request with options", async function () {
-    const mockHttpClient = generateHttpClient(202);
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const options: StartMediaStreamingOptions = {
-      operationContext: "startMediaStreamContext",
-      operationCallbackUri: "https://localhost",
-    };
-    await callMedia.startMediaStreaming(options);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    assert.equal(data.operationContext, options.operationContext);
-    assert.equal(data.operationCallbackUri, options.operationCallbackUri);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful start media streaming request without options", async function () {
-    const mockHttpClient = generateHttpClient(202);
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    await callMedia.startMediaStreaming();
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    assert.isUndefined(data.operationContext);
-    assert.isUndefined(data.operationCallbackUri);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful stop media streaming request with options", async function () {
-    const mockHttpClient = generateHttpClient(202);
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const options: StopMediaStreamingOptions = {
-      operationCallbackUri: "https://localhost",
-    };
-    await callMedia.stopMediaStreaming(options);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    assert.equal(data.operationCallbackUri, options.operationCallbackUri);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful stop media streaming request without options", async function () {
-    const mockHttpClient = generateHttpClient(202);
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-
-    await callMedia.stopMediaStreaming();
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    assert.isUndefined(data.operationCallbackUri);
     assert.equal(request.method, "POST");
   });
 });
@@ -810,137 +577,6 @@ describe("Call Media Client Live Tests", function () {
       8000,
     );
     assert.isDefined(continuousDtmfRecognitionStopped);
-
-    await callConnection.hangUp(true);
-    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
-    assert.isDefined(callDisconnectedEvent);
-  }).timeout(60000);
-
-  it("Creates a call, start media streaming, and hangs up.", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
-      : "create_call_start_media_streaming_and_hang_up";
-    await loadPersistedEvents(testName);
-    const phoneNumbers = await getPhoneNumbers(recorder);
-    assert.isAtLeast(
-      phoneNumbers.length,
-      2,
-      "Invalid PSTN setup, test needs at least 2 phone numbers",
-    );
-    callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
-    receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
-
-    const callInvite: CallInvite = {
-      targetParticipant: receiverPhoneUser,
-      sourceCallIdNumber: callerPhoneUser,
-    };
-    const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
-    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-
-    const mediaStreamingOptions: MediaStreamingOptions = {
-      transportUrl: "wss://localhost",
-      transportType: "websocket",
-      contentType: "audio",
-      audioChannelType: "mixed",
-      startMediaStreaming: false,
-    };
-
-    const creatCallOptions: CreateCallOptions = {
-      mediaStreamingOptions: mediaStreamingOptions,
-    };
-
-    const result = await callerCallAutomationClient.createCall(
-      callInvite,
-      callBackUrl,
-      creatCallOptions,
-    );
-    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
-    const callConnectionId: string = result.callConnectionProperties.callConnectionId
-      ? result.callConnectionProperties.callConnectionId
-      : "";
-    assert.isDefined(incomingCallContext);
-
-    if (incomingCallContext) {
-      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
-    }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
-    assert.isDefined(callConnectedEvent);
-    callConnection = result.callConnection;
-
-    await callConnection.getCallMedia().startMediaStreaming();
-    const mediaStreamingStarted = await waitForEvent(
-      "MediaStreamingStarted",
-      callConnectionId,
-      8000,
-    );
-    assert.isDefined(mediaStreamingStarted);
-
-    await callConnection.getCallMedia().stopMediaStreaming();
-    const mediaStreamingStopped = await waitForEvent(
-      "MediaStreamingStopped",
-      callConnectionId,
-      8000,
-    );
-    assert.isDefined(mediaStreamingStopped);
-
-    await callConnection.hangUp(true);
-    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
-    assert.isDefined(callDisconnectedEvent);
-  }).timeout(60000);
-
-  it("Answers a call, start media streaming, and hangs up", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
-      : "answer_call_start_media_streaming_and_hang_up";
-    await loadPersistedEvents(testName);
-
-    const callInvite: CallInvite = { targetParticipant: testUser2 };
-    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
-    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
-    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
-    const callConnectionId: string = result.callConnectionProperties.callConnectionId
-      ? result.callConnectionProperties.callConnectionId
-      : "";
-    assert.isDefined(incomingCallContext);
-
-    if (incomingCallContext) {
-      const mediaStreamingOptions: MediaStreamingOptions = {
-        transportUrl: "wss://localhost",
-        transportType: "websocket",
-        contentType: "audio",
-        audioChannelType: "mixed",
-        startMediaStreaming: false,
-      };
-      const answerCallOptions: AnswerCallOptions = {
-        mediaStreamingOptions: mediaStreamingOptions,
-      };
-      await receiverCallAutomationClient.answerCall(
-        incomingCallContext,
-        callBackUrl,
-        answerCallOptions,
-      );
-    }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
-    assert.isDefined(callConnectedEvent);
-    callConnection = result.callConnection;
-
-    await callConnection.getCallMedia().startMediaStreaming();
-    const mediaStreamingStarted = await waitForEvent(
-      "MediaStreamingStarted",
-      callConnectionId,
-      8000,
-    );
-    assert.isDefined(mediaStreamingStarted);
-
-    await callConnection.getCallMedia().stopMediaStreaming();
-    const mediaStreamingStopped = await waitForEvent(
-      "MediaStreamingStopped",
-      callConnectionId,
-      8000,
-    );
-    assert.isDefined(mediaStreamingStopped);
 
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);

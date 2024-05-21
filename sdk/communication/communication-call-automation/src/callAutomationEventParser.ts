@@ -15,7 +15,6 @@ import {
   CallTransferFailed,
   ParticipantsUpdated,
   RecordingStateChanged,
-  PlayStarted,
   PlayCompleted,
   PlayFailed,
   PlayCanceled,
@@ -31,14 +30,6 @@ import {
   SendDtmfTonesFailed,
   CancelAddParticipantSucceeded,
   CancelAddParticipantFailed,
-  TranscriptionStarted,
-  TranscriptionStopped,
-  TranscriptionUpdated,
-  TranscriptionFailed,
-  HoldFailed,
-  MediaStreamingStarted,
-  MediaStreamingStopped,
-  MediaStreamingFailed,
   ConnectFailed,
 } from "./models/events";
 
@@ -99,9 +90,6 @@ export function parseCallAutomationEvent(
     case "Microsoft.Communication.RecordingStateChanged":
       callbackEvent = { kind: "RecordingStateChanged" } as RecordingStateChanged;
       break;
-    case "Microsoft.Communication.PlayStarted":
-      callbackEvent = { kind: "PlayStarted" } as PlayStarted;
-      break;
     case "Microsoft.Communication.PlayCompleted":
       callbackEvent = { kind: "PlayCompleted" } as PlayCompleted;
       break;
@@ -146,30 +134,6 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.CancelAddParticipantFailed":
       callbackEvent = { kind: "CancelAddParticipantFailed" } as CancelAddParticipantFailed;
-      break;
-    case "Microsoft.Communication.TranscriptionStarted":
-      callbackEvent = { kind: "TranscriptionStarted" } as TranscriptionStarted;
-      break;
-    case "Microsoft.Communication.TranscriptionStopped":
-      callbackEvent = { kind: "TranscriptionStopped" } as TranscriptionStopped;
-      break;
-    case "Microsoft.Communication.TranscriptionUpdated":
-      callbackEvent = { kind: "TranscriptionUpdated" } as TranscriptionUpdated;
-      break;
-    case "Microsoft.Communication.TranscriptionFailed":
-      callbackEvent = { kind: "TranscriptionFailed" } as TranscriptionFailed;
-      break;
-    case "Microsoft.Communication.HoldFailed":
-      callbackEvent = { kind: "HoldFailed" } as HoldFailed;
-      break;
-    case "Microsoft.Communication.MediaStreamingStarted":
-      callbackEvent = { kind: "MediaStreamingStarted" } as MediaStreamingStarted;
-      break;
-    case "Microsoft.Communication.MediaStreamingStopped":
-      callbackEvent = { kind: "MediaStreamingStopped" } as MediaStreamingStopped;
-      break;
-    case "Microsoft.Communication.MediaStreamingFailed":
-      callbackEvent = { kind: "MediaStreamingFailed" } as MediaStreamingFailed;
       break;
     case "Microsoft.Communication.ConnectFailed":
       callbackEvent = { kind: "ConnectFailed" } as ConnectFailed;

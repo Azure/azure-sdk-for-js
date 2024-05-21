@@ -18,13 +18,6 @@ import {
   SendDtmfTonesRequest,
   Tone,
   SpeechOptions,
-  StartTranscriptionRequest,
-  StopTranscriptionRequest,
-  UpdateTranscriptionRequest,
-  HoldRequest,
-  UnholdRequest,
-  StopMediaStreamingRequest,
-  StartMediaStreamingRequest,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -37,19 +30,12 @@ import {
 import { FileSource, TextSource, SsmlSource, DtmfTone } from "./models/models";
 import {
   PlayOptions,
-  PlayToAllOptions,
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,
   ContinuousDtmfRecognitionOptions,
   SendDtmfTonesOptions,
   CallMediaRecognizeSpeechOptions,
   CallMediaRecognizeSpeechOrDtmfOptions,
-  StartTranscriptionOptions,
-  StopTranscriptionOptions,
-  HoldOptions,
-  UnholdOptions,
-  StopMediaStreamingOptions,
-  StartMediaStreamingOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { SendDtmfTonesResult } from "./models/responses";
@@ -89,9 +75,7 @@ export class CallMedia {
       return {
         kind: KnownPlaySourceType.File,
         file: fileSource,
-        playSourceCacheId: playSource.playSourceCacheId
-          ? playSource.playSourceCacheId
-          : playSource.playsourcacheid,
+        playSourceCacheId: playSource.playsourcacheid,
       };
     } else if (playSource.kind === "textSource") {
       const textSource: TextSourceInternal = {
@@ -104,9 +88,7 @@ export class CallMedia {
       return {
         kind: KnownPlaySourceType.Text,
         text: textSource,
-        playSourceCacheId: playSource.playSourceCacheId
-          ? playSource.playSourceCacheId
-          : playSource.playsourcacheid,
+        playSourceCacheId: playSource.playsourcacheid,
       };
     } else if (playSource.kind === "ssmlSource") {
       const ssmlSource: SsmlSourceInternal = {
@@ -116,9 +98,7 @@ export class CallMedia {
       return {
         kind: KnownPlaySourceType.Ssml,
         ssml: ssmlSource,
-        playSourceCacheId: playSource.playSourceCacheId
-          ? playSource.playSourceCacheId
-          : playSource.playsourcacheid,
+        playSourceCacheId: playSource.playsourcacheid,
       };
     }
     throw new Error("Invalid play source");
@@ -161,7 +141,7 @@ export class CallMedia {
    */
   public async playToAll(
     playSources: (FileSource | TextSource | SsmlSource)[],
-    options: PlayToAllOptions = { loop: false },
+    options: PlayOptions = { loop: false },
   ): Promise<void> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
@@ -169,10 +149,6 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
-      interruptCallMediaOperation:
-        options.interruptCallMediaOperation !== undefined
-          ? options.interruptCallMediaOperation
-          : false,
       operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
     };
@@ -440,116 +416,5 @@ export class CallMedia {
       ...result,
     };
     return sendDtmfTonesResult;
-  }
-
-  /**
-   * Put participant on hold while playing audio.
-   *
-   * @param targetParticipant - The targets to play to.
-   * @param options - Additional attributes for hold participant.
-   */
-  public async hold(
-    targetParticipant: CommunicationIdentifier,
-    options: HoldOptions = {},
-  ): Promise<void> {
-    const holdRequest: HoldRequest = {
-      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      playSourceInfo:
-        options.playSource !== undefined
-          ? this.createPlaySourceInternal(options.playSource)
-          : undefined,
-      operationContext:
-        options.operationContext !== undefined ? options.operationContext : undefined,
-      operationCallbackUri:
-        options.operationCallbackUrl !== undefined ? options.operationCallbackUrl : undefined,
-    };
-    return this.callMedia.hold(this.callConnectionId, holdRequest);
-  }
-
-  /**
-   * Remove participant from hold.
-   *
-   * @param targetParticipant - The targets to play to.
-   * @param options - Additional attributes for unhold participant.
-   */
-  public async unhold(
-    targetParticipant: CommunicationIdentifier,
-    options: UnholdOptions = {},
-  ): Promise<void> {
-    const unholdRequest: UnholdRequest = {
-      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext:
-        options.operationContext !== undefined ? options.operationContext : undefined,
-    };
-    return this.callMedia.unhold(this.callConnectionId, unholdRequest);
-  }
-
-  /**
-   * Starts transcription in the call
-   * @param options - Additional attributes for start transcription.
-   */
-  public async startTranscription(options: StartTranscriptionOptions = {}): Promise<void> {
-    const startTranscriptionRequest: StartTranscriptionRequest = {
-      locale: options.locale,
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
-    };
-    return this.callMedia.startTranscription(this.callConnectionId, startTranscriptionRequest, {});
-  }
-
-  /**
-   * Stops transcription in the call.
-   * @param options - Additional attributes for stop transcription.
-   */
-  public async stopTranscription(options: StopTranscriptionOptions = {}): Promise<void> {
-    const stopTranscriptionRequest: StopTranscriptionRequest = {
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
-    };
-    return this.callMedia.stopTranscription(this.callConnectionId, stopTranscriptionRequest, {});
-  }
-
-  /**
-   * Update transcription language.
-   * @param locale - Defines new locale for transcription.
-   */
-  public async updateTranscription(locale: string): Promise<void> {
-    const updateTranscriptionRequest: UpdateTranscriptionRequest = {
-      locale: locale,
-    };
-    return this.callMedia.updateTranscription(
-      this.callConnectionId,
-      updateTranscriptionRequest,
-      {},
-    );
-  }
-
-  /**
-   * Starts media streaming in the call.
-   * @param options - Additional attributes for start media streaming.
-   */
-  public async startMediaStreaming(options: StartMediaStreamingOptions = {}): Promise<void> {
-    const startMediaStreamingRequest: StartMediaStreamingRequest = {
-      operationContext: options.operationContext,
-      operationCallbackUri: options.operationCallbackUri,
-    };
-    return this.callMedia.startMediaStreaming(
-      this.callConnectionId,
-      startMediaStreamingRequest,
-      options,
-    );
-  }
-
-  /**
-   * Stops media streaming in the call.
-   * @param options - Additional attributes for stop media streaming.
-   */
-  public async stopMediaStreaming(options: StopMediaStreamingOptions = {}): Promise<void> {
-    const stopMediaStreamingRequest: StopMediaStreamingRequest = {
-      operationCallbackUri: options.operationCallbackUri,
-    };
-    return this.callMedia.stopMediaStreaming(
-      this.callConnectionId,
-      stopMediaStreamingRequest,
-      options,
-    );
   }
 }

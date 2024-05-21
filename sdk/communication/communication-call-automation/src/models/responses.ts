@@ -3,7 +3,7 @@
 
 import { CallConnection } from "../callConnection";
 import { CallConnectionProperties, CallParticipant } from "./models";
-import { RecordingState } from "../generated/src";
+import { RecordingState, RecordingKind } from "../generated/src";
 
 /**
  * The interface used as parent of [action]CallResult
@@ -69,6 +69,7 @@ export interface MuteParticipantResult {
 /** The response payload for starting a call recording or getting call recording state. */
 export interface RecordingStateResult {
   recordingId: string;
+  recordingKind: RecordingKind;
   recordingState: RecordingState;
 }
 
@@ -87,6 +88,6 @@ export interface CancelAddParticipantOperationResult {
 }
 
 /**
- * Connect result
+ * Connect call result
  */
-export type ConnectResult = CallResult;
+export type ConnectCallResult = CallResult;
