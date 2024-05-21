@@ -18,7 +18,7 @@ import { TypeMarker } from "./enums/TypeMarker";
 import { ClientContext } from "../ClientContext";
 import { ClientEncryptionKeyRequest, ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { Constants, ResourceType, StatusCodes, SubStatusCodes } from "../common";
+import { ResourceType } from "../common";
 import { RequestOptions } from "../request";
 
 import { withDiagnostics } from "../utils/diagnostics";
@@ -205,32 +205,32 @@ export class EncryptionProcessor {
   ): [TypeMarker, Serializer] {
     if (type) {
       if (type === TypeMarker.Long) {
-        return [TypeMarker.Long, NumberSerializer.getInstance()];
+        return [TypeMarker.Long, new NumberSerializer()];
       } else if (type === TypeMarker.Double) {
-        return [TypeMarker.Double, FloatSerializer.getInstance()];
+        return [TypeMarker.Double, new FloatSerializer()];
       } else if (type === TypeMarker.String) {
-        return [TypeMarker.String, StringSerializer.getInstance()];
+        return [TypeMarker.String, new StringSerializer()];
       } else if (type === TypeMarker.Boolean) {
-        return [TypeMarker.Boolean, BooleanSerializer.getInstance()];
+        return [TypeMarker.Boolean, new BooleanSerializer()];
       } else {
         throw new Error("Invalid or Unsupported data type passed.");
       }
     } else {
       switch (typeof propertyValue) {
         case "boolean":
-          return [TypeMarker.Boolean, BooleanSerializer.getInstance()];
+          return [TypeMarker.Boolean, new BooleanSerializer()];
         case "string":
-          return [TypeMarker.String, StringSerializer.getInstance()];
+          return [TypeMarker.String, new StringSerializer()];
         case "object":
           if (propertyValue.constructor === Date) {
-            return [TypeMarker.String, StringSerializer.getInstance()];
+            return [TypeMarker.String, new StringSerializer()];
           }
           throw new Error("Invalid or Unsupported data type passed.");
         case "number":
           if (!Number.isInteger(propertyValue)) {
-            return [TypeMarker.Double, FloatSerializer.getInstance()];
+            return [TypeMarker.Double, new FloatSerializer()];
           } else {
-            return [TypeMarker.Long, NumberSerializer.getInstance()];
+            return [TypeMarker.Long, new NumberSerializer()];
           }
         default:
           throw new Error("Invalid or Unsupported data type passed.");
@@ -324,20 +324,26 @@ export class EncryptionProcessor {
     switch (typeMarker) {
       case TypeMarker.Long: {
         // return instance
-        return NumberSerializer.getInstance();
+        return new NumberSerializer();
       }
       case TypeMarker.Double:
-        return FloatSerializer.getInstance();
+        return new FloatSerializer();
       case TypeMarker.String:
-        return StringSerializer.getInstance();
+        return new StringSerializer();
       case TypeMarker.Boolean:
-        return BooleanSerializer.getInstance();
+        return new BooleanSerializer();
       default:
         throw new Error("Invalid or Unsupported data type passed.");
     }
   }
 
-  private async getEncryptionSetting(): Promise<EncryptionSettings> {
+  async setCollectionRidInRequestOptions(options: RequestOptions): Promise<void> {
+    const encryptionSettings = await this.getEncryptionSetting();
+    if (!encryptionSettings) return;
+    options.collectionRid = encryptionSettings.containerRid;
+  }
+
+  async getEncryptionSetting(): Promise<EncryptionSettings> {
     const key = this.databaseId + "/" + this.containerId;
     const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
     const encryptionSetting = encryptionSettingsCache.getEncryptionSettings(key);
@@ -455,4 +461,51 @@ export class EncryptionProcessor {
       return clientEncryptionKeyProperties;
     }, this.clientContext);
   }
+
+  // async ThrowIfRequestNeedsARetryPostPolicyRefresh(response: any): Promise<void> {
+  //   console.log("ThrowIfRequestNeedsARetryPostPolicyRefresh");
+  //   const key = this.databaseId + "/" + this.containerId;
+  //   const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
+  //   const encryptionSetting = encryptionSettingsCache.getEncryptionSettings(key);
+  //   const subStatusCode = response.headers[Constants.HttpHeaders.SubStatus];
+  //   console.log(`subStatusCode: ${subStatusCode}`);
+  //   const isPartitionKeyMismatch = subStatusCode == SubStatusCodes.PartitionKeyMismatch;
+  //   const isIncorrectContainerRidSubstatus =
+  //     subStatusCode == SubStatusCodes.IncorrectContainerRidSubstatus;
+  //   console.log(`isPartitionKeyMismatch: ${isPartitionKeyMismatch}`);
+  //   console.log(`isIncorrectContainerRidSubstatus: ${isIncorrectContainerRidSubstatus}`);
+  //   if (
+  //     response.code === StatusCodes.BadRequest &&
+  //     (isPartitionKeyMismatch || isIncorrectContainerRidSubstatus)
+  //   ) {
+  //     if (isPartitionKeyMismatch && encryptionSetting.partitionKeyPaths.length) {
+  //       let encryptionSettingsForProperty: EncryptionSettingForProperty = null;
+  //       for (const path of encryptionSetting.partitionKeyPaths) {
+  //         const partitionKeyPath = path.split("/")[1];
+  //         encryptionSettingsForProperty =
+  //           encryptionSetting.getEncryptionSettingForProperty(partitionKeyPath);
+  //         if (encryptionSettingsForProperty) {
+  //           break;
+  //         }
+  //       }
+
+  //       if (encryptionSettingsForProperty == null) {
+  //         return;
+  //       }
+  //     }
+  //     const currentContainerRid = encryptionSetting.containerRid;
+  //     console.log(`currentContainerRid: ${currentContainerRid}`);
+  //     const updatedContainerRid = (await this.getEncryptionSetting()).containerRid;
+  //     console.log(`updatedContainerRid: ${updatedContainerRid}`);
+  //     if (currentContainerRid === updatedContainerRid) {
+  //       return;
+  //     }
+  //     console.log(
+  //       `currentContainerRid: ${currentContainerRid}, updatedContainerRid: ${updatedContainerRid}`,
+  //     );
+  //     throw new Error(
+  //       "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue. Please refer to https://aka.ms/CosmosClientEncryption for more details. ",
+  //     );
+  //   }
+  // }
 }

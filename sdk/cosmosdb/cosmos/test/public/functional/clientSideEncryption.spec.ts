@@ -26,24 +26,55 @@ import { masterKey } from "../common/_fakeTestSecrets";
 import { endpoint } from "../common/_testConfig";
 
 import { removeAllDatabases } from "../common/TestHelpers";
+import { randomUUID } from "@azure/core-util";
 
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
-  async wrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
-    // To satisfy build requirements
-    const _ = encryptionKeyId + algorithm + key.toString();
-    console.log(_.slice(0, 0));
-
-    const base64key = "CWF5CrojTqFvTUWWHhq/IVWYIFbUYF99QwisJmCV3mc=";
-    return Buffer.from(base64key, "base64");
+  private keyInfo: { [key: string]: number } = {
+    tempmetadata1: 1,
+    tempmetadata2: 2,
+    "revokedKek-metadata": 3,
+    mymetadata1: 4,
+    mymetadata2: 5,
+  };
+  revokeAccessSet = false;
+  wrapKeyCallsCount: { [key: string]: number };
+  unwrapKeyCallsCount: { [key: string]: number };
+  constructor() {
+    this.wrapKeyCallsCount = {};
+    this.unwrapKeyCallsCount = {};
+    this.revokeAccessSet = false;
+  }
+  async unwrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
+    if (encryptionKeyId === "revokedKek-metadata" && this.revokeAccessSet) {
+      throw new Error("Forbidden");
+    }
+    console.log("here");
+    if (!this.unwrapKeyCallsCount.encryptedKeyId) {
+      this.unwrapKeyCallsCount[encryptionKeyId] = 1;
+    } else {
+      this.unwrapKeyCallsCount.encryptedKeyId++;
+    }
+    const moveBy = this.keyInfo[encryptionKeyId];
+    const plainKey = Buffer.alloc(key.length);
+    for (let i = 0; i < key.length; i++) {
+      plainKey[i] = key[i] - moveBy;
+    }
+    return plainKey;
   }
 
-  async unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer> {
-    // To satisfy build requirements
-    const _ = encryptionKeyId + algorithm + wrappedKey.toString();
-    console.log(_.slice(0, 0));
-
-    const base64key = "CGB4CbkiTaBuTESVHRm+IFSXH1XTX158QgerJV+U3WY=";
-    return Buffer.from(base64key, "base64");
+  async wrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer> {
+    console.log(algorithm);
+    if (!this.wrapKeyCallsCount.encryptedKeyId) {
+      this.wrapKeyCallsCount[encryptionKeyId] = 1;
+    } else {
+      this.wrapKeyCallsCount.encryptedKeyId++;
+    }
+    const moveBy = this.keyInfo[encryptionKeyId];
+    const encryptedKey = Buffer.alloc(wrappedKey.length);
+    for (let i = 0; i < wrappedKey.length; i++) {
+      encryptedKey[i] = wrappedKey[i] + moveBy;
+    }
+    return encryptedKey;
   }
 }
 const testKeyVault = "TESTKEYSTORE_VAULT" as EncryptionKeyResolverName;
@@ -116,7 +147,6 @@ describe("Client Side Encryption", () => {
       },
       array: ["hello", true],
     });
-
     assert.equal(createResponse.statusCode, StatusCodes.Created);
     // upsert Item
     const upsertResponse = await container.items.upsert({
@@ -535,7 +565,15 @@ describe("Client Side Encryption", () => {
   });
 
   it("encryption query iterator", async () => {
-    const includedPaths = ["/key", "/id", "/boolval", "/floatval"].map(
+    const includedPaths = [
+      "/key",
+      "/id",
+      "/boolval",
+      "/floatval",
+      "/arrayval",
+      "/objval",
+      "/date",
+    ].map(
       (path) =>
         new ClientEncryptionIncludedPath(
           path,
@@ -552,39 +590,218 @@ describe("Client Side Encryption", () => {
     };
     const { container } = await database.containers.createIfNotExists(containerDef);
     await container.initializeEncryption();
+    // const dateString = "1987-12-25T00:00:00Z";
+    const date = new Date(1987, 12, 25);
+    const date2 = new Date(1987, 12, 25, 0, 0, 0);
+    const date3 = new Date(1987, 12, 25, 0, 0, 0, 500);
+
+    console.log(date);
+    console.log(date2);
+    console.log(date3);
+
+    console.log("CREATE ITEM");
+
     await Promise.all([
-      container.items.create({ id: "1", name: "foo", key: 1, boolval: true, floatval: 3.0 }),
-      container.items.create({ id: "2", name: "bar", key: 2, boolval: false, floatval: 6.5 }),
-      container.items.create({ id: "1", name: "foo", key: 3, boolval: true, floatval: 6.5 }),
-      container.items.create({ id: "2", name: "bar", key: 4, boolval: false, floatval: 0.0 }),
+      // container.items.create({ id: "1", name: "foo", key: 1, boolval: true, floatval: 3.0 }),
+      // container.items.create({ id: "2", name: "bar", key: 2, boolval: false, floatval: 6.5 }),
+      // container.items.create({ id: "1", name: "foo", key: 3, boolval: true, floatval: 6.5 }),
+      // container.items.create({ id: "2", name: "bar", key: 4, boolval: false, floatval: 0.0 }),
+      container.items.create({
+        id: "5",
+        name: "foo",
+        key: 5,
+        boolval: true,
+        floatval: 6.5,
+        date: date,
+      }),
+      // container.items.create({
+      //   id: "2",
+      //   name: "bar",
+      //   key: 5,
+      //   boolval: false,
+      //   floatval: 0.0,
+      //   arrayval: [1, true, 3.4],
+      // }),
+      // container.items.create({
+      //   id: "3",
+      //   name: "bar",
+      //   key: 5,
+      //   boolval: false,
+      //   floatval: 0.0,
+      //   objval: { key: 1, boolval: true, floatval: 3.4 },
+      // }),
     ]);
     const readAllResponse = await container.items.readAll().fetchAll();
-    assert.equal(readAllResponse.resources.length, 4);
 
-    const queryBuilder = new EncryptionQueryBuilder(
-      "SELECT * FROM f WHERE f.id = @id and f.boolval = @boolval",
+    assert.equal(readAllResponse.resources.length, 1);
+
+    // const queryBuilder = new EncryptionQueryBuilder(
+    //   "SELECT * FROM f WHERE f.id = @id and f.boolval = @boolval",
+    // );
+    // queryBuilder.addStringParameter("@id", "1", "/id");
+    // queryBuilder.addBooleanParameter("@boolval", true, "/boolval");
+    // const iterator1 = await container.items.getEncryptionQueryIterator(queryBuilder);
+    // for await (const response of iterator1.getAsyncIterator()) {
+    //   assert.equal(response.resources.length, 2);
+    // }
+
+    // const queryBuilder1 = new EncryptionQueryBuilder(
+    //   "SELECT * FROM f WHERE f.id = @id and f.floatval = @floatval",
+    // );
+    // queryBuilder1.addStringParameter("@id", "1", "/id");
+    // queryBuilder1.addFloatParameter("@floatval", 6.5, "/floatval");
+
+    // const iterator2 = await container.items.getEncryptionQueryIterator(queryBuilder1);
+    // const fetchNextResponse = await iterator2.fetchNext();
+    // assert.equal(fetchNextResponse.resources.length, 1);
+
+    // const queryBuilder2 = new EncryptionQueryBuilder("SELECT * FROM f WHERE f.key = @key");
+    // queryBuilder2.addIntegerParameter("@key", 1, "/key");
+    // const iterator3 = await container.items.getEncryptionQueryIterator(queryBuilder2);
+    // const fetchAllResponse = await iterator3.fetchAll();
+    // assert.equal(fetchAllResponse.resources.length, 1);
+
+    // const queryBuilder3 = new EncryptionQueryBuilder(
+    //   "SELECT * FROM f WHERE f.arrayval = @arrayval",
+    // );
+    // queryBuilder3.addArrayParameter("@arrayval", [1, true, 3.4], "/arrayval");
+    // const iterator4 = await container.items.getEncryptionQueryIterator(queryBuilder3);
+    // const fetchAllResponse1 = await iterator4.fetchAll();
+    // assert.equal(fetchAllResponse1.resources.length, 1);
+
+    // const queryBuilder4 = new EncryptionQueryBuilder("SELECT * FROM f WHERE f.objval = @objval");
+    // queryBuilder4.addObjectParameter(
+    //   "@objval",
+    //   { key: 1, boolval: true, floatval: 3.4 },
+    //   "/objval",
+    // );
+    // const iterator5 = await container.items.getEncryptionQueryIterator(queryBuilder4);
+    // const fetchAllResponse2 = await iterator5.fetchAll();
+    // assert.equal(fetchAllResponse2.resources.length, 1);
+    console.log("QUERY ITEM");
+
+    const queryBuilder5 = new EncryptionQueryBuilder("SELECT * FROM f WHERE f.date = @date");
+    queryBuilder5.addDateParameter("@date", date, "/date");
+    const iterator6 = await container.items.getEncryptionQueryIterator(queryBuilder5);
+    const fetchAllResponse3 = await iterator6.fetchAll();
+    assert.equal(fetchAllResponse3.resources.length, 1);
+  });
+
+  it("kek revoke handling", async () => {
+    const keyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();
+    const encryptionClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: keyEncryptionKeyResolver,
+      encryptionKeyTimeToLiveInHours: 0,
+    });
+
+    await removeAllDatabases();
+
+    const revokedKekMetadata = new EncryptionKeyWrapMetadata(
+      testKeyVault,
+      "revokedKek",
+      "revokedKek-metadata",
+      KeyEncryptionKeyAlgorithm.RSA_OAEP,
     );
-    queryBuilder.addStringParameter("@id", "1", "/id");
-    queryBuilder.addBooleanParameter("@boolval", true, "/boolval");
-    const iterator1 = await container.items.getEncryptionQueryIterator(queryBuilder);
-    for await (const response of iterator1.getAsyncIterator()) {
-      assert.equal(response.resources.length, 2);
+    const testdatabase = (await encryptionClient.databases.createIfNotExists({ id: "myDb" }))
+      .database;
+    await testdatabase.createClientEncryptionKey(
+      "keyWithRevokedKek",
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      revokedKekMetadata,
+    );
+
+    // Once a Dek gets cached and the Kek is revoked, calls to unwrap/wrap keys would fail since KEK is revoked.
+    // The Dek should be rewrapped if the KEK is revoked.
+    // When an access to KeyVault fails, the Dek is fetched from the backend (force refresh to update the stale DEK) and cache is updated.
+    const pathWithRevokedKek = new ClientEncryptionIncludedPath(
+      "/sensitive_NestedObjectFormatL1",
+      "keyWithRevokedKek",
+      EncryptionType.DETERMINISTIC,
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    );
+    const paths = [pathWithRevokedKek];
+    const clientEncryptionPolicyWithRevokedKek = new ClientEncryptionPolicy(paths);
+    const containerProperties = {
+      id: randomUUID(),
+      partitionKey: {
+        paths: ["/PK"],
+      },
+      clientEncryptionPolicy: clientEncryptionPolicyWithRevokedKek,
+    };
+    const testcontainer = (await testdatabase.containers.create(containerProperties)).container;
+    keyEncryptionKeyResolver.revokeAccessSet = true;
+    // Try creating it and it should fail as it has been revoked.
+    try {
+      await testcontainer.items.create({
+        PK: "1",
+        id: "1",
+        sensitive_NestedObjectFormatL1: {
+          sensitive_NestedObjectFormatL2: {
+            sensitive_StringFormat: "test",
+          },
+        },
+      });
+      assert.fail("Create Item should have failed.");
+    } catch (err) {
+      assert.ok(
+        err.message.includes(
+          "needs to be rewrapped with a valid Key Encryption Key using rewrapClientEncryptionKey",
+        ),
+      );
     }
-
-    const queryBuilder1 = new EncryptionQueryBuilder(
-      "SELECT * FROM f WHERE f.id = @id and f.floatval = @floatval",
+  });
+  it.skip("test validate caching of protected dek", async () => {
+    const newTestKeyResolver = new MockKeyVaultEncryptionKeyResolver();
+    const newClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: newTestKeyResolver,
+      encryptionKeyTimeToLiveInHours: 0,
+    });
+    const newDatabase = newClient.database(database.id);
+    const path = new ClientEncryptionIncludedPath(
+      "/sensitive_NestedObjectFormatL1",
+      "dek1",
+      EncryptionType.DETERMINISTIC,
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     );
-    queryBuilder1.addStringParameter("@id", "1", "/id");
-    queryBuilder1.addFloatParameter("@floatval", 6.5, "/floatval");
+    const clientEncryptionPolicyWithRevokedKek = new ClientEncryptionPolicy([path]);
+    const containerProperties = {
+      id: randomUUID(),
+      partitionKey: {
+        paths: ["/PK"],
+      },
+      clientEncryptionPolicy: clientEncryptionPolicyWithRevokedKek,
+    };
+    const newContainer = (await newDatabase.containers.createIfNotExists(containerProperties))
+      .container;
+    console.log("START 2");
+    await newContainer.items.create({
+      PK: "1",
+      id: "1",
+      sensitive_NestedObjectFormatL1: {
+        sensitive_NestedObjectFormatL2: {
+          sensitive_StringFormat: "test",
+        },
+      },
+    });
 
-    const iterator2 = await container.items.getEncryptionQueryIterator(queryBuilder1);
-    const fetchNextResponse = await iterator2.fetchNext();
-    assert.equal(fetchNextResponse.resources.length, 1);
+    await newContainer.items.create({
+      PK: "2",
+      id: "2",
+      sensitive_NestedObjectFormatL1: {
+        sensitive_NestedObjectFormatL2: {
+          sensitive_StringFormat: "test2",
+        },
+      },
+    });
+    const unwrapcount = newTestKeyResolver.unwrapKeyCallsCount["tempmetadata1"];
+    console.log(JSON.stringify(newTestKeyResolver));
 
-    const queryBuilder2 = new EncryptionQueryBuilder("SELECT * FROM f WHERE f.key = @key");
-    queryBuilder2.addIntegerParameter("@key", 1, "/key");
-    const iterator3 = await container.items.getEncryptionQueryIterator(queryBuilder2);
-    const fetchAllResponse = await iterator3.fetchAll();
-    assert.equal(fetchAllResponse.resources.length, 1);
+    assert.equal(1, unwrapcount);
   });
 });

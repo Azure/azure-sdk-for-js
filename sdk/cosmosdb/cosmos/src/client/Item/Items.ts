@@ -392,6 +392,7 @@ export class Items {
       if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body);
+        await this.container.encryptionProcessor.setCollectionRidInRequestOptions(options);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
       const err = {};
@@ -476,6 +477,8 @@ export class Items {
 
       if (this.clientContext.enableEncryption) {
         body = copyObject(body);
+        options = options || {};
+        await this.container.encryptionProcessor.setCollectionRidInRequestOptions(options);
         body = await this.container.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
@@ -564,6 +567,8 @@ export class Items {
 
       if (this.clientContext.enableEncryption) {
         operations = copyObject(operations);
+        options = options || {};
+        await this.container.encryptionProcessor.setCollectionRidInRequestOptions(options);
         operations = await this.bulkBatchEncryptionHelper(operations);
       }
 
@@ -718,6 +723,8 @@ export class Items {
 
       if (this.clientContext.enableEncryption) {
         operations = copyObject(operations);
+        options = options || {};
+        await this.container.encryptionProcessor.setCollectionRidInRequestOptions(options);
         if (partitionKey) {
           const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
           partitionKey =

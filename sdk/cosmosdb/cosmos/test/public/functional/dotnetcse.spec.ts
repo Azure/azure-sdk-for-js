@@ -14,7 +14,7 @@ import {
   StatusCodes,
   EncryptionKeyResolver,
   Container,
-  ContainerDefinition,
+  // ContainerDefinition,
   ItemResponse,
   ItemDefinition,
   ClientEncryptionKeyResponse,
@@ -22,37 +22,53 @@ import {
   RequestOptions,
   SqlQuerySpec,
   QueryIterator,
+  PatchOperationType,
+  OperationInput,
+  PatchOperation,
+  BulkOperationType,
+  ChangeFeedStartFrom,
+  ContainerDefinition,
 } from "../../../src";
 import { assert } from "chai";
 
 import { masterKey } from "../common/_fakeTestSecrets";
 import { endpoint } from "../common/_testConfig";
-import { removeAllDatabases } from "../common/TestHelpers";
+// import { removeAllDatabases } from "../common/TestHelpers";
 import { randomUUID } from "@azure/core-util";
 import { StatusCode } from "nock";
+import { removeAllDatabases } from "../common/TestHelpers";
+// import { removeAllDatabases } from "../common/TestHelpers";
 
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
+  public id: number;
   private keyInfo: { [key: string]: number } = {
     tempmetadata1: 1,
     tempmetadata2: 2,
+    "revokedKek-metadata": 3,
+    mymetadata1: 4,
+    mymetadata2: 5,
   };
   revokeAccessSet = false;
-  wrapKeyCallsCount: { [key: string]: number };
-  unwrapKeyCallsCount: { [key: string]: number };
-  constructor() {
+  public wrapKeyCallsCount: { [key: string]: number };
+  public unwrapKeyCallsCount: { [key: string]: number };
+  constructor(id: number) {
     this.wrapKeyCallsCount = {};
     this.unwrapKeyCallsCount = {};
     this.revokeAccessSet = false;
+    this.id = id;
   }
   async unwrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
-    console.log(algorithm);
     if (encryptionKeyId === "revokedKek-metadata" && this.revokeAccessSet) {
       throw new Error("Forbidden");
     }
+
     if (!this.unwrapKeyCallsCount.encryptedKeyId) {
       this.unwrapKeyCallsCount[encryptionKeyId] = 1;
+      console.log("count initalized", encryptionKeyId, JSON.stringify(this.unwrapKeyCallsCount));
     } else {
       this.unwrapKeyCallsCount.encryptedKeyId++;
+
+      console.log("count updated", encryptionKeyId, JSON.stringify(this.unwrapKeyCallsCount));
     }
     const moveBy = this.keyInfo[encryptionKeyId];
     const plainKey = Buffer.alloc(key.length);
@@ -92,7 +108,7 @@ let clientEncryptionPolicy: ClientEncryptionPolicy;
 describe("dotnet test cases", () => {
   before(async () => {
     await removeAllDatabases();
-    testKeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();
+    testKeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver(1);
     metadata1 = new EncryptionKeyWrapMetadata(
       testKeyVault,
       "key1",
@@ -112,16 +128,17 @@ describe("dotnet test cases", () => {
       keyEncryptionKeyResolver: testKeyEncryptionKeyResolver,
     });
     database = (await encryptionClient.databases.createIfNotExists({ id: randomUUID() })).database;
+    console.log(`database created ${database.id}`);
+    // const revokedKekMetadata = new EncryptionKeyWrapMetadata(
+    //   testKeyVault,
+    //   "revokedKek",
+    //   "revokedKek-metadata",
+    //   KeyEncryptionKeyAlgorithm.RSA_OAEP,
+    // );
     await testCreateClientEncryptionKey("key1", metadata1);
     await testCreateClientEncryptionKey("key2", metadata2);
-
-    const revokedKekMetadata = new EncryptionKeyWrapMetadata(
-      testKeyVault,
-      "revokedKek",
-      "revokedKek-metadata",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
-    );
-    await testCreateClientEncryptionKey("keyWithRevokedKek", revokedKekMetadata);
+    console.log("client encryption keys created");
+    // await testCreateClientEncryptionKey("keyWithRevokedKek", revokedKekMetadata);
     const key1Paths = [
       "/PK",
       "/sensitive_NestedObjectFormatL1",
@@ -154,14 +171,14 @@ describe("dotnet test cases", () => {
         ),
     );
     const paths = key1Paths.concat(key2Paths);
-    paths.push(
-      new ClientEncryptionIncludedPath(
-        "/sensitive_ArrayFormat",
-        "keyWithRevokedKek",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
-    );
+    // paths.push(
+    //   new ClientEncryptionIncludedPath(
+    //     "/sensitive_ArrayFormat",
+    //     "keyWithRevokedKek",
+    //     EncryptionType.DETERMINISTIC,
+    //     EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    //   ),
+    // );
     clientEncryptionPolicy = new ClientEncryptionPolicy(paths, 2);
     containerDefinition = {
       id: randomUUID(),
@@ -180,14 +197,29 @@ describe("dotnet test cases", () => {
     };
     encryptionContainer = (await database.containers.createIfNotExists(containerDefinition))
       .container;
+    console.log(`container created ${encryptionContainer.id}`);
     encryptionContainerForChangeFeed = (
       await database.containers.createIfNotExists(containerDefinitionForChangeFeed)
     ).container;
+    console.log(`container created ${encryptionContainerForChangeFeed.id}`);
     await encryptionContainer.initializeEncryption();
+    console.log("encryption initialized");
     await encryptionContainerForChangeFeed.initializeEncryption();
   });
 
-  it("Encryption Bulk Crud", async () => {
+  beforeEach(async () => {
+    const iterator = encryptionContainer.items.readAll();
+    const { resources: items } = await iterator.fetchAll();
+    if (items.length > 0) {
+      for (const item of items) {
+        await encryptionContainer.item(item.id, item.PK).delete();
+      }
+    }
+  });
+
+  it("encryption bulk operation", async () => {
+    const docToCreate = TestDoc.create();
+
     const { resource: docToReplace } = await testCreateItem(encryptionContainer);
     docToReplace.nonsensitive = randomUUID();
     docToReplace.sensitive_StringFormat = randomUUID();
@@ -196,13 +228,16 @@ describe("dotnet test cases", () => {
     docToUpsert.nonsensitive = randomUUID();
     docToUpsert.sensitive_StringFormat = randomUUID();
 
+    // doc not created before
+    const docToUpsert2 = TestDoc.create();
+
     const { resource: docToDelete } = await testCreateItem(encryptionContainer);
 
     const clientWithBulk = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
       enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(10),
     });
 
     const databaseWithBulk = (await clientWithBulk.databases.createIfNotExists({ id: database.id }))
@@ -211,15 +246,49 @@ describe("dotnet test cases", () => {
       await databaseWithBulk.containers.createIfNotExists({ id: encryptionContainer.id })
     ).container;
 
-    await testCreateItem(encryptionContainerWithBulk);
-    await testUpsertItem(encryptionContainerWithBulk, TestDoc.create(), StatusCodes.Created);
-    await testReplaceItem(encryptionContainerWithBulk, docToReplace);
-    await testUpsertItem(encryptionContainerWithBulk, docToUpsert, StatusCodes.Ok);
-    await testDeleteItem(encryptionContainerWithBulk, docToDelete);
+    const operations = [
+      {
+        operationType: BulkOperationType.Create,
+        resourceBody: JSON.parse(JSON.stringify(docToCreate)),
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: docToUpsert2.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert2)),
+      },
+      {
+        operationType: BulkOperationType.Replace,
+        partitionKey: docToReplace.PK,
+        id: docToReplace.id,
+        resourceBody: JSON.parse(JSON.stringify(docToReplace)),
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: docToUpsert.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert)),
+      },
+      {
+        operationType: BulkOperationType.Delete,
+        id: docToDelete.id,
+        partitionKey: docToDelete.PK,
+      },
+    ];
+
+    const response = await encryptionContainerWithBulk.items.bulk(operations);
+    assert.equal(StatusCodes.Created, response[0].statusCode);
+    verifyExpectedDocResponse(docToCreate, response[0].resourceBody);
+    assert.equal(StatusCodes.Created, response[1].statusCode);
+    verifyExpectedDocResponse(docToUpsert2, response[1].resourceBody);
+    assert.equal(StatusCodes.Ok, response[2].statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToReplace), response[2].resourceBody);
+    assert.equal(StatusCodes.Ok, response[3].statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToUpsert), response[3].resourceBody);
+    assert.equal(StatusCodes.NoContent, response[4].statusCode);
+    assert.isNotObject(response[4].resourceBody);
     clientWithBulk.dispose();
   });
 
-  it("create client encryption key", async () => {
+  it("encryption create client encryption key", async () => {
     let cekId = "anotherCek";
     let testmetadata1 = new EncryptionKeyWrapMetadata(
       testKeyVault,
@@ -260,7 +329,7 @@ describe("dotnet test cases", () => {
       endpoint: endpoint,
       key: masterKey,
       enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(11),
     });
     let metadata = new EncryptionKeyWrapMetadata(
       EncryptionKeyResolverName.AzureKeyVault,
@@ -335,6 +404,7 @@ describe("dotnet test cases", () => {
         clientEncryptionKeyProperties.encryptionKeyWrapMetadata,
       ),
     );
+    //
     const updatedMetadata = new EncryptionKeyWrapMetadata(
       testKeyVault,
       cekId,
@@ -343,6 +413,7 @@ describe("dotnet test cases", () => {
     );
     clientEncryptionKeyProperties = (await testRewrapClientEncryptionKey(cekId, updatedMetadata))
       .clientEncryptionKeyProperties;
+    // check if cek is wrapped with updated metadata
     assert.ok(
       compareMetadata(
         new EncryptionKeyWrapMetadata(
@@ -357,7 +428,7 @@ describe("dotnet test cases", () => {
   });
 
   it("create encrypted item with null property", async () => {
-    const testkeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();
+    const testkeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver(12);
     const clientWithNoCaching = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
@@ -366,37 +437,49 @@ describe("dotnet test cases", () => {
     });
     const testdatabase = (await clientWithNoCaching.database(database.id).read()).database;
     const testcontainer = (await testdatabase.container(encryptionContainer.id).read()).container;
-    const testDoc = TestDoc.create();
+    let testDoc = TestDoc.create();
     testDoc.sensitive_ArrayFormat = null;
     testDoc.sensitive_StringFormat = null;
     testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_StringFormatL2 =
       null;
 
-    const createResponse = await testcontainer.items.create(testDoc);
+    let createResponse = await testcontainer.items.create(testDoc);
     assert.equal(StatusCodes.Created, createResponse.statusCode);
     verifyExpectedDocResponse(testDoc, createResponse.resource);
 
     // query on document with null property
 
     const queryBuilder = new EncryptionQueryBuilder(
-      "SELECT * FROM c where c.sensitive_StringFormat = @Sensitive_StringFormat" +
-        " AND c.sensitive_IntFormat = @Sensitive_IntFormat" +
-        " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_StringFormatL2 = @Sensitive_StringFormatL2",
+      "SELECT * FROM c where c.sensitive_StringFormat = @sensitive_StringFormat AND c.sensitive_ArrayFormat = @sensitive_ArrayFormat" +
+        " AND c.sensitive_IntFormat = @sensitive_IntFormat" +
+        " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_StringFormatL2 = @sensitive_StringFormatL2" +
+        " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2 = @sensitive_DecimalFormatL2",
     );
     queryBuilder.addStringParameter(
-      "@Sensitive_StringFormat",
+      "@sensitive_StringFormat",
       testDoc.sensitive_StringFormat,
       "/sensitive_StringFormat",
     );
+    queryBuilder.addArrayParameter(
+      "@sensitive_ArrayFormat",
+      testDoc.sensitive_ArrayFormat,
+      "/sensitive_ArrayFormat",
+    );
     queryBuilder.addIntegerParameter(
-      "@Sensitive_IntFormat",
+      "@sensitive_IntFormat",
       testDoc.sensitive_IntFormat,
       "/sensitive_IntFormat",
     );
     queryBuilder.addStringParameter(
-      "@Sensitive_StringFormatL2",
+      "@sensitive_StringFormatL2",
       testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
         .sensitive_StringFormatL2,
+      "/sensitive_NestedObjectFormatL1",
+    );
+    queryBuilder.addFloatParameter(
+      "@sensitive_DecimalFormatL2",
+      testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+        .sensitive_DecimalFormatL2,
       "/sensitive_NestedObjectFormatL1",
     );
 
@@ -404,16 +487,16 @@ describe("dotnet test cases", () => {
     expectedDocList.push(new TestDoc(testDoc));
     await validateQueryResults(testcontainer, queryBuilder, expectedDocList);
 
-    // // no access to key -> DOUBT
-    // testkeyEncryptionKeyResolver.revokeAccessSet = true;
-    // testDoc = TestDoc.create();
-    // testDoc.sensitive_ArrayFormat = null;
-    // testDoc.sensitive_StringFormat = null;
+    // no access to key -> DOUBT
+    testkeyEncryptionKeyResolver.revokeAccessSet = true;
+    testDoc = TestDoc.create();
+    testDoc.sensitive_ArrayFormat = null;
+    testDoc.sensitive_StringFormat = null;
 
-    // createResponse = await testcontainer.items.create(testDoc);
-    // verifyExpectedDocResponse(testDoc, createResponse.resource);
+    createResponse = await testcontainer.items.create(testDoc);
+    verifyExpectedDocResponse(testDoc, createResponse.resource);
 
-    // testkeyEncryptionKeyResolver.revokeAccessSet = false;
+    testkeyEncryptionKeyResolver.revokeAccessSet = false;
     clientWithNoCaching.dispose();
   });
 
@@ -423,11 +506,9 @@ describe("dotnet test cases", () => {
 
     const expectedDoc = new TestDoc(testDoc);
     const expectedDocList: TestDoc[] = [];
-    expectedDocList.push(new TestDoc(expectedDoc));
+    expectedDocList.push(expectedDoc);
     let queryBuilder = new EncryptionQueryBuilder("SELECT * FROM c");
-
     await validateQueryResults(encryptionContainer, queryBuilder, expectedDocList);
-
     queryBuilder = new EncryptionQueryBuilder(
       "select * from c where c.id = @theId and c.PK = @thePK",
     );
@@ -441,45 +522,823 @@ describe("dotnet test cases", () => {
     );
     await validateQueryResults(encryptionContainer, queryBuilder, expectedDocList);
 
-    // without query builder
+    // query on non encrypted property
     const querySpec = {
       query: `SELECT * FROM c WHERE c.nonsensitive = '${expectedDoc.nonsensitive}'`,
     };
     await validateQueryResults(encryptionContainer, querySpec, expectedDocList);
 
+    // response should be null without using addIntegerParameter method
     queryBuilder = new EncryptionQueryBuilder(
       `SELECT * FROM c WHERE c.sensitive_IntFormat = '${expectedDoc.sensitive_IntFormat}'`,
     );
     await validateQueryResults(encryptionContainer, queryBuilder, null);
   });
 
-  //   it("query on encrypted properties", async () => {
-  //     const containerProperties = {
-  //        id: randomUUID(),
-  //       partitionKey: {
-  //         paths: ["/PK"],
-  //       },
-  //       clientEncryptionPolicy: clientEncryptionPolicy,
-  //     }
-  //     const encryptionQueryContainer = (await database.containers.create(containerProperties)).container;
-  //     let testDoc1 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
-  //     let testDoc2 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
-  //     let testDoc3 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
+  it("query on encrypted properties", async () => {
+    const containerProperties = {
+      id: randomUUID(),
+      partitionKey: {
+        paths: ["/PK"],
+      },
+      clientEncryptionPolicy: clientEncryptionPolicy,
+    };
+    const encryptionQueryContainer = (await database.containers.create(containerProperties))
+      .container;
+    const testDoc1 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
+    const testDoc2 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
+    const testDoc3 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
 
-  //     // string/int
-  //     const stringArray = [testDoc1.sensitive_StringFormat, "randomValue", null];
+    // string/int
+    // const stringArray = [testDoc1.sensitive_StringFormat, "randomValue", null];
 
-  //     const queryBuilder = new EncryptionQueryBuilder(
-  //        "SELECT * FROM c where array_contains(@sensitive_StringFormat, c.sensitive_StringFormat) " +
-  //         "AND c.sensitive_NestedObjectFormatL1 = @sensitive_NestedObjectFormatL1"
-  //     )
+    // let queryBuilder = new EncryptionQueryBuilder(
+    //   "SELECT * FROM c where array_contains(@sensitive_StringFormat, c.sensitive_StringFormat) " +
+    //     "AND c.sensitive_NestedObjectFormatL1 = @sensitive_NestedObjectFormatL1",
+    // );
 
-  //     queryBuilder.addStringParameter(
-  //       "@sensitive_StringFormat",
-  //       stringArray,
-  //       "/sensitive_StringFormat"
-  //     )
+    // queryBuilder.addArrayParameter(
+    //   "@sensitive_StringFormat",
+    //   stringArray,
+    //   "/sensitive_StringFormat",
+    // );
+
+    // queryBuilder.addObjectParameter(
+    //   "@sensitive_NestedObjectFormatL1",
+    //   testDoc1.sensitive_NestedObjectFormatL1,
+    //   "/sensitive_NestedObjectFormatL1",
+    // );
+    // await validateQueryResults(encryptionQueryContainer, queryBuilder, [testDoc1]);
+
+    // bool/float
+    let queryBuilder = new EncryptionQueryBuilder(
+      "SELECT * FROM c where c.sensitive_BoolFormat = @sensitive_BoolFormat and c.sensitive_FloatFormat = @sensitive_FloatFormat",
+    );
+    queryBuilder.addBooleanParameter(
+      "@sensitive_BoolFormat",
+      testDoc1.sensitive_BoolFormat,
+      "/sensitive_BoolFormat",
+    );
+    queryBuilder.addFloatParameter(
+      "@sensitive_FloatFormat",
+      testDoc1.sensitive_FloatFormat,
+      "/sensitive_FloatFormat",
+    );
+    await validateQueryResults(encryptionQueryContainer, queryBuilder, [
+      testDoc1,
+      testDoc2,
+      testDoc3,
+    ]);
+
+    // with encrypted and non encrypted properties
+    const testDoc4 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
+    queryBuilder = new EncryptionQueryBuilder(
+      "SELECT * FROM c where c.nonsensitive = @nonsensitive and c.sensitive_IntFormat = @sensitive_IntFormat",
+    );
+    queryBuilder.addStringParameter("@nonsensitive", testDoc4.nonsensitive, "/nonsensitive");
+    queryBuilder.addIntegerParameter(
+      "@sensitive_IntFormat",
+      testDoc4.sensitive_IntFormat,
+      "/sensitive_IntFormat",
+    );
+    await validateQueryResults(encryptionQueryContainer, queryBuilder, [testDoc4]);
+
+    // // date
+    // queryBuilder = new EncryptionQueryBuilder(
+    //   "SELECT * FROM c where c.sensitive_DateFormat = @sensitive_DateFormat",
+    // );
+    // queryBuilder.addDateParameter(
+    //   "@sensitive_DateFormat",
+    //   testDoc1.sensitive_DateFormat,
+    //   "/sensitive_DateFormat",
+    // );
+    // await validateQueryResults(encryptionQueryContainer, queryBuilder, null);
+  });
+
+  it("encryption batch CRUD", async () => {
+    const partitionKey = "thePK";
+    const doc1ToCreate = TestDoc.create(partitionKey);
+
+    const doc1ToReplace = new TestDoc(
+      (await testCreateItem(encryptionContainer, partitionKey)).resource,
+    );
+    doc1ToReplace.nonsensitive = randomUUID();
+    doc1ToReplace.sensitive_StringFormat = randomUUID();
+
+    const doc2ToReplace = new TestDoc(
+      (await testCreateItem(encryptionContainer, partitionKey)).resource,
+    );
+    doc2ToReplace.nonsensitive = randomUUID();
+    doc2ToReplace.sensitive_StringFormat = randomUUID();
+
+    const doc1ToUpsert = new TestDoc(
+      (await testCreateItem(encryptionContainer, partitionKey)).resource,
+    );
+    doc1ToUpsert.nonsensitive = randomUUID();
+    doc1ToUpsert.sensitive_StringFormat = randomUUID();
+
+    const doc2ToUpsert = new TestDoc(
+      (await testCreateItem(encryptionContainer, partitionKey)).resource,
+    );
+    doc2ToUpsert.nonsensitive = randomUUID();
+    doc2ToUpsert.sensitive_StringFormat = randomUUID();
+
+    const docToDelete = new TestDoc(
+      (await testCreateItem(encryptionContainer, partitionKey)).resource,
+    );
+
+    const docToPatch = new TestDoc(
+      (await testCreateItem(encryptionContainer, partitionKey)).resource,
+    );
+    docToPatch.sensitive_StringFormat = randomUUID();
+    docToPatch.sensitive_DecimalFormat = 11.11;
+    const patchOperations = {
+      operations: [
+        {
+          op: PatchOperationType.replace,
+          path: "/sensitive_StringFormat",
+          value: docToPatch.sensitive_StringFormat,
+        },
+        {
+          op: PatchOperationType.replace,
+          path: "/sensitive_DecimalFormat",
+          value: docToPatch.sensitive_DecimalFormat,
+        },
+      ],
+    };
+    const operations: OperationInput[] = [
+      {
+        operationType: "Create",
+        resourceBody: JSON.parse(JSON.stringify(doc1ToCreate)),
+      },
+      {
+        operationType: "Upsert",
+        resourceBody: JSON.parse(JSON.stringify(doc1ToUpsert)),
+      },
+      {
+        operationType: "Replace",
+        id: doc1ToReplace.id,
+        resourceBody: JSON.parse(JSON.stringify(doc1ToReplace)),
+      },
+      {
+        operationType: "Patch",
+        id: docToPatch.id,
+        resourceBody: patchOperations,
+      },
+      {
+        operationType: "Delete",
+        id: docToDelete.id,
+      },
+    ];
+
+    const response = await encryptionContainer.items.batch(operations, partitionKey);
+    assert.equal(StatusCodes.Ok, response.code);
+
+    const doc1 = response.result[0];
+
+    verifyExpectedDocResponse(doc1ToCreate, doc1.resourceBody);
+
+    const doc2 = response.result[1];
+    verifyExpectedDocResponse(doc1ToUpsert, doc2.resourceBody);
+
+    const doc3 = response.result[2];
+    verifyExpectedDocResponse(doc1ToReplace, doc3.resourceBody);
+
+    const doc4 = response.result[3];
+    verifyExpectedDocResponse(docToPatch, doc4.resourceBody);
+
+    await verifyItemByRead(encryptionContainer, doc1ToCreate);
+    await verifyItemByRead(encryptionContainer, doc1ToReplace);
+    await verifyItemByRead(encryptionContainer, doc1ToUpsert);
+    await verifyItemByRead(encryptionContainer, docToPatch);
+
+    const readResponse = await encryptionContainer.item(docToDelete.id, docToDelete.PK).read();
+    assert.equal(StatusCodes.NotFound, readResponse.statusCode);
+  });
+
+  it("encryption batch conflict response", async () => {
+    const partitionKey = "thePK";
+    const doc1ToCreateAgain = new TestDoc(
+      (await testCreateItem(encryptionContainer, partitionKey)).resource,
+    );
+    doc1ToCreateAgain.nonsensitive = randomUUID();
+    doc1ToCreateAgain.sensitive_StringFormat = randomUUID();
+
+    const response = await encryptionContainer.items.batch(
+      [
+        {
+          operationType: "Create",
+          resourceBody: JSON.parse(JSON.stringify(doc1ToCreateAgain)),
+        },
+      ],
+      partitionKey,
+    );
+    assert.equal(StatusCodes.Conflict, response.result[0].statusCode);
+    assert.equal(1, response.result.length);
+  });
+
+  it("encryption patch items", async () => {
+    const docPostPatching = new TestDoc((await testCreateItem(encryptionContainer)).resource);
+    docPostPatching.nonsensitive = randomUUID();
+    docPostPatching.nonsensitiveInt++;
+    docPostPatching.sensitive_StringFormat = randomUUID();
+    docPostPatching.sensitive_DateFormat = new Date();
+    docPostPatching.sensitive_DecimalFormat = 11.11;
+    docPostPatching.sensitive_IntArray[1] = 1;
+    docPostPatching.sensitive_IntMultiDimArray[1][0] = 7;
+    docPostPatching.sensitive_IntFormat = 2020;
+    docPostPatching.sensitive_BoolFormat = false;
+    docPostPatching.sensitive_FloatFormat = 2020.2;
+
+    let patchOperations: PatchOperation[] = [
+      {
+        op: PatchOperationType.incr,
+        path: "/nonsensitiveInt",
+        value: 1,
+      },
+      {
+        op: PatchOperationType.replace,
+        path: "/nonsensitive",
+        value: docPostPatching.nonsensitive,
+      },
+      {
+        op: PatchOperationType.replace,
+        path: "/sensitive_StringFormat",
+        value: docPostPatching.sensitive_StringFormat,
+      },
+      {
+        op: PatchOperationType.replace,
+        path: "/sensitive_DateFormat",
+        value: docPostPatching.sensitive_DateFormat,
+      },
+      {
+        op: PatchOperationType.replace,
+        path: "/sensitive_DecimalFormat",
+        value: docPostPatching.sensitive_DecimalFormat,
+      },
+      {
+        op: PatchOperationType.set,
+        path: "/sensitive_IntArray/1",
+        value: docPostPatching.sensitive_IntArray[1],
+      },
+      {
+        op: PatchOperationType.set,
+        path: "/sensitive_IntMultiDimArray/1/0",
+        value: docPostPatching.sensitive_IntMultiDimArray[1][0],
+      },
+      {
+        op: PatchOperationType.replace,
+        path: "/sensitive_IntFormat",
+        value: docPostPatching.sensitive_IntFormat,
+      },
+      {
+        op: PatchOperationType.replace,
+        path: "/sensitive_BoolFormat",
+        value: docPostPatching.sensitive_BoolFormat,
+      },
+      {
+        op: PatchOperationType.replace,
+        path: "/sensitive_FloatFormat",
+        value: docPostPatching.sensitive_FloatFormat,
+      },
+    ];
+    await testPatchItem(encryptionContainer, patchOperations, docPostPatching, StatusCodes.Ok);
+
+    docPostPatching.sensitive_ArrayFormat = [
+      {
+        sensitive_ArrayIntFormat: 100,
+        sensitive_ArrayDecimalFormat: 100.2,
+      },
+      {
+        sensitive_ArrayIntFormat: 2222,
+        sensitive_ArrayDecimalFormat: 2222.22,
+      },
+    ];
+    docPostPatching.sensitive_ArrayMultiTypes[0][1] = {
+      sensitive_NestedObjectFormatL0: {
+        sensitive_IntFormatL0: 123,
+        sensitive_DecimalFormatL0: 123.1,
+      },
+      sensitive_StringArrayMultiType: ["sensitivedata"],
+      sensitive_ArrayMultiTypeDecimalFormat: 123.2,
+      sensitive_IntArrayMultiType: [1, 2],
+    };
+    docPostPatching.sensitive_NestedObjectFormatL1 = {
+      sensitive_IntArrayL1: [999, 100],
+      sensitive_IntFormatL1: 1999,
+      sensitive_DecimalFormatL1: 1.1,
+      sensitive_ArrayFormatL1: [
+        {
+          sensitive_ArrayIntFormat: 0,
+          sensitive_ArrayDecimalFormat: 0.1,
+        },
+        {
+          sensitive_ArrayIntFormat: 0,
+          sensitive_ArrayDecimalFormat: 0.5,
+        },
+        {
+          sensitive_ArrayIntFormat: 1,
+          sensitive_ArrayDecimalFormat: 2.1,
+        },
+        {
+          sensitive_ArrayIntFormat: 2,
+          sensitive_ArrayDecimalFormat: 3.1,
+        },
+      ],
+    };
+    // patch operation on nested path properties
+    patchOperations = [
+      {
+        op: PatchOperationType.replace,
+        path: "/sensitive_ArrayFormat/0",
+        value: docPostPatching.sensitive_ArrayFormat[0],
+      },
+      {
+        op: PatchOperationType.add,
+        path: "/sensitive_ArrayFormat/1",
+        value: docPostPatching.sensitive_ArrayFormat[1],
+      },
+      {
+        op: PatchOperationType.replace,
+        path: "/sensitive_ArrayMultiTypes/0/1",
+        value: docPostPatching.sensitive_ArrayMultiTypes[0][1],
+      },
+      {
+        op: PatchOperationType.remove,
+        path: "/sensitive_NestedObjectFormatL1/sensitive_NestedObjectFormatL2",
+      },
+      {
+        op: PatchOperationType.set,
+        path: "/sensitive_NestedObjectFormatL1/sensitive_ArrayFormatL1/0",
+        value: docPostPatching.sensitive_NestedObjectFormatL1.sensitive_ArrayFormatL1[0],
+      },
+      {
+        op: PatchOperationType.set,
+        path: "/sensitive_NestedObjectFormatL1/sensitive_ArrayFormatL1/1",
+        value: docPostPatching.sensitive_NestedObjectFormatL1.sensitive_ArrayFormatL1[1],
+      },
+      {
+        op: PatchOperationType.replace,
+        path: "/sensitive_NestedObjectFormatL1/sensitive_DecimalFormatL1",
+        value: docPostPatching.sensitive_NestedObjectFormatL1.sensitive_DecimalFormatL1,
+      },
+    ];
+    await testPatchItem(encryptionContainer, patchOperations, docPostPatching, StatusCodes.Ok);
+
+    patchOperations = [
+      {
+        op: PatchOperationType.incr,
+        path: "/sensitive_IntFormat",
+        value: 1,
+      },
+    ];
+    try {
+      await encryptionContainer.item(docPostPatching.id, docPostPatching.PK).patch(patchOperations);
+    } catch (err) {
+      // Check: not getting expected .net sdk err message - Increment patch operation is not allowed for encrypted path '/Sensitive_IntFormat'.
+      assert.ok(
+        err.message.includes(
+          "The Increment patch operation requested has an unsupported data type.",
+        ),
+      );
+    }
+  });
+
+  it("Encryption RUD item", async () => {
+    // upsert should create a new item
+    const testDoc = new TestDoc(
+      (await testUpsertItem(encryptionContainer, TestDoc.create(), StatusCodes.Created)).resource,
+    );
+    await verifyItemByRead(encryptionContainer, testDoc);
+    testDoc.nonsensitive = randomUUID();
+    testDoc.sensitive_StringFormat = randomUUID();
+
+    // upsert should update the item
+    const updatedDoc = new TestDoc(
+      (await testUpsertItem(encryptionContainer, testDoc, StatusCodes.Ok)).resource,
+    );
+    await verifyItemByRead(encryptionContainer, updatedDoc);
+
+    updatedDoc.nonsensitive = randomUUID();
+    updatedDoc.sensitive_StringFormat = randomUUID();
+
+    const replacedDoc = new TestDoc(
+      (await testReplaceItem(encryptionContainer, updatedDoc)).resource,
+    );
+    await verifyItemByRead(encryptionContainer, replacedDoc);
+    await testDeleteItem(encryptionContainer, replacedDoc);
+  });
+
+  it("validate Partition Key and ID encryption support", async () => {
+    let paths = ["/PK", "/id"].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "key1",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    let clientEncryptionPolicyWithRevokedKek = new ClientEncryptionPolicy(paths, 2);
+    let containerProperties = {
+      id: "StringPKEncContainer",
+      partitionKey: {
+        paths: ["/id"],
+      },
+      clientEncryptionPolicy: clientEncryptionPolicyWithRevokedKek,
+    };
+    let testcontainer = (await database.containers.create(containerProperties)).container;
+    await testcontainer.initializeEncryption();
+    const testDoc = TestDoc.create();
+    let createResponse = await testcontainer.items.create(testDoc);
+    assert.equal(StatusCodes.Created, createResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, createResponse.resource);
+
+    let readResponse = await testcontainer.item(testDoc.id, testDoc.id).read();
+    assert.equal(StatusCodes.Ok, readResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, readResponse.resource);
+
+    // encrypt float type PK
+    paths = ["/sensitive_FloatFormat", "/id"].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "key1",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    clientEncryptionPolicyWithRevokedKek = new ClientEncryptionPolicy(paths, 2);
+    containerProperties = {
+      id: "FloatPKEncContainer",
+      partitionKey: {
+        paths: ["/sensitive_FloatFormat"],
+      },
+      clientEncryptionPolicy: clientEncryptionPolicyWithRevokedKek,
+    };
+    testcontainer = (await database.containers.create(containerProperties)).container;
+    await testcontainer.initializeEncryption();
+
+    createResponse = await testcontainer.items.create(testDoc);
+    assert.equal(StatusCodes.Created, createResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, createResponse.resource);
+
+    readResponse = await testcontainer.item(testDoc.id, testDoc.sensitive_FloatFormat).read();
+    assert.equal(StatusCodes.Ok, readResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, readResponse.resource);
+
+    // encrypt boolean type PK
+    paths = ["/sensitive_BoolFormat", "/id"].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "key1",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    clientEncryptionPolicyWithRevokedKek = new ClientEncryptionPolicy(paths, 2);
+    containerProperties = {
+      id: "BoolPKEncContainer",
+      partitionKey: {
+        paths: ["/sensitive_BoolFormat"],
+      },
+      clientEncryptionPolicy: clientEncryptionPolicyWithRevokedKek,
+    };
+    testcontainer = (await database.containers.create(containerProperties)).container;
+    await testcontainer.initializeEncryption();
+
+    createResponse = await testcontainer.items.create(testDoc);
+    assert.equal(StatusCodes.Created, createResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, createResponse.resource);
+
+    readResponse = await testcontainer.item(testDoc.id, testDoc.sensitive_BoolFormat).read();
+    assert.equal(StatusCodes.Ok, readResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, readResponse.resource);
+  });
+
+  it("create and delete database with encryption enabled client without cek", async () => {
+    let testdatabase: Database;
+    try {
+      testdatabase = (await encryptionClient.databases.create({ id: "NoCEKDatabase" })).database;
+      const containerProperties = {
+        id: "NoCEPContainer",
+        partitionKey: {
+          paths: ["/PK"],
+        },
+      };
+      const testcontainer = (await testdatabase.containers.create(containerProperties)).container;
+      await testcontainer.initializeEncryption();
+      const testDoc = TestDoc.create();
+      const createResponse = await testcontainer.items.create(testDoc);
+      assert.equal(StatusCodes.Created, createResponse.statusCode);
+      verifyExpectedDocResponse(testDoc, createResponse.resource);
+    } finally {
+      await testdatabase.delete();
+    }
+  });
+
+  // tests non-encrypted create operation with encrypted client
+  it("encryption create item with no client encryption policy", async () => {
+    await testCreateItem(encryptionContainer);
+    // a database can have both types of Containers - with and without ClientEncryptionPolicy configured
+    const containerProperties = {
+      id: randomUUID(),
+      partitionKey: {
+        paths: ["/PK"],
+      },
+    };
+    const encryptionContainerWithNoPolicy = (await database.containers.create(containerProperties))
+      .container;
+    await encryptionContainerWithNoPolicy.initializeEncryption();
+
+    const testDoc = TestDoc.create();
+    const createResponse = await encryptionContainerWithNoPolicy.items.create(testDoc);
+    assert.equal(StatusCodes.Created, createResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, createResponse.resource);
+
+    const queryBuilder = new EncryptionQueryBuilder(
+      `SELECT * FROM c where c.sensitive_StringFormat = @sensitive_StringFormat AND c.sensitive_IntFormat = @sensitive_IntFormat`,
+    );
+    queryBuilder.addStringParameter(
+      "@sensitive_StringFormat",
+      testDoc.sensitive_StringFormat,
+      "/sensitive_StringFormat",
+    );
+    queryBuilder.addIntegerParameter(
+      "@sensitive_IntFormat",
+      testDoc.sensitive_IntFormat,
+      "/sensitive_IntFormat",
+    );
+    const expectedDocList = [testDoc];
+    await validateQueryResults(encryptionContainerWithNoPolicy, queryBuilder, expectedDocList);
+    await encryptionContainerWithNoPolicy.delete();
+  });
+
+  it("encryption validate policy refresh post container delete with bulk", async () => {
+    // create a container with 1st client
+    let paths = [
+      "/sensitive_IntArray",
+      "/sensitive_NestedObjectFormatL1",
+      "/sensitive_DoubleFormat",
+    ].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "key1",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    let encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    let containerProperties = {
+      id: randomUUID(),
+      partitionKey: "/sensitive_DoubleFormat",
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    const encryptionContainerToDelete = (await database.containers.create(containerProperties))
+      .container;
+    await encryptionContainerToDelete.initializeEncryption();
+
+    // create a document with 2nd client on same database and container
+    const otherClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(14),
+    });
+    const otherDatabase = otherClient.database(database.id);
+    const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
+    const testDoc = TestDoc.create();
+    const createResponse = await otherEncryptionContainer.items.create(testDoc);
+    assert.equal(StatusCodes.Created, createResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, createResponse.resource);
+
+    // Client 1 Deletes the Container referenced in Client 2 and Recreate with different policy
+    await database.container(encryptionContainerToDelete.id).delete();
+    paths = [
+      new ClientEncryptionIncludedPath(
+        "/sensitive_StringFormat",
+        "key1",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+      new ClientEncryptionIncludedPath(
+        "/sensitive_BoolFormat",
+        "key2",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+      new ClientEncryptionIncludedPath(
+        "/PK",
+        "key2",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+    ];
+    encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    containerProperties = {
+      id: encryptionContainerToDelete.id,
+      partitionKey: "/PK",
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    await database.containers.create(containerProperties);
+    try {
+      await testCreateItem(encryptionContainerToDelete);
+      assert.fail("create operation should have failed");
+    } catch (err) {
+      assert.ok(
+        console.log("error message", err),
+        err.message.includes(
+          "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+        ),
+      );
+    }
+  });
+
+  // it.skip("test1234", async () => {
+  //   // create a container with 1st client
+  //   const client1 = new CosmosClient({
+  //     endpoint: endpoint,
+  //     key: masterKey,
+  //   });
+  //   const database1 = (await client1.databases.createIfNotExists({ id: "test4" })).database;
+  //   // create container from clinet 1
+  //   const container1 = await database1.containers.createIfNotExists({
+  //     id: "test1",
+  //     partitionKey: "/PK1",
+  //   });
+
+  //   await container1.container.items.create({ id: "1", PK1: "1" });
+  //   console.log("container1: ", container1.resource._rid);
+  //   const client2 = new CosmosClient({
+  //     endpoint: endpoint,
+  //     key: masterKey,
+  //   });
+  //   const database2 = await client2.databases.createIfNotExists({ id: "test4" });
+  //   // read same contianer from client 2
+  //   const container2 = await database2.database.containers.createIfNotExists({ id: "test1" });
+  //   // console.log("container2: ", container2.resource._rid);
+  //   // delete first container from cleint 2
+  //   await container2.container.delete();
+  //   // crewate new container from clietn 2
+  //   await database2.database.containers.createIfNotExists({
+  //     id: "test1",
+  //     partitionKey: "/PK2",
+  //   });
+  //   await container1.container.items.create({ id: "2", PK2: "2" });
+  //   // console.log("container2: ", container2.resource._rid);
+  //   // await container2.container.items.create({ id: "test", PK1: "" });
+  //   // console.log("container2: ", container2.resource._rid);
   // });
+
+  it("encryption decrypt group by query result test", async () => {
+    const partitionKey = randomUUID();
+    const testDoc1 = new TestDoc(
+      (await testCreateItem(encryptionContainer, partitionKey)).resource,
+    );
+
+    // const query = new EncryptionQueryBuilder(
+    //   `SELECT COUNT(c.id), c.PK FROM c WHERE c.PK = @PK GROUP BY c.PK`,
+    // );
+
+    // query.addStringParameter("@PK", partitionKey, "/PK");
+    // query.addStringParameter("@id", partitionKey, "/id");
+    // await validateQueryResults(encryptionContainer, query, [testDoc1]);
+
+    const withEncryptedParameter = new EncryptionQueryBuilder(
+      "SELECT COUNT(c.id), c.sensitive_IntFormat FROM c WHERE c.sensitive_IntFormat = @Sensitive_IntFormat GROUP BY c.sensitive_IntFormat",
+    );
+
+    withEncryptedParameter.addIntegerParameter(
+      "@Sensitive_IntFormat",
+      testDoc1.sensitive_IntFormat,
+      "/sensitive_IntFormat",
+    );
+    withEncryptedParameter.addStringParameter("@PK", partitionKey, "/PK");
+    withEncryptedParameter.addStringParameter("@id", partitionKey, "/id");
+    const iterator =
+      await encryptionContainer.items.getEncryptionQueryIterator(withEncryptedParameter);
+    while (iterator.hasMoreResults()) {
+      await iterator.fetchNext();
+    }
+  });
+  it("should fail creating cep with duplicate path", async () => {
+    // duplicate paths in policy
+    const pathdup1 = new ClientEncryptionIncludedPath(
+      "/sensitive_StringFormat",
+      "key2",
+      EncryptionType.DETERMINISTIC,
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    );
+    const pathdup2 = new ClientEncryptionIncludedPath(
+      "/sensitive_StringFormat",
+      "key2",
+      EncryptionType.DETERMINISTIC,
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    );
+    const pathsWithDups = [pathdup1, pathdup2];
+    try {
+      new ClientEncryptionPolicy(pathsWithDups);
+      assert.fail("ClientEncryptionPolicy creation should have failed");
+    } catch (err) {
+      assert.ok(
+        err.message.includes(
+          err.message,
+          "Duplicate path found: /sensitive_StringFormat in client encryption policy.",
+        ),
+      );
+    }
+  });
+
+  it("encryption change feed", async () => {
+    const partitionKey = randomUUID();
+    const changeFeedOptionsForEntireContainer = {
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+      maxItemCount: 1,
+    };
+    const changeFeedOptionsForPartitionKey = {
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(partitionKey),
+    };
+
+    const iteratorForPartitionKey = encryptionContainer.items.getChangeFeedIterator(
+      changeFeedOptionsForPartitionKey,
+    );
+    const iteratorForEntireContainer = encryptionContainer.items.getChangeFeedIterator(
+      changeFeedOptionsForEntireContainer,
+    );
+    const testDoc1 = new TestDoc(
+      (await testCreateItem(encryptionContainer, partitionKey)).resource,
+    );
+    const testDoc2 = new TestDoc((await testCreateItem(encryptionContainer)).resource);
+
+    let response = await iteratorForEntireContainer.readNext();
+    verifyExpectedDocResponse(testDoc1, response.result[0]);
+    assert.equal(StatusCodes.Ok, response.statusCode);
+    response = await iteratorForEntireContainer.readNext();
+    verifyExpectedDocResponse(testDoc2, response.result[0]);
+
+    response = await iteratorForPartitionKey.readNext();
+    assert.equal(StatusCodes.Ok, response.statusCode);
+    assert.ok(response.result.length === 1);
+    verifyExpectedDocResponse(testDoc1, response.result[0]);
+  });
+
+  it("encryption decrypt query result multiple docs", async () => {
+    const testDoc1 = new TestDoc((await testCreateItem(encryptionContainer)).resource);
+    const testDoc2 = new TestDoc((await testCreateItem(encryptionContainer)).resource);
+
+    const query = `SELECT * FROM c WHERE c.nonsensitive IN ('${testDoc1.nonsensitive}', '${testDoc2.nonsensitive}')`;
+
+    const iterator = encryptionContainer.items.query(query);
+    const response = await iterator.fetchAll();
+    assert.ok(response.resources.length === 2);
+    for (const doc of response.resources) {
+      assert.ok(doc.id === testDoc1.id || doc.id === testDoc2.id);
+    }
+  });
+
+  it("query with COUNT on encrypted item", async () => {
+    await testCreateItem(encryptionContainer);
+    const query = { query: "SELECT VALUE COUNT(1) FROM c" };
+    const iterator = encryptionContainer.items.query(query);
+    const response = await iterator.fetchAll();
+    assert.equal(response.resources[0], 1);
+  });
+
+  it("validate caching of protected dek", async () => {
+    const newTestKeyResolver = new MockKeyVaultEncryptionKeyResolver(2);
+    let newClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: newTestKeyResolver,
+    });
+    let newDatabase = newClient.database(database.id);
+    let newContainer = newDatabase.container(encryptionContainer.id);
+    console.log("creating item with new client");
+    for (let i = 0; i < 2; i++) {
+      await testCreateItem(newContainer);
+    }
+    console.log(`metadata1.value: ${metadata1.value}`);
+    console.log(`newTestKeyResolver: ${JSON.stringify(newTestKeyResolver)}`);
+    let unwrapcount = newTestKeyResolver.unwrapKeyCallsCount[metadata1.value];
+
+    assert.equal(1, unwrapcount);
+
+    newClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+    });
+    newDatabase = newClient.database(database.id);
+    newContainer = newDatabase.container(encryptionContainer.id);
+
+    for (let i = 0; i < 2; i++) {
+      await testCreateItem(newContainer);
+    }
+    unwrapcount = newTestKeyResolver.unwrapKeyCallsCount[metadata1.value];
+    assert.ok(unwrapcount > 1, "The actual unwrap count was not greater than 1");
+  });
 });
 
 function compareMetadata(expected: any, actual: any): boolean {
@@ -517,7 +1376,6 @@ async function validateQueryResults(
   }
   let totalDocs = 0;
   const docs: TestDoc[] = [];
-  // docs.push(expectedDocList[0]);
   while (iterator.hasMoreResults()) {
     const response = await iterator.fetchNext();
     totalDocs += response.resources.length;
@@ -528,11 +1386,9 @@ async function validateQueryResults(
   }
   if (expectedDocList) {
     assert.ok(totalDocs >= expectedDocList.length);
-    for (const readDoc of docs) {
-      const expectedDoc = expectedDocList.find((doc1) => doc1.id === readDoc.id);
+    for (const expectedDoc of expectedDocList) {
+      const readDoc = docs.find((doc1) => doc1.id === expectedDoc.id);
       assert.isNotNull(expectedDoc);
-      console.log("expectedDoc: ", expectedDoc);
-      console.log("readDoc: ", readDoc);
       verifyExpectedDocResponse(expectedDoc, readDoc);
     }
   }
@@ -596,19 +1452,19 @@ async function testReplaceItem(
   return response;
 }
 
-// async function testPatchItem(
-//   container: Container,
-//   patchOperations: PatchOperation[],
-//   expectedTestDoc: TestDoc,
-//   expectedStatusCode: StatusCode,
-// ): Promise<ItemResponse<ItemDefinition>> {
-//   const response = await container
-//     .item(expectedTestDoc.id, expectedTestDoc.PK)
-//     .patch(patchOperations);
-//   assert.equal(expectedStatusCode, response.statusCode);
-//   verifyExpectedDocResponse(expectedTestDoc, response.resource);
-//   return response;
-// }
+async function testPatchItem(
+  container: Container,
+  patchOperations: PatchOperation[],
+  expectedTestDoc: TestDoc,
+  expectedStatusCode: StatusCode,
+): Promise<ItemResponse<ItemDefinition>> {
+  const response = await container
+    .item(expectedTestDoc.id, expectedTestDoc.PK)
+    .patch(patchOperations);
+  assert.equal(expectedStatusCode, response.statusCode);
+  verifyExpectedDocResponse(expectedTestDoc, response.resource);
+  return response;
+}
 
 async function testDeleteItem(
   container: Container,
@@ -699,7 +1555,6 @@ function verifyExpectedDocResponse(expectedDoc: TestDoc, verifyDoc: any) {
   } else {
     assert.equal(expectedDoc.sensitive_ArrayMultiTypes, verifyDoc.sensitive_ArrayMultiTypes);
   }
-
   if (expectedDoc.sensitive_NestedObjectFormatL1 != null) {
     assert.equal(
       expectedDoc.sensitive_NestedObjectFormatL1.sensitive_IntFormatL1,
@@ -796,7 +1651,7 @@ class TestDoc {
   nonsensitive: string;
   nonsensitiveInt: number;
   sensitive_StringFormat: string;
-  // sensitive_DateFormat: Date;
+  sensitive_DateFormat: Date;
   sensitive_DecimalFormat: number;
   sensitive_BoolFormat: boolean;
   sensitive_IntFormat: number;
@@ -816,7 +1671,7 @@ class TestDoc {
     this.nonsensitive = other.nonsensitive;
     this.nonsensitiveInt = other.nonsensitiveInt;
     this.sensitive_StringFormat = other.sensitive_StringFormat;
-    // this.sensitive_DateFormat = other.Sensitive_DateFormat;
+    this.sensitive_DateFormat = other.sensitive_DateFormat;
     this.sensitive_DecimalFormat = other.sensitive_DecimalFormat;
     this.sensitive_IntFormat = other.sensitive_IntFormat;
     this.sensitive_LongFormat = other.sensitive_LongFormat;
@@ -838,7 +1693,7 @@ class TestDoc {
       nonsensitive: randomUUID(),
       nonsensitiveInt: 10,
       sensitive_StringFormat: randomUUID(),
-      // sensitive_DateFormat: new Date(1987, 11, 25),
+      sensitive_DateFormat: new Date("1987-12-25T00:00:00Z"),
       sensitive_DecimalFormat: 472.3108,
       sensitive_IntArray: [999, 1000],
       sensitive_IntMultiDimArray: [
@@ -1017,7 +1872,7 @@ class SensitiveNestedObjectL0 {
 }
 
 class SensitiveNestedObjectL1 {
-  sensitive_NestedObjectFormatL2: SensitiveNestedObjectL2;
+  sensitive_NestedObjectFormatL2?: SensitiveNestedObjectL2;
   sensitive_IntFormatL1: number;
   sensitive_IntArrayL1: number[];
   sensitive_DecimalFormatL1: number;

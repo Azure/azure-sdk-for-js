@@ -91,6 +91,7 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
+        await this.container.encryptionProcessor.setCollectionRidInRequestOptions(options);
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
@@ -181,6 +182,8 @@ export class Item {
 
       if (this.clientContext.enableEncryption) {
         body = copyObject(body);
+        options = options || {};
+        await this.container.encryptionProcessor.setCollectionRidInRequestOptions(options);
         body = await this.container.encryptionProcessor.encrypt(body);
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
@@ -237,6 +240,7 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
+        await this.container.encryptionProcessor.setCollectionRidInRequestOptions(options);
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
@@ -294,6 +298,7 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
+        await this.container.encryptionProcessor.setCollectionRidInRequestOptions(options);
         body = copyObject(body);
         const operations = Array.isArray(body) ? body : body.operations;
         for (const operation of operations) {
