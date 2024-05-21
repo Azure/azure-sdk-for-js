@@ -3,7 +3,7 @@ page_type: sample
 languages:
   - typescript
 products:
-  - azure-devcenter
+  - azure
 urlFragment: developer-devcenter-typescript
 ---
 

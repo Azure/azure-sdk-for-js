@@ -3,7 +3,7 @@ page_type: sample
 languages:
   - javascript
 products:
-  - azure-devcenter
+  - azure
 urlFragment: developer-devcenter-javascript
 ---
 
