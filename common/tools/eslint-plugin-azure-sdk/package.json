@@ -1,6 +1,6 @@
 {
   "name": "@azure/eslint-plugin-azure-sdk",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "An ESLint plugin enforcing design guidelines for the JavaScript/TypeScript Azure SDK",
   "sdk-type": "utility",
   "private": true,
@@ -24,20 +24,27 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "main": "dist/index.js",
+  "main": "dist-esm/src/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist-esm/src/index.d.ts",
+      "default": "./dist-esm/src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "prettier.json",
-    "dist/"
+    "dist-esm/"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "build:samples": "echo Skipped.",
     "build:test": "echo Skipped.",
-    "clean": "rimraf dist/",
+    "clean": "rimraf --glob dist* types",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
-    "lint": "eslint src tests/rules --ext .ts",
-    "lint:fix": "eslint src tests/rules --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint src tests/rules",
+    "lint:fix": "eslint src tests/rules --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "integration-test:browser": "echo skipped",
@@ -60,18 +67,23 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-no-only-tests": "^3.0.0",
     "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-tsdoc": "^0.2.10"
+    "eslint-plugin-tsdoc": "^0.2.10",
+    "eslint-plugin-markdown": "^5.0.0"
   },
   "dependencies": {
+    "@eslint/js": "~9.2.0",
     "@typescript-eslint/typescript-estree": "~7.8.0",
     "@types/eslint": "~8.44.0",
     "@types/estree": "~1.0.0",
     "eslint-config-prettier": "^9.0.0",
     "glob": "^10.3.10",
+    "typescript-eslint": "~7.8.0",
     "typescript": "~5.4.5",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
+    "@types/eslint__js": "8.42.3",
+    "@types/eslint-config-prettier": "6.11.3",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "~7.8.0",
     "@typescript-eslint/utils": "~7.8.0",
@@ -84,6 +96,7 @@
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
-    "vitest": "^1.4.0"
+    "vitest": "^1.4.0",
+    "@types/eslint": "~8.56.10"
   }
 }
