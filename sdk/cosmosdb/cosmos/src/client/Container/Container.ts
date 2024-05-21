@@ -104,6 +104,10 @@ export class Container {
   public encryptionProcessor: EncryptionProcessor;
 
   /**
+   * @internal
+   */
+  public _rid: string;
+  /**
    * Returns a container instance. Note: You should get this from `database.container(id)`, rather than creating your own object.
    * @param database - The parent {@link Database}.
    * @param id - The id of the given container.
@@ -113,7 +117,9 @@ export class Container {
     public readonly database: Database,
     public readonly id: string,
     private readonly clientContext: ClientContext,
+    containerRid?: string,
   ) {
+    this._rid = containerRid;
     if (this.clientContext.enableEncryption) {
       this.encryptionProcessor = new EncryptionProcessor(
         this.id,
@@ -390,7 +396,6 @@ export class Container {
     } else {
       await withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
         const readResponse = await this.readInternal(diagnosticNode);
-        const containerRid = readResponse.resource._rid;
         const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
         if (!clientEncryptionPolicy) return;
         const partitionKeyPaths = readResponse.resource.partitionKey.paths;
@@ -398,7 +403,7 @@ export class Container {
 
         const encryptionSettings = EncryptionSettings.create(
           key,
-          containerRid,
+          this._rid,
           partitionKeyPaths,
           clientEncryptionPolicy,
         );

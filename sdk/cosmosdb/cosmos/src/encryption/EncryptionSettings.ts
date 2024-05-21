@@ -30,7 +30,6 @@ export class EncryptionSettings {
     clientEncryptionPolicy: ClientEncryptionPolicy,
   ): EncryptionSettings {
     const encryptionSettings = new EncryptionSettings(id, containerRid, partitionKeyPaths);
-    // TODO: basic checks on clientEncryptionPolicy
     if (!clientEncryptionPolicy) return null;
     encryptionSettings.validatePolicyFormatVersion(clientEncryptionPolicy, partitionKeyPaths);
 

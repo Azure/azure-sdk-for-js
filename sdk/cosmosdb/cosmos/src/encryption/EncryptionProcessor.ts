@@ -5,20 +5,21 @@ import { EncryptionSettings } from "./EncryptionSettings";
 import { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
 import { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm";
 import { ContainerDefinition, ItemDefinition } from "../client";
-import { Serializer } from "./Serializers/Serializer";
-import {
-  BooleanSerializer,
-  FloatSerializer,
-  NumberSerializer,
-  StringSerializer,
-} from "./Serializers";
 import { ClientEncryptionKeyPropertiesCache, EncryptionSettingsCache } from "./Cache";
 import { PartitionKeyInternal } from "../documents";
 import { TypeMarker } from "./enums/TypeMarker";
 import { ClientContext } from "../ClientContext";
 import { ClientEncryptionKeyRequest, ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { ResourceType } from "../common";
+import {
+  Constants,
+  ResourceType,
+  StatusCodes,
+  SubStatusCodes,
+  createDeserializer,
+  createSerializer,
+  extractPath,
+} from "../common";
 import { RequestOptions } from "../request";
 
 import { withDiagnostics } from "../utils/diagnostics";
@@ -56,7 +57,7 @@ export class EncryptionProcessor {
   }
 
   async encryptProperty(path: string, value: any): Promise<any> {
-    path = EncryptionProcessor.extractPath(path);
+    path = extractPath(path);
     const encryptionSettings = await this.getEncryptionSetting();
     if (!encryptionSettings) return value;
     const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(path);
@@ -75,7 +76,7 @@ export class EncryptionProcessor {
     if (!encryptionSettings) return partitionKeyList;
     const partitionKeyPaths = encryptionSettings.partitionKeyPaths;
     for (let i = 0; i < partitionKeyPaths.length; i++) {
-      const partitionKeyPath = EncryptionProcessor.extractPath(partitionKeyPaths[i]);
+      const partitionKeyPath = extractPath(partitionKeyPaths[i]);
       if (encryptionSettings.pathsToEncrypt.includes(partitionKeyPath)) {
         const settingForProperty =
           encryptionSettings.getEncryptionSettingForProperty(partitionKeyPath);
@@ -107,11 +108,6 @@ export class EncryptionProcessor {
     return id;
   }
 
-  static extractPath(path: string): string {
-    const secondSlashIndex = path.indexOf("/", path.indexOf("/") + 1);
-    return secondSlashIndex === -1 ? path : path.substring(0, secondSlashIndex);
-  }
-
   async encryptQueryParameter(
     path: string,
     value: any,
@@ -121,7 +117,7 @@ export class EncryptionProcessor {
     if (value === null) {
       return value;
     }
-    path = EncryptionProcessor.extractPath(path);
+    path = extractPath(path);
     const encryptionSettings = await this.getEncryptionSetting();
     if (!encryptionSettings) return value;
     const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(path);
@@ -177,7 +173,7 @@ export class EncryptionProcessor {
     if (valueToEncrypt === null) {
       return valueToEncrypt;
     }
-    const [typeMarker, serializer] = EncryptionProcessor.createSerializer(valueToEncrypt, type);
+    const [typeMarker, serializer] = createSerializer(valueToEncrypt, type);
     const plainText = serializer.serialize(valueToEncrypt);
     const encryptionAlgorithm = await this.buildEncryptionAlgorithm(propertySetting);
     const cipherText = encryptionAlgorithm.encrypt(plainText);
@@ -197,45 +193,6 @@ export class EncryptionProcessor {
       encryptedValue = encryptedValue.replace(/\//g, "_").replace(/\+/g, "-");
     }
     return encryptedValue;
-  }
-
-  private static createSerializer(
-    propertyValue: boolean | string | number | Date,
-    type?: TypeMarker,
-  ): [TypeMarker, Serializer] {
-    if (type) {
-      if (type === TypeMarker.Long) {
-        return [TypeMarker.Long, new NumberSerializer()];
-      } else if (type === TypeMarker.Double) {
-        return [TypeMarker.Double, new FloatSerializer()];
-      } else if (type === TypeMarker.String) {
-        return [TypeMarker.String, new StringSerializer()];
-      } else if (type === TypeMarker.Boolean) {
-        return [TypeMarker.Boolean, new BooleanSerializer()];
-      } else {
-        throw new Error("Invalid or Unsupported data type passed.");
-      }
-    } else {
-      switch (typeof propertyValue) {
-        case "boolean":
-          return [TypeMarker.Boolean, new BooleanSerializer()];
-        case "string":
-          return [TypeMarker.String, new StringSerializer()];
-        case "object":
-          if (propertyValue.constructor === Date) {
-            return [TypeMarker.String, new StringSerializer()];
-          }
-          throw new Error("Invalid or Unsupported data type passed.");
-        case "number":
-          if (!Number.isInteger(propertyValue)) {
-            return [TypeMarker.Double, new FloatSerializer()];
-          } else {
-            return [TypeMarker.Long, new NumberSerializer()];
-          }
-        default:
-          throw new Error("Invalid or Unsupported data type passed.");
-      }
-    }
   }
 
   async decrypt<T extends ItemDefinition>(body: T): Promise<T> {
@@ -314,33 +271,8 @@ export class EncryptionProcessor {
       throw new Error("returned null plain text");
     }
 
-    const serializer = EncryptionProcessor.createDeserializer(
-      cipherTextWithTypeMarker[0] as TypeMarker,
-    );
+    const serializer = createDeserializer(cipherTextWithTypeMarker[0] as TypeMarker);
     return serializer.deserialize(plainText);
-  }
-
-  private static createDeserializer(typeMarker: TypeMarker): Serializer {
-    switch (typeMarker) {
-      case TypeMarker.Long: {
-        // return instance
-        return new NumberSerializer();
-      }
-      case TypeMarker.Double:
-        return new FloatSerializer();
-      case TypeMarker.String:
-        return new StringSerializer();
-      case TypeMarker.Boolean:
-        return new BooleanSerializer();
-      default:
-        throw new Error("Invalid or Unsupported data type passed.");
-    }
-  }
-
-  async setCollectionRidInRequestOptions(options: RequestOptions): Promise<void> {
-    const encryptionSettings = await this.getEncryptionSetting();
-    if (!encryptionSettings) return;
-    options.collectionRid = encryptionSettings.containerRid;
   }
 
   async getEncryptionSetting(): Promise<EncryptionSettings> {
@@ -462,50 +394,50 @@ export class EncryptionProcessor {
     }, this.clientContext);
   }
 
-  // async ThrowIfRequestNeedsARetryPostPolicyRefresh(response: any): Promise<void> {
-  //   console.log("ThrowIfRequestNeedsARetryPostPolicyRefresh");
-  //   const key = this.databaseId + "/" + this.containerId;
-  //   const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
-  //   const encryptionSetting = encryptionSettingsCache.getEncryptionSettings(key);
-  //   const subStatusCode = response.headers[Constants.HttpHeaders.SubStatus];
-  //   console.log(`subStatusCode: ${subStatusCode}`);
-  //   const isPartitionKeyMismatch = subStatusCode == SubStatusCodes.PartitionKeyMismatch;
-  //   const isIncorrectContainerRidSubstatus =
-  //     subStatusCode == SubStatusCodes.IncorrectContainerRidSubstatus;
-  //   console.log(`isPartitionKeyMismatch: ${isPartitionKeyMismatch}`);
-  //   console.log(`isIncorrectContainerRidSubstatus: ${isIncorrectContainerRidSubstatus}`);
-  //   if (
-  //     response.code === StatusCodes.BadRequest &&
-  //     (isPartitionKeyMismatch || isIncorrectContainerRidSubstatus)
-  //   ) {
-  //     if (isPartitionKeyMismatch && encryptionSetting.partitionKeyPaths.length) {
-  //       let encryptionSettingsForProperty: EncryptionSettingForProperty = null;
-  //       for (const path of encryptionSetting.partitionKeyPaths) {
-  //         const partitionKeyPath = path.split("/")[1];
-  //         encryptionSettingsForProperty =
-  //           encryptionSetting.getEncryptionSettingForProperty(partitionKeyPath);
-  //         if (encryptionSettingsForProperty) {
-  //           break;
-  //         }
-  //       }
+  async ThrowIfRequestNeedsARetryPostPolicyRefresh(response: any): Promise<void> {
+    console.log("ThrowIfRequestNeedsARetryPostPolicyRefresh");
+    const key = this.databaseId + "/" + this.containerId;
+    const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
+    const encryptionSetting = encryptionSettingsCache.getEncryptionSettings(key);
+    const subStatusCode = response.headers[Constants.HttpHeaders.SubStatus];
+    console.log(`subStatusCode: ${subStatusCode}`);
+    const isPartitionKeyMismatch = subStatusCode == SubStatusCodes.PartitionKeyMismatch;
+    const isIncorrectContainerRidSubstatus =
+      subStatusCode == SubStatusCodes.IncorrectContainerRidSubstatus;
+    console.log(`isPartitionKeyMismatch: ${isPartitionKeyMismatch}`);
+    console.log(`isIncorrectContainerRidSubstatus: ${isIncorrectContainerRidSubstatus}`);
+    if (
+      response.code === StatusCodes.BadRequest &&
+      (isPartitionKeyMismatch || isIncorrectContainerRidSubstatus)
+    ) {
+      if (isPartitionKeyMismatch && encryptionSetting.partitionKeyPaths.length) {
+        let encryptionSettingsForProperty: EncryptionSettingForProperty = null;
+        for (const path of encryptionSetting.partitionKeyPaths) {
+          const partitionKeyPath = path.split("/")[1];
+          encryptionSettingsForProperty =
+            encryptionSetting.getEncryptionSettingForProperty(partitionKeyPath);
+          if (encryptionSettingsForProperty) {
+            break;
+          }
+        }
 
-  //       if (encryptionSettingsForProperty == null) {
-  //         return;
-  //       }
-  //     }
-  //     const currentContainerRid = encryptionSetting.containerRid;
-  //     console.log(`currentContainerRid: ${currentContainerRid}`);
-  //     const updatedContainerRid = (await this.getEncryptionSetting()).containerRid;
-  //     console.log(`updatedContainerRid: ${updatedContainerRid}`);
-  //     if (currentContainerRid === updatedContainerRid) {
-  //       return;
-  //     }
-  //     console.log(
-  //       `currentContainerRid: ${currentContainerRid}, updatedContainerRid: ${updatedContainerRid}`,
-  //     );
-  //     throw new Error(
-  //       "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue. Please refer to https://aka.ms/CosmosClientEncryption for more details. ",
-  //     );
-  //   }
-  // }
+        if (encryptionSettingsForProperty == null) {
+          return;
+        }
+      }
+      const currentContainerRid = encryptionSetting.containerRid;
+      console.log(`currentContainerRid: ${currentContainerRid}`);
+      const updatedContainerRid = (await this.getEncryptionSetting()).containerRid;
+      console.log(`updatedContainerRid: ${updatedContainerRid}`);
+      if (currentContainerRid === updatedContainerRid) {
+        return;
+      }
+      console.log(
+        `currentContainerRid: ${currentContainerRid}, updatedContainerRid: ${updatedContainerRid}`,
+      );
+      throw new Error(
+        "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue. Please refer to https://aka.ms/CosmosClientEncryption for more details. ",
+      );
+    }
+  }
 }
