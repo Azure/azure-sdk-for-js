@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "../logger";
+import { logger } from "./generated/logger";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import { TextTranslationClient } from "../clientDefinitions.js";
+import { TextTranslationClient } from "./generated/clientDefinitions";
 import {
   DEFAULT_SCOPE,
   TranslatorCredential,
@@ -106,8 +106,6 @@ export default function createClient(
 
   if (typeof arg1 === "string") {
     endpoint = arg1;
-  } else if (typeof arg2 === "string") {
-    endpoint = arg2;
   }
 
   if (typeof arg1 !== "string" && isCredentials(arg1)) {

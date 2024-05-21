@@ -6,8 +6,6 @@ import { assert } from "chai";
 import {
   InputTextItem,
   TextTranslationClient,
-  TransliteratedTextOutput,
-  TransliterateQueryParamProperties,
   isUnexpected,
 } from "../../src";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient";
@@ -29,7 +27,7 @@ describe("Transliterate tests", () => {
 
   it("transliterate basic", async () => {
     const inputText: InputTextItem[] = [{ text: "这里怎么一回事?" }];
-    const parameters: TransliterateQueryParamProperties & Record<string, unknown> = {
+    const parameters = {
       language: "zh-Hans",
       fromScript: "Hans",
       toScript: "Latn",
@@ -44,7 +42,7 @@ describe("Transliterate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body as TransliteratedTextOutput[];
+    const translations = response.body;
     assert.isTrue(translations[0].script !== null);
     assert.isTrue(translations[0].text !== null);
   });
@@ -54,7 +52,7 @@ describe("Transliterate tests", () => {
       { text: "यहएककसौटीहैयहएककसौटीहै" },
       { text: "यहएककसौटीहै" },
     ];
-    const parameters: TransliterateQueryParamProperties & Record<string, unknown> = {
+    const parameters = {
       language: "hi",
       fromScript: "Deva",
       toScript: "Latn",
@@ -69,7 +67,7 @@ describe("Transliterate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body as TransliteratedTextOutput[];
+    const translations = response.body;
     assert.isTrue(translations[0].script !== null);
     assert.isTrue(translations[0].text !== null);
   });
@@ -80,7 +78,7 @@ describe("Transliterate tests", () => {
       { text: "hadman" },
       { text: "hukkabar" },
     ];
-    const parameters: TransliterateQueryParamProperties & Record<string, unknown> = {
+    const parameters = {
       language: "gu",
       fromScript: "Latn",
       toScript: "gujr",
@@ -95,7 +93,7 @@ describe("Transliterate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body as TransliteratedTextOutput[];
+    const translations = response.body;
     assert.isTrue(translations[0].text !== null);
     assert.isTrue(translations[1].text !== null);
     assert.isTrue(translations[2].text !== null);
