@@ -1,6 +1,6 @@
 {
   "name": "@azure/notification-hubs",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Azure Notification Hubs SDK for JavaScript",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
