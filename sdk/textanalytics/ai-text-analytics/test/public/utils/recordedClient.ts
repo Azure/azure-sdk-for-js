@@ -22,6 +22,9 @@ const envSetupForPlayback: { [k: string]: string } = {
 
 const recorderStartOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK2030",// "operation-location" is not a secret in itself, main endpoint is masked through other sanitizers (envSetupForPlayback and generalSanitizers)
+  ]
 };
 
 export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";
