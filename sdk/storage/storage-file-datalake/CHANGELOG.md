@@ -2,15 +2,16 @@
 
 ## 12.22.0-beta.2 (Unreleased)
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
 
 - Allow HTTP connections
+
+## 12.17.0-beta.1 (2024-04-18)
+
+### Features Added
+
+- Added support for service version 2024-05-04.
+- Added ability to retrieve path ACL with DataLakePathClient.getProperties(), DataLakeFileClient.getProperties(), DataLakeDirectoryClient.getProperties(), DataLakeFileClient.read().
 
 ## 12.22.0-beta.1 (2023-11-01)
 

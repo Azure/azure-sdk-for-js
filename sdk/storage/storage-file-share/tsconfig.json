@@ -16,6 +16,6 @@
     "../storage-blob/src/credentials/*.ts",
     "../storage-blob/src/policies/*.ts",
     "../storage-blob/src/StorageBrowserPolicyFactory.ts",
-    "../storage-blob/src/utils/cache.ts",
+    "../storage-blob/src/utils/cache.ts"
   ]
 }

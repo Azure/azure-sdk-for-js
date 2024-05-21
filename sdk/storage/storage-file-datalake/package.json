@@ -119,7 +119,7 @@
     "@azure/core-xml": "^1.3.2",
     "@azure/core-util": "^1.1.1",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.23.0-beta.1",
+    "@azure/storage-blob": "^12.23.0-beta.2",
     "events": "^3.0.0",
     "tslib": "^2.2.0"
   },

@@ -53,7 +53,7 @@ describe("DirectoryClient Node.js only", () => {
     const dirClientWithOAuthToken = new ShareDirectoryClient(
       dirClient.url,
       createTestCredential(),
-      { fileRequestIntent: "backup" }
+      { fileRequestIntent: "backup" },
     );
     configureStorageClient(recorder, dirClientWithOAuthToken);
 
@@ -68,7 +68,7 @@ describe("DirectoryClient Node.js only", () => {
       {
         audience: getFileServiceAccountAudience(getAccountName()),
         fileRequestIntent: "backup",
-      }
+      },
     );
     configureStorageClient(recorder, dirClientWithOAuthToken);
 
@@ -83,7 +83,7 @@ describe("DirectoryClient Node.js only", () => {
       {
         audience: "https://badaudience.file.core.windows.net/.default",
         fileRequestIntent: "backup",
-      }
+      },
     );
     configureStorageClient(recorder, dirClientWithOAuthToken);
 

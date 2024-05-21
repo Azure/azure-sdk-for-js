@@ -10,20 +10,20 @@ import {
   RequestPolicyOptionsLike as RequestPolicyOptions,
   WebResourceLike as WebResource,
   KeepAliveOptions,
-   ExtendedServiceClientOptions,
-   convertHttpClient,
-   createRequestPolicyFactoryPolicy,
-   HttpPipelineLogLevel,
+  ExtendedServiceClientOptions,
+  convertHttpClient,
+  createRequestPolicyFactoryPolicy,
+  HttpPipelineLogLevel,
 } from "@azure/core-http-compat";
 import {
   RequestBodyType as HttpRequestBody,
   ProxySettings as ProxyOptions,
   UserAgentPolicyOptions as UserAgentOptions,
-   bearerTokenAuthenticationPolicy,
-   Pipeline as CorePipeline,
-   decompressResponsePolicyName,
-   PipelinePolicy,
-   HttpClient,
+  bearerTokenAuthenticationPolicy,
+  Pipeline as CorePipeline,
+  decompressResponsePolicyName,
+  PipelinePolicy,
+  HttpClient,
 } from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/core-client";
 import { parseXML, stringifyXML } from "@azure/core-xml";
@@ -45,14 +45,13 @@ import { storageRetryPolicy } from "../../storage-blob/src/policies/StorageRetry
 import { storageSharedKeyCredentialPolicy } from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2";
 import { StorageBrowserPolicyFactory } from "@azure/storage-blob";
 
-
-import { 
+import {
   ServiceClientOptions,
   PipelineOptions,
   PipelineLike,
   isPipelineLike,
   Pipeline,
-} from "@azure/storage-blob"
+} from "@azure/storage-blob";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient

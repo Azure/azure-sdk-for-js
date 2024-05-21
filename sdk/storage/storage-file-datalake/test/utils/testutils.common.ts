@@ -33,7 +33,7 @@ const mockAccountName = "fakestorageaccount";
 const mockAccountKey = "aaaaa";
 const mockSas =
   "?sv=2015-04-05&ss=bfqt&srt=sco&sp=rwdlacup&se=2023-01-31T18%3A51%3A40.0000000Z&sig=foobar";
-  
+
 const mockTenantId = "00000000-0000-0000-0000-000000000000";
 const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
 if (isBrowser()) {

@@ -110,7 +110,7 @@ export class SimpleTokenCredential implements TokenCredential {
    */
   async getToken(
     _scopes: string | string[],
-    _options?: GetTokenOptions
+    _options?: GetTokenOptions,
   ): Promise<AccessToken | null> {
     return {
       token: this.token,

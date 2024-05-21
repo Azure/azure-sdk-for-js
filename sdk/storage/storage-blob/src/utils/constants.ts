@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 export const SDK_VERSION: string = "12.23.0-beta.2";
-export const SERVICE_VERSION: string = "2023-11-03";
+export const SERVICE_VERSION: string = "2024-05-04";
 
 export const BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES: number = 256 * 1024 * 1024; // 256MB
 export const BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES: number = 4000 * 1024 * 1024; // 4000MB

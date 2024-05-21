@@ -14,9 +14,18 @@ export {
   isPipelineLike,
   newPipeline,
   StoragePipelineOptions,
+  RequestPolicyFactory,
+  RequestPolicy,
+  RequestPolicyOptions,
+  WebResource,
+  HttpOperationResponse,
+  HttpHeaders,
+  HttpRequestBody,
+  IHttpClient,
+  StorageOAuthScopes,
   ServiceClientOptions,
 } from "./Pipeline";
-export { 
+export {
   AnonymousCredential,
   AnonymousCredentialPolicy,
   Credential,
@@ -28,7 +37,8 @@ export {
   StorageRetryPolicyType,
   StorageRetryPolicyFactory,
   BlobServiceProperties as DataLakeServiceProperties,
-  ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse, } from '@azure/storage-blob';
+  ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
+} from "@azure/storage-blob";
 export { CommonOptions } from "./StorageClient";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
 export { RestError } from "@azure/core-rest-pipeline";

@@ -5,18 +5,13 @@ import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import{  
+import {
   BlobServiceClient,
   ServiceGetPropertiesOptions,
   ServiceSetPropertiesOptions,
   ServiceSetPropertiesResponse,
-} from "@azure/storage-blob"
-import {
-  Pipeline,
-  StoragePipelineOptions,
-  isPipelineLike,
-  newPipeline,
-} from "./Pipeline";
+} from "@azure/storage-blob";
+import { Pipeline, StoragePipelineOptions, isPipelineLike, newPipeline } from "./Pipeline";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 

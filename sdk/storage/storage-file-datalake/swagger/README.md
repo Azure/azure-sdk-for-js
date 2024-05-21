@@ -348,11 +348,11 @@ directive:
       ];
 ```
 
-### Update service version from "2023-05-03" to "2023-11-03"
+### Update service version from "2023-05-03" to "2024-05-04"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2023-11-03" ];
+    transform: $.enum = [ "2024-05-04" ];
 ```

@@ -619,11 +619,7 @@ export class ShareClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrShareName?:
-      | Credential
-      | TokenCredential
-      | PipelineLike
-      | string,
+    credentialOrPipelineOrShareName?: Credential | TokenCredential | PipelineLike | string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: ShareClientOptions,
@@ -1643,10 +1639,7 @@ export class ShareDirectoryClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
   constructor(
     url: string,
-    credentialOrPipeline?:
-      | Credential
-      | TokenCredential
-      | Pipeline,
+    credentialOrPipeline?: Credential | TokenCredential | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options: ShareClientOptions = {},
@@ -3524,10 +3517,7 @@ export class ShareFileClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
   constructor(
     url: string,
-    credentialOrPipeline?:
-      | Credential
-      | TokenCredential
-      | Pipeline,
+    credentialOrPipeline?: Credential | TokenCredential | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: ShareClientOptions,

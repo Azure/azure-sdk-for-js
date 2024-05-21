@@ -87,11 +87,9 @@ describe("FileClient Node.js only", () => {
 
   it("Default audience should work", async () => {
     await fileClient.create(1024);
-    const fileClientWithOAuthToken = new ShareFileClient(
-      fileClient.url,
-      createTestCredential(),
-      { fileRequestIntent: "backup" }
-    );
+    const fileClientWithOAuthToken = new ShareFileClient(fileClient.url, createTestCredential(), {
+      fileRequestIntent: "backup",
+    });
     configureStorageClient(recorder, fileClientWithOAuthToken);
 
     const exist = await fileClientWithOAuthToken.exists();
@@ -100,14 +98,10 @@ describe("FileClient Node.js only", () => {
 
   it("Customized audience should work", async () => {
     await fileClient.create(1024);
-    const fileClientWithOAuthToken = new ShareFileClient(
-      fileClient.url,
-      createTestCredential(),
-      {
-        audience: getFileServiceAccountAudience(getAccountName()),
-        fileRequestIntent: "backup",
-      }
-    );
+    const fileClientWithOAuthToken = new ShareFileClient(fileClient.url, createTestCredential(), {
+      audience: getFileServiceAccountAudience(getAccountName()),
+      fileRequestIntent: "backup",
+    });
     configureStorageClient(recorder, fileClientWithOAuthToken);
     const exist = await fileClientWithOAuthToken.exists();
     assert.equal(exist, true);
@@ -115,14 +109,10 @@ describe("FileClient Node.js only", () => {
 
   it("Bad audience should fail", async () => {
     await fileClient.create(1024);
-    const fileClientWithOAuthToken = new ShareFileClient(
-      fileClient.url,
-      createTestCredential(),
-      {
-        audience: "https://badaudience.file.core.windows.net/.default",
-        fileRequestIntent: "backup",
-      }
-    );
+    const fileClientWithOAuthToken = new ShareFileClient(fileClient.url, createTestCredential(), {
+      audience: "https://badaudience.file.core.windows.net/.default",
+      fileRequestIntent: "backup",
+    });
     configureStorageClient(recorder, fileClientWithOAuthToken);
     try {
       await fileClientWithOAuthToken.exists();
@@ -317,7 +307,7 @@ describe("FileClient Node.js only", () => {
     await fileClient.uploadRange(fileContent, 0, fileContent.length);
 
     // Get a SAS for fileURL
-    const credential = fileClient["credential"] as StorageSharedKeyCredential;;
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;
     const expiresOn = new Date(recorder.variable("now", new Date().toISOString()));
     expiresOn.setDate(expiresOn.getDate() + 1);
     const sas = generateFileSASQueryParameters(
@@ -327,16 +317,14 @@ describe("FileClient Node.js only", () => {
         filePath: `${dirName}/${fileName}`,
         permissions: FileSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     const fileName2 = recorder.variable("file2", getUniqueName("file2"));
     const fileURL2 = dirClient.getFileClient(fileName2);
-    const fileClientWithOAuthToken = new ShareFileClient(
-      fileURL2.url,
-      createTestCredential(),
-      { fileRequestIntent: "backup" }
-    );
+    const fileClientWithOAuthToken = new ShareFileClient(fileURL2.url, createTestCredential(), {
+      fileRequestIntent: "backup",
+    });
 
     configureStorageClient(recorder, fileClientWithOAuthToken);
     await fileClientWithOAuthToken.create(1024);

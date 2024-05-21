@@ -3,16 +3,8 @@
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import {
-  isPipelineLike,
-  newPipeline,
-  Pipeline,
-  StoragePipelineOptions,
-} from "./Pipeline";
-import {
-  BlobClient,
-  BlockBlobClient,
-} from "@azure/storage-blob"
+import { isPipelineLike, newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
+import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { Readable } from "stream";
@@ -1749,10 +1741,20 @@ export class DataLakeFileClient extends DataLakePathClient {
       "DataLakeFileClient-readToFile",
       options,
       async (updatedOptions) => {
-        return this.blockBlobClientInternal.downloadToFile(filePath, offset, count, {
-          ...updatedOptions,
-          customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
-        });
+        const rawResposne = await this.blockBlobClientInternal.downloadToFile(
+          filePath,
+          offset,
+          count,
+          {
+            ...updatedOptions,
+            customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
+          },
+        );
+
+        const response = ParsePathGetPropertiesExtraHeaderValues(
+          rawResposne as FileReadResponse,
+        ) as FileReadResponse;
+        return response;
       },
     );
   }

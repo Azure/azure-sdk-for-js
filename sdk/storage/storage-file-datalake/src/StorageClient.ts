@@ -3,11 +3,7 @@
 import { TokenCredential } from "@azure/core-auth";
 import { StorageContextClient } from "./StorageContextClient";
 import { StorageClient as StorageClientContext } from "./generated/src";
-import {
-  Pipeline,
-  PipelineLike,
-  StoragePipelineOptions,
-} from "./Pipeline";
+import { Pipeline, PipelineLike, StoragePipelineOptions } from "./Pipeline";
 import { BlobServiceClient, AnonymousCredential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms";

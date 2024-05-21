@@ -18,6 +18,6 @@
     "../storage-blob/src/policies/*.ts",
     "../storage-blob/src/StorageRetryPolicyFactory.ts",
     "../storage-blob/src/StorageBrowserPolicyFactory.ts",
-    "../storage-blob/src/utils/cache.ts",
+    "../storage-blob/src/utils/cache.ts"
   ]
 }

@@ -31,7 +31,7 @@ describe("DataLakeServiceClient", () => {
     const serviceClient = getDataLakeServiceClient(recorder);
     const datalakeServiceClientWithOAuthToken = new DataLakeServiceClient(
       serviceClient.url,
-      createTestCredential()
+      createTestCredential(),
     );
     configureStorageClient(recorder, datalakeServiceClientWithOAuthToken);
     await datalakeServiceClientWithOAuthToken.getProperties();
@@ -42,7 +42,7 @@ describe("DataLakeServiceClient", () => {
     const datalakeServiceClientWithOAuthToken = new DataLakeServiceClient(
       serviceClient.url,
       createTestCredential(),
-      { audience: getDataLakeServiceAccountAudience(serviceClient.accountName) }
+      { audience: getDataLakeServiceAccountAudience(serviceClient.accountName) },
     );
     configureStorageClient(recorder, datalakeServiceClientWithOAuthToken);
     await datalakeServiceClientWithOAuthToken.getProperties();
@@ -53,13 +53,13 @@ describe("DataLakeServiceClient", () => {
 
     // Validate that bad audience should fail first.
     const authToken = await createTestCredential().getToken(
-      "https://badaudience.blob.core.windows.net/.default"
+      "https://badaudience.blob.core.windows.net/.default",
     );
 
     assert.isNotNull(authToken);
     const datalakeServiceClientWithPlainOAuthToken = new DataLakeServiceClient(
       serviceClient.url,
-      new SimpleTokenCredential(authToken!.token)
+      new SimpleTokenCredential(authToken!.token),
     );
     configureStorageClient(recorder, datalakeServiceClientWithPlainOAuthToken);
 
@@ -73,7 +73,7 @@ describe("DataLakeServiceClient", () => {
     const datalakeServiceClientWithOAuthToken = new DataLakeServiceClient(
       serviceClient.url,
       createTestCredential(),
-      { audience: "https://badaudience.dfs.core.windows.net/.default" }
+      { audience: "https://badaudience.dfs.core.windows.net/.default" },
     );
     configureStorageClient(recorder, datalakeServiceClientWithOAuthToken);
     await datalakeServiceClientWithOAuthToken.getProperties();

@@ -870,7 +870,7 @@ describe("FileClient", () => {
     try {
       await renamedFileClient.getRangeListDiff(snapshotRes.snapshot!);
       assert.fail(
-        "getRangeListDiff against a renamed file with a snapshot before renaming should failed."
+        "getRangeListDiff against a renamed file with a snapshot before renaming should failed.",
       );
     } catch (err) {
       assert.equal((err as any).statusCode, 409);
@@ -914,7 +914,7 @@ describe("FileClient", () => {
     try {
       await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!);
       assert.fail(
-        "getRangeListDiff against a renamed file with a snapshot before renaming should failed."
+        "getRangeListDiff against a renamed file with a snapshot before renaming should failed.",
       );
     } catch (err) {
       assert.equal((err as any).statusCode, 409);

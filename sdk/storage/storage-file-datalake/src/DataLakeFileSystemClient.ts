@@ -2,15 +2,8 @@
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import {
-  ContainerClient,
-} from "@azure/storage-blob";
-import {
-  isPipelineLike,
-  newPipeline,
-  Pipeline,
-  StoragePipelineOptions,
-} from "./Pipeline";
+import { ContainerClient } from "@azure/storage-blob";
+import { isPipelineLike, newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "@azure/storage-blob";
 

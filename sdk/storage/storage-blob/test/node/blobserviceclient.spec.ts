@@ -36,7 +36,7 @@ describe("BlobServiceClient Node.js only", () => {
     const serviceClient = getBSU(recorder);
     const blobServiceClientWithOAuthToken = new BlobServiceClient(
       serviceClient.url,
-      createTestCredential()
+      createTestCredential(),
     );
     configureBlobStorageClient(recorder, blobServiceClientWithOAuthToken);
     await blobServiceClientWithOAuthToken.getProperties();
@@ -49,7 +49,7 @@ describe("BlobServiceClient Node.js only", () => {
       createTestCredential(),
       {
         audience: [getBlobServiceAccountAudience(serviceClient.accountName)],
-      }
+      },
     );
     configureBlobStorageClient(recorder, blobServiceClientWithOAuthToken);
     await blobServiceClientWithOAuthToken.getProperties();
@@ -60,12 +60,12 @@ describe("BlobServiceClient Node.js only", () => {
 
     // To validate that bad audience should fail.
     const authToken = await createTestCredential().getToken(
-      "https://badaudience.blob.core.windows.net/.default"
+      "https://badaudience.blob.core.windows.net/.default",
     );
     assert.isNotNull(authToken);
     const blobServiceClientWithPlainOAuthToken = new BlobServiceClient(
       serviceClient.url,
-      new SimpleTokenCredential(authToken!.token)
+      new SimpleTokenCredential(authToken!.token),
     );
     configureBlobStorageClient(recorder, blobServiceClientWithPlainOAuthToken);
 
@@ -80,7 +80,7 @@ describe("BlobServiceClient Node.js only", () => {
       createTestCredential(),
       {
         audience: ["https://badaudience.blob.core.windows.net/.default"],
-      }
+      },
     );
     configureBlobStorageClient(recorder, blobServiceClientWithOAuthToken);
     await blobServiceClientWithOAuthToken.getProperties();

@@ -52,15 +52,13 @@ describe("ShareClient Node.js only", () => {
     const cResp = await directoryClient.create();
     assert.ok(cResp.filePermissionKey);
 
-    const shareClientWithOAuthToken = new ShareClient(
-      shareClient.url,
-      createTestCredential(),
-      { fileRequestIntent: "backup" }
-    );
+    const shareClientWithOAuthToken = new ShareClient(shareClient.url, createTestCredential(), {
+      fileRequestIntent: "backup",
+    });
     configureStorageClient(recorder, shareClientWithOAuthToken);
 
     const getPermissionResp = await shareClientWithOAuthToken.getPermission(
-      cResp.filePermissionKey!
+      cResp.filePermissionKey!,
     );
     assert.ok(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
@@ -73,18 +71,14 @@ describe("ShareClient Node.js only", () => {
     const cResp = await directoryClient.create();
     assert.ok(cResp.filePermissionKey);
 
-    const shareClientWithOAuthToken = new ShareClient(
-      shareClient.url,
-      createTestCredential(),
-      {
-        audience: getFileServiceAccountAudience(getAccountName()),
-        fileRequestIntent: "backup",
-      }
-    );
+    const shareClientWithOAuthToken = new ShareClient(shareClient.url, createTestCredential(), {
+      audience: getFileServiceAccountAudience(getAccountName()),
+      fileRequestIntent: "backup",
+    });
     configureStorageClient(recorder, shareClientWithOAuthToken);
 
     const getPermissionResp = await shareClientWithOAuthToken.getPermission(
-      cResp.filePermissionKey!
+      cResp.filePermissionKey!,
     );
     assert.ok(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
@@ -97,14 +91,10 @@ describe("ShareClient Node.js only", () => {
     const cResp = await directoryClient.create();
     assert.ok(cResp.filePermissionKey);
 
-    const shareClientWithOAuthToken = new ShareClient(
-      shareClient.url,
-      createTestCredential(),
-      {
-        audience: "https://badaudience.file.core.windows.net/.default",
-        fileRequestIntent: "backup",
-      }
-    );
+    const shareClientWithOAuthToken = new ShareClient(shareClient.url, createTestCredential(), {
+      audience: "https://badaudience.file.core.windows.net/.default",
+      fileRequestIntent: "backup",
+    });
     configureStorageClient(recorder, shareClientWithOAuthToken);
 
     try {

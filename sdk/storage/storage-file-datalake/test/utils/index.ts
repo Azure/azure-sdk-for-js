@@ -9,11 +9,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { DataLakeServiceClient } from "../../src/DataLakeServiceClient";
-import {
-  newPipeline,
-  StoragePipelineOptions,
-  StorageSharedKeyCredential,
-} from "../../src";
+import { newPipeline, StoragePipelineOptions, StorageSharedKeyCredential } from "../../src";
 import { getUniqueName, SimpleTokenCredential, configureStorageClient } from "./testutils.common";
 import {
   AccountSASPermissions,

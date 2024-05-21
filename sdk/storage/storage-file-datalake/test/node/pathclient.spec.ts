@@ -7,6 +7,8 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { join } from "path";
 
+import * as fs from "fs";
+
 import {
   AccessControlChangeCounters,
   AccessControlChanges,
@@ -253,6 +255,7 @@ describe("DataLakePathClient Node.js only", () => {
         execute: false,
       },
     });
+    assert.deepStrictEqual(permissions.acl, acl);
 
     const readResult = await testFileClient.read();
 
@@ -277,6 +280,34 @@ describe("DataLakePathClient Node.js only", () => {
         execute: false,
       },
     });
+    assert.deepStrictEqual(readResult.acl, acl);
+
+    const readFilePath = recorder.variable("readFilePath", getUniqueName("readFilePath"));
+    const readToFileResponse = await testFileClient.readToFile(readFilePath);
+    fs.unlinkSync(readFilePath);
+
+    assert.deepStrictEqual(readToFileResponse.owner, "$superuser");
+    assert.deepStrictEqual(readToFileResponse.group, "$superuser");
+    assert.deepStrictEqual(readToFileResponse.permissions, {
+      extendedAcls: false,
+      stickyBit: false,
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      other: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+    });
+    assert.deepStrictEqual(readToFileResponse.acl, acl);
   });
 
   it("DataLakeFileClient createIfNotExists with owner", async () => {
@@ -455,6 +486,7 @@ describe("DataLakePathClient Node.js only", () => {
     assert.deepStrictEqual(propertiesResult.owner, "$superuser");
     assert.deepStrictEqual(propertiesResult.group, "$superuser");
     assert.deepStrictEqual(propertiesResult.permissions, permissions);
+    assert.deepStrictEqual(aclResult.acl, acl);
   });
 
   it("DataLakeDirectoryClient createIfNotExists with owner", async () => {
@@ -924,8 +956,6 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("query should work with Parquet input configuration", async function (this: Context) {
-    // Enable the case when STG78 - version 2020-10-02 features is enabled in production.
-    //this.skip();
     const parquetFilePath = join("test", "resources", "parquet.parquet");
 
     const fileClient2 = fileSystemClient.getFileClient(fileName + "2");
@@ -960,10 +990,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeFileClient default audience should work", async () => {
-    const fileClientWithOAuthToken = new DataLakeFileClient(
-      fileClient.url,
-      createTestCredential()
-    );
+    const fileClientWithOAuthToken = new DataLakeFileClient(fileClient.url, createTestCredential());
     configureStorageClient(recorder, fileClientWithOAuthToken);
     const exist = await fileClientWithOAuthToken.exists();
     assert.equal(exist, true);
@@ -973,7 +1000,7 @@ describe("DataLakePathClient Node.js only", () => {
     const fileClientWithOAuthToken = new DataLakeFileClient(
       fileClient.url,
       createTestCredential(),
-      { audience: getDataLakeServiceAccountAudience(serviceClient.accountName) }
+      { audience: getDataLakeServiceAccountAudience(serviceClient.accountName) },
     );
     configureStorageClient(recorder, fileClientWithOAuthToken);
     const exist = await fileClientWithOAuthToken.exists();
@@ -983,12 +1010,12 @@ describe("DataLakePathClient Node.js only", () => {
   it("DataLakeFileClient bearer token challenge should work", async () => {
     // Validate that bad audience should fail first.
     const authToken = await createTestCredential().getToken(
-      "https://badaudience.blob.core.windows.net/.default"
+      "https://badaudience.blob.core.windows.net/.default",
     );
     assert.isNotNull(authToken);
     const fileClientWithPlainOAuthToken = new DataLakeFileClient(
       fileClient.url,
-      new SimpleTokenCredential(authToken!.token)
+      new SimpleTokenCredential(authToken!.token),
     );
     configureStorageClient(recorder, fileClientWithPlainOAuthToken);
 
@@ -1002,7 +1029,7 @@ describe("DataLakePathClient Node.js only", () => {
     const fileClientWithOAuthToken = new DataLakeFileClient(
       fileClient.url,
       createTestCredential(),
-      { audience: "https://badaudience.dfs.core.windows.net/.default" }
+      { audience: "https://badaudience.dfs.core.windows.net/.default" },
     );
     configureStorageClient(recorder, fileClientWithOAuthToken);
     const exist = await fileClientWithOAuthToken.exists();
@@ -1016,7 +1043,7 @@ describe("DataLakePathClient Node.js only", () => {
 
     const directoryClientWithOAuthToken = new DataLakePathClient(
       directoryClient.url,
-      createTestCredential()
+      createTestCredential(),
     ).toDirectoryClient();
     configureStorageClient(recorder, directoryClientWithOAuthToken);
     const exist = await directoryClientWithOAuthToken.exists();
@@ -1024,14 +1051,14 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeDirectoryClient customized audience should work", async () => {
-    const directoryName = recorder.variable("directory", getUniqueName("directory"))
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     await directoryClient.createIfNotExists();
 
     const directoryClientWithOAuthToken = new DataLakePathClient(
       fileClient.url,
       createTestCredential(),
-      { audience: getDataLakeServiceAccountAudience(serviceClient.accountName) }
+      { audience: getDataLakeServiceAccountAudience(serviceClient.accountName) },
     ).toDirectoryClient();
     configureStorageClient(recorder, directoryClientWithOAuthToken);
     const exist = await directoryClientWithOAuthToken.exists();
@@ -1039,18 +1066,18 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("DataLakeDirectoryClient bearer token challenge should work", async () => {
-    const directoryName = recorder.variable("directory", getUniqueName("directory"))
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     await directoryClient.createIfNotExists();
 
     // Validate that bad audience should fail first.
     const authToken = await createTestCredential().getToken(
-      "https://badaudience.blob.core.windows.net/.default"
+      "https://badaudience.blob.core.windows.net/.default",
     );
     assert.isNotNull(authToken);
     const directoryClientWithPlainOAuthToken = new DataLakePathClient(
       fileClient.url,
-      new SimpleTokenCredential(authToken!.token)
+      new SimpleTokenCredential(authToken!.token),
     ).toDirectoryClient();
     configureStorageClient(recorder, directoryClientWithPlainOAuthToken);
 
@@ -1064,7 +1091,7 @@ describe("DataLakePathClient Node.js only", () => {
     const directoryClientWithOAuthToken = new DataLakePathClient(
       fileClient.url,
       createTestCredential(),
-      { audience: "https://badaudience.dfs.core.windows.net/.default" }
+      { audience: "https://badaudience.dfs.core.windows.net/.default" },
     ).toDirectoryClient();
     configureStorageClient(recorder, directoryClientWithOAuthToken);
     const exist = await directoryClientWithOAuthToken.exists();

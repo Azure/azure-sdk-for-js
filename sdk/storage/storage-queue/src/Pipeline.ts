@@ -30,7 +30,10 @@ import { parseXML, stringifyXML } from "@azure/core-xml";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log";
-import { StorageRetryOptions, StorageRetryPolicyFactory } from "../../storage-blob/src/StorageRetryPolicyFactory";
+import {
+  StorageRetryOptions,
+  StorageRetryPolicyFactory,
+} from "../../storage-blob/src/StorageRetryPolicyFactory";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import {

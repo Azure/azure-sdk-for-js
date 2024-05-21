@@ -61,7 +61,7 @@ describe("ContainerClient Node.js only", () => {
       createTestCredential(),
       {
         audience: [getBlobServiceAccountAudience(blobServiceClient.accountName)],
-      }
+      },
     );
     configureBlobStorageClient(recorder, containerClientWithOAuthToken);
     const exists = await containerClientWithOAuthToken.exists();
@@ -71,12 +71,12 @@ describe("ContainerClient Node.js only", () => {
   it("Bearer token challenge should work", async () => {
     // Validate that bad audience should fail first.
     const authToken = await createTestCredential().getToken(
-      "https://badaudience.blob.core.windows.net/.default"
+      "https://badaudience.blob.core.windows.net/.default",
     );
     assert.isNotNull(authToken);
     const containerClientWithPlainOAuthToken = new ContainerClient(
       containerClient.url,
-      new SimpleTokenCredential(authToken!.token)
+      new SimpleTokenCredential(authToken!.token),
     );
     configureBlobStorageClient(recorder, containerClientWithPlainOAuthToken);
 
@@ -91,7 +91,7 @@ describe("ContainerClient Node.js only", () => {
       createTestCredential(),
       {
         audience: ["https://badaudience.blob.core.windows.net/.default"],
-      }
+      },
     );
     configureBlobStorageClient(recorder, containerClientWithOAuthToken);
     await containerClientWithOAuthToken.getProperties();

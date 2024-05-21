@@ -18,7 +18,7 @@ import {
   DataLakeFileSystemClient,
   DataLakeServiceClient,
   FileSystemSASPermissions,
-  newPipeline
+  newPipeline,
 } from "../../src";
 import { getDataLakeServiceAccountAudience, PublicAccessType } from "../../src/models";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -60,7 +60,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
     const fileSystemClientWithOAuthToken = new DataLakeFileSystemClient(
       fileSystemClient.url,
       createTestCredential(),
-      { audience: getDataLakeServiceAccountAudience(serviceClient.accountName) }
+      { audience: getDataLakeServiceAccountAudience(serviceClient.accountName) },
     );
     configureStorageClient(recorder, fileSystemClientWithOAuthToken);
     const exist = await fileSystemClientWithOAuthToken.exists();
@@ -70,12 +70,12 @@ describe("DataLakeFileSystemClient Node.js only", () => {
   it("DataLakeFileSystemClient bearer token challenge should work", async () => {
     // Validate that bad audience should fail first.
     const authToken = await createTestCredential().getToken(
-      "https://badaudience.blob.core.windows.net/.default"
+      "https://badaudience.blob.core.windows.net/.default",
     );
     assert.isNotNull(authToken);
     const fileSystemClientWithPlainOAuthToken = new DataLakeFileSystemClient(
       fileSystemClient.url,
-      new SimpleTokenCredential(authToken!.token)
+      new SimpleTokenCredential(authToken!.token),
     );
     configureStorageClient(recorder, fileSystemClientWithPlainOAuthToken);
 
@@ -89,7 +89,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
     const fileSystemClientWithOAuthToken = new DataLakeFileSystemClient(
       fileSystemClient.url,
       createTestCredential(),
-      { audience: "https://badaudience.dfs.core.windows.net/.default" }
+      { audience: "https://badaudience.dfs.core.windows.net/.default" },
     );
     configureStorageClient(recorder, fileSystemClientWithOAuthToken);
     const exist = await fileSystemClientWithOAuthToken.exists();

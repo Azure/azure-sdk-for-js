@@ -11,7 +11,12 @@ import {
   SimpleTokenCredential,
 } from "../utils";
 import { Recorder } from "@azure-tools/test-recorder";
-import { getQueueServiceAccountAudience, newPipeline, QueueClient, QueueServiceClient } from "../../src";
+import {
+  getQueueServiceAccountAudience,
+  newPipeline,
+  QueueClient,
+  QueueServiceClient,
+} from "../../src";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { Context } from "mocha";
@@ -39,10 +44,7 @@ describe("QueueClient Node.js only", () => {
   });
 
   it("QueueClient default audience should work", async () => {
-    const queueClientWithOAuthToken = new QueueClient(
-      queueClient.url,
-      createTestCredential()
-    );
+    const queueClientWithOAuthToken = new QueueClient(queueClient.url, createTestCredential());
 
     configureStorageClient(recorder, queueClientWithOAuthToken);
     const exist = await queueClientWithOAuthToken.exists();
@@ -50,11 +52,9 @@ describe("QueueClient Node.js only", () => {
   });
 
   it("QueueClient customized audience should work", async () => {
-    const queueClientWithOAuthToken = new QueueClient(
-      queueClient.url,
-      createTestCredential(),
-      { audience: getQueueServiceAccountAudience(queueServiceClient.accountName) }
-    );
+    const queueClientWithOAuthToken = new QueueClient(queueClient.url, createTestCredential(), {
+      audience: getQueueServiceAccountAudience(queueServiceClient.accountName),
+    });
 
     configureStorageClient(recorder, queueClientWithOAuthToken);
     const exist = await queueClientWithOAuthToken.exists();
@@ -64,12 +64,12 @@ describe("QueueClient Node.js only", () => {
   it("QueueClient Bearer token challenge should work", async () => {
     // Validate that bad audience should fail first.
     const authToken = await createTestCredential().getToken(
-      "https://badaudience.blob.core.windows.net/.default"
+      "https://badaudience.blob.core.windows.net/.default",
     );
     assert.isNotNull(authToken);
     const queueClientWithPlainOAuthToken = new QueueClient(
       queueClient.url,
-      new SimpleTokenCredential(authToken!.token)
+      new SimpleTokenCredential(authToken!.token),
     );
 
     configureStorageClient(recorder, queueClientWithPlainOAuthToken);
@@ -81,13 +81,9 @@ describe("QueueClient Node.js only", () => {
       assert.strictEqual((err as any).statusCode, 401);
     }
 
-    const queueClientWithOAuthToken = new QueueClient(
-      queueClient.url,
-      createTestCredential(),
-      {
-        audience: "https://badaudience.blob.core.windows.net/.default",
-      }
-    );
+    const queueClientWithOAuthToken = new QueueClient(queueClient.url, createTestCredential(), {
+      audience: "https://badaudience.blob.core.windows.net/.default",
+    });
     configureStorageClient(recorder, queueClientWithOAuthToken);
     const exist = await queueClientWithOAuthToken.exists();
     assert.equal(exist, true);

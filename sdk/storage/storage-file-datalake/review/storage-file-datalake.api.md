@@ -22,7 +22,6 @@ import { Credential as Credential_2 } from '@azure/storage-blob';
 import { CredentialPolicy } from '@azure/storage-blob';
 import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
 import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
-import { ExtendedServiceClientOptions } from '@azure/core-http-compat';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
@@ -644,6 +643,8 @@ export interface FileReadHeaders {
     // (undocumented)
     acceptRanges?: string;
     // (undocumented)
+    acl: PathAccessControlItem[];
+    // (undocumented)
     cacheControl?: string;
     // (undocumented)
     clientRequestId?: string;
@@ -1085,12 +1086,6 @@ export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: D
 export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: DataLakeSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
 
 // @public (undocumented)
-export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceClientOptions;
-
-// @public (undocumented)
-export function getCredentialFromPipeline(pipeline: PipelineLike): StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
-
-// @public (undocumented)
 export function getDataLakeServiceAccountAudience(storageAccountName: string): string;
 
 export { HttpHeaders }
@@ -1454,6 +1449,8 @@ export interface PathGetPropertiesHeaders {
     accessTierChangedOn?: Date;
     // (undocumented)
     accessTierInferred?: boolean;
+    // (undocumented)
+    acl: PathAccessControlItem[];
     // (undocumented)
     archiveStatus?: string;
     // (undocumented)

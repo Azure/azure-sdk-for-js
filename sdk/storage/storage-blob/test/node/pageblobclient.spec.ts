@@ -90,7 +90,7 @@ describe("PageBlobClient Node.js only", () => {
       createTestCredential(),
       {
         audience: [getBlobServiceAccountAudience(blobServiceClient.accountName)],
-      }
+      },
     );
     configureBlobStorageClient(recorder, pageBlobClientWithOAuthToken);
     const exist = await pageBlobClientWithOAuthToken.exists();
@@ -102,12 +102,12 @@ describe("PageBlobClient Node.js only", () => {
 
     // To validate that bad audience should fail.
     const authToken = await createTestCredential().getToken(
-      "https://badaudience.blob.core.windows.net/.default"
+      "https://badaudience.blob.core.windows.net/.default",
     );
     assert.isNotNull(authToken);
     const pageBlobClientWithPlainOAuthToken = new PageBlobClient(
       pageBlobClient.url,
-      new SimpleTokenCredential(authToken!.token)
+      new SimpleTokenCredential(authToken!.token),
     );
     configureBlobStorageClient(recorder, pageBlobClientWithPlainOAuthToken);
 
@@ -122,7 +122,7 @@ describe("PageBlobClient Node.js only", () => {
       createTestCredential(),
       {
         audience: ["https://badaudience.blob.core.windows.net/.default"],
-      }
+      },
     );
     configureBlobStorageClient(recorder, blockBlobClientWithOAuthToken);
     const exist = await blockBlobClientWithOAuthToken.exists();
