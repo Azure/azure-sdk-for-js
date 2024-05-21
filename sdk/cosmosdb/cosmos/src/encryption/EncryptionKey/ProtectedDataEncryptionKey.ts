@@ -4,6 +4,7 @@
 import { DataEncryptionKey } from "./DataEncryptionKey";
 import { KeyEncryptionKey } from "../KeyEncryptionKey";
 import { randomBytes } from "crypto";
+import { ProtectedDataEncryptionKeyCache } from "../Cache";
 
 export class ProtectedDataEncryptionKey extends DataEncryptionKey {
   public keyEncryptionKey: KeyEncryptionKey;
@@ -11,11 +12,6 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
   public encryptedValue: Buffer;
 
   public name: string;
-  private static protectedDataEncryptionKeyCache: {
-    [key: string]: [Date, ProtectedDataEncryptionKey];
-  } = {};
-
-  public cacheTimeToLive: number;
 
   private constructor(
     name: string,
@@ -27,12 +23,12 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
     this.name = name;
     this.keyEncryptionKey = keyEncryptionKey;
     this.encryptedValue = encryptedKey;
-    ProtectedDataEncryptionKey.clearCacheOnTtlExpiry(this.cacheTimeToLive);
   }
 
-  public static async create(
+  private static async create(
     name: string,
     keyEncryptionKey: KeyEncryptionKey,
+    cacheTimeToLive: number,
     encryptedValue?: Buffer,
   ): Promise<ProtectedDataEncryptionKey> {
     let rawKey: Buffer;
@@ -46,44 +42,37 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
       encryptedKey = await keyEncryptionKey.wrapEncryptionKey(rawKey);
     }
     const newKey = new ProtectedDataEncryptionKey(name, keyEncryptionKey, rawKey, encryptedKey);
-
+    if (cacheTimeToLive !== 0) {
+      const protectedDataEncryptionKeyCache = ProtectedDataEncryptionKeyCache.getInstance();
+      const key = JSON.stringify([name, keyEncryptionKey.name, encryptedKey.toString("hex")]);
+      protectedDataEncryptionKeyCache.setProtectedDataEncryptionKey(key, newKey, cacheTimeToLive);
+    }
     return newKey;
   }
 
   public static async getOrCreate(
     name: string,
     keyEncryptionKey: KeyEncryptionKey,
-    encryptedValue: Buffer,
+    cacheTimeToLive: number,
+    encryptedValue?: Buffer,
     forceRefresh?: boolean,
-    cacheTimeToLive?: number,
   ): Promise<ProtectedDataEncryptionKey> {
-    if (cacheTimeToLive) {
-      return this.create(name, keyEncryptionKey, encryptedValue);
+    if (cacheTimeToLive === 0 || forceRefresh) {
+      return this.create(name, keyEncryptionKey, cacheTimeToLive, encryptedValue);
     }
-    const key = JSON.stringify([name, keyEncryptionKey, encryptedValue.toString("hex")]);
-    if (this.protectedDataEncryptionKeyCache[key] === undefined || forceRefresh) {
-      const protectedKey = await this.create(name, keyEncryptionKey, encryptedValue);
-      this.protectedDataEncryptionKeyCache[key] = [new Date(), protectedKey];
+    if (encryptedValue) {
+      const protectedDataEncryptionKeyCache = ProtectedDataEncryptionKeyCache.getInstance();
+      const key = JSON.stringify([name, keyEncryptionKey.name, encryptedValue.toString("hex")]);
+      const protectedDataEncryptionKey =
+        protectedDataEncryptionKeyCache.getProtectedDataEncryptionKey(key);
+      if (protectedDataEncryptionKey) {
+        return protectedDataEncryptionKey;
+      }
     }
-    return this.protectedDataEncryptionKeyCache[key][1];
+    return this.create(name, keyEncryptionKey, cacheTimeToLive, encryptedValue);
   }
 
   private static generateColumnEncryptionKey(): Buffer {
     return randomBytes(32);
-  }
-
-  public static async clearCacheOnTtlExpiry(time: number): Promise<void> {
-    setInterval(() => {
-      const now = new Date();
-      for (const key in ProtectedDataEncryptionKey.protectedDataEncryptionKeyCache) {
-        if (
-          now.getTime() -
-            ProtectedDataEncryptionKey.protectedDataEncryptionKeyCache[key][0].getTime() >
-          time
-        ) {
-          delete ProtectedDataEncryptionKey.protectedDataEncryptionKeyCache[key];
-        }
-      }
-    }, 300000);
   }
 }

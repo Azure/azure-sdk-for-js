@@ -11,15 +11,7 @@ import { TypeMarker } from "./enums/TypeMarker";
 import { ClientContext } from "../ClientContext";
 import { ClientEncryptionKeyRequest, ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import {
-  Constants,
-  ResourceType,
-  StatusCodes,
-  SubStatusCodes,
-  createDeserializer,
-  createSerializer,
-  extractPath,
-} from "../common";
+import { ResourceType, createDeserializer, createSerializer, extractPath } from "../common";
 import { RequestOptions } from "../request";
 
 import { withDiagnostics } from "../utils/diagnostics";
@@ -310,6 +302,7 @@ export class EncryptionProcessor {
   ): Promise<AeadAes256CbcHmacSha256Algorithm> {
     const key = this.databaseId + "/" + propertySetting.encryptionKeyId;
     const clientEncryptionKeyPropertiesCache = ClientEncryptionKeyPropertiesCache.getInstance();
+
     let clientEncryptionKeyProperties =
       clientEncryptionKeyPropertiesCache.getClientEncryptionKeyProperties(key);
     if (!clientEncryptionKeyProperties) {
@@ -322,6 +315,7 @@ export class EncryptionProcessor {
       encryptionAlgorithm = await propertySetting.buildEncryptionAlgorithm(
         clientEncryptionKeyProperties,
         this.clientContext.encryptionKeyStoreProvider,
+        this.clientContext.encryptionKeyTimeToLiveInHours,
       );
     } catch {
       // stale value in local cache
@@ -332,6 +326,7 @@ export class EncryptionProcessor {
         encryptionAlgorithm = await propertySetting.buildEncryptionAlgorithm(
           clientEncryptionKeyProperties,
           this.clientContext.encryptionKeyStoreProvider,
+          this.clientContext.encryptionKeyTimeToLiveInHours,
         );
       } catch {
         // stale value in gateway cache. fetch from backend
@@ -343,6 +338,7 @@ export class EncryptionProcessor {
           encryptionAlgorithm = await propertySetting.buildEncryptionAlgorithm(
             clientEncryptionKeyProperties,
             this.clientContext.encryptionKeyStoreProvider,
+            this.clientContext.encryptionKeyTimeToLiveInHours,
           );
         } catch {
           throw new Error(
@@ -394,50 +390,50 @@ export class EncryptionProcessor {
     }, this.clientContext);
   }
 
-  async ThrowIfRequestNeedsARetryPostPolicyRefresh(response: any): Promise<void> {
-    console.log("ThrowIfRequestNeedsARetryPostPolicyRefresh");
-    const key = this.databaseId + "/" + this.containerId;
-    const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
-    const encryptionSetting = encryptionSettingsCache.getEncryptionSettings(key);
-    const subStatusCode = response.headers[Constants.HttpHeaders.SubStatus];
-    console.log(`subStatusCode: ${subStatusCode}`);
-    const isPartitionKeyMismatch = subStatusCode == SubStatusCodes.PartitionKeyMismatch;
-    const isIncorrectContainerRidSubstatus =
-      subStatusCode == SubStatusCodes.IncorrectContainerRidSubstatus;
-    console.log(`isPartitionKeyMismatch: ${isPartitionKeyMismatch}`);
-    console.log(`isIncorrectContainerRidSubstatus: ${isIncorrectContainerRidSubstatus}`);
-    if (
-      response.code === StatusCodes.BadRequest &&
-      (isPartitionKeyMismatch || isIncorrectContainerRidSubstatus)
-    ) {
-      if (isPartitionKeyMismatch && encryptionSetting.partitionKeyPaths.length) {
-        let encryptionSettingsForProperty: EncryptionSettingForProperty = null;
-        for (const path of encryptionSetting.partitionKeyPaths) {
-          const partitionKeyPath = path.split("/")[1];
-          encryptionSettingsForProperty =
-            encryptionSetting.getEncryptionSettingForProperty(partitionKeyPath);
-          if (encryptionSettingsForProperty) {
-            break;
-          }
-        }
+  // async ThrowIfRequestNeedsARetryPostPolicyRefresh(response: any): Promise<void> {
+  //   console.log("ThrowIfRequestNeedsARetryPostPolicyRefresh");
+  //   const key = this.databaseId + "/" + this.containerId;
+  //   const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
+  //   const encryptionSetting = encryptionSettingsCache.getEncryptionSettings(key);
+  //   const subStatusCode = response.headers[Constants.HttpHeaders.SubStatus];
+  //   console.log(`subStatusCode: ${subStatusCode}`);
+  //   const isPartitionKeyMismatch = subStatusCode == SubStatusCodes.PartitionKeyMismatch;
+  //   const isIncorrectContainerRidSubstatus =
+  //     subStatusCode == SubStatusCodes.IncorrectContainerRidSubstatus;
+  //   console.log(`isPartitionKeyMismatch: ${isPartitionKeyMismatch}`);
+  //   console.log(`isIncorrectContainerRidSubstatus: ${isIncorrectContainerRidSubstatus}`);
+  //   if (
+  //     response.code === StatusCodes.BadRequest &&
+  //     (isPartitionKeyMismatch || isIncorrectContainerRidSubstatus)
+  //   ) {
+  //     if (isPartitionKeyMismatch && encryptionSetting.partitionKeyPaths.length) {
+  //       let encryptionSettingsForProperty: EncryptionSettingForProperty = null;
+  //       for (const path of encryptionSetting.partitionKeyPaths) {
+  //         const partitionKeyPath = path.split("/")[1];
+  //         encryptionSettingsForProperty =
+  //           encryptionSetting.getEncryptionSettingForProperty(partitionKeyPath);
+  //         if (encryptionSettingsForProperty) {
+  //           break;
+  //         }
+  //       }
 
-        if (encryptionSettingsForProperty == null) {
-          return;
-        }
-      }
-      const currentContainerRid = encryptionSetting.containerRid;
-      console.log(`currentContainerRid: ${currentContainerRid}`);
-      const updatedContainerRid = (await this.getEncryptionSetting()).containerRid;
-      console.log(`updatedContainerRid: ${updatedContainerRid}`);
-      if (currentContainerRid === updatedContainerRid) {
-        return;
-      }
-      console.log(
-        `currentContainerRid: ${currentContainerRid}, updatedContainerRid: ${updatedContainerRid}`,
-      );
-      throw new Error(
-        "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue. Please refer to https://aka.ms/CosmosClientEncryption for more details. ",
-      );
-    }
-  }
+  //       if (encryptionSettingsForProperty == null) {
+  //         return;
+  //       }
+  //     }
+  //     const currentContainerRid = encryptionSetting.containerRid;
+  //     console.log(`currentContainerRid: ${currentContainerRid}`);
+  //     const updatedContainerRid = (await this.getEncryptionSetting()).containerRid;
+  //     console.log(`updatedContainerRid: ${updatedContainerRid}`);
+  //     if (currentContainerRid === updatedContainerRid) {
+  //       return;
+  //     }
+  //     console.log(
+  //       `currentContainerRid: ${currentContainerRid}, updatedContainerRid: ${updatedContainerRid}`,
+  //     );
+  //     throw new Error(
+  //       "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue. Please refer to https://aka.ms/CosmosClientEncryption for more details. ",
+  //     );
+  //   }
+  // }
 }

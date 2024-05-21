@@ -3,13 +3,13 @@
 
 import { KeyEncryptionKeyAlgorithm } from "./enums/KeyEncryptionKeyAlgorithm";
 import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider";
+import { KeyEncryptionKeyCache } from "./Cache";
 /**
+ * @internal
  * A wrapper class containing the info about the client encryption key and key store provider to wrap and unwrap the key.
  */
 export class KeyEncryptionKey {
   private encryptionAlgorithm: KeyEncryptionKeyAlgorithm;
-
-  private static keyEncryptionKeyCache: { [key: string]: KeyEncryptionKey } = {};
 
   public name: string;
 
@@ -29,18 +29,15 @@ export class KeyEncryptionKey {
     path: string,
     keyStoreProvider: EncryptionKeyStoreProvider,
   ): KeyEncryptionKey {
-    if (!KeyEncryptionKey.keyEncryptionKeyCache) {
-      KeyEncryptionKey.keyEncryptionKeyCache = {};
-    }
+    const keyEncryptionKeyCache = KeyEncryptionKeyCache.getInstance();
     const key = JSON.stringify([name, path]);
-    if (!KeyEncryptionKey.keyEncryptionKeyCache[key]) {
-      KeyEncryptionKey.keyEncryptionKeyCache[key] = new KeyEncryptionKey(
-        name,
-        path,
-        keyStoreProvider,
+    if (!keyEncryptionKeyCache.getKeyEncryptionKey(key)) {
+      keyEncryptionKeyCache.setKeyEncryptionKey(
+        key,
+        new KeyEncryptionKey(name, path, keyStoreProvider),
       );
     }
-    return KeyEncryptionKey.keyEncryptionKeyCache[key];
+    return keyEncryptionKeyCache.getKeyEncryptionKey(key);
   }
 
   public async wrapEncryptionKey(plainTextEncryptionKey: Buffer): Promise<Buffer> {

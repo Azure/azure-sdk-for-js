@@ -47,10 +47,11 @@ import { DefaultDiagnosticFormatter, DiagnosticFormatter } from "./diagnostics/D
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { EncryptionKeyStoreProvider } from "./encryption/EncryptionKeyStoreProvider";
 import {
-  EncryptionSettingsCache,
   ClientEncryptionKeyPropertiesCache,
-  ProtectedDataEncryptionKey,
   EncryptionKeyResolverName,
+  EncryptionSettingsCache,
+  KeyEncryptionKeyCache,
+  ProtectedDataEncryptionKeyCache,
 } from "./encryption";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -69,9 +70,8 @@ export class ClientContext {
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
   public enableEncryption: boolean = false;
   public encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
-  public clientEncryptionKeyPropertiesCache: ClientEncryptionKeyPropertiesCache;
-  public encryptionSettingsCache: EncryptionSettingsCache; // cache to store encryption settings for containers. Key is databaseRid+containerRid
-  private readonly encryptionKeyTimeToLiveInHours: number;
+
+  public readonly encryptionKeyTimeToLiveInHours: number;
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
@@ -109,7 +109,14 @@ export class ClientContext {
         EncryptionKeyResolverName.AzureKeyVault,
         this.encryptionKeyTimeToLiveInHours,
       );
-      ProtectedDataEncryptionKey.clearCacheOnTtlExpiry(this.encryptionKeyTimeToLiveInHours);
+      const protectedDataEncryptionKeyCache = ProtectedDataEncryptionKeyCache.getInstance();
+      protectedDataEncryptionKeyCache.clearCache();
+      const keyEncryptionKeyCache = KeyEncryptionKeyCache.getInstance();
+      const clientEncryptionKeyPropertiesCache = ClientEncryptionKeyPropertiesCache.getInstance();
+      const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
+      keyEncryptionKeyCache.clearCache();
+      clientEncryptionKeyPropertiesCache.clearCache();
+      encryptionSettingsCache.clearCache();
     }
     this.initializeDiagnosticSettings(diagnosticLevel);
   }
