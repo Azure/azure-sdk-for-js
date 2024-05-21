@@ -3,10 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import {
-  TextTranslationClient,
-  isUnexpected,
-} from "../../src";
+import { TextTranslationClient, isUnexpected } from "../../src";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
@@ -50,7 +47,6 @@ describe("GetLanguages tests", () => {
       throw response.body;
     }
 
-
     const languages = response.body;
     assert.isTrue(languages.translation !== null);
     assert.isTrue(languages?.translation?.["af"]?.dir !== null);
@@ -70,7 +66,6 @@ describe("GetLanguages tests", () => {
     if (isUnexpected(response)) {
       throw response.body;
     }
-
 
     const languages = response.body;
     assert.isTrue(languages.transliteration !== null);
@@ -103,7 +98,6 @@ describe("GetLanguages tests", () => {
       throw response.body;
     }
 
-
     const languages = response.body;
     assert.isTrue(languages.transliteration !== null);
     assert.isTrue(languages?.transliteration?.["zh-Hant"]?.name !== null);
@@ -127,7 +121,6 @@ describe("GetLanguages tests", () => {
     if (isUnexpected(response)) {
       throw response.body;
     }
-
 
     const languages = response.body;
     assert.isTrue(languages.dictionary !== null);
@@ -154,7 +147,6 @@ describe("GetLanguages tests", () => {
       throw response.body;
     }
 
-
     const languages = response.body;
     assert.isTrue(languages.dictionary !== null);
     assert.isTrue(languages?.dictionary?.["en"]?.name !== null);
@@ -175,7 +167,6 @@ describe("GetLanguages tests", () => {
     if (isUnexpected(response)) {
       throw response.body;
     }
-
 
     const languages = response.body;
     assert.isTrue(languages.translation !== null);

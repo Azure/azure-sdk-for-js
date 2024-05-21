@@ -3,11 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import {
-  DictionaryExampleTextItem,
-  TextTranslationClient,
-  isUnexpected,
-} from "../../src";
+import { DictionaryExampleTextItem, TextTranslationClient, isUnexpected } from "../../src";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
