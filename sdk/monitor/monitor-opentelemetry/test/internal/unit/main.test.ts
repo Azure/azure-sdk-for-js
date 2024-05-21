@@ -167,7 +167,7 @@ describe("Main functions", () => {
       instrumentations & StatsbeatInstrumentation.AZURE_CORE_TRACING,
       "AZURE_CORE_TRACING not set",
     );
-    assert.ok(!(features & StatsbeatFeature.SHIM), "SHIM is set")
+    assert.ok(!(features & StatsbeatFeature.SHIM), "SHIM is set");
     assert.ok(instrumentations & StatsbeatInstrumentation.MONGODB, "MONGODB not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.MYSQL, "MYSQL not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.POSTGRES, "POSTGRES not set");
@@ -179,13 +179,13 @@ describe("Main functions", () => {
     let config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
-      }
+      },
     };
     useAzureMonitor(config);
     let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
     const features = Number(output["feature"]);
     assert.ok(features & StatsbeatFeature.SHIM, `SHIM is not set ${features}`);
-  })
+  });
 
   it("should use statsbeat features if already available", () => {
     const env = <{ [id: string]: string }>{};
