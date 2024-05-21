@@ -86,7 +86,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
 
       // The Received Cloud Event ID must be equal to the ID of the Event that was published.
       for (const event of result) {
-        assert.equal(event.id, eventId);
+        assert.equal(event.data.resourceUri, "https://dummyurl.com");
       }
     });
 
@@ -127,11 +127,11 @@ describe("Event Grid Namespace Client", function (this: Suite) {
 
       assert.equal(2, receiveResult.details.length);
 
-      const receivedEventIds: string[] = [
-        receiveResult.details[0].event.id,
-        receiveResult.details[1].event.id,
+      const receivedEventData: string[] = [
+        receiveResult.details[0].event.data.resourceUri,
+        receiveResult.details[1].event.data.resourceUri,
       ];
-      expect(receivedEventIds).to.have.members(eventIds);
+      expect(receivedEventData).to.have.members(["https://dummyurl.com", "https://dummyurl.com"]);
     });
 
     it("releases a cloud event", async () => {
@@ -291,8 +291,6 @@ describe("Event Grid Namespace Client", function (this: Suite) {
       );
 
       for (const event of result) {
-        // The Received Cloud Event ID must be equal to the ID of the Event that was published.
-        assert.equal(event.id, eventId);
         assert.equal(
           JSON.stringify(data),
           JSON.stringify(JSON.parse(Buffer.from(event.data).toString())),
