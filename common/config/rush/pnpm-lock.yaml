@@ -3567,13 +3567,6 @@ packages:
     resolution: {integrity: sha512-3wXCiM8croUnhg9LdtZUJQwNcQYGWxxdOWDjPe1ykCqJFPVpzAKfs/2dgSoCtAvdPeaponcWPI7mPcGGp9dkKQ==}
     dev: false
 
-  /@types/eslint@8.44.9:
-    resolution: {integrity: sha512-6yBxcvwnnYoYT1Uk2d+jvIfsuP4mb2EdIxFnrPABj5a/838qe5bGkNLFOiipX4ULQ7XVQvTxOh7jO+BTAiqsEw==}
-    dependencies:
-      '@types/estree': 1.0.5
-      '@types/json-schema': 7.0.15
-    dev: false
-
   /@types/eslint@8.56.10:
     resolution: {integrity: sha512-Shavhk87gCtY2fhXDctcfS3e6FdxWkCx1iUZ9eEUbh7rTqlZT0/IzOkCOVt0fCjcFuZ9FPYfuezTBImfHCDBGQ==}
     dependencies:
@@ -20448,12 +20441,12 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk-helper.tgz:
-    resolution: {integrity: sha512-KXSUja69AKExYgbhhUE2H+7zuOLV2ZKaDGoVnXjQA2/nTi8n/j16ZDlYz3bODvBSEMu129CWqwiRD65R2hY5RQ==, tarball: file:projects/eslint-plugin-azure-sdk-helper.tgz}
+    resolution: {integrity: sha512-e39kfari7XrVw9aKbRWOxreGjcaNV6zBUSoG1YAmVSg2I776HQx0D3Am4ZC/0r5gpFIVs6a9lfrSdjDgfa6Ymg==, tarball: file:projects/eslint-plugin-azure-sdk-helper.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk-helper'
     version: 0.0.0
     dependencies:
       '@eslint/js': 9.2.0
-      '@types/eslint': 8.44.9
+      '@types/eslint': 8.56.10
       '@types/estree': 1.0.5
       '@typescript-eslint/eslint-plugin': 7.10.0(@typescript-eslint/parser@7.10.0)(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/parser': 7.10.0(eslint@8.57.0)(typescript@5.4.5)
