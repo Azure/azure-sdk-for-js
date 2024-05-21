@@ -21980,7 +21980,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-wX7n8gHZvyrjovFWVcXBHIvD+rOE1Rh0PX8kImlW7YdHNlwiT/4GkgS/l7pc6Stt/BKqKPhQYoNGsUg2mmkIzA==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-VNk6zld7/oXfKhhFjUhDzBuspNUuYcbRRgewl8i/i/8UPWGgjvlqo9PLlm4/HvOKfdCFpSeYM/iAkxZosIC1Dg==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
