@@ -13,51 +13,81 @@ import {
   EventGridClientOptions as EventGridOptions,
 } from "./cadl-generated";
 
+/** Send Event Options */
 export interface SendEventOptions extends OperationOptions {
-  /** binary mode */
+  /** Binary mode */
   binaryMode?: boolean;
 
-  /** content type */
+  /** Content type */
   contentType?: string;
 
+  /** Topic name */
   topicName?: string;
 }
 
+/** Event Grid Sender Client Options */
 export interface EventGridSenderClientOptions extends EventGridOptions {
+  /** Topic name */
   topicName?: string;
 }
 
+/** Event Grid Receiver Client Options */
 export interface EventGridReceiverClientOptions extends EventGridOptions {
+  /** Topic name */
   topicName?: string;
+
+  /** Event Subscription name */
   eventSubscriptionName?: string;
 }
 
+/** Send Events Options */
 export interface SendEventsOptions extends PublishCloudEventsOptions {
+  /** Topic name */
   topicName?: string;
 }
 
+/** Receive Events Options */
 export interface ReceiveEventsOptions extends ReceiveCloudEventsOptions {
+  /** Topic name */
   topicName?: string;
+
+  /** Event Subscription name */
   eventSubscriptionName?: string;
 }
 
+/** Acknowledge Events Options */
 export interface AcknowledgeEventsOptions extends AcknowledgeCloudEventsOptions {
+  /** Topic name */
   topicName?: string;
+
+  /** Event Subscription name */
   eventSubscriptionName?: string;
 }
 
+/** Release Events Options */
 export interface ReleaseEventsOptions extends ReleaseCloudEventsOptions {
+  /** Topic name */
   topicName?: string;
+
+  /** Event Subscription name */
   eventSubscriptionName?: string;
 }
 
+/** Reject Events Options */
 export interface RejectEventsOptions extends RejectCloudEventsOptions {
+  /** Topic name */
   topicName?: string;
+
+  /** Event Subscription name */
   eventSubscriptionName?: string;
 }
 
+/** Renew Event Locks Options */
 export interface RenewEventLocksOptions extends RenewCloudEventLocksOptions {
+  /** Topic name */
   topicName?: string;
+
+  /** Event Subscription name */
   eventSubscriptionName?: string;
 }
 

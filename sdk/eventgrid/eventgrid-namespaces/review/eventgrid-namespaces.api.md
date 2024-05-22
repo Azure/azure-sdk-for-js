@@ -15,11 +15,9 @@ import { TokenCredential } from '@azure/core-auth';
 export interface AcknowledgeCloudEventsOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface AcknowledgeEventsOptions extends AcknowledgeCloudEventsOptions {
-    // (undocumented)
     eventSubscriptionName?: string;
-    // (undocumented)
     topicName?: string;
 }
 
@@ -67,11 +65,9 @@ export class EventGridReceiverClient {
     renewEventLocks(lockTokens: string[], options?: RenewEventLocksOptions): Promise<RenewCloudEventLocksResult>;
 }
 
-// @public (undocumented)
+// @public
 export interface EventGridReceiverClientOptions extends EventGridClientOptions {
-    // (undocumented)
     eventSubscriptionName?: string;
-    // (undocumented)
     topicName?: string;
 }
 
@@ -82,9 +78,8 @@ export class EventGridSenderClient {
     sendEvents<T>(events: CloudEvent<T>[], options?: SendEventsOptions): Promise<void>;
 }
 
-// @public (undocumented)
+// @public
 export interface EventGridSenderClientOptions extends EventGridClientOptions {
-    // (undocumented)
     topicName?: string;
 }
 
@@ -113,11 +108,9 @@ export interface ReceiveDetails<T> {
     event: CloudEvent<T>;
 }
 
-// @public (undocumented)
+// @public
 export interface ReceiveEventsOptions extends ReceiveCloudEventsOptions {
-    // (undocumented)
     eventSubscriptionName?: string;
-    // (undocumented)
     topicName?: string;
 }
 
@@ -130,11 +123,9 @@ export interface ReceiveResult<T> {
 export interface RejectCloudEventsOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface RejectEventsOptions extends RejectCloudEventsOptions {
-    // (undocumented)
     eventSubscriptionName?: string;
-    // (undocumented)
     topicName?: string;
 }
 
@@ -152,11 +143,9 @@ export interface ReleaseCloudEventsOptions extends OperationOptions {
 // @public
 export type ReleaseDelay = string;
 
-// @public (undocumented)
+// @public
 export interface ReleaseEventsOptions extends ReleaseCloudEventsOptions {
-    // (undocumented)
     eventSubscriptionName?: string;
-    // (undocumented)
     topicName?: string;
 }
 
@@ -176,25 +165,21 @@ export interface RenewCloudEventLocksResult {
     succeededLockTokens: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface RenewEventLocksOptions extends RenewCloudEventLocksOptions {
-    // (undocumented)
     eventSubscriptionName?: string;
-    // (undocumented)
     topicName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SendEventOptions extends OperationOptions {
     binaryMode?: boolean;
     contentType?: string;
-    // (undocumented)
     topicName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SendEventsOptions extends PublishCloudEventsOptions {
-    // (undocumented)
     topicName?: string;
 }
 
