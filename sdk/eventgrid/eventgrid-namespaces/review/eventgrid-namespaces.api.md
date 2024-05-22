@@ -12,7 +12,7 @@ import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export interface AcknowledgeCloudEventsOptions extends OperationOptions {
+export interface AcknowledgeEventsOptions extends OperationOptions {
 }
 
 // @public
@@ -43,23 +43,28 @@ export interface CloudEvent<T> {
     type: string;
 }
 
-// @public
-export class EventGridClient {
-    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: EventGridClientOptions);
-    acknowledgeCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: AcknowledgeCloudEventsOptions): Promise<AcknowledgeResult>;
-    receiveCloudEvents<T>(topicName: string, eventSubscriptionName: string, options?: ReceiveCloudEventsOptions): Promise<ReceiveResult<T>>;
-    rejectCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RejectCloudEventsOptions): Promise<RejectResult>;
-    releaseCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: ReleaseCloudEventsOptions): Promise<ReleaseResult>;
-    renewCloudEventLocks(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RenewCloudEventLocksOptions): Promise<RenewCloudEventLocksResult>;
-    sendCloudEvent<T>(event: CloudEvent<T>, topicName: string, options?: SendCloudEventOptions): Promise<void>;
-    sendCloudEvents<T>(events: CloudEvent<T>[], topicName: string, options?: SendCloudEventsOptions): Promise<void>;
-}
-
 // @public (undocumented)
 export interface EventGridClientOptions extends ClientOptions {
 }
 
 export { EventGridDeserializer }
+
+// @public
+export class EventGridReceiverClient {
+    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: EventGridClientOptions);
+    acknowledgeEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: AcknowledgeEventsOptions): Promise<AcknowledgeResult>;
+    receiveEvents<T>(topicName: string, eventSubscriptionName: string, options?: ReceiveEventsOptions): Promise<ReceiveResult<T>>;
+    rejectEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RejectEventsOptions): Promise<RejectResult>;
+    releaseEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: ReleaseEventsOptions): Promise<ReleaseResult>;
+    renewEventLocks(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RenewEventLocksOptions): Promise<RenewCloudEventLocksResult>;
+}
+
+// @public
+export class EventGridSenderClient {
+    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: EventGridClientOptions);
+    sendEvent<T>(event: CloudEvent<T>, topicName: string, options?: SendEventOptions): Promise<void>;
+    sendEvents<T>(events: CloudEvent<T>[], topicName: string, options?: SendEventsOptions): Promise<void>;
+}
 
 // @public
 export interface FailedLockToken {
@@ -73,16 +78,16 @@ export { OperationOptions }
 export interface PublishResultOutput {
 }
 
-// @public (undocumented)
-export interface ReceiveCloudEventsOptions extends OperationOptions {
-    maxEvents?: number;
-    maxWaitTime?: number;
-}
-
 // @public
 export interface ReceiveDetails<T> {
     brokerProperties: BrokerProperties;
     event: CloudEvent<T>;
+}
+
+// @public (undocumented)
+export interface ReceiveEventsOptions extends OperationOptions {
+    maxEvents?: number;
+    maxWaitTime?: number;
 }
 
 // @public
@@ -91,7 +96,7 @@ export interface ReceiveResult<T> {
 }
 
 // @public (undocumented)
-export interface RejectCloudEventsOptions extends OperationOptions {
+export interface RejectEventsOptions extends OperationOptions {
 }
 
 // @public
@@ -100,22 +105,18 @@ export interface RejectResult {
     succeededLockTokens: string[];
 }
 
-// @public (undocumented)
-export interface ReleaseCloudEventsOptions extends OperationOptions {
-    releaseDelayInSeconds?: ReleaseDelay;
-}
-
 // @public
 export type ReleaseDelay = string;
+
+// @public (undocumented)
+export interface ReleaseEventsOptions extends OperationOptions {
+    releaseDelayInSeconds?: ReleaseDelay;
+}
 
 // @public
 export interface ReleaseResult {
     failedLockTokens: FailedLockToken[];
     succeededLockTokens: string[];
-}
-
-// @public (undocumented)
-export interface RenewCloudEventLocksOptions extends OperationOptions {
 }
 
 // @public
@@ -125,13 +126,17 @@ export interface RenewCloudEventLocksResult {
 }
 
 // @public (undocumented)
-export interface SendCloudEventOptions extends OperationOptions {
+export interface RenewEventLocksOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface SendEventOptions extends OperationOptions {
     binaryMode?: boolean;
     contentType?: string;
 }
 
 // @public (undocumented)
-export interface SendCloudEventsOptions extends OperationOptions {
+export interface SendEventsOptions extends OperationOptions {
     contentType?: string;
 }
 

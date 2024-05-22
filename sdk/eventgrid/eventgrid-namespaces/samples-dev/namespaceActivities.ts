@@ -6,7 +6,12 @@
  * @azsdk-weight 3
  */
 
-import { EventGridClient, CloudEvent, ReceiveResult } from "@azure/eventgrid-namespaces";
+import {
+  EventGridSenderClient,
+  EventGridReceiverClient,
+  CloudEvent,
+  ReceiveResult,
+} from "@azure/eventgrid-namespaces";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 import * as dotenv from "dotenv";
@@ -21,7 +26,8 @@ const topicName = process.env["TOPIC_NAME"] ?? "testtopic1";
 
 export async function main(): Promise<void> {
   // Create the client used to publish events
-  const client = new EventGridClient(endpoint, new AzureKeyCredential(key));
+  const senderClient = new EventGridSenderClient(endpoint, new AzureKeyCredential(key));
+  const receiverClient = new EventGridReceiverClient(endpoint, new AzureKeyCredential(key));
 
   // publishes a single cloud event
   const eventId: string = `singleEventIdV210001`;
@@ -36,9 +42,9 @@ export async function main(): Promise<void> {
     specversion: "1.0",
   };
   // Publish the Cloud Event
-  await client.sendCloudEvent(cloudEvent, topicName);
+  await senderClient.sendEvent(cloudEvent, topicName);
   // Receive the Published Cloud Event
-  const receiveResult: ReceiveResult<any> = await client.receiveCloudEvents(
+  const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents(
     topicName,
     eventSubscripionName,
   );

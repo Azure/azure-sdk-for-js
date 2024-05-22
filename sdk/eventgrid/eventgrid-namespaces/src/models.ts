@@ -4,7 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 import { BrokerProperties } from "./cadl-generated";
 
-export interface SendCloudEventOptions extends OperationOptions {
+export interface SendEventOptions extends OperationOptions {
   /** binary mode */
   binaryMode?: boolean;
 

@@ -9,12 +9,13 @@ import {
   RecorderStartOptions,
 } from "@azure-tools/test-recorder";
 
-import { EventGridClient as EventGridNamespacesClient } from "../../../src";
+import { EventGridSenderClient, EventGridReceiverClient } from "../../../src";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 
 export interface RecordedV2Client {
-  client: EventGridNamespacesClient;
+  senderClient: EventGridSenderClient;
+  receiverClient: EventGridReceiverClient;
   recorder: Recorder;
 }
 
@@ -39,7 +40,14 @@ export async function createRecordedClient(
   await recorder.start(recorderOptions);
 
   return {
-    client: new EventGridNamespacesClient(
+    senderClient: new EventGridSenderClient(
+      assertEnvironmentVariable(endpointEnv),
+      new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
+      recorder.configureClientOptions({
+        additionalPolicies: options.additionalPolicies,
+      }),
+    ),
+    receiverClient: new EventGridReceiverClient(
       assertEnvironmentVariable(endpointEnv),
       new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
       recorder.configureClientOptions({
