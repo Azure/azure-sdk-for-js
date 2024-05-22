@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ProtectedItemResource,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -23,7 +23,7 @@ asynchronous operation. To know the status of the operation, call the GetItemOpe
  *
  * @summary Enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
 asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/ConfigureProtection.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ConfigureProtection.json
  */
 async function enableProtectionOnAzureIaasVM() {
   const subscriptionId =
@@ -42,8 +42,8 @@ async function enableProtectionOnAzureIaasVM() {
         "/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SwaggerTestRg/providers/Microsoft.RecoveryServices/vaults/NetSDKTestRsVault/backupPolicies/DefaultPolicy",
       protectedItemType: "Microsoft.Compute/virtualMachines",
       sourceResourceId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1"
-    }
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -53,7 +53,7 @@ async function enableProtectionOnAzureIaasVM() {
     fabricName,
     containerName,
     protectedItemName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -64,7 +64,7 @@ asynchronous operation. To know the status of the operation, call the GetItemOpe
  *
  * @summary Enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
 asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/StopProtection.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/StopProtection.json
  */
 async function stopProtectionWithRetainDataOnAzureIaasVM() {
   const subscriptionId =
@@ -82,8 +82,8 @@ async function stopProtectionWithRetainDataOnAzureIaasVM() {
       protectedItemType: "Microsoft.Compute/virtualMachines",
       protectionState: "ProtectionStopped",
       sourceResourceId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1"
-    }
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -93,7 +93,7 @@ async function stopProtectionWithRetainDataOnAzureIaasVM() {
     fabricName,
     containerName,
     protectedItemName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

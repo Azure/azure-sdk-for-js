@@ -14,12 +14,13 @@ import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   ILRRequestResource,
   ItemLevelRecoveryConnectionsProvisionOptionalParams,
-  ItemLevelRecoveryConnectionsRevokeOptionalParams
+  ItemLevelRecoveryConnectionsRevokeOptionalParams,
 } from "../models";
 
 /** Class containing ItemLevelRecoveryConnections operations. */
 export class ItemLevelRecoveryConnectionsImpl
-  implements ItemLevelRecoveryConnections {
+  implements ItemLevelRecoveryConnections
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -56,7 +57,7 @@ export class ItemLevelRecoveryConnectionsImpl
     protectedItemName: string,
     recoveryPointId: string,
     parameters: ILRRequestResource,
-    options?: ItemLevelRecoveryConnectionsProvisionOptionalParams
+    options?: ItemLevelRecoveryConnectionsProvisionOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -67,9 +68,9 @@ export class ItemLevelRecoveryConnectionsImpl
         protectedItemName,
         recoveryPointId,
         parameters,
-        options
+        options,
       },
-      provisionOperationSpec
+      provisionOperationSpec,
     );
   }
 
@@ -95,7 +96,7 @@ export class ItemLevelRecoveryConnectionsImpl
     containerName: string,
     protectedItemName: string,
     recoveryPointId: string,
-    options?: ItemLevelRecoveryConnectionsRevokeOptionalParams
+    options?: ItemLevelRecoveryConnectionsRevokeOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -105,9 +106,9 @@ export class ItemLevelRecoveryConnectionsImpl
         containerName,
         protectedItemName,
         recoveryPointId,
-        options
+        options,
       },
-      revokeOperationSpec
+      revokeOperationSpec,
     );
   }
 }
@@ -115,14 +116,13 @@ export class ItemLevelRecoveryConnectionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const provisionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/provisionInstantItemRecovery",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/provisionInstantItemRecovery",
   httpMethod: "POST",
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
@@ -134,21 +134,20 @@ const provisionOperationSpec: coreClient.OperationSpec = {
     Parameters.fabricName,
     Parameters.containerName,
     Parameters.protectedItemName,
-    Parameters.recoveryPointId
+    Parameters.recoveryPointId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const revokeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/revokeInstantItemRecovery",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/revokeInstantItemRecovery",
   httpMethod: "POST",
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -159,8 +158,8 @@ const revokeOperationSpec: coreClient.OperationSpec = {
     Parameters.fabricName,
     Parameters.containerName,
     Parameters.protectedItemName,
-    Parameters.recoveryPointId
+    Parameters.recoveryPointId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
