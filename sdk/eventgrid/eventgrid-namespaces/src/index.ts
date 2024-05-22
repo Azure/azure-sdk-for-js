@@ -14,7 +14,6 @@ export {
   AcknowledgeCloudEventsOptions,
   ReceiveCloudEventsOptions,
   RejectCloudEventsOptions,
-  ReleaseCloudEventsOptions,
   RenewCloudEventLocksOptions,
   PublishCloudEventsOptions,
 } from "./cadl-generated/models";

@@ -91,11 +91,11 @@ export interface FailedLockToken {
 
 // @public
 export const enum KnownReleaseDelay {
-    SixHundred = "600",
-    Sixty = "60",
-    Ten = "10",
-    ThreeThousandSixHundred = "3600",
-    Zero = "0"
+    None = "0",
+    OneHour = "3600",
+    OneMinute = "60",
+    TenMinutes = "600",
+    TenSeconds = "10"
 }
 
 export { OperationOptions }
@@ -144,17 +144,13 @@ export interface RejectResult {
     succeededLockTokens: string[];
 }
 
-// @public (undocumented)
-export interface ReleaseCloudEventsOptions extends OperationOptions {
-    releaseDelayInSeconds?: ReleaseDelay;
-}
-
 // @public
 export type ReleaseDelay = string;
 
 // @public
-export interface ReleaseEventsOptions extends ReleaseCloudEventsOptions {
+export interface ReleaseEventsOptions extends OperationOptions {
     eventSubscriptionName?: string;
+    releaseDelay?: ReleaseDelay;
     topicName?: string;
 }
 

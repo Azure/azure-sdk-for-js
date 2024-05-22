@@ -152,7 +152,7 @@ export class EventGridReceiverClient {
       topicName,
       eventSubscriptionName,
       { lockTokens },
-      options,
+      { ...options, releaseDelayInSeconds: options.releaseDelay },
     );
   }
 
