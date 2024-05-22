@@ -40,6 +40,7 @@ export {
   RenewEventLocksOptions,
   EventGridSenderClientOptions,
   EventGridReceiverClientOptions,
+  KnownReleaseDelay,
 } from "./models";
 
 export { EventGridDeserializer } from "@azure/eventgrid";

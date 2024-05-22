@@ -89,6 +89,15 @@ export interface FailedLockToken {
     lockToken: string;
 }
 
+// @public
+export const enum KnownReleaseDelay {
+    SixHundred = "600",
+    Sixty = "60",
+    Ten = "10",
+    ThreeThousandSixHundred = "3600",
+    Zero = "0"
+}
+
 export { OperationOptions }
 
 // @public (undocumented)

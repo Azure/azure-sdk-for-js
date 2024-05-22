@@ -91,6 +91,20 @@ export interface RenewEventLocksOptions extends RenewCloudEventLocksOptions {
   eventSubscriptionName?: string;
 }
 
+/** Known values of {@link ReleaseDelay} that the service accepts. */
+export const enum KnownReleaseDelay {
+  /** Zero */
+  Zero = "0",
+  /** Ten */
+  Ten = "10",
+  /** Sixty */
+  Sixty = "60",
+  /** Six Hundred */
+  SixHundred = "600",
+  /** Three Thousand Six Hundred */
+  ThreeThousandSixHundred = "3600",
+}
+
 /** Receive operation details per Cloud Event. */
 export interface ReceiveDetails<T> {
   /** The Event Broker details. */
