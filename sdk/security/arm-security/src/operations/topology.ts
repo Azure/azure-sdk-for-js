@@ -24,7 +24,7 @@ import {
   TopologyGetOptionalParams,
   TopologyGetResponse,
   TopologyListNextResponse,
-  TopologyListByHomeRegionNextResponse
+  TopologyListByHomeRegionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export class TopologyImpl implements Topology {
    * @param options The options parameters.
    */
   public list(
-    options?: TopologyListOptionalParams
+    options?: TopologyListOptionalParams,
   ): PagedAsyncIterableIterator<TopologyResource> {
     const iter = this.listPagingAll(options);
     return {
@@ -60,13 +60,13 @@ export class TopologyImpl implements Topology {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: TopologyListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TopologyResource[]> {
     let result: TopologyListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class TopologyImpl implements Topology {
   }
 
   private async *listPagingAll(
-    options?: TopologyListOptionalParams
+    options?: TopologyListOptionalParams,
   ): AsyncIterableIterator<TopologyResource> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -102,7 +102,7 @@ export class TopologyImpl implements Topology {
    */
   public listByHomeRegion(
     ascLocation: string,
-    options?: TopologyListByHomeRegionOptionalParams
+    options?: TopologyListByHomeRegionOptionalParams,
   ): PagedAsyncIterableIterator<TopologyResource> {
     const iter = this.listByHomeRegionPagingAll(ascLocation, options);
     return {
@@ -117,14 +117,14 @@ export class TopologyImpl implements Topology {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByHomeRegionPagingPage(ascLocation, options, settings);
-      }
+      },
     };
   }
 
   private async *listByHomeRegionPagingPage(
     ascLocation: string,
     options?: TopologyListByHomeRegionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TopologyResource[]> {
     let result: TopologyListByHomeRegionResponse;
     let continuationToken = settings?.continuationToken;
@@ -139,7 +139,7 @@ export class TopologyImpl implements Topology {
       result = await this._listByHomeRegionNext(
         ascLocation,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -150,11 +150,11 @@ export class TopologyImpl implements Topology {
 
   private async *listByHomeRegionPagingAll(
     ascLocation: string,
-    options?: TopologyListByHomeRegionOptionalParams
+    options?: TopologyListByHomeRegionOptionalParams,
   ): AsyncIterableIterator<TopologyResource> {
     for await (const page of this.listByHomeRegionPagingPage(
       ascLocation,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -165,7 +165,7 @@ export class TopologyImpl implements Topology {
    * @param options The options parameters.
    */
   private _list(
-    options?: TopologyListOptionalParams
+    options?: TopologyListOptionalParams,
   ): Promise<TopologyListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -178,11 +178,11 @@ export class TopologyImpl implements Topology {
    */
   private _listByHomeRegion(
     ascLocation: string,
-    options?: TopologyListByHomeRegionOptionalParams
+    options?: TopologyListByHomeRegionOptionalParams,
   ): Promise<TopologyListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
       { ascLocation, options },
-      listByHomeRegionOperationSpec
+      listByHomeRegionOperationSpec,
     );
   }
 
@@ -199,11 +199,11 @@ export class TopologyImpl implements Topology {
     resourceGroupName: string,
     ascLocation: string,
     topologyResourceName: string,
-    options?: TopologyGetOptionalParams
+    options?: TopologyGetOptionalParams,
   ): Promise<TopologyGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ascLocation, topologyResourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -214,11 +214,11 @@ export class TopologyImpl implements Topology {
    */
   private _listNext(
     nextLink: string,
-    options?: TopologyListNextOptionalParams
+    options?: TopologyListNextOptionalParams,
   ): Promise<TopologyListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -232,11 +232,11 @@ export class TopologyImpl implements Topology {
   private _listByHomeRegionNext(
     ascLocation: string,
     nextLink: string,
-    options?: TopologyListByHomeRegionNextOptionalParams
+    options?: TopologyListByHomeRegionNextOptionalParams,
   ): Promise<TopologyListByHomeRegionNextResponse> {
     return this.client.sendOperationRequest(
       { ascLocation, nextLink, options },
-      listByHomeRegionNextOperationSpec
+      listByHomeRegionNextOperationSpec,
     );
   }
 }
@@ -244,102 +244,99 @@ export class TopologyImpl implements Topology {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/topologies",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/topologies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TopologyList
+      bodyMapper: Mappers.TopologyList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByHomeRegionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/topologies",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/topologies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TopologyList
+      bodyMapper: Mappers.TopologyList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.ascLocation
+    Parameters.ascLocation,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/topologies/{topologyResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/topologies/{topologyResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TopologyResource
+      bodyMapper: Mappers.TopologyResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
-    Parameters.topologyResourceName
+    Parameters.resourceGroupName,
+    Parameters.topologyResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TopologyList
+      bodyMapper: Mappers.TopologyList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByHomeRegionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TopologyList
+      bodyMapper: Mappers.TopologyList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.ascLocation,
     Parameters.nextLink,
-    Parameters.ascLocation
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

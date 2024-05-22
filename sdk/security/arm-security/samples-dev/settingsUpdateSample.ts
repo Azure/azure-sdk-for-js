@@ -27,7 +27,7 @@ async function updateASettingForSubscription() {
   const settingName = "WDATP";
   const setting: DataExportSettings = {
     enabled: true,
-    kind: "DataExportSettings"
+    kind: "DataExportSettings",
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);

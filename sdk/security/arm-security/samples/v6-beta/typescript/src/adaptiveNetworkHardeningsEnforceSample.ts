@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AdaptiveNetworkHardeningEnforceRequest,
-  SecurityCenter
+  SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -35,7 +35,7 @@ async function enforcesTheGivenRulesOnTheNsgSListedInTheRequest() {
   const body: AdaptiveNetworkHardeningEnforceRequest = {
     networkSecurityGroups: [
       "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1",
-      "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg2/providers/Microsoft.Network/networkSecurityGroups/nsg2"
+      "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg2/providers/Microsoft.Network/networkSecurityGroups/nsg2",
     ],
     rules: [
       {
@@ -43,16 +43,16 @@ async function enforcesTheGivenRulesOnTheNsgSListedInTheRequest() {
         destinationPort: 3389,
         direction: "Inbound",
         ipAddresses: ["100.10.1.1", "200.20.2.2", "81.199.3.0/24"],
-        protocols: ["TCP"]
+        protocols: ["TCP"],
       },
       {
         name: "rule2",
         destinationPort: 22,
         direction: "Inbound",
         ipAddresses: [],
-        protocols: ["TCP"]
-      }
-    ]
+        protocols: ["TCP"],
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
@@ -62,7 +62,7 @@ async function enforcesTheGivenRulesOnTheNsgSListedInTheRequest() {
     resourceType,
     resourceName,
     adaptiveNetworkHardeningResourceName,
-    body
+    body,
   );
   console.log(result);
 }

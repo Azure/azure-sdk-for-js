@@ -14,7 +14,7 @@ import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -25,7 +25,7 @@ import {
   ProtectionContainersRegisterResponse,
   ProtectionContainersUnregisterOptionalParams,
   ProtectionContainersInquireOptionalParams,
-  ProtectionContainersRefreshOptionalParams
+  ProtectionContainersRefreshOptionalParams,
 } from "../models";
 
 /** Class containing ProtectionContainers operations. */
@@ -54,11 +54,11 @@ export class ProtectionContainersImpl implements ProtectionContainers {
     resourceGroupName: string,
     fabricName: string,
     containerName: string,
-    options?: ProtectionContainersGetOptionalParams
+    options?: ProtectionContainersGetOptionalParams,
   ): Promise<ProtectionContainersGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, fabricName, containerName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -81,7 +81,7 @@ export class ProtectionContainersImpl implements ProtectionContainers {
     fabricName: string,
     containerName: string,
     parameters: ProtectionContainerResource,
-    options?: ProtectionContainersRegisterOptionalParams
+    options?: ProtectionContainersRegisterOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProtectionContainersRegisterResponse>,
@@ -90,21 +90,20 @@ export class ProtectionContainersImpl implements ProtectionContainers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProtectionContainersRegisterResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -113,8 +112,8 @@ export class ProtectionContainersImpl implements ProtectionContainers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -122,8 +121,8 @@ export class ProtectionContainersImpl implements ProtectionContainers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -135,16 +134,16 @@ export class ProtectionContainersImpl implements ProtectionContainers {
         fabricName,
         containerName,
         parameters,
-        options
+        options,
       },
-      spec: registerOperationSpec
+      spec: registerOperationSpec,
     });
     const poller = await createHttpPoller<
       ProtectionContainersRegisterResponse,
       OperationState<ProtectionContainersRegisterResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -169,7 +168,7 @@ export class ProtectionContainersImpl implements ProtectionContainers {
     fabricName: string,
     containerName: string,
     parameters: ProtectionContainerResource,
-    options?: ProtectionContainersRegisterOptionalParams
+    options?: ProtectionContainersRegisterOptionalParams,
   ): Promise<ProtectionContainersRegisterResponse> {
     const poller = await this.beginRegister(
       vaultName,
@@ -177,7 +176,7 @@ export class ProtectionContainersImpl implements ProtectionContainers {
       fabricName,
       containerName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -200,11 +199,11 @@ export class ProtectionContainersImpl implements ProtectionContainers {
     resourceGroupName: string,
     fabricName: string,
     containerName: string,
-    options?: ProtectionContainersUnregisterOptionalParams
+    options?: ProtectionContainersUnregisterOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, fabricName, containerName, options },
-      unregisterOperationSpec
+      unregisterOperationSpec,
     );
   }
 
@@ -223,11 +222,11 @@ export class ProtectionContainersImpl implements ProtectionContainers {
     resourceGroupName: string,
     fabricName: string,
     containerName: string,
-    options?: ProtectionContainersInquireOptionalParams
+    options?: ProtectionContainersInquireOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, fabricName, containerName, options },
-      inquireOperationSpec
+      inquireOperationSpec,
     );
   }
 
@@ -245,11 +244,11 @@ export class ProtectionContainersImpl implements ProtectionContainers {
     vaultName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ProtectionContainersRefreshOptionalParams
+    options?: ProtectionContainersRefreshOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, fabricName, options },
-      refreshOperationSpec
+      refreshOperationSpec,
     );
   }
 }
@@ -257,16 +256,15 @@ export class ProtectionContainersImpl implements ProtectionContainers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainerResource
+      bodyMapper: Mappers.ProtectionContainerResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -275,31 +273,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName,
-    Parameters.containerName
+    Parameters.containerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const registerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainerResource
+      bodyMapper: Mappers.ProtectionContainerResource,
     },
     201: {
-      bodyMapper: Mappers.ProtectionContainerResource
+      bodyMapper: Mappers.ProtectionContainerResource,
     },
     202: {
-      bodyMapper: Mappers.ProtectionContainerResource
+      bodyMapper: Mappers.ProtectionContainerResource,
     },
     204: {
-      bodyMapper: Mappers.ProtectionContainerResource
+      bodyMapper: Mappers.ProtectionContainerResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
@@ -309,23 +306,22 @@ const registerOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName,
-    Parameters.containerName
+    Parameters.containerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const unregisterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -334,20 +330,19 @@ const unregisterOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName,
-    Parameters.containerName
+    Parameters.containerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const inquireOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/inquire",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/inquire",
   httpMethod: "POST",
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -356,20 +351,19 @@ const inquireOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName,
-    Parameters.containerName
+    Parameters.containerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const refreshOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/refreshContainers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/refreshContainers",
   httpMethod: "POST",
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -377,8 +371,8 @@ const refreshOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.fabricName
+    Parameters.fabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

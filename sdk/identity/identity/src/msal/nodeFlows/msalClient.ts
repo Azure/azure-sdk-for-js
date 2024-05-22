@@ -46,21 +46,44 @@ export interface GetTokenWithSilentAuthOptions extends GetTokenOptions {
  * Represents a client for interacting with the Microsoft Authentication Library (MSAL).
  */
 export interface MsalClient {
+  /**
+   * Retrieves an access token by using a user's username and password.
+   *
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param username - The username provided by the developer.
+   * @param password - The user's password provided by the developer.
+   * @param options - Additional options that may be provided to the method.
+   * @returns An access token.
+   */
+  getTokenByUsernamePassword(
+    scopes: string[],
+    username: string,
+    password: string,
+    options?: GetTokenOptions,
+  ): Promise<AccessToken>;
+  /**
+   * Retrieves an access token by prompting the user to authenticate using a device code.
+   *
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param userPromptCallback - The callback function that allows developers to customize the prompt message.
+   * @param options - Additional options that may be provided to the method.
+   * @returns An access token.
+   */
   getTokenByDeviceCode(
-    arrayScopes: string[],
+    scopes: string[],
     userPromptCallback: DeviceCodePromptCallback,
     options?: GetTokenWithSilentAuthOptions,
   ): Promise<AccessToken>;
   /**
    * Retrieves an access token by using a client certificate.
    *
-   * @param arrayScopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param certificate - The client certificate used for authentication.
    * @param options - Additional options that may be provided to the method.
    * @returns An access token.
    */
   getTokenByClientCertificate(
-    arrayScopes: string[],
+    scopes: string[],
     certificate: CertificateParts,
     options?: GetTokenOptions,
   ): Promise<AccessToken>;
@@ -68,13 +91,13 @@ export interface MsalClient {
   /**
    * Retrieves an access token by using a client assertion.
    *
-   * @param arrayScopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param clientAssertion - The client assertion used for authentication.
    * @param options - Additional options that may be provided to the method.
    * @returns An access token.
    */
   getTokenByClientAssertion(
-    arrayScopes: string[],
+    scopes: string[],
     clientAssertion: string,
     options?: GetTokenOptions,
   ): Promise<AccessToken>;
@@ -495,6 +518,29 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     });
   }
 
+  async function getTokenByUsernamePassword(
+    scopes: string[],
+    username: string,
+    password: string,
+    options: GetTokenOptions = {},
+  ): Promise<AccessToken> {
+    msalLogger.getToken.info(`Attempting to acquire token using username and password`);
+
+    const msalApp = await getPublicApp(options);
+
+    return withSilentAuthentication(msalApp, scopes, options, () => {
+      const requestOptions: msal.UsernamePasswordRequest = {
+        scopes,
+        username,
+        password,
+        authority: state.msalConfig.auth.authority,
+        claims: options?.claims,
+      };
+
+      return msalApp.acquireTokenByUsernamePassword(requestOptions);
+    });
+  }
+
   function getActiveAccount(): AuthenticationRecord | undefined {
     if (!state.cachedAccount) {
       return undefined;
@@ -508,5 +554,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     getTokenByClientAssertion,
     getTokenByClientCertificate,
     getTokenByDeviceCode,
+    getTokenByUsernamePassword,
   };
 }

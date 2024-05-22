@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get configuration assignment for resource..
  *
  * @summary Get configuration assignment for resource..
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/ConfigurationAssignments_GetParent.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ConfigurationAssignments_GetParent.json
  */
 async function configurationAssignmentsGetParent() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function configurationAssignmentsGetParent() {
     resourceParentName,
     resourceType,
     resourceName,
-    configurationAssignmentName
+    configurationAssignmentName,
   );
   console.log(result);
 }

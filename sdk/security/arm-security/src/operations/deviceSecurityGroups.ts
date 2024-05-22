@@ -23,7 +23,7 @@ import {
   DeviceSecurityGroupsCreateOrUpdateOptionalParams,
   DeviceSecurityGroupsCreateOrUpdateResponse,
   DeviceSecurityGroupsDeleteOptionalParams,
-  DeviceSecurityGroupsListNextResponse
+  DeviceSecurityGroupsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +46,7 @@ export class DeviceSecurityGroupsImpl implements DeviceSecurityGroups {
    */
   public list(
     resourceId: string,
-    options?: DeviceSecurityGroupsListOptionalParams
+    options?: DeviceSecurityGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<DeviceSecurityGroup> {
     const iter = this.listPagingAll(resourceId, options);
     return {
@@ -61,14 +61,14 @@ export class DeviceSecurityGroupsImpl implements DeviceSecurityGroups {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceId, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceId: string,
     options?: DeviceSecurityGroupsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeviceSecurityGroup[]> {
     let result: DeviceSecurityGroupsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class DeviceSecurityGroupsImpl implements DeviceSecurityGroups {
 
   private async *listPagingAll(
     resourceId: string,
-    options?: DeviceSecurityGroupsListOptionalParams
+    options?: DeviceSecurityGroupsListOptionalParams,
   ): AsyncIterableIterator<DeviceSecurityGroup> {
     for await (const page of this.listPagingPage(resourceId, options)) {
       yield* page;
@@ -104,11 +104,11 @@ export class DeviceSecurityGroupsImpl implements DeviceSecurityGroups {
    */
   private _list(
     resourceId: string,
-    options?: DeviceSecurityGroupsListOptionalParams
+    options?: DeviceSecurityGroupsListOptionalParams,
   ): Promise<DeviceSecurityGroupsListResponse> {
     return this.client.sendOperationRequest(
       { resourceId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -122,11 +122,11 @@ export class DeviceSecurityGroupsImpl implements DeviceSecurityGroups {
   get(
     resourceId: string,
     deviceSecurityGroupName: string,
-    options?: DeviceSecurityGroupsGetOptionalParams
+    options?: DeviceSecurityGroupsGetOptionalParams,
   ): Promise<DeviceSecurityGroupsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceId, deviceSecurityGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -142,11 +142,11 @@ export class DeviceSecurityGroupsImpl implements DeviceSecurityGroups {
     resourceId: string,
     deviceSecurityGroupName: string,
     deviceSecurityGroup: DeviceSecurityGroup,
-    options?: DeviceSecurityGroupsCreateOrUpdateOptionalParams
+    options?: DeviceSecurityGroupsCreateOrUpdateOptionalParams,
   ): Promise<DeviceSecurityGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceId, deviceSecurityGroupName, deviceSecurityGroup, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -160,11 +160,11 @@ export class DeviceSecurityGroupsImpl implements DeviceSecurityGroups {
   delete(
     resourceId: string,
     deviceSecurityGroupName: string,
-    options?: DeviceSecurityGroupsDeleteOptionalParams
+    options?: DeviceSecurityGroupsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceId, deviceSecurityGroupName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -177,11 +177,11 @@ export class DeviceSecurityGroupsImpl implements DeviceSecurityGroups {
   private _listNext(
     resourceId: string,
     nextLink: string,
-    options?: DeviceSecurityGroupsListNextOptionalParams
+    options?: DeviceSecurityGroupsListNextOptionalParams,
   ): Promise<DeviceSecurityGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -193,96 +193,93 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeviceSecurityGroupList
+      bodyMapper: Mappers.DeviceSecurityGroupList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [Parameters.$host, Parameters.resourceId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.Security/deviceSecurityGroups/{deviceSecurityGroupName}",
+  path: "/{resourceId}/providers/Microsoft.Security/deviceSecurityGroups/{deviceSecurityGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeviceSecurityGroup
+      bodyMapper: Mappers.DeviceSecurityGroup,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.deviceSecurityGroupName
+    Parameters.deviceSecurityGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.Security/deviceSecurityGroups/{deviceSecurityGroupName}",
+  path: "/{resourceId}/providers/Microsoft.Security/deviceSecurityGroups/{deviceSecurityGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DeviceSecurityGroup
+      bodyMapper: Mappers.DeviceSecurityGroup,
     },
     201: {
-      bodyMapper: Mappers.DeviceSecurityGroup
+      bodyMapper: Mappers.DeviceSecurityGroup,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.deviceSecurityGroup,
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.deviceSecurityGroupName
+    Parameters.deviceSecurityGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.Security/deviceSecurityGroups/{deviceSecurityGroupName}",
+  path: "/{resourceId}/providers/Microsoft.Security/deviceSecurityGroups/{deviceSecurityGroupName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.deviceSecurityGroupName
+    Parameters.deviceSecurityGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeviceSecurityGroupList
+      bodyMapper: Mappers.DeviceSecurityGroupList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.resourceId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
