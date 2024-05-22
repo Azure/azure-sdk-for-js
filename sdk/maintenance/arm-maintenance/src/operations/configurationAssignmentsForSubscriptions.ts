@@ -20,12 +20,13 @@ import {
   ConfigurationAssignmentsForSubscriptionsUpdateOptionalParams,
   ConfigurationAssignmentsForSubscriptionsUpdateResponse,
   ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams,
-  ConfigurationAssignmentsForSubscriptionsDeleteResponse
+  ConfigurationAssignmentsForSubscriptionsDeleteResponse,
 } from "../models";
 
 /** Class containing ConfigurationAssignmentsForSubscriptions operations. */
 export class ConfigurationAssignmentsForSubscriptionsImpl
-  implements ConfigurationAssignmentsForSubscriptions {
+  implements ConfigurationAssignmentsForSubscriptions
+{
   private readonly client: MaintenanceManagementClient;
 
   /**
@@ -43,11 +44,11 @@ export class ConfigurationAssignmentsForSubscriptionsImpl
    */
   get(
     configurationAssignmentName: string,
-    options?: ConfigurationAssignmentsForSubscriptionsGetOptionalParams
+    options?: ConfigurationAssignmentsForSubscriptionsGetOptionalParams,
   ): Promise<ConfigurationAssignmentsForSubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
       { configurationAssignmentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -60,11 +61,11 @@ export class ConfigurationAssignmentsForSubscriptionsImpl
   createOrUpdate(
     configurationAssignmentName: string,
     configurationAssignment: ConfigurationAssignment,
-    options?: ConfigurationAssignmentsForSubscriptionsCreateOrUpdateOptionalParams
+    options?: ConfigurationAssignmentsForSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { configurationAssignmentName, configurationAssignment, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -77,11 +78,11 @@ export class ConfigurationAssignmentsForSubscriptionsImpl
   update(
     configurationAssignmentName: string,
     configurationAssignment: ConfigurationAssignment,
-    options?: ConfigurationAssignmentsForSubscriptionsUpdateOptionalParams
+    options?: ConfigurationAssignmentsForSubscriptionsUpdateOptionalParams,
   ): Promise<ConfigurationAssignmentsForSubscriptionsUpdateResponse> {
     return this.client.sendOperationRequest(
       { configurationAssignmentName, configurationAssignment, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -92,11 +93,11 @@ export class ConfigurationAssignmentsForSubscriptionsImpl
    */
   delete(
     configurationAssignmentName: string,
-    options?: ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams
+    options?: ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams,
   ): Promise<ConfigurationAssignmentsForSubscriptionsDeleteResponse> {
     return this.client.sendOperationRequest(
       { configurationAssignmentName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -104,94 +105,90 @@ export class ConfigurationAssignmentsForSubscriptionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationAssignment
+      bodyMapper: Mappers.ConfigurationAssignment,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.configurationAssignmentName
+    Parameters.configurationAssignmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationAssignment
+      bodyMapper: Mappers.ConfigurationAssignment,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationAssignment
+      bodyMapper: Mappers.ConfigurationAssignment,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   requestBody: Parameters.configurationAssignment,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.configurationAssignmentName
+    Parameters.configurationAssignmentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationAssignment
+      bodyMapper: Mappers.ConfigurationAssignment,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   requestBody: Parameters.configurationAssignment,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.configurationAssignmentName
+    Parameters.configurationAssignmentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/configurationAssignments/{configurationAssignmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationAssignment
+      bodyMapper: Mappers.ConfigurationAssignment,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.configurationAssignmentName
+    Parameters.configurationAssignmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

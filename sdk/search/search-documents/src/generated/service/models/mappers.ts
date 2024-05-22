@@ -1993,6 +1993,13 @@ export const SearchField: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      vectorEncodingFormat: {
+        serializedName: "vectorEncoding",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
       synonymMaps: {
         serializedName: "synonymMaps",
         type: {
@@ -3032,6 +3039,13 @@ export const ServiceLimits: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      maxStoragePerIndex: {
+        serializedName: "maxStoragePerIndex",
+        nullable: true,
+        type: {
+          name: "Number",
+        },
+      },
     },
   },
 };
@@ -3150,6 +3164,12 @@ export const AzureOpenAIParameters: coreClient.CompositeMapper = {
           className: "SearchIndexerDataIdentity",
         },
       },
+      modelName: {
+        serializedName: "modelName",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -3196,6 +3216,94 @@ export const CustomWebApiParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SearchIndexerDataIdentity",
+        },
+      },
+    },
+  },
+};
+
+export const AIServicesVisionParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AIServicesVisionParameters",
+    modelProperties: {
+      modelVersion: {
+        serializedName: "modelVersion",
+        required: true,
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      resourceUri: {
+        serializedName: "resourceUri",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      apiKey: {
+        serializedName: "apiKey",
+        type: {
+          name: "String",
+        },
+      },
+      authIdentity: {
+        serializedName: "authIdentity",
+        type: {
+          name: "Composite",
+          className: "SearchIndexerDataIdentity",
+        },
+      },
+    },
+  },
+};
+
+export const AMLParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AMLParameters",
+    modelProperties: {
+      scoringUri: {
+        serializedName: "uri",
+        required: true,
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      authenticationKey: {
+        serializedName: "key",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      timeout: {
+        serializedName: "timeout",
+        nullable: true,
+        type: {
+          name: "TimeSpan",
+        },
+      },
+      region: {
+        serializedName: "region",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      modelName: {
+        serializedName: "modelName",
+        type: {
+          name: "String",
         },
       },
     },
@@ -4285,29 +4393,33 @@ export const AzureOpenAIEmbeddingSkill: coreClient.CompositeMapper = {
     polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
     modelProperties: {
       ...SearchIndexerSkill.type.modelProperties,
-      resourceUri: {
-        serializedName: "resourceUri",
+      ...AzureOpenAIParameters.type.modelProperties,
+      dimensions: {
+        serializedName: "dimensions",
+        nullable: true,
         type: {
-          name: "String",
+          name: "Number",
         },
       },
-      deploymentId: {
-        serializedName: "deploymentId",
+    },
+  },
+};
+
+export const VisionVectorizeSkill: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Skills.Vision.VectorizeSkill",
+  type: {
+    name: "Composite",
+    className: "VisionVectorizeSkill",
+    uberParent: "SearchIndexerSkill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SearchIndexerSkill.type.modelProperties,
+      modelVersion: {
+        serializedName: "modelVersion",
+        required: true,
+        nullable: true,
         type: {
           name: "String",
-        },
-      },
-      apiKey: {
-        serializedName: "apiKey",
-        type: {
-          name: "String",
-        },
-      },
-      authIdentity: {
-        serializedName: "authIdentity",
-        type: {
-          name: "Composite",
-          className: "SearchIndexerDataIdentity",
         },
       },
     },
@@ -6286,6 +6398,48 @@ export const CustomVectorizer: coreClient.CompositeMapper = {
   },
 };
 
+export const AIServicesVisionVectorizer: coreClient.CompositeMapper = {
+  serializedName: "aiServicesVision",
+  type: {
+    name: "Composite",
+    className: "AIServicesVisionVectorizer",
+    uberParent: "VectorSearchVectorizer",
+    polymorphicDiscriminator:
+      VectorSearchVectorizer.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...VectorSearchVectorizer.type.modelProperties,
+      aIServicesVisionParameters: {
+        serializedName: "aiServicesVisionParameters",
+        type: {
+          name: "Composite",
+          className: "AIServicesVisionParameters",
+        },
+      },
+    },
+  },
+};
+
+export const AMLVectorizer: coreClient.CompositeMapper = {
+  serializedName: "aml",
+  type: {
+    name: "Composite",
+    className: "AMLVectorizer",
+    uberParent: "VectorSearchVectorizer",
+    polymorphicDiscriminator:
+      VectorSearchVectorizer.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...VectorSearchVectorizer.type.modelProperties,
+      aMLParameters: {
+        serializedName: "amlParameters",
+        type: {
+          name: "Composite",
+          className: "AMLParameters",
+        },
+      },
+    },
+  },
+};
+
 export const ScalarQuantizationCompressionConfiguration: coreClient.CompositeMapper =
   {
     serializedName: "scalarQuantization",
@@ -6395,6 +6549,8 @@ export let discriminators = {
     AzureMachineLearningSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill":
     AzureOpenAIEmbeddingSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Vision.VectorizeSkill":
+    VisionVectorizeSkill,
   "CognitiveServicesAccount.#Microsoft.Azure.Search.DefaultCognitiveServices":
     DefaultCognitiveServicesAccount,
   "CognitiveServicesAccount.#Microsoft.Azure.Search.CognitiveServicesByKey":
@@ -6480,6 +6636,8 @@ export let discriminators = {
     ExhaustiveKnnAlgorithmConfiguration,
   "VectorSearchVectorizer.azureOpenAI": AzureOpenAIVectorizer,
   "VectorSearchVectorizer.customWebApi": CustomVectorizer,
+  "VectorSearchVectorizer.aiServicesVision": AIServicesVisionVectorizer,
+  "VectorSearchVectorizer.aml": AMLVectorizer,
   "BaseVectorSearchCompressionConfiguration.scalarQuantization":
     ScalarQuantizationCompressionConfiguration,
 };

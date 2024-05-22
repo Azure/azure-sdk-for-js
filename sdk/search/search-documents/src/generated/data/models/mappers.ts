@@ -471,6 +471,13 @@ export const SearchRequest: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      hybridSearch: {
+        serializedName: "hybridSearch",
+        type: {
+          name: "Composite",
+          className: "HybridSearch",
+        },
+      },
     },
   },
 };
@@ -514,6 +521,61 @@ export const VectorQuery: coreClient.CompositeMapper = {
         serializedName: "oversampling",
         type: {
           name: "Number",
+        },
+      },
+      weight: {
+        serializedName: "weight",
+        type: {
+          name: "Number",
+        },
+      },
+      threshold: {
+        serializedName: "threshold",
+        type: {
+          name: "Composite",
+          className: "VectorThreshold",
+        },
+      },
+    },
+  },
+};
+
+export const VectorThreshold: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VectorThreshold",
+    uberParent: "VectorThreshold",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind",
+    },
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const HybridSearch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HybridSearch",
+    modelProperties: {
+      maxTextRecallSize: {
+        serializedName: "maxTextRecallSize",
+        type: {
+          name: "Number",
+        },
+      },
+      countAndFacetMode: {
+        serializedName: "countAndFacetMode",
+        type: {
+          name: "String",
         },
       },
     },
@@ -1127,8 +1189,91 @@ export const VectorizableTextQuery: coreClient.CompositeMapper = {
   },
 };
 
+export const VectorizableImageUrlQuery: coreClient.CompositeMapper = {
+  serializedName: "imageUrl",
+  type: {
+    name: "Composite",
+    className: "VectorizableImageUrlQuery",
+    uberParent: "VectorQuery",
+    polymorphicDiscriminator: VectorQuery.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...VectorQuery.type.modelProperties,
+      url: {
+        serializedName: "url",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VectorizableImageBinaryQuery: coreClient.CompositeMapper = {
+  serializedName: "imageBinary",
+  type: {
+    name: "Composite",
+    className: "VectorizableImageBinaryQuery",
+    uberParent: "VectorQuery",
+    polymorphicDiscriminator: VectorQuery.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...VectorQuery.type.modelProperties,
+      base64Image: {
+        serializedName: "base64Image",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VectorSimilarityThreshold: coreClient.CompositeMapper = {
+  serializedName: "vectorSimilarity",
+  type: {
+    name: "Composite",
+    className: "VectorSimilarityThreshold",
+    uberParent: "VectorThreshold",
+    polymorphicDiscriminator: VectorThreshold.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...VectorThreshold.type.modelProperties,
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const SearchScoreThreshold: coreClient.CompositeMapper = {
+  serializedName: "searchScore",
+  type: {
+    name: "Composite",
+    className: "SearchScoreThreshold",
+    uberParent: "VectorThreshold",
+    polymorphicDiscriminator: VectorThreshold.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...VectorThreshold.type.modelProperties,
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export let discriminators = {
   VectorQuery: VectorQuery,
+  VectorThreshold: VectorThreshold,
   "VectorQuery.vector": VectorizedQuery,
   "VectorQuery.text": VectorizableTextQuery,
+  "VectorQuery.imageUrl": VectorizableImageUrlQuery,
+  "VectorQuery.imageBinary": VectorizableImageBinaryQuery,
+  "VectorThreshold.vectorSimilarity": VectorSimilarityThreshold,
+  "VectorThreshold.searchScore": SearchScoreThreshold,
 };
