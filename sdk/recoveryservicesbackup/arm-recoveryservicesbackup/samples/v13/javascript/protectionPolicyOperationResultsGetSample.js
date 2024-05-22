@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Provides the result of an operation.
  *
  * @summary Provides the result of an operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/ProtectionPolicyOperationResults_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionPolicyOperationResults_Get.json
  */
 async function getProtectionPolicyOperationResults() {
   const subscriptionId =
