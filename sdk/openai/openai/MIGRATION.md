@@ -432,7 +432,6 @@ for (const choice of results.choices) {
 }
 ```
 
-
 ## Comparing Types
 
 The following table explores several type names from `@azure/openai` and shows their nearest `openai` equivalent. The names differences illustrate several of the above-mentioned changes. This table provides an overview, and more detail and code samples are provided in the following sections.
@@ -442,7 +441,7 @@ The following table explores several type names from `@azure/openai` and shows t
 | ------------------------- | ------------------------- | ----------- | ----------------------------- |
 | `OpenAIClient` | `AzureOpenAI` | Class | This class replaces the former and has no methods in common with it. See the section on `AzureOpenAI` below. |
 | `AudioResult` | `Transcription`/`Transcription` | Interface | Depending on the calling operation, the two interfaces replace the former one |
-| `AudioResultFormat` | inline union type of the `response_format` property | Interface | It doesn't exist |
+| `AudioResultFormat` | inline union type of the `response_format` property | Alias | It doesn't exist |
 | `AudioResultSimpleJson ` | `Transcription`/`Transcription` | Interface | Depending on the calling operation, the two interfaces replace the former one |
 | `AudioResultVerboseJson ` | N/A | Interface | |
 | `AudioSegment ` | N/A | Interface |  |
@@ -460,12 +459,12 @@ The following table explores several type names from `@azure/openai` and shows t
 | `ChatRequestToolMessage` | `ChatCompletionToolMessageParam` | Interface | |
 | `ChatRequestUserMessage` | `ChatCompletionUserMessageParam` | Interface | |
 | `ChatResponseMessage` | `Delta` / `ChatCompletionMessage` | Interface | |
-| `ChatRole` | N/A | Interface | |
+| `ChatRole` | N/A | Alias | |
 | `ChatTokenLogProbabilityInfo` | `TopLogprob` | Interface | |
 | `ChatTokenLogProbabilityResult` | `ChatCompletionTokenLogprob` | Interface | |
 | `Choice` | `Choice` | Interface | |
 | `Completions` | `Completion` | Interface | |
-| `CompletionsFinishReason` | N/A | Interface | |
+| `CompletionsFinishReason` | N/A | Alias | |
 | `CompletionsLogProbabilityModel` | `Logprobs` | Interface | |
 | `CompletionsUsage` | `CompletionUsage` | Interface | |
 | `EmbeddingItem` | `Embedding` | Interface | |
@@ -473,9 +472,9 @@ The following table explores several type names from `@azure/openai` and shows t
 | `EmbeddingsUsage` | `CreateEmbeddingResponse.Usage` | Interface | |
 | `EventStream` | `Stream` | Interface | |
 | `FunctionCall` | `FunctionCall` | Interface | |
-| `FunctionCallPreset` | N/A | Interface | |
+| `FunctionCallPreset` | N/A | Alias | |
 | `FunctionDefinition` | `Function` | Interface | |
-| `FunctionName` | N/A | |
+| `FunctionName` | N/A | Alias | |
 | `GetAudioTranscriptionOptions` | `TranscriptionCreateParams` | Interface | |
 | `GetAudioTranslationOptions` | `TranslationCreateParams` | Interface | |
 | `GetChatCompletionsOptions` | `ChatCompletionCreateParamsNonStreaming` and `ChatCompletionCreateParamsStreaming` | Interface | |
