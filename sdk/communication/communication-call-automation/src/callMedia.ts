@@ -50,6 +50,7 @@ import {
   UnholdOptions,
   StopMediaStreamingOptions,
   StartMediaStreamingOptions,
+  UpdateTranscriptionOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { SendDtmfTonesResult } from "./models/responses";
@@ -501,6 +502,7 @@ export class CallMedia {
     const startTranscriptionRequest: StartTranscriptionRequest = {
       locale: options.locale,
       operationContext: options.operationContext,
+      speechRecognitionModelEndpointId: options.speechRecognitionModelEndpointId,
     };
     return this.callMedia.startTranscription(this.callConnectionId, startTranscriptionRequest, {});
   }
@@ -520,9 +522,13 @@ export class CallMedia {
    * Update transcription language.
    * @param locale - Defines new locale for transcription.
    */
-  public async updateTranscription(locale: string): Promise<void> {
+  public async updateTranscription(
+    locale: string,
+    options?: UpdateTranscriptionOptions,
+  ): Promise<void> {
     const updateTranscriptionRequest: UpdateTranscriptionRequest = {
       locale: locale,
+      speechRecognitionModelEndpointId: options?.speechRecognitionModelEndpointId
     };
     return this.callMedia.updateTranscription(
       this.callConnectionId,

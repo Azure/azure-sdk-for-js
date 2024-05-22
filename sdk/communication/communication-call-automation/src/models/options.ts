@@ -38,8 +38,6 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
   interruptPrompt?: boolean;
   /** Time to wait for first input after prompt. */
   initialSilenceTimeoutInSeconds?: number;
-  /** speechModelEndpointId. */
-  speechModelEndpointId?: string;
   /**
    * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
@@ -351,6 +349,16 @@ export interface StartTranscriptionOptions extends OperationOptions {
   locale?: string;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
+}
+
+/**
+ * Options to update transcription
+ */
+export interface UpdateTranscriptionOptions extends OperationOptions {
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
 }
 
 /**

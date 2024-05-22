@@ -295,7 +295,7 @@ describe("CallMedia Unit Tests", async function () {
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeSpeechOptions = {
       kind: "callMediaRecognizeSpeechOptions",
-      speechModelEndpointId: "customModelEndpointId",
+      speechRecognitionModelEndpointId: "customModelEndpointId",
     };
 
     await callMedia.startRecognizing(targetParticipant, recognizeOptions);
@@ -390,7 +390,7 @@ describe("CallMedia Unit Tests", async function () {
     const recognizeOptions: CallMediaRecognizeSpeechOptions = {
       playPrompts: prompts,
       kind: "callMediaRecognizeSpeechOptions",
-      speechModelEndpointId: "customModelEndpointId",
+      speechRecognitionModelEndpointId: "customModelEndpointId",
     };
 
     await callMedia.startRecognizing(targetParticipant, recognizeOptions);
@@ -423,7 +423,7 @@ describe("CallMedia Unit Tests", async function () {
       playPrompts: prompts,
       maxTonesToCollect: 5,
       kind: "callMediaRecognizeSpeechOrDtmfOptions",
-      speechModelEndpointId: "customModelEndpointId",
+      speechRecognitionModelEndpointId: "customModelEndpointId",
     };
 
     await callMedia.startRecognizing(targetParticipant, recognizeOptions);

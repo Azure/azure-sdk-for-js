@@ -9,3 +9,4 @@ export * from "./models/models";
 export * from "./models/options";
 export * from "./models/responses";
 export * from "./models/events";
+export * from "./models/transcription";

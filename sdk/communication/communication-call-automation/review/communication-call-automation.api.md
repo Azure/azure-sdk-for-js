@@ -181,7 +181,7 @@ export class CallMedia {
     stopMediaStreaming(options?: StopMediaStreamingOptions): Promise<void>;
     stopTranscription(options?: StopTranscriptionOptions): Promise<void>;
     unhold(targetParticipant: CommunicationIdentifier, options?: UnholdOptions): Promise<void>;
-    updateTranscription(locale: string): Promise<void>;
+    updateTranscription(locale: string, options?: UpdateTranscriptionOptions): Promise<void>;
 }
 
 // @public
@@ -211,7 +211,6 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     operationContext?: string;
     playPrompt?: FileSource | TextSource | SsmlSource;
     playPrompts?: (FileSource | TextSource | SsmlSource)[];
-    speechModelEndpointId?: string;
     // @deprecated (undocumented)
     stopCurrentOperations?: boolean;
 }
@@ -1064,6 +1063,12 @@ export interface ResultInformation extends Omit<RestResultInformation, "code" | 
 }
 
 // @public
+export enum ResultStatus {
+    Final = "final",
+    Intermediate = "intermediate"
+}
+
+// @public
 export type ResumeRecordingOptions = OperationOptions;
 
 // @public
@@ -1147,6 +1152,7 @@ export interface StartRecordingOptions extends OperationOptions {
 export interface StartTranscriptionOptions extends OperationOptions {
     locale?: string;
     operationContext?: string;
+    speechRecognitionModelEndpointId?: string;
 }
 
 // @public
@@ -1160,6 +1166,11 @@ export type StopRecordingOptions = OperationOptions;
 // @public
 export interface StopTranscriptionOptions extends OperationOptions {
     operationContext?: string;
+}
+
+// @public
+export enum TextFormat {
+    Disply = "display"
 }
 
 // @public
@@ -1181,6 +1192,18 @@ export interface TextSource extends PlaySource {
 // @public
 export type Tone = string;
 
+// @public
+export interface TranscriptionData {
+    confidence: number;
+    duration: number;
+    format: TextFormat;
+    offset: number;
+    participant: CommunicationIdentifier;
+    resultStatus: ResultStatus;
+    text: string;
+    words: WordData[];
+}
+
 // @public (undocumented)
 export interface TranscriptionFailed extends Omit<RestTranscriptionFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
@@ -1188,6 +1211,14 @@ export interface TranscriptionFailed extends Omit<RestTranscriptionFailed, "call
     kind: "TranscriptionFailed";
     resultInformation?: RestResultInformation;
     serverCallId: string;
+}
+
+// @public
+export interface TranscriptionMetadata {
+    callConnectionId: string;
+    correlationId: string;
+    locale: string;
+    subscriptionId: string;
 }
 
 // @public
@@ -1259,6 +1290,11 @@ export interface UnholdOptions extends OperationOptions {
 }
 
 // @public
+export interface UpdateTranscriptionOptions extends OperationOptions {
+    speechRecognitionModelEndpointId?: string;
+}
+
+// @public
 export enum VoiceKind {
     Female = "female",
     Male = "male"
@@ -1268,6 +1304,13 @@ export enum VoiceKind {
 export interface VoipHeader extends CustomCallingContextHeader {
     // (undocumented)
     kind: "voip";
+}
+
+// @public
+export interface WordData {
+    duration: number;
+    offset: number;
+    text: string;
 }
 
 // (No @packageDocumentation comment for this package)
