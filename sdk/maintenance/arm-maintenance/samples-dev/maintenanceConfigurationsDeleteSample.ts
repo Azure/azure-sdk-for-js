@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete Configuration record
  *
  * @summary Delete Configuration record
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/MaintenanceConfigurations_DeleteForResource.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/MaintenanceConfigurations_DeleteForResource.json
  */
 async function maintenanceConfigurationsDeleteForResource() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function maintenanceConfigurationsDeleteForResource() {
   const client = new MaintenanceManagementClient(credential, subscriptionId);
   const result = await client.maintenanceConfigurations.delete(
     resourceGroupName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

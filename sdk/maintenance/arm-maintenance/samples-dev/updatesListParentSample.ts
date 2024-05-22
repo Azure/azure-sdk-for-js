@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get updates to resources.
  *
  * @summary Get updates to resources.
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/Updates_ListParent.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/Updates_ListParent.json
  */
 async function updatesListParent() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function updatesListParent() {
     resourceParentType,
     resourceParentName,
     resourceType,
-    resourceName
+    resourceName,
   )) {
     resArray.push(item);
   }

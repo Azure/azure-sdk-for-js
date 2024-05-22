@@ -15669,7 +15669,7 @@ packages:
     dev: false
 
   file:projects/arm-maintenance.tgz:
-    resolution: {integrity: sha512-c22MZSqTTJTXzBDL/ecsmAZ7W/r3i1tlDE0NuXS3ye2IiUIXVbFy0v7tB3ouR/M7so9m2N8UGdpn5HJXCs0c2g==, tarball: file:projects/arm-maintenance.tgz}
+    resolution: {integrity: sha512-uWAdoC+TPAOMUsLfkbmojphe+9hx/EiU6OMs7L5u5FhXKj5kkLurJ++JeYHoFgqKWg+19sch+6/cIPVHmPhIRg==, tarball: file:projects/arm-maintenance.tgz}
     name: '@rush-temp/arm-maintenance'
     version: 0.0.0
     dependencies:
@@ -15683,13 +15683,17 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.7
+      ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 

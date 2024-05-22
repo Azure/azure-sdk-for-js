@@ -14,10 +14,12 @@ import {
   ApplyUpdatesGetParentResponse,
   ApplyUpdatesGetOptionalParams,
   ApplyUpdatesGetResponse,
+  ApplyUpdatesCreateOrUpdateOrCancelOptionalParams,
+  ApplyUpdatesCreateOrUpdateOrCancelResponse,
   ApplyUpdatesCreateOrUpdateParentOptionalParams,
   ApplyUpdatesCreateOrUpdateParentResponse,
   ApplyUpdatesCreateOrUpdateOptionalParams,
-  ApplyUpdatesCreateOrUpdateResponse
+  ApplyUpdatesCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +30,7 @@ export interface ApplyUpdates {
    * @param options The options parameters.
    */
   list(
-    options?: ApplyUpdatesListOptionalParams
+    options?: ApplyUpdatesListOptionalParams,
   ): PagedAsyncIterableIterator<ApplyUpdate>;
   /**
    * Track maintenance updates to resource with parent
@@ -49,7 +51,7 @@ export interface ApplyUpdates {
     resourceType: string,
     resourceName: string,
     applyUpdateName: string,
-    options?: ApplyUpdatesGetParentOptionalParams
+    options?: ApplyUpdatesGetParentOptionalParams,
   ): Promise<ApplyUpdatesGetParentResponse>;
   /**
    * Track maintenance updates to resource
@@ -66,8 +68,27 @@ export interface ApplyUpdates {
     resourceType: string,
     resourceName: string,
     applyUpdateName: string,
-    options?: ApplyUpdatesGetOptionalParams
+    options?: ApplyUpdatesGetOptionalParams,
   ): Promise<ApplyUpdatesGetResponse>;
+  /**
+   * Apply maintenance updates to resource
+   * @param resourceGroupName Resource group name
+   * @param providerName Resource provider name
+   * @param resourceType Resource type
+   * @param resourceName Resource identifier
+   * @param applyUpdateName ApplyUpdate name
+   * @param applyUpdate The ApplyUpdate
+   * @param options The options parameters.
+   */
+  createOrUpdateOrCancel(
+    resourceGroupName: string,
+    providerName: string,
+    resourceType: string,
+    resourceName: string,
+    applyUpdateName: string,
+    applyUpdate: ApplyUpdate,
+    options?: ApplyUpdatesCreateOrUpdateOrCancelOptionalParams,
+  ): Promise<ApplyUpdatesCreateOrUpdateOrCancelResponse>;
   /**
    * Apply maintenance updates to resource with parent
    * @param resourceGroupName Resource group name
@@ -85,7 +106,7 @@ export interface ApplyUpdates {
     resourceParentName: string,
     resourceType: string,
     resourceName: string,
-    options?: ApplyUpdatesCreateOrUpdateParentOptionalParams
+    options?: ApplyUpdatesCreateOrUpdateParentOptionalParams,
   ): Promise<ApplyUpdatesCreateOrUpdateParentResponse>;
   /**
    * Apply maintenance updates to resource
@@ -100,6 +121,6 @@ export interface ApplyUpdates {
     providerName: string,
     resourceType: string,
     resourceName: string,
-    options?: ApplyUpdatesCreateOrUpdateOptionalParams
+    options?: ApplyUpdatesCreateOrUpdateOptionalParams,
   ): Promise<ApplyUpdatesCreateOrUpdateResponse>;
 }

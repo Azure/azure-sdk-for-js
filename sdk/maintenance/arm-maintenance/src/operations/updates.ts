@@ -17,7 +17,7 @@ import {
   UpdatesListParentOptionalParams,
   UpdatesListParentResponse,
   UpdatesListOptionalParams,
-  UpdatesListResponse
+  UpdatesListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,7 +50,7 @@ export class UpdatesImpl implements Updates {
     resourceParentName: string,
     resourceType: string,
     resourceName: string,
-    options?: UpdatesListParentOptionalParams
+    options?: UpdatesListParentOptionalParams,
   ): PagedAsyncIterableIterator<Update> {
     const iter = this.listParentPagingAll(
       resourceGroupName,
@@ -59,7 +59,7 @@ export class UpdatesImpl implements Updates {
       resourceParentName,
       resourceType,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class UpdatesImpl implements Updates {
           resourceType,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class UpdatesImpl implements Updates {
     resourceType: string,
     resourceName: string,
     options?: UpdatesListParentOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Update[]> {
     let result: UpdatesListParentResponse;
     result = await this._listParent(
@@ -104,7 +104,7 @@ export class UpdatesImpl implements Updates {
       resourceParentName,
       resourceType,
       resourceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -116,7 +116,7 @@ export class UpdatesImpl implements Updates {
     resourceParentName: string,
     resourceType: string,
     resourceName: string,
-    options?: UpdatesListParentOptionalParams
+    options?: UpdatesListParentOptionalParams,
   ): AsyncIterableIterator<Update> {
     for await (const page of this.listParentPagingPage(
       resourceGroupName,
@@ -125,7 +125,7 @@ export class UpdatesImpl implements Updates {
       resourceParentName,
       resourceType,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -144,14 +144,14 @@ export class UpdatesImpl implements Updates {
     providerName: string,
     resourceType: string,
     resourceName: string,
-    options?: UpdatesListOptionalParams
+    options?: UpdatesListOptionalParams,
   ): PagedAsyncIterableIterator<Update> {
     const iter = this.listPagingAll(
       resourceGroupName,
       providerName,
       resourceType,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -170,9 +170,9 @@ export class UpdatesImpl implements Updates {
           resourceType,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -182,7 +182,7 @@ export class UpdatesImpl implements Updates {
     resourceType: string,
     resourceName: string,
     options?: UpdatesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Update[]> {
     let result: UpdatesListResponse;
     result = await this._list(
@@ -190,7 +190,7 @@ export class UpdatesImpl implements Updates {
       providerName,
       resourceType,
       resourceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -200,14 +200,14 @@ export class UpdatesImpl implements Updates {
     providerName: string,
     resourceType: string,
     resourceName: string,
-    options?: UpdatesListOptionalParams
+    options?: UpdatesListOptionalParams,
   ): AsyncIterableIterator<Update> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       providerName,
       resourceType,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -230,7 +230,7 @@ export class UpdatesImpl implements Updates {
     resourceParentName: string,
     resourceType: string,
     resourceName: string,
-    options?: UpdatesListParentOptionalParams
+    options?: UpdatesListParentOptionalParams,
   ): Promise<UpdatesListParentResponse> {
     return this.client.sendOperationRequest(
       {
@@ -240,9 +240,9 @@ export class UpdatesImpl implements Updates {
         resourceParentName,
         resourceType,
         resourceName,
-        options
+        options,
       },
-      listParentOperationSpec
+      listParentOperationSpec,
     );
   }
 
@@ -259,11 +259,11 @@ export class UpdatesImpl implements Updates {
     providerName: string,
     resourceType: string,
     resourceName: string,
-    options?: UpdatesListOptionalParams
+    options?: UpdatesListOptionalParams,
   ): Promise<UpdatesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, providerName, resourceType, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -271,52 +271,50 @@ export class UpdatesImpl implements Updates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listParentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceParentType}/{resourceParentName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/updates",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceParentType}/{resourceParentName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/updates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListUpdatesResult
+      bodyMapper: Mappers.ListUpdatesResult,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceType,
     Parameters.resourceName,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.providerName,
     Parameters.resourceParentType,
     Parameters.resourceParentName,
-    Parameters.resourceType
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/updates",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/updates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListUpdatesResult
+      bodyMapper: Mappers.ListUpdatesResult,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceType,
     Parameters.resourceName,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.providerName,
-    Parameters.resourceType
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
