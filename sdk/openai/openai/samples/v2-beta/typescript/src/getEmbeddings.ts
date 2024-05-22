@@ -26,7 +26,7 @@ export async function main() {
   const apiVersion = "2024-04-01-preview";
   const deployment = "text-embedding-3-large";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const embeddings = await client.embeddings.create({ input, model: deployment });
+  const embeddings = await client.embeddings.create({ input, model: "" });
 
   for (const embeddingData of embeddings.data) {
     console.log(`The embedding values are ${embeddingData.embedding}`);

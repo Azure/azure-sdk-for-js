@@ -44,16 +44,10 @@ export async function main() {
 
   // Start a new run with instructions
   const instructions = "Please address the user as Jane Doe. The user has a premium account.";
-  let run = await client.beta.threads.runs.create(thread.id, {
+  let run = await client.beta.threads.runs.createAndPoll(thread.id, {
     assistant_id: assistant.id,
     instructions,
   });
-
-  // Wait for the run to complete by checking the status
-  while (run.status === "queued" || run.status === "in_progress") {
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    run = await client.beta.threads.runs.retrieve(thread.id, run.id);
-  }
 
   // Check for potential error
   if (run.status === "failed") {
@@ -62,7 +56,7 @@ export async function main() {
 
   // Retrieve the messages from the run
   const runMessages = await client.beta.threads.messages.list(thread.id);
-  for (const runMessageDatum of runMessages.data) {
+  for await (const runMessageDatum of runMessages) {
     for (const item of runMessageDatum.content) {
       switch (item.type) {
         case "text": {

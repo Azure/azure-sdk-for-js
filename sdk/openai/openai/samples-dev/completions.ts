@@ -26,7 +26,7 @@ export async function main() {
   const deployment = "text-davinci-003";
   const apiVersion = "2024-04-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const result = await client.completions.create({ prompt, model: deployment, max_tokens: 128 });
+  const result = await client.completions.create({ prompt, model: "", max_tokens: 128 });
 
   for (const choice of result.choices) {
     console.log(choice.text);

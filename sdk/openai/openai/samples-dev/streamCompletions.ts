@@ -28,7 +28,7 @@ export async function main() {
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const events = await client.completions.create({
     prompt,
-    model: deployment,
+    model: "",
     max_tokens: 128,
     stream: true,
   });
