@@ -18,6 +18,8 @@ export interface AcknowledgeCloudEventsOptions extends OperationOptions {
 // @public (undocumented)
 export interface AcknowledgeEventsOptions extends AcknowledgeCloudEventsOptions {
     // (undocumented)
+    eventSubscriptionName?: string;
+    // (undocumented)
     topicName?: string;
 }
 
@@ -58,15 +60,17 @@ export { EventGridDeserializer }
 // @public
 export class EventGridReceiverClient {
     constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: EventGridReceiverClientOptions);
-    acknowledgeEvents(lockTokens: string[], eventSubscriptionName: string, options?: AcknowledgeEventsOptions): Promise<AcknowledgeResult>;
-    receiveEvents<T>(eventSubscriptionName: string, options?: ReceiveEventsOptions): Promise<ReceiveResult<T>>;
-    rejectEvents(lockTokens: string[], eventSubscriptionName: string, options?: RejectEventsOptions): Promise<RejectResult>;
-    releaseEvents(lockTokens: string[], eventSubscriptionName: string, options?: ReleaseEventsOptions): Promise<ReleaseResult>;
-    renewEventLocks(lockTokens: string[], eventSubscriptionName: string, options?: RenewEventLocksOptions): Promise<RenewCloudEventLocksResult>;
+    acknowledgeEvents(lockTokens: string[], options?: AcknowledgeEventsOptions): Promise<AcknowledgeResult>;
+    receiveEvents<T>(options?: ReceiveEventsOptions): Promise<ReceiveResult<T>>;
+    rejectEvents(lockTokens: string[], options?: RejectEventsOptions): Promise<RejectResult>;
+    releaseEvents(lockTokens: string[], options?: ReleaseEventsOptions): Promise<ReleaseResult>;
+    renewEventLocks(lockTokens: string[], options?: RenewEventLocksOptions): Promise<RenewCloudEventLocksResult>;
 }
 
 // @public (undocumented)
 export interface EventGridReceiverClientOptions extends EventGridClientOptions {
+    // (undocumented)
+    eventSubscriptionName?: string;
     // (undocumented)
     topicName?: string;
 }
@@ -112,6 +116,8 @@ export interface ReceiveDetails<T> {
 // @public (undocumented)
 export interface ReceiveEventsOptions extends ReceiveCloudEventsOptions {
     // (undocumented)
+    eventSubscriptionName?: string;
+    // (undocumented)
     topicName?: string;
 }
 
@@ -126,6 +132,8 @@ export interface RejectCloudEventsOptions extends OperationOptions {
 
 // @public (undocumented)
 export interface RejectEventsOptions extends RejectCloudEventsOptions {
+    // (undocumented)
+    eventSubscriptionName?: string;
     // (undocumented)
     topicName?: string;
 }
@@ -146,6 +154,8 @@ export type ReleaseDelay = string;
 
 // @public (undocumented)
 export interface ReleaseEventsOptions extends ReleaseCloudEventsOptions {
+    // (undocumented)
+    eventSubscriptionName?: string;
     // (undocumented)
     topicName?: string;
 }
@@ -168,6 +178,8 @@ export interface RenewCloudEventLocksResult {
 
 // @public (undocumented)
 export interface RenewEventLocksOptions extends RenewCloudEventLocksOptions {
+    // (undocumented)
+    eventSubscriptionName?: string;
     // (undocumented)
     topicName?: string;
 }

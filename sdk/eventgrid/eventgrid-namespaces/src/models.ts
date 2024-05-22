@@ -29,6 +29,7 @@ export interface EventGridSenderClientOptions extends EventGridOptions {
 
 export interface EventGridReceiverClientOptions extends EventGridOptions {
   topicName?: string;
+  eventSubscriptionName?: string;
 }
 
 export interface SendEventsOptions extends PublishCloudEventsOptions {
@@ -37,22 +38,27 @@ export interface SendEventsOptions extends PublishCloudEventsOptions {
 
 export interface ReceiveEventsOptions extends ReceiveCloudEventsOptions {
   topicName?: string;
+  eventSubscriptionName?: string;
 }
 
 export interface AcknowledgeEventsOptions extends AcknowledgeCloudEventsOptions {
   topicName?: string;
+  eventSubscriptionName?: string;
 }
 
 export interface ReleaseEventsOptions extends ReleaseCloudEventsOptions {
   topicName?: string;
+  eventSubscriptionName?: string;
 }
 
 export interface RejectEventsOptions extends RejectCloudEventsOptions {
   topicName?: string;
+  eventSubscriptionName?: string;
 }
 
 export interface RenewEventLocksOptions extends RenewCloudEventLocksOptions {
   topicName?: string;
+  eventSubscriptionName?: string;
 }
 
 /** Receive operation details per Cloud Event. */

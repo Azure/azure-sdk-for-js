@@ -21,7 +21,7 @@ dotenv.config();
 
 const endpoint = process.env["EVENT_GRID_NAMESPACES_ENDPOINT"] ?? "https://endpoint";
 const key = process.env["EVENT_GRID_NAMESPACES_KEY"] ?? "api_key";
-const eventSubscripionName = process.env["EVENT_SUBSCRIPTION_NAME"] ?? "testsubscription1";
+const eventSubscriptionName = process.env["EVENT_SUBSCRIPTION_NAME"] ?? "testsubscription1";
 const topicName = process.env["TOPIC_NAME"] ?? "testtopic1";
 
 export async function main(): Promise<void> {
@@ -44,10 +44,10 @@ export async function main(): Promise<void> {
   // Publish the Cloud Event
   await senderClient.sendEvent(cloudEvent, { topicName });
   // Receive the Published Cloud Event
-  const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents(
-    eventSubscripionName,
-    { topicName },
-  );
+  const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
+    topicName,
+    eventSubscriptionName,
+  });
   // The Received Cloud Event ID must be equal to the ID of the Event that was published.
   console.log(`Received Event ID: ${receiveResult.details[0].event.id}`);
 }
