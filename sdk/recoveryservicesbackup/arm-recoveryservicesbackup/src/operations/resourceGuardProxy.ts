@@ -20,7 +20,7 @@ import {
   ResourceGuardProxyDeleteOptionalParams,
   UnlockDeleteRequest,
   ResourceGuardProxyUnlockDeleteOptionalParams,
-  ResourceGuardProxyUnlockDeleteResponse
+  ResourceGuardProxyUnlockDeleteResponse,
 } from "../models";
 
 /** Class containing ResourceGuardProxy operations. */
@@ -47,11 +47,11 @@ export class ResourceGuardProxyImpl implements ResourceGuardProxy {
     vaultName: string,
     resourceGroupName: string,
     resourceGuardProxyName: string,
-    options?: ResourceGuardProxyGetOptionalParams
+    options?: ResourceGuardProxyGetOptionalParams,
   ): Promise<ResourceGuardProxyGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, resourceGuardProxyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -70,7 +70,7 @@ export class ResourceGuardProxyImpl implements ResourceGuardProxy {
     resourceGroupName: string,
     resourceGuardProxyName: string,
     parameters: ResourceGuardProxyBaseResource,
-    options?: ResourceGuardProxyPutOptionalParams
+    options?: ResourceGuardProxyPutOptionalParams,
   ): Promise<ResourceGuardProxyPutResponse> {
     return this.client.sendOperationRequest(
       {
@@ -78,9 +78,9 @@ export class ResourceGuardProxyImpl implements ResourceGuardProxy {
         resourceGroupName,
         resourceGuardProxyName,
         parameters,
-        options
+        options,
       },
-      putOperationSpec
+      putOperationSpec,
     );
   }
 
@@ -96,11 +96,11 @@ export class ResourceGuardProxyImpl implements ResourceGuardProxy {
     vaultName: string,
     resourceGroupName: string,
     resourceGuardProxyName: string,
-    options?: ResourceGuardProxyDeleteOptionalParams
+    options?: ResourceGuardProxyDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, resourceGuardProxyName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -118,7 +118,7 @@ export class ResourceGuardProxyImpl implements ResourceGuardProxy {
     resourceGroupName: string,
     resourceGuardProxyName: string,
     parameters: UnlockDeleteRequest,
-    options?: ResourceGuardProxyUnlockDeleteOptionalParams
+    options?: ResourceGuardProxyUnlockDeleteOptionalParams,
   ): Promise<ResourceGuardProxyUnlockDeleteResponse> {
     return this.client.sendOperationRequest(
       {
@@ -126,9 +126,9 @@ export class ResourceGuardProxyImpl implements ResourceGuardProxy {
         resourceGroupName,
         resourceGuardProxyName,
         parameters,
-        options
+        options,
       },
-      unlockDeleteOperationSpec
+      unlockDeleteOperationSpec,
     );
   }
 }
@@ -136,16 +136,15 @@ export class ResourceGuardProxyImpl implements ResourceGuardProxy {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGuardProxyBaseResource
+      bodyMapper: Mappers.ResourceGuardProxyBaseResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -153,22 +152,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGuardProxyName
+    Parameters.resourceGuardProxyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const putOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGuardProxyBaseResource
+      bodyMapper: Mappers.ResourceGuardProxyBaseResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters20,
   queryParameters: [Parameters.apiVersion],
@@ -177,22 +175,21 @@ const putOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGuardProxyName
+    Parameters.resourceGuardProxyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -200,22 +197,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGuardProxyName
+    Parameters.resourceGuardProxyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const unlockDeleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}/unlockDelete",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}/unlockDelete",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.UnlockDeleteResponse
+      bodyMapper: Mappers.UnlockDeleteResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters21,
   queryParameters: [Parameters.apiVersion],
@@ -224,9 +220,9 @@ const unlockDeleteOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGuardProxyName
+    Parameters.resourceGuardProxyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
