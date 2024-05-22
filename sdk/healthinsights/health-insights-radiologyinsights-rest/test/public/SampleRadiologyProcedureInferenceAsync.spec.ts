@@ -179,8 +179,8 @@ function findRadiologyProcedureInference(res: any): void {
   }
 }
 
-function displayCodes(codableConcept: any): void {
-  (codableConcept as { coding?: any[] }).coding?.forEach((coding) => {
+function displayCodes(codeableConcept: any): void {
+  (codeableConcept as { coding?: any[] }).coding?.forEach((coding) => {
     if ("code" in coding && "display" in coding && "system" in coding) {
       console.log(
         "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",

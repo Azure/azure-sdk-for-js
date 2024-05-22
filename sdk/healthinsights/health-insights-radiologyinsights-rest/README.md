@@ -8,7 +8,6 @@
 
 Key links:
 [Source code] | [Package (NPM)] | [API reference documentation] | [Product Information] | [Samples]
-[Source code] | [Package (NPM)] | [API reference documentation] | [Product Information] | [Samples]
 
 ## Getting started
 
@@ -308,17 +307,17 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
               console.log("Complete Order Discrepancy Inference found: ");
               if ("orderType" in inference) {
                 console.log("   Ordertype: ");
-                displayCodes({ codableConcept: inference.orderType });
+                displayCodes({ codeableConcept: inference.orderType });
               };
 
               inference.missingBodyParts?.forEach((bodyparts: any) => {
                 console.log("   Missing Body Parts: ");
-                displayCodes({ codableConcept: bodyparts });
+                displayCodes({ codeableConcept: bodyparts });
               });
 
               inference.missingBodyPartMeasurements?.forEach((bodymeasure: any) => {
                 console.log("   Missing Body Part Measurements: ");
-                displayCodes({ codableConcept: bodymeasure });
+                displayCodes({ codeableConcept: bodymeasure });
               });
             }
           });
@@ -332,8 +331,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     }
   }
 
-  function displayCodes({ codableConcept }: { codableConcept: any; }): void {
-    codableConcept.coding?.forEach((coding: any) => {
+  function displayCodes({ codeableConcept }: { codeableConcept: any; }): void {
+    codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
         console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
       }
@@ -393,8 +392,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     }
   }
 
-  function displayCodes(codableConcept: any): void {
-    codableConcept.coding?.forEach((coding: any) => {
+  function displayCodes(codeableConcept: any): void {
+    codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
         console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
       }
@@ -497,8 +496,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     }
   }
 
-  function displayCodes(codableConcept: any): void {
-    codableConcept.coding?.forEach((coding: any) => {
+  function displayCodes(codeableConcept: any): void {
+    codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
         console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
       }
@@ -550,8 +549,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     }
   }
 
-  function displayCodes(codableConcept: any): void {
-    codableConcept.coding?.forEach((coding: any) => {
+  function displayCodes(codeableConcept: any): void {
+    codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
         console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + "), type: " + coding.type);
       }
@@ -599,8 +598,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     }
   }
 
-  function displayCodes(codableConcept: any): void {
-    codableConcept.coding?.forEach((coding: any) => {
+  function displayCodes(codeableConcept: any): void {
+    codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
         console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
       }
@@ -656,8 +655,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     }
   }
 
-  function displayCodes(codableConcept: any): void {
-    codableConcept.coding?.forEach((coding: any) => {
+  function displayCodes(codeableConcept: any): void {
+    codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
         console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
       }
@@ -713,8 +712,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     }
   }
 
-  function displayCodes(codableConcept: any): void {
-    codableConcept.coding?.forEach((coding: any) => {
+  function displayCodes(codeableConcept: any): void {
+    codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
         console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
       }

@@ -31,7 +31,7 @@ function printResults(radiologyInsightsResult) {
               console.log("Complete Order Discrepancy Inference found: ");
               if ("orderType" in inference) {
                 console.log("   Ordertype: ");
-                displayCodes({ codableConcept: inference.orderType });
+                displayCodes({ codeableConcept: inference.orderType });
               };
 
               inference.missingBodyParts?.forEach((bodyparts) => {
@@ -58,8 +58,8 @@ function printResults(radiologyInsightsResult) {
   }
 }
 
-function displayCodes(codableConcept) {
-  codableConcept.coding?.forEach((coding) => {
+function displayCodes(codeableConcept) {
+  codeableConcept.coding?.forEach((coding) => {
     if ("code" in coding && "display" in coding && "system" in coding) {
       console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
     }

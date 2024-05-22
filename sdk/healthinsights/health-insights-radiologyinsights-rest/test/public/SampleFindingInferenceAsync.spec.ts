@@ -172,8 +172,8 @@ function findFinding(res: any): void {
     });
   }
 
-  function displayCodes(codableConcept: { coding: any[] }): void {
-    codableConcept.coding?.forEach((coding: any) => {
+  function displayCodes(codeableConcept: { coding: any[] }): void {
+    codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
         console.log(
           "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",

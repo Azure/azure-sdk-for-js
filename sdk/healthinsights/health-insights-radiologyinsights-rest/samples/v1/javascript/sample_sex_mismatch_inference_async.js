@@ -47,9 +47,9 @@ function printResults(radiologyInsightsResult) {
   }
 }
 
-function displayCode(codableConcept) {
-  if ("code" in codableConcept.coding) {
-    console.log("   Coding: " + codableConcept.coding.code + ", " + codableConcept.coding.display + " (" + codableConcept.coding.system + ")");
+function displayCode(codeableConcept) {
+  if ("code" in codeableConcept.coding) {
+    console.log("   Coding: " + codeableConcept.coding.code + ", " + codeableConcept.coding.display + " (" + codeableConcept.coding.system + ")");
   }
 }
 

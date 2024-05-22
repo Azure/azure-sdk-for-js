@@ -200,8 +200,8 @@ function findFollowUpRecommendation(res: any): void {
   }
 }
 
-function displayCodes(codableConcept: { coding: any[] }): void {
-  codableConcept.coding?.forEach((coding) => {
+function displayCodes(codeableConcept: { coding: any[] }): void {
+  codeableConcept.coding?.forEach((coding) => {
     if ("code" in coding && "display" in coding && "system" in coding) {
       console.log(
         "       Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
