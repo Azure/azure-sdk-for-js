@@ -103,7 +103,6 @@ The following sections provide several code snippets covering some of the most c
 - [Read an item](#read-an-item)
 - [Delete an item](#delete-an-data)
 - [CRUD on Container with hierarchical partition key](#container-hierarchical-partition-key)
-
 ### Create a database
 
 After authenticating your [CosmosClient](https://docs.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest), you can work with any resource in the account. The code snippet below creates a NOSQL API database.
@@ -123,16 +122,14 @@ console.log(container.id);
 ```
 
 ### Using Partition Keys
-
 This example shows various types of partition Keys supported.
-
 ```js
-await container.item("id", "1").read(); // string type
-await container.item("id", 2).read(); // number type
-await container.item("id", true).read(); // boolean type
-await container.item("id", {}).read(); // None type
-await container.item("id", undefined).read(); // None type
-await container.item("id", null).read(); // null type
+await container.item("id", "1").read();        // string type
+await container.item("id", 2).read();          // number type
+await container.item("id", true).read();       // boolean type
+await container.item("id", {}).read();         // None type
+await container.item("id", undefined).read();  // None type
+await container.item("id", null).read();       // null type
 ```
 
 If the Partition Key consists of a single value, it could be supplied either as a literal value, or an array.
@@ -143,13 +140,13 @@ await container.item("id", ["1"]).read();
 ```
 
 If the Partition Key consists of more than one values, it should be supplied as an array.
-
 ```js
 await container.item("id", ["a", "b"]).read();
 await container.item("id", ["a", 2]).read();
 await container.item("id", [{}, {}]).read();
 await container.item("id", ["a", {}]).read();
 await container.item("id", [2, null]).read();
+
 ```
 
 ### Insert items
@@ -162,7 +159,7 @@ This example inserts several items into the container
 const cities = [
   { id: "1", name: "Olympia", state: "WA", isCapitol: true },
   { id: "2", name: "Redmond", state: "WA", isCapitol: false },
-  { id: "3", name: "Chicago", state: "IL", isCapitol: false },
+  { id: "3", name: "Chicago", state: "IL", isCapitol: false }
 ];
 for (const city of cities) {
   await container.items.create(city);
@@ -176,11 +173,9 @@ To read a single item from a container, use [Item.read](https://docs.microsoft.c
 ```js
 await container.item("1", "1").read();
 ```
-
 ### CRUD on Container with hierarchical partition key
 
 Create a Container with hierarchical partition key
-
 ```js
 const containerDefinition = {
   id: "Test Database",
@@ -189,44 +184,38 @@ const containerDefinition = {
     version: PartitionKeyDefinitionVersion.V2,
     kind: PartitionKeyKind.MultiHash,
   },
-};
+}
 const { container } = await database.containers.createIfNotExists(containerDefinition);
 console.log(container.id);
 ```
-
 Insert an item with hierarchical partition key defined as - `["/name", "/address/zip"]`
-
 ```js
 const item = {
   id: "1",
-  name: "foo",
+  name: 'foo',
   address: {
-    zip: 100,
+    zip: 100
   },
-  active: true,
-};
+  active: true
+}
 await container.items.create(item);
 ```
 
 To read a single item from a container with hierarchical partition key defined as - `["/name", "/address/zip"],`
-
 ```js
 await container.item("1", ["foo", 100]).read();
 ```
-
 Query an item with hierarchical partition key with hierarchical partition key defined as - `["/name", "/address/zip"],`
-
 ```js
 const { resources } = await container.items
   .query("SELECT * from c WHERE c.active = true", {
-    partitionKey: ["foo", 100],
-  })
+          partitionKey: ["foo", 100],
+        })
   .fetchAll();
 for (const item of resources) {
   console.log(`${item.name}, ${item.address.zip} `);
 }
 ```
-
 ### Delete an item
 
 To delete items from a container, use [Item.delete](https://docs.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest#delete-requestoptions-).
@@ -255,7 +244,7 @@ Perform parameterized queries by passing an object containing the parameters and
 const { resources } = await container.items
   .query({
     query: "SELECT * from c WHERE c.isCapitol = @isCapitol",
-    parameters: [{ name: "@isCapitol", value: true }],
+    parameters: [{ name: "@isCapitol", value: true }]
   })
   .fetchAll();
 for (const city of resources) {
@@ -408,42 +397,35 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ### Diagnostics
 
-Cosmos Diagnostics feature provides enhanced insights into all your client operations. A CosmosDiagnostics object is added to response of all client operations. such as
-
+Cosmos Diagnostics feature provides enhanced insights into all your client operations. A CosmosDiagnostics object is added to response of all client operations. such as 
 - Point look up operation reponse - `item.read()`, `container.create()`, `database.delete()`
-- Query operation reponse -`queryIterator.fetchAll()`,
+- Query operation reponse -`queryIterator.fetchAll()`, 
 - Bulk and Batch operations -`item.batch()`.
 - Error/Exception response objects.
 
 A CosmosDiagnostics object is added to response of all client operations.
 There are 3 Cosmos Diagnostic levels, info, debug and debug-unsafe. Where only info is meant for production systems and debug and debug-unsafe are meant to be used during development and debugging, since they consume significantly higher resources. Cosmos Diagnostic level can be set in 2 ways
-
 - Programatically
-
 ```js
-const client = new CosmosClient({ endpoint, key, diagnosticLevel: CosmosDbDiagnosticLevel.debug });
+  const client = new CosmosClient({ endpoint, key, diagnosticLevel: CosmosDbDiagnosticLevel.debug });
 ```
-
 - Using environment variables. (Diagnostic level set by Environment variable has higher priority over setting it through client options.)
-
 ```bash
   export AZURE_COSMOSDB_DIAGNOSTICS_LEVEL="debug"
 ```
 
 Cosmos Diagnostic has three members
+- ClientSideRequestStatistics Type: Contains aggregates diagnostic details, including metadata lookups, retries, endpoints contacted, and request and response statistics like payload size and duration. (is always collected, can be used in production systems.) 
 
-- ClientSideRequestStatistics Type: Contains aggregates diagnostic details, including metadata lookups, retries, endpoints contacted, and request and response statistics like payload size and duration. (is always collected, can be used in production systems.)
+- DiagnosticNode: Is a tree-like structure that captures detailed diagnostic information. Similar to `har` recording present in browsers. This feature is disabled by default and is intended for debugging non-production environments only. (collected at diagnostic level debug and debug-unsafe) 
 
-- DiagnosticNode: Is a tree-like structure that captures detailed diagnostic information. Similar to `har` recording present in browsers. This feature is disabled by default and is intended for debugging non-production environments only. (collected at diagnostic level debug and debug-unsafe)
-
-- ClientConfig: Captures essential information related to client's configuration settings during client initialization. (collected at diagnostic level debug and debug-unsafe)
+- ClientConfig: Captures essential information related to client's configuration settings during client initialization. (collected at diagnostic level debug and debug-unsafe) 
 
 Please make sure to never set diagnostic level to `debug-unsafe` in production environment, since it this level `CosmosDiagnostics` captures request and response payloads and if you choose to log it (it is by default logged by @azure/logger at `verbose` level). These payloads might get captured in your log sinks.
 
 #### Consuming Diagnostics
 
-- Since `diagnostics` is added to all Response objects. You could programatically access `CosmosDiagnostic` as follows.
-
+- Since `diagnostics` is added to all Response objects. You could programatically access `CosmosDiagnostic` as follows. 
 ```js
   // For point look up operations
   const { container, diagnostics: containerCreateDiagnostic } =
@@ -461,8 +443,8 @@ Please make sure to never set diagnostic level to `debug-unsafe` in production e
       resourceBody: { id: 'A', key: "A", school: "high" },
     },
   ];
-  const response = await container.items.batch(operations, "A");
-
+  const response = await container.items.batch(operations, "A"); 
+  
   // For query operations
   const queryIterator = container.items.query("select * from c");
   const { resources, diagnostics } = await queryIterator.fetchAll();
@@ -474,9 +456,7 @@ Please make sure to never set diagnostic level to `debug-unsafe` in production e
     const diagnostics = err.diagnostics
   }
 ```
-
 - You could also log `diagnostics` using `@azure/logger`, diagnostic is always logged using `@azure/logger` at `verbose` level. So if you set Diagnostic level to `debug` or `debug-unsafe` and `@azure/logger` level to `verbose`, `diagnostics` will be logged.
-
 ## Next steps
 
 ### More sample code
@@ -492,31 +472,30 @@ Please make sure to never set diagnostic level to `debug-unsafe` in production e
 - Changing Database/Container throughput settings
 - Multi Region Write Operations
 
-### Limitations
+### Limitations 
 
 Currently the features below are **not supported**. For alternatives options, check the **Workarounds** section below.
 
 ### Data Plane Limitations:
 
-- Queries with COUNT from a DISTINCT subquery​
-- Direct TCP Mode access​
-- Aggregate cross-partition queries, like sorting, counting, and distinct, don't support continuation tokens. Streamable queries, like SELECT \* FROM <table> WHERE <condition>, support continuation tokens. See the "Workaround" section for executing non-streamable queries without a continuation token.
-- Change Feed: Processor
-- Change Feed: Read multiple partitions key values
-- Change Feed pull model all versions and delete mode [#27058](https://github.com/Azure/azure-sdk-for-js/issues/27058)
-- Change Feed pull model support for partial hierarchical partition keys [#27059](https://github.com/Azure/azure-sdk-for-js/issues/27059)
-- Cross-partition ORDER BY for mixed types
+* Queries with COUNT from a DISTINCT subquery​
+* Direct TCP Mode access​
+* Aggregate cross-partition queries, like sorting, counting, and distinct, don't support continuation tokens.       Streamable queries, like SELECT \* FROM <table> WHERE <condition>, support continuation tokens. See the "Workaround" section for executing non-streamable queries without a continuation token.
+* Change Feed: Processor
+* Change Feed: Read multiple partitions key values
+* Change Feed pull model all versions and delete mode [#27058](https://github.com/Azure/azure-sdk-for-js/issues/27058)
+* Change Feed pull model support for partial hierarchical partition keys [#27059](https://github.com/Azure/azure-sdk-for-js/issues/27059)
+* Cross-partition ORDER BY for mixed types
 
 ### Control Plane Limitations:
 
-- Get CollectionSizeUsage, DatabaseUsage, and DocumentUsage metrics​
-- Create Geospatial Index
-- Update Autoscale throughput
+* Get CollectionSizeUsage, DatabaseUsage, and DocumentUsage metrics​
+* Create Geospatial Index
+* Update Autoscale throughput
 
 ## Workarounds
 
 ### Continuation token for cross partitions queries
-
 You can achieve cross partition queries with continuation token support by using
 [Side car pattern](https://github.com/Azure-Samples/Cosmosdb-query-sidecar).
 This pattern can also enable applications to be composed of heterogeneous components and technologies.
@@ -527,7 +506,8 @@ To execute non-streamable queries without the use of continuation tokens, you ca
 
 ```javascript
 const querySpec = {
-  query: "SELECT c.status, COUNT(1) AS count FROM c GROUP BY c.status",
+  query: "SELECT * FROM c WHERE c.status = @status",
+  parameters: [{ name: "@status", value: "active" }],
 };
 const queryOptions = {
   maxItemCount: 10, // maximum number of items to return per page
@@ -543,8 +523,8 @@ while (querIterator.hasMoreResults()) {
 This approach can also be used for streamable queries.
 
 ### Control Plane operations
-
 Typically, you can use [Azure Portal](https://portal.azure.com/), [Azure Cosmos DB Resource Provider REST API](https://docs.microsoft.com/rest/api/cosmos-db-resource-provider), [Azure CLI](https://docs.microsoft.com/cli/azure/azure-cli-reference-for-cosmos-db) or [PowerShell](https://docs.microsoft.com/azure/cosmos-db/manage-with-powershell) for the control plane unsupported limitations.
+
 
 ### Additional documentation
 
