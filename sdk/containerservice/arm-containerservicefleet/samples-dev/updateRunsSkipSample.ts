@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
  *
  * @summary Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-02-02-preview/examples/UpdateRuns_Skip.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/UpdateRuns_Skip.json
  */
 async function skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun() {
   const subscriptionId =

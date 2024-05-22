@@ -13,29 +13,36 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Starts an UpdateRun.
+ * This sample demonstrates how to Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
  *
- * @summary Starts an UpdateRun.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-02-02-preview/examples/UpdateRuns_Start.json
+ * @summary Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/UpdateRuns_Skip.json
  */
-async function startsAnUpdateRun() {
+async function skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun() {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const fleetName = "fleet1";
   const updateRunName = "run1";
+  const body = {
+    targets: [
+      { name: "member-one", type: "Member" },
+      { name: "stage1", type: "AfterStageWait" },
+    ],
+  };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  const result = await client.updateRuns.beginStartAndWait(
+  const result = await client.updateRuns.beginSkipAndWait(
     resourceGroupName,
     fleetName,
     updateRunName,
+    body,
   );
   console.log(result);
 }
 
 async function main() {
-  startsAnUpdateRun();
+  skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun();
 }
 
 main().catch(console.error);
