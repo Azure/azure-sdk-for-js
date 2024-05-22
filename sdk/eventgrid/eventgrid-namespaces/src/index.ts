@@ -25,8 +25,6 @@ export { EventGridReceiverClient } from "./eventGridReceiverClient";
 
 export { EventGridClientOptions } from "./cadl-generated";
 
-export { PublishResultOutput } from "./cadl-generated/rest";
-
 export { OperationOptions } from "@azure-rest/core-client";
 
 export {

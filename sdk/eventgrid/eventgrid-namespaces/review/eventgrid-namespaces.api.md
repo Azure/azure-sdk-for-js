@@ -97,10 +97,6 @@ export interface PublishCloudEventsOptions extends OperationOptions {
     contentType?: string;
 }
 
-// @public
-export interface PublishResultOutput {
-}
-
 // @public (undocumented)
 export interface ReceiveCloudEventsOptions extends OperationOptions {
     maxEvents?: number;
