@@ -2,104 +2,71 @@
 // Licensed under the MIT license.
 
 import GeographyPoint from "./geographyPoint";
+import { walk } from "./walk";
 
 const ISO8601DateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/i;
 const GeoJSONPointTypeName = "Point";
 const WorldGeodeticSystem1984 = "EPSG:4326"; // See https://epsg.io/4326
 
+const [serializeValue, deserializeValue] = [
+  [serializeSpecialNumbers, serializeDates, serializeGeoPoint],
+  [deserializeSpecialNumbers, deserializeDates, deserializeGeoPoint],
+].map(
+  (fns) =>
+    (value: unknown): unknown =>
+      fns.reduceRight((acc, fn) => fn(acc), value),
+);
+
 export function serialize<OutputT>(obj: unknown): OutputT {
-  return walk(obj, (value) => {
-    const result = serializeSpecialNumbers(value);
-    return result;
-  });
+  return walk(obj, serializeValue) as OutputT;
 }
 
 export function deserialize<OutputT>(obj: unknown): OutputT {
-  return walk(obj, (value) => {
-    let result = deserializeSpecialNumbers(value);
-    result = deserializeDates(result);
-    result = deserializeGeoPoint(result);
-    return result;
-  });
-}
-
-function walk(start: unknown, mapper: (val: any) => any): any {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  const seenMarker = new WeakMap<object, boolean>();
-  const result = { value: undefined };
-  const queue: { value: any; parent: any; key: string }[] = [
-    { value: start, parent: result, key: "value" },
-  ];
-
-  while (queue.length) {
-    const current = queue.shift()!;
-
-    if (typeof current.value === "object" && current.value !== null) {
-      if (seenMarker.has(current.value)) {
-        continue;
-      } else {
-        seenMarker.set(current.value, true);
-      }
-    }
-
-    const mapped = mapper(current.value);
-    if (current?.parent && current.key) {
-      current.parent[current.key] = mapped;
-    }
-    if (typeof mapped === "object" && mapped !== null) {
-      for (const key of Object.keys(mapped)) {
-        queue.push({
-          value: mapped[key],
-          parent: mapped,
-          key,
-        });
-      }
-    }
-  }
-
-  return result.value;
+  return walk(obj, deserializeValue) as OutputT;
 }
 
 function serializeSpecialNumbers(input: unknown): unknown {
-  if (typeof input === "number") {
-    if (isNaN(input)) {
-      return "NaN";
-    } else if (input === Infinity) {
-      return "INF";
-    } else if (input === -Infinity) {
-      return "-INF";
-    }
+  if (typeof input === "number" && isNaN(input)) {
+    return "NaN";
+  } else if (input === Infinity) {
+    return "INF";
+  } else if (input === -Infinity) {
+    return "-INF";
+  } else {
+    return input;
   }
-  return input;
+}
+
+function serializeDates(input: unknown): string | unknown {
+  return input instanceof Date ? input.toISOString() : input;
+}
+
+function serializeGeoPoint(input: unknown): object | unknown {
+  return input instanceof GeographyPoint ? input.toJSON() : input;
 }
 
 function deserializeSpecialNumbers(input: unknown): unknown {
-  if (typeof input === "string") {
-    if (input === "NaN") {
+  switch (input) {
+    case "NaN":
       return NaN;
-    } else if (input === "INF") {
-      return Infinity;
-    } else if (input === "-INF") {
+    case "-INF":
       return -Infinity;
-    }
+    case "INF":
+      return Infinity;
+    default:
+      return input;
   }
-  return input;
 }
 
 function deserializeDates(input: unknown): Date | unknown {
-  if (typeof input === "string") {
-    if (ISO8601DateRegex.test(input)) {
-      return new Date(input);
-    }
-  }
-  return input;
+  return typeof input === "string" && ISO8601DateRegex.test(input) ? new Date(input) : input;
 }
 
 function deserializeGeoPoint(input: unknown): GeographyPoint | unknown {
   if (isGeoJSONPoint(input)) {
-    return new GeographyPoint({ longitude: input.coordinates[0], latitude: input.coordinates[1] });
+    const [longitude, latitude] = input.coordinates;
+    return new GeographyPoint({ longitude, latitude });
   }
-
   return input;
 }
 

@@ -4,7 +4,7 @@
 import { EnvVarKeys, getEnvVars } from "../../public/utils/testUtils";
 import { EnvironmentCredential, TokenCredential } from "@azure/identity";
 import { EventHubConsumerClient, EventHubProducerClient } from "../../../src";
-import { assert, should as shouldFn } from "@azure/test-utils";
+import { assert, should as shouldFn } from "@azure-tools/test-utils";
 
 import Sinon from "sinon";
 import { createMockServer } from "../../public/utils/mockService";

@@ -12,15 +12,12 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  ServiceClassificationRequest as ServiceClassificationRequestMapper,
-  ProblemClassificationsClassificationInput as ProblemClassificationsClassificationInputMapper,
   CheckNameAvailabilityInput as CheckNameAvailabilityInputMapper,
   UpdateSupportTicket as UpdateSupportTicketMapper,
   SupportTicketDetails as SupportTicketDetailsMapper,
   CommunicationDetails as CommunicationDetailsMapper,
   FileDetails as FileDetailsMapper,
   UploadFile as UploadFileMapper,
-  LookUpResourceIdRequest as LookUpResourceIdRequestMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -50,7 +47,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-01-preview",
+    defaultValue: "2024-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -70,6 +67,17 @@ export const serviceName: OperationURLParameter = {
   },
 };
 
+export const problemClassificationName: OperationURLParameter = {
+  parameterPath: "problemClassificationName",
+  mapper: {
+    serializedName: "problemClassificationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -82,9 +90,9 @@ export const contentType: OperationParameter = {
   },
 };
 
-export const serviceClassificationRequest: OperationParameter = {
-  parameterPath: "serviceClassificationRequest",
-  mapper: ServiceClassificationRequestMapper,
+export const checkNameAvailabilityInput: OperationParameter = {
+  parameterPath: "checkNameAvailabilityInput",
+  mapper: CheckNameAvailabilityInputMapper,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -96,41 +104,6 @@ export const subscriptionId: OperationURLParameter = {
       name: "Uuid",
     },
   },
-};
-
-export const problemClassificationsClassificationInput: OperationParameter = {
-  parameterPath: "problemClassificationsClassificationInput",
-  mapper: ProblemClassificationsClassificationInputMapper,
-};
-
-export const problemServiceName: OperationURLParameter = {
-  parameterPath: "problemServiceName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[0-9a-zA-Z_\\-. ]+$"),
-    },
-    serializedName: "problemServiceName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const problemClassificationName: OperationURLParameter = {
-  parameterPath: "problemClassificationName",
-  mapper: {
-    serializedName: "problemClassificationName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const checkNameAvailabilityInput: OperationParameter = {
-  parameterPath: "checkNameAvailabilityInput",
-  mapper: CheckNameAvailabilityInputMapper,
 };
 
 export const top: OperationQueryParameter = {
@@ -257,9 +230,4 @@ export const createFileParameters: OperationParameter = {
 export const uploadFile: OperationParameter = {
   parameterPath: "uploadFile",
   mapper: UploadFileMapper,
-};
-
-export const lookUpResourceIdRequest: OperationParameter = {
-  parameterPath: "lookUpResourceIdRequest",
-  mapper: LookUpResourceIdRequestMapper,
 };

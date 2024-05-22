@@ -11,7 +11,7 @@ import {
   VerifiedPartner,
   VerifiedPartnersListOptionalParams,
   VerifiedPartnersGetOptionalParams,
-  VerifiedPartnersGetResponse
+  VerifiedPartnersGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +22,7 @@ export interface VerifiedPartners {
    * @param options The options parameters.
    */
   list(
-    options?: VerifiedPartnersListOptionalParams
+    options?: VerifiedPartnersListOptionalParams,
   ): PagedAsyncIterableIterator<VerifiedPartner>;
   /**
    * Get properties of a verified partner.
@@ -31,6 +31,6 @@ export interface VerifiedPartners {
    */
   get(
     verifiedPartnerName: string,
-    options?: VerifiedPartnersGetOptionalParams
+    options?: VerifiedPartnersGetOptionalParams,
   ): Promise<VerifiedPartnersGetResponse>;
 }

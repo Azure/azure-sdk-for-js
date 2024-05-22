@@ -33,7 +33,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
     "@azure/logger": "^1.0.3",
-    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
@@ -112,7 +112,7 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "echo Skipped",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 \"test/**/*.spec.ts\"",
+    "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,

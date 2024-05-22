@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the private link resources for PostgreSQL server.
  *
  * @summary Gets the private link resources for PostgreSQL server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/PrivateLinkResourcesList.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/PrivateLinkResourcesList.json
  */
 async function getsPrivateLinkResourcesForPostgreSql() {
   const subscriptionId =
@@ -30,12 +30,12 @@ async function getsPrivateLinkResourcesForPostgreSql() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.privateLinkResources.listByServer(
     resourceGroupName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

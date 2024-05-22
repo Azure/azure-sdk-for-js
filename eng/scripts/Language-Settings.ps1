@@ -207,173 +207,12 @@ function Get-javascript-GithubIoDocIndex() {
   GenerateDocfxTocContent -tocContent $tocContent -lang "JavaScript" -campaignId "UA-62780441-43"
 }
 
-# "@azure/package-name@1.2.3" -> "@azure/package-name"
-function Get-PackageNameFromDocsMsConfig($DocsConfigName) {
-  if ($DocsConfigName -match '^(?<pkgName>.+?)(?<pkgVersion>@.+)?$') {
-    return $Matches['pkgName']
-  }
-  LogWarning "Could not find package name in ($DocsConfigName)"
-  return ''
-}
-
-# Given the name of a package (possibly of the form "@azure/package-name@1.2.3")
-# return a package name with the version specified in $packageVersion
-# "@azure/package-name@1.2.3" "1.3.0" -> "@azure/package-name@1.3.0"
-function Get-DocsMsPackageName($packageName, $packageVersion) {
-  return "$(Get-PackageNameFromDocsMsConfig $packageName)@$packageVersion"
-}
-
-function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $DocValidationImageId) {
-  Write-Host "Excluded packages:"
-  foreach ($excludedPackage in $PackageExclusions.Keys) {
-    Write-Host "  $excludedPackage - $($PackageExclusions[$excludedPackage])"
-  }
-
-  $FilteredMetadata = $DocsMetadata.Where({ !($PackageExclusions.ContainsKey($_.Package)) })
-
-  UpdateDocsMsPackages `
-  (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
-    'preview' `
-    $FilteredMetadata `
-  (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') `
-    $DocValidationImageId
-
-  UpdateDocsMsPackages `
-  (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
-    'latest' `
-    $FilteredMetadata `
-  (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json.log') `
-    $DocValidationImageId
-}
-
-function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHistoryLogFile, $DocValidationImageId) {
-  Write-Host "Updating configuration: $DocConfigFile with mode: $Mode"
-  $packageConfig = Get-Content $DocConfigFile -Raw | ConvertFrom-Json
-
-  $outputPackages = @()
-  foreach ($package in $packageConfig.npm_package_sources) {
-    $packageName = Get-PackageNameFromDocsMsConfig $package.name
-    # If Get-PackageNameFromDocsMsConfig cannot find the package name, keep the
-    # entry but do no additional processing on it.
-    if (!$packageName) {
-      LogWarning "Package name is not valid: ($($package.name)). Keeping entry in docs config but not updating."
-      $outputPackages += $package
-      continue
-    }
-
-    # Do not filter by GA/Preview status because we want differentiate between
-    # tracked and non-tracked packages
-    $matchingPublishedPackageArray = $DocsMetadata.Where( { $_.Package -eq $packageName })
-
-    # If this package does not match any published packages keep it in the list.
-    # This handles packages which are not tracked in metadata but still need to
-    # be built in Docs CI.
-    if ($matchingPublishedPackageArray.Count -eq 0) {
-      Write-Host "Keep non-tracked package: $($package.name)"
-      $outputPackages += $package
-      continue
-    }
-
-    if ($matchingPublishedPackageArray.Count -gt 1) {
-      LogWarning "Found more than one matching published package in metadata for $(package.name); only updating first entry"
-    }
-    $matchingPublishedPackage = $matchingPublishedPackageArray[0]
-
-    if ($Mode -eq 'preview' -and !$matchingPublishedPackage.VersionPreview.Trim()) {
-      # If we are in preview mode and the package does not have a superseding
-      # preview version, remove the package from the list.
-      Write-Host "Remove superseded preview package: $($package.name)"
-      continue
-    }
-
-    $packageVersion = $matchingPublishedPackage.VersionGA
-    if ($Mode -eq 'preview') {
-      $packageVersion = $matchingPublishedPackage.VersionPreview
-    }
-
-    # Package name comes in the form "<package-name>@<version>". The version may
-    # have changed. This parses the name of the package from the input and
-    # appends the version specified in the metadata.
-    # Mutate the package name because there may be other properties of the
-    # package which are not accounted for in this code (e.g. "folder" in JS
-    # packages)
-    $package.name = Get-DocsMsPackageName $package.name $packageVersion
-    Write-Host "Keep tracked package: $($package.name)"
-    $outputPackages += $package
-  }
-
-  $outputPackagesHash = @{}
-  foreach ($package in $outputPackages) {
-    $outputPackagesHash[(Get-PackageNameFromDocsMsConfig $package.name)] = $true
-  }
-
-  $remainingPackages = @()
-  if ($Mode -eq 'preview') {
-    $remainingPackages = $DocsMetadata.Where({
-        $_.VersionPreview.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
-      })
-  }
-  else {
-    $remainingPackages = $DocsMetadata.Where({
-        $_.VersionGA.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
-      })
-  }
-
-  # Add packages that exist in the metadata but are not onboarded in docs config
-  foreach ($package in $remainingPackages) {
-    # If Get-PackageNameFromDocsMsConfig cannot find the package name, skip
-    # adding it to the packages
-    if (!(Get-PackageNameFromDocsMsConfig $package.Package)) {
-      LogWarning "Package name not valid: ($($package.Package)). Skipping adding from metadata to docs config"
-      continue
-    }
-
-
-    $packageVersion = $package.VersionGA
-    if ($Mode -eq 'preview') {
-      $packageVersion = $package.VersionPreview
-    }
-    $packageName = Get-DocsMsPackageName $package.Package $packageVersion
-    Write-Host "Add new package from metadata: $packageName"
-    $outputPackages += @{ name = $packageName }
-  }
-
-  $packageValidation = ValidatePackagesForDocs $outputPackages $DocValidationImageId
-  $validationHash = @{}
-  foreach ($result in $packageValidation) {
-    $validationHash[$result.Package.name] = $result
-  }
-
-  # Remove invalid packages
-  $finalOutput = @()
-  foreach ($package in $outputPackages) {
-    if (!$validationHash[$package.name].Success) {
-      LogWarning "Removing invalid package: $($package.name)"
-
-      # If a package is removed create log entry for the removal
-      Add-Content `
-        -Path $PackageHistoryLogFile `
-        -Value @"
-Removed $($package.name) because of docs package validation failure on $(Get-Date -Format 'yyyy-MM-dd HH:mm K')
-`t$($validationHash[$package.name].Output -join "`n`t")
-"@
-      continue
-    }
-
-    $finalOutput += $package
-  }
-
-  $packageConfig.npm_package_sources = $finalOutput
-  $packageConfig | ConvertTo-Json -Depth 100 | Set-Content $DocConfigFile
-  Write-Host "Onboarding configuration written to: $DocConfigFile"
-}
-
 # function is used to auto generate API View
 function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName) {
   $artifactPath = Join-Path $artifactDir $packageName
   if (Test-Path $artifactPath) {
     Write-Host "Searching for *.api.json in path $($artifactPath)"
-    $files =  @(Get-ChildItem "${artifactPath}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") })
+    $files = @(Get-ChildItem "${artifactPath}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") })
     if (!$files) {
       Write-Host "$($packageName) does not have api review json"
       Write-Host "API Extractor must be enabled for $($packageName). Please ensure api-extractor.json is present in package directory and api extract script included in build script"
@@ -431,6 +270,7 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
   }
 
   $allSucceeded = $true
+  $failedPackages = @()
 
   foreach ($packageInfo in $PackageInfos) {
     $outputLocation = New-Item `
@@ -441,8 +281,17 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
     $output = & type2docfx "$($packageInfo.Name)@$($packageInfo.Version)" $outputLocation 2>&1
     if ($LASTEXITCODE) {
       $allSucceeded = $false
+      $failedPackages += $packageInfo.Name
       Write-Host "Package $($packageInfo.Name)@$($packageInfo.Version) failed validation"
       $output | Write-Host
+    }
+  }
+
+  # Show failed packages at the end of the run
+  if ($failedPackages.Count -gt 0) {
+    Write-Host "Failed package: $($failedPackages.Count)"
+    foreach ($failedPackage in $failedPackages) {
+      Write-Host "Failed package: $failedPackage"
     }
   }
 

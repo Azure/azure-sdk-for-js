@@ -77,7 +77,7 @@ describe("Client Tests", function (this: Suite) {
         });
         await client.databases.readAll().fetchAll();
       } catch (e: any) {
-        assert.equal(e.name, "CredentialUnavailableError");
+        assert.equal(e.name, "AuthenticationRequiredError");
       }
     });
   });

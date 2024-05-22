@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
+import { HttpResponse } from "@azure-rest/core-client";
 import {
   AudioTranscriptionOutput,
   AudioTranslationOutput,
@@ -11,6 +11,7 @@ import {
   ImageGenerationsOutput,
   EmbeddingsOutput,
 } from "./outputModels.js";
+import { ErrorResponse } from "./models.js";
 
 /** The request has succeeded. */
 export interface GetAudioTranscriptionAsPlainText200Response extends HttpResponse {

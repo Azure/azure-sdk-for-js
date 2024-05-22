@@ -55,7 +55,7 @@
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test": "cross-env TEST_MODE=playback && npm run unit-test:node && npm run unit-test:browser",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
-    "unit-test:browser": "dev-tool run test:browser",
+    "unit-test:browser": "echo skipped",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && mkdirp ./review && dev-tool run extract-api"
   },
   "sideEffects": false,

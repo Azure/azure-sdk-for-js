@@ -33,7 +33,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-js-input --no-test-proxy=true",
+    "unit-test:node": "dev-tool run test:node-js-input --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -60,10 +60,10 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client/README.md",
   "sideEffects": false,
   "dependencies": {
-    "tslib": "^2.2.0",
+    "tslib": "^2.6.2",
     "@azure/logger": "^1.0.0",
     "@azure/web-pubsub-client": "1.0.0-beta.2",
-    "protobufjs": "~7.2.2",
+    "protobufjs": "~7.3.0",
     "long": "^5.2.1"
   },
   "devDependencies": {
@@ -104,7 +104,7 @@
     "source-map-support": "^0.5.9",
     "typescript": "~5.4.5",
     "@azure/web-pubsub": "^1.1.0",
-    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "mock-socket": "^9.1.5",
     "util": "^0.12.1",
     "@types/ws": "^7.4.5",

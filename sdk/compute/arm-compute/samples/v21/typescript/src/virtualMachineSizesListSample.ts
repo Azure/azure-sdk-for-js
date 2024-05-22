@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
  *
  * @summary This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/computeRPCommonExamples/VirtualMachineSizes_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/computeRPCommonExamples/VirtualMachineSizes_List_MaximumSet_Gen.json
  */
 async function virtualMachineSizesListMaximumSetGen() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function virtualMachineSizesListMaximumSetGen() {
  * This sample demonstrates how to This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
  *
  * @summary This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/computeRPCommonExamples/VirtualMachineSizes_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/computeRPCommonExamples/VirtualMachineSizes_List_MinimumSet_Gen.json
  */
 async function virtualMachineSizesListMinimumSetGen() {
   const subscriptionId =

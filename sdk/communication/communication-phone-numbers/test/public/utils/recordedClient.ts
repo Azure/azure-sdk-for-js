@@ -14,7 +14,7 @@ import {
 import { PhoneNumbersClient } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
-import { isNode } from "@azure/test-utils";
+import { isNode } from "@azure-tools/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 

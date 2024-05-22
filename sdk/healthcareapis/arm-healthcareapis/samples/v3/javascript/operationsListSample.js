@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all of the available operations supported by Microsoft Healthcare resource provider.
  *
  * @summary Lists all of the available operations supported by Microsoft Healthcare resource provider.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/OperationsList.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/OperationsList.json
  */
 async function listOperations() {
   const subscriptionId =

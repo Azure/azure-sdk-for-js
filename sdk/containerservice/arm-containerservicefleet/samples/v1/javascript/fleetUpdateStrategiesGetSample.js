@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a FleetUpdateStrategy
  *
  * @summary Get a FleetUpdateStrategy
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2023-10-15/examples/UpdateStrategies_Get.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/UpdateStrategies_Get.json
  */
 async function getAFleetUpdateStrategyResource() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function getAFleetUpdateStrategyResource() {
   const result = await client.fleetUpdateStrategies.get(
     resourceGroupName,
     fleetName,
-    updateStrategyName
+    updateStrategyName,
   );
   console.log(result);
 }

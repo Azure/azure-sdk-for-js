@@ -106,6 +106,16 @@ export interface AzureDeveloperCliCredentialOptions extends MultiTenantTokenCred
 }
 
 // @public
+export class AzurePipelinesCredential implements TokenCredential {
+    constructor(tenantId: string, clientId: string, serviceConnectionId: string, options?: AzurePipelinesCredentialOptions);
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public
+export interface AzurePipelinesCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
+}
+
+// @public
 export class AzurePowerShellCredential implements TokenCredential {
     constructor(options?: AzurePowerShellCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;

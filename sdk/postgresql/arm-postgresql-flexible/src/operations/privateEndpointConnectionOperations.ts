@@ -14,7 +14,7 @@ import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -22,12 +22,13 @@ import {
   PrivateEndpointConnectionUpdateOptionalParams,
   PrivateEndpointConnectionUpdateResponse,
   PrivateEndpointConnectionDeleteOptionalParams,
-  PrivateEndpointConnectionDeleteResponse
+  PrivateEndpointConnectionDeleteResponse,
 } from "../models";
 
 /** Class containing PrivateEndpointConnectionOperations operations. */
 export class PrivateEndpointConnectionOperationsImpl
-  implements PrivateEndpointConnectionOperations {
+  implements PrivateEndpointConnectionOperations
+{
   private readonly client: PostgreSQLManagementFlexibleServerClient;
 
   /**
@@ -51,7 +52,7 @@ export class PrivateEndpointConnectionOperationsImpl
     serverName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionUpdateOptionalParams
+    options?: PrivateEndpointConnectionUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionUpdateResponse>,
@@ -60,21 +61,20 @@ export class PrivateEndpointConnectionOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PrivateEndpointConnectionUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -83,8 +83,8 @@ export class PrivateEndpointConnectionOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -92,8 +92,8 @@ export class PrivateEndpointConnectionOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -104,16 +104,16 @@ export class PrivateEndpointConnectionOperationsImpl
         serverName,
         privateEndpointConnectionName,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       PrivateEndpointConnectionUpdateResponse,
       OperationState<PrivateEndpointConnectionUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -132,14 +132,14 @@ export class PrivateEndpointConnectionOperationsImpl
     serverName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionUpdateOptionalParams
+    options?: PrivateEndpointConnectionUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       serverName,
       privateEndpointConnectionName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -155,7 +155,7 @@ export class PrivateEndpointConnectionOperationsImpl
     resourceGroupName: string,
     serverName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionDeleteOptionalParams
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionDeleteResponse>,
@@ -164,21 +164,20 @@ export class PrivateEndpointConnectionOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PrivateEndpointConnectionDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -187,8 +186,8 @@ export class PrivateEndpointConnectionOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -196,8 +195,8 @@ export class PrivateEndpointConnectionOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -207,9 +206,9 @@ export class PrivateEndpointConnectionOperationsImpl
         resourceGroupName,
         serverName,
         privateEndpointConnectionName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       PrivateEndpointConnectionDeleteResponse,
@@ -217,7 +216,7 @@ export class PrivateEndpointConnectionOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -234,13 +233,13 @@ export class PrivateEndpointConnectionOperationsImpl
     resourceGroupName: string,
     serverName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionDeleteOptionalParams
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
   ): Promise<PrivateEndpointConnectionDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serverName,
       privateEndpointConnectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -249,25 +248,24 @@ export class PrivateEndpointConnectionOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
@@ -276,32 +274,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.privateEndpointConnectionName
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.PrivateEndpointConnectionDeleteHeaders
+      headersMapper: Mappers.PrivateEndpointConnectionDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.PrivateEndpointConnectionDeleteHeaders
+      headersMapper: Mappers.PrivateEndpointConnectionDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.PrivateEndpointConnectionDeleteHeaders
+      headersMapper: Mappers.PrivateEndpointConnectionDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.PrivateEndpointConnectionDeleteHeaders
+      headersMapper: Mappers.PrivateEndpointConnectionDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -309,8 +306,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.privateEndpointConnectionName
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

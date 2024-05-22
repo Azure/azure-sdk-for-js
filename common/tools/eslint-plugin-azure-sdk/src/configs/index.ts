@@ -1,21 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * @file Definition of configs
- * @author Arpan Laha
- */
+import eslint from "@eslint/js";
+import typescriptEslint from "typescript-eslint";
+import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
+import eslintConfigPrettier from "eslint-config-prettier";
+import markdown from "eslint-plugin-markdown";
 
+import eslintCustomized from "./eslint-customized";
+import markdownCustomized from "./markdown-customized";
+import azureSdkCustomized from "./azure-sdk-customized";
+
+// to keep compat with old .eslintrc style usage
 import rootConfig from "./azure-sdk-base";
 
-/**
- * An object containing configurations available for the plugin
- */
-export = {
-  /**
-   * The recommended (default) configuration
-   */
-  recommended: {
+function recommended(plugin: FlatConfig.Plugin) {
+  return typescriptEslint.config(
+    {
+      name: "azsdk-skip-generated",
+      ignores: ["**/generated/**"],
+    },
+    {
+      languageOptions: {
+        parser: typescriptEslint.parser,
+        parserOptions: {
+          project: ["./tsconfig.json"],
+        },
+      },
+    },
+    eslint.configs.recommended,
+    ...typescriptEslint.configs.recommended,
+    typescriptEslint.configs.eslintRecommended,
+    eslintConfigPrettier,
+    {
+      plugins: {
+        "@azure/azure-sdk": plugin,
+        markdown,
+      },
+    },
+    // azure sdk customized
+    eslintCustomized,
+    ...markdownCustomized,
+    ...azureSdkCustomized(typescriptEslint.parser),
+  );
+}
+
+export default (plugin: FlatConfig.Plugin) => ({
+  recommended: recommended(plugin),
+  "recommended-legacy": {
     plugins: ["@azure/azure-sdk"],
     env: {
       node: true,
@@ -61,4 +93,4 @@ export = {
     },
   },
   "azure-sdk-base": rootConfig,
-};
+});

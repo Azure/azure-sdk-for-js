@@ -5,7 +5,7 @@ import { Context } from "mocha";
 import { OpenAIClient } from "../../src/index.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 describe("Request options", () => {
   let client: OpenAIClient;

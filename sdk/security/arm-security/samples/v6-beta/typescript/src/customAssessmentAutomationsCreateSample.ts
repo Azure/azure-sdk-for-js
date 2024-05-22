@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CustomAssessmentAutomationRequest,
-  SecurityCenter
+  SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -37,14 +37,14 @@ async function createACustomAssessmentAutomation() {
     displayName: "Password Policy",
     remediationDescription: "Encrypt store by...",
     severity: "Medium",
-    supportedCloud: "AWS"
+    supportedCloud: "AWS",
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.customAssessmentAutomations.create(
     resourceGroupName,
     customAssessmentAutomationName,
-    customAssessmentAutomationBody
+    customAssessmentAutomationBody,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a Managed CCF with the specified Managed CCF parameters.
  *
  * @summary Creates a Managed CCF with the specified Managed CCF parameters.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ManagedCCF_Create.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ManagedCCF_Create.json
  */
 async function managedCcfCreate() {
   const subscriptionId =
@@ -49,7 +49,7 @@ async function managedCcfCreate() {
   const result = await client.managedCCFOperations.beginCreateAndWait(
     resourceGroupName,
     appName,
-    managedCCF
+    managedCCF,
   );
   console.log(result);
 }

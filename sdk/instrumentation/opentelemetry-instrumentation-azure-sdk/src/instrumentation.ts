@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type * as coreTracing from "@azure/core-tracing";
 import {
   Instrumentation,
   InstrumentationBase,
@@ -33,22 +32,18 @@ class AzureSdkInstrumentation extends InstrumentationBase {
    *
    * @returns The patched \@azure/core-tracing module after setting its instrumenter.
    */
-  protected init():
-    | void
-    | InstrumentationModuleDefinition<typeof coreTracing>
-    | InstrumentationModuleDefinition<typeof coreTracing>[] {
-    const result: InstrumentationModuleDefinition<typeof coreTracing> =
-      new InstrumentationNodeModuleDefinition(
-        "@azure/core-tracing",
-        ["^1.0.0-preview.14", "^1.0.0"],
-        (moduleExports) => {
-          if (typeof moduleExports.useInstrumenter === "function") {
-            moduleExports.useInstrumenter(new OpenTelemetryInstrumenter());
-          }
+  protected init(): void | InstrumentationModuleDefinition | InstrumentationModuleDefinition[] {
+    const result: InstrumentationModuleDefinition = new InstrumentationNodeModuleDefinition(
+      "@azure/core-tracing",
+      ["^1.0.0-preview.14", "^1.0.0"],
+      (moduleExports) => {
+        if (typeof moduleExports.useInstrumenter === "function") {
+          moduleExports.useInstrumenter(new OpenTelemetryInstrumenter());
+        }
 
-          return moduleExports;
-        },
-      );
+        return moduleExports;
+      },
+    );
     // Needed to support 1.0.0-preview.14
     result.includePrerelease = true;
     return result;

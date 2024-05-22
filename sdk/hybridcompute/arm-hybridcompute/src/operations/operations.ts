@@ -15,7 +15,7 @@ import { HybridComputeManagementClient } from "../hybridComputeManagementClient"
 import {
   OperationValue,
   OperationsListOptionalParams,
-  OperationsListResponse
+  OperationsListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export class OperationsImpl implements Operations {
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): PagedAsyncIterableIterator<OperationValue> {
     const iter = this.listPagingAll(options);
     return {
@@ -51,13 +51,13 @@ export class OperationsImpl implements Operations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: OperationsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<OperationValue[]> {
     let result: OperationsListResponse;
     result = await this._list(options);
@@ -65,7 +65,7 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): AsyncIterableIterator<OperationValue> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -77,7 +77,7 @@ export class OperationsImpl implements Operations {
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -90,14 +90,14 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

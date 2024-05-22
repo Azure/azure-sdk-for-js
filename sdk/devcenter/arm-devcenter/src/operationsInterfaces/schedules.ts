@@ -18,7 +18,8 @@ import {
   ScheduleUpdate,
   SchedulesUpdateOptionalParams,
   SchedulesUpdateResponse,
-  SchedulesDeleteOptionalParams
+  SchedulesDeleteOptionalParams,
+  SchedulesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +36,7 @@ export interface Schedules {
     resourceGroupName: string,
     projectName: string,
     poolName: string,
-    options?: SchedulesListByPoolOptionalParams
+    options?: SchedulesListByPoolOptionalParams,
   ): PagedAsyncIterableIterator<Schedule>;
   /**
    * Gets a schedule resource.
@@ -50,7 +51,7 @@ export interface Schedules {
     projectName: string,
     poolName: string,
     scheduleName: string,
-    options?: SchedulesGetOptionalParams
+    options?: SchedulesGetOptionalParams,
   ): Promise<SchedulesGetResponse>;
   /**
    * Creates or updates a Schedule.
@@ -67,7 +68,7 @@ export interface Schedules {
     poolName: string,
     scheduleName: string,
     body: Schedule,
-    options?: SchedulesCreateOrUpdateOptionalParams
+    options?: SchedulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SchedulesCreateOrUpdateResponse>,
@@ -89,7 +90,7 @@ export interface Schedules {
     poolName: string,
     scheduleName: string,
     body: Schedule,
-    options?: SchedulesCreateOrUpdateOptionalParams
+    options?: SchedulesCreateOrUpdateOptionalParams,
   ): Promise<SchedulesCreateOrUpdateResponse>;
   /**
    * Partially updates a Scheduled.
@@ -106,7 +107,7 @@ export interface Schedules {
     poolName: string,
     scheduleName: string,
     body: ScheduleUpdate,
-    options?: SchedulesUpdateOptionalParams
+    options?: SchedulesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SchedulesUpdateResponse>,
@@ -128,7 +129,7 @@ export interface Schedules {
     poolName: string,
     scheduleName: string,
     body: ScheduleUpdate,
-    options?: SchedulesUpdateOptionalParams
+    options?: SchedulesUpdateOptionalParams,
   ): Promise<SchedulesUpdateResponse>;
   /**
    * Deletes a Scheduled.
@@ -143,8 +144,13 @@ export interface Schedules {
     projectName: string,
     poolName: string,
     scheduleName: string,
-    options?: SchedulesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: SchedulesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SchedulesDeleteResponse>,
+      SchedulesDeleteResponse
+    >
+  >;
   /**
    * Deletes a Scheduled.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -158,6 +164,6 @@ export interface Schedules {
     projectName: string,
     poolName: string,
     scheduleName: string,
-    options?: SchedulesDeleteOptionalParams
-  ): Promise<void>;
+    options?: SchedulesDeleteOptionalParams,
+  ): Promise<SchedulesDeleteResponse>;
 }

@@ -81,7 +81,7 @@
 
 # PRLabel: %Communication - Alpha IDs
 # ServiceLabel: %Communication - Alpha IDs
-/sdk/communication/communication-alpha-ids/ @danielav7
+/sdk/communication/communication-alpha-ids/ @miguhern
 
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
@@ -113,7 +113,7 @@
 
 # PRLabel: %Communication - Short Codes
 # ServiceLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @danielav7
+/sdk/communication/communication-short-codes/ @miguhern
 
 # PRLabel: %Communication - Common
 # ServiceLabel: %Communication - Common
@@ -278,7 +278,7 @@
 /common/smoke-test/ @xirzec @jeremymeng
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng @mpodwysocki
+/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng @mpodwysocki @maorleger
 
 
 # Management Plane
@@ -452,6 +452,10 @@
 
 # PRLabel: %Mgmt
 /sdk/devspaces/arm-devspaces/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/deviceregistry/arm-deviceregistry/ @qiaozha @MaryGao
+
 # PRLabel: %Mgmt
 /sdk/defendereasm/arm-defendereasm/ @qiaozha @MaryGao
 
@@ -490,6 +494,9 @@
 
 # PRLabel: %Mgmt
 /sdk/frontdoor/arm-frontdoor/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/guestconfiguration/arm-guestconfiguration/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/hanaonazure/arm-hanaonazure/ @qiaozha @MaryGao
@@ -742,6 +749,9 @@
 
 # PRLabel: %Mgmt
 /sdk/search/arm-search/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/standbypool/arm-standbypool/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/springappdiscovery/arm-springappdiscovery/ @qiaozha @MaryGao
@@ -1129,9 +1139,6 @@
 # ServiceLabel: %Digital Twins %Service Attention
 #/<NotInRepo>/          @sourabhguha @inesk-vt
 
-# ServiceLabel: %Event Grid %Service Attention
-#/<NotInRepo>/          @jfggdl
-
 # ServiceLabel: %Event Hubs %Service Attention
 #/<NotInRepo>/          @kasun04
 
@@ -1275,9 +1282,6 @@
 
 # ServiceLabel: %Redis Cache %Service Attention
 #/<NotInRepo>/          @yegu-ms
-
-# ServiceLabel: %Relay %Service Attention
-#/<NotInRepo>/          @jfggdl
 
 # ServiceLabel: %Reservations %Service Attention
 #/<NotInRepo>/          @Rkapso
@@ -1496,6 +1500,7 @@
 
 # Add owners for notifications for specific pipelines
 /eng/pipelines/aggregate-reports.yml         @xirzec @jeremymeng
+/eng/common/pipelines/codeowners-linter.yml  @xirzec @jeremymeng
 
 # PRLabel: %Mgmt
 /**/ci.mgmt.yml   @qiaozha @MaryGao

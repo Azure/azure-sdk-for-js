@@ -5,7 +5,7 @@ export default {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     sourceType: "module",
-    extraFileExtensions: [".json", ".javascript"],
+    extraFileExtensions: [".json"],
   },
   plugins: [
     "@typescript-eslint",
@@ -15,14 +15,15 @@ export default {
     "import",
     "markdown",
   ],
-  extends: ["eslint:recommended", "plugin:promise/recommended", "prettier"],
   env: {
     mocha: true,
+    es2017: true,
   },
   ignorePatterns: ["**/generated/**"],
   overrides: [
     {
       files: ["*.ts", "*.cts", "*.mts", "*.tsx", "*.json"],
+      excludedFiles: ["**/*.md/*.ts", "**/*.md/*.json", "**/src/**/*.json", "**/test/**/*.json"],
       parserOptions: {
         project: [
           "./tsconfig.json",
@@ -30,23 +31,26 @@ export default {
         ],
       },
       extends: [
+        "eslint:recommended",
+        "plugin:promise/recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "prettier",
-        "plugin:@azure/azure-sdk/recommended",
+        "plugin:@azure/azure-sdk/recommended-legacy",
       ],
       rules: {
         curly: ["error", "multi-line"],
         "eol-last": ["error", "always"],
         eqeqeq: ["error", "always", { null: "ignore" }],
-        "import/no-extraneous-dependencies": [
-          "error",
-          {
-            devDependencies: ["test/**/*.ts", "samples/**", "**/karma.conf.js", "**/.eslintrc.js"],
-            optionalDependencies: false,
-            peerDependencies: false,
-          },
-        ],
+        // https://github.com/import-js/eslint-plugin-import/issues/2948
+        // "import/no-extraneous-dependencies": [
+        //   "error",
+        //   {
+        //     devDependencies: ["test/**/*.ts", "samples/**", "**/karma.conf.js", "**/.eslintrc.js"],
+        //     optionalDependencies: false,
+        //     peerDependencies: false,
+        //   },
+        // ],
         "no-console": "off",
         "no-dupe-class-members": "off",
         "no-invalid-this": "off",
@@ -140,9 +144,11 @@ export default {
       processor: "markdown/markdown",
     },
     {
-      files: ["**/*.md/*.{js,javascript}"],
+      files: ["*.md/*.js"],
       extends: ["plugin:markdown/recommended-legacy"],
       rules: {
+        "no-unused-vars": "off",
+        "no-undef": "off",
         "no-restricted-imports": [
           "error",
           {
@@ -154,6 +160,19 @@ export default {
             ],
           },
         ],
+      },
+    },
+    {
+      files: ["*md/*.ts"],
+      parserOptions: {
+        project: null,
+      },
+      extends: [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+      ],
+      rules: {
+        "@typescript-eslint/no-unused-vars": "off",
       },
     },
   ],

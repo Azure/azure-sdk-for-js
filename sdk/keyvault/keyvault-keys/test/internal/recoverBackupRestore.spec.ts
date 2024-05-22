@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { Context } from "mocha";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { KeyClient } from "../../src";
 import { getServiceVersion } from "../public/utils/common";
 import { testPollerProperties } from "../public/utils/recorderUtils";
@@ -74,7 +74,7 @@ describe("Keys client - restore keys and recover backups", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const result = await client.backupKey(keyName);
-    if (isNode) {
+    if (isNodeLike) {
       assert.equal(Buffer.isBuffer(result), true, "Unexpected return value from backupKey()");
     } else {
       assert.equal(result!.constructor, Uint8Array, "Unexpected return value from backupKey()");

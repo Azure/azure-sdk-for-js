@@ -30,7 +30,7 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "dev-tool run test:node-js-input --no-test-proxy=true",
+    "integration-test:node": "dev-tool run test:node-js-input --no-test-proxy",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
@@ -39,7 +39,7 @@
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "dev-tool run test:node-tsx-ts --no-test-proxy=true",
+    "unit-test:node": "dev-tool run test:node-tsx-ts --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -71,8 +71,8 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^1.8.0",
-    "@opentelemetry/core": "^1.23.0",
-    "@opentelemetry/instrumentation": "^0.50.0",
+    "@opentelemetry/core": "^1.24.0",
+    "@opentelemetry/instrumentation": "^0.51.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
@@ -80,8 +80,8 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "@opentelemetry/sdk-trace-base": "^1.23.0",
-    "@opentelemetry/sdk-trace-node": "^1.23.0",
+    "@opentelemetry/sdk-trace-base": "^1.24.0",
+    "@opentelemetry/sdk-trace-node": "^1.24.0",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",

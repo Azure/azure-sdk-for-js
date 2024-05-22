@@ -30,7 +30,7 @@ import { singleMessagePromise } from "./streamingReceiver.spec";
 import { defer } from "./unit/unittestUtils";
 const should = chai.should();
 const expect = chai.expect;
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe("Streaming with sessions", () => {

@@ -925,6 +925,88 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     }
   }
 
+  private async _deleteMessages(
+    messageCount: number,
+    enqueueTimeUtcOlderThan: Date,
+    sessionId?: string,
+    options?: OperationOptionsBase & SendManagementRequestOptions,
+  ): Promise<number> {
+    try {
+      const messageBody: any = {};
+      messageBody[Constants.messageCount] = types.wrap_int(messageCount);
+      messageBody[Constants.enqueuedTimeUtc] = enqueueTimeUtcOlderThan;
+      if (isDefined(sessionId)) {
+        messageBody[Constants.sessionIdMapKey] = sessionId;
+      }
+
+      const updatedOptions = await this.initWithUniqueReplyTo(options);
+      const request: RheaMessage = {
+        body: messageBody,
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.operations.deleteMessages,
+        },
+      };
+      if (updatedOptions?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
+      }
+      request.application_properties![Constants.trackingId] = generate_uuid();
+      receiverLogger.verbose("%s delete messages request body: %O.", this.logPrefix, request.body);
+
+      const result = await this._makeManagementRequest(request, receiverLogger, updatedOptions);
+      if (result.application_properties!.statusCode === 200) {
+        return result.body["message-count"];
+      } else if (
+        result.application_properties!.statusCode === 204 &&
+        result.application_properties!.errorCondition === "com.microsoft:message-not-found"
+      ) {
+        return 0;
+      } else {
+        throw new Error(
+          `Unexpected response with status code of ${result.application_properties!.statusCode}`,
+        );
+      }
+    } catch (err: any) {
+      const error = translateServiceBusError(err) as MessagingError;
+      receiverLogger.logError(
+        error,
+        `${this.logPrefix} An error occurred while sending the request to delete messages to $management endpoint`,
+      );
+      throw error;
+    }
+  }
+
+  /**
+   * Delete messages. If no option is specified, all messages will be deleted.
+   *
+   * @param messageCount - number of messages to delete in a batch.
+   * @param enqueueTimeUtcOlderThan - Delete messages whose enqueue time (UTC) are older than this.
+   * @returns number of messages deleted.
+   */
+  async deleteMessages(
+    messageCount: number,
+    enqueueTimeUtcOlderThan?: Date,
+    sessionId?: string,
+    options: OperationOptionsBase & SendManagementRequestOptions = {},
+  ): Promise<number> {
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "messageCount", messageCount);
+    throwTypeErrorIfParameterTypeMismatch(
+      this._context.connectionId,
+      "messageCount",
+      messageCount,
+      "number",
+    );
+
+    if (isNaN(messageCount) || messageCount < 1) {
+      throw new TypeError("'messageCount' must be a number greater than 0.");
+    }
+
+    enqueueTimeUtcOlderThan ??= new Date();
+
+    return this._deleteMessages(messageCount, enqueueTimeUtcOlderThan, sessionId, options);
+  }
+
   /**
    * Updates the disposition status of deferred messages.
    *

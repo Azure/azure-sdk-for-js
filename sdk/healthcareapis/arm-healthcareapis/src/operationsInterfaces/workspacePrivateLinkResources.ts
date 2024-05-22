@@ -11,7 +11,7 @@ import {
   PrivateLinkResourceDescription,
   WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams,
   WorkspacePrivateLinkResourcesGetOptionalParams,
-  WorkspacePrivateLinkResourcesGetResponse
+  WorkspacePrivateLinkResourcesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface WorkspacePrivateLinkResources {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams
+    options?: WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResourceDescription>;
   /**
    * Gets a private link resource that need to be created for a workspace.
@@ -39,6 +39,6 @@ export interface WorkspacePrivateLinkResources {
     resourceGroupName: string,
     workspaceName: string,
     groupName: string,
-    options?: WorkspacePrivateLinkResourcesGetOptionalParams
+    options?: WorkspacePrivateLinkResourcesGetOptionalParams,
   ): Promise<WorkspacePrivateLinkResourcesGetResponse>;
 }

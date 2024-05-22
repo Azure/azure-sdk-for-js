@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   UpdateIotSecuritySolutionData,
-  SecurityCenter
+  SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,21 +32,21 @@ async function useThisMethodToUpdateExistingIoTSecuritySolution() {
   const updateIotSecuritySolutionData: UpdateIotSecuritySolutionData = {
     recommendationsConfiguration: [
       { recommendationType: "IoT_OpenPorts", status: "Disabled" },
-      { recommendationType: "IoT_SharedCredentials", status: "Disabled" }
+      { recommendationType: "IoT_SharedCredentials", status: "Disabled" },
     ],
     tags: { foo: "bar" },
     userDefinedResources: {
       query:
         'where type != "microsoft.devices/iothubs" | where name contains "v2"',
-      querySubscriptions: ["075423e9-7d33-4166-8bdf-3920b04e3735"]
-    }
+      querySubscriptions: ["075423e9-7d33-4166-8bdf-3920b04e3735"],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.iotSecuritySolution.update(
     resourceGroupName,
     solutionName,
-    updateIotSecuritySolutionData
+    updateIotSecuritySolutionData,
   );
   console.log(result);
 }

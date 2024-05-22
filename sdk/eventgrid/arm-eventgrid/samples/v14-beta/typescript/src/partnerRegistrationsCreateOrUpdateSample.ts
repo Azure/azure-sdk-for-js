@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PartnerRegistration,
-  EventGridManagementClient
+  EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new partner registration with the specified parameters.
  *
  * @summary Creates a new partner registration with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerRegistrations_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerRegistrations_CreateOrUpdate.json
  */
 async function partnerRegistrationsCreateOrUpdate() {
   const subscriptionId =
@@ -32,14 +32,14 @@ async function partnerRegistrationsCreateOrUpdate() {
   const partnerRegistrationName = "examplePartnerRegistrationName1";
   const partnerRegistrationInfo: PartnerRegistration = {
     location: "global",
-    tags: { key1: "value1", key2: "Value2", key3: "Value3" }
+    tags: { key1: "value1", key2: "Value2", key3: "Value3" },
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.partnerRegistrations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     partnerRegistrationName,
-    partnerRegistrationInfo
+    partnerRegistrationInfo,
   );
   console.log(result);
 }

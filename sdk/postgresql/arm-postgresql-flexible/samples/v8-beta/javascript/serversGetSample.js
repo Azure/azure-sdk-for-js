@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about a server.
  *
  * @summary Gets information about a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerGet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerGet.json
  */
 async function serverGet() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function serverGet() {
  * This sample demonstrates how to Gets information about a server.
  *
  * @summary Gets information about a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerGetWithPrivateEndpoints.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerGetWithPrivateEndpoints.json
  */
 async function serverGetWithPrivateEndpoints() {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function serverGetWithPrivateEndpoints() {
  * This sample demonstrates how to Gets information about a server.
  *
  * @summary Gets information about a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerGetWithVnet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerGetWithVnet.json
  */
 async function serverGetWithVnet() {
   const subscriptionId =

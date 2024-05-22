@@ -55,6 +55,8 @@ export interface InstrumentationOptions {
   redis4?: InstrumentationConfig;
   /** Bunyan Instrumentation Config */
   bunyan?: InstrumentationConfig;
+  /** Winston Instrumentation Config */
+  winston?: InstrumentationConfig;
 }
 
 /**
@@ -69,6 +71,7 @@ export interface StatsbeatOptions {
   postgreSql?: boolean;
   redis?: boolean;
   bunyan?: boolean;
+  winston?: boolean;
   /** Features */
   liveMetrics?: boolean;
   browserSdkLoader?: boolean;
@@ -86,7 +89,7 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.4.0";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.5.0";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
@@ -130,4 +133,5 @@ export enum StatsbeatInstrumentation {
   REDIS = 8,
   POSTGRES = 16,
   BUNYAN = 32,
+  WINSTON = 64,
 }

@@ -686,6 +686,8 @@ export interface MigrationResourceForPatch {
   overwriteDbsInTarget?: OverwriteDbsInTargetEnum;
   /** Start time in UTC for migration window */
   migrationWindowStartTimeInUtc?: Date;
+  /** To migrate roles and permissions we need to send this flag as True */
+  migrateRoles?: MigrateRolesEnum;
   /** Indicates whether the data migration should start right away */
   startDataMigration?: StartDataMigrationEnum;
   /** To trigger cutover for entire migration we need to send this flag as True */
@@ -1482,11 +1484,13 @@ export interface MigrationResource extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currentStatus?: MigrationStatus;
+  /** ResourceId of the private endpoint migration instance */
+  migrationInstanceResourceId?: string;
   /** There are two types of migration modes Online and Offline */
   migrationMode?: MigrationMode;
   /** This indicates the supported Migration option for the migration */
   migrationOption?: MigrationOption;
-  /** migration source server type : OnPremises, AWS, GCP, AzureVM or PostgreSQLSingleServer */
+  /** migration source server type : OnPremises, AWS, GCP, AzureVM, PostgreSQLSingleServer, AWS_RDS, AWS_AURORA, AWS_EC2, GCP_CloudSQL, GCP_AlloyDB, GCP_Compute, or EDB */
   sourceType?: SourceType;
   /** SSL modes for migration. Default SSL mode for PostgreSQLSingleServer is VerifyFull and Prefer for other source types */
   sslMode?: SslMode;
@@ -1523,6 +1527,8 @@ export interface MigrationResource extends TrackedResource {
   migrationWindowStartTimeInUtc?: Date;
   /** End time in UTC for migration window */
   migrationWindowEndTimeInUtc?: Date;
+  /** To migrate roles and permissions we need to send this flag as True */
+  migrateRoles?: MigrateRolesEnum;
   /** Indicates whether the data migration should start right away */
   startDataMigration?: StartDataMigrationEnum;
   /** To trigger cutover for entire migration we need to send this flag as True */
@@ -1672,7 +1678,7 @@ export enum KnownPrincipalType {
   /** Group */
   Group = "Group",
   /** ServicePrincipal */
-  ServicePrincipal = "ServicePrincipal"
+  ServicePrincipal = "ServicePrincipal",
 }
 
 /**
@@ -1696,7 +1702,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1714,7 +1720,7 @@ export type CreatedByType = string;
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** Full */
-  Full = "Full"
+  Full = "Full",
 }
 
 /**
@@ -1731,7 +1737,7 @@ export enum KnownHaMode {
   /** SameZone */
   SameZone = "SameZone",
   /** ZoneRedundant */
-  ZoneRedundant = "ZoneRedundant"
+  ZoneRedundant = "ZoneRedundant",
 }
 
 /**
@@ -1749,7 +1755,7 @@ export enum KnownFastProvisioningSupportedEnum {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1767,7 +1773,7 @@ export enum KnownGeoBackupSupportedEnum {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1785,7 +1791,7 @@ export enum KnownZoneRedundantHaSupportedEnum {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1803,7 +1809,7 @@ export enum KnownZoneRedundantHaAndGeoBackupSupportedEnum {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1821,7 +1827,7 @@ export enum KnownStorageAutoGrowthSupportedEnum {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1839,7 +1845,7 @@ export enum KnownOnlineResizeSupportedEnum {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1857,7 +1863,7 @@ export enum KnownRestrictedEnum {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1875,7 +1881,7 @@ export enum KnownCheckNameAvailabilityReason {
   /** Invalid */
   Invalid = "Invalid",
   /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
+  AlreadyExists = "AlreadyExists",
 }
 
 /**
@@ -1897,7 +1903,7 @@ export enum KnownConfigurationDataType {
   /** Integer */
   Integer = "Integer",
   /** Enumeration */
-  Enumeration = "Enumeration"
+  Enumeration = "Enumeration",
 }
 
 /**
@@ -1919,7 +1925,7 @@ export enum KnownSkuTier {
   /** GeneralPurpose */
   GeneralPurpose = "GeneralPurpose",
   /** MemoryOptimized */
-  MemoryOptimized = "MemoryOptimized"
+  MemoryOptimized = "MemoryOptimized",
 }
 
 /**
@@ -1938,7 +1944,7 @@ export enum KnownIdentityType {
   /** None */
   None = "None",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -1964,7 +1970,7 @@ export enum KnownServerVersion {
   /** Eleven */
   Eleven = "11",
   /** Sixteen */
-  Sixteen = "16"
+  Sixteen = "16",
 }
 
 /**
@@ -1996,7 +2002,7 @@ export enum KnownServerState {
   /** Stopped */
   Stopped = "Stopped",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -2019,7 +2025,7 @@ export enum KnownStorageAutoGrow {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2061,7 +2067,7 @@ export enum KnownAzureManagedDiskPerformanceTiers {
   /** P70 */
   P70 = "P70",
   /** P80 */
-  P80 = "P80"
+  P80 = "P80",
 }
 
 /**
@@ -2091,7 +2097,7 @@ export enum KnownStorageType {
   /** PremiumLRS */
   PremiumLRS = "Premium_LRS",
   /** PremiumV2LRS */
-  PremiumV2LRS = "PremiumV2_LRS"
+  PremiumV2LRS = "PremiumV2_LRS",
 }
 
 /**
@@ -2109,7 +2115,7 @@ export enum KnownActiveDirectoryAuthEnum {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2127,7 +2133,7 @@ export enum KnownPasswordAuthEnum {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2145,7 +2151,7 @@ export enum KnownArmServerKeyType {
   /** SystemManaged */
   SystemManaged = "SystemManaged",
   /** AzureKeyVault */
-  AzureKeyVault = "AzureKeyVault"
+  AzureKeyVault = "AzureKeyVault",
 }
 
 /**
@@ -2163,7 +2169,7 @@ export enum KnownKeyStatusEnum {
   /** Valid */
   Valid = "Valid",
   /** Invalid */
-  Invalid = "Invalid"
+  Invalid = "Invalid",
 }
 
 /**
@@ -2181,7 +2187,7 @@ export enum KnownGeoRedundantBackupEnum {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2199,7 +2205,7 @@ export enum KnownServerPublicNetworkAccessState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2219,7 +2225,7 @@ export enum KnownHighAvailabilityMode {
   /** ZoneRedundant */
   ZoneRedundant = "ZoneRedundant",
   /** SameZone */
-  SameZone = "SameZone"
+  SameZone = "SameZone",
 }
 
 /**
@@ -2246,7 +2252,7 @@ export enum KnownServerHAState {
   /** Healthy */
   Healthy = "Healthy",
   /** RemovingStandby */
-  RemovingStandby = "RemovingStandby"
+  RemovingStandby = "RemovingStandby",
 }
 
 /**
@@ -2272,7 +2278,7 @@ export enum KnownReplicationRole {
   /** AsyncReplica */
   AsyncReplica = "AsyncReplica",
   /** GeoAsyncReplica */
-  GeoAsyncReplica = "GeoAsyncReplica"
+  GeoAsyncReplica = "GeoAsyncReplica",
 }
 
 /**
@@ -2300,7 +2306,7 @@ export enum KnownReplicationState {
   /** Broken */
   Broken = "Broken",
   /** Reconfiguring */
-  Reconfiguring = "Reconfiguring"
+  Reconfiguring = "Reconfiguring",
 }
 
 /**
@@ -2322,7 +2328,7 @@ export enum KnownReadReplicaPromoteMode {
   /** Standalone */
   Standalone = "standalone",
   /** Switchover */
-  Switchover = "switchover"
+  Switchover = "switchover",
 }
 
 /**
@@ -2340,7 +2346,7 @@ export enum KnownReplicationPromoteOption {
   /** Planned */
   Planned = "planned",
   /** Forced */
-  Forced = "forced"
+  Forced = "forced",
 }
 
 /**
@@ -2368,7 +2374,7 @@ export enum KnownCreateMode {
   /** Replica */
   Replica = "Replica",
   /** ReviveDropped */
-  ReviveDropped = "ReviveDropped"
+  ReviveDropped = "ReviveDropped",
 }
 
 /**
@@ -2393,7 +2399,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Approved */
   Approved = "Approved",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -2416,7 +2422,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -2436,7 +2442,7 @@ export enum KnownCreateModeForUpdate {
   /** Default */
   Default = "Default",
   /** Update */
-  Update = "Update"
+  Update = "Update",
 }
 
 /**
@@ -2458,7 +2464,7 @@ export enum KnownExecutionStatus {
   /** Failed */
   Failed = "Failed",
   /** Succeeded */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
 }
 
 /**
@@ -2488,7 +2494,7 @@ export enum KnownMigrationState {
   /** ValidationFailed */
   ValidationFailed = "ValidationFailed",
   /** CleaningUp */
-  CleaningUp = "CleaningUp"
+  CleaningUp = "CleaningUp",
 }
 
 /**
@@ -2531,7 +2537,7 @@ export enum KnownMigrationSubState {
   /** CancelingRequestedDBMigrations */
   CancelingRequestedDBMigrations = "CancelingRequestedDBMigrations",
   /** ValidationInProgress */
-  ValidationInProgress = "ValidationInProgress"
+  ValidationInProgress = "ValidationInProgress",
 }
 
 /**
@@ -2567,7 +2573,7 @@ export enum KnownMigrationDbState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Canceling */
-  Canceling = "Canceling"
+  Canceling = "Canceling",
 }
 
 /**
@@ -2591,7 +2597,7 @@ export enum KnownValidationState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Warning */
-  Warning = "Warning"
+  Warning = "Warning",
 }
 
 /**
@@ -2610,7 +2616,7 @@ export enum KnownMigrationMode {
   /** Offline */
   Offline = "Offline",
   /** Online */
-  Online = "Online"
+  Online = "Online",
 }
 
 /**
@@ -2630,7 +2636,7 @@ export enum KnownMigrationOption {
   /** Migrate */
   Migrate = "Migrate",
   /** ValidateAndMigrate */
-  ValidateAndMigrate = "ValidateAndMigrate"
+  ValidateAndMigrate = "ValidateAndMigrate",
 }
 
 /**
@@ -2655,7 +2661,21 @@ export enum KnownSourceType {
   /** AzureVM */
   AzureVM = "AzureVM",
   /** PostgreSQLSingleServer */
-  PostgreSQLSingleServer = "PostgreSQLSingleServer"
+  PostgreSQLSingleServer = "PostgreSQLSingleServer",
+  /** AWSRDS */
+  AWSRDS = "AWS_RDS",
+  /** AWSAurora */
+  AWSAurora = "AWS_AURORA",
+  /** AWSEC2 */
+  AWSEC2 = "AWS_EC2",
+  /** GCPCloudSQL */
+  GCPCloudSQL = "GCP_CloudSQL",
+  /** GCPAlloyDB */
+  GCPAlloyDB = "GCP_AlloyDB",
+  /** GCPCompute */
+  GCPCompute = "GCP_Compute",
+  /** EDB */
+  EDB = "EDB",
 }
 
 /**
@@ -2667,7 +2687,14 @@ export enum KnownSourceType {
  * **AWS** \
  * **GCP** \
  * **AzureVM** \
- * **PostgreSQLSingleServer**
+ * **PostgreSQLSingleServer** \
+ * **AWS_RDS** \
+ * **AWS_AURORA** \
+ * **AWS_EC2** \
+ * **GCP_CloudSQL** \
+ * **GCP_AlloyDB** \
+ * **GCP_Compute** \
+ * **EDB**
  */
 export type SourceType = string;
 
@@ -2680,7 +2707,7 @@ export enum KnownSslMode {
   /** VerifyCA */
   VerifyCA = "VerifyCA",
   /** VerifyFull */
-  VerifyFull = "VerifyFull"
+  VerifyFull = "VerifyFull",
 }
 
 /**
@@ -2700,7 +2727,7 @@ export enum KnownLogicalReplicationOnSourceDbEnum {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -2718,7 +2745,7 @@ export enum KnownOverwriteDbsInTargetEnum {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -2731,12 +2758,30 @@ export enum KnownOverwriteDbsInTargetEnum {
  */
 export type OverwriteDbsInTargetEnum = string;
 
+/** Known values of {@link MigrateRolesEnum} that the service accepts. */
+export enum KnownMigrateRolesEnum {
+  /** True */
+  True = "True",
+  /** False */
+  False = "False",
+}
+
+/**
+ * Defines values for MigrateRolesEnum. \
+ * {@link KnownMigrateRolesEnum} can be used interchangeably with MigrateRolesEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **True** \
+ * **False**
+ */
+export type MigrateRolesEnum = string;
+
 /** Known values of {@link StartDataMigrationEnum} that the service accepts. */
 export enum KnownStartDataMigrationEnum {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -2754,7 +2799,7 @@ export enum KnownTriggerCutoverEnum {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -2772,7 +2817,7 @@ export enum KnownCancelEnum {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -2790,7 +2835,7 @@ export enum KnownMigrationListFilter {
   /** Active */
   Active = "Active",
   /** All */
-  All = "All"
+  All = "All",
 }
 
 /**
@@ -2808,7 +2853,7 @@ export enum KnownMigrationNameAvailabilityReason {
   /** Invalid */
   Invalid = "Invalid",
   /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
+  AlreadyExists = "AlreadyExists",
 }
 
 /**
@@ -2828,7 +2873,7 @@ export enum KnownOperationOrigin {
   /** User */
   User = "user",
   /** System */
-  System = "system"
+  System = "system",
 }
 
 /**
@@ -2851,7 +2896,7 @@ export enum KnownFailoverMode {
   /** PlannedSwitchover */
   PlannedSwitchover = "PlannedSwitchover",
   /** ForcedSwitchover */
-  ForcedSwitchover = "ForcedSwitchover"
+  ForcedSwitchover = "ForcedSwitchover",
 }
 
 /**
@@ -2869,7 +2914,7 @@ export type FailoverMode = string;
 /** Known values of {@link ThreatProtectionName} that the service accepts. */
 export enum KnownThreatProtectionName {
   /** Default */
-  Default = "Default"
+  Default = "Default",
 }
 
 /**
@@ -2884,7 +2929,7 @@ export type ThreatProtectionName = string;
 /** Known values of {@link VirtualEndpointType} that the service accepts. */
 export enum KnownVirtualEndpointType {
   /** ReadWrite */
-  ReadWrite = "ReadWrite"
+  ReadWrite = "ReadWrite",
 }
 
 /**
@@ -2903,7 +2948,7 @@ export enum KnownMigrationDetailsLevel {
   /** Summary */
   Summary = "Summary",
   /** Full */
-  Full = "Full"
+  Full = "Full",
 }
 
 /**
@@ -2995,7 +3040,8 @@ export interface LocationBasedCapabilitiesExecuteNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the executeNext operation. */
-export type LocationBasedCapabilitiesExecuteNextResponse = CapabilitiesListResult;
+export type LocationBasedCapabilitiesExecuteNextResponse =
+  CapabilitiesListResult;
 
 /** Optional parameters. */
 export interface ServerCapabilitiesListOptionalParams
@@ -3254,8 +3300,8 @@ export interface FlexibleServerTriggerLtrPreBackupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the triggerLtrPreBackup operation. */
-export type FlexibleServerTriggerLtrPreBackupResponse = FlexibleServerTriggerLtrPreBackupHeaders &
-  LtrPreBackupResponse;
+export type FlexibleServerTriggerLtrPreBackupResponse =
+  FlexibleServerTriggerLtrPreBackupHeaders & LtrPreBackupResponse;
 
 /** Optional parameters. */
 export interface FlexibleServerStartLtrBackupOptionalParams
@@ -3267,8 +3313,8 @@ export interface FlexibleServerStartLtrBackupOptionalParams
 }
 
 /** Contains response data for the startLtrBackup operation. */
-export type FlexibleServerStartLtrBackupResponse = FlexibleServerStartLtrBackupHeaders &
-  LtrBackupResponse;
+export type FlexibleServerStartLtrBackupResponse =
+  FlexibleServerStartLtrBackupHeaders & LtrBackupResponse;
 
 /** Optional parameters. */
 export interface LtrBackupOperationsGetOptionalParams
@@ -3282,14 +3328,16 @@ export interface LtrBackupOperationsListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type LtrBackupOperationsListByServerResponse = LtrServerBackupOperationList;
+export type LtrBackupOperationsListByServerResponse =
+  LtrServerBackupOperationList;
 
 /** Optional parameters. */
 export interface LtrBackupOperationsListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type LtrBackupOperationsListByServerNextResponse = LtrServerBackupOperationList;
+export type LtrBackupOperationsListByServerNextResponse =
+  LtrServerBackupOperationList;
 
 /** Optional parameters. */
 export interface MigrationsCreateOptionalParams
@@ -3331,14 +3379,16 @@ export interface MigrationsListByTargetServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTargetServerNext operation. */
-export type MigrationsListByTargetServerNextResponse = MigrationResourceListResult;
+export type MigrationsListByTargetServerNextResponse =
+  MigrationResourceListResult;
 
 /** Optional parameters. */
 export interface CheckMigrationNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkMigrationNameAvailability operation. */
-export type CheckMigrationNameAvailabilityResponse = MigrationNameAvailabilityResource;
+export type CheckMigrationNameAvailabilityResponse =
+  MigrationNameAvailabilityResource;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -3369,14 +3419,16 @@ export interface PrivateEndpointConnectionsListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type PrivateEndpointConnectionsListByServerResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByServerResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type PrivateEndpointConnectionsListByServerNextResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByServerNextResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionUpdateOptionalParams
@@ -3400,14 +3452,16 @@ export interface PrivateEndpointConnectionDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
+export type PrivateEndpointConnectionDeleteResponse =
+  PrivateEndpointConnectionDeleteHeaders;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type PrivateLinkResourcesListByServerResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByServerResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesGetOptionalParams
@@ -3421,7 +3475,8 @@ export interface PrivateLinkResourcesListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type PrivateLinkResourcesListByServerNextResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByServerNextResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface QuotaUsagesListOptionalParams
@@ -3463,14 +3518,16 @@ export interface ServerThreatProtectionSettingsListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type ServerThreatProtectionSettingsListByServerResponse = ServerThreatProtectionListResult;
+export type ServerThreatProtectionSettingsListByServerResponse =
+  ServerThreatProtectionListResult;
 
 /** Optional parameters. */
 export interface ServerThreatProtectionSettingsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ServerThreatProtectionSettingsGetResponse = ServerThreatProtectionSettingsModel;
+export type ServerThreatProtectionSettingsGetResponse =
+  ServerThreatProtectionSettingsModel;
 
 /** Optional parameters. */
 export interface ServerThreatProtectionSettingsCreateOrUpdateOptionalParams
@@ -3482,14 +3539,16 @@ export interface ServerThreatProtectionSettingsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ServerThreatProtectionSettingsCreateOrUpdateResponse = ServerThreatProtectionSettingsModel;
+export type ServerThreatProtectionSettingsCreateOrUpdateResponse =
+  ServerThreatProtectionSettingsModel;
 
 /** Optional parameters. */
 export interface ServerThreatProtectionSettingsListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type ServerThreatProtectionSettingsListByServerNextResponse = ServerThreatProtectionListResult;
+export type ServerThreatProtectionSettingsListByServerNextResponse =
+  ServerThreatProtectionListResult;
 
 /** Optional parameters. */
 export interface VirtualEndpointsCreateOptionalParams
@@ -3546,14 +3605,16 @@ export interface VirtualEndpointsListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type VirtualEndpointsListByServerNextResponse = VirtualEndpointsListResult;
+export type VirtualEndpointsListByServerNextResponse =
+  VirtualEndpointsListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkSubnetUsageExecuteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the execute operation. */
-export type VirtualNetworkSubnetUsageExecuteResponse = VirtualNetworkSubnetUsageResult;
+export type VirtualNetworkSubnetUsageExecuteResponse =
+  VirtualNetworkSubnetUsageResult;
 
 /** Optional parameters. */
 export interface PostgreSQLManagementFlexibleServerClientOptionalParams
