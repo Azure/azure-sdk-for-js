@@ -4,20 +4,20 @@
 import { ProtectedDataEncryptionKey } from "../EncryptionKey/ProtectedDataEncryptionKey";
 
 export class ProtectedDataEncryptionKeyCache {
-  private static instance: ProtectedDataEncryptionKeyCache;
+  // private static instance: ProtectedDataEncryptionKeyCache;
   // key is JSON.stringify([encryptionKeyId, keyEncryptionKey, encryptedValue.toString("hex")])
   private protectedDataEncryptionKeyCache: Map<string, [Date, ProtectedDataEncryptionKey]>;
 
-  private constructor() {
+  constructor() {
     this.protectedDataEncryptionKeyCache = new Map<string, [Date, ProtectedDataEncryptionKey]>();
   }
 
-  public static getInstance(): ProtectedDataEncryptionKeyCache {
-    if (!ProtectedDataEncryptionKeyCache.instance) {
-      ProtectedDataEncryptionKeyCache.instance = new ProtectedDataEncryptionKeyCache();
-    }
-    return ProtectedDataEncryptionKeyCache.instance;
-  }
+  // public static getInstance(): ProtectedDataEncryptionKeyCache {
+  //   if (!ProtectedDataEncryptionKeyCache.instance) {
+  //     ProtectedDataEncryptionKeyCache.instance = new ProtectedDataEncryptionKeyCache();
+  //   }
+  //   return ProtectedDataEncryptionKeyCache.instance;
+  // }
 
   public getProtectedDataEncryptionKey(key: string): ProtectedDataEncryptionKey | undefined {
     if (!this.protectedDataEncryptionKeyCache.has(key)) {
@@ -51,3 +51,6 @@ export class ProtectedDataEncryptionKeyCache {
     this.protectedDataEncryptionKeyCache.clear();
   }
 }
+
+// const instance = new ProtectedDataEncryptionKeyCache();
+// export { instance as ProtectedDataEncryptionKeyCache };

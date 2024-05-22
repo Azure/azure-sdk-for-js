@@ -4,20 +4,20 @@
 import { KeyEncryptionKey } from "../KeyEncryptionKey";
 
 export class KeyEncryptionKeyCache {
-  private static instance: KeyEncryptionKeyCache;
+  // private static instance: KeyEncryptionKeyCache;
   // key is JSON.stringify([name, path])
-  private keyEncryptionKeyCache: Map<string, KeyEncryptionKey>;
+  public keyEncryptionKeyCache: Map<string, KeyEncryptionKey>;
 
-  private constructor() {
+  constructor() {
     this.keyEncryptionKeyCache = new Map<string, KeyEncryptionKey>();
   }
 
-  public static getInstance(): KeyEncryptionKeyCache {
-    if (!KeyEncryptionKeyCache.instance) {
-      KeyEncryptionKeyCache.instance = new KeyEncryptionKeyCache();
-    }
-    return KeyEncryptionKeyCache.instance;
-  }
+  // public static getInstance(): KeyEncryptionKeyCache {
+  //   if (!KeyEncryptionKeyCache.instance) {
+  //     KeyEncryptionKeyCache.instance = new KeyEncryptionKeyCache();
+  //   }
+  //   return KeyEncryptionKeyCache.instance;
+  // }
 
   public getKeyEncryptionKey(key: string): KeyEncryptionKey | undefined {
     return this.keyEncryptionKeyCache.get(key);
@@ -29,3 +29,6 @@ export class KeyEncryptionKeyCache {
     this.keyEncryptionKeyCache.clear();
   }
 }
+
+// const instance = new KeyEncryptionKeyCache();
+// export { instance as KeyEncryptionKeyCache };

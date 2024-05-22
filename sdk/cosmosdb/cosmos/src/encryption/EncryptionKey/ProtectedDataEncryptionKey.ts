@@ -4,7 +4,7 @@
 import { DataEncryptionKey } from "./DataEncryptionKey";
 import { KeyEncryptionKey } from "../KeyEncryptionKey";
 import { randomBytes } from "crypto";
-import { ProtectedDataEncryptionKeyCache } from "../Cache";
+import { protectedDataEncryptionKeyCache } from "../Cache";
 
 export class ProtectedDataEncryptionKey extends DataEncryptionKey {
   public keyEncryptionKey: KeyEncryptionKey;
@@ -43,7 +43,6 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
     }
     const newKey = new ProtectedDataEncryptionKey(name, keyEncryptionKey, rawKey, encryptedKey);
     if (cacheTimeToLive !== 0) {
-      const protectedDataEncryptionKeyCache = ProtectedDataEncryptionKeyCache.getInstance();
       const key = JSON.stringify([name, keyEncryptionKey.name, encryptedKey.toString("hex")]);
       protectedDataEncryptionKeyCache.setProtectedDataEncryptionKey(key, newKey, cacheTimeToLive);
     }
@@ -61,7 +60,6 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
       return this.create(name, keyEncryptionKey, cacheTimeToLive, encryptedValue);
     }
     if (encryptedValue) {
-      const protectedDataEncryptionKeyCache = ProtectedDataEncryptionKeyCache.getInstance();
       const key = JSON.stringify([name, keyEncryptionKey.name, encryptedValue.toString("hex")]);
       const protectedDataEncryptionKey =
         protectedDataEncryptionKeyCache.getProtectedDataEncryptionKey(key);

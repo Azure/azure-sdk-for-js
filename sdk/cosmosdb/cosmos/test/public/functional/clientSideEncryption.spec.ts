@@ -45,6 +45,7 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
     this.revokeAccessSet = false;
   }
   async unwrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
+    console.log(algorithm);
     if (encryptionKeyId === "revokedKek-metadata" && this.revokeAccessSet) {
       throw new Error("Forbidden");
     }

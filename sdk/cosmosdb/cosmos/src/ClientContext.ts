@@ -47,11 +47,12 @@ import { DefaultDiagnosticFormatter, DiagnosticFormatter } from "./diagnostics/D
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { EncryptionKeyStoreProvider } from "./encryption/EncryptionKeyStoreProvider";
 import {
-  ClientEncryptionKeyPropertiesCache,
+  // ClientEncryptionKeyPropertiesCache,
   EncryptionKeyResolverName,
-  EncryptionSettingsCache,
-  KeyEncryptionKeyCache,
-  ProtectedDataEncryptionKeyCache,
+  buildCache,
+  // EncryptionSettingsCache,
+  // KeyEncryptionKeyCache,
+  // ProtectedDataEncryptionKeyCache,
 } from "./encryption";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -109,14 +110,15 @@ export class ClientContext {
         EncryptionKeyResolverName.AzureKeyVault,
         this.encryptionKeyTimeToLiveInHours,
       );
-      const protectedDataEncryptionKeyCache = ProtectedDataEncryptionKeyCache.getInstance();
-      protectedDataEncryptionKeyCache.clearCache();
-      const keyEncryptionKeyCache = KeyEncryptionKeyCache.getInstance();
-      const clientEncryptionKeyPropertiesCache = ClientEncryptionKeyPropertiesCache.getInstance();
-      const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
-      keyEncryptionKeyCache.clearCache();
-      clientEncryptionKeyPropertiesCache.clearCache();
-      encryptionSettingsCache.clearCache();
+      buildCache();
+      // const protectedDataEncryptionKeyCache = ProtectedDataEncryptionKeyCache.getInstance();
+      // protectedDataEncryptionKeyCache.clearCache();
+      // const keyEncryptionKeyCache = KeyEncryptionKeyCache.getInstance();
+      // const clientEncryptionKeyPropertiesCache = ClientEncryptionKeyPropertiesCache.getInstance();
+      // const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
+      // keyEncryptionKeyCache.clearCache();
+      // clientEncryptionKeyPropertiesCache.clearCache();
+      // encryptionSettingsCache.clearCache();
     }
     this.initializeDiagnosticSettings(diagnosticLevel);
   }

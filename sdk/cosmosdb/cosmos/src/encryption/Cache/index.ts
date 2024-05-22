@@ -3,5 +3,6 @@
 
 export { ClientEncryptionKeyPropertiesCache } from "./ClientEncryptionKeyPropertiesCache";
 export { EncryptionSettingsCache } from "./EncryptionSettingsCache";
-export { ProtectedDataEncryptionKeyCache } from "./ProtectedDataEncryptionKeyCache";
-export { KeyEncryptionKeyCache } from "./KeyEncryptionKeyCache";
+export * from "./buildEncryptionCache";
+// export { ProtectedDataEncryptionKeyCache } from "./ProtectedDataEncryptionKeyCache";
+// export { KeyEncryptionKeyCache } from "./KeyEncryptionKeyCache";

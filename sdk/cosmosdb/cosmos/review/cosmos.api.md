@@ -182,10 +182,6 @@ export class ClientContext {
     }): Promise<Response_2<any>>;
     // (undocumented)
     clearSessionToken(path: string): void;
-    // Warning: (ae-forgotten-export) The symbol "ClientEncryptionKeyPropertiesCache" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    clientEncryptionKeyPropertiesCache: ClientEncryptionKeyPropertiesCache;
     // (undocumented)
     create<T, U = T>({ body, path, resourceType, resourceId, diagnosticNode, options, partitionKey, }: {
         body: T;
@@ -214,10 +210,8 @@ export class ClientContext {
     //
     // (undocumented)
     encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
-    // Warning: (ae-forgotten-export) The symbol "EncryptionSettingsCache" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    encryptionSettingsCache: EncryptionSettingsCache;
+    readonly encryptionKeyTimeToLiveInHours: number;
     // (undocumented)
     execute<T>({ sprocLink, params, options, partitionKey, diagnosticNode, }: {
         sprocLink: string;
@@ -647,7 +641,7 @@ export const Constants: {
 
 // @public
 export class Container {
-    constructor(database: Database, id: string, clientContext: ClientContext);
+    constructor(database: Database, id: string, clientContext: ClientContext, containerRid?: string);
     conflict(id: string, partitionKey?: PartitionKey): Conflict;
     get conflicts(): Conflicts;
     // (undocumented)
@@ -1374,13 +1368,13 @@ export class Items {
 }
 
 // @public (undocumented)
-export interface JSONArray extends ArrayLike<JSONValue> {
+export interface JSONArray extends ArrayLike<any> {
 }
 
 // @public (undocumented)
 export interface JSONObject {
     // (undocumented)
-    [key: string]: JSONValue;
+    [key: string]: any;
 }
 
 // @public (undocumented)
@@ -2018,6 +2012,7 @@ export interface RequestOptions extends SharedOptions {
         type: string;
         condition: string;
     };
+    collectionRid?: string;
     consistencyLevel?: string;
     databaseRid?: string;
     disableAutomaticIdGeneration?: boolean;

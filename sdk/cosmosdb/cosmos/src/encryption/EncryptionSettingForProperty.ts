@@ -8,7 +8,7 @@ import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider";
 import { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm";
 import { KeyEncryptionKey } from "./KeyEncryptionKey";
 import { ProtectedDataEncryptionKey } from "./EncryptionKey";
-import { ProtectedDataEncryptionKeyCache } from "./Cache";
+import { protectedDataEncryptionKeyCache } from "./Cache";
 
 export class EncryptionSettingForProperty {
   encryptionKeyId: string;
@@ -49,7 +49,6 @@ export class EncryptionSettingForProperty {
       clientEncryptionKeyProperties.encryptionKeyWrapMetadata.value,
       encryptionKeyStoreProvider,
     );
-    const protectedDataEncryptionKeyCache = ProtectedDataEncryptionKeyCache.getInstance();
     const key = JSON.stringify([
       this.encryptionKeyId,
       keyEncryptionKey.name,
@@ -58,6 +57,7 @@ export class EncryptionSettingForProperty {
 
     let protectedDataEncryptionKey =
       protectedDataEncryptionKeyCache.getProtectedDataEncryptionKey(key);
+    // console.log(`protectedDataEncryptionKey: ${protectedDataEncryptionKey}`);
     if (protectedDataEncryptionKey === undefined) {
       protectedDataEncryptionKey = await ProtectedDataEncryptionKey.getOrCreate(
         this.encryptionKeyId,
