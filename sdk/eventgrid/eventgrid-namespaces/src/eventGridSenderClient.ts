@@ -2,14 +2,16 @@
 // Licensed under the MIT license.
 
 import { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  PublishCloudEventsOptions as SendEventsOptions,
-  CloudEvent as CloudEventWireModel,
-} from "./cadl-generated/models";
+import { CloudEvent as CloudEventWireModel } from "./cadl-generated/models";
 import { randomUUID } from "@azure/core-util";
 import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient";
-import { EventGridClientOptions } from "./cadl-generated/api";
-import { SendEventOptions, CloudEvent, cloudEventReservedPropertyNames } from "./models";
+import {
+  SendEventOptions,
+  SendEventsOptions,
+  CloudEvent,
+  cloudEventReservedPropertyNames,
+  EventGridSenderClientOptions,
+} from "./models";
 import { publishCloudEventInBinaryMode } from "./eventGridNamespacesPublishBinaryMode";
 
 /**
@@ -17,15 +19,17 @@ import { publishCloudEventInBinaryMode } from "./eventGridNamespacesPublishBinar
  */
 export class EventGridSenderClient {
   private _client: EventGridClientGenerated;
+  private _topicName: string | undefined;
 
   /** Azure Messaging EventGrid Client */
   constructor(
     endpoint: string,
     credential: AzureKeyCredential | TokenCredential,
-    options: EventGridClientOptions = {},
+    options: EventGridSenderClientOptions = {},
   ) {
     // credential.update(`SharedAccessKey ${credential.key}`);
     this._client = new EventGridClientGenerated(endpoint, credential, options);
+    this._topicName = options?.topicName ?? undefined;
   }
 
   /**
@@ -36,16 +40,19 @@ export class EventGridSenderClient {
    * internal server error.
    *
    * @param event - Event to publish
-   * @param topicName - Topic to publish the event
    * @param options - Options to publish
    *
    */
   async sendEvent<T>(
     event: CloudEvent<T>,
-    topicName: string,
     options: SendEventOptions = { requestOptions: {} },
   ): Promise<void> {
     const cloudEventWireModel: CloudEventWireModel = convertCloudEventToModelType(event);
+    const topicName = options?.topicName ?? this._topicName;
+
+    if (!topicName) {
+      throw new Error("Topic name is required");
+    }
 
     if (!options.binaryMode) {
       await this._client.publishCloudEvent(topicName, cloudEventWireModel, options);
@@ -70,15 +77,19 @@ export class EventGridSenderClient {
    * internal server error.
    *
    * @param events - Events to publish
-   * @param topicName - Topic to publish the event
    * @param options - Options to publish
    *
    */
   async sendEvents<T>(
     events: CloudEvent<T>[],
-    topicName: string,
     options: SendEventsOptions = { requestOptions: {} },
   ): Promise<void> {
+    const topicName = options?.topicName ?? this._topicName;
+
+    if (!topicName) {
+      throw new Error("Topic name is required");
+    }
+
     const eventsWireModel: Array<CloudEventWireModel> = [];
     for (const individualevent of events) {
       eventsWireModel.push(convertCloudEventToModelType(individualevent));

@@ -2,7 +2,16 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure-rest/core-client";
-import { BrokerProperties } from "./cadl-generated";
+import {
+  BrokerProperties,
+  PublishCloudEventsOptions,
+  ReceiveCloudEventsOptions,
+  AcknowledgeCloudEventsOptions,
+  ReleaseCloudEventsOptions,
+  RejectCloudEventsOptions,
+  RenewCloudEventLocksOptions,
+  EventGridClientOptions as EventGridOptions,
+} from "./cadl-generated";
 
 export interface SendEventOptions extends OperationOptions {
   /** binary mode */
@@ -10,6 +19,40 @@ export interface SendEventOptions extends OperationOptions {
 
   /** content type */
   contentType?: string;
+
+  topicName?: string;
+}
+
+export interface EventGridSenderClientOptions extends EventGridOptions {
+  topicName?: string;
+}
+
+export interface EventGridReceiverClientOptions extends EventGridOptions {
+  topicName?: string;
+}
+
+export interface SendEventsOptions extends PublishCloudEventsOptions {
+  topicName?: string;
+}
+
+export interface ReceiveEventsOptions extends ReceiveCloudEventsOptions {
+  topicName?: string;
+}
+
+export interface AcknowledgeEventsOptions extends AcknowledgeCloudEventsOptions {
+  topicName?: string;
+}
+
+export interface ReleaseEventsOptions extends ReleaseCloudEventsOptions {
+  topicName?: string;
+}
+
+export interface RejectEventsOptions extends RejectCloudEventsOptions {
+  topicName?: string;
+}
+
+export interface RenewEventLocksOptions extends RenewCloudEventLocksOptions {
+  topicName?: string;
 }
 
 /** Receive operation details per Cloud Event. */

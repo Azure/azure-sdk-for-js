@@ -12,7 +12,13 @@ import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export interface AcknowledgeEventsOptions extends OperationOptions {
+export interface AcknowledgeCloudEventsOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface AcknowledgeEventsOptions extends AcknowledgeCloudEventsOptions {
+    // (undocumented)
+    topicName?: string;
 }
 
 // @public
@@ -51,19 +57,31 @@ export { EventGridDeserializer }
 
 // @public
 export class EventGridReceiverClient {
-    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: EventGridClientOptions);
-    acknowledgeEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: AcknowledgeEventsOptions): Promise<AcknowledgeResult>;
-    receiveEvents<T>(topicName: string, eventSubscriptionName: string, options?: ReceiveEventsOptions): Promise<ReceiveResult<T>>;
-    rejectEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RejectEventsOptions): Promise<RejectResult>;
-    releaseEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: ReleaseEventsOptions): Promise<ReleaseResult>;
-    renewEventLocks(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RenewEventLocksOptions): Promise<RenewCloudEventLocksResult>;
+    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: EventGridReceiverClientOptions);
+    acknowledgeEvents(lockTokens: string[], eventSubscriptionName: string, options?: AcknowledgeEventsOptions): Promise<AcknowledgeResult>;
+    receiveEvents<T>(eventSubscriptionName: string, options?: ReceiveEventsOptions): Promise<ReceiveResult<T>>;
+    rejectEvents(lockTokens: string[], eventSubscriptionName: string, options?: RejectEventsOptions): Promise<RejectResult>;
+    releaseEvents(lockTokens: string[], eventSubscriptionName: string, options?: ReleaseEventsOptions): Promise<ReleaseResult>;
+    renewEventLocks(lockTokens: string[], eventSubscriptionName: string, options?: RenewEventLocksOptions): Promise<RenewCloudEventLocksResult>;
+}
+
+// @public (undocumented)
+export interface EventGridReceiverClientOptions extends EventGridClientOptions {
+    // (undocumented)
+    topicName?: string;
 }
 
 // @public
 export class EventGridSenderClient {
-    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: EventGridClientOptions);
-    sendEvent<T>(event: CloudEvent<T>, topicName: string, options?: SendEventOptions): Promise<void>;
-    sendEvents<T>(events: CloudEvent<T>[], topicName: string, options?: SendEventsOptions): Promise<void>;
+    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: EventGridSenderClientOptions);
+    sendEvent<T>(event: CloudEvent<T>, options?: SendEventOptions): Promise<void>;
+    sendEvents<T>(events: CloudEvent<T>[], options?: SendEventsOptions): Promise<void>;
+}
+
+// @public (undocumented)
+export interface EventGridSenderClientOptions extends EventGridClientOptions {
+    // (undocumented)
+    topicName?: string;
 }
 
 // @public
@@ -74,8 +92,19 @@ export interface FailedLockToken {
 
 export { OperationOptions }
 
+// @public (undocumented)
+export interface PublishCloudEventsOptions extends OperationOptions {
+    contentType?: string;
+}
+
 // @public
 export interface PublishResultOutput {
+}
+
+// @public (undocumented)
+export interface ReceiveCloudEventsOptions extends OperationOptions {
+    maxEvents?: number;
+    maxWaitTime?: number;
 }
 
 // @public
@@ -85,9 +114,9 @@ export interface ReceiveDetails<T> {
 }
 
 // @public (undocumented)
-export interface ReceiveEventsOptions extends OperationOptions {
-    maxEvents?: number;
-    maxWaitTime?: number;
+export interface ReceiveEventsOptions extends ReceiveCloudEventsOptions {
+    // (undocumented)
+    topicName?: string;
 }
 
 // @public
@@ -96,7 +125,13 @@ export interface ReceiveResult<T> {
 }
 
 // @public (undocumented)
-export interface RejectEventsOptions extends OperationOptions {
+export interface RejectCloudEventsOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface RejectEventsOptions extends RejectCloudEventsOptions {
+    // (undocumented)
+    topicName?: string;
 }
 
 // @public
@@ -105,18 +140,28 @@ export interface RejectResult {
     succeededLockTokens: string[];
 }
 
+// @public (undocumented)
+export interface ReleaseCloudEventsOptions extends OperationOptions {
+    releaseDelayInSeconds?: ReleaseDelay;
+}
+
 // @public
 export type ReleaseDelay = string;
 
 // @public (undocumented)
-export interface ReleaseEventsOptions extends OperationOptions {
-    releaseDelayInSeconds?: ReleaseDelay;
+export interface ReleaseEventsOptions extends ReleaseCloudEventsOptions {
+    // (undocumented)
+    topicName?: string;
 }
 
 // @public
 export interface ReleaseResult {
     failedLockTokens: FailedLockToken[];
     succeededLockTokens: string[];
+}
+
+// @public (undocumented)
+export interface RenewCloudEventLocksOptions extends OperationOptions {
 }
 
 // @public
@@ -126,18 +171,23 @@ export interface RenewCloudEventLocksResult {
 }
 
 // @public (undocumented)
-export interface RenewEventLocksOptions extends OperationOptions {
+export interface RenewEventLocksOptions extends RenewCloudEventLocksOptions {
+    // (undocumented)
+    topicName?: string;
 }
 
 // @public (undocumented)
 export interface SendEventOptions extends OperationOptions {
     binaryMode?: boolean;
     contentType?: string;
+    // (undocumented)
+    topicName?: string;
 }
 
 // @public (undocumented)
-export interface SendEventsOptions extends OperationOptions {
-    contentType?: string;
+export interface SendEventsOptions extends PublishCloudEventsOptions {
+    // (undocumented)
+    topicName?: string;
 }
 
 // (No @packageDocumentation comment for this package)

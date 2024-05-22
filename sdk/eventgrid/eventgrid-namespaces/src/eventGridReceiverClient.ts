@@ -6,48 +6,58 @@ import {
   AcknowledgeResult,
   ReleaseResult,
   RejectResult,
-  ReceiveCloudEventsOptions as ReceiveEventsOptions,
-  AcknowledgeCloudEventsOptions as AcknowledgeEventsOptions,
-  ReleaseCloudEventsOptions as ReleaseEventsOptions,
-  RejectCloudEventsOptions as RejectEventsOptions,
-  RenewCloudEventLocksOptions as RenewEventLocksOptions,
   RenewCloudEventLocksResult,
   CloudEvent as CloudEventWireModel,
 } from "./cadl-generated/models";
 import { randomUUID } from "@azure/core-util";
 import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient";
-import { EventGridClientOptions } from "./cadl-generated/api";
-import { CloudEvent, cloudEventReservedPropertyNames, ReceiveResult } from "./models";
+import {
+  CloudEvent,
+  cloudEventReservedPropertyNames,
+  ReceiveResult,
+  ReceiveEventsOptions,
+  AcknowledgeEventsOptions,
+  ReleaseEventsOptions,
+  RejectEventsOptions,
+  RenewEventLocksOptions,
+  EventGridReceiverClientOptions,
+} from "./models";
 
 /**
  * Event Grid Namespaces Client
  */
 export class EventGridReceiverClient {
   private _client: EventGridClientGenerated;
+  private _topicName: string | undefined;
 
   /** Azure Messaging EventGrid Client */
   constructor(
     endpoint: string,
     credential: AzureKeyCredential | TokenCredential,
-    options: EventGridClientOptions = {},
+    options: EventGridReceiverClientOptions = {},
   ) {
     // credential.update(`SharedAccessKey ${credential.key}`);
     this._client = new EventGridClientGenerated(endpoint, credential, options);
+    this._topicName = options?.topicName ?? undefined;
   }
 
   /**
    * Receive Batch of Cloud Events from the Event Subscription.
    *
-   * @param topicName - Topic to receive
    * @param eventSubscriptionName - Name of the Event Subscription
    * @param options - Options to receive
    *
    */
   async receiveEvents<T>(
-    topicName: string,
     eventSubscriptionName: string,
     options: ReceiveEventsOptions = { requestOptions: {} },
   ): Promise<ReceiveResult<T>> {
+    const topicName = options?.topicName ?? this._topicName;
+
+    if (!topicName) {
+      throw new Error("Topic name is required");
+    }
+
     const result = await this._client.receiveCloudEvents(topicName, eventSubscriptionName, options);
 
     const modifiedResult: ReceiveResult<T> = {
@@ -80,17 +90,21 @@ export class EventGridReceiverClient {
    * acknowledged events will no longer be available to any consumer.
    *
    * @param lockTokens - Lock Tokens
-   * @param topicName - Topic Name
    * @param eventSubscriptionName - Name of the Event Subscription
    * @param options - Options to Acknowledge
    *
    */
   acknowledgeEvents(
     lockTokens: string[],
-    topicName: string,
     eventSubscriptionName: string,
     options: AcknowledgeEventsOptions = { requestOptions: {} },
   ): Promise<AcknowledgeResult> {
+    const topicName = options?.topicName ?? this._topicName;
+
+    if (!topicName) {
+      throw new Error("Topic name is required");
+    }
+
     return this._client.acknowledgeCloudEvents(
       topicName,
       eventSubscriptionName,
@@ -105,17 +119,21 @@ export class EventGridReceiverClient {
    * with other failed lockTokens with their corresponding error information.
    *
    * @param lockTokens - Lock Tokens
-   * @param topicName - Topic Name
    * @param eventSubscriptionName - Name of the Event Subscription
    * @param options - Options to release
    *
    */
   releaseEvents(
     lockTokens: string[],
-    topicName: string,
     eventSubscriptionName: string,
     options: ReleaseEventsOptions = { requestOptions: {} },
   ): Promise<ReleaseResult> {
+    const topicName = options?.topicName ?? this._topicName;
+
+    if (!topicName) {
+      throw new Error("Topic name is required");
+    }
+
     return this._client.releaseCloudEvents(
       topicName,
       eventSubscriptionName,
@@ -128,17 +146,21 @@ export class EventGridReceiverClient {
    * Reject batch of Cloud Events.
    *
    * @param lockTokens - Lock Tokens
-   * @param topicName - Topic Name
    * @param eventSubscriptionName - Name of the Event Subscription
    * @param options - Options to reject
    *
    */
   rejectEvents(
     lockTokens: string[],
-    topicName: string,
     eventSubscriptionName: string,
     options: RejectEventsOptions = { requestOptions: {} },
   ): Promise<RejectResult> {
+    const topicName = options?.topicName ?? this._topicName;
+
+    if (!topicName) {
+      throw new Error("Topic name is required");
+    }
+
     return this._client.rejectCloudEvents(
       topicName,
       eventSubscriptionName,
@@ -151,16 +173,20 @@ export class EventGridReceiverClient {
    * Renew lock for batch of Cloud Events.
    *
    * @param lockTokens - Lock Tokens
-   * @param topicName - Topic Name
    * @param eventSubscriptionName - Name of the Event Subscription
    * @param options - Options to renew
    */
   renewEventLocks(
     lockTokens: string[],
-    topicName: string,
     eventSubscriptionName: string,
     options: RenewEventLocksOptions = { requestOptions: {} },
   ): Promise<RenewCloudEventLocksResult> {
+    const topicName = options?.topicName ?? this._topicName;
+
+    if (!topicName) {
+      throw new Error("Topic name is required");
+    }
+
     return this._client.renewCloudEventLocks(
       topicName,
       eventSubscriptionName,

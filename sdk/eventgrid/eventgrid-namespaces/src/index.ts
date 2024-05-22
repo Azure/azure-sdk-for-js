@@ -9,14 +9,14 @@ export {
   FailedLockToken,
   ReleaseResult,
   RejectResult,
-  PublishCloudEventsOptions as SendEventsOptions,
-  ReceiveCloudEventsOptions as ReceiveEventsOptions,
-  AcknowledgeCloudEventsOptions as AcknowledgeEventsOptions,
-  ReleaseCloudEventsOptions as ReleaseEventsOptions,
-  RejectCloudEventsOptions as RejectEventsOptions,
   ReleaseDelay,
-  RenewCloudEventLocksOptions as RenewEventLocksOptions,
   RenewCloudEventLocksResult,
+  AcknowledgeCloudEventsOptions,
+  ReceiveCloudEventsOptions,
+  RejectCloudEventsOptions,
+  ReleaseCloudEventsOptions,
+  RenewCloudEventLocksOptions,
+  PublishCloudEventsOptions,
 } from "./cadl-generated/models";
 
 export { EventGridSenderClient } from "./eventGridSenderClient";
@@ -29,6 +29,19 @@ export { PublishResultOutput } from "./cadl-generated/rest";
 
 export { OperationOptions } from "@azure-rest/core-client";
 
-export { CloudEvent, SendEventOptions, ReceiveResult, ReceiveDetails } from "./models";
+export {
+  CloudEvent,
+  SendEventOptions,
+  SendEventsOptions,
+  ReceiveResult,
+  ReceiveDetails,
+  ReceiveEventsOptions,
+  AcknowledgeEventsOptions,
+  ReleaseEventsOptions,
+  RejectEventsOptions,
+  RenewEventLocksOptions,
+  EventGridSenderClientOptions,
+  EventGridReceiverClientOptions,
+} from "./models";
 
 export { EventGridDeserializer } from "@azure/eventgrid";
