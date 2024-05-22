@@ -46,7 +46,7 @@ import { AzureKeyCredential } from "@azure/openai";
 const apiKey = new AzureKeyCredential("your API key");
 ```
 
-Authenticating `AzureOpenAI` with an API key is as simple as setting the `apiKey` string property in the options object when creating the `AzureOpenAI` client.
+Authenticating `AzureOpenAI` with an API key is as simple as setting the `AZURE_OPENAI_API_KEY` environment variable or as setting the `apiKey` string property in the options object when creating the `AzureOpenAI` client.
 
 ## Constructing the client
 
@@ -75,7 +75,7 @@ Note that the API version is required to be specified, this is necessary to ensu
 
 ## API differences
 
-There are key differences between the `OpenAIClient` client and the `AzureOpenAI` client:
+There are key differences between the `OpenAIClient` and `AssistantsClient` clients and the `AzureOpenAI` client:
 
 - Operations are represented as a flat list of methods in both `OpenAIClient` and `AssistantsClient`, e.g. `client.getChatCompletions(...)`. In `AzureOpenAI`, operations are grouped in nested groups, e.g. `client.chat.completions.create({ ... })`.
 - `OpenAIClient` and `AssistantsClient` rename many of the names used in the Azure OpenAI service API. For example, snake case is used in the API but camel case is used in the client. In `AzureOpenAI`, names are kept the same as in the Azure OpenAI service API.
@@ -186,9 +186,9 @@ const result = await client.audio.transcriptions.create({
 
 Notice that:
 - The `getAudioTranscription` method has been replaced with the `audio.transcriptions.create` method
-- The `AzureOpenAI` has to be constructed with the `deployment` option set to the deployment name in order to use audio operations such as `audio.transcriptions.create`.
-- The `model` property is required to be set in the options object but its value is not used in the operation so feel free to set it to any value.
-- The `file` property accepts a variety of types including `Buffer`, `fs.ReadaStream`, and `Blob` but in this example, a file is streamed from disk using `fs.createReadStream`.
+- The `AzureOpenAI` has to be constructed with the `deployment` option set to the deployment name in order to use audio operations such as `audio.transcriptions.create`
+- The `model` property is required to be set in the options object but its value is not used in the operation so feel free to set it to any value
+- The `file` property accepts a variety of types including `Buffer`, `fs.ReadaStream`, and `Blob` but in this example, a file is streamed from disk using `fs.createReadStream`
 
 ### Audio translation
 
@@ -215,7 +215,7 @@ const result = await client.audio.translations.create({
 
 Notice that:
 - The `getAudioTranslation` method has been replaced with the `audio.translations.create` method
-- All other changes are the same as in the audio transcription example.
+- All other changes are the same as in the audio transcription example
 
 ### Assistants
 
@@ -249,6 +249,8 @@ Notice that:
 
 #### Thread creation
 
+The following example shows how to migrate the `createThread` method call.
+
 Original code:
 ```typescript
 const assistantThread = await assistantsClient.createThread();
@@ -263,6 +265,8 @@ Notice that:
 - The `createThread` method has been replaced with the `beta.threads.create` method
 
 #### Message creation
+
+The following example shows how to migrate the `createMessage` method call.
 
 Original code:
 ```typescript
@@ -290,7 +294,7 @@ Notice that:
 
 #### Runs
 
-To run an assistant on a thread, the `createRun` method is used to create a run and then a loop is used to poll the run status until it is no longer queued or in progress.
+To run an assistant on a thread, the `createRun` method is used to create a run and then a loop is used to poll the run status until it is no longer queued or in progress. The following example shows how to migrate the run creation and polling.
 
 Original code:
 ```typescript
@@ -309,7 +313,7 @@ do {
   runResponse.status === "in_progress"
 ```
 
-This can be simplified more by using the `createAndPoll` method which creates a run and polls it until it is no longer queued or in progress.
+This code can be migrated and simplified by using the `createAndPoll` method which creates a run and polls it until it is no longer queued or in progress.
 
 Migration code:
 ```typescript
@@ -323,8 +327,8 @@ const runResponse = await assistantsClient.beta.threads.runs.createAndPoll(
 ```
 
 Notice that:
-- The `createRun` method has been replaced with the `beta.threads.runs.create` and `createAndPoll` methods.
-- The `createAndPoll` method is used to create a run and poll it until it is no longer queued or in progress.
+- The `createRun` method has been replaced with the `beta.threads.runs.create` and `createAndPoll` methods
+- The `createAndPoll` method is used to create a run and poll it until it is no longer queued or in progress
 
 #### Processing Run results
 
@@ -367,9 +371,11 @@ Migrated code:
 Notice that:
 - The `getEmbeddings` method has been replaced with the `embeddings.create` method
 - The `input` parameter is now passed in the options object with the `input` property
-- The `deploymentName` parameter has been removed. The `deploymentName` parameter is not needed if the client was created with the `deployment` option. If the client was not created with the `deployment` option, the `model` property in the option object should be set with the deployment name.
+- The `deploymentName` parameter has been removed. The `deploymentName` parameter is not needed if the client was created with the `deployment` option. If the client was not created with the `deployment` option, the `model` property in the option object should be set with the deployment name
 
 ### Image generation
+
+The following example shows how to migrate the `getImages` method call.
 
 Original code:
 ```typescript
@@ -381,10 +387,10 @@ Migrated code:
   const results = await client.images.generate({ prompt, model: deployment, n, size });
 ```
 
-Note that:
+Notice that:
 - The `getImages` method has been replaced with the `images.generate` method
 - The `prompt` parameter is now passed in the options object with the `prompt` property
-- The `deploymentName` parameter has been removed. The `deploymentName` parameter is not needed if the client was created with the `deployment` option. If the client was not created with the `deployment` option, the `model` property in the option object should be set with the deployment name.
+- The `deploymentName` parameter has been removed. The `deploymentName` parameter is not needed if the client was created with the `deployment` option. If the client was not created with the `deployment` option, the `model` property in the option object should be set with the deployment name
 
 ### Content filter
 
