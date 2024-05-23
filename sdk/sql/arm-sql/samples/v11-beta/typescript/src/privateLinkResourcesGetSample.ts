@@ -32,7 +32,7 @@ async function getsAPrivateLinkResourceForSql() {
   const result = await client.privateLinkResources.get(
     resourceGroupName,
     serverName,
-    groupName
+    groupName,
   );
   console.log(result);
 }

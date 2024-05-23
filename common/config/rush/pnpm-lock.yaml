@@ -1398,7 +1398,7 @@ packages:
       '@azure/core-auth': 1.7.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/core-util': 1.9.0
-      '@azure/logger': 1.1.2
+      '@azure/logger': 1.0.4
       '@types/node-fetch': 2.6.11
       '@types/tunnel': 0.0.3
       form-data: 4.0.0
@@ -3578,7 +3578,7 @@ packages:
   /@types/decompress@4.2.7:
     resolution: {integrity: sha512-9z+8yjKr5Wn73Pt17/ldnmQToaFHZxK0N1GHysuk/JIPT8RIdQeoInM01wWPgypRcvb6VH1drjuFpQ4zmY437g==}
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 18.19.33
     dev: false
 
   /@types/eslint-config-prettier@6.11.3:
@@ -3637,13 +3637,13 @@ packages:
   /@types/fs-extra@8.1.5:
     resolution: {integrity: sha512-0dzKcwO+S8s2kuF5Z9oUWatQJj5Uq/iqphEtE3GQJVRRYm/tD1LglU2UnXi2A8jLq5umkGouOXOR9y0n613ZwQ==}
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 18.19.33
     dev: false
 
   /@types/fs-extra@9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 18.19.33
     dev: false
 
   /@types/http-errors@2.0.4:
@@ -3660,7 +3660,7 @@ packages:
   /@types/is-buffer@2.0.2:
     resolution: {integrity: sha512-G6OXy83Va+xEo8XgqAJYOuvOMxeey9xM5XKkvwJNmN8rVdcB+r15HvHsG86hl86JvU0y1aa7Z2ERkNFYWw9ySg==}
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 18.19.33
     dev: false
 
   /@types/json-schema@7.0.15:
@@ -3680,13 +3680,13 @@ packages:
   /@types/jsonwebtoken@9.0.6:
     resolution: {integrity: sha512-/5hndP5dCjloafCXns6SZyESp3Ldq7YjH3zwzwczYnjxIT0Fqzk5ROSYVGfFyczIue7IUEj8hkvLbPoLQ18vQw==}
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 18.19.33
     dev: false
 
   /@types/jws@3.2.10:
     resolution: {integrity: sha512-cOevhttJmssERB88/+XvZXvsq5m9JLKZNUiGfgjUb5lcPRdV2ZQciU6dU76D/qXXFYpSqkP3PrSg4hMTiafTZw==}
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 18.19.33
     dev: false
 
   /@types/linkify-it@5.0.0:
@@ -3835,7 +3835,7 @@ packages:
   /@types/stoppable@1.1.3:
     resolution: {integrity: sha512-7wGKIBJGE4ZxFjk9NkjAxZMLlIXroETqP1FJCdoSvKmEznwmBxQFmTB1dsCkAvVcNemuSZM5qkkd9HE/NL2JTw==}
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 18.19.33
     dev: false
 
   /@types/through@0.0.33:
@@ -3873,7 +3873,7 @@ packages:
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 18.19.33
     dev: false
 
   /@types/ws@8.5.10:
@@ -6698,7 +6698,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 5.1.6
+      minimatch: 5.0.1
       once: 1.4.0
     dev: false
 
@@ -6992,7 +6992,6 @@ packages:
 
   /inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
-    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
     dependencies:
       once: 1.4.0
       wrappy: 1.0.2
@@ -9124,7 +9123,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 20.10.8
+      '@types/node': 18.19.33
       long: 5.2.3
     dev: false
 
@@ -18139,7 +18138,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-tADKVKr2KgUjhWg4HMLiBvRzoqT735FYYoL+gSOswmL7NRQYhb6197fPlvKM32AmofYNb+f48hKb7j0WXOTBwg==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-Z+AzG0ghqfI2nmFxrs+vgdEYeVXPPHRx5TBRYuzspdN3RlPFp93ge062fg6LGgQROu3aNaXQjSdEYXS+rxYr2w==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -18155,6 +18154,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.7

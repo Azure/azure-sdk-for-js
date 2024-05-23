@@ -16,7 +16,7 @@ import {
   RestorePointsCreateResponse,
   RestorePointsGetOptionalParams,
   RestorePointsGetResponse,
-  RestorePointsDeleteOptionalParams
+  RestorePointsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface RestorePoints {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: RestorePointsListByDatabaseOptionalParams
+    options?: RestorePointsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<RestorePoint>;
   /**
    * Creates a restore point for a data warehouse.
@@ -50,7 +50,7 @@ export interface RestorePoints {
     serverName: string,
     databaseName: string,
     parameters: CreateDatabaseRestorePointDefinition,
-    options?: RestorePointsCreateOptionalParams
+    options?: RestorePointsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RestorePointsCreateResponse>,
@@ -71,7 +71,7 @@ export interface RestorePoints {
     serverName: string,
     databaseName: string,
     parameters: CreateDatabaseRestorePointDefinition,
-    options?: RestorePointsCreateOptionalParams
+    options?: RestorePointsCreateOptionalParams,
   ): Promise<RestorePointsCreateResponse>;
   /**
    * Gets a restore point.
@@ -87,7 +87,7 @@ export interface RestorePoints {
     serverName: string,
     databaseName: string,
     restorePointName: string,
-    options?: RestorePointsGetOptionalParams
+    options?: RestorePointsGetOptionalParams,
   ): Promise<RestorePointsGetResponse>;
   /**
    * Deletes a restore point.
@@ -103,6 +103,6 @@ export interface RestorePoints {
     serverName: string,
     databaseName: string,
     restorePointName: string,
-    options?: RestorePointsDeleteOptionalParams
+    options?: RestorePointsDeleteOptionalParams,
   ): Promise<void>;
 }
