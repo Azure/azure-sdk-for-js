@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SqlQuerySpec, SqlParameter } from "../queryExecutionContext";
+import { SqlQuerySpec, SqlParameter, JSONArray, JSONObject } from "../queryExecutionContext";
 import { TypeMarker } from "./enums/TypeMarker";
 
 export interface EncryptionSqlParameter extends SqlParameter {
-  type: TypeMarker;
+  type?: TypeMarker;
   path: string;
 }
 
@@ -30,6 +30,24 @@ export class EncryptionQueryBuilder {
   }
   public addStringParameter(name: string, value: string, path: string): void {
     this.parameters.push({ name: name, value: value, type: TypeMarker.String, path: path });
+  }
+
+  public addArrayParameter(name: string, value: JSONArray, path: string): void {
+    this.parameters.push({ name: name, value: value, path: path });
+  }
+
+  public addObjectParameter(name: string, value: JSONObject, path: string): void {
+    this.parameters.push({ name: name, value: value, path: path });
+  }
+
+  public addDateParameter(name: string, value: Date, path: string): void {
+    const date = value.toISOString();
+    this.parameters.push({
+      name: name,
+      value: date,
+      type: TypeMarker.String,
+      path: path,
+    });
   }
   /*
    * @internal

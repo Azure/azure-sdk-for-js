@@ -8,6 +8,8 @@ import { EncryptionType } from "./enums";
 export class EncryptionSettings {
   public id: string;
 
+  public containerRid: string;
+
   public partitionKeyPaths: string[];
 
   public pathsToEncrypt: string[] = [];
@@ -15,18 +17,20 @@ export class EncryptionSettings {
   private encryptionSettingForProperties: { [key: string]: EncryptionSettingForProperty } = {};
 
   // getContainerRid
-  private constructor(id: string, partitionKeyPaths: string[]) {
+  private constructor(id: string, containerRid: string, partitionKeyPaths: string[]) {
     this.id = id;
+    this.containerRid = containerRid;
     this.partitionKeyPaths = partitionKeyPaths;
   }
 
   public static create(
     id: string,
+    containerRid: string,
     partitionKeyPaths: string[],
     clientEncryptionPolicy: ClientEncryptionPolicy,
   ): EncryptionSettings {
-    const encryptionSettings = new EncryptionSettings(id, partitionKeyPaths);
-    // TODO: basic checks on clientEncryptionPolicy
+    const encryptionSettings = new EncryptionSettings(id, containerRid, partitionKeyPaths);
+    if (!clientEncryptionPolicy) return null;
     encryptionSettings.validatePolicyFormatVersion(clientEncryptionPolicy, partitionKeyPaths);
 
     for (const includedPath of clientEncryptionPolicy.includedPaths) {

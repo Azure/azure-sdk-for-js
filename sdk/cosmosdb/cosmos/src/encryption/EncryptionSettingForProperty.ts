@@ -8,6 +8,7 @@ import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider";
 import { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm";
 import { KeyEncryptionKey } from "./KeyEncryptionKey";
 import { ProtectedDataEncryptionKey } from "./EncryptionKey";
+import { protectedDataEncryptionKeyCache } from "./Cache";
 
 export class EncryptionSettingForProperty {
   encryptionKeyId: string;
@@ -23,10 +24,12 @@ export class EncryptionSettingForProperty {
   public async buildEncryptionAlgorithm(
     clientEncryptionKeyProperties: ClientEncryptionKeyProperties,
     encryptionKeyStoreProvider: EncryptionKeyStoreProvider,
+    cacheTimeToLive?: number,
   ): Promise<AeadAes256CbcHmacSha256Algorithm> {
     const protectedDataEncryptionKey = await this.buildProtectedDataEncryptionKey(
       clientEncryptionKeyProperties,
       encryptionKeyStoreProvider,
+      cacheTimeToLive,
     );
     const encryptionAlgorithm = new AeadAes256CbcHmacSha256Algorithm(
       protectedDataEncryptionKey,
@@ -39,18 +42,31 @@ export class EncryptionSettingForProperty {
   private async buildProtectedDataEncryptionKey(
     clientEncryptionKeyProperties: ClientEncryptionKeyProperties,
     encryptionKeyStoreProvider: EncryptionKeyStoreProvider,
+    cacheTimeToLive?: number,
   ): Promise<ProtectedDataEncryptionKey> {
     const keyEncryptionKey = KeyEncryptionKey.getOrCreate(
       clientEncryptionKeyProperties.encryptionKeyWrapMetadata.name,
       clientEncryptionKeyProperties.encryptionKeyWrapMetadata.value,
       encryptionKeyStoreProvider,
     );
-    const protectedDataEncryptionKey = await ProtectedDataEncryptionKey.getOrCreate(
+    const key = JSON.stringify([
       this.encryptionKeyId,
-      keyEncryptionKey,
-      clientEncryptionKeyProperties.wrappedDataEncryptionKey,
-    );
+      keyEncryptionKey.name,
+      clientEncryptionKeyProperties.wrappedDataEncryptionKey.toString("hex"),
+    ]);
+
+    let protectedDataEncryptionKey =
+      protectedDataEncryptionKeyCache.getProtectedDataEncryptionKey(key);
+    // console.log(`protectedDataEncryptionKey: ${protectedDataEncryptionKey}`);
+    if (protectedDataEncryptionKey === undefined) {
+      protectedDataEncryptionKey = await ProtectedDataEncryptionKey.getOrCreate(
+        this.encryptionKeyId,
+        keyEncryptionKey,
+        cacheTimeToLive,
+        clientEncryptionKeyProperties.wrappedDataEncryptionKey,
+      );
+    }
+
     return protectedDataEncryptionKey;
   }
-  // TODO: in class calling these functions, implement methods to get the latest clientEncryptionKeyProperties if any thing goes wrong. EncryptionProcessor in our case.
 }

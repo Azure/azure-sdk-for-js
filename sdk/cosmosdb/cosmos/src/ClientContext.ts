@@ -49,10 +49,12 @@ import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { randomUUID } from "@azure/core-util";
 import { EncryptionKeyStoreProvider } from "./encryption/EncryptionKeyStoreProvider";
 import {
-  EncryptionSettingsCache,
-  ClientEncryptionKeyPropertiesCache,
-  ProtectedDataEncryptionKey,
+  // ClientEncryptionKeyPropertiesCache,
   EncryptionKeyResolverName,
+  buildCache,
+  // EncryptionSettingsCache,
+  // KeyEncryptionKeyCache,
+  // ProtectedDataEncryptionKeyCache,
 } from "./encryption";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -71,9 +73,8 @@ export class ClientContext {
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
   public enableEncryption: boolean = false;
   public encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
-  public clientEncryptionKeyPropertiesCache: ClientEncryptionKeyPropertiesCache;
-  public encryptionSettingsCache: EncryptionSettingsCache; // cache to store encryption settings for containers. Key is databaseRid+containerRid
-  private readonly encryptionKeyTimeToLiveInHours: number;
+
+  public readonly encryptionKeyTimeToLiveInHours: number;
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
@@ -105,15 +106,21 @@ export class ClientContext {
       );
     }
     if (this.enableEncryption) {
+      this.encryptionKeyTimeToLiveInHours = cosmosClientOptions.encryptionKeyTimeToLiveInHours ?? 2;
       this.encryptionKeyStoreProvider = new EncryptionKeyStoreProvider(
         cosmosClientOptions.keyEncryptionKeyResolver,
         EncryptionKeyResolverName.AzureKeyVault,
         this.encryptionKeyTimeToLiveInHours,
       );
-      this.encryptionKeyTimeToLiveInHours = cosmosClientOptions.encryptionKeyTimeToLiveInHours
-        ? cosmosClientOptions.encryptionKeyTimeToLiveInHours
-        : 2;
-      ProtectedDataEncryptionKey.clearCacheOnTtlExpiry(this.encryptionKeyTimeToLiveInHours);
+      buildCache();
+      // const protectedDataEncryptionKeyCache = ProtectedDataEncryptionKeyCache.getInstance();
+      // protectedDataEncryptionKeyCache.clearCache();
+      // const keyEncryptionKeyCache = KeyEncryptionKeyCache.getInstance();
+      // const clientEncryptionKeyPropertiesCache = ClientEncryptionKeyPropertiesCache.getInstance();
+      // const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
+      // keyEncryptionKeyCache.clearCache();
+      // clientEncryptionKeyPropertiesCache.clearCache();
+      // encryptionSettingsCache.clearCache();
     }
     this.initializeDiagnosticSettings(diagnosticLevel);
   }

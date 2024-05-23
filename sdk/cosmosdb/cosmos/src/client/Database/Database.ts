@@ -219,11 +219,6 @@ export class Database {
         "Creating a client encryption key requires the use of an encryption-enabled client.",
       );
     }
-    // if (keyWrapMetadata.type !== this.clientContext.encryptionKeyStoreProvider.providerName) {
-    //   throw new Error(
-    //     `The Type of the EncryptionKeyWrapMetadata '${keyWrapMetadata.type}' does not match with the encryption key provider Name '${this.clientContext.encryptionKeyStoreProvider.providerName}' configured`,
-    //   );
-    // }
 
     if (keyWrapMetadata.type === EncryptionKeyResolverName.AzureKeyVault) {
       // https://KEYVAULTNAME.vault.azure.net/keys/KEYNAME/KEYVERSION
@@ -239,14 +234,13 @@ export class Database {
       this.clientContext.encryptionKeyStoreProvider,
     );
 
-    const protectedDataEncryptionKey = await ProtectedDataEncryptionKey.create(
+    const protectedDataEncryptionKey = await ProtectedDataEncryptionKey.getOrCreate(
       id,
       keyEncryptionKey,
+      this.clientContext.encryptionKeyTimeToLiveInHours,
     );
 
     const wrappedDataEncryptionKey = protectedDataEncryptionKey.encryptedValue;
-
-    await ProtectedDataEncryptionKey.getOrCreate(id, keyEncryptionKey, wrappedDataEncryptionKey);
 
     const body: ClientEncryptionKeyRequest = {
       id: id,
