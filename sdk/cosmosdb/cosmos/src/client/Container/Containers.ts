@@ -195,7 +195,12 @@ export class Containers {
       diagnosticNode,
       options,
     });
-    const ref = new Container(this.database, response.result.id, this.clientContext);
+    const ref = new Container(
+      this.database,
+      response.result.id,
+      this.clientContext,
+      response.result._rid,
+    );
     return new ContainerResponse(
       response.result,
       response.headers,

@@ -182,10 +182,6 @@ export class ClientContext {
     }): Promise<Response_2<any>>;
     // (undocumented)
     clearSessionToken(path: string): void;
-    // Warning: (ae-forgotten-export) The symbol "ClientEncryptionKeyPropertiesCache" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    clientEncryptionKeyPropertiesCache: ClientEncryptionKeyPropertiesCache;
     // (undocumented)
     create<T, U = T>({ body, path, resourceType, resourceId, diagnosticNode, options, partitionKey, }: {
         body: T;
@@ -214,10 +210,8 @@ export class ClientContext {
     //
     // (undocumented)
     encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
-    // Warning: (ae-forgotten-export) The symbol "EncryptionSettingsCache" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    encryptionSettingsCache: EncryptionSettingsCache;
+    readonly encryptionKeyTimeToLiveInHours: number;
     // (undocumented)
     execute<T>({ sprocLink, params, options, partitionKey, diagnosticNode, }: {
         sprocLink: string;
@@ -647,7 +641,7 @@ export const Constants: {
 
 // @public
 export class Container {
-    constructor(database: Database, id: string, clientContext: ClientContext);
+    constructor(database: Database, id: string, clientContext: ClientContext, containerRid?: string);
     conflict(id: string, partitionKey?: PartitionKey): Conflict;
     get conflicts(): Conflicts;
     // (undocumented)
@@ -674,6 +668,8 @@ export class Container {
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
+    // (undocumented)
+    ThrowIfRequestNeedsARetryPostPolicyRefresh(errorResponse: any): Promise<void>;
     get url(): string;
 }
 
@@ -1070,11 +1066,17 @@ export class EncryptionKeyWrapMetadata {
 export class EncryptionQueryBuilder {
     constructor(query: string);
     // (undocumented)
+    addArrayParameter(name: string, value: JSONArray, path: string): void;
+    // (undocumented)
     addBooleanParameter(name: string, value: boolean, path: string): void;
+    // (undocumented)
+    addDateParameter(name: string, value: Date, path: string): void;
     // (undocumented)
     addFloatParameter(name: string, value: number, path: string): void;
     // (undocumented)
     addIntegerParameter(name: string, value: number, path: string): void;
+    // (undocumented)
+    addObjectParameter(name: string, value: JSONObject, path: string): void;
     // (undocumented)
     addStringParameter(name: string, value: string, path: string): void;
 }
@@ -1368,17 +1370,17 @@ export class Items {
 }
 
 // @public (undocumented)
-export interface JSONArray extends ArrayLike<JSONValue> {
+export interface JSONArray extends ArrayLike<any> {
 }
 
 // @public (undocumented)
 export interface JSONObject {
     // (undocumented)
-    [key: string]: JSONValue;
+    [key: string]: any;
 }
 
 // @public (undocumented)
-export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
+export type JSONValue = boolean | number | string | null | JSONArray | JSONObject | Date;
 
 // @public (undocumented)
 export enum KeyEncryptionKeyAlgorithm {
@@ -1782,7 +1784,7 @@ export interface QueryInfo {
 // @public
 export class QueryIterator<T> {
     // Warning: (ae-forgotten-export) The symbol "FetchFunctionCallback" needs to be exported by the entry point index.d.ts
-    constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], resourceLink?: string, resourceType?: ResourceType);
+    constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], container?: Container, resourceLink?: string, resourceType?: ResourceType);
     fetchAll(): Promise<FeedResponse<T>>;
     // (undocumented)
     fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>>;
@@ -2012,6 +2014,7 @@ export interface RequestOptions extends SharedOptions {
         type: string;
         condition: string;
     };
+    collectionRid?: string;
     consistencyLevel?: string;
     databaseRid?: string;
     disableAutomaticIdGeneration?: boolean;
