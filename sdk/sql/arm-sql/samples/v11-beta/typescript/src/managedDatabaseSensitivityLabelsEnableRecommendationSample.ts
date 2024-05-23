@@ -32,14 +32,15 @@ async function enablesTheSensitivityRecommendationsOnAGivenColumn() {
   const columnName = "myColumn";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedDatabaseSensitivityLabels.enableRecommendation(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    schemaName,
-    tableName,
-    columnName
-  );
+  const result =
+    await client.managedDatabaseSensitivityLabels.enableRecommendation(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      schemaName,
+      tableName,
+      columnName,
+    );
   console.log(result);
 }
 
