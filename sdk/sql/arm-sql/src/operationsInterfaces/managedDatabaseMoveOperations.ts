@@ -11,7 +11,7 @@ import {
   ManagedDatabaseMoveOperationResult,
   ManagedDatabaseMoveOperationsListByLocationOptionalParams,
   ManagedDatabaseMoveOperationsGetOptionalParams,
-  ManagedDatabaseMoveOperationsGetResponse
+  ManagedDatabaseMoveOperationsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface ManagedDatabaseMoveOperations {
   listByLocation(
     resourceGroupName: string,
     locationName: string,
-    options?: ManagedDatabaseMoveOperationsListByLocationOptionalParams
+    options?: ManagedDatabaseMoveOperationsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<ManagedDatabaseMoveOperationResult>;
   /**
    * Gets a managed database move operation.
@@ -41,6 +41,6 @@ export interface ManagedDatabaseMoveOperations {
     resourceGroupName: string,
     locationName: string,
     operationId: string,
-    options?: ManagedDatabaseMoveOperationsGetOptionalParams
+    options?: ManagedDatabaseMoveOperationsGetOptionalParams,
   ): Promise<ManagedDatabaseMoveOperationsGetResponse>;
 }

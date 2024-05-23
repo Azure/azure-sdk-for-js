@@ -32,7 +32,7 @@ async function getsARestorableDroppedManagedDatabase() {
   const result = await client.restorableDroppedManagedDatabases.get(
     resourceGroupName,
     managedInstanceName,
-    restorableDroppedDatabaseId
+    restorableDroppedDatabaseId,
   );
   console.log(result);
 }

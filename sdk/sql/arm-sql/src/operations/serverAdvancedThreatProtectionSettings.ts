@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,13 +29,14 @@ import {
   ServerAdvancedThreatProtectionSettingsGetResponse,
   ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
   ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse,
-  ServerAdvancedThreatProtectionSettingsListByServerNextResponse
+  ServerAdvancedThreatProtectionSettingsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServerAdvancedThreatProtectionSettings operations. */
 export class ServerAdvancedThreatProtectionSettingsImpl
-  implements ServerAdvancedThreatProtectionSettings {
+  implements ServerAdvancedThreatProtectionSettings
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -56,12 +57,12 @@ export class ServerAdvancedThreatProtectionSettingsImpl
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams
+    options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerAdvancedThreatProtection> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +79,9 @@ export class ServerAdvancedThreatProtectionSettingsImpl
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +89,7 @@ export class ServerAdvancedThreatProtectionSettingsImpl
     resourceGroupName: string,
     serverName: string,
     options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServerAdvancedThreatProtection[]> {
     let result: ServerAdvancedThreatProtectionSettingsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +105,7 @@ export class ServerAdvancedThreatProtectionSettingsImpl
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,12 +117,12 @@ export class ServerAdvancedThreatProtectionSettingsImpl
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams
+    options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams,
   ): AsyncIterableIterator<ServerAdvancedThreatProtection> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +138,11 @@ export class ServerAdvancedThreatProtectionSettingsImpl
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams
+    options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams,
   ): Promise<ServerAdvancedThreatProtectionSettingsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -157,11 +158,11 @@ export class ServerAdvancedThreatProtectionSettingsImpl
     resourceGroupName: string,
     serverName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
-    options?: ServerAdvancedThreatProtectionSettingsGetOptionalParams
+    options?: ServerAdvancedThreatProtectionSettingsGetOptionalParams,
   ): Promise<ServerAdvancedThreatProtectionSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, advancedThreatProtectionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -179,32 +180,29 @@ export class ServerAdvancedThreatProtectionSettingsImpl
     serverName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
     parameters: ServerAdvancedThreatProtection,
-    options?: ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+    options?: ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse
-      >,
+      OperationState<ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse>,
       ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -213,8 +211,8 @@ export class ServerAdvancedThreatProtectionSettingsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -222,8 +220,8 @@ export class ServerAdvancedThreatProtectionSettingsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -234,18 +232,16 @@ export class ServerAdvancedThreatProtectionSettingsImpl
         serverName,
         advancedThreatProtectionName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse,
-      OperationState<
-        ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse
-      >
+      OperationState<ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -265,14 +261,14 @@ export class ServerAdvancedThreatProtectionSettingsImpl
     serverName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
     parameters: ServerAdvancedThreatProtection,
-    options?: ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+    options?: ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
   ): Promise<ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
       advancedThreatProtectionName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -289,11 +285,11 @@ export class ServerAdvancedThreatProtectionSettingsImpl
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: ServerAdvancedThreatProtectionSettingsListByServerNextOptionalParams
+    options?: ServerAdvancedThreatProtectionSettingsListByServerNextOptionalParams,
   ): Promise<ServerAdvancedThreatProtectionSettingsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -301,94 +297,91 @@ export class ServerAdvancedThreatProtectionSettingsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advancedThreatProtectionSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advancedThreatProtectionSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogicalServerAdvancedThreatProtectionListResult
+      bodyMapper: Mappers.LogicalServerAdvancedThreatProtectionListResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion8],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advancedThreatProtectionSettings/{advancedThreatProtectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServerAdvancedThreatProtection
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.advancedThreatProtectionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advancedThreatProtectionSettings/{advancedThreatProtectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServerAdvancedThreatProtection,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion9],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.advancedThreatProtectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advancedThreatProtectionSettings/{advancedThreatProtectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advancedThreatProtectionSettings/{advancedThreatProtectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerAdvancedThreatProtection
+      bodyMapper: Mappers.ServerAdvancedThreatProtection,
     },
     201: {
-      bodyMapper: Mappers.ServerAdvancedThreatProtection
+      bodyMapper: Mappers.ServerAdvancedThreatProtection,
     },
     202: {
-      bodyMapper: Mappers.ServerAdvancedThreatProtection
+      bodyMapper: Mappers.ServerAdvancedThreatProtection,
     },
     204: {
-      bodyMapper: Mappers.ServerAdvancedThreatProtection
+      bodyMapper: Mappers.ServerAdvancedThreatProtection,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters73,
-  queryParameters: [Parameters.apiVersion8],
+  requestBody: Parameters.parameters75,
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.advancedThreatProtectionName
+    Parameters.advancedThreatProtectionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogicalServerAdvancedThreatProtectionListResult
+      bodyMapper: Mappers.LogicalServerAdvancedThreatProtectionListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
