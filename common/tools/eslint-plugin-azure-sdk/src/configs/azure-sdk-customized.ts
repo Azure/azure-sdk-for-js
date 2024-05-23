@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 import type { FlatConfig, SharedConfig } from "@typescript-eslint/utils/ts-eslint";
+import { fixupPluginRules } from "@eslint/compat";
+import noOnlyTests from "eslint-plugin-no-only-tests";
+import tsdoc from "eslint-plugin-tsdoc";
 
 const tsEslintCustomization: Record<string, SharedConfig.RuleEntry> = {
   "@typescript-eslint/no-invalid-this": "off",
@@ -101,6 +104,27 @@ const azsdkDefault: Record<string, SharedConfig.RuleEntry> = {
   "@azure/azure-sdk/ts-doc-internal": "off",
 };
 
+const noOnlyTestsCustomization = {
+  name: "no-only-tests-azsdk-customized",
+  plugins: {
+    "no-only-tests": fixupPluginRules(noOnlyTests),
+  },
+  files: ["**/test/**/*.ts"],
+  rules: {
+    "no-only-tests/no-only-tests": "error",
+  },
+};
+
+const tsdocCustomization = {
+  name: "tsdoc-azsdk-customized",
+  plugins: {
+    tsdoc: fixupPluginRules(tsdoc),
+  },
+  rules: {
+    "tsdoc/syntax": "error",
+  },
+};
+
 const rules: Record<string, SharedConfig.RuleEntry> = {
   ...tsEslintCustomization,
   ...azsdkDefault,
@@ -141,4 +165,6 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
       main: "src/index.ts",
     },
   },
+  noOnlyTestsCustomization as FlatConfig.Config,
+  tsdocCustomization as FlatConfig.Config,
 ];

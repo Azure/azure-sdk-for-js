@@ -2161,6 +2161,11 @@ packages:
     engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
     dev: false
 
+  /@eslint/compat@1.0.1:
+    resolution: {integrity: sha512-jIstH3YKraEe4HRQ77ux12ZLRxPzehmcdjRSRrSePiwf6s4G9DzdYl3L5CKSXWt4JyzXxy2p7MXFU7630Gz8PA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    dev: false
+
   /@eslint/eslintrc@2.1.4:
     resolution: {integrity: sha512-269Z39MS6wVJtsoUl10L60WdkhJVdPG24Q4eZTH3nnF6lpvSShEK3wQjDX9JRWAUPvPh7COouPpU9IrqaZFvtQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -11604,7 +11609,7 @@ packages:
     dev: false
 
   file:projects/ai-vision-face.tgz:
-    resolution: {integrity: sha512-LWudf7lKl88RNyLHOr5ExrksdBjzVyQ8xDZah1Aw+1Tm0tdJz0RLOPizwqo0zfoIscEU3+nB+CmVQVFCtmKQOA==, tarball: file:projects/ai-vision-face.tgz}
+    resolution: {integrity: sha512-xMirTG6eo+aHspvpR9xI6AM0wOqn9DBwLZEwWt1KMnJ8jxGsocfviMoufkl6ZreaxMqfBbUEYEk8ZrpgitdBZA==, tarball: file:projects/ai-vision-face.tgz}
     name: '@rush-temp/ai-vision-face'
     version: 0.0.0
     dependencies:
@@ -13264,7 +13269,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservicefleet.tgz:
-    resolution: {integrity: sha512-Cnu4qtNd8Ac7bC0Hz6iYfW4kbaMOSUdykobQER2UKfJEbxWbBCt39xujI0DUCl6xRldNkq4Vr2xOK8vwf6tprw==, tarball: file:projects/arm-containerservicefleet.tgz}
+    resolution: {integrity: sha512-SwL5MEYHqVIS52ZwjCeumsnAKEr4swmPkkFzuVCt5WrTS0pSr4r8rd7UiQ4VddiE7HxRTawmy75L+um9YM0oug==, tarball: file:projects/arm-containerservicefleet.tgz}
     name: '@rush-temp/arm-containerservicefleet'
     version: 0.0.0
     dependencies:
@@ -15446,7 +15451,7 @@ packages:
     dev: false
 
   file:projects/arm-maintenance.tgz:
-    resolution: {integrity: sha512-hbHRUZj5M0xrJTPhD0alFfmvcCylwflT+/kvdK3PEKcc8RgzdquUJTL7xVzIuZfENPcW+22w7tYb8sHtJYR/Ag==, tarball: file:projects/arm-maintenance.tgz}
+    resolution: {integrity: sha512-uWAdoC+TPAOMUsLfkbmojphe+9hx/EiU6OMs7L5u5FhXKj5kkLurJ++JeYHoFgqKWg+19sch+6/cIPVHmPhIRg==, tarball: file:projects/arm-maintenance.tgz}
     name: '@rush-temp/arm-maintenance'
     version: 0.0.0
     dependencies:
@@ -16898,7 +16903,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-AQUuw6VmRac8IIQpWQWy20N7BUnU7OqYjRpHiaSgfdeuHgCzH6ZbRXzwfvG/gp8Ogl6qJMOXc+f2c6gCLDZ7Fw==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-H9OANkU6/grQPxD2kzV3MESRUGXGwHFAw4LlFGHF0ICxbWd2bJRMiUihzXLv/mO0SVxGrxgm8SOursqwS6hDtg==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
@@ -20144,7 +20149,7 @@ packages:
     dev: false
 
   file:projects/developer-devcenter.tgz:
-    resolution: {integrity: sha512-wslzkw8iSADqg3l0cBRPkXOgv20hUZbu9fNn/+ejt3YQYRL0rElOKnKaptx4cZ4aYRrktBLxd7QNb7716511qg==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-4z+opZKRojUiqm+wZuHN/9doh7MIKVD82NND6jhIktQcRhdtstrb5WKeJ4i3A/PVAWaN+925xo7Wze6NRG69cQ==, tarball: file:projects/developer-devcenter.tgz}
     name: '@rush-temp/developer-devcenter'
     version: 0.0.0
     dependencies:
@@ -20250,10 +20255,11 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk-helper.tgz:
-    resolution: {integrity: sha512-kRAOQE31wzflYYlkqF/owv9V8ejpolAkmcglKEucRqNuhNQ4eP/YDYvCo+Wm+8cFYZNuEaucT6h6rnBVUyEOLg==, tarball: file:projects/eslint-plugin-azure-sdk-helper.tgz}
+    resolution: {integrity: sha512-EchiMd57WKBywM/HpKRd5xW1+tTOfoj2cDnHzGjzu5oMp4Tmyx4aFQZvcT8f0ANnDXJ2p9VFjHUB/3UFGwtQWw==, tarball: file:projects/eslint-plugin-azure-sdk-helper.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk-helper'
     version: 0.0.0
     dependencies:
+      '@eslint/compat': 1.0.1
       '@eslint/js': 9.2.0
       '@types/eslint': 8.44.9
       '@types/estree': 1.0.5
@@ -20277,10 +20283,11 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-xRRhvi+SVAszKGJ0D4R+iF4l4rxU4TGxNSBXqGmQLtBMn14PlJlm0VHT9fIDaZ37yRPxvcSxx6eyp9aUOpfNcw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-WyTbO8+AsY7suS/0ndKFQslxXrKR0WVc7qmwWEANQHEUXvyMOZVZ/vImvuLG7pIal2FV343iYGjOSLOv0n0Brw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
+      '@eslint/compat': 1.0.1
       '@eslint/eslintrc': 3.1.0
       '@eslint/js': 9.2.0
       '@types/eslint': 8.56.10
