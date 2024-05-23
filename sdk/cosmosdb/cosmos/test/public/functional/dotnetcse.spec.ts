@@ -33,7 +33,7 @@ import { assert } from "chai";
 
 import { masterKey } from "../common/_fakeTestSecrets";
 import { endpoint } from "../common/_testConfig";
-import { removeAllDatabases } from "../common/TestHelpers";
+// import { removeAllDatabases } from "../common/TestHelpers";
 import { randomUUID } from "@azure/core-util";
 import { StatusCode } from "nock";
 
@@ -111,7 +111,7 @@ let clientEncryptionPolicy: ClientEncryptionPolicy;
 
 describe("dotnet test cases", () => {
   before(async () => {
-    await removeAllDatabases();
+    // await removeAllDatabases();
     testKeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver(1);
     metadata1 = new EncryptionKeyWrapMetadata(
       testKeyVault,
@@ -216,6 +216,45 @@ describe("dotnet test cases", () => {
       for (const item of items) {
         await encryptionContainer.item(item.id, item.PK).delete();
       }
+    }
+  });
+
+  it("verify client encryption policy", async () => {
+    // const containerId = "containerWithUnsupportedPolicy";
+    let path = new ClientEncryptionIncludedPath(
+      "/id",
+      "key1",
+      EncryptionType.DETERMINISTIC,
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    );
+    let invalidPolicy: ClientEncryptionPolicy;
+    try {
+      new ClientEncryptionPolicy([path], 3);
+      console.log(invalidPolicy);
+      assert.fail("client encryption policy creation should fail");
+    } catch (error: any) {
+      assert.ok(
+        error.message.includes("Supported versions of client encryption policy are 1 and 2."),
+      );
+    }
+    path = new ClientEncryptionIncludedPath(
+      "/nonsensitive",
+      "key1",
+      EncryptionType.DETERMINISTIC,
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    );
+    const pathdup = new ClientEncryptionIncludedPath(
+      "/nonsensitive",
+      "key1",
+      EncryptionType.DETERMINISTIC,
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    );
+    try {
+      new ClientEncryptionPolicy([path, pathdup], 2);
+      assert.fail("client encryption policy creation should fail");
+    } catch (error: any) {
+      console.log(error.message);
+      assert.ok(error.message.includes("Duplicate path found"));
     }
   });
 
@@ -1265,6 +1304,7 @@ describe("dotnet test cases", () => {
       await iterator.fetchNext();
     }
   });
+
   it("should fail creating cep with duplicate path", async () => {
     // duplicate paths in policy
     const pathdup1 = new ClientEncryptionIncludedPath(
