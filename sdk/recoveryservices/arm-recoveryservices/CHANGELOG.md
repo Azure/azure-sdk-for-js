@@ -1,15 +1,36 @@
 # Release History
+    
+## 6.0.0 (2024-04-17)
+    
+**Features**
 
-## 5.4.1 (Unreleased)
+  - Added operation Vaults.beginDelete
+  - Added operation Vaults.beginDeleteAndWait
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface VaultsDeleteHeaders
+  - Added Type Alias BcdrSecurityLevel
+  - Added Type Alias EnhancedSecurityState
+  - Added Type Alias VaultsDeleteResponse
+  - Interface AzureMonitorAlertSettings has a new optional parameter alertsForAllFailoverIssues
+  - Interface AzureMonitorAlertSettings has a new optional parameter alertsForAllReplicationIssues
+  - Interface ClassicAlertSettings has a new optional parameter emailNotificationsForSiteRecovery
+  - Interface SoftDeleteSettings has a new optional parameter enhancedSecurityState
+  - Interface VaultProperties has a new optional parameter bcdrSecurityLevel
+  - Interface VaultProperties has a new optional parameter resourceGuardOperationRequests
+  - Interface VaultsCreateOrUpdateOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface VaultsDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface VaultsDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface VaultsUpdateOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Added Enum KnownBcdrSecurityLevel
+  - Added Enum KnownEnhancedSecurityState
+  - Enum KnownStandardTierStorageRedundancy has a new value Invalid
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Vaults.delete
+    
+    
 ## 5.4.0 (2023-08-29)
     
 **Features**
@@ -115,4 +136,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
