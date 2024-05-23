@@ -159,7 +159,7 @@ const result = await client.chat.completions.create({ messages, ... { extensions
 
 Notice that:
 - The `azureExtensionOptions` property has been replaced with the inner `extensions` property
-- The `parameters` property has been added to wrap the parameters of the extension 
+- The `parameters` property has been added to wrap the parameters of the extension, which mirrors the schema of the Azure OpenAI service API
 
 ### Audio transcription
 
@@ -245,7 +245,7 @@ const assistantResponse = await assistantsClient.beta.assistants.create(
 
 Notice that:
 - The `createAssistant` method has been replaced with the `beta.assistants.create` method
-- The names of the properties in the `options` object are the same as in the Azure OpenAI service API, following the snake case convention instead of the camel case convention used in the `AssistantsClient`
+- The names of the properties in the `options` object are the same as in the Azure OpenAI service API, following the snake case convention instead of the camel case convention used in the `AssistantsClient`. This is true for all the properties across all requests and responses in the `AzureOpenAI` client
 
 #### Thread creation
 
@@ -365,7 +365,7 @@ const embeddings = await client.getEmbeddings(deploymentName, input);
 
 Migrated code:
 ```typescript
-  const embeddings = await client.embeddings.create({ input, model: deployment });
+const embeddings = await client.embeddings.create({ input, model: deployment });
 ```
 
 Notice that:
@@ -406,7 +406,7 @@ for (const choice of results.choices) {
   }
   if (choice.contentFilterResults.error) {
     console.log(
-          `Content filter ran into the error ${choice.contentFilterResults.error.code}: ${choice.contentFilterResults.error.message}`);
+      `Content filter ran into the error ${choice.contentFilterResults.error.code}: ${choice.contentFilterResults.error.message}`);
   }
   const { hate, sexual, selfHarm, violence } = choice.contentFilterResults;
   ...
@@ -425,7 +425,7 @@ for (const choice of results.choices) {
   }
   if (filterResults.error) {
     console.log(
-          `Content filter ran into the error ${filterResults.error.code}: ${filterResults.error.message}`);
+      `Content filter ran into the error ${filterResults.error.code}: ${filterResults.error.message}`);
   }
   const { hate, sexual, selfHarm, violence } = filterResults;
   ...
