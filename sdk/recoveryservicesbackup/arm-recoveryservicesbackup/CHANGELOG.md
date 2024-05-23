@@ -1,14 +1,20 @@
 # Release History
+    
+## 13.1.0 (2024-05-08)
+    
+**Features**
 
-## 13.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Added Type Alias IaasVMSnapshotConsistencyType
+  - Interface AzureIaaSVMProtectionPolicy has a new optional parameter snapshotConsistencyType
+  - Interface BackupResourceVaultConfigsPutOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface BackupResourceVaultConfigsUpdateOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface ProtectedItemsCreateOrUpdateOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface ProtectionPoliciesCreateOrUpdateOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface RestoreRequest has a new optional parameter resourceGuardOperationRequests
+  - Interface RestoresTriggerOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface SecurityPINsGetOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Added Enum KnownIaasVMSnapshotConsistencyType
+    
 
 ## 13.0.0 (2023-12-13)
     

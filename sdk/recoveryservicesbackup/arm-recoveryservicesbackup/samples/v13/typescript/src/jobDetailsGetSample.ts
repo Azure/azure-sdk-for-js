@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets extended information associated with the job.
  *
  * @summary Gets extended information associated with the job.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/Common/GetJobDetails.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/GetJobDetails.json
  */
 async function getJobDetails() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getJobDetails() {
   const result = await client.jobDetails.get(
     vaultName,
     resourceGroupName,
-    jobName
+    jobName,
   );
   console.log(result);
 }
