@@ -3,7 +3,7 @@
 
 import { ErrorResponse } from "../request";
 import { ClientEncryptionIncludedPath } from "./ClientEncryptionIncludedPath";
-import { EncryptionAlgorithm, EncryptionType } from "./enums";
+import { EncryptionAlgorithm } from "./enums";
 
 export class ClientEncryptionPolicy {
   public includedPaths: ClientEncryptionIncludedPath[];
@@ -11,8 +11,8 @@ export class ClientEncryptionPolicy {
   public policyFormatVersion: number;
 
   constructor(includedPaths: ClientEncryptionIncludedPath[], policyFormatVersion?: number) {
-    this.validatePolicyVersion(policyFormatVersion);
-    this.validateIncludedPaths(includedPaths, policyFormatVersion);
+    this.validatePolicyVersion(this.policyFormatVersion);
+    this.validateIncludedPaths(includedPaths, this.policyFormatVersion);
     this.includedPaths = includedPaths;
     this.policyFormatVersion = policyFormatVersion || 1;
   }
@@ -59,15 +59,12 @@ export class ClientEncryptionPolicy {
     if (includedPath.encryptionAlgorithm !== EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256) {
       throw new ErrorResponse("Invalid encryption algorithm in ClientEncryptionIncludedPath.");
     }
-    if (
-      includedPath.encryptionType !== EncryptionType.DETERMINISTIC &&
-      includedPath.encryptionType !== EncryptionType.RANDOMIZED
-    ) {
-      throw new ErrorResponse("Invalid encryption type in ClientEncryptionIncludedPath.");
-    }
+    // TODO: add check for checking encryption type
     if (includedPath.path[0] !== "/") {
       throw new ErrorResponse("Path in ClientEncryptionIncludedPath needs to start with '/'.");
+      console.log(policyFormatVersion);
     }
+    // TODO: place further checks for path
   }
 
   // TODO: add checks for checking partition key paths
