@@ -4,7 +4,7 @@
 /// <reference lib="esnext.asynciterable" />
 import { ClientContext } from "./ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
-import { getPathFromLink, ResourceType, StatusCodes } from "./common";
+import { getPathFromLink, ResourceType, StatusCodes, RUConsumedManager } from "./common";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,
@@ -25,6 +25,8 @@ import {
   withMetadataDiagnostics,
 } from "./utils/diagnostics";
 import { MetadataLookUpType } from "./CosmosDiagnostics";
+import { QueryOperationOptions } from "./request/OperationOptions";
+import { RUCapPerOperationExceededErrorCode } from "./request/RUCapPerOperationExceededError";
 import { randomUUID } from "@azure/core-util";
 
 /**
@@ -39,6 +41,7 @@ export class QueryIterator<T> {
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
   private correlatedActivityId: string;
+  private nonStreamingOrderBy: boolean = false;
   /**
    * @hidden
    */
@@ -81,7 +84,7 @@ export class QueryIterator<T> {
    * }
    * ```
    */
-  public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
+  public async *getAsyncIterator(options?: QueryOperationOptions): AsyncIterable<FeedResponse<T>> {
     this.reset();
     let diagnosticNode = new DiagnosticNodeInternal(
       this.clientContext.diagnosticLevel,
@@ -89,15 +92,27 @@ export class QueryIterator<T> {
       null,
     );
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
+    let ruConsumedManager: RUConsumedManager | undefined;
+    if (options && options.ruCapPerOperation) {
+      ruConsumedManager = new RUConsumedManager();
+    }
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
-        response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+        response = await this.queryExecutionContext.fetchMore(
+          diagnosticNode,
+          options,
+          ruConsumedManager,
+        );
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           try {
-            response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+            response = await this.queryExecutionContext.fetchMore(
+              diagnosticNode,
+              options,
+              ruConsumedManager,
+            );
           } catch (queryError: any) {
             this.handleSplitError(queryError);
           }
@@ -136,20 +151,23 @@ export class QueryIterator<T> {
    * Fetch all pages for the query and return a single FeedResponse.
    */
 
-  public async fetchAll(): Promise<FeedResponse<T>> {
+  public async fetchAll(options?: QueryOperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      return this.fetchAllInternal(diagnosticNode);
+      return this.fetchAllInternal(diagnosticNode, options);
     }, this.clientContext);
   }
 
   /**
    * @hidden
    */
-  public async fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>> {
+  public async fetchAllInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+    options?: QueryOperationOptions,
+  ): Promise<FeedResponse<T>> {
     this.reset();
     let response: FeedResponse<T>;
     try {
-      response = await this.toArrayImplementation(diagnosticNode);
+      response = await this.toArrayImplementation(diagnosticNode, options);
     } catch (error: any) {
       this.handleSplitError(error);
     }
@@ -163,8 +181,13 @@ export class QueryIterator<T> {
    * and the type of query. Aggregate queries will generally fetch all backend pages
    * before returning the first batch of responses.
    */
-  public async fetchNext(): Promise<FeedResponse<T>> {
+  public async fetchNext(options?: QueryOperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      // Enabling RU metrics count for all the fetchNext operations
+      const ruConsumedManager: RUConsumedManager = new RUConsumedManager();
+      // TODO: clean this comment
+      // if (options && options.ruCapPerOperation) {
+      // }
       this.queryPlanPromise = withMetadataDiagnostics(
         async (metadataNode: DiagnosticNodeInternal) => {
           return this.fetchQueryPlan(metadataNode);
@@ -178,12 +201,20 @@ export class QueryIterator<T> {
 
       let response: Response<any>;
       try {
-        response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+        response = await this.queryExecutionContext.fetchMore(
+          diagnosticNode,
+          options,
+          ruConsumedManager,
+        );
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           try {
-            response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+            response = await this.queryExecutionContext.fetchMore(
+              diagnosticNode,
+              options,
+              ruConsumedManager,
+            );
           } catch (queryError: any) {
             this.handleSplitError(queryError);
           }
@@ -217,7 +248,12 @@ export class QueryIterator<T> {
 
   private async toArrayImplementation(
     diagnosticNode: DiagnosticNodeInternal,
+    options?: QueryOperationOptions,
   ): Promise<FeedResponse<T>> {
+    let ruConsumedManager: RUConsumedManager | undefined;
+    if (options && options.ruCapPerOperation) {
+      ruConsumedManager = new RUConsumedManager();
+    }
     this.queryPlanPromise = withMetadataDiagnostics(
       async (metadataNode: DiagnosticNodeInternal) => {
         return this.fetchQueryPlan(metadataNode);
@@ -233,11 +269,25 @@ export class QueryIterator<T> {
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
-        response = await this.queryExecutionContext.nextItem(diagnosticNode);
+        response = await this.queryExecutionContext.nextItem(
+          diagnosticNode,
+          options,
+          ruConsumedManager,
+        );
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
-          response = await this.queryExecutionContext.nextItem(diagnosticNode);
+          response = await this.queryExecutionContext.nextItem(
+            diagnosticNode,
+            options,
+            ruConsumedManager,
+          );
+        } else if (error.code === RUCapPerOperationExceededErrorCode && error.fetchedResults) {
+          error.fetchedResults.forEach((item: any) => {
+            this.fetchAllTempResources.push(item);
+          });
+          error.fetchedResults = this.fetchAllTempResources;
+          throw error;
         } else {
           throw error;
         }
@@ -247,7 +297,9 @@ export class QueryIterator<T> {
       mergeHeaders(this.fetchAllLastResHeaders, headers);
 
       if (result !== undefined) {
-        this.fetchAllTempResources.push(result);
+        if (this.nonStreamingOrderBy && Object.keys(result).length === 0) {
+          // ignore empty results from NonStreamingOrderBy Endpoint components.
+        } else this.fetchAllTempResources.push(result);
       }
     }
     return new FeedResponse(
@@ -268,6 +320,7 @@ export class QueryIterator<T> {
 
     const queryPlan = queryPlanResponse.result;
     const queryInfo = queryPlan.queryInfo;
+    this.nonStreamingOrderBy = queryInfo.hasNonStreamingOrderBy ? true : false;
     if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
       throw new Error("Aggregate queries must use the VALUE keyword");
     }
@@ -299,14 +352,15 @@ export class QueryIterator<T> {
   }
 
   private needsQueryPlan(error: ErrorResponse): error is ErrorResponse {
+    let needsQueryPlanValue = false;
     if (
       error.body?.additionalErrorInfo ||
       error.message.includes("Cross partition query only supports")
     ) {
-      return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
-    } else {
-      throw error;
+      needsQueryPlanValue =
+        error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
     }
+    return needsQueryPlanValue;
   }
 
   private initPromise: Promise<void>;

@@ -4,6 +4,7 @@ import { IndexingPolicy, PartitionKeyDefinition } from "../../documents";
 import { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
 import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
 import { GeospatialType } from "../../documents/GeospatialType";
+import { VectorEmbeddingPolicy } from "../../documents/VectorEmbeddingPolicy";
 import { ChangeFeedPolicy } from "../ChangeFeed/ChangeFeedPolicy";
 import { ComputedProperty } from "../../documents/ComputedProperty";
 
@@ -24,6 +25,8 @@ export interface ContainerDefinition {
   geospatialConfig?: {
     type: GeospatialType;
   };
+  /** The vector embedding policy information for storing items in a container. */
+  vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
   /** Change feed policy related to the container */
   changeFeedPolicy?: ChangeFeedPolicy;
   /** The computed properties of the container */

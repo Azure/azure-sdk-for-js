@@ -204,7 +204,7 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.0.1",
+  SDKVersion: "4.0.1-beta.2",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
@@ -264,6 +264,9 @@ export const Constants = {
   // Changefeed AllVersionsAndDeletesMode formatting version
   AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15",
   ChangeFeedIfNoneMatchStartFromNowHeader: "*",
+
+  // NonStreaming queries
+  NonStreamingQueryDefaultRUThreshold: 5000,
 };
 
 /**

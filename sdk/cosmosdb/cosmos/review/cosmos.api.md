@@ -591,6 +591,7 @@ export const Constants: {
     };
     AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
     ChangeFeedIfNoneMatchStartFromNowHeader: string;
+    NonStreamingQueryDefaultRUThreshold: number;
 };
 
 // @public
@@ -637,6 +638,7 @@ export interface ContainerDefinition {
     indexingPolicy?: IndexingPolicy;
     partitionKey?: PartitionKeyDefinition;
     uniqueKeyPolicy?: UniqueKeyPolicy;
+    vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
 }
 
 // Warning: (ae-forgotten-export) The symbol "VerboseOmit" needs to be exported by the entry point index.d.ts
@@ -1053,6 +1055,8 @@ export interface FeedOptions extends SharedOptions {
     populateIndexMetrics?: boolean;
     populateQueryMetrics?: boolean;
     useIncrementalFeed?: boolean;
+    // (undocumented)
+    vectorSearchBufferSize?: number;
 }
 
 // @public
@@ -1183,6 +1187,8 @@ export interface IndexingPolicy {
     indexingMode?: keyof typeof IndexingMode;
     // (undocumented)
     spatialIndexes?: SpatialIndex[];
+    // (undocumented)
+    vectorIndexes?: VectorIndex[];
 }
 
 // @public
@@ -1640,6 +1646,8 @@ export interface QueryInfo {
     // (undocumented)
     groupByExpressions?: GroupByExpressions;
     // (undocumented)
+    hasNonStreamingOrderBy: boolean;
+    // (undocumented)
     hasSelectValue: boolean;
     // (undocumented)
     limit?: number;
@@ -1659,11 +1667,11 @@ export interface QueryInfo {
 export class QueryIterator<T> {
     // Warning: (ae-forgotten-export) The symbol "FetchFunctionCallback" needs to be exported by the entry point index.d.ts
     constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], resourceLink?: string, resourceType?: ResourceType);
-    fetchAll(): Promise<FeedResponse<T>>;
+    fetchAll(options?: QueryOperationOptions): Promise<FeedResponse<T>>;
     // (undocumented)
-    fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>>;
-    fetchNext(): Promise<FeedResponse<T>>;
-    getAsyncIterator(): AsyncIterable<FeedResponse<T>>;
+    fetchAllInternal(diagnosticNode: DiagnosticNodeInternal, options?: QueryOperationOptions): Promise<FeedResponse<T>>;
+    fetchNext(options?: QueryOperationOptions): Promise<FeedResponse<T>>;
+    getAsyncIterator(options?: QueryOperationOptions): AsyncIterable<FeedResponse<T>>;
     hasMoreResults(): boolean;
     reset(): void;
 }
@@ -1751,6 +1759,11 @@ export const QueryMetricsConstants: {
     FetchExecutionRangesText: string;
     SchedulingMetricsText: string;
 };
+
+// @public (undocumented)
+export interface QueryOperationOptions {
+    ruCapPerOperation?: number;
+}
 
 // @public (undocumented)
 export class QueryPreparationTimes {
@@ -1989,6 +2002,15 @@ export interface RetryOptions {
     fixedRetryIntervalInMilliseconds: number;
     maxRetryAttemptCount: number;
     maxWaitTimeInSeconds: number;
+}
+
+// @public (undocumented)
+export class RUCapPerOperationExceededError extends ErrorResponse {
+    constructor(message?: string, fetchedResults?: any[]);
+    // (undocumented)
+    readonly code: string;
+    // (undocumented)
+    fetchedResults: any[];
 }
 
 // @public (undocumented)
@@ -2525,6 +2547,28 @@ export class Users {
     query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource>;
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
+}
+
+// @public (undocumented)
+export interface VectorEmbedding {
+    dataType: "float16" | "float32" | "uint8" | "int8";
+    dimensions: number;
+    distanceFunction: "euclidean" | "cosine" | "dotproduct";
+    path: string;
+}
+
+// @public (undocumented)
+export interface VectorEmbeddingPolicy {
+    // (undocumented)
+    vectorEmbeddings: VectorEmbedding[];
+}
+
+// @public (undocumented)
+export interface VectorIndex {
+    // (undocumented)
+    path: string;
+    // (undocumented)
+    type: "flat" | "diskANN" | "quantizedFlat";
 }
 
 // (No @packageDocumentation comment for this package)
