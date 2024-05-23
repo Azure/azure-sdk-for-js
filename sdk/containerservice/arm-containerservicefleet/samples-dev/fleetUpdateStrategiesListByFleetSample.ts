@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List FleetUpdateStrategy resources by Fleet
  *
  * @summary List FleetUpdateStrategy resources by Fleet
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-02-02-preview/examples/UpdateStrategies_ListByFleet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/UpdateStrategies_ListByFleet.json
  */
 async function listTheFleetUpdateStrategyResourcesByFleet() {
   const subscriptionId =

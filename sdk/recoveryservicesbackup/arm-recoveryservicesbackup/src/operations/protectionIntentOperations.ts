@@ -20,12 +20,13 @@ import {
   ProtectionIntentResource,
   ProtectionIntentCreateOrUpdateOptionalParams,
   ProtectionIntentCreateOrUpdateResponse,
-  ProtectionIntentDeleteOptionalParams
+  ProtectionIntentDeleteOptionalParams,
 } from "../models";
 
 /** Class containing ProtectionIntentOperations operations. */
 export class ProtectionIntentOperationsImpl
-  implements ProtectionIntentOperations {
+  implements ProtectionIntentOperations
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -48,11 +49,11 @@ export class ProtectionIntentOperationsImpl
   validate(
     azureRegion: string,
     parameters: PreValidateEnableBackupRequest,
-    options?: ProtectionIntentValidateOptionalParams
+    options?: ProtectionIntentValidateOptionalParams,
   ): Promise<ProtectionIntentValidateResponse> {
     return this.client.sendOperationRequest(
       { azureRegion, parameters, options },
-      validateOperationSpec
+      validateOperationSpec,
     );
   }
 
@@ -72,11 +73,11 @@ export class ProtectionIntentOperationsImpl
     resourceGroupName: string,
     fabricName: string,
     intentObjectName: string,
-    options?: ProtectionIntentGetOptionalParams
+    options?: ProtectionIntentGetOptionalParams,
   ): Promise<ProtectionIntentGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, fabricName, intentObjectName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -96,7 +97,7 @@ export class ProtectionIntentOperationsImpl
     fabricName: string,
     intentObjectName: string,
     parameters: ProtectionIntentResource,
-    options?: ProtectionIntentCreateOrUpdateOptionalParams
+    options?: ProtectionIntentCreateOrUpdateOptionalParams,
   ): Promise<ProtectionIntentCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -105,9 +106,9 @@ export class ProtectionIntentOperationsImpl
         fabricName,
         intentObjectName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -125,11 +126,11 @@ export class ProtectionIntentOperationsImpl
     resourceGroupName: string,
     fabricName: string,
     intentObjectName: string,
-    options?: ProtectionIntentDeleteOptionalParams
+    options?: ProtectionIntentDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, fabricName, intentObjectName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -137,33 +138,31 @@ export class ProtectionIntentOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupPreValidateProtection",
+  path: "/Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupPreValidateProtection",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PreValidateEnableBackupResponse
-    }
+      bodyMapper: Mappers.PreValidateEnableBackupResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.azureRegion
+    Parameters.azureRegion,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
+  path: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionIntentResource
-    }
+      bodyMapper: Mappers.ProtectionIntentResource,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -172,19 +171,18 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName,
-    Parameters.intentObjectName
+    Parameters.intentObjectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
+  path: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionIntentResource
-    }
+      bodyMapper: Mappers.ProtectionIntentResource,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -194,15 +192,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName,
-    Parameters.intentObjectName
+    Parameters.intentObjectName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
+  path: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
   httpMethod: "DELETE",
   responses: { 204: {} },
   queryParameters: [Parameters.apiVersion],
@@ -212,7 +209,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName,
-    Parameters.intentObjectName
+    Parameters.intentObjectName,
   ],
-  serializer
+  serializer,
 };

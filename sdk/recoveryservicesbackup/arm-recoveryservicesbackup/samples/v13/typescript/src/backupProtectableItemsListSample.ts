@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BackupProtectableItemsListOptionalParams,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -23,7 +23,7 @@ pagination parameters.
  *
  * @summary Provides a pageable list of protectable objects within your subscription according to the query filter and the
 pagination parameters.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/BackupProtectableItems_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/BackupProtectableItems_List.json
  */
 async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM()
   for await (let item of client.backupProtectableItems.list(
     vaultName,
     resourceGroupName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
