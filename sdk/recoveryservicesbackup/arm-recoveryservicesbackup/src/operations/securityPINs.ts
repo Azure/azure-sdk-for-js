@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   SecurityPINsGetOptionalParams,
-  SecurityPINsGetResponse
+  SecurityPINsGetResponse,
 } from "../models";
 
 /** Class containing SecurityPINs operations. */
@@ -38,11 +38,11 @@ export class SecurityPINsImpl implements SecurityPINs {
   get(
     vaultName: string,
     resourceGroupName: string,
-    options?: SecurityPINsGetOptionalParams
+    options?: SecurityPINsGetOptionalParams,
   ): Promise<SecurityPINsGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -50,16 +50,15 @@ export class SecurityPINsImpl implements SecurityPINs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupSecurityPIN",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupSecurityPIN",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.TokenInformation
+      bodyMapper: Mappers.TokenInformation,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters18,
   queryParameters: [Parameters.apiVersion],
@@ -67,9 +66,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.xMsAuthorizationAuxiliary,
+  ],
   mediaType: "json",
-  serializer
+  serializer,
 };

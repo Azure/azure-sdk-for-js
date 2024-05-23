@@ -11,13 +11,13 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "./lroImpl";
 import {
@@ -72,7 +72,7 @@ import {
   ResourceGuardProxyImpl,
   FetchTieringCostImpl,
   GetTieringCostOperationResultImpl,
-  TieringCostOperationStatusImpl
+  TieringCostOperationStatusImpl,
 } from "./operations";
 import {
   BackupResourceStorageConfigsNonCRR,
@@ -126,7 +126,7 @@ import {
   ResourceGuardProxy,
   FetchTieringCost,
   GetTieringCostOperationResult,
-  TieringCostOperationStatus
+  TieringCostOperationStatus,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -139,7 +139,7 @@ import {
   TriggerDataMoveRequest,
   BMSTriggerDataMoveOptionalParams,
   MoveRPAcrossTiersRequest,
-  MoveRecoveryPointOptionalParams
+  MoveRecoveryPointOptionalParams,
 } from "./models";
 
 export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
@@ -156,7 +156,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: RecoveryServicesBackupClientOptionalParams
+    options?: RecoveryServicesBackupClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -171,10 +171,10 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     }
     const defaults: RecoveryServicesBackupClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservicesbackup/13.0.1`;
+    const packageDetails = `azsdk-js-arm-recoveryservicesbackup/13.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -184,20 +184,21 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -207,7 +208,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -217,9 +218,9 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -227,10 +228,9 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-06-01";
-    this.backupResourceStorageConfigsNonCRR = new BackupResourceStorageConfigsNonCRRImpl(
-      this
-    );
+    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.backupResourceStorageConfigsNonCRR =
+      new BackupResourceStorageConfigsNonCRRImpl(this);
     this.protectionIntentOperations = new ProtectionIntentOperationsImpl(this);
     this.backupStatus = new BackupStatusImpl(this);
     this.featureSupport = new FeatureSupportImpl(this);
@@ -238,27 +238,23 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     this.backupUsageSummaries = new BackupUsageSummariesImpl(this);
     this.operations = new OperationsImpl(this);
     this.backupResourceVaultConfigs = new BackupResourceVaultConfigsImpl(this);
-    this.backupResourceEncryptionConfigs = new BackupResourceEncryptionConfigsImpl(
-      this
-    );
-    this.privateEndpointConnectionOperations = new PrivateEndpointConnectionOperationsImpl(
-      this
-    );
+    this.backupResourceEncryptionConfigs =
+      new BackupResourceEncryptionConfigsImpl(this);
+    this.privateEndpointConnectionOperations =
+      new PrivateEndpointConnectionOperationsImpl(this);
     this.privateEndpointOperations = new PrivateEndpointOperationsImpl(this);
-    this.bMSPrepareDataMoveOperationResult = new BMSPrepareDataMoveOperationResultImpl(
-      this
-    );
+    this.bMSPrepareDataMoveOperationResult =
+      new BMSPrepareDataMoveOperationResultImpl(this);
     this.protectedItems = new ProtectedItemsImpl(this);
     this.protectedItemOperationResults = new ProtectedItemOperationResultsImpl(
-      this
+      this,
     );
     this.recoveryPoints = new RecoveryPointsImpl(this);
     this.restores = new RestoresImpl(this);
     this.backupPolicies = new BackupPoliciesImpl(this);
     this.protectionPolicies = new ProtectionPoliciesImpl(this);
-    this.protectionPolicyOperationResults = new ProtectionPolicyOperationResultsImpl(
-      this
-    );
+    this.protectionPolicyOperationResults =
+      new ProtectionPolicyOperationResultsImpl(this);
     this.backupJobs = new BackupJobsImpl(this);
     this.jobDetails = new JobDetailsImpl(this);
     this.jobCancellations = new JobCancellationsImpl(this);
@@ -271,41 +267,36 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     this.validateOperationResults = new ValidateOperationResultsImpl(this);
     this.validateOperationStatuses = new ValidateOperationStatusesImpl(this);
     this.backupEngines = new BackupEnginesImpl(this);
-    this.protectionContainerRefreshOperationResults = new ProtectionContainerRefreshOperationResultsImpl(
-      this
-    );
+    this.protectionContainerRefreshOperationResults =
+      new ProtectionContainerRefreshOperationResultsImpl(this);
     this.protectableContainers = new ProtectableContainersImpl(this);
     this.protectionContainers = new ProtectionContainersImpl(this);
     this.backupWorkloadItems = new BackupWorkloadItemsImpl(this);
-    this.protectionContainerOperationResults = new ProtectionContainerOperationResultsImpl(
-      this
-    );
+    this.protectionContainerOperationResults =
+      new ProtectionContainerOperationResultsImpl(this);
     this.backups = new BackupsImpl(this);
-    this.protectedItemOperationStatuses = new ProtectedItemOperationStatusesImpl(
-      this
-    );
+    this.protectedItemOperationStatuses =
+      new ProtectedItemOperationStatusesImpl(this);
     this.itemLevelRecoveryConnections = new ItemLevelRecoveryConnectionsImpl(
-      this
+      this,
     );
     this.backupOperationResults = new BackupOperationResultsImpl(this);
     this.backupOperationStatuses = new BackupOperationStatusesImpl(this);
-    this.protectionPolicyOperationStatuses = new ProtectionPolicyOperationStatusesImpl(
-      this
-    );
+    this.protectionPolicyOperationStatuses =
+      new ProtectionPolicyOperationStatusesImpl(this);
     this.backupProtectableItems = new BackupProtectableItemsImpl(this);
     this.backupProtectionContainers = new BackupProtectionContainersImpl(this);
     this.deletedProtectionContainers = new DeletedProtectionContainersImpl(
-      this
+      this,
     );
     this.securityPINs = new SecurityPINsImpl(this);
-    this.recoveryPointsRecommendedForMove = new RecoveryPointsRecommendedForMoveImpl(
-      this
-    );
+    this.recoveryPointsRecommendedForMove =
+      new RecoveryPointsRecommendedForMoveImpl(this);
     this.resourceGuardProxies = new ResourceGuardProxiesImpl(this);
     this.resourceGuardProxy = new ResourceGuardProxyImpl(this);
     this.fetchTieringCost = new FetchTieringCostImpl(this);
     this.getTieringCostOperationResult = new GetTieringCostOperationResultImpl(
-      this
+      this,
     );
     this.tieringCostOperationStatus = new TieringCostOperationStatusImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -320,7 +311,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -334,7 +325,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -351,11 +342,11 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     vaultName: string,
     resourceGroupName: string,
     operationId: string,
-    options?: GetOperationStatusOptionalParams
+    options?: GetOperationStatusOptionalParams,
   ): Promise<GetOperationStatusResponse> {
     return this.sendOperationRequest(
       { vaultName, resourceGroupName, operationId, options },
-      getOperationStatusOperationSpec
+      getOperationStatusOperationSpec,
     );
   }
 
@@ -371,25 +362,24 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     vaultName: string,
     resourceGroupName: string,
     parameters: PrepareDataMoveRequest,
-    options?: BMSPrepareDataMoveOptionalParams
+    options?: BMSPrepareDataMoveOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -398,8 +388,8 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -407,19 +397,19 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { vaultName, resourceGroupName, parameters, options },
-      spec: bMSPrepareDataMoveOperationSpec
+      spec: bMSPrepareDataMoveOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -437,13 +427,13 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     vaultName: string,
     resourceGroupName: string,
     parameters: PrepareDataMoveRequest,
-    options?: BMSPrepareDataMoveOptionalParams
+    options?: BMSPrepareDataMoveOptionalParams,
   ): Promise<void> {
     const poller = await this.beginBMSPrepareDataMove(
       vaultName,
       resourceGroupName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -460,25 +450,24 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     vaultName: string,
     resourceGroupName: string,
     parameters: TriggerDataMoveRequest,
-    options?: BMSTriggerDataMoveOptionalParams
+    options?: BMSTriggerDataMoveOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -487,8 +476,8 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -496,19 +485,19 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { vaultName, resourceGroupName, parameters, options },
-      spec: bMSTriggerDataMoveOperationSpec
+      spec: bMSTriggerDataMoveOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -526,13 +515,13 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     vaultName: string,
     resourceGroupName: string,
     parameters: TriggerDataMoveRequest,
-    options?: BMSTriggerDataMoveOptionalParams
+    options?: BMSTriggerDataMoveOptionalParams,
   ): Promise<void> {
     const poller = await this.beginBMSTriggerDataMove(
       vaultName,
       resourceGroupName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -557,25 +546,24 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     protectedItemName: string,
     recoveryPointId: string,
     parameters: MoveRPAcrossTiersRequest,
-    options?: MoveRecoveryPointOptionalParams
+    options?: MoveRecoveryPointOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -584,8 +572,8 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -593,8 +581,8 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -608,13 +596,13 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
         protectedItemName,
         recoveryPointId,
         parameters,
-        options
+        options,
       },
-      spec: moveRecoveryPointOperationSpec
+      spec: moveRecoveryPointOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -640,7 +628,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     protectedItemName: string,
     recoveryPointId: string,
     parameters: MoveRPAcrossTiersRequest,
-    options?: MoveRecoveryPointOptionalParams
+    options?: MoveRecoveryPointOptionalParams,
   ): Promise<void> {
     const poller = await this.beginMoveRecoveryPoint(
       vaultName,
@@ -650,7 +638,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
       protectedItemName,
       recoveryPointId,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -712,16 +700,15 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/operationStatus/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/operationStatus/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.NewErrorResponse
-    }
+      bodyMapper: Mappers.NewErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -729,14 +716,13 @@ const getOperationStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const bMSPrepareDataMoveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/prepareDataMove",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/prepareDataMove",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -744,8 +730,8 @@ const bMSPrepareDataMoveOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.NewErrorResponse
-    }
+      bodyMapper: Mappers.NewErrorResponse,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
@@ -753,15 +739,14 @@ const bMSPrepareDataMoveOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const bMSTriggerDataMoveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/triggerDataMove",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/triggerDataMove",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -769,8 +754,8 @@ const bMSTriggerDataMoveOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.NewErrorResponse
-    }
+      bodyMapper: Mappers.NewErrorResponse,
+    },
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
@@ -778,15 +763,14 @@ const bMSTriggerDataMoveOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const moveRecoveryPointOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/move",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/move",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -794,8 +778,8 @@ const moveRecoveryPointOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
@@ -807,9 +791,9 @@ const moveRecoveryPointOperationSpec: coreClient.OperationSpec = {
     Parameters.fabricName,
     Parameters.containerName,
     Parameters.protectedItemName,
-    Parameters.recoveryPointId
+    Parameters.recoveryPointId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

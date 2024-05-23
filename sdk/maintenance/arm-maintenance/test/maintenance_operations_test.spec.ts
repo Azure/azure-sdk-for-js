@@ -19,14 +19,15 @@ import { Context } from "mocha";
 import { MaintenanceManagementClient } from "../src/maintenanceManagementClient";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -64,12 +65,12 @@ describe("MaintenanceManagement test", () => {
       resourcename,
       {
         duration: "05:00",
-        expirationDateTime: "2023-12-31 00:00",
+        expirationDateTime: "2024-06-12 00:00",
         location: "westus2",
         maintenanceScope: "OSImage",
         namespace: "Microsoft.Maintenance",
         recurEvery: "Day",
-        startDateTime: "2023-08-02 08:00",
+        startDateTime: "2024-05-12 08:00",
         timeZone: "Pacific Standard Time",
         visibility: "Custom"
       });
