@@ -44,4 +44,6 @@ export interface RequestOptions extends SharedOptions {
   contentResponseOnWriteEnabled?: boolean;
   /** database rid for setting DatabaseRidHeader */
   databaseRid?: string;
+  /** collection rid for setting CollectionRidHeader */
+  collectionRid?: string;
 }

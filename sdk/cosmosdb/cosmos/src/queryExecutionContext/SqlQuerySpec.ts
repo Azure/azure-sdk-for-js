@@ -32,8 +32,8 @@ export interface SqlParameter {
   value: JSONValue;
 }
 
-export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
+export type JSONValue = boolean | number | string | null | JSONArray | JSONObject | Date;
 export interface JSONObject {
-  [key: string]: JSONValue;
+  [key: string]: any;
 }
-export interface JSONArray extends ArrayLike<JSONValue> {}
+export interface JSONArray extends ArrayLike<any> {}

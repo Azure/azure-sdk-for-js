@@ -61,6 +61,7 @@ import { readPartitionKeyDefinition } from "../ClientUtils";
 import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder";
 import { EncryptionQueryBuilder } from "../../encryption";
 import { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder";
+import { Resource } from "../Resource";
 
 /**
  * @hidden
@@ -150,6 +151,7 @@ export class Items {
       query,
       options,
       fetchFunction,
+      this.container,
       this.container.url,
       ResourceType.item,
     );
@@ -205,11 +207,11 @@ export class Items {
       parameters: [],
     };
     for (const parameter of encryptionParameters) {
-      const value = await this.container.encryptionProcessor.serializeAndEncryptQueryParameter(
+      const value = await this.container.encryptionProcessor.encryptQueryParameter(
         parameter.path,
         parameter.value,
-        parameter.type,
         parameter.path === "/id",
+        parameter.type,
       );
       sqlQuerySpec.parameters.push({ name: parameter.name, value: value });
     }
@@ -395,30 +397,35 @@ export class Items {
         this.container,
       );
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
-
       if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body);
+        options.collectionRid = this.container._rid;
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
-
       const err = {};
       if (!isItemResourceValid(body, err)) {
         throw err;
       }
-
       const path = getPathFromLink(this.container.url, ResourceType.item);
       const id = getIdFromLink(this.container.url);
-
-      const response = await this.clientContext.create<T>({
-        body,
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        diagnosticNode,
-        options,
-        partitionKey,
-      });
+      let response: Response<T & Resource>;
+      try {
+        response = await this.clientContext.create<T>({
+          body,
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          diagnosticNode,
+          options,
+          partitionKey,
+        });
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw err;
+      }
 
       if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
@@ -487,6 +494,8 @@ export class Items {
 
       if (this.clientContext.enableEncryption) {
         body = copyObject(body);
+        options = options || {};
+        options.collectionRid = this.container._rid;
         body = await this.container.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
@@ -498,17 +507,23 @@ export class Items {
 
       const path = getPathFromLink(this.container.url, ResourceType.item);
       const id = getIdFromLink(this.container.url);
-
-      const response = await this.clientContext.upsert<T>({
-        body,
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        options,
-        partitionKey,
-        diagnosticNode,
-      });
-
+      let response: Response<T & Resource>;
+      try {
+        response = await this.clientContext.upsert<T>({
+          body,
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          options,
+          partitionKey,
+          diagnosticNode,
+        });
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
+      }
       if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
         partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
@@ -576,6 +591,8 @@ export class Items {
 
       if (this.clientContext.enableEncryption) {
         operations = copyObject(operations);
+        options = options || {};
+        options.collectionRid = this.container._rid;
         operations = await this.bulkBatchEncryptionHelper(operations);
       }
 
@@ -832,6 +849,8 @@ export class Items {
 
       if (this.clientContext.enableEncryption) {
         operations = copyObject(operations);
+        options = options || {};
+        options.collectionRid = this.container._rid;
         if (partitionKey) {
           const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
           partitionKey =
@@ -864,6 +883,9 @@ export class Items {
 
         return response;
       } catch (err: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(err);
+        }
         throw new Error(`Batch request error: ${err.message}`);
       }
     }, this.clientContext);

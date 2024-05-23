@@ -45,6 +45,9 @@ export class EncryptionKeyStoreProvider {
     algorithm: KeyEncryptionKeyAlgorithm,
     wrappedKey: Buffer,
   ): Promise<Buffer> {
+    if (this.cacheTimeToLive === 0) {
+      return this.keyEncryptionKeyResolver.unwrapKey(encryptionKeyId, algorithm, wrappedKey);
+    }
     if (!this.unwrappedEncryptionKeyCache[encryptionKeyId]) {
       const plainEncryptionKey = await this.keyEncryptionKeyResolver.unwrapKey(
         encryptionKeyId,

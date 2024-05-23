@@ -4,22 +4,6 @@
 import { Serializer } from "./Serializer";
 
 export class NumberSerializer implements Serializer {
-  private static instance: NumberSerializer;
-
-  private constructor() {
-    if (NumberSerializer.instance) {
-      throw new Error("Already initialized. Use getInstance() method instead");
-    }
-    console.log("no instance of Number Serializer found");
-  }
-
-  public static getInstance(): NumberSerializer {
-    if (!NumberSerializer.instance) {
-      NumberSerializer.instance = new NumberSerializer();
-    }
-    return NumberSerializer.instance;
-  }
-
   deserialize(bytes: Buffer): number {
     if (!bytes || bytes.length < 8) {
       throw new Error("Invalid byte array for deserialization");
