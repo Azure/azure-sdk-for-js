@@ -245,7 +245,6 @@ const assistantResponse = await assistantsClient.beta.assistants.create(
 
 Notice that:
 - The `createAssistant` method has been replaced with the `beta.assistants.create` method
-- The names of the properties in the `options` object are the same as in the Azure OpenAI service API, following the snake case convention instead of the camel case convention used in the `AssistantsClient`. This is true for all the properties across all requests and responses in the `AzureOpenAI` client
 
 #### Thread creation
 

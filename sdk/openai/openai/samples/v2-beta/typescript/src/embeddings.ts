@@ -7,18 +7,18 @@
  * @summary generates embedding vectors from a prompt using Azure OpenAI Get Embeddings.
  */
 
-const { AzureOpenAI } = require("openai");
-const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
+import { AzureOpenAI } from "openai";
+import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
-require("dotenv/config");
+import "dotenv/config";
 
 // The prompt to generate the embeddings vector
 const input = ["This is the sample text to be embedded"];
 
-async function main() {
+export async function main() {
   console.log("== Get embeddings sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
@@ -34,7 +34,5 @@ async function main() {
 }
 
 main().catch((err) => {
-  parseOpenAIError(err);
+  console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };

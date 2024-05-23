@@ -20,8 +20,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [chatCompletions.js][chatcompletions]                                               | get chat completions.                                                        |
 | [codeInterpreter.js][codeinterpreter]                                               | interpreting code.                                                           |
 | [completions.js][completions]                                                       | get completions.                                                             |
-| [getEmbeddings.js][getembeddings]                                                   | generates embedding vectors from a prompt using Azure OpenAI Get Embeddings. |
-| [getImages.js][getimages]                                                           | generates images from prompts using Azure OpenAI Batch Image Generation.     |
+| [embeddings.js][embeddings]                                                         | generates embedding vectors from a prompt using Azure OpenAI Get Embeddings. |
+| [images.js][images]                                                                 | generates images from prompts using Azure OpenAI Batch Image Generation.     |
 | [onYourData.js][onyourdata]                                                         | chat completions with your own data.                                         |
 | [streamChatCompletions.js][streamchatcompletions]                                   | list chat completions.                                                       |
 | [streamChatCompletionsWithContentFilter.js][streamchatcompletionswithcontentfilter] | get completions.                                                             |
@@ -73,8 +73,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/chatCompletions.js
 [codeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/codeInterpreter.js
 [completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/completions.js
-[getembeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/getEmbeddings.js
-[getimages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/getImages.js
+[embeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/embeddings.js
+[images]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/images.js
 [onyourdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/onYourData.js
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/streamChatCompletions.js
 [streamchatcompletionswithcontentfilter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/streamChatCompletionsWithContentFilter.js
