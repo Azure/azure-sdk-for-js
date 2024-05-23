@@ -35,5 +35,5 @@ export async function main() {
 }
 
 main().catch((err) => {
-  parseOpenAIError(err);
+  console.error("The sample encountered an error:", err);
 });
