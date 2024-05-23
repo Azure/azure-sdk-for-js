@@ -1,8 +1,8 @@
 {
-  "name": "@azure/openai-extra",
+  "name": "@azure/openai",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.1",
+  "version": "2.0.0-beta.1",
   "description": "undefined",
   "keywords": [
     "node",
