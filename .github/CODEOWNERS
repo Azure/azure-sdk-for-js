@@ -535,6 +535,9 @@
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/informatica/arm-informaticadatamanagement @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/iotcentral/arm-iotcentral/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt

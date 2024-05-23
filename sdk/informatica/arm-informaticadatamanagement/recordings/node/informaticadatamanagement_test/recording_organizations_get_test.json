@@ -1,0 +1,41 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Informatica.DataManagement/organizations/resourcetest?api-version=2024-05-08",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-informaticadatamanagement/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "233",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 23 May 2024 07:59:41 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "8289c8cd-8ae5-40cc-b0be-0467e2c208ed",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20240523T075942Z:8289c8cd-8ae5-40cc-b0be-0467e2c208ed",
+        "X-MSEdge-Ref": "Ref A: 6A1C63F23C234B64806278FD9163658F Ref B: MAA201060513023 Ref C: 2024-05-23T07:59:41Z"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ResourceNotFound",
+          "message": "The Resource 'Informatica.DataManagement/organizations/resourcetest' under resource group 'myjstest' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

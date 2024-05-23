@@ -1,0 +1,45 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Informatica.DataManagement/organizations/resourcetest?api-version=2024-05-08",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "26",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-informaticadatamanagement/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": {
+        "location": "eastus2euap"
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "347",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 23 May 2024 07:59:40 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "f8bbf462-50b5-42e2-a74a-10b1835a9e3d",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20240523T075940Z:f8bbf462-50b5-42e2-a74a-10b1835a9e3d",
+        "X-MSEdge-Ref": "Ref A: 96E1906DE69F473C8D20040A5A13D49E Ref B: MAA201060513023 Ref C: 2024-05-23T07:59:40Z"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NoRegisteredProviderFound",
+          "message": "No registered resource provider found for location 'eastus2euap' and API version '2024-05-08' for type 'organizations'. The supported api-versions are '2023-03-01-preview, 2023-08-20-preview'. The supported locations are 'westus2, germanywestcentral, eastus2, eastus2euap, centraluseuap'."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
