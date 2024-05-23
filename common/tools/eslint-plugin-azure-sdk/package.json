@@ -71,6 +71,7 @@
     "eslint-plugin-markdown": "^5.0.0"
   },
   "dependencies": {
+    "@eslint/compat": "^1.0.1",
     "@eslint/js": "~9.2.0",
     "@typescript-eslint/typescript-estree": "~7.10.0",
     "@types/eslint": "~8.56.10",
