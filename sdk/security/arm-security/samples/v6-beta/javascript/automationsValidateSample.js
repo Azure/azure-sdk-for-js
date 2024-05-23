@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Validates the security automation model before create or update. Any validation errors are returned to the client.
  *
  * @summary Validates the security automation model before create or update. Any validation errors are returned to the client.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/Automations/ValidateAutomation_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-12-01-preview/examples/Automations/ValidateAutomation_example.json
  */
 async function validateTheSecurityAutomationModelBeforeCreateOrUpdate() {
   const subscriptionId =

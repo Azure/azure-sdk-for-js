@@ -15,7 +15,7 @@ import {
   ResourceGuardProxyDeleteOptionalParams,
   UnlockDeleteRequest,
   ResourceGuardProxyUnlockDeleteOptionalParams,
-  ResourceGuardProxyUnlockDeleteResponse
+  ResourceGuardProxyUnlockDeleteResponse,
 } from "../models";
 
 /** Interface representing a ResourceGuardProxy. */
@@ -32,7 +32,7 @@ export interface ResourceGuardProxy {
     vaultName: string,
     resourceGroupName: string,
     resourceGuardProxyName: string,
-    options?: ResourceGuardProxyGetOptionalParams
+    options?: ResourceGuardProxyGetOptionalParams,
   ): Promise<ResourceGuardProxyGetResponse>;
   /**
    * Add or Update ResourceGuardProxy under vault
@@ -49,7 +49,7 @@ export interface ResourceGuardProxy {
     resourceGroupName: string,
     resourceGuardProxyName: string,
     parameters: ResourceGuardProxyBaseResource,
-    options?: ResourceGuardProxyPutOptionalParams
+    options?: ResourceGuardProxyPutOptionalParams,
   ): Promise<ResourceGuardProxyPutResponse>;
   /**
    * Delete ResourceGuardProxy under vault
@@ -63,7 +63,7 @@ export interface ResourceGuardProxy {
     vaultName: string,
     resourceGroupName: string,
     resourceGuardProxyName: string,
-    options?: ResourceGuardProxyDeleteOptionalParams
+    options?: ResourceGuardProxyDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Secures delete ResourceGuardProxy operations.
@@ -79,6 +79,6 @@ export interface ResourceGuardProxy {
     resourceGroupName: string,
     resourceGuardProxyName: string,
     parameters: UnlockDeleteRequest,
-    options?: ResourceGuardProxyUnlockDeleteOptionalParams
+    options?: ResourceGuardProxyUnlockDeleteOptionalParams,
   ): Promise<ResourceGuardProxyUnlockDeleteResponse>;
 }

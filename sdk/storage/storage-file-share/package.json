@@ -48,7 +48,7 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "echo skipped",
+    "unit-test:browser": "dev-tool run test:browser",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },

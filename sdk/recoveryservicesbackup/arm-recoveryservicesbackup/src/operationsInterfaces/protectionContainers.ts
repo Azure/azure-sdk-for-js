@@ -15,7 +15,7 @@ import {
   ProtectionContainersRegisterResponse,
   ProtectionContainersUnregisterOptionalParams,
   ProtectionContainersInquireOptionalParams,
-  ProtectionContainersRefreshOptionalParams
+  ProtectionContainersRefreshOptionalParams,
 } from "../models";
 
 /** Interface representing a ProtectionContainers. */
@@ -34,7 +34,7 @@ export interface ProtectionContainers {
     resourceGroupName: string,
     fabricName: string,
     containerName: string,
-    options?: ProtectionContainersGetOptionalParams
+    options?: ProtectionContainersGetOptionalParams,
   ): Promise<ProtectionContainersGetResponse>;
   /**
    * Registers the container with Recovery Services vault.
@@ -55,7 +55,7 @@ export interface ProtectionContainers {
     fabricName: string,
     containerName: string,
     parameters: ProtectionContainerResource,
-    options?: ProtectionContainersRegisterOptionalParams
+    options?: ProtectionContainersRegisterOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProtectionContainersRegisterResponse>,
@@ -81,7 +81,7 @@ export interface ProtectionContainers {
     fabricName: string,
     containerName: string,
     parameters: ProtectionContainerResource,
-    options?: ProtectionContainersRegisterOptionalParams
+    options?: ProtectionContainersRegisterOptionalParams,
   ): Promise<ProtectionContainersRegisterResponse>;
   /**
    * Unregisters the given container from your Recovery Services Vault. This is an asynchronous
@@ -101,7 +101,7 @@ export interface ProtectionContainers {
     resourceGroupName: string,
     fabricName: string,
     containerName: string,
-    options?: ProtectionContainersUnregisterOptionalParams
+    options?: ProtectionContainersUnregisterOptionalParams,
   ): Promise<void>;
   /**
    * This is an async operation and the results should be tracked using location header or
@@ -118,7 +118,7 @@ export interface ProtectionContainers {
     resourceGroupName: string,
     fabricName: string,
     containerName: string,
-    options?: ProtectionContainersInquireOptionalParams
+    options?: ProtectionContainersInquireOptionalParams,
   ): Promise<void>;
   /**
    * Discovers all the containers in the subscription that can be backed up to Recovery Services Vault.
@@ -134,6 +134,6 @@ export interface ProtectionContainers {
     vaultName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ProtectionContainersRefreshOptionalParams
+    options?: ProtectionContainersRefreshOptionalParams,
   ): Promise<void>;
 }

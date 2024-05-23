@@ -19,13 +19,14 @@ import {
   RecoveryPointsRecommendedForMoveListNextOptionalParams,
   RecoveryPointsRecommendedForMoveListOptionalParams,
   RecoveryPointsRecommendedForMoveListResponse,
-  RecoveryPointsRecommendedForMoveListNextResponse
+  RecoveryPointsRecommendedForMoveListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RecoveryPointsRecommendedForMove operations. */
 export class RecoveryPointsRecommendedForMoveImpl
-  implements RecoveryPointsRecommendedForMove {
+  implements RecoveryPointsRecommendedForMove
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -54,7 +55,7 @@ export class RecoveryPointsRecommendedForMoveImpl
     containerName: string,
     protectedItemName: string,
     parameters: ListRecoveryPointsRecommendedForMoveRequest,
-    options?: RecoveryPointsRecommendedForMoveListOptionalParams
+    options?: RecoveryPointsRecommendedForMoveListOptionalParams,
   ): PagedAsyncIterableIterator<RecoveryPointResource> {
     const iter = this.listPagingAll(
       vaultName,
@@ -63,7 +64,7 @@ export class RecoveryPointsRecommendedForMoveImpl
       containerName,
       protectedItemName,
       parameters,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +85,9 @@ export class RecoveryPointsRecommendedForMoveImpl
           protectedItemName,
           parameters,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -98,7 +99,7 @@ export class RecoveryPointsRecommendedForMoveImpl
     protectedItemName: string,
     parameters: ListRecoveryPointsRecommendedForMoveRequest,
     options?: RecoveryPointsRecommendedForMoveListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RecoveryPointResource[]> {
     let result: RecoveryPointsRecommendedForMoveListResponse;
     let continuationToken = settings?.continuationToken;
@@ -110,7 +111,7 @@ export class RecoveryPointsRecommendedForMoveImpl
         containerName,
         protectedItemName,
         parameters,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -126,7 +127,7 @@ export class RecoveryPointsRecommendedForMoveImpl
         protectedItemName,
         parameters,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -142,7 +143,7 @@ export class RecoveryPointsRecommendedForMoveImpl
     containerName: string,
     protectedItemName: string,
     parameters: ListRecoveryPointsRecommendedForMoveRequest,
-    options?: RecoveryPointsRecommendedForMoveListOptionalParams
+    options?: RecoveryPointsRecommendedForMoveListOptionalParams,
   ): AsyncIterableIterator<RecoveryPointResource> {
     for await (const page of this.listPagingPage(
       vaultName,
@@ -151,7 +152,7 @@ export class RecoveryPointsRecommendedForMoveImpl
       containerName,
       protectedItemName,
       parameters,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -175,7 +176,7 @@ export class RecoveryPointsRecommendedForMoveImpl
     containerName: string,
     protectedItemName: string,
     parameters: ListRecoveryPointsRecommendedForMoveRequest,
-    options?: RecoveryPointsRecommendedForMoveListOptionalParams
+    options?: RecoveryPointsRecommendedForMoveListOptionalParams,
   ): Promise<RecoveryPointsRecommendedForMoveListResponse> {
     return this.client.sendOperationRequest(
       {
@@ -185,9 +186,9 @@ export class RecoveryPointsRecommendedForMoveImpl
         containerName,
         protectedItemName,
         parameters,
-        options
+        options,
       },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -211,7 +212,7 @@ export class RecoveryPointsRecommendedForMoveImpl
     protectedItemName: string,
     parameters: ListRecoveryPointsRecommendedForMoveRequest,
     nextLink: string,
-    options?: RecoveryPointsRecommendedForMoveListNextOptionalParams
+    options?: RecoveryPointsRecommendedForMoveListNextOptionalParams,
   ): Promise<RecoveryPointsRecommendedForMoveListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -222,9 +223,9 @@ export class RecoveryPointsRecommendedForMoveImpl
         protectedItemName,
         parameters,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -232,16 +233,15 @@ export class RecoveryPointsRecommendedForMoveImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPointsRecommendedForMove",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPointsRecommendedForMove",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RecoveryPointResourceList
+      bodyMapper: Mappers.RecoveryPointResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters19,
   queryParameters: [Parameters.apiVersion],
@@ -252,22 +252,22 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.fabricName,
     Parameters.containerName,
-    Parameters.protectedItemName
+    Parameters.protectedItemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecoveryPointResourceList
+      bodyMapper: Mappers.RecoveryPointResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -277,9 +277,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.fabricName,
     Parameters.nextLink,
     Parameters.containerName,
-    Parameters.protectedItemName
+    Parameters.protectedItemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

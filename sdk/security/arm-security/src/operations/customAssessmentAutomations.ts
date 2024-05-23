@@ -28,13 +28,14 @@ import {
   CustomAssessmentAutomationsCreateResponse,
   CustomAssessmentAutomationsDeleteOptionalParams,
   CustomAssessmentAutomationsListByResourceGroupNextResponse,
-  CustomAssessmentAutomationsListBySubscriptionNextResponse
+  CustomAssessmentAutomationsListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CustomAssessmentAutomations operations. */
 export class CustomAssessmentAutomationsImpl
-  implements CustomAssessmentAutomations {
+  implements CustomAssessmentAutomations
+{
   private readonly client: SecurityCenter;
 
   /**
@@ -53,7 +54,7 @@ export class CustomAssessmentAutomationsImpl
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: CustomAssessmentAutomationsListByResourceGroupOptionalParams
+    options?: CustomAssessmentAutomationsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<CustomAssessmentAutomation> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -70,16 +71,16 @@ export class CustomAssessmentAutomationsImpl
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: CustomAssessmentAutomationsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CustomAssessmentAutomation[]> {
     let result: CustomAssessmentAutomationsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +95,7 @@ export class CustomAssessmentAutomationsImpl
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -105,11 +106,11 @@ export class CustomAssessmentAutomationsImpl
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: CustomAssessmentAutomationsListByResourceGroupOptionalParams
+    options?: CustomAssessmentAutomationsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<CustomAssessmentAutomation> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -120,7 +121,7 @@ export class CustomAssessmentAutomationsImpl
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: CustomAssessmentAutomationsListBySubscriptionOptionalParams
+    options?: CustomAssessmentAutomationsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<CustomAssessmentAutomation> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -135,13 +136,13 @@ export class CustomAssessmentAutomationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: CustomAssessmentAutomationsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CustomAssessmentAutomation[]> {
     let result: CustomAssessmentAutomationsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -162,7 +163,7 @@ export class CustomAssessmentAutomationsImpl
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: CustomAssessmentAutomationsListBySubscriptionOptionalParams
+    options?: CustomAssessmentAutomationsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<CustomAssessmentAutomation> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -179,11 +180,11 @@ export class CustomAssessmentAutomationsImpl
   get(
     resourceGroupName: string,
     customAssessmentAutomationName: string,
-    options?: CustomAssessmentAutomationsGetOptionalParams
+    options?: CustomAssessmentAutomationsGetOptionalParams,
   ): Promise<CustomAssessmentAutomationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, customAssessmentAutomationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -200,16 +201,16 @@ export class CustomAssessmentAutomationsImpl
     resourceGroupName: string,
     customAssessmentAutomationName: string,
     customAssessmentAutomationBody: CustomAssessmentAutomationRequest,
-    options?: CustomAssessmentAutomationsCreateOptionalParams
+    options?: CustomAssessmentAutomationsCreateOptionalParams,
   ): Promise<CustomAssessmentAutomationsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         customAssessmentAutomationName,
         customAssessmentAutomationBody,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -223,11 +224,11 @@ export class CustomAssessmentAutomationsImpl
   delete(
     resourceGroupName: string,
     customAssessmentAutomationName: string,
-    options?: CustomAssessmentAutomationsDeleteOptionalParams
+    options?: CustomAssessmentAutomationsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, customAssessmentAutomationName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -239,11 +240,11 @@ export class CustomAssessmentAutomationsImpl
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: CustomAssessmentAutomationsListByResourceGroupOptionalParams
+    options?: CustomAssessmentAutomationsListByResourceGroupOptionalParams,
   ): Promise<CustomAssessmentAutomationsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -252,11 +253,11 @@ export class CustomAssessmentAutomationsImpl
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: CustomAssessmentAutomationsListBySubscriptionOptionalParams
+    options?: CustomAssessmentAutomationsListBySubscriptionOptionalParams,
   ): Promise<CustomAssessmentAutomationsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -270,11 +271,11 @@ export class CustomAssessmentAutomationsImpl
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: CustomAssessmentAutomationsListByResourceGroupNextOptionalParams
+    options?: CustomAssessmentAutomationsListByResourceGroupNextOptionalParams,
   ): Promise<CustomAssessmentAutomationsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -285,11 +286,11 @@ export class CustomAssessmentAutomationsImpl
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: CustomAssessmentAutomationsListBySubscriptionNextOptionalParams
+    options?: CustomAssessmentAutomationsListBySubscriptionNextOptionalParams,
   ): Promise<CustomAssessmentAutomationsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -297,149 +298,144 @@ export class CustomAssessmentAutomationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customAssessmentAutomations/{customAssessmentAutomationName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customAssessmentAutomations/{customAssessmentAutomationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomAssessmentAutomation
+      bodyMapper: Mappers.CustomAssessmentAutomation,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.customAssessmentAutomationName
+    Parameters.customAssessmentAutomationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customAssessmentAutomations/{customAssessmentAutomationName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customAssessmentAutomations/{customAssessmentAutomationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomAssessmentAutomation
+      bodyMapper: Mappers.CustomAssessmentAutomation,
     },
     201: {
-      bodyMapper: Mappers.CustomAssessmentAutomation
+      bodyMapper: Mappers.CustomAssessmentAutomation,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.customAssessmentAutomationBody,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.customAssessmentAutomationName
+    Parameters.customAssessmentAutomationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customAssessmentAutomations/{customAssessmentAutomationName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customAssessmentAutomations/{customAssessmentAutomationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.customAssessmentAutomationName
+    Parameters.customAssessmentAutomationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customAssessmentAutomations",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customAssessmentAutomations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomAssessmentAutomationsListResult
+      bodyMapper: Mappers.CustomAssessmentAutomationsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/customAssessmentAutomations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/customAssessmentAutomations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomAssessmentAutomationsListResult
+      bodyMapper: Mappers.CustomAssessmentAutomationsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomAssessmentAutomationsListResult
+      bodyMapper: Mappers.CustomAssessmentAutomationsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomAssessmentAutomationsListResult
+      bodyMapper: Mappers.CustomAssessmentAutomationsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
