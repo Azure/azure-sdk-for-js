@@ -20384,7 +20384,7 @@ packages:
     dev: false
 
   file:projects/developer-devcenter.tgz:
-    resolution: {integrity: sha512-GmxMLOmDadXhKvnOdsH2Yu8R2d8uulBFBScnAB9FuP0MspimnFFQh4OJYXM4XPP1tssIafKxASgSmBseS/YDPw==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-4z+opZKRojUiqm+wZuHN/9doh7MIKVD82NND6jhIktQcRhdtstrb5WKeJ4i3A/PVAWaN+925xo7Wze6NRG69cQ==, tarball: file:projects/developer-devcenter.tgz}
     name: '@rush-temp/developer-devcenter'
     version: 0.0.0
     dependencies:
@@ -20398,6 +20398,8 @@ packages:
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
       '@types/node': 18.19.33
+      '@vitest/browser': 1.6.0(playwright@1.44.0)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -20416,18 +20418,29 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.4.0
       nyc: 15.1.0
+      playwright: 1.44.0
+      prettier: 3.2.5
       rimraf: 5.0.7
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
+      tshy: 1.14.0
       tslib: 2.6.2
       typescript: 5.4.5
+      vitest: 1.6.0(@types/node@18.19.33)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
-      - debug
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/digital-twins-core.tgz:
