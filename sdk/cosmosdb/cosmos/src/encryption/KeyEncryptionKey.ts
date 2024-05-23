@@ -3,13 +3,13 @@
 
 import { KeyEncryptionKeyAlgorithm } from "./enums/KeyEncryptionKeyAlgorithm";
 import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider";
+import { keyEncryptionKeyCache } from "./Cache";
 /**
+ * @internal
  * A wrapper class containing the info about the client encryption key and key store provider to wrap and unwrap the key.
  */
 export class KeyEncryptionKey {
   private encryptionAlgorithm: KeyEncryptionKeyAlgorithm;
-
-  private static keyEncryptionKeyCache: { [key: string]: KeyEncryptionKey } = {};
 
   public name: string;
 
@@ -28,23 +28,29 @@ export class KeyEncryptionKey {
     name: string,
     path: string,
     keyStoreProvider: EncryptionKeyStoreProvider,
-  ) {
-    if (!KeyEncryptionKey.keyEncryptionKeyCache) {
-      KeyEncryptionKey.keyEncryptionKeyCache = {};
-    }
+  ): KeyEncryptionKey {
+    // console.log(`Cache: ${JSON.stringify(keyEncryptionKeyCache.keyEncryptionKeyCache)}`);
     const key = JSON.stringify([name, path]);
-    if (!KeyEncryptionKey.keyEncryptionKeyCache[key]) {
-      KeyEncryptionKey.keyEncryptionKeyCache[key] = new KeyEncryptionKey(
-        name,
-        path,
-        keyStoreProvider,
+    // console.log(
+    //   `KeyEncryptionKeyCache.getKey34: ${JSON.stringify(keyEncryptionKeyCache.getKeyEncryptionKey(key))}`,
+    // );
+    if (!keyEncryptionKeyCache.getKeyEncryptionKey(key)) {
+      // console.log(`keyEncryptionKeyCache.setKeyEncryptionKey(${key})`);
+      keyEncryptionKeyCache.setKeyEncryptionKey(
+        key,
+        new KeyEncryptionKey(name, path, keyStoreProvider),
       );
     }
-    return KeyEncryptionKey.keyEncryptionKeyCache[key];
+
+    // console.log(`Cache41: ${JSON.stringify(keyEncryptionKeyCache.keyEncryptionKeyCache)}`);
+    // console.log(
+    //   `KeyEncryptionKeyCache.getKey: ${JSON.stringify(keyEncryptionKeyCache.getKeyEncryptionKey(key))}`,
+    // );
+    return keyEncryptionKeyCache.getKeyEncryptionKey(key);
   }
 
   public async wrapEncryptionKey(plainTextEncryptionKey: Buffer): Promise<Buffer> {
-    return await this.keyStoreProvider.wrapKey(
+    return this.keyStoreProvider.wrapKey(
       this.path,
       this.encryptionAlgorithm,
       plainTextEncryptionKey,
@@ -52,7 +58,7 @@ export class KeyEncryptionKey {
   }
 
   public async unwrapEncryptionKey(wrappedEncryptionKey: Buffer): Promise<Buffer> {
-    return await this.keyStoreProvider.unwrapKey(
+    return this.keyStoreProvider.unwrapKey(
       this.path,
       this.encryptionAlgorithm,
       wrappedEncryptionKey,

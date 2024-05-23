@@ -33,4 +33,7 @@ export class ClientEncryptionKeyPropertiesCache {
   ): void {
     this.clientEncryptionKeyPropertiesCache.set(key, clientEncryptionKeyProperties);
   }
+  public clearCache(): void {
+    this.clientEncryptionKeyPropertiesCache.clear();
+  }
 }

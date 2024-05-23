@@ -35,6 +35,7 @@ import { randomUUID } from "@azure/core-util";
 import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext";
 import { PartitionKeyRangeCache } from "./routing";
 import { EncryptionProcessor } from "./encryption";
+import { Container } from "./client";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -60,9 +61,11 @@ export class QueryIterator<T> {
     private query: SqlQuerySpec | string,
     private options: FeedOptions,
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
+    private readonly container?: Container,
     private resourceLink?: string,
     private resourceType?: ResourceType,
   ) {
+    this.container = container;
     this.query = query;
     this.fetchFunctions = fetchFunctions;
     this.options = options || {};
@@ -108,6 +111,9 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
         if (this.needsQueryPlan(error)) {
           await this.createExecutionContext(diagnosticNode);
           try {
@@ -163,7 +169,15 @@ export class QueryIterator<T> {
 
   public async fetchAll(): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      const response = await this.fetchAllInternal(diagnosticNode);
+      let response: FeedResponse<T>;
+      try {
+        response = await this.fetchAllInternal(diagnosticNode);
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        this.handleSplitError(error);
+      }
       if (
         this.clientContext.enableEncryption &&
         this.resourceType === ResourceType.item &&
@@ -215,6 +229,9 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
         if (this.needsQueryPlan(error)) {
           await this.createExecutionContext(diagnosticNode);
           try {
@@ -222,9 +239,8 @@ export class QueryIterator<T> {
           } catch (queryError: any) {
             this.handleSplitError(queryError);
           }
-        } else {
-          throw error;
         }
+        throw error;
       }
       if (
         this.clientContext.enableEncryption &&

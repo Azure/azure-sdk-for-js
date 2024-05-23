@@ -29,4 +29,7 @@ export class EncryptionSettingsCache {
   setEncryptionSettings(key: string, encryptionSettings: EncryptionSettings): void {
     this.encryptionSettingsCache.set(key, encryptionSettings);
   }
+  public clearCache(): void {
+    this.encryptionSettingsCache.clear();
+  }
 }
