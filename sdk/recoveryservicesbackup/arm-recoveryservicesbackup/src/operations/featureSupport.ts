@@ -14,7 +14,7 @@ import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   FeatureSupportRequestUnion,
   FeatureSupportValidateOptionalParams,
-  FeatureSupportValidateResponse
+  FeatureSupportValidateResponse,
 } from "../models";
 
 /** Class containing FeatureSupport operations. */
@@ -38,11 +38,11 @@ export class FeatureSupportImpl implements FeatureSupport {
   validate(
     azureRegion: string,
     parameters: FeatureSupportRequestUnion,
-    options?: FeatureSupportValidateOptionalParams
+    options?: FeatureSupportValidateOptionalParams,
   ): Promise<FeatureSupportValidateResponse> {
     return this.client.sendOperationRequest(
       { azureRegion, parameters, options },
-      validateOperationSpec
+      validateOperationSpec,
     );
   }
 }
@@ -50,22 +50,21 @@ export class FeatureSupportImpl implements FeatureSupport {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupValidateFeatures",
+  path: "/Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupValidateFeatures",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureVMResourceFeatureSupportResponse
-    }
+      bodyMapper: Mappers.AzureVMResourceFeatureSupportResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.azureRegion
+    Parameters.azureRegion,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

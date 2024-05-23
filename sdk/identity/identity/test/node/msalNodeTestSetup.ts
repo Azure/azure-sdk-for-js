@@ -121,12 +121,12 @@ export async function msalNodeTestSetup(
           {
             regex: true,
             target: `x-client-OS=[a-zA-Z0-9]+`,
-            value: `x-client-OS=x-client-OS`,
+            value: `x-client-OS=Sanitized`,
           },
           {
             regex: true,
             target: `x-client-CPU=[a-zA-Z0-9]+`,
-            value: `x-client-CPU=x-client-CPU`,
+            value: `x-client-CPU=Sanitized`,
           },
           {
             regex: true,

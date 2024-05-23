@@ -1,6 +1,6 @@
 {
   "name": "@azure/notification-hubs",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Azure Notification Hubs SDK for JavaScript",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -63,17 +63,17 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure-tools/test-recorder": "^4.0.0",
-    "@microsoft/api-extractor": "^7.43.1",
+    "@microsoft/api-extractor": "^7.43.7",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^1.5.0",
-    "@vitest/coverage-istanbul": "^1.5.0",
+    "@vitest/browser": "^1.6.0",
+    "@vitest/coverage-istanbul": "^1.6.0",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "playwright": "^1.43.0",
     "rimraf": "^5.0.5",
     "tshy": "^1.13.1",
     "typescript": "~5.4.5",
-    "vitest": "^1.5.0"
+    "vitest": "^1.6.0"
   },
   "dependencies": {
     "@azure/core-auth": "^1.7.2",
@@ -82,10 +82,10 @@
     "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.15.2",
     "@azure/core-tracing": "^1.1.2",
-    "@azure/core-util": "^1.8.2",
+    "@azure/core-util": "^1.9.0",
     "@azure/core-xml": "^1.4.2",
     "@azure/logger": "^1.1.2",
-    "@azure-rest/core-client": "^1.4.0",
+    "@azure-rest/core-client": "^2.0.0",
     "tslib": "^2.6.2"
   },
   "tshy": {

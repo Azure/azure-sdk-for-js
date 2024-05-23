@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List configurationAssignments for resource.
  *
  * @summary List configurationAssignments for resource.
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/ConfigurationAssignments_ListParent.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ConfigurationAssignments_ListParent.json
  */
 async function configurationAssignmentsListParent() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function configurationAssignmentsListParent() {
     resourceParentType,
     resourceParentName,
     resourceType,
-    resourceName
+    resourceName,
   )) {
     resArray.push(item);
   }

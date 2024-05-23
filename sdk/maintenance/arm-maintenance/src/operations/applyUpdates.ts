@@ -20,10 +20,12 @@ import {
   ApplyUpdatesGetParentResponse,
   ApplyUpdatesGetOptionalParams,
   ApplyUpdatesGetResponse,
+  ApplyUpdatesCreateOrUpdateOrCancelOptionalParams,
+  ApplyUpdatesCreateOrUpdateOrCancelResponse,
   ApplyUpdatesCreateOrUpdateParentOptionalParams,
   ApplyUpdatesCreateOrUpdateParentResponse,
   ApplyUpdatesCreateOrUpdateOptionalParams,
-  ApplyUpdatesCreateOrUpdateResponse
+  ApplyUpdatesCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +46,7 @@ export class ApplyUpdatesImpl implements ApplyUpdates {
    * @param options The options parameters.
    */
   public list(
-    options?: ApplyUpdatesListOptionalParams
+    options?: ApplyUpdatesListOptionalParams,
   ): PagedAsyncIterableIterator<ApplyUpdate> {
     const iter = this.listPagingAll(options);
     return {
@@ -59,13 +61,13 @@ export class ApplyUpdatesImpl implements ApplyUpdates {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ApplyUpdatesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ApplyUpdate[]> {
     let result: ApplyUpdatesListResponse;
     result = await this._list(options);
@@ -73,7 +75,7 @@ export class ApplyUpdatesImpl implements ApplyUpdates {
   }
 
   private async *listPagingAll(
-    options?: ApplyUpdatesListOptionalParams
+    options?: ApplyUpdatesListOptionalParams,
   ): AsyncIterableIterator<ApplyUpdate> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -99,7 +101,7 @@ export class ApplyUpdatesImpl implements ApplyUpdates {
     resourceType: string,
     resourceName: string,
     applyUpdateName: string,
-    options?: ApplyUpdatesGetParentOptionalParams
+    options?: ApplyUpdatesGetParentOptionalParams,
   ): Promise<ApplyUpdatesGetParentResponse> {
     return this.client.sendOperationRequest(
       {
@@ -110,9 +112,9 @@ export class ApplyUpdatesImpl implements ApplyUpdates {
         resourceType,
         resourceName,
         applyUpdateName,
-        options
+        options,
       },
-      getParentOperationSpec
+      getParentOperationSpec,
     );
   }
 
@@ -131,7 +133,7 @@ export class ApplyUpdatesImpl implements ApplyUpdates {
     resourceType: string,
     resourceName: string,
     applyUpdateName: string,
-    options?: ApplyUpdatesGetOptionalParams
+    options?: ApplyUpdatesGetOptionalParams,
   ): Promise<ApplyUpdatesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -140,9 +142,42 @@ export class ApplyUpdatesImpl implements ApplyUpdates {
         resourceType,
         resourceName,
         applyUpdateName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Apply maintenance updates to resource
+   * @param resourceGroupName Resource group name
+   * @param providerName Resource provider name
+   * @param resourceType Resource type
+   * @param resourceName Resource identifier
+   * @param applyUpdateName ApplyUpdate name
+   * @param applyUpdate The ApplyUpdate
+   * @param options The options parameters.
+   */
+  createOrUpdateOrCancel(
+    resourceGroupName: string,
+    providerName: string,
+    resourceType: string,
+    resourceName: string,
+    applyUpdateName: string,
+    applyUpdate: ApplyUpdate,
+    options?: ApplyUpdatesCreateOrUpdateOrCancelOptionalParams,
+  ): Promise<ApplyUpdatesCreateOrUpdateOrCancelResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        providerName,
+        resourceType,
+        resourceName,
+        applyUpdateName,
+        applyUpdate,
+        options,
+      },
+      createOrUpdateOrCancelOperationSpec,
     );
   }
 
@@ -163,7 +198,7 @@ export class ApplyUpdatesImpl implements ApplyUpdates {
     resourceParentName: string,
     resourceType: string,
     resourceName: string,
-    options?: ApplyUpdatesCreateOrUpdateParentOptionalParams
+    options?: ApplyUpdatesCreateOrUpdateParentOptionalParams,
   ): Promise<ApplyUpdatesCreateOrUpdateParentResponse> {
     return this.client.sendOperationRequest(
       {
@@ -173,9 +208,9 @@ export class ApplyUpdatesImpl implements ApplyUpdates {
         resourceParentName,
         resourceType,
         resourceName,
-        options
+        options,
       },
-      createOrUpdateParentOperationSpec
+      createOrUpdateParentOperationSpec,
     );
   }
 
@@ -192,11 +227,11 @@ export class ApplyUpdatesImpl implements ApplyUpdates {
     providerName: string,
     resourceType: string,
     resourceName: string,
-    options?: ApplyUpdatesCreateOrUpdateOptionalParams
+    options?: ApplyUpdatesCreateOrUpdateOptionalParams,
   ): Promise<ApplyUpdatesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, providerName, resourceType, resourceName, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -205,7 +240,7 @@ export class ApplyUpdatesImpl implements ApplyUpdates {
    * @param options The options parameters.
    */
   private _list(
-    options?: ApplyUpdatesListOptionalParams
+    options?: ApplyUpdatesListOptionalParams,
   ): Promise<ApplyUpdatesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -214,127 +249,151 @@ export class ApplyUpdatesImpl implements ApplyUpdates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getParentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceParentType}/{resourceParentName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/applyUpdates/{applyUpdateName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceParentType}/{resourceParentName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/applyUpdates/{applyUpdateName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplyUpdate
+      bodyMapper: Mappers.ApplyUpdate,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceType,
     Parameters.resourceName,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.providerName,
     Parameters.resourceParentType,
     Parameters.resourceParentName,
-    Parameters.resourceType,
-    Parameters.applyUpdateName
+    Parameters.applyUpdateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/applyUpdates/{applyUpdateName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/applyUpdates/{applyUpdateName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplyUpdate
+      bodyMapper: Mappers.ApplyUpdate,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.providerName,
     Parameters.resourceType,
-    Parameters.applyUpdateName
+    Parameters.resourceName,
+    Parameters.resourceGroupName1,
+    Parameters.providerName,
+    Parameters.applyUpdateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const createOrUpdateParentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceParentType}/{resourceParentName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/applyUpdates/default",
+const createOrUpdateOrCancelOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/applyUpdates/{applyUpdateName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplyUpdate
+      bodyMapper: Mappers.ApplyUpdate,
     },
     201: {
-      bodyMapper: Mappers.ApplyUpdate
+      bodyMapper: Mappers.ApplyUpdate,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
+  },
+  requestBody: Parameters.applyUpdate,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceType,
+    Parameters.resourceName,
+    Parameters.resourceGroupName1,
+    Parameters.providerName,
+    Parameters.applyUpdateName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const createOrUpdateParentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceParentType}/{resourceParentName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/applyUpdates/default",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplyUpdate,
+    },
+    201: {
+      bodyMapper: Mappers.ApplyUpdate,
+    },
+    default: {
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceType,
     Parameters.resourceName,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.providerName,
     Parameters.resourceParentType,
     Parameters.resourceParentName,
-    Parameters.resourceType
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/applyUpdates/default",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/applyUpdates/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplyUpdate
+      bodyMapper: Mappers.ApplyUpdate,
     },
     201: {
-      bodyMapper: Mappers.ApplyUpdate
+      bodyMapper: Mappers.ApplyUpdate,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceType,
     Parameters.resourceName,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.providerName,
-    Parameters.resourceType
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/applyUpdates",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/applyUpdates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListApplyUpdate
+      bodyMapper: Mappers.ListApplyUpdate,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
