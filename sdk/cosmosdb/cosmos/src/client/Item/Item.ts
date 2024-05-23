@@ -111,6 +111,9 @@ export class Item {
           diagnosticNode,
         });
       } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
         if (error.code !== StatusCodes.NotFound) {
           throw error;
         }
@@ -192,15 +195,23 @@ export class Item {
         path = getPathFromLink(url);
         id = getIdFromLink(url);
       }
-      const response = await this.clientContext.replace<T>({
-        body,
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        options,
-        partitionKey: this.partitionKey,
-        diagnosticNode,
-      });
+      let response: Response<T & Resource>;
+      try {
+        response = await this.clientContext.replace<T>({
+          body,
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          options,
+          partitionKey: this.partitionKey,
+          diagnosticNode,
+        });
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
+      }
 
       if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
@@ -235,7 +246,6 @@ export class Item {
         );
         this.partitionKey = undefinedPartitionKey(partitionKeyResponse);
       }
-
       let path = getPathFromLink(this.url);
       let id = getIdFromLink(this.url);
 
@@ -248,15 +258,22 @@ export class Item {
         path = getPathFromLink(url);
         id = getIdFromLink(url);
       }
-
-      const response = await this.clientContext.delete<T>({
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        options,
-        partitionKey: this.partitionKey,
-        diagnosticNode,
-      });
+      let response: Response<T & Resource>;
+      try {
+        response = await this.clientContext.delete<T>({
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          options,
+          partitionKey: this.partitionKey,
+          diagnosticNode,
+        });
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
+      }
 
       if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
@@ -316,15 +333,23 @@ export class Item {
         path = getPathFromLink(url);
         id = getIdFromLink(url);
       }
-      const response = await this.clientContext.patch<T>({
-        body,
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        options,
-        partitionKey: this.partitionKey,
-        diagnosticNode,
-      });
+      let response: Response<T & Resource>;
+      try {
+        response = await this.clientContext.patch<T>({
+          body,
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          options,
+          partitionKey: this.partitionKey,
+          diagnosticNode,
+        });
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
+      }
       if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
       }

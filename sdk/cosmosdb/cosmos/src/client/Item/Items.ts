@@ -58,6 +58,7 @@ import {
 } from "../../utils/diagnostics";
 import { EncryptionQueryBuilder } from "../../encryption";
 import { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder";
+import { Resource } from "../Resource";
 
 /**
  * @hidden
@@ -147,6 +148,7 @@ export class Items {
       query,
       options,
       fetchFunction,
+      this.container,
       this.container.url,
       ResourceType.item,
     );
@@ -401,15 +403,24 @@ export class Items {
       }
       const path = getPathFromLink(this.container.url, ResourceType.item);
       const id = getIdFromLink(this.container.url);
-      const response = await this.clientContext.create<T>({
-        body,
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        diagnosticNode,
-        options,
-        partitionKey,
-      });
+      let response: Response<T & Resource>;
+      try {
+        response = await this.clientContext.create<T>({
+          body,
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          diagnosticNode,
+          options,
+          partitionKey,
+        });
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw err;
+      }
+
       if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
         partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
@@ -490,17 +501,23 @@ export class Items {
 
       const path = getPathFromLink(this.container.url, ResourceType.item);
       const id = getIdFromLink(this.container.url);
-
-      const response = await this.clientContext.upsert<T>({
-        body,
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        options,
-        partitionKey,
-        diagnosticNode,
-      });
-
+      let response: Response<T & Resource>;
+      try {
+        response = await this.clientContext.upsert<T>({
+          body,
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          options,
+          partitionKey,
+          diagnosticNode,
+        });
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
+      }
       if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
         partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
@@ -624,6 +641,10 @@ export class Items {
                 orderedResponses[batch.indexes[index]] = operationResponse;
               });
             } catch (err: any) {
+              if (this.clientContext.enableEncryption) {
+                await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(err);
+              }
+
               // In the case of 410 errors, we need to recompute the partition key ranges
               // and redo the batch request, however, 410 errors occur for unsupported
               // partition key types as well since we don't support them, so for now we throw
@@ -757,6 +778,9 @@ export class Items {
 
         return response;
       } catch (err: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(err);
+        }
         throw new Error(`Batch request error: ${err.message}`);
       }
     }, this.clientContext);

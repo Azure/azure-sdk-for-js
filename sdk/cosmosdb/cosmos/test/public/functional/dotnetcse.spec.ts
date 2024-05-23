@@ -33,11 +33,9 @@ import { assert } from "chai";
 
 import { masterKey } from "../common/_fakeTestSecrets";
 import { endpoint } from "../common/_testConfig";
-// import { removeAllDatabases } from "../common/TestHelpers";
+import { removeAllDatabases } from "../common/TestHelpers";
 import { randomUUID } from "@azure/core-util";
 import { StatusCode } from "nock";
-import { removeAllDatabases } from "../common/TestHelpers";
-// import { removeAllDatabases } from "../common/TestHelpers";
 
 let unwrapCount = 0;
 let wrapCount = 0;
@@ -1079,7 +1077,7 @@ describe("dotnet test cases", () => {
     await encryptionContainerWithNoPolicy.delete();
   });
 
-  it.skip("encryption validate policy refresh post container delete with bulk", async () => {
+  it("encryption validate policy refresh post container delete with bulk", async () => {
     // create a container with 1st client
     let paths = [
       "/sensitive_IntArray",
@@ -1103,6 +1101,7 @@ describe("dotnet test cases", () => {
     const encryptionContainerToDelete = (await database.containers.create(containerProperties))
       .container;
     await encryptionContainerToDelete.initializeEncryption();
+    // const testDocToDelete = (await testCreateItem(encryptionContainerToDelete)).resource;
 
     // create a document with 2nd client on same database and container
     const otherClient = new CosmosClient({
@@ -1147,54 +1146,93 @@ describe("dotnet test cases", () => {
       clientEncryptionPolicy: encryptionPolicy,
     };
     await database.containers.create(containerProperties);
+
     try {
       await testCreateItem(encryptionContainerToDelete);
-      assert.fail("create operation should have failed");
     } catch (err) {
       assert.ok(
-        console.log("error message", err),
         err.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
         ),
       );
     }
+    const docToReplace = (await testCreateItem(encryptionContainerToDelete)).resource;
+    docToReplace.sensitive_StringFormat = "docToBeReplaced";
+    const docToUpsert = (await testCreateItem(encryptionContainerToDelete)).resource;
+    docToUpsert.sensitive_StringFormat = "docToBeUpserted";
+    const operations = [
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: docToUpsert.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert)),
+      },
+      {
+        operationType: BulkOperationType.Replace,
+        partitionKey: docToReplace.PK,
+        id: docToReplace.id,
+        resourceBody: JSON.parse(JSON.stringify(docToReplace)),
+      },
+      {
+        operationType: BulkOperationType.Create,
+        resourceBody: JSON.parse(JSON.stringify(TestDoc.create())),
+      },
+    ];
+    try {
+      await otherEncryptionContainer.items.bulk(operations);
+    } catch (error) {
+      assert.ok(
+        error.message.includes(
+          "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+        ),
+      );
+    }
+    // retry bulk operation with 2nd client
+    await otherEncryptionContainer.items.bulk(operations);
+
+    await verifyItemByRead(encryptionContainerToDelete, docToReplace);
+    await testCreateItem(encryptionContainerToDelete);
+    await verifyItemByRead(encryptionContainerToDelete, docToUpsert);
+
+    // validate if the right policy was used, by reading them all back
+    const response = await otherEncryptionContainer.items.readAll().fetchAll();
+    console.log("query response: ", response);
   });
 
-  // it.skip("test1234", async () => {
-  //   // create a container with 1st client
-  //   const client1 = new CosmosClient({
-  //     endpoint: endpoint,
-  //     key: masterKey,
-  //   });
-  //   const database1 = (await client1.databases.createIfNotExists({ id: "test4" })).database;
-  //   // create container from clinet 1
-  //   const container1 = await database1.containers.createIfNotExists({
-  //     id: "test1",
-  //     partitionKey: "/PK1",
-  //   });
+  it.skip("test1234", async () => {
+    // create a container with 1st client
+    const client1 = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+    });
+    const database1 = (await client1.databases.createIfNotExists({ id: "test4" })).database;
+    // create container from clinet 1
+    const container1 = await database1.containers.createIfNotExists({
+      id: "test1",
+      partitionKey: "/PK1",
+    });
 
-  //   await container1.container.items.create({ id: "1", PK1: "1" });
-  //   console.log("container1: ", container1.resource._rid);
-  //   const client2 = new CosmosClient({
-  //     endpoint: endpoint,
-  //     key: masterKey,
-  //   });
-  //   const database2 = await client2.databases.createIfNotExists({ id: "test4" });
-  //   // read same contianer from client 2
-  //   const container2 = await database2.database.containers.createIfNotExists({ id: "test1" });
-  //   // console.log("container2: ", container2.resource._rid);
-  //   // delete first container from cleint 2
-  //   await container2.container.delete();
-  //   // crewate new container from clietn 2
-  //   await database2.database.containers.createIfNotExists({
-  //     id: "test1",
-  //     partitionKey: "/PK2",
-  //   });
-  //   await container1.container.items.create({ id: "2", PK2: "2" });
-  //   // console.log("container2: ", container2.resource._rid);
-  //   // await container2.container.items.create({ id: "test", PK1: "" });
-  //   // console.log("container2: ", container2.resource._rid);
-  // });
+    await container1.container.items.create({ id: "1", PK1: "1" });
+    console.log("container1: ", container1.resource._rid);
+    const client2 = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+    });
+    const database2 = await client2.databases.createIfNotExists({ id: "test4" });
+    // read same contianer from client 2
+    const container2 = await database2.database.containers.createIfNotExists({ id: "test1" });
+    // console.log("container2: ", container2.resource._rid);
+    // delete first container from cleint 2
+    await container2.container.delete();
+    // crewate new container from clietn 2
+    await database2.database.containers.createIfNotExists({
+      id: "test1",
+      partitionKey: "/PK2",
+    });
+    await container1.container.items.create({ id: "2", PK2: "2" });
+    // console.log("container2: ", container2.resource._rid);
+    // await container2.container.items.create({ id: "test", PK1: "" });
+    // console.log("container2: ", container2.resource._rid);
+  });
 
   it("encryption decrypt group by query result test", async () => {
     const partitionKey = randomUUID();

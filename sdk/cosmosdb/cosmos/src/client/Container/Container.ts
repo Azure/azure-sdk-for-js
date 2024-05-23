@@ -2,12 +2,15 @@
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import {
+  Constants,
   createDocumentCollectionUri,
   getIdFromLink,
   getPathFromLink,
   HTTPMethod,
   isResourceValid,
   ResourceType,
+  StatusCodes,
+  SubStatusCodes,
 } from "../../common";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
@@ -35,6 +38,7 @@ import { MetadataLookUpType } from "../../CosmosDiagnostics";
 import {
   ClientEncryptionKeyPropertiesCache,
   EncryptionProcessor,
+  EncryptionSettingForProperty,
   EncryptionSettings,
   EncryptionSettingsCache,
 } from "../../encryption";
@@ -386,6 +390,25 @@ export class Container {
     }, this.clientContext);
   }
 
+  private async refreshRidAndPolicy(): Promise<void> {
+    await withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const readResponse = await this.readInternal(diagnosticNode);
+      this._rid = readResponse.resource._rid;
+      const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
+      if (!clientEncryptionPolicy) return;
+      const partitionKeyPaths = readResponse.resource.partitionKey.paths;
+      const key = this.database.id + "/" + this.id;
+
+      const encryptionSettings = EncryptionSettings.create(
+        key,
+        this._rid,
+        partitionKeyPaths,
+        clientEncryptionPolicy,
+      );
+      const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
+      encryptionSettingsCache.setEncryptionSettings(key, encryptionSettings);
+    }, this.clientContext);
+  }
   /**
    * @hidden
    * Warms up encryption related caches for the container.
@@ -427,6 +450,48 @@ export class Container {
           );
         }
       }, this.clientContext);
+    }
+  }
+
+  async ThrowIfRequestNeedsARetryPostPolicyRefresh(errorResponse: any): Promise<void> {
+    const key = this.database.id + "/" + this.id;
+    const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
+    const encryptionSetting = encryptionSettingsCache.getEncryptionSettings(key);
+    const subStatusCode = errorResponse.headers[Constants.HttpHeaders.SubStatus];
+    const isPartitionKeyMismatch = subStatusCode == SubStatusCodes.PartitionKeyMismatch;
+    const isIncorrectContainerRidSubstatus =
+      subStatusCode == SubStatusCodes.IncorrectContainerRidSubstatus;
+    if (
+      errorResponse.code === StatusCodes.BadRequest &&
+      (isPartitionKeyMismatch || isIncorrectContainerRidSubstatus)
+    ) {
+      if (isPartitionKeyMismatch && encryptionSetting.partitionKeyPaths.length) {
+        let encryptionSettingsForProperty: EncryptionSettingForProperty = null;
+        for (const path of encryptionSetting.partitionKeyPaths) {
+          const partitionKeyPath = path.split("/")[1];
+          encryptionSettingsForProperty =
+            encryptionSetting.getEncryptionSettingForProperty(partitionKeyPath);
+          if (encryptionSettingsForProperty) {
+            break;
+          }
+        }
+
+        if (encryptionSettingsForProperty == null) {
+          return;
+        }
+      }
+      const currentContainerRid = encryptionSetting.containerRid;
+      const forceRefresh = true;
+      const updatedContainerRid = (
+        await this.encryptionProcessor.getEncryptionSetting(forceRefresh)
+      ).containerRid;
+      if (currentContainerRid === updatedContainerRid) {
+        return;
+      }
+      await this.refreshRidAndPolicy();
+      throw new Error(
+        "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue.",
+      );
     }
   }
 }
