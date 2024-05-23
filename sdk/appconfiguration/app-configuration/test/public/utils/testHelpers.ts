@@ -19,7 +19,7 @@ import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-let connectionStringNotPresentWarning = false;
+let endpointNotPresentWarning = false;
 let tokenCredentialsNotPresentWarning = false;
 
 export interface CredsAndEndpoint {
@@ -57,7 +57,6 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint {
     "AZ_CONFIG_ENDPOINT",
     "AZURE_CLIENT_ID",
     "AZURE_TENANT_ID",
-    "AZURE_CLIENT_SECRET",
   ];
 
   for (const name of requiredEnvironmentVariables) {
@@ -81,16 +80,16 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint {
 export function createAppConfigurationClientForTests(
   options?: AppConfigurationClientOptions,
 ): AppConfigurationClient {
-  const connectionString = env["APPCONFIG_CONNECTION_STRING"];
-
-  if (connectionString == null) {
-    if (!connectionStringNotPresentWarning) {
-      connectionStringNotPresentWarning = true;
+  const endpoint = env["AZ_CONFIG_ENDPOINT"];
+  const credential = createTestCredential();
+  if (endpoint == null) {
+    if (!endpointNotPresentWarning) {
+      endpointNotPresentWarning = true;
     }
     throw new Error("Invalid value for APPCONFIG_CONNECTION_STRING");
   }
 
-  return new AppConfigurationClient(connectionString, options);
+  return new AppConfigurationClient(endpoint, credential, options);
 }
 
 export async function deleteKeyCompletely(

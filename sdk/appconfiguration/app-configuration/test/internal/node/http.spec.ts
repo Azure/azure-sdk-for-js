@@ -108,6 +108,7 @@ describe("http request related tests", function () {
     });
   });
 
+  // FAIL
   // these tests are only testing that the requests and responses are
   // properly extracting and sending the sync token header (which is
   // why they appear to not do much of anything meaningful with what

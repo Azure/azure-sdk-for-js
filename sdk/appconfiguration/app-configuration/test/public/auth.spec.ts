@@ -10,7 +10,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { AppConfigurationClient } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
-import { isNode } from "@azure/core-util";
+import { isNodeRuntime } from "@azure/core-util";
 
 describe("Authentication", () => {
   let credsAndEndpoint: CredsAndEndpoint;
@@ -26,7 +26,7 @@ describe("Authentication", () => {
   });
 
   it("token authentication works", async function () {
-    if (!isNode) {
+    if (!isNodeRuntime) {
       this.skip();
     }
     const client = new AppConfigurationClient(
