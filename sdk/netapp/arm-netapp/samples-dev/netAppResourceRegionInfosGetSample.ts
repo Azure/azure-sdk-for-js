@@ -15,32 +15,24 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Get the status of the restore for a volume
+ * This sample demonstrates how to Provides storage to network proximity and logical zone mapping information.
  *
- * @summary Get the status of the restore for a volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-07-01/examples/Volumes_RestoreStatus.json
+ * @summary Provides storage to network proximity and logical zone mapping information.
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/RegionInfos_Get.json
  */
-async function volumesRestoreStatus() {
+async function regionInfosGet() {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
-  const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
-  const accountName = "account1";
-  const poolName = "pool1";
-  const volumeName = "volume1";
+  const location = "eastus";
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
-  const result = await client.backups.getVolumeRestoreStatus(
-    resourceGroupName,
-    accountName,
-    poolName,
-    volumeName,
-  );
+  const result = await client.netAppResourceRegionInfos.get(location);
   console.log(result);
 }
 
 async function main() {
-  volumesRestoreStatus();
+  regionInfosGet();
 }
 
 main().catch(console.error);
