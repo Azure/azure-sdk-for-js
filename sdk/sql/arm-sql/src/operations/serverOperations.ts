@@ -18,7 +18,7 @@ import {
   ServerOperationsListByServerNextOptionalParams,
   ServerOperationsListByServerOptionalParams,
   ServerOperationsListByServerResponse,
-  ServerOperationsListByServerNextResponse
+  ServerOperationsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,12 +44,12 @@ export class ServerOperationsImpl implements ServerOperations {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerOperationsListByServerOptionalParams
+    options?: ServerOperationsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerOperation> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -66,9 +66,9 @@ export class ServerOperationsImpl implements ServerOperations {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +76,7 @@ export class ServerOperationsImpl implements ServerOperations {
     resourceGroupName: string,
     serverName: string,
     options?: ServerOperationsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServerOperation[]> {
     let result: ServerOperationsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class ServerOperationsImpl implements ServerOperations {
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -104,12 +104,12 @@ export class ServerOperationsImpl implements ServerOperations {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerOperationsListByServerOptionalParams
+    options?: ServerOperationsListByServerOptionalParams,
   ): AsyncIterableIterator<ServerOperation> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -125,11 +125,11 @@ export class ServerOperationsImpl implements ServerOperations {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerOperationsListByServerOptionalParams
+    options?: ServerOperationsListByServerOptionalParams,
   ): Promise<ServerOperationsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -145,11 +145,11 @@ export class ServerOperationsImpl implements ServerOperations {
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: ServerOperationsListByServerNextOptionalParams
+    options?: ServerOperationsListByServerNextOptionalParams,
   ): Promise<ServerOperationsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -157,41 +157,40 @@ export class ServerOperationsImpl implements ServerOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/operations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/operations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerOperationListResult
+      bodyMapper: Mappers.ServerOperationListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerOperationListResult
+      bodyMapper: Mappers.ServerOperationListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

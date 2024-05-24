@@ -36,7 +36,7 @@ async function getAllLongTermRetentionBackupsUnderTheDatabase() {
     resourceGroupName,
     locationName,
     longTermRetentionServerName,
-    longTermRetentionDatabaseName
+    longTermRetentionDatabaseName,
   )) {
     resArray.push(item);
   }

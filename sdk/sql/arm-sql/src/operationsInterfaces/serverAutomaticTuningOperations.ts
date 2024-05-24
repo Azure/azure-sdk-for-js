@@ -11,7 +11,7 @@ import {
   ServerAutomaticTuningGetResponse,
   ServerAutomaticTuning,
   ServerAutomaticTuningUpdateOptionalParams,
-  ServerAutomaticTuningUpdateResponse
+  ServerAutomaticTuningUpdateResponse,
 } from "../models";
 
 /** Interface representing a ServerAutomaticTuningOperations. */
@@ -26,7 +26,7 @@ export interface ServerAutomaticTuningOperations {
   get(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAutomaticTuningGetOptionalParams
+    options?: ServerAutomaticTuningGetOptionalParams,
   ): Promise<ServerAutomaticTuningGetResponse>;
   /**
    * Update automatic tuning options on server.
@@ -40,6 +40,6 @@ export interface ServerAutomaticTuningOperations {
     resourceGroupName: string,
     serverName: string,
     parameters: ServerAutomaticTuning,
-    options?: ServerAutomaticTuningUpdateOptionalParams
+    options?: ServerAutomaticTuningUpdateOptionalParams,
   ): Promise<ServerAutomaticTuningUpdateResponse>;
 }

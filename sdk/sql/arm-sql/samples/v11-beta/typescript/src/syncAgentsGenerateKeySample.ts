@@ -33,7 +33,7 @@ async function generateASyncAgentKey() {
   const result = await client.syncAgents.generateKey(
     resourceGroupName,
     serverName,
-    syncAgentName
+    syncAgentName,
   );
   console.log(result);
 }

@@ -34,7 +34,7 @@ async function listDatabaseUsageMetrics() {
   for await (let item of client.databases.listMetricDefinitions(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }
