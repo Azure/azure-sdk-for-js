@@ -13,8 +13,8 @@ import {
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { NetworkAnalyticsClient } from "../../src/networkAnalyticsClient";
-import { createRecorder } from "./utils/recordedClient";
+import { NetworkAnalyticsClient } from "../../src/networkAnalyticsClient.js";
+import { createRecorder } from "./utils/recordedClient.js";
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
