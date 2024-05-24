@@ -34,7 +34,7 @@ async function getAJob() {
     resourceGroupName,
     serverName,
     jobAgentName,
-    jobName
+    jobName,
   );
   console.log(result);
 }

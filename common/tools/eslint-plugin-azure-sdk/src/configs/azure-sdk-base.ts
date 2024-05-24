@@ -42,15 +42,14 @@ export default {
         curly: ["error", "multi-line"],
         "eol-last": ["error", "always"],
         eqeqeq: ["error", "always", { null: "ignore" }],
-        // https://github.com/import-js/eslint-plugin-import/issues/2948
-        // "import/no-extraneous-dependencies": [
-        //   "error",
-        //   {
-        //     devDependencies: ["test/**/*.ts", "samples/**", "**/karma.conf.js", "**/.eslintrc.js"],
-        //     optionalDependencies: false,
-        //     peerDependencies: false,
-        //   },
-        // ],
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            devDependencies: ["test/**/*.ts", "samples/**", "**/karma.conf.js", "**/.eslintrc.js"],
+            optionalDependencies: false,
+            peerDependencies: false,
+          },
+        ],
         "no-console": "off",
         "no-dupe-class-members": "off",
         "no-invalid-this": "off",

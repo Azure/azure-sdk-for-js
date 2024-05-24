@@ -31,7 +31,7 @@ async function updateTheEncryptionProtectorToKeyVault() {
   const parameters: EncryptionProtector = {
     autoRotationEnabled: false,
     serverKeyName: "someVault_someKey_01234567890123456789012345678901",
-    serverKeyType: "AzureKeyVault"
+    serverKeyType: "AzureKeyVault",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -39,7 +39,7 @@ async function updateTheEncryptionProtectorToKeyVault() {
     resourceGroupName,
     serverName,
     encryptionProtectorName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -60,7 +60,7 @@ async function updateTheEncryptionProtectorToServiceManaged() {
   const encryptionProtectorName = "current";
   const parameters: EncryptionProtector = {
     serverKeyName: "ServiceManaged",
-    serverKeyType: "ServiceManaged"
+    serverKeyType: "ServiceManaged",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -68,7 +68,7 @@ async function updateTheEncryptionProtectorToServiceManaged() {
     resourceGroupName,
     serverName,
     encryptionProtectorName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
