@@ -162,6 +162,7 @@ const result = await client.chat.completions.create({ messages, ... { extensions
 Notice that:
 - The `azureExtensionOptions` property has been replaced with the inner `extensions` property
 - The `parameters` property has been added to wrap the parameters of the extension, which mirrors the schema of the Azure OpenAI service API
+- camel case properties have been replaced with snake case properties
 
 ### Audio transcription
 
@@ -314,7 +315,7 @@ do {
   runResponse.status === "in_progress"
 ```
 
-This code can be migrated and simplified by using the `createAndPoll` method which creates a run and polls it until it is no longer queued or in progress.
+This code can be migrated and simplified by using the `createAndPoll` method which creates a run and polls it until it is in a terminal state.
 
 Migration code:
 ```typescript
@@ -329,7 +330,7 @@ const runResponse = await assistantsClient.beta.threads.runs.createAndPoll(
 
 Notice that:
 - The `createRun` method has been replaced with the `beta.threads.runs.create` and `createAndPoll` methods
-- The `createAndPoll` method is used to create a run and poll it until it is no longer queued or in progress
+- The `createAndPoll` method is used to create a run and poll it until it is in a terminal state
 
 #### Processing Run results
 
@@ -428,10 +429,14 @@ for (const choice of results.choices) {
     console.log(
       `Content filter ran into the error ${filterResults.error.code}: ${filterResults.error.message}`);
   }
-  const { hate, sexual, selfHarm, violence } = filterResults;
+  const { hate, sexual, self_harm, violence } = filterResults;
   ...
 }
 ```
+
+Notice that:
+- camel case properties have been replaced with snake case properties
+- A cast to `any` is used to access the `content_filter_results` property because it is not part of the `ChatCompletion.Choice` interface, see the [Azure types](#azure-types) section for more information
 
 ## Comparing Types
 
