@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   OnlineDeployment,
   OnlineDeploymentsListNextOptionalParams,
@@ -36,7 +40,7 @@ import {
   OnlineDeploymentsGetLogsOptionalParams,
   OnlineDeploymentsGetLogsResponse,
   OnlineDeploymentsListNextResponse,
-  OnlineDeploymentsListSkusNextResponse
+  OnlineDeploymentsListSkusNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -63,13 +67,13 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineDeploymentsListOptionalParams
+    options?: OnlineDeploymentsListOptionalParams,
   ): PagedAsyncIterableIterator<OnlineDeployment> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       endpointName,
-      options
+      options,
     );
     return {
       next() {
@@ -87,9 +91,9 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
           workspaceName,
           endpointName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -98,7 +102,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     options?: OnlineDeploymentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OnlineDeployment[]> {
     let result: OnlineDeploymentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -107,7 +111,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         resourceGroupName,
         workspaceName,
         endpointName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -120,7 +124,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         workspaceName,
         endpointName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -133,13 +137,13 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineDeploymentsListOptionalParams
+    options?: OnlineDeploymentsListOptionalParams,
   ): AsyncIterableIterator<OnlineDeployment> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       endpointName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -158,14 +162,14 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: OnlineDeploymentsListSkusOptionalParams
+    options?: OnlineDeploymentsListSkusOptionalParams,
   ): PagedAsyncIterableIterator<SkuResource> {
     const iter = this.listSkusPagingAll(
       resourceGroupName,
       workspaceName,
       endpointName,
       deploymentName,
-      options
+      options,
     );
     return {
       next() {
@@ -184,9 +188,9 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
           endpointName,
           deploymentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -196,7 +200,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     endpointName: string,
     deploymentName: string,
     options?: OnlineDeploymentsListSkusOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SkuResource[]> {
     let result: OnlineDeploymentsListSkusResponse;
     let continuationToken = settings?.continuationToken;
@@ -206,7 +210,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         workspaceName,
         endpointName,
         deploymentName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -220,7 +224,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         endpointName,
         deploymentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -234,14 +238,14 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: OnlineDeploymentsListSkusOptionalParams
+    options?: OnlineDeploymentsListSkusOptionalParams,
   ): AsyncIterableIterator<SkuResource> {
     for await (const page of this.listSkusPagingPage(
       resourceGroupName,
       workspaceName,
       endpointName,
       deploymentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -258,11 +262,11 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineDeploymentsListOptionalParams
+    options?: OnlineDeploymentsListOptionalParams,
   ): Promise<OnlineDeploymentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, endpointName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -279,25 +283,24 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: OnlineDeploymentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: OnlineDeploymentsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -306,8 +309,8 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -315,25 +318,25 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         endpointName,
         deploymentName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -352,14 +355,14 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: OnlineDeploymentsDeleteOptionalParams
+    options?: OnlineDeploymentsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       endpointName,
       deploymentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -377,7 +380,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: OnlineDeploymentsGetOptionalParams
+    options?: OnlineDeploymentsGetOptionalParams,
   ): Promise<OnlineDeploymentsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -385,9 +388,9 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         workspaceName,
         endpointName,
         deploymentName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -406,30 +409,29 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     endpointName: string,
     deploymentName: string,
     body: PartialMinimalTrackedResourceWithSku,
-    options?: OnlineDeploymentsUpdateOptionalParams
+    options?: OnlineDeploymentsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineDeploymentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineDeploymentsUpdateResponse>,
       OnlineDeploymentsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<OnlineDeploymentsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -438,8 +440,8 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -447,26 +449,29 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         endpointName,
         deploymentName,
         body,
-        options
+        options,
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      OnlineDeploymentsUpdateResponse,
+      OperationState<OnlineDeploymentsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -487,7 +492,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     endpointName: string,
     deploymentName: string,
     body: PartialMinimalTrackedResourceWithSku,
-    options?: OnlineDeploymentsUpdateOptionalParams
+    options?: OnlineDeploymentsUpdateOptionalParams,
   ): Promise<OnlineDeploymentsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -495,7 +500,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
       endpointName,
       deploymentName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -515,30 +520,29 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     endpointName: string,
     deploymentName: string,
     body: OnlineDeployment,
-    options?: OnlineDeploymentsCreateOrUpdateOptionalParams
+    options?: OnlineDeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineDeploymentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineDeploymentsCreateOrUpdateResponse>,
       OnlineDeploymentsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<OnlineDeploymentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -547,8 +551,8 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -556,26 +560,29 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         endpointName,
         deploymentName,
         body,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      OnlineDeploymentsCreateOrUpdateResponse,
+      OperationState<OnlineDeploymentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -596,7 +603,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     endpointName: string,
     deploymentName: string,
     body: OnlineDeployment,
-    options?: OnlineDeploymentsCreateOrUpdateOptionalParams
+    options?: OnlineDeploymentsCreateOrUpdateOptionalParams,
   ): Promise<OnlineDeploymentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -604,7 +611,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
       endpointName,
       deploymentName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -624,7 +631,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     endpointName: string,
     deploymentName: string,
     body: DeploymentLogsRequest,
-    options?: OnlineDeploymentsGetLogsOptionalParams
+    options?: OnlineDeploymentsGetLogsOptionalParams,
   ): Promise<OnlineDeploymentsGetLogsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -633,9 +640,9 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         endpointName,
         deploymentName,
         body,
-        options
+        options,
       },
-      getLogsOperationSpec
+      getLogsOperationSpec,
     );
   }
 
@@ -652,7 +659,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: OnlineDeploymentsListSkusOptionalParams
+    options?: OnlineDeploymentsListSkusOptionalParams,
   ): Promise<OnlineDeploymentsListSkusResponse> {
     return this.client.sendOperationRequest(
       {
@@ -660,9 +667,9 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         workspaceName,
         endpointName,
         deploymentName,
-        options
+        options,
       },
-      listSkusOperationSpec
+      listSkusOperationSpec,
     );
   }
 
@@ -679,11 +686,11 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     nextLink: string,
-    options?: OnlineDeploymentsListNextOptionalParams
+    options?: OnlineDeploymentsListNextOptionalParams,
   ): Promise<OnlineDeploymentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, endpointName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -702,7 +709,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     endpointName: string,
     deploymentName: string,
     nextLink: string,
-    options?: OnlineDeploymentsListSkusNextOptionalParams
+    options?: OnlineDeploymentsListSkusNextOptionalParams,
   ): Promise<OnlineDeploymentsListSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -711,9 +718,9 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         endpointName,
         deploymentName,
         nextLink,
-        options
+        options,
       },
-      listSkusNextOperationSpec
+      listSkusNextOperationSpec,
     );
   }
 }
@@ -721,36 +728,34 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OnlineDeploymentTrackedResourceArmPaginatedResult
+      bodyMapper: Mappers.OnlineDeploymentTrackedResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skip,
     Parameters.orderBy,
-    Parameters.top
+    Parameters.top,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -758,8 +763,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -768,22 +773,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.endpointName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OnlineDeployment
+      bodyMapper: Mappers.OnlineDeployment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -792,31 +796,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.endpointName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.OnlineDeployment
+      bodyMapper: Mappers.OnlineDeployment,
     },
     201: {
-      bodyMapper: Mappers.OnlineDeployment
+      bodyMapper: Mappers.OnlineDeployment,
     },
     202: {
-      bodyMapper: Mappers.OnlineDeployment
+      bodyMapper: Mappers.OnlineDeployment,
     },
     204: {
-      bodyMapper: Mappers.OnlineDeployment
+      bodyMapper: Mappers.OnlineDeployment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body18,
   queryParameters: [Parameters.apiVersion],
@@ -826,32 +829,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.endpointName1,
-    Parameters.deploymentName1
+    Parameters.deploymentName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.OnlineDeployment
+      bodyMapper: Mappers.OnlineDeployment,
     },
     201: {
-      bodyMapper: Mappers.OnlineDeployment
+      bodyMapper: Mappers.OnlineDeployment,
     },
     202: {
-      bodyMapper: Mappers.OnlineDeployment
+      bodyMapper: Mappers.OnlineDeployment,
     },
     204: {
-      bodyMapper: Mappers.OnlineDeployment
+      bodyMapper: Mappers.OnlineDeployment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body19,
   queryParameters: [Parameters.apiVersion],
@@ -861,23 +863,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.endpointName1,
-    Parameters.deploymentName1
+    Parameters.deploymentName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getLogsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}/getLogs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}/getLogs",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentLogs
+      bodyMapper: Mappers.DeploymentLogs,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body20,
   queryParameters: [Parameters.apiVersion],
@@ -887,23 +888,22 @@ const getLogsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.endpointName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listSkusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}/skus",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SkuResourceArmPaginatedResult
+      bodyMapper: Mappers.SkuResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.count],
   urlParameters: [
@@ -912,51 +912,22 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.endpointName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OnlineDeploymentTrackedResourceArmPaginatedResult
+      bodyMapper: Mappers.OnlineDeploymentTrackedResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.orderBy,
-    Parameters.top
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.nextLink,
-    Parameters.endpointName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listSkusNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SkuResourceArmPaginatedResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.count],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -964,8 +935,30 @@ const listSkusNextOperationSpec: coreClient.OperationSpec = {
     Parameters.workspaceName,
     Parameters.nextLink,
     Parameters.endpointName,
-    Parameters.deploymentName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listSkusNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SkuResourceArmPaginatedResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.nextLink,
+    Parameters.endpointName,
+    Parameters.deploymentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

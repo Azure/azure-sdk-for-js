@@ -33,7 +33,7 @@ async function deleteAnIPv6FirewallRule() {
   const result = await client.iPv6FirewallRules.delete(
     resourceGroupName,
     serverName,
-    firewallRuleName
+    firewallRuleName,
   );
   console.log(result);
 }

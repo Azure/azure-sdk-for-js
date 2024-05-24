@@ -14,7 +14,7 @@ import {
   IPv6FirewallRulesGetResponse,
   IPv6FirewallRulesCreateOrUpdateOptionalParams,
   IPv6FirewallRulesCreateOrUpdateResponse,
-  IPv6FirewallRulesDeleteOptionalParams
+  IPv6FirewallRulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface IPv6FirewallRules {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: IPv6FirewallRulesListByServerOptionalParams
+    options?: IPv6FirewallRulesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<IPv6FirewallRule>;
   /**
    * Gets an IPv6 firewall rule.
@@ -44,7 +44,7 @@ export interface IPv6FirewallRules {
     resourceGroupName: string,
     serverName: string,
     firewallRuleName: string,
-    options?: IPv6FirewallRulesGetOptionalParams
+    options?: IPv6FirewallRulesGetOptionalParams,
   ): Promise<IPv6FirewallRulesGetResponse>;
   /**
    * Creates or updates an IPv6 firewall rule.
@@ -60,7 +60,7 @@ export interface IPv6FirewallRules {
     serverName: string,
     firewallRuleName: string,
     parameters: IPv6FirewallRule,
-    options?: IPv6FirewallRulesCreateOrUpdateOptionalParams
+    options?: IPv6FirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<IPv6FirewallRulesCreateOrUpdateResponse>;
   /**
    * Deletes an IPv6 firewall rule.
@@ -74,6 +74,6 @@ export interface IPv6FirewallRules {
     resourceGroupName: string,
     serverName: string,
     firewallRuleName: string,
-    options?: IPv6FirewallRulesDeleteOptionalParams
+    options?: IPv6FirewallRulesDeleteOptionalParams,
   ): Promise<void>;
 }

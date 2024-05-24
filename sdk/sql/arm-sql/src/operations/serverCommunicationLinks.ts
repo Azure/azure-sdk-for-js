@@ -15,7 +15,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -26,7 +26,7 @@ import {
   ServerCommunicationLinksGetOptionalParams,
   ServerCommunicationLinksGetResponse,
   ServerCommunicationLinksCreateOrUpdateOptionalParams,
-  ServerCommunicationLinksCreateOrUpdateResponse
+  ServerCommunicationLinksCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,12 +52,12 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerCommunicationLinksListByServerOptionalParams
+    options?: ServerCommunicationLinksListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerCommunicationLink> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +84,7 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
     resourceGroupName: string,
     serverName: string,
     options?: ServerCommunicationLinksListByServerOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ServerCommunicationLink[]> {
     let result: ServerCommunicationLinksListByServerResponse;
     result = await this._listByServer(resourceGroupName, serverName, options);
@@ -94,12 +94,12 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerCommunicationLinksListByServerOptionalParams
+    options?: ServerCommunicationLinksListByServerOptionalParams,
   ): AsyncIterableIterator<ServerCommunicationLink> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -117,11 +117,11 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
     resourceGroupName: string,
     serverName: string,
     communicationLinkName: string,
-    options?: ServerCommunicationLinksDeleteOptionalParams
+    options?: ServerCommunicationLinksDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, communicationLinkName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -137,11 +137,11 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
     resourceGroupName: string,
     serverName: string,
     communicationLinkName: string,
-    options?: ServerCommunicationLinksGetOptionalParams
+    options?: ServerCommunicationLinksGetOptionalParams,
   ): Promise<ServerCommunicationLinksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, communicationLinkName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -159,7 +159,7 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
     serverName: string,
     communicationLinkName: string,
     parameters: ServerCommunicationLink,
-    options?: ServerCommunicationLinksCreateOrUpdateOptionalParams
+    options?: ServerCommunicationLinksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerCommunicationLinksCreateOrUpdateResponse>,
@@ -168,21 +168,20 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServerCommunicationLinksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -191,8 +190,8 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -200,8 +199,8 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -212,16 +211,16 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
         serverName,
         communicationLinkName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ServerCommunicationLinksCreateOrUpdateResponse,
       OperationState<ServerCommunicationLinksCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -241,14 +240,14 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
     serverName: string,
     communicationLinkName: string,
     parameters: ServerCommunicationLink,
-    options?: ServerCommunicationLinksCreateOrUpdateOptionalParams
+    options?: ServerCommunicationLinksCreateOrUpdateOptionalParams,
   ): Promise<ServerCommunicationLinksCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
       communicationLinkName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -263,11 +262,11 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerCommunicationLinksListByServerOptionalParams
+    options?: ServerCommunicationLinksListByServerOptionalParams,
   ): Promise<ServerCommunicationLinksListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 }
@@ -275,8 +274,7 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
   httpMethod: "DELETE",
   responses: { 200: {} },
   queryParameters: [Parameters.apiVersion],
@@ -285,18 +283,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.communicationLinkName
+    Parameters.communicationLinkName,
   ],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerCommunicationLink
-    }
+      bodyMapper: Mappers.ServerCommunicationLink,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -304,28 +301,27 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.communicationLinkName
+    Parameters.communicationLinkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerCommunicationLink
+      bodyMapper: Mappers.ServerCommunicationLink,
     },
     201: {
-      bodyMapper: Mappers.ServerCommunicationLink
+      bodyMapper: Mappers.ServerCommunicationLink,
     },
     202: {
-      bodyMapper: Mappers.ServerCommunicationLink
+      bodyMapper: Mappers.ServerCommunicationLink,
     },
     204: {
-      bodyMapper: Mappers.ServerCommunicationLink
-    }
+      bodyMapper: Mappers.ServerCommunicationLink,
+    },
   },
   requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
@@ -334,28 +330,27 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.communicationLinkName
+    Parameters.communicationLinkName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerCommunicationLinkListResult
-    }
+      bodyMapper: Mappers.ServerCommunicationLinkListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

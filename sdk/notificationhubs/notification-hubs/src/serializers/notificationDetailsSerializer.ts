@@ -34,9 +34,21 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
     baiduOutcomeCounts = parseOutcomeCounts(notificationDetails["BaiduOutcomeCounts"]["Outcome"]);
   }
 
+  let browserOutcomeCounts: NotificationOutcome[] | undefined;
+  if (isDefined(notificationDetails["BrowserOutcomeCounts"])) {
+    browserOutcomeCounts = parseOutcomeCounts(
+      notificationDetails["BrowserOutcomeCounts"]["Outcome"],
+    );
+  }
+
   let fcmOutcomeCounts: NotificationOutcome[] | undefined;
   if (isDefined(notificationDetails["GcmOutcomeCounts"])) {
     fcmOutcomeCounts = parseOutcomeCounts(notificationDetails["GcmOutcomeCounts"]["Outcome"]);
+  }
+
+  let fcmV1OutcomeCounts: NotificationOutcome[] | undefined;
+  if (isDefined(notificationDetails["FcmV1OutcomeCounts"])) {
+    fcmV1OutcomeCounts = parseOutcomeCounts(notificationDetails["FcmV1OutcomeCounts"]["Outcome"]);
   }
 
   let xiaomiOutcomeCounts: NotificationOutcome[] | undefined;
@@ -62,7 +74,9 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
     apnsOutcomeCounts,
     admOutcomeCounts,
     baiduOutcomeCounts,
+    browserOutcomeCounts,
     fcmOutcomeCounts,
+    fcmV1OutcomeCounts,
     xiaomiOutcomeCounts,
     wnsOutcomeCounts,
   };

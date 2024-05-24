@@ -87,22 +87,22 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "esbuild-plugin-polyfill-node": "^0.3.0",
     "@microsoft/api-extractor": "^7.43.1",
     "@types/debug": "^4.1.12",
     "@types/node": "^18.0.0",
-    "@types/ws": "^7.2.4",
-    "@vitest/browser": "^1.5.3",
-    "@vitest/coverage-istanbul": "^1.5.3",
+    "@types/ws": "^8.5.10",
+    "@vitest/browser": "^1.6.0",
+    "@vitest/coverage-istanbul": "^1.6.0",
     "debug": "^4.3.4",
-    "esbuild": "^0.20.2",
     "eslint": "^8.57.0",
     "playwright": "^1.43.1",
-    "rimraf": "^5.0.5",
+    "rimraf": "^5.0.7",
     "tshy": "^1.14.0",
     "typescript": "~5.4.5",
-    "vitest": "^1.5.3",
-    "ws": "^8.2.0"
+    "vite": "^5.2.11",
+    "vite-plugin-node-polyfills": "^0.22.0",
+    "vitest": "^1.6.0",
+    "ws": "^8.17.0"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"

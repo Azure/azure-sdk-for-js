@@ -2206,6 +2206,11 @@
       "packageName": "@azure-rest/ai-vision-face",
       "projectFolder": "sdk/face/ai-vision-face-rest",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-oracledatabase",
+      "projectFolder": "sdk/oracledatabase/arm-oracledatabase",
+      "versionPolicyName": "management"
     }
   ]
 }

@@ -18,7 +18,7 @@ import {
   ResourceGuardProxiesGetNextOptionalParams,
   ResourceGuardProxiesGetOptionalParams,
   ResourceGuardProxiesGetResponse,
-  ResourceGuardProxiesGetNextResponse
+  ResourceGuardProxiesGetNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export class ResourceGuardProxiesImpl implements ResourceGuardProxies {
   public list(
     vaultName: string,
     resourceGroupName: string,
-    options?: ResourceGuardProxiesGetOptionalParams
+    options?: ResourceGuardProxiesGetOptionalParams,
   ): PagedAsyncIterableIterator<ResourceGuardProxyBaseResource> {
     const iter = this.getPagingAll(vaultName, resourceGroupName, options);
     return {
@@ -62,9 +62,9 @@ export class ResourceGuardProxiesImpl implements ResourceGuardProxies {
           vaultName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,7 +72,7 @@ export class ResourceGuardProxiesImpl implements ResourceGuardProxies {
     vaultName: string,
     resourceGroupName: string,
     options?: ResourceGuardProxiesGetOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceGuardProxyBaseResource[]> {
     let result: ResourceGuardProxiesGetResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class ResourceGuardProxiesImpl implements ResourceGuardProxies {
         vaultName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -100,12 +100,12 @@ export class ResourceGuardProxiesImpl implements ResourceGuardProxies {
   private async *getPagingAll(
     vaultName: string,
     resourceGroupName: string,
-    options?: ResourceGuardProxiesGetOptionalParams
+    options?: ResourceGuardProxiesGetOptionalParams,
   ): AsyncIterableIterator<ResourceGuardProxyBaseResource> {
     for await (const page of this.getPagingPage(
       vaultName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -121,11 +121,11 @@ export class ResourceGuardProxiesImpl implements ResourceGuardProxies {
   private _get(
     vaultName: string,
     resourceGroupName: string,
-    options?: ResourceGuardProxiesGetOptionalParams
+    options?: ResourceGuardProxiesGetOptionalParams,
   ): Promise<ResourceGuardProxiesGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -141,11 +141,11 @@ export class ResourceGuardProxiesImpl implements ResourceGuardProxies {
     vaultName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ResourceGuardProxiesGetNextOptionalParams
+    options?: ResourceGuardProxiesGetNextOptionalParams,
   ): Promise<ResourceGuardProxiesGetNextResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, nextLink, options },
-      getNextOperationSpec
+      getNextOperationSpec,
     );
   }
 }
@@ -153,45 +153,44 @@ export class ResourceGuardProxiesImpl implements ResourceGuardProxies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGuardProxyBaseResourceList
+      bodyMapper: Mappers.ResourceGuardProxyBaseResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGuardProxyBaseResourceList
+      bodyMapper: Mappers.ResourceGuardProxyBaseResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   JobExecutionsListByAgentOptionalParams,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -40,7 +40,7 @@ async function listAllJobExecutionsInAJobAgentWithFiltering() {
     createTimeMax,
     endTimeMin,
     endTimeMax,
-    isActive
+    isActive,
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -49,7 +49,7 @@ async function listAllJobExecutionsInAJobAgentWithFiltering() {
     resourceGroupName,
     serverName,
     jobAgentName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -75,7 +75,7 @@ async function listAllJobExecutionsInAJobAgent() {
   for await (let item of client.jobExecutions.listByAgent(
     resourceGroupName,
     serverName,
-    jobAgentName
+    jobAgentName,
   )) {
     resArray.push(item);
   }

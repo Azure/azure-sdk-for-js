@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureMachineLearningWorkspaces } = require("@azure/arm-machinelearning");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update a batch inference deployment (asynchronous).
@@ -18,15 +19,13 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/BatchDeployment/update.json
  */
 async function updateBatchDeployment() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
-  const body = {
-    properties: { description: "string" },
-    tags: {},
-  };
+  const body = { properties: { description: "string" }, tags: {} };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
   const result = await client.batchDeployments.beginUpdateAndWait(
@@ -34,9 +33,13 @@ async function updateBatchDeployment() {
     workspaceName,
     endpointName,
     deploymentName,
-    body
+    body,
   );
   console.log(result);
 }
 
-updateBatchDeployment().catch(console.error);
+async function main() {
+  updateBatchDeployment();
+}
+
+main().catch(console.error);

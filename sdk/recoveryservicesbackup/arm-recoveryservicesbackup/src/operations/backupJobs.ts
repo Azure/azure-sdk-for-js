@@ -18,7 +18,7 @@ import {
   BackupJobsListNextOptionalParams,
   BackupJobsListOptionalParams,
   BackupJobsListResponse,
-  BackupJobsListNextResponse
+  BackupJobsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export class BackupJobsImpl implements BackupJobs {
   public list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupJobsListOptionalParams
+    options?: BackupJobsListOptionalParams,
   ): PagedAsyncIterableIterator<JobResource> {
     const iter = this.listPagingAll(vaultName, resourceGroupName, options);
     return {
@@ -62,9 +62,9 @@ export class BackupJobsImpl implements BackupJobs {
           vaultName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,7 +72,7 @@ export class BackupJobsImpl implements BackupJobs {
     vaultName: string,
     resourceGroupName: string,
     options?: BackupJobsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<JobResource[]> {
     let result: BackupJobsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class BackupJobsImpl implements BackupJobs {
         vaultName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -100,12 +100,12 @@ export class BackupJobsImpl implements BackupJobs {
   private async *listPagingAll(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupJobsListOptionalParams
+    options?: BackupJobsListOptionalParams,
   ): AsyncIterableIterator<JobResource> {
     for await (const page of this.listPagingPage(
       vaultName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -121,11 +121,11 @@ export class BackupJobsImpl implements BackupJobs {
   private _list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupJobsListOptionalParams
+    options?: BackupJobsListOptionalParams,
   ): Promise<BackupJobsListResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -141,11 +141,11 @@ export class BackupJobsImpl implements BackupJobs {
     vaultName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: BackupJobsListNextOptionalParams
+    options?: BackupJobsListNextOptionalParams,
   ): Promise<BackupJobsListNextResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -153,49 +153,48 @@ export class BackupJobsImpl implements BackupJobs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobResourceList
+      bodyMapper: Mappers.JobResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobResourceList
+      bodyMapper: Mappers.JobResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

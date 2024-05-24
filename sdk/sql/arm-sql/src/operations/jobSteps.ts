@@ -29,7 +29,7 @@ import {
   JobStepsCreateOrUpdateResponse,
   JobStepsDeleteOptionalParams,
   JobStepsListByVersionNextResponse,
-  JobStepsListByJobNextResponse
+  JobStepsListByJobNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,7 +61,7 @@ export class JobStepsImpl implements JobSteps {
     jobAgentName: string,
     jobName: string,
     jobVersion: number,
-    options?: JobStepsListByVersionOptionalParams
+    options?: JobStepsListByVersionOptionalParams,
   ): PagedAsyncIterableIterator<JobStep> {
     const iter = this.listByVersionPagingAll(
       resourceGroupName,
@@ -69,7 +69,7 @@ export class JobStepsImpl implements JobSteps {
       jobAgentName,
       jobName,
       jobVersion,
-      options
+      options,
     );
     return {
       next() {
@@ -89,9 +89,9 @@ export class JobStepsImpl implements JobSteps {
           jobName,
           jobVersion,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -102,7 +102,7 @@ export class JobStepsImpl implements JobSteps {
     jobName: string,
     jobVersion: number,
     options?: JobStepsListByVersionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<JobStep[]> {
     let result: JobStepsListByVersionResponse;
     let continuationToken = settings?.continuationToken;
@@ -113,7 +113,7 @@ export class JobStepsImpl implements JobSteps {
         jobAgentName,
         jobName,
         jobVersion,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -128,7 +128,7 @@ export class JobStepsImpl implements JobSteps {
         jobName,
         jobVersion,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -143,7 +143,7 @@ export class JobStepsImpl implements JobSteps {
     jobAgentName: string,
     jobName: string,
     jobVersion: number,
-    options?: JobStepsListByVersionOptionalParams
+    options?: JobStepsListByVersionOptionalParams,
   ): AsyncIterableIterator<JobStep> {
     for await (const page of this.listByVersionPagingPage(
       resourceGroupName,
@@ -151,7 +151,7 @@ export class JobStepsImpl implements JobSteps {
       jobAgentName,
       jobName,
       jobVersion,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -171,14 +171,14 @@ export class JobStepsImpl implements JobSteps {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobStepsListByJobOptionalParams
+    options?: JobStepsListByJobOptionalParams,
   ): PagedAsyncIterableIterator<JobStep> {
     const iter = this.listByJobPagingAll(
       resourceGroupName,
       serverName,
       jobAgentName,
       jobName,
-      options
+      options,
     );
     return {
       next() {
@@ -197,9 +197,9 @@ export class JobStepsImpl implements JobSteps {
           jobAgentName,
           jobName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -209,7 +209,7 @@ export class JobStepsImpl implements JobSteps {
     jobAgentName: string,
     jobName: string,
     options?: JobStepsListByJobOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<JobStep[]> {
     let result: JobStepsListByJobResponse;
     let continuationToken = settings?.continuationToken;
@@ -219,7 +219,7 @@ export class JobStepsImpl implements JobSteps {
         serverName,
         jobAgentName,
         jobName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -233,7 +233,7 @@ export class JobStepsImpl implements JobSteps {
         jobAgentName,
         jobName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -247,14 +247,14 @@ export class JobStepsImpl implements JobSteps {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobStepsListByJobOptionalParams
+    options?: JobStepsListByJobOptionalParams,
   ): AsyncIterableIterator<JobStep> {
     for await (const page of this.listByJobPagingPage(
       resourceGroupName,
       serverName,
       jobAgentName,
       jobName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -276,7 +276,7 @@ export class JobStepsImpl implements JobSteps {
     jobAgentName: string,
     jobName: string,
     jobVersion: number,
-    options?: JobStepsListByVersionOptionalParams
+    options?: JobStepsListByVersionOptionalParams,
   ): Promise<JobStepsListByVersionResponse> {
     return this.client.sendOperationRequest(
       {
@@ -285,9 +285,9 @@ export class JobStepsImpl implements JobSteps {
         jobAgentName,
         jobName,
         jobVersion,
-        options
+        options,
       },
-      listByVersionOperationSpec
+      listByVersionOperationSpec,
     );
   }
 
@@ -309,7 +309,7 @@ export class JobStepsImpl implements JobSteps {
     jobName: string,
     jobVersion: number,
     stepName: string,
-    options?: JobStepsGetByVersionOptionalParams
+    options?: JobStepsGetByVersionOptionalParams,
   ): Promise<JobStepsGetByVersionResponse> {
     return this.client.sendOperationRequest(
       {
@@ -319,9 +319,9 @@ export class JobStepsImpl implements JobSteps {
         jobName,
         jobVersion,
         stepName,
-        options
+        options,
       },
-      getByVersionOperationSpec
+      getByVersionOperationSpec,
     );
   }
 
@@ -339,11 +339,11 @@ export class JobStepsImpl implements JobSteps {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobStepsListByJobOptionalParams
+    options?: JobStepsListByJobOptionalParams,
   ): Promise<JobStepsListByJobResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, jobName, options },
-      listByJobOperationSpec
+      listByJobOperationSpec,
     );
   }
 
@@ -363,7 +363,7 @@ export class JobStepsImpl implements JobSteps {
     jobAgentName: string,
     jobName: string,
     stepName: string,
-    options?: JobStepsGetOptionalParams
+    options?: JobStepsGetOptionalParams,
   ): Promise<JobStepsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -372,9 +372,9 @@ export class JobStepsImpl implements JobSteps {
         jobAgentName,
         jobName,
         stepName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -396,7 +396,7 @@ export class JobStepsImpl implements JobSteps {
     jobName: string,
     stepName: string,
     parameters: JobStep,
-    options?: JobStepsCreateOrUpdateOptionalParams
+    options?: JobStepsCreateOrUpdateOptionalParams,
   ): Promise<JobStepsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -406,9 +406,9 @@ export class JobStepsImpl implements JobSteps {
         jobName,
         stepName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -428,7 +428,7 @@ export class JobStepsImpl implements JobSteps {
     jobAgentName: string,
     jobName: string,
     stepName: string,
-    options?: JobStepsDeleteOptionalParams
+    options?: JobStepsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -437,9 +437,9 @@ export class JobStepsImpl implements JobSteps {
         jobAgentName,
         jobName,
         stepName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -461,7 +461,7 @@ export class JobStepsImpl implements JobSteps {
     jobName: string,
     jobVersion: number,
     nextLink: string,
-    options?: JobStepsListByVersionNextOptionalParams
+    options?: JobStepsListByVersionNextOptionalParams,
   ): Promise<JobStepsListByVersionNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -471,9 +471,9 @@ export class JobStepsImpl implements JobSteps {
         jobName,
         jobVersion,
         nextLink,
-        options
+        options,
       },
-      listByVersionNextOperationSpec
+      listByVersionNextOperationSpec,
     );
   }
 
@@ -493,7 +493,7 @@ export class JobStepsImpl implements JobSteps {
     jobAgentName: string,
     jobName: string,
     nextLink: string,
-    options?: JobStepsListByJobNextOptionalParams
+    options?: JobStepsListByJobNextOptionalParams,
   ): Promise<JobStepsListByJobNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -502,9 +502,9 @@ export class JobStepsImpl implements JobSteps {
         jobAgentName,
         jobName,
         nextLink,
-        options
+        options,
       },
-      listByJobNextOperationSpec
+      listByJobNextOperationSpec,
     );
   }
 }
@@ -512,14 +512,13 @@ export class JobStepsImpl implements JobSteps {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByVersionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}/steps",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}/steps",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobStepListResult
+      bodyMapper: Mappers.JobStepListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -529,20 +528,19 @@ const listByVersionOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
-    Parameters.jobVersion
+    Parameters.jobVersion,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByVersionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}/steps/{stepName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}/steps/{stepName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobStep
+      bodyMapper: Mappers.JobStep,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -553,42 +551,19 @@ const getByVersionOperationSpec: coreClient.OperationSpec = {
     Parameters.jobAgentName,
     Parameters.jobName,
     Parameters.stepName,
-    Parameters.jobVersion
+    Parameters.jobVersion,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByJobOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobStepListResult
+      bodyMapper: Mappers.JobStepListResult,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.jobAgentName,
-    Parameters.jobName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobStep
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -598,23 +573,43 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
-    Parameters.stepName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobStep,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.jobAgentName,
+    Parameters.jobName,
+    Parameters.stepName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.JobStep
+      bodyMapper: Mappers.JobStep,
     },
     201: {
-      bodyMapper: Mappers.JobStep
+      bodyMapper: Mappers.JobStep,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion3],
@@ -625,15 +620,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
-    Parameters.stepName
+    Parameters.stepName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion3],
@@ -644,18 +638,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
-    Parameters.stepName
+    Parameters.stepName,
   ],
-  serializer
+  serializer,
 };
 const listByVersionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobStepListResult
+      bodyMapper: Mappers.JobStepListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -665,19 +659,19 @@ const listByVersionNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.jobAgentName,
     Parameters.jobName,
-    Parameters.jobVersion
+    Parameters.jobVersion,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByJobNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobStepListResult
+      bodyMapper: Mappers.JobStepListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -686,8 +680,8 @@ const listByJobNextOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.nextLink,
     Parameters.jobAgentName,
-    Parameters.jobName
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

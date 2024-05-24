@@ -130,6 +130,7 @@ describe("plugin", (): void => {
       assert.property(plugin, "rules", "rules is not a member of the plugin");
     });
     it("the number of rules should match the expected value", (): void => {
+      assert.exists(plugin.rules);
       assert.equal(Object.keys(plugin.rules).length, ruleList.length);
     });
     const rules = plugin.rules;
@@ -146,6 +147,7 @@ describe("plugin", (): void => {
       it(".json should be a member of processors", (): void => {
         assert.property(processors, ".json", ".json is not a member of processors");
       });
+      assert.exists(processors);
       const JSONProcessor = processors[".json"];
       it("preprocess should be a member of .json", (): void => {
         assert.property(JSONProcessor, "preprocess", "preprocess is not a member of .json");
@@ -164,12 +166,12 @@ describe("plugin", (): void => {
       it("recommended should be a member of configs", (): void => {
         assert.property(configs, "recommended", "recommended is not a member of configs");
       });
-      const recommended = configs.recommended;
+      const recommendedLegacy = configs["recommended-legacy"];
       describe("plugins", (): void => {
         it("plugins should be a member of recommended", (): void => {
-          assert.property(recommended, "plugins", "plugins is not a member of recommended");
+          assert.property(recommendedLegacy, "plugins", "plugins is not a member of recommended");
         });
-        const plugins = recommended.plugins;
+        const plugins = recommendedLegacy.plugins;
         it("plugins should be an array", (): void => {
           assert.isArray(plugins, "plugins is not an array");
         });
@@ -183,18 +185,18 @@ describe("plugin", (): void => {
       });
       describe("env", (): void => {
         it("env should be a member of recommended", (): void => {
-          assert.property(recommended, "env", "env is not a member of recommended");
+          assert.property(recommendedLegacy, "env", "env is not a member of recommended");
         });
-        const env = recommended.env;
+        const env = recommendedLegacy.env;
         it("env should be an object", (): void => {
           assert.isObject(env, "env is not an object");
         });
       });
       describe("parser", (): void => {
         it("parser should be a member of recommended", (): void => {
-          assert.property(recommended, "parser", "parser is not a member of recommmended");
+          assert.property(recommendedLegacy, "parser", "parser is not a member of recommmended");
         });
-        const parser = recommended.parser;
+        const parser = recommendedLegacy.parser;
         it("parser should be set to '@typescript-eslint/parser'", (): void => {
           assert.strictEqual(
             parser,
@@ -205,9 +207,9 @@ describe("plugin", (): void => {
       });
       describe("rules", (): void => {
         it("rules should be a member of recommended", (): void => {
-          assert.property(recommended, "rules", "rules is not a member of recommended");
+          assert.property(recommendedLegacy, "rules", "rules is not a member of recommended");
         });
-        const rules = recommended.rules;
+        const rules = recommendedLegacy.rules;
         it("rules should contain settings for every supported rule", (): void => {
           ruleList.forEach((rule: string): void => {
             assert.property(
@@ -219,10 +221,10 @@ describe("plugin", (): void => {
         });
       });
       describe("settings", (): void => {
-        it("settings should be a member of recommended", (): void => {
-          assert.property(recommended, "settings", "settings is not a member of recommended");
+        it("settings should be a member of recommended-legacy", (): void => {
+          assert.property(recommendedLegacy, "settings", "settings is not a member of recommended");
         });
-        const settings = recommended.settings;
+        const settings = recommendedLegacy.settings;
         describe("main", (): void => {
           it("main should be a member of settings", (): void => {
             assert.property(settings, "main", "main is not a member of settings");

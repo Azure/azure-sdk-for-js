@@ -24,6 +24,6 @@ export interface JobOperationResults {
     resourceGroupName: string,
     jobName: string,
     operationId: string,
-    options?: JobOperationResultsGetOptionalParams
+    options?: JobOperationResultsGetOptionalParams,
   ): Promise<void>;
 }

@@ -23,7 +23,7 @@ import {
   ModelContainersGetResponse,
   ModelContainersCreateOrUpdateOptionalParams,
   ModelContainersCreateOrUpdateResponse,
-  ModelContainersListNextResponse
+  ModelContainersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,7 +48,7 @@ export class ModelContainersImpl implements ModelContainers {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ModelContainersListOptionalParams
+    options?: ModelContainersListOptionalParams,
   ): PagedAsyncIterableIterator<ModelContainer> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -66,9 +66,9 @@ export class ModelContainersImpl implements ModelContainers {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +76,7 @@ export class ModelContainersImpl implements ModelContainers {
     resourceGroupName: string,
     workspaceName: string,
     options?: ModelContainersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ModelContainer[]> {
     let result: ModelContainersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class ModelContainersImpl implements ModelContainers {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -104,12 +104,12 @@ export class ModelContainersImpl implements ModelContainers {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ModelContainersListOptionalParams
+    options?: ModelContainersListOptionalParams,
   ): AsyncIterableIterator<ModelContainer> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -124,11 +124,11 @@ export class ModelContainersImpl implements ModelContainers {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ModelContainersListOptionalParams
+    options?: ModelContainersListOptionalParams,
   ): Promise<ModelContainersListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -143,11 +143,11 @@ export class ModelContainersImpl implements ModelContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: ModelContainersDeleteOptionalParams
+    options?: ModelContainersDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -162,11 +162,11 @@ export class ModelContainersImpl implements ModelContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: ModelContainersGetOptionalParams
+    options?: ModelContainersGetOptionalParams,
   ): Promise<ModelContainersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -183,11 +183,11 @@ export class ModelContainersImpl implements ModelContainers {
     workspaceName: string,
     name: string,
     body: ModelContainer,
-    options?: ModelContainersCreateOrUpdateOptionalParams
+    options?: ModelContainersCreateOrUpdateOptionalParams,
   ): Promise<ModelContainersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, body, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -202,11 +202,11 @@ export class ModelContainersImpl implements ModelContainers {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: ModelContainersListNextOptionalParams
+    options?: ModelContainersListNextOptionalParams,
   ): Promise<ModelContainersListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -214,42 +214,40 @@ export class ModelContainersImpl implements ModelContainers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelContainerResourceArmPaginatedResult
+      bodyMapper: Mappers.ModelContainerResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skip,
     Parameters.count,
-    Parameters.listViewType
+    Parameters.listViewType,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -257,22 +255,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelContainer
+      bodyMapper: Mappers.ModelContainer,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -280,25 +277,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelContainer
+      bodyMapper: Mappers.ModelContainer,
     },
     201: {
-      bodyMapper: Mappers.ModelContainer
+      bodyMapper: Mappers.ModelContainer,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body14,
   queryParameters: [Parameters.apiVersion],
@@ -307,36 +303,30 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name1
+    Parameters.name1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelContainerResourceArmPaginatedResult
+      bodyMapper: Mappers.ModelContainerResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.count,
-    Parameters.listViewType
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

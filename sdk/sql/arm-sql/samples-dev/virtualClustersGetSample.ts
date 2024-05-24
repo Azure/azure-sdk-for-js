@@ -30,7 +30,7 @@ async function getsAVirtualCluster() {
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.virtualClusters.get(
     resourceGroupName,
-    virtualClusterName
+    virtualClusterName,
   );
   console.log(result);
 }

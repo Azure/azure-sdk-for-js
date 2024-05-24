@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningWorkspaces } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns supported VM Sizes in a location
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/VirtualMachineSize/list.json
  */
 async function listVMSizes() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const location = "eastus";
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -26,4 +31,8 @@ async function listVMSizes() {
   console.log(result);
 }
 
-listVMSizes().catch(console.error);
+async function main() {
+  listVMSizes();
+}
+
+main().catch(console.error);

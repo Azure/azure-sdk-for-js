@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureMachineLearningWorkspaces } = require("@azure/arm-machinelearning");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Called by Client (Portal, CLI, etc) to get a list of all external outbound dependencies (FQDNs) programmatically.
@@ -18,16 +19,21 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/ExternalFQDN/get.json
  */
 async function listOutboundNetworkDependenciesEndpoints() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "workspace-1234";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "workspace-1234";
   const workspaceName = "testworkspace";
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
   const result = await client.workspaces.listOutboundNetworkDependenciesEndpoints(
     resourceGroupName,
-    workspaceName
+    workspaceName,
   );
   console.log(result);
 }
 
-listOutboundNetworkDependenciesEndpoints().catch(console.error);
+async function main() {
+  listOutboundNetworkDependenciesEndpoints();
+}
+
+main().catch(console.error);

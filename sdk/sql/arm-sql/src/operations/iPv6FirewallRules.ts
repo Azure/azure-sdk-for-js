@@ -23,7 +23,7 @@ import {
   IPv6FirewallRulesCreateOrUpdateOptionalParams,
   IPv6FirewallRulesCreateOrUpdateResponse,
   IPv6FirewallRulesDeleteOptionalParams,
-  IPv6FirewallRulesListByServerNextResponse
+  IPv6FirewallRulesListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,12 +49,12 @@ export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: IPv6FirewallRulesListByServerOptionalParams
+    options?: IPv6FirewallRulesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<IPv6FirewallRule> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +81,7 @@ export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
     resourceGroupName: string,
     serverName: string,
     options?: IPv6FirewallRulesListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IPv6FirewallRule[]> {
     let result: IPv6FirewallRulesListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -109,12 +109,12 @@ export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: IPv6FirewallRulesListByServerOptionalParams
+    options?: IPv6FirewallRulesListByServerOptionalParams,
   ): AsyncIterableIterator<IPv6FirewallRule> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -130,11 +130,11 @@ export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: IPv6FirewallRulesListByServerOptionalParams
+    options?: IPv6FirewallRulesListByServerOptionalParams,
   ): Promise<IPv6FirewallRulesListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -150,11 +150,11 @@ export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
     resourceGroupName: string,
     serverName: string,
     firewallRuleName: string,
-    options?: IPv6FirewallRulesGetOptionalParams
+    options?: IPv6FirewallRulesGetOptionalParams,
   ): Promise<IPv6FirewallRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, firewallRuleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -172,11 +172,11 @@ export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
     serverName: string,
     firewallRuleName: string,
     parameters: IPv6FirewallRule,
-    options?: IPv6FirewallRulesCreateOrUpdateOptionalParams
+    options?: IPv6FirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<IPv6FirewallRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, firewallRuleName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -192,11 +192,11 @@ export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
     resourceGroupName: string,
     serverName: string,
     firewallRuleName: string,
-    options?: IPv6FirewallRulesDeleteOptionalParams
+    options?: IPv6FirewallRulesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, firewallRuleName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -212,11 +212,11 @@ export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: IPv6FirewallRulesListByServerNextOptionalParams
+    options?: IPv6FirewallRulesListByServerNextOptionalParams,
   ): Promise<IPv6FirewallRulesListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -224,103 +224,99 @@ export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IPv6FirewallRuleListResult
+      bodyMapper: Mappers.IPv6FirewallRuleListResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion10],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IPv6FirewallRule
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.firewallRuleName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IPv6FirewallRule,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion11],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.firewallRuleName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IPv6FirewallRule
+      bodyMapper: Mappers.IPv6FirewallRule,
     },
     201: {
-      bodyMapper: Mappers.IPv6FirewallRule
+      bodyMapper: Mappers.IPv6FirewallRule,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters92,
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.firewallRuleName
+    Parameters.firewallRuleName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.firewallRuleName
+    Parameters.firewallRuleName,
   ],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IPv6FirewallRuleListResult
+      bodyMapper: Mappers.IPv6FirewallRuleListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
