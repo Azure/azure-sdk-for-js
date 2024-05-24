@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for RecoveryServicesBackupClient.",
-  "version": "13.1.0",
+  "version": "13.1.1",
   "engines": {
     "node": ">=18.0.0"
   },
