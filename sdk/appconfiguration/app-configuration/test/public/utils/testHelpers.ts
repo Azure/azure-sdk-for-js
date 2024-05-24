@@ -20,7 +20,6 @@ import { assert } from "chai";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 let endpointNotPresentWarning = false;
-let tokenCredentialsNotPresentWarning = false;
 
 export interface CredsAndEndpoint {
   credential: TokenCredential;
@@ -50,31 +49,6 @@ export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
   const recorder = new Recorder(that.currentTest);
   await recorder.start(recorderStartOptions);
   return recorder;
-}
-
-export function getTokenAuthenticationCredential(): CredsAndEndpoint {
-  const requiredEnvironmentVariables = [
-    "AZ_CONFIG_ENDPOINT",
-    "AZURE_CLIENT_ID",
-    "AZURE_TENANT_ID",
-  ];
-
-  for (const name of requiredEnvironmentVariables) {
-    const value = env[name];
-
-    if (value == null) {
-      if (tokenCredentialsNotPresentWarning) {
-        tokenCredentialsNotPresentWarning = true;
-      }
-
-      throw new Error("Invalid value for requiredEnvironmentVariables");
-    }
-  }
-
-  return {
-    credential: createTestCredential(),
-    endpoint: env["AZ_CONFIG_ENDPOINT"]!,
-  };
 }
 
 export function createAppConfigurationClientForTests(
