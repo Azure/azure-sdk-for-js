@@ -18070,7 +18070,7 @@ packages:
     dev: false
 
   file:projects/arm-storagecache.tgz:
-    resolution: {integrity: sha512-UbC2fW2yNlSq5C56fbpimT3gOret2gaoPhAzPUXlcvKKXH/5OQ1LvoYcRXc3C7Kty+zOmUgtaG9Mxu3/QngX8A==, tarball: file:projects/arm-storagecache.tgz}
+    resolution: {integrity: sha512-9OpxPZSNt4bx1p/9E3qAEzdQ4CbIK40ZPLAHUinWXnikt+LuE1a9q18cpqo1rDkQp7nByAmcrtKRt44MeNUXaw==, tarball: file:projects/arm-storagecache.tgz}
     name: '@rush-temp/arm-storagecache'
     version: 0.0.0
     dependencies:
@@ -18086,6 +18086,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.7
