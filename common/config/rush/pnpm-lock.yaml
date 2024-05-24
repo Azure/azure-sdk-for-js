@@ -15371,7 +15371,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
-      tsx: 4.10.2
+      tsx: 4.10.5
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:

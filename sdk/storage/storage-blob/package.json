@@ -123,7 +123,7 @@
     }
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.4.0",
     "@azure/core-client": "^1.6.2",
     "@azure/core-http-compat": "^2.0.0",
