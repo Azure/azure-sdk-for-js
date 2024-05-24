@@ -33,7 +33,7 @@ async function createOrUpdateAnElasticPoolWithAvailabilityZone() {
     location: "Japan East",
     perDatabaseSettings: { maxCapacity: 2, minCapacity: 0.25 },
     sku: { name: "HS_Gen5_4" },
-    zoneRedundant: true
+    zoneRedundant: true,
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -41,7 +41,7 @@ async function createOrUpdateAnElasticPoolWithAvailabilityZone() {
     resourceGroupName,
     serverName,
     elasticPoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -63,7 +63,7 @@ async function createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCou
   const parameters: ElasticPool = {
     highAvailabilityReplicaCount: 2,
     location: "Japan East",
-    sku: { name: "HS_Gen5_4" }
+    sku: { name: "HS_Gen5_4" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -71,7 +71,7 @@ async function createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCou
     resourceGroupName,
     serverName,
     elasticPoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -93,7 +93,7 @@ async function createOrUpdateElasticPoolWithAllParameter() {
   const parameters: ElasticPool = {
     location: "Japan East",
     perDatabaseSettings: { maxCapacity: 2, minCapacity: 0.25 },
-    sku: { name: "GP_Gen4_2", capacity: 2, tier: "GeneralPurpose" }
+    sku: { name: "GP_Gen4_2", capacity: 2, tier: "GeneralPurpose" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -101,7 +101,7 @@ async function createOrUpdateElasticPoolWithAllParameter() {
     resourceGroupName,
     serverName,
     elasticPoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -123,7 +123,7 @@ async function createOrUpdateElasticPoolWithMaintenanceConfigurationParameter() 
   const parameters: ElasticPool = {
     location: "Japan East",
     maintenanceConfigurationId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_JapanEast_1"
+      "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_JapanEast_1",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -131,7 +131,7 @@ async function createOrUpdateElasticPoolWithMaintenanceConfigurationParameter() 
     resourceGroupName,
     serverName,
     elasticPoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -157,7 +157,7 @@ async function createOrUpdateElasticPoolWithMinimumParameters() {
     resourceGroupName,
     serverName,
     elasticPoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -179,7 +179,7 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefau
   const parameters: ElasticPool = {
     location: "Japan East",
     preferredEnclaveType: "Default",
-    sku: { name: "GP_Gen5_4" }
+    sku: { name: "GP_Gen5_4" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -187,7 +187,7 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefau
     resourceGroupName,
     serverName,
     elasticPoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -209,7 +209,7 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs()
   const parameters: ElasticPool = {
     location: "Japan East",
     preferredEnclaveType: "VBS",
-    sku: { name: "GP_Gen5_4" }
+    sku: { name: "GP_Gen5_4" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -217,7 +217,7 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs()
     resourceGroupName,
     serverName,
     elasticPoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
