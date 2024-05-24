@@ -15350,7 +15350,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-txwLl13jHtCTfSr4lFDnmQ6G5cYPfSZDXJ0c5DEiMdyYCljCrPSG963wECi5gKEBMUSKr6US3QgZciniHDXK+Q==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-thy6BFzmjm4ThMnc9eGuiWriz1xjR4uvuBByMceJBN/ckC0AEBILZFrGBZlRITK2iaLHoNx3kdpgNIKHo7iDFw==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -15365,11 +15365,13 @@ packages:
       '@types/node': 18.19.33
       chai: 4.3.10
       cross-env: 7.0.3
+      dotenv: 16.4.5
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.10.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:

@@ -18,7 +18,7 @@ import {
   WorkspaceFeaturesListNextOptionalParams,
   WorkspaceFeaturesListOptionalParams,
   WorkspaceFeaturesListResponse,
-  WorkspaceFeaturesListNextResponse
+  WorkspaceFeaturesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export class WorkspaceFeaturesImpl implements WorkspaceFeatures {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceFeaturesListOptionalParams
+    options?: WorkspaceFeaturesListOptionalParams,
   ): PagedAsyncIterableIterator<AmlUserFeature> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -61,9 +61,9 @@ export class WorkspaceFeaturesImpl implements WorkspaceFeatures {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -71,7 +71,7 @@ export class WorkspaceFeaturesImpl implements WorkspaceFeatures {
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspaceFeaturesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AmlUserFeature[]> {
     let result: WorkspaceFeaturesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class WorkspaceFeaturesImpl implements WorkspaceFeatures {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -99,12 +99,12 @@ export class WorkspaceFeaturesImpl implements WorkspaceFeatures {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceFeaturesListOptionalParams
+    options?: WorkspaceFeaturesListOptionalParams,
   ): AsyncIterableIterator<AmlUserFeature> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -119,11 +119,11 @@ export class WorkspaceFeaturesImpl implements WorkspaceFeatures {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceFeaturesListOptionalParams
+    options?: WorkspaceFeaturesListOptionalParams,
   ): Promise<WorkspaceFeaturesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -138,11 +138,11 @@ export class WorkspaceFeaturesImpl implements WorkspaceFeatures {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: WorkspaceFeaturesListNextOptionalParams
+    options?: WorkspaceFeaturesListNextOptionalParams,
   ): Promise<WorkspaceFeaturesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -150,37 +150,15 @@ export class WorkspaceFeaturesImpl implements WorkspaceFeatures {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/features",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/features",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListAmlUserFeatureResult
+      bodyMapper: Mappers.ListAmlUserFeatureResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListAmlUserFeatureResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -188,8 +166,28 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListAmlUserFeatureResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

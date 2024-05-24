@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningWorkspaces } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are not returned - use 'keys' nested resource to get them.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/get/AKSCompute.json
  */
 async function getAAksCompute() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const credential = new DefaultAzureCredential();
@@ -27,12 +33,10 @@ async function getAAksCompute() {
   const result = await client.computeOperations.get(
     resourceGroupName,
     workspaceName,
-    computeName
+    computeName,
   );
   console.log(result);
 }
-
-getAAksCompute().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are not returned - use 'keys' nested resource to get them.
@@ -41,8 +45,11 @@ getAAksCompute().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/get/AmlCompute.json
  */
 async function getAAmlCompute() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const credential = new DefaultAzureCredential();
@@ -50,12 +57,10 @@ async function getAAmlCompute() {
   const result = await client.computeOperations.get(
     resourceGroupName,
     workspaceName,
-    computeName
+    computeName,
   );
   console.log(result);
 }
-
-getAAmlCompute().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are not returned - use 'keys' nested resource to get them.
@@ -64,8 +69,11 @@ getAAmlCompute().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/get/KubernetesCompute.json
  */
 async function getAKubernetesCompute() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const credential = new DefaultAzureCredential();
@@ -73,12 +81,10 @@ async function getAKubernetesCompute() {
   const result = await client.computeOperations.get(
     resourceGroupName,
     workspaceName,
-    computeName
+    computeName,
   );
   console.log(result);
 }
-
-getAKubernetesCompute().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are not returned - use 'keys' nested resource to get them.
@@ -87,8 +93,11 @@ getAKubernetesCompute().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/get/ComputeInstance.json
  */
 async function getAnComputeInstance() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const credential = new DefaultAzureCredential();
@@ -96,9 +105,16 @@ async function getAnComputeInstance() {
   const result = await client.computeOperations.get(
     resourceGroupName,
     workspaceName,
-    computeName
+    computeName,
   );
   console.log(result);
 }
 
-getAnComputeInstance().catch(console.error);
+async function main() {
+  getAAksCompute();
+  getAAmlCompute();
+  getAKubernetesCompute();
+  getAnComputeInstance();
+}
+
+main().catch(console.error);
