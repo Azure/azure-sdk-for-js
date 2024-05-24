@@ -2,10 +2,10 @@
 
 **Note ⚠️**: This document is a work-in-progress and may change to reflect updates to the package. We value your feedback, please [create an issue](https://github.com/Azure/azure-sdk-for-js/issues/new/choose) to suggest any improvements or report any problems with this guide or with the package itself.
 
-`openai@4.42.0` introduces `AzureOpenAI`, the Azure OpenAI client that provides features of the Azure OpenAI Service API (version "2022-12-01" and newer) and it is different from `@azure/openai@1.0.0-beta.12` and `@azure/openai-assistants@1.0.0-beta.5` as follows:
+`openai@4.42.0`, the latest version of the official OpenAI JavaScript client library, features `AzureOpenAI`, a new client that supports the Azure OpenAI Service API, version "2022-12-01" and later. `AzureOpenAI` is now the preferred JavaScript client for interfacing with the Azure OpenAI service. This guide will highlight the differences and enhancements over other client libraries such as `@azure/openai@1.0.0-beta.12` and `@azure/openai-assistants@1.0.0-beta.5`, ensuring a smooth transition for users updating their implementations.
 
 - `@azure/openai@1.0.0-beta.12` exports `OpenAIClient` that supports most of Azure OpenAI features such as chat completions, On Your Data, embeddings, and audio translation and transcription. It doesn't support Azure OpenAI Assistants.
-- `@azure/openai-assistants@1.0.0-beta.5` exports `AssistantsClient` that supports Azure OpenAI Assistants features.
+- `@azure/openai-assistants@1.0.0-beta.5` exports `AssistantsClient` that supports Azure OpenAI Assistants v1 features.
 - Both `OpenAIClient` and `AssistantsClient` will be deprecated in the coming weeks and will be removed in the future.
 - `openai@4.42.0` exports `AzureOpenAI` which can connect to Azure OpenAI service and supports all of its features.
 
@@ -13,7 +13,7 @@ This document provides instructions for updating your application code to use `A
 
 ## Authenticating the client
 
-There are several ways to authenticate with the Azure OpenAI service and the recommended way is to Microsoft Entra ID tokens. If your application doesn't use them already, it is highly recommended to switch to them. Refer to the [Azure Identity documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md) for more information.
+There are several ways to authenticate with the Azure OpenAI service and the recommended way is to use Microsoft Entra ID tokens. If your application doesn't use them already, it is highly recommended to switch to them. Refer to the [Azure Identity documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md) for more information.
 
 ### Microsoft Entra ID (Formerly known as Azure Active Directory)
 
@@ -52,6 +52,7 @@ Authenticating `AzureOpenAI` with an API key is as simple as setting the `AZURE_
 
 `OpenAIClient` and `AssistantsClient` are constructed similarly as follows:
 
+Original code:
 ```typescript
 import { OpenAIClient } from "@azure/openai";
 const endpoint = "Your Azure OpenAI resource endpoint";
@@ -62,6 +63,7 @@ If not set, the API version defaults to the last known one before the release of
 
 On the other hand, the `AzureOpenAI` client is constructed as follows:
 
+Migrated code:
 ```typescript
 import { AzureOpenAI } from "openai";
 const deployment = "Your Azure OpenAI deployment";
@@ -71,7 +73,7 @@ const client = new AzureOpenAI(options);
 ```
 
 The endpoint of the Azure OpenAI resource can be specified by setting the `endpoint` option but it can also be loaded by the client from the environment variable `AZURE_OPENAI_ENDPOINT`. This is the recommended way to set the endpoint because it allows the client to be used in different environments without changing the code and also to protect the endpoint from being exposed in the code.
-Note that the API version is required to be specified, this is necessary to ensure that existing code doesn't break between preview API versions. Additionally, the `deployment` property is not required but it is preferred to be specified so deployment-based operations such as audio translation and transcription can work properly.
+Note that the API version is required to be specified, this is necessary to ensure that existing code doesn't break between preview API versions. Refer to [API Versions Documentation](https://learn.microsoft.com/azure/ai-services/openai/api-version-deprecation) to learn more about Azure OpenAI API versions. Additionally, the `deployment` property is not required but it is recommended to be set. Once `deployment` is set, it is used as the default deployment for all operations that require it. If the client is not created with the `deployment` option, the `model` property in the options object should be set with the deployment name. However, audio operations such as `audio.transcriptions.create` require the client to be created with the `deployment` option set to the deployment name.
 
 ## API differences
 
@@ -95,13 +97,13 @@ const result = await client.getChatCompletions(deploymentName, messages, { maxTo
 
 Migrated code:
 ```typescript
-const result = await client.chat.completions.create({ messages, max_tokens: 100 });
+const result = await client.chat.completions.create({ messages, model: '', max_tokens: 100 });
 ```
 
 Notice the following:
 - The `getChatCompletions` method has been replaced with the `chat.completions.create` method
 - The `messages` parameter is now passed in the options object with the `messages` property
-- The `maxTokens` property has been renamed to `max_tokens` and the `deploymentName` parameter has been removed
+- The `maxTokens` property has been renamed to `max_tokens` and the `deploymentName` parameter has been removed. Generally, the names of the properties in the `options` object are the same as in the Azure OpenAI service API, following the snake case convention instead of the camel case convention used in the `AssistantsClient`. This is true for all the properties across all requests and responses in the `AzureOpenAI` client
 - The `deploymentName` parameter is not needed if the client was created with the `deployment` option. If the client was not created with the `deployment` option, the `model` property in the option object should be set with the deployment name.
 
 ### Streaming chat completions
@@ -126,7 +128,7 @@ Original code:
 ```typescript
 const azureSearchEndpoint = "Your Azure Search resource endpoint";
 const azureSearchIndexName = "Your Azure Search index name";
-const stream = await client.getChatCompletions(deploymentName, messages, { azureExtensionOptions: { 
+const result = await client.getChatCompletions(deploymentName, messages, { azureExtensionOptions: { 
     extensions: [{
       type: "azure_search",
       endpoint: azureSearchEndpoint,
@@ -293,7 +295,7 @@ Notice that:
 
 #### Runs
 
-To run an assistant on a thread, the `createRun` method is used to create a run and then a loop is used to poll the run status until it is no longer queued or in progress. The following example shows how to migrate the run creation and polling.
+To run an assistant on a thread, the `createRun` method is used to create a run and then a loop is used to poll the run status until it is in a terminal state. The following example shows how to migrate the run creation and polling.
 
 Original code:
 ```typescript
@@ -364,7 +366,7 @@ const embeddings = await client.getEmbeddings(deploymentName, input);
 
 Migrated code:
 ```typescript
-const embeddings = await client.embeddings.create({ input, model: deployment });
+const embeddings = await client.embeddings.create({ input, model: '' });
 ```
 
 Notice that:
@@ -383,7 +385,7 @@ const results = await client.getImages(deploymentName, prompt, { n, size });
 
 Migrated code:
 ```typescript
-  const results = await client.images.generate({ prompt, model: deployment, n, size });
+  const results = await client.images.generate({ prompt, model: '', n, size });
 ```
 
 Notice that:
@@ -494,4 +496,4 @@ The following table explores several type names from `@azure/openai` and shows t
 
 ## Azure types
 
-`AzureOpenAI` connects to the Azure OpenAI service and can call all the operations available in the service. However, the types of the requests and responses are inherited from the `OpenAI` and are not yet updated to reflect the additional features supported exclusively by the Azure OpenAI service. TypeScript users will be required to cast to a more permissive type such as `any` to access those features. Examples in the following sections will show how to do this.
+`AzureOpenAI` connects to the Azure OpenAI service and can call all the operations available in the service. However, the types of the requests and responses are inherited from the `OpenAI` and are not yet updated to reflect the additional features supported exclusively by the Azure OpenAI service. TypeScript users will be required to cast to a more permissive type such as `any` to access those features. Examples in (the Migration examples)[#migration-examples] section show how to do this.
