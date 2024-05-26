@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController } from "@azure/abort-controller";
 import { isNodeLike } from "@azure/core-util";
 import { assert } from "@azure-tools/test-utils";
 import { isPlaybackMode, Recorder, delay } from "@azure-tools/test-recorder";

@@ -75,7 +75,7 @@ async function main() {
   // BlockBlobClient.uploadStream() is only available in Node.js
   try {
     await blockBlobClient.uploadStream(fs.createReadStream(localFilePath), 4 * 1024 * 1024, 20, {
-      abortSignal: AbortController.timeout(30 * 60 * 1000),
+      abortSignal: AbortSignal.timeout(30 * 60 * 1000),
       onProgress: (ev) => console.log(ev),
     });
     console.log("uploadStream succeeds");
@@ -102,7 +102,7 @@ async function main() {
   const buffer = Buffer.alloc(fileSize);
   try {
     await blockBlobClient.downloadToBuffer(buffer, 0, undefined, {
-      abortSignal: AbortController.timeout(30 * 60 * 1000),
+      abortSignal: AbortSignal.timeout(30 * 60 * 1000),
       blockSize: 4 * 1024 * 1024,
       concurrency: 20,
       onProgress: (ev) => console.log(ev),

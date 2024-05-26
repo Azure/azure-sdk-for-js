@@ -30,6 +30,6 @@
   "dependencies": {
     "@azure/storage-file-share": "latest",
     "dotenv": "latest",
-    "@azure/abort-controller": "^1.0.0"
+    "@azure/abort-controller": "^2.1.2"
   }
 }

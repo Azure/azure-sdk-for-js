@@ -3,7 +3,6 @@
 
 import { assert } from "chai";
 
-import { AbortController } from "@azure/abort-controller";
 import { getBSU, recorderEnvSetup, getUniqueName, uriSanitizers } from "./utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { ShareClient } from "../src";
@@ -30,7 +29,7 @@ describe("Aborter", () => {
 
   it("Should abort after aborter timeout", async () => {
     try {
-      await shareClient.create({ abortSignal: AbortController.timeout(1) });
+      await shareClient.create({ abortSignal: AbortSignal.timeout(1) });
       assert.fail();
     } catch (err: any) {
       assert.equal(err.name, "AbortError");
@@ -58,20 +57,5 @@ describe("Aborter", () => {
     const aborter = new AbortController();
     await shareClient.create();
     aborter.abort();
-  });
-
-  it("Should abort after parent aborter calls abort()", async () => {
-    try {
-      const aborter = new AbortController();
-      const childAborter = new AbortController(aborter.signal, AbortController.timeout(100));
-      const response = shareClient.create({
-        abortSignal: childAborter.signal,
-      });
-      aborter.abort();
-      await response;
-      assert.fail();
-    } catch (err: any) {
-      assert.equal(err.name, "AbortError");
-    }
   });
 });
