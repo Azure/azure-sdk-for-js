@@ -15,7 +15,7 @@ import {
   ManagedInstanceKeysGetResponse,
   ManagedInstanceKeysCreateOrUpdateOptionalParams,
   ManagedInstanceKeysCreateOrUpdateResponse,
-  ManagedInstanceKeysDeleteOptionalParams
+  ManagedInstanceKeysDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ManagedInstanceKeys {
   listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceKeysListByInstanceOptionalParams
+    options?: ManagedInstanceKeysListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceKey>;
   /**
    * Gets a managed instance key.
@@ -45,7 +45,7 @@ export interface ManagedInstanceKeys {
     resourceGroupName: string,
     managedInstanceName: string,
     keyName: string,
-    options?: ManagedInstanceKeysGetOptionalParams
+    options?: ManagedInstanceKeysGetOptionalParams,
   ): Promise<ManagedInstanceKeysGetResponse>;
   /**
    * Creates or updates a managed instance key.
@@ -61,7 +61,7 @@ export interface ManagedInstanceKeys {
     managedInstanceName: string,
     keyName: string,
     parameters: ManagedInstanceKey,
-    options?: ManagedInstanceKeysCreateOrUpdateOptionalParams
+    options?: ManagedInstanceKeysCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedInstanceKeysCreateOrUpdateResponse>,
@@ -82,7 +82,7 @@ export interface ManagedInstanceKeys {
     managedInstanceName: string,
     keyName: string,
     parameters: ManagedInstanceKey,
-    options?: ManagedInstanceKeysCreateOrUpdateOptionalParams
+    options?: ManagedInstanceKeysCreateOrUpdateOptionalParams,
   ): Promise<ManagedInstanceKeysCreateOrUpdateResponse>;
   /**
    * Deletes the managed instance key with the given name.
@@ -96,7 +96,7 @@ export interface ManagedInstanceKeys {
     resourceGroupName: string,
     managedInstanceName: string,
     keyName: string,
-    options?: ManagedInstanceKeysDeleteOptionalParams
+    options?: ManagedInstanceKeysDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the managed instance key with the given name.
@@ -110,6 +110,6 @@ export interface ManagedInstanceKeys {
     resourceGroupName: string,
     managedInstanceName: string,
     keyName: string,
-    options?: ManagedInstanceKeysDeleteOptionalParams
+    options?: ManagedInstanceKeysDeleteOptionalParams,
   ): Promise<void>;
 }

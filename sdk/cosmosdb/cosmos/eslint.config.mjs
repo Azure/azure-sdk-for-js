@@ -28,9 +28,8 @@ export default [
       "@azure/azure-sdk/ts-package-json-module": "warn",
       "@azure/azure-sdk/ts-doc-internal": "warn",
 
-      // not supporting flag config yet https://github.com/import-js/eslint-plugin-import/issues/2948
       // https://github.com/benmosher/eslint-plugin-import/issues/1816
-      // "import/no-extraneous-dependencies": "off",
+      "import/no-extraneous-dependencies": "off",
     },
   },
 ];

@@ -20,7 +20,6 @@ import {
   getRandomTestClientType,
 } from "./utils/testutils2";
 import { ServiceBusSender } from "../../src";
-import { AbortController } from "@azure/abort-controller";
 import { StandardAbortMessage } from "@azure/core-amqp";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();

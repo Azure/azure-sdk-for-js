@@ -15,7 +15,7 @@ import {
   LongTermRetentionPoliciesGetOptionalParams,
   LongTermRetentionPoliciesGetResponse,
   LongTermRetentionPoliciesCreateOrUpdateOptionalParams,
-  LongTermRetentionPoliciesCreateOrUpdateResponse
+  LongTermRetentionPoliciesCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface LongTermRetentionPolicies {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: LongTermRetentionPoliciesListByDatabaseOptionalParams
+    options?: LongTermRetentionPoliciesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<LongTermRetentionPolicy>;
   /**
    * Gets a database's long term retention policy.
@@ -49,7 +49,7 @@ export interface LongTermRetentionPolicies {
     serverName: string,
     databaseName: string,
     policyName: LongTermRetentionPolicyName,
-    options?: LongTermRetentionPoliciesGetOptionalParams
+    options?: LongTermRetentionPoliciesGetOptionalParams,
   ): Promise<LongTermRetentionPoliciesGetResponse>;
   /**
    * Set or update a database's long term retention policy.
@@ -67,7 +67,7 @@ export interface LongTermRetentionPolicies {
     databaseName: string,
     policyName: LongTermRetentionPolicyName,
     parameters: LongTermRetentionPolicy,
-    options?: LongTermRetentionPoliciesCreateOrUpdateOptionalParams
+    options?: LongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LongTermRetentionPoliciesCreateOrUpdateResponse>,
@@ -90,6 +90,6 @@ export interface LongTermRetentionPolicies {
     databaseName: string,
     policyName: LongTermRetentionPolicyName,
     parameters: LongTermRetentionPolicy,
-    options?: LongTermRetentionPoliciesCreateOrUpdateOptionalParams
+    options?: LongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<LongTermRetentionPoliciesCreateOrUpdateResponse>;
 }

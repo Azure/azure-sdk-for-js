@@ -15,7 +15,7 @@ import {
   ServerAdvancedThreatProtectionSettingsGetOptionalParams,
   ServerAdvancedThreatProtectionSettingsGetResponse,
   ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
-  ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse
+  ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ServerAdvancedThreatProtectionSettings {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams
+    options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerAdvancedThreatProtection>;
   /**
    * Get a server's Advanced Threat Protection state.
@@ -45,7 +45,7 @@ export interface ServerAdvancedThreatProtectionSettings {
     resourceGroupName: string,
     serverName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
-    options?: ServerAdvancedThreatProtectionSettingsGetOptionalParams
+    options?: ServerAdvancedThreatProtectionSettingsGetOptionalParams,
   ): Promise<ServerAdvancedThreatProtectionSettingsGetResponse>;
   /**
    * Creates or updates an Advanced Threat Protection state.
@@ -61,12 +61,10 @@ export interface ServerAdvancedThreatProtectionSettings {
     serverName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
     parameters: ServerAdvancedThreatProtection,
-    options?: ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+    options?: ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse
-      >,
+      OperationState<ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse>,
       ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse
     >
   >;
@@ -84,6 +82,6 @@ export interface ServerAdvancedThreatProtectionSettings {
     serverName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
     parameters: ServerAdvancedThreatProtection,
-    options?: ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+    options?: ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
   ): Promise<ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse>;
 }

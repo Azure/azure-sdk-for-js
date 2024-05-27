@@ -11,9 +11,12 @@
 import {
   DiagnoseWorkspaceParameters,
   WorkspacesDiagnoseOptionalParams,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Diagnose workspace setup issue.
@@ -22,8 +25,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Workspace/diagnose.json
  */
 async function diagnoseWorkspace() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "workspace-1234";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "workspace-1234";
   const workspaceName = "testworkspace";
   const parameters: DiagnoseWorkspaceParameters = {
     value: {
@@ -35,8 +41,8 @@ async function diagnoseWorkspace() {
       others: {},
       resourceLock: {},
       storageAccount: {},
-      udr: {}
-    }
+      udr: {},
+    },
   };
   const options: WorkspacesDiagnoseOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -44,9 +50,13 @@ async function diagnoseWorkspace() {
   const result = await client.workspaces.beginDiagnoseAndWait(
     resourceGroupName,
     workspaceName,
-    options
+    options,
   );
   console.log(result);
 }
 
-diagnoseWorkspace().catch(console.error);
+async function main() {
+  diagnoseWorkspace();
+}
+
+main().catch(console.error);

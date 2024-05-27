@@ -30,12 +30,13 @@ async function updatesAServerConnectionPolicy() {
   const parameters: ServerConnectionPolicy = { connectionType: "Redirect" };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverConnectionPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    connectionPolicyName,
-    parameters
-  );
+  const result =
+    await client.serverConnectionPolicies.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      connectionPolicyName,
+      parameters,
+    );
   console.log(result);
 }
 

@@ -17,7 +17,6 @@ import {
   getRandomTestClientType,
   getRandomTestClientTypeWithSessions,
 } from "../public/utils/testutils2";
-import { AbortController } from "@azure/abort-controller";
 import { Receiver, ReceiverEvents } from "rhea-promise";
 import {
   ServiceBusSessionReceiver,

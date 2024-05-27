@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   JobBase,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates and executes a Job.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/AutoMLJob/createOrUpdate.json
  */
 async function createOrUpdateAutoMlJob() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const id = "string";
   const body: JobBase = {
@@ -41,22 +47,24 @@ async function createOrUpdateAutoMlJob() {
           description: "string",
           jobOutputType: "uri_file",
           mode: "ReadWriteMount",
-          uri: "string"
-        }
+          uri: "string",
+        },
       },
       properties: { string: "string" },
       resources: {
         instanceCount: 1,
         instanceType: "string",
-        properties: { string: { "9bec0ab0-c62f-4fa9-a97c-7b24bbcc90ad": null } }
+        properties: {
+          string: { "9bec0ab0-c62f-4fa9-a97c-7b24bbcc90ad": null },
+        },
       },
       services: {
         string: {
           endpoint: "string",
           jobServiceType: "string",
           port: 1,
-          properties: { string: "string" }
-        }
+          properties: { string: "string" },
+        },
       },
       tags: { string: "string" },
       taskDetails: {
@@ -65,9 +73,9 @@ async function createOrUpdateAutoMlJob() {
         searchSpace: [{ validationCropSize: "choice(2, 360)" }],
         targetColumnName: "string",
         taskType: "ImageClassification",
-        trainingData: { jobInputType: "mltable", uri: "string" }
-      }
-    }
+        trainingData: { jobInputType: "mltable", uri: "string" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -75,12 +83,10 @@ async function createOrUpdateAutoMlJob() {
     resourceGroupName,
     workspaceName,
     id,
-    body
+    body,
   );
   console.log(result);
 }
-
-createOrUpdateAutoMlJob().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates and executes a Job.
@@ -89,8 +95,11 @@ createOrUpdateAutoMlJob().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/CommandJob/createOrUpdate.json
  */
 async function createOrUpdateCommandJob() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const id = "string";
   const body: JobBase = {
@@ -103,7 +112,7 @@ async function createOrUpdateCommandJob() {
       distribution: {
         distributionType: "TensorFlow",
         parameterServerCount: 1,
-        workerCount: 1
+        workerCount: 1,
       },
       environmentId: "string",
       environmentVariables: { string: "string" },
@@ -113,8 +122,8 @@ async function createOrUpdateCommandJob() {
         string: {
           description: "string",
           jobInputType: "literal",
-          value: "string"
-        }
+          value: "string",
+        },
       },
       jobType: "Command",
       limits: { jobLimitsType: "Command", timeout: "PT5M" },
@@ -123,25 +132,27 @@ async function createOrUpdateCommandJob() {
           description: "string",
           jobOutputType: "uri_file",
           mode: "ReadWriteMount",
-          uri: "string"
-        }
+          uri: "string",
+        },
       },
       properties: { string: "string" },
       resources: {
         instanceCount: 1,
         instanceType: "string",
-        properties: { string: { "e6b6493e-7d5e-4db3-be1e-306ec641327e": null } }
+        properties: {
+          string: { "e6b6493e-7d5e-4db3-be1e-306ec641327e": null },
+        },
       },
       services: {
         string: {
           endpoint: "string",
           jobServiceType: "string",
           port: 1,
-          properties: { string: "string" }
-        }
+          properties: { string: "string" },
+        },
       },
-      tags: { string: "string" }
-    }
+      tags: { string: "string" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -149,12 +160,10 @@ async function createOrUpdateCommandJob() {
     resourceGroupName,
     workspaceName,
     id,
-    body
+    body,
   );
   console.log(result);
 }
-
-createOrUpdateCommandJob().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates and executes a Job.
@@ -163,8 +172,11 @@ createOrUpdateCommandJob().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/PipelineJob/createOrUpdate.json
  */
 async function createOrUpdatePipelineJob() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const id = "string";
   const body: JobBase = {
@@ -177,8 +189,8 @@ async function createOrUpdatePipelineJob() {
         string: {
           description: "string",
           jobInputType: "literal",
-          value: "string"
-        }
+          value: "string",
+        },
       },
       jobType: "Pipeline",
       outputs: {
@@ -186,8 +198,8 @@ async function createOrUpdatePipelineJob() {
           description: "string",
           jobOutputType: "uri_file",
           mode: "Upload",
-          uri: "string"
-        }
+          uri: "string",
+        },
       },
       properties: { string: "string" },
       services: {
@@ -195,12 +207,12 @@ async function createOrUpdatePipelineJob() {
           endpoint: "string",
           jobServiceType: "string",
           port: 1,
-          properties: { string: "string" }
-        }
+          properties: { string: "string" },
+        },
       },
       settings: {},
-      tags: { string: "string" }
-    }
+      tags: { string: "string" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -208,12 +220,10 @@ async function createOrUpdatePipelineJob() {
     resourceGroupName,
     workspaceName,
     id,
-    body
+    body,
   );
   console.log(result);
 }
-
-createOrUpdatePipelineJob().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates and executes a Job.
@@ -222,8 +232,11 @@ createOrUpdatePipelineJob().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/SweepJob/createOrUpdate.json
  */
 async function createOrUpdateSweepJob() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const id = "string";
   const body: JobBase = {
@@ -234,7 +247,7 @@ async function createOrUpdateSweepJob() {
       earlyTermination: {
         delayEvaluation: 1,
         evaluationInterval: 1,
-        policyType: "MedianStopping"
+        policyType: "MedianStopping",
       },
       experimentName: "string",
       jobType: "Sweep",
@@ -242,7 +255,7 @@ async function createOrUpdateSweepJob() {
         jobLimitsType: "Sweep",
         maxConcurrentTrials: 1,
         maxTotalTrials: 1,
-        trialTimeout: "PT1S"
+        trialTimeout: "PT1S",
       },
       objective: { goal: "Minimize", primaryMetric: "string" },
       properties: { string: "string" },
@@ -253,8 +266,8 @@ async function createOrUpdateSweepJob() {
           endpoint: "string",
           jobServiceType: "string",
           port: 1,
-          properties: { string: "string" }
-        }
+          properties: { string: "string" },
+        },
       },
       tags: { string: "string" },
       trial: {
@@ -267,11 +280,11 @@ async function createOrUpdateSweepJob() {
           instanceCount: 1,
           instanceType: "string",
           properties: {
-            string: { "e6b6493e-7d5e-4db3-be1e-306ec641327e": null }
-          }
-        }
-      }
-    }
+            string: { "e6b6493e-7d5e-4db3-be1e-306ec641327e": null },
+          },
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -279,9 +292,16 @@ async function createOrUpdateSweepJob() {
     resourceGroupName,
     workspaceName,
     id,
-    body
+    body,
   );
   console.log(result);
 }
 
-createOrUpdateSweepJob().catch(console.error);
+async function main() {
+  createOrUpdateAutoMlJob();
+  createOrUpdateCommandJob();
+  createOrUpdatePipelineJob();
+  createOrUpdateSweepJob();
+}
+
+main().catch(console.error);
