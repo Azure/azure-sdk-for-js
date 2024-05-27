@@ -85,7 +85,7 @@ When defining `participants`, if `role` is not specified, then it will be `atten
 
 Starting in 1.1.0-beta.1 release, `PstnDialOutEnabled` property is added to enable or disable PSTN Dial-Out feature in a room. The `PstnDialOutEnabled` is an optional property. If `PstnDialOutEnabled` is not provided, then the default for `PstnDialOutEnabled` is false.
 
-```js
+```typescript
 // create users with CommunicationIdentityClient
 const identityClient = new CommunicationIdentityClient(connectionString);
 const user1 = await identityClient.createUserAndToken(["voip"]);
@@ -124,7 +124,7 @@ To update the `validFrom` and `validUntil` settings of a room use the `updateRoo
 
 Starting in 1.1.0-beta.1 release, `PstnDialOutEnabled` property is added to enable or disable PSTN Dial-Out feature in a room.
 
-```js
+```typescript
 validForDays = 60;
 validUntil.setDate(validFrom.getDate() + validForDays);
 pstnDialOutEnabled = false;
@@ -143,7 +143,7 @@ const updatedRoom = await roomsClient.updateRoom(room.id, updateRoomOptions);
 
 To get a room use the `getRoom` method.
 
-```js
+```typescript
 const roomId = "ROOM_ID";
 room = await roomsClient.getRoom(roomId);
 ```
@@ -152,7 +152,7 @@ room = await roomsClient.getRoom(roomId);
 
 List all rooms using the `listRooms` method.
 
-```js
+```typescript
 const roomsList = await roomsClient.listRooms();
 for await (const currentRoom of roomsList) {
   // access room data
@@ -164,7 +164,7 @@ for await (const currentRoom of roomsList) {
 
 To add new participants, or update existing participants, use the `addOrUpdateParticipants` method.
 
-```js
+```typescript
 const user2 = await identityClient.createUserAndToken(["voip"]);
 const updateParticipantsList: RoomParticipantPatch[] = [
   {
@@ -184,7 +184,7 @@ await roomsClient.addOrUpdateParticipants(room.id, updateParticipantsList);
 
 To remove participants call the `removeParticipants` method.
 
-```js
+```typescript
 const participantsToRemove = [user1.user, user2.user];
 await roomsClient.removeParticipants(room.id, participantsToRemove);
 ```
@@ -193,7 +193,7 @@ await roomsClient.removeParticipants(room.id, participantsToRemove);
 
 To list all the participants in a room call the `listParticipants` method.
 
-```js
+```typescript
 const participantsList = await roomsClient.listParticipants(room.id);
 for await (const participant of participantsList) {
   // access participant data
@@ -205,7 +205,7 @@ for await (const participant of participantsList) {
 
 Use the `deleteRoom` method to delete a room.
 
-```js
+```typescript
 await roomsClient.deleteRoom(room.id);
 ```
 
