@@ -150,9 +150,9 @@ export class Items {
       query,
       options,
       fetchFunction,
-      this.container,
       this.container.url,
       ResourceType.item,
+      this.container,
     );
     iterator.addEncryptionProcessor(this.container.encryptionProcessor);
     return iterator;
@@ -394,6 +394,10 @@ export class Items {
       );
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       if (this.clientContext.enableEncryption) {
+        if (!this.container._rid) {
+          const { resource: containerDefinition } = await this.container.read();
+          this.container._rid = containerDefinition._rid;
+        }
         body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body);
         options.collectionRid = this.container._rid;
