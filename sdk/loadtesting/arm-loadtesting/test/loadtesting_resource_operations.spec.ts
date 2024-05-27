@@ -24,14 +24,14 @@ import {
 } from "../src/models";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the before section
+  ],
 };
 
 export const testPollingOptions = {
