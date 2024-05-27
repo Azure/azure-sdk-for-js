@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/ai-vision-face",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Face API REST Client",
   "engines": {
     "node": ">=18.0.0"
