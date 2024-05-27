@@ -1,4 +1,4 @@
-# Azure AI Vision Face client library for JavaScript
+# Azure AI Face client library for JavaScript
 
 The Azure AI Face service provides AI algorithms that detect, recognize, and analyze human faces in images. It includes the following main features:
 
@@ -18,24 +18,20 @@ The Azure AI Face service provides AI algorithms that detect, recognize, and ana
 
 ## Getting started
 
-### Currently supported environments
-
-- LTS versions of Node.js
-
-See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
-
 ### Prerequisites
 
-- You need an [Azure subscription](https://azure.microsoft.com/free/) to use this package and either
-  - an [Azure Face account](https://portal.azure.com/#blade/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/Face) or
-  - an [Azure Cognitive Service account](https://portal.azure.com/#view/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/~/AllInOne)
+- Node.js 18 or above.
+- An [Azure subscription](https://azure.microsoft.com/free/).
 - Your Azure account must have a `Cognitive Services Contributor` role assigned in order for you to agree to the responsible AI terms and create a resource. To get this role assigned to your account, follow the steps in the [Assign roles](https://learn.microsoft.com/azure/role-based-access-control/role-assignments-steps) documentation, or contact your administrator.
+- Once you have sufficient permissions to control your Azure subscription, you need either
+  - an [Azure Face account](https://portal.azure.com/#blade/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/Face) or
+  - an [Azure AI services multi-service account](https://portal.azure.com/#view/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/~/AllInOne)
 
-### Create a Face or a Cognitive Services resource
+### Create a Face or an Azure AI services multi-service account
 
-Azure AI Face supports both [multi-service](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal#supported-services-with-a-multi-service-resource) and single-service access. Create a Cognitive Services resource if you plan to access multiple cognitive services under a single endpoint/key. For Face access only, create a Face resource. Please note that you will need a single-service resource if you intend to use [Microsoft Entra ID authentication](#create-the-client-with-an-azure-active-directory-credential).
+Azure AI Face supports both [multi-service](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal#supported-services-with-a-multi-service-resource) and single-service access. Create an Azure AI services multi-service account if you plan to access multiple Azure AI services under a single endpoint/key. For Face access only, create a Face resource.
 
-- To create a new Face or Cognitive Services account, you can use [Azure Portal](https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesFace), [Azure PowerShell](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azpowershell), or [Azure CLI](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azcli).
+- To create a new Face or Azure AI services multi-service account, you can use [Azure Portal](https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesFace), [Azure PowerShell](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azpowershell), or [Azure CLI](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azcli).
 
 ### Install the package
 
@@ -69,31 +65,11 @@ Regional endpoint: https://<region>.api.cognitive.microsoft.com/
 Custom subdomain: https://<resource-name>.cognitiveservices.azure.com/
 ```
 
-A regional endpoint is the same for every resource in a region. A complete list of supported regional endpoints can be consulted [here](https://azure.microsoft.com/global-infrastructure/services/?products=cognitive-services). Please note that regional endpoints do not support Microsoft Entra ID authentication.
+A regional endpoint is the same for every resource in a region. A complete list of supported regional endpoints can be consulted [here](https://azure.microsoft.com/global-infrastructure/services/?products=cognitive-services). Please note that regional endpoints do not support Microsoft Entra ID authentication. If you'd like migrate your resource to use custom subdomain, follow the instructions [here](https://learn.microsoft.com/azure/ai-services/cognitive-services-custom-subdomains#how-does-this-impact-existing-resources).
 
-A custom subdomain, on the other hand, is a name that is unique to the Face resource. They can only be used by [single-service resources](https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesFace).
+A custom subdomain, on the other hand, is a name that is unique to the resource. Once created and linked to a resource, it cannot be modified.
 
-#### Create the client with AzureKeyCredential
-
-To use an API key as the `credential` parameter, pass the key as a string into an instance of [AzureKeyCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/azurekeycredential?view=azure-node-latest).
-You can get the API key for your Face resource using the [Azure Portal](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal#get-the-keys-for-your-resource) or [Azure CLI](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azcli#get-the-keys-for-your-resource):
-
-```bash
-# Get the API keys for the Face resource
-az cognitiveservices account keys list --name "<resource-name>" --resource-group "<resource-group-name>"
-```
-
-```js
-import { AzureKeyCredential } from '@azure/core-auth';
-import createFaceClient from '@azure-rest/ai-vision-face';
-
-const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
-const apikey = process.env['FACE_APIKEY'] || '<apikey>';
-const credential = new AzureKeyCredential(apikey);
-const client = createFaceClient(endpoint, credential);
-```
-
-#### Create the client with an Microsoft Entra ID credential
+#### Create the client with a Microsoft Entra ID credential
 
 `AzureKeyCredential` authentication is used in the examples in this getting started guide, but you can also authenticate with Microsoft Entra ID using the [@azure/identity](https://learn.microsoft.com/javascript/api/@azure/identity/?view=azure-node-latest) library.
 Note that regional endpoints do not support Microsoft Entra ID authentication. Create a [custom subdomain](https://docs.microsoft.com/azure/cognitive-services/authentication#create-a-resource-with-a-custom-subdomain) name for your resource in order to use this type of authentication.
@@ -119,6 +95,26 @@ import createFaceClient from '@azure-rest/ai-vision-face';
 
 const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
 const credential = new DefaultAzureCredential();
+const client = createFaceClient(endpoint, credential);
+```
+
+#### Create the client with AzureKeyCredential
+
+To use an API key as the `credential` parameter, pass the key as a string into an instance of [AzureKeyCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/azurekeycredential?view=azure-node-latest).
+You can get the API key for your Face resource using the [Azure Portal](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal#get-the-keys-for-your-resource) or [Azure CLI](https://learn.microsoft.com/azure/ai-services/multi-service-resource?tabs=windows&pivots=azcli#get-the-keys-for-your-resource):
+
+```bash
+# Get the API keys for the Face resource
+az cognitiveservices account keys list --name "<resource-name>" --resource-group "<resource-group-name>"
+```
+
+```js
+import { AzureKeyCredential } from '@azure/core-auth';
+import createFaceClient from '@azure-rest/ai-vision-face';
+
+const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
+const apikey = process.env['FACE_APIKEY'] || '<apikey>';
+const credential = new AzureKeyCredential(apikey);
 const client = createFaceClient(endpoint, credential);
 ```
 
@@ -314,17 +310,17 @@ Face Liveness detection can be used to determine if a face in an input video str
 The goal of liveness detection is to ensure that the system is interacting with a physically present live person at
 the time of authentication. The whole process of authentication is called a session.
 
-There are two different components in the authentication: a mobile application and an app server/orchestrator.
-Before uploading the video stream, the app server has to create a session, and then the mobile client could upload
+There are two different components in the authentication: a frontend application and an app server/orchestrator.
+Before uploading the video stream, the app server has to create a session, and then the frontend client could upload
 the payload with a `session authorization token` to call the liveness detection. The app server can query for the
-liveness detection result and audit logs anytime untill the session is deleted.
+liveness detection result and audit logs anytime until the session is deleted.
 
 The Liveness detection operation can not only confirm if the input is live or spoof, but also verify whether the input
 belongs to the expected person's face, which is called **liveness detection with face verification**. For the detail
 information, please refer to the [tutorial](https://learn.microsoft.com/azure/ai-services/computer-vision/tutorials/liveness).
 
-We'll only demonstrates how to create, query, delete a session and get the audit logs here. For how to perform a
-liveness detection, please see the sample of [mobile applications](https://learn.microsoft.com/azure/ai-services/computer-vision/tutorials/liveness#integrate-liveness-into-mobile-application).
+This package is only responsible for app server to create, query, delete a session and get audit logs. For how to
+integrate the UI and the code into your native frontend application, please follow instructions in the [tutorial](https://learn.microsoft.com/azure/ai-services/computer-vision/tutorials/liveness).
 
 Here is an example to create and get the liveness detection result of a session.
 
