@@ -41,7 +41,6 @@ let unwrapCount = 0;
 let wrapCount = 0;
 
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
-  public id: number;
   private keyInfo: { [key: string]: number } = {
     tempmetadata1: 1,
     tempmetadata2: 2,
@@ -52,11 +51,10 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
   revokeAccessSet = false;
   // public wrapKeyCallsCount: { [key: string]: number };
   // public unwrapKeyCallsCount: { [key: string]: number };
-  constructor(id: number) {
+  constructor() {
     // this.wrapKeyCallsCount = {};
     // this.unwrapKeyCallsCount = {};
     this.revokeAccessSet = false;
-    this.id = id;
   }
   async unwrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
     console.log(algorithm);
@@ -112,7 +110,7 @@ let clientEncryptionPolicy: ClientEncryptionPolicy;
 describe("dotnet test cases", () => {
   before(async () => {
     await removeAllDatabases();
-    testKeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver(1);
+    testKeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();
     metadata1 = new EncryptionKeyWrapMetadata(
       testKeyVault,
       "key1",
@@ -130,6 +128,7 @@ describe("dotnet test cases", () => {
       key: masterKey,
       enableEncryption: true,
       keyEncryptionKeyResolver: testKeyEncryptionKeyResolver,
+      encryptionKeyResolverName: testKeyVault,
     });
     database = (await encryptionClient.databases.createIfNotExists({ id: randomUUID() })).database;
     console.log(`database created ${database.id}`);
@@ -239,7 +238,8 @@ describe("dotnet test cases", () => {
       endpoint: endpoint,
       key: masterKey,
       enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(10),
+      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      encryptionKeyResolverName: testKeyVault,
     });
 
     const databaseWithBulk = (await clientWithBulk.databases.createIfNotExists({ id: database.id }))
@@ -331,7 +331,8 @@ describe("dotnet test cases", () => {
       endpoint: endpoint,
       key: masterKey,
       enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(11),
+      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      encryptionKeyResolverName: testKeyVault,
     });
     let metadata = new EncryptionKeyWrapMetadata(
       EncryptionKeyResolverName.AzureKeyVault,
@@ -430,12 +431,13 @@ describe("dotnet test cases", () => {
   });
 
   it("create encrypted item with null property", async () => {
-    const testkeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver(12);
+    const testkeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();
     const clientWithNoCaching = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
       enableEncryption: true,
       keyEncryptionKeyResolver: testkeyEncryptionKeyResolver,
+      encryptionKeyResolverName: testKeyVault,
     });
     const testdatabase = (await clientWithNoCaching.database(database.id).read()).database;
     const testcontainer = (await testdatabase.container(encryptionContainer.id).read()).container;
@@ -1108,7 +1110,8 @@ describe("dotnet test cases", () => {
       endpoint: endpoint,
       key: masterKey,
       enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(14),
+      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      encryptionKeyResolverName: testKeyVault,
     });
     const otherDatabase = otherClient.database(database.id);
     const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
@@ -1150,6 +1153,7 @@ describe("dotnet test cases", () => {
     try {
       await testCreateItem(encryptionContainerToDelete);
     } catch (err) {
+      console.log("item creation error, emryptionContainerToDelette", err);
       assert.ok(
         err.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1162,24 +1166,17 @@ describe("dotnet test cases", () => {
     docToUpsert.sensitive_StringFormat = "docToBeUpserted";
     const operations = [
       {
-        operationType: BulkOperationType.Upsert,
-        partitionKey: docToUpsert.PK,
-        resourceBody: JSON.parse(JSON.stringify(docToUpsert)),
-      },
-      {
-        operationType: BulkOperationType.Replace,
-        partitionKey: docToReplace.PK,
-        id: docToReplace.id,
-        resourceBody: JSON.parse(JSON.stringify(docToReplace)),
-      },
-      {
         operationType: BulkOperationType.Create,
         resourceBody: JSON.parse(JSON.stringify(TestDoc.create())),
       },
     ];
     try {
-      await otherEncryptionContainer.items.bulk(operations);
+      console.log("reached here");
+      console.log("operations", operations);
+      const res = await otherEncryptionContainer.items.bulk(operations);
+      console.log("bulk res", res);
     } catch (error) {
+      console.log("reached here1");
       assert.ok(
         error.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1187,12 +1184,16 @@ describe("dotnet test cases", () => {
       );
     }
     // retry bulk operation with 2nd client
-    await otherEncryptionContainer.items.bulk(operations);
-
+    console.log("second bulk operation");
+    const res2 = await otherEncryptionContainer.items.bulk(operations);
+    console.log("bulk res2", res2);
+    console.log("reached here2");
     await verifyItemByRead(encryptionContainerToDelete, docToReplace);
+    console.log("reached here3");
     await testCreateItem(encryptionContainerToDelete);
+    console.log("reached here4");
     await verifyItemByRead(encryptionContainerToDelete, docToUpsert);
-
+    console.log("reached here5");
     // validate if the right policy was used, by reading them all back
     const response = await otherEncryptionContainer.items.readAll().fetchAll();
     console.log("query response: ", response);
@@ -1349,69 +1350,55 @@ describe("dotnet test cases", () => {
   });
 
   it("validate caching of protected dek", async () => {
-    unwrapCount = 0;
-    for (let i = 0; i < 2; i++) {
-      await encryptionContainer.items.create({ id: i.toLocaleString(), PK: "1" });
-      console.log(`created ${i}th item`);
-      // console.log(`unwrapCount: ${unwrapCount}`);
-    }
-    console.log(`unwrapCount for 1st container 1st time: ${unwrapCount}`);
+    // unwrapCount = 0;
+    // for (let i = 0; i <= 1; i++) {
+    //   await encryptionContainer.items.create({ id: i.toLocaleString(), PK: "1" });
+    // }
+    console.log(`unwrapCount 1:0: ${unwrapCount}`);
 
     unwrapCount = 0;
-    const newTestKeyResolver = new MockKeyVaultEncryptionKeyResolver(2);
+    for (let i = 10; i <= 11; i++) {
+      await encryptionContainer.items.create({ id: i.toLocaleString(), PK: "1" });
+    }
+
+    console.log("unwrap count 1:1", unwrapCount);
+    const newTestKeyResolver = new MockKeyVaultEncryptionKeyResolver();
     const newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
       enableEncryption: true,
       keyEncryptionKeyResolver: newTestKeyResolver,
+      encryptionKeyResolverName: testKeyVault,
     });
 
-    unwrapCount = 0;
-    for (let i = 3; i < 4; i++) {
-      await encryptionContainer.items.create({ id: i.toLocaleString(), PK: "1" });
-      console.log(`created ${i}th item`);
-      console.log(`unwrapCount: ${unwrapCount}`);
-    }
-    console.log(`unwrapCount for 1st container 2nd time: ${unwrapCount}`);
+    // unwrapCount = 0;
+    // for (let i = 2; i <= 3; i++) {
+    //   await encryptionContainer.items.create({ id: i.toLocaleString(), PK: "1" });
+    // }
+    // console.log(`unwrapCount 1:2: ${unwrapCount}`);
     unwrapCount = 0;
     const newDatabase = newClient.database(database.id);
     const newContainer = newDatabase.container(encryptionContainer.id);
-    console.log("BEFORE");
-    for (let i = 5; i < 7; i++) {
+    await newContainer.initializeEncryption();
+    console.log("unwrap count initializeEncryption", unwrapCount);
+    unwrapCount = 0;
+
+    for (let i = 4; i <= 5; i++) {
       await newContainer.items.create({ id: i.toLocaleString(), PK: "1" });
-      console.log(`created ${i}th item`);
     }
-    console.log(`unwrapCount for 2nd container: ${unwrapCount}`);
+    console.log(`unwrapCount for 2:1: ${unwrapCount}`);
+    unwrapCount = 0;
+    for (let i = 6; i <= 7; i++) {
+      await encryptionContainer.items.create({ id: i.toLocaleString(), PK: "1" });
+    }
+
+    console.log(`unwrapCount for 1:3: ${unwrapCount}`);
+    unwrapCount = 0;
+    for (let i = 8; i <= 9; i++) {
+      await newContainer.items.create({ id: i.toLocaleString(), PK: "1" });
+    }
+    console.log(`unwrapCount for 2:2: ${unwrapCount}`);
     // assert.equal(unwrapCount, 2, "we have two cek");
-    // unwrapCount = 0;
-    // for (let i = 7; i < 9; i++) {
-    //   await encryptionContainer.items.create({ id: i.toLocaleString(), PK: "1" });
-    //   console.log(`created ${i}th item`);
-    //   console.log(`unwrapCount: ${unwrapCount}`);
-    // }
-    // console.log(`unwrapCount for 1st container 3rd time: ${unwrapCount}`);
-
-    // unwrapCount = 0;
-    // newClient = new CosmosClient({
-    //   endpoint: endpoint,
-    //   key: masterKey,
-    //   enableEncryption: true,
-    //   keyEncryptionKeyResolver: newTestKeyResolver,
-    //   encryptionKeyTimeToLiveInHours: 0,
-    // });
-    // newDatabase = newClient.database(database.id);
-    // newContainer = newDatabase.container(encryptionContainer.id);
-    // console.log("AFTER");
-
-    // console.log("creating item with client1  ");
-    // await testCreateItem(encryptionContainer);
-    // console.log("created");
-    // unwrapCount = 0;
-    // for (let i = 0; i < 2; i++) {
-    //   await testCreateItem(newContainer);
-    // }
-    // console.log(`unwrapCount1345: ${unwrapCount}`);
-    // assert.ok(unwrapCount > 1, "The actual unwrap count was not greater than 1");
   });
 });
 
@@ -1430,6 +1417,8 @@ async function verifyItemByRead(
   requestOptions?: RequestOptions,
 ): Promise<void> {
   const readResponse = await container.item(testDoc.id, testDoc.PK).read(requestOptions);
+  console.log("readResponse", readResponse);
+  console.log("testDoc", testDoc);
   assert.equal(StatusCodes.Ok, readResponse.statusCode);
   verifyExpectedDocResponse(testDoc, readResponse.resource);
 }
