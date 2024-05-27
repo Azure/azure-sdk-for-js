@@ -18,9 +18,14 @@ The Azure AI Face service provides AI algorithms that detect, recognize, and ana
 
 ## Getting started
 
+### Currently supported environments
+
+- LTS versions of Node.js.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Prerequisites
 
-- Node.js 18 or above.
 - An [Azure subscription](https://azure.microsoft.com/free/).
 - Your Azure account must have a `Cognitive Services Contributor` role assigned in order for you to agree to the responsible AI terms and create a resource. To get this role assigned to your account, follow the steps in the [Assign roles](https://learn.microsoft.com/azure/role-based-access-control/role-assignments-steps) documentation, or contact your administrator.
 - Once you have sufficient permissions to control your Azure subscription, you need either
