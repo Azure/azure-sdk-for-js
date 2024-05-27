@@ -265,6 +265,8 @@ export const Constants = {
     MinimumInclusiveEffectivePartitionKey: "",
     MaximumExclusiveEffectivePartitionKey: "FF",
   },
+  // Default TTL for caches related to Encryption
+  DefaultEncryptionCacheTimeToLive: 2,
 };
 
 /**

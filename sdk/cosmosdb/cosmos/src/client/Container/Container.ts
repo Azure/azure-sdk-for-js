@@ -36,11 +36,9 @@ import {
 } from "../../utils/diagnostics";
 import { MetadataLookUpType } from "../../CosmosDiagnostics";
 import {
-  ClientEncryptionKeyPropertiesCache,
   EncryptionProcessor,
   EncryptionSettingForProperty,
-  EncryptionSettings,
-  EncryptionSettingsCache,
+  EncryptionManager,
 } from "../../encryption";
 
 /**
@@ -121,16 +119,18 @@ export class Container {
     public readonly database: Database,
     public readonly id: string,
     private readonly clientContext: ClientContext,
-    containerRid?: string,
+    private encryptionManager?: EncryptionManager,
+    _rid?: string,
   ) {
-    this._rid = containerRid;
     if (this.clientContext.enableEncryption) {
       this.encryptionProcessor = new EncryptionProcessor(
         this.id,
         this.database.id,
         this.clientContext,
+        this.encryptionManager,
       );
     }
+    this._rid = _rid;
   }
 
   /**
@@ -398,15 +398,12 @@ export class Container {
       if (!clientEncryptionPolicy) return;
       const partitionKeyPaths = readResponse.resource.partitionKey.paths;
       const key = this.database.id + "/" + this.id;
-
-      const encryptionSettings = EncryptionSettings.create(
+      await this.encryptionManager.encryptionSettingsCache.createAndSetEncryptionSettings(
         key,
         this._rid,
         partitionKeyPaths,
         clientEncryptionPolicy,
       );
-      const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
-      encryptionSettingsCache.setEncryptionSettings(key, encryptionSettings);
     }, this.clientContext);
   }
   /**
@@ -419,19 +416,18 @@ export class Container {
     } else {
       await withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
         const readResponse = await this.readInternal(diagnosticNode);
+        this._rid = readResponse.resource._rid;
         const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
         if (!clientEncryptionPolicy) return;
         const partitionKeyPaths = readResponse.resource.partitionKey.paths;
         const key = this.database.id + "/" + this.id;
 
-        const encryptionSettings = EncryptionSettings.create(
+        await this.encryptionManager.encryptionSettingsCache.createAndSetEncryptionSettings(
           key,
           this._rid,
           partitionKeyPaths,
           clientEncryptionPolicy,
         );
-        const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
-        encryptionSettingsCache.setEncryptionSettings(key, encryptionSettings);
         const clientEncryptionKeyIds = [
           ...new Set(
             clientEncryptionPolicy.includedPaths.map((item) => item.clientEncryptionKeyId),
@@ -441,11 +437,10 @@ export class Container {
         for (const clientEncryptionKeyId of clientEncryptionKeyIds) {
           const res = await this.database.readClientEncryptionKey(clientEncryptionKeyId);
           const encryptionKeyProperties = res.clientEncryptionKeyProperties;
-          const key1 = this.database.id + "/" + clientEncryptionKeyId;
-          const clientEncryptionKeyPropertiesCache =
-            ClientEncryptionKeyPropertiesCache.getInstance();
-          clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
-            key1,
+          const key = this.database.id + "/" + clientEncryptionKeyId;
+
+          this.encryptionManager.clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
+            key,
             encryptionKeyProperties,
           );
         }
@@ -455,8 +450,8 @@ export class Container {
 
   async ThrowIfRequestNeedsARetryPostPolicyRefresh(errorResponse: any): Promise<void> {
     const key = this.database.id + "/" + this.id;
-    const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
-    const encryptionSetting = encryptionSettingsCache.getEncryptionSettings(key);
+    const encryptionSetting =
+      this.encryptionManager.encryptionSettingsCache.getEncryptionSettings(key);
     const subStatusCode = errorResponse.headers[Constants.HttpHeaders.SubStatus];
     const isPartitionKeyMismatch = subStatusCode == SubStatusCodes.PartitionKeyMismatch;
     const isIncorrectContainerRidSubstatus =
@@ -485,11 +480,12 @@ export class Container {
       const updatedContainerRid = (
         await this.encryptionProcessor.getEncryptionSetting(forceRefresh)
       ).containerRid;
+
       if (currentContainerRid === updatedContainerRid) {
         return;
       }
       await this.refreshRidAndPolicy();
-      throw new Error(
+      throw new ErrorResponse(
         "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue.",
       );
     }

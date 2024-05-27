@@ -140,4 +140,5 @@ export {
   EncryptionType,
   EncryptionAlgorithm,
   EncryptionKeyResolverName,
+  EncryptionManager,
 } from "./encryption";
