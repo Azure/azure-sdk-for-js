@@ -1,60 +1,56 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://api.loganalytics.io/v1/workspaces/workspace-id/query",
+      "RequestUri": "https://Sanitized.loganalytics.io/v1/workspaces/workspace-id/query",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "175",
+        "Content-Length": "177",
         "Content-Type": "application/json",
         "prefer": "include-render=true",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\"Windows\"",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "f2ebebab-de23-475b-9e46-23cc1a8905c3",
-        "x-ms-useragent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.5.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/125.0.6422.60 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-useragent": "azsdk-js-monitor-query/1.2.0 azsdk-js-monitor-log-query/1.2.0 core-rest-pipeline/1.16.1 OS/Windows"
       },
       "RequestBody": {
-        "query": "datatable (s: string, i: long) [ \u0022a\u0022, 1, \u0022b\u0022, 2, \u0022c\u0022, 3 ] | render columnchart with (title=\u0022the chart title\u0022, xtitle=\u0022the x axis title\u0022)",
+        "query": "datatable (s: string, i: long) [ \"a\", 1, \"b\", 2, \"c\", 3 ] | render columnchart with (title=\"the chart title\", xtitle=\"the x axis title\")",
         "timespan": "PT24H"
       },
       "StatusCode": 200,
       "ResponseHeaders": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Retry-After,Age,WWW-Authenticate,x-resource-identities,x-ms-status-location",
+        "Age": "52",
         "Connection": "keep-alive",
-        "Content-Encoding": "gzip",
+        "Content-Length": "459",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 11 Feb 2022 23:21:13 GMT",
+        "Date": "Mon, 27 May 2024 22:01:59 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": [
-          "Accept-Encoding",
-          "Accept-Encoding"
-        ],
-        "Via": "1.1 draft-oms-5565f6c877-6c2qh",
+        "Vary": "Accept-Encoding",
+        "Via": "1.1 draft-oms-84fccbf47-6r68f",
         "X-Content-Type-Options": "nosniff"
       },
       "ResponseBody": {
         "tables": [
           {
-            "name": "PrimaryResult",
+            "name": "Sanitized",
             "columns": [
               {
-                "name": "s",
+                "name": "Sanitized",
                 "type": "string"
               },
               {
-                "name": "i",
+                "name": "Sanitized",
                 "type": "long"
               }
             ],

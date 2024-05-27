@@ -1,18 +1,18 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://api.loganalytics.io/v1/workspaces/workspace-id/query",
+      "RequestUri": "https://Sanitized.loganalytics.io/v1/workspaces/workspace-id/query",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "77",
+        "Content-Length": "78",
         "Content-Type": "application/json",
         "Prefer": "wait=1",
-        "User-Agent": "azsdk-js-monitor-query/1.1.0 azsdk-js-monitor-log-query/1.1.0 core-rest-pipeline/1.10.4 Node/v18.16.0 OS/(x64-Linux-6.2.10-arch1-1)",
-        "x-ms-client-request-id": "691e0e20-d37e-41a8-a1ac-6a1bec3e7ac2"
+        "User-Agent": "azsdk-js-monitor-query/1.2.0 azsdk-js-monitor-log-query/1.2.0 core-rest-pipeline/1.16.1 Node/20.11.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
       },
       "RequestBody": {
         "query": "range x from 1 to 10000000000000 step 1 | count",
@@ -25,18 +25,18 @@
         "Connection": "keep-alive",
         "Content-Length": "189",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 25 May 2023 21:38:00 GMT",
+        "Date": "Mon, 27 May 2024 22:01:22 GMT",
         "Preference-Applied": "wait=1",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding",
-        "Via": "1.1 draft-oms-7487455674-s94mt",
+        "Via": "1.1 draft-oms-84fccbf47-m4265",
         "X-Content-Type-Options": "nosniff"
       },
       "ResponseBody": {
         "error": {
           "message": "Gateway timeout",
           "code": "GatewayTimeout",
-          "correlationId": "9d0e4ba3-54c6-4758-b0c3-8cd2510e9fdb",
+          "correlationId": "1b580be4-0cd9-4947-bddf-464e5a8adbe1",
           "innererror": {
             "code": "GatewayTimeout",
             "message": "ADX query timed out"
