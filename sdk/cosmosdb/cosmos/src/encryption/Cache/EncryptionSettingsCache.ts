@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ClientEncryptionPolicy } from "../ClientEncryptionPolicy";
 import { EncryptionSettings } from "../EncryptionSettings";
+import { EncryptionSettingForProperty } from "../EncryptionSettingForProperty";
 /**
  * The cache used to store encryption settings for a container.
  * @hidden
@@ -9,27 +11,35 @@ import { EncryptionSettings } from "../EncryptionSettings";
 export class EncryptionSettingsCache {
   // key is databaseId + '/' + containerId
   private encryptionSettingsCache: Map<string, EncryptionSettings>;
-  private static instance: EncryptionSettingsCache;
 
-  private constructor() {
+  public constructor() {
     this.encryptionSettingsCache = new Map<string, EncryptionSettings>();
   }
 
-  public static getInstance(): EncryptionSettingsCache {
-    if (!EncryptionSettingsCache.instance) {
-      EncryptionSettingsCache.instance = new EncryptionSettingsCache();
+  public async createAndSetEncryptionSettings(
+    id: string,
+    containerRid: string,
+    partitionKeyPaths: string[],
+    clientEncryptionPolicy: ClientEncryptionPolicy,
+  ): Promise<EncryptionSettings> {
+    const encryptionSettings = new EncryptionSettings(id, containerRid, partitionKeyPaths);
+    if (!clientEncryptionPolicy) return null;
+    encryptionSettings.validatePolicyFormatVersion(clientEncryptionPolicy, partitionKeyPaths);
+
+    for (const includedPath of clientEncryptionPolicy.includedPaths) {
+      const encryptionSettingForProperty = new EncryptionSettingForProperty(includedPath);
+      encryptionSettings.pathsToEncrypt.push(includedPath.path);
+      encryptionSettings.setEncryptionProperty(includedPath.path, encryptionSettingForProperty);
     }
-    return EncryptionSettingsCache.instance;
+    this.setEncryptionSettings(id, encryptionSettings);
+    return encryptionSettings;
   }
 
-  getEncryptionSettings(key: string): EncryptionSettings | undefined {
+  public getEncryptionSettings(key: string): EncryptionSettings | undefined {
     return this.encryptionSettingsCache.get(key);
   }
 
-  setEncryptionSettings(key: string, encryptionSettings: EncryptionSettings): void {
+  public setEncryptionSettings(key: string, encryptionSettings: EncryptionSettings): void {
     this.encryptionSettingsCache.set(key, encryptionSettings);
-  }
-  public clearCache(): void {
-    this.encryptionSettingsCache.clear();
   }
 }

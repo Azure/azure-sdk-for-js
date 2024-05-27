@@ -8,17 +8,14 @@ import { KeyEncryptionKeyAlgorithm } from "./enums";
  */
 export class EncryptionKeyStoreProvider {
   public RsaOaepEncryptionAlgorithm: string = "RSA-OAEP";
-  private cacheTimeToLive: number;
-  private keyEncryptionKeyResolver: EncryptionKeyResolver;
-  // cache to store the unwrapped encryption key. Key is the path of the encryption key
-  private unwrappedEncryptionKeyCache: { [key: string]: [Date, Buffer] };
 
-  public providerName: string;
+  // cache to store the unwrapped encryption key. Key is the path of the encryption key
+  public unwrappedEncryptionKeyCache: { [key: string]: [Date, Buffer] };
 
   constructor(
-    keyEncryptionKeyResolver: EncryptionKeyResolver,
-    providerName: string,
-    cacheTimeToLive?: number,
+    private keyEncryptionKeyResolver: EncryptionKeyResolver,
+    public providerName: string,
+    private cacheTimeToLive: number,
   ) {
     this.keyEncryptionKeyResolver = keyEncryptionKeyResolver;
     this.providerName = providerName;

@@ -13,6 +13,7 @@ import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInterna
 import { DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
 import type { DatabaseAccount } from "./documents";
 import { defaultConnectionPolicy } from "./documents";
+import { EncryptionManager } from "./encryption";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import type { RequestOptions } from "./request";
 import { ResourceResponse } from "./request";
@@ -59,6 +60,10 @@ export class CosmosClient {
   private clientContext: ClientContext;
   private endpointRefresher: NodeJS.Timeout;
   /**
+   * @internal
+   */
+  private encryptionManager: EncryptionManager;
+  /**
    * Creates a new {@link CosmosClient} object from a connection string. Your database connection string can be found in the Azure Portal
    */
   constructor(connectionString: string);
@@ -77,12 +82,21 @@ export class CosmosClient {
       throw new Error("Invalid endpoint specified");
     }
 
-    if (
-      optionsOrConnectionString.enableEncryption &&
-      !optionsOrConnectionString.keyEncryptionKeyResolver
-    ) {
-      throw new Error(
-        "KeyEncryptionKeyResolver needs to be provided to enable client-side encryption.",
+    if (optionsOrConnectionString.enableEncryption) {
+      if (!optionsOrConnectionString.keyEncryptionKeyResolver) {
+        throw new Error(
+          "KeyEncryptionKeyResolver needs to be provided to enable client-side encryption.",
+        );
+      }
+      if (!optionsOrConnectionString.encryptionKeyResolverName) {
+        throw new Error(
+          "EncryptionKeyResolverName needs to be provided to enable client-side encryption.",
+        );
+      }
+      this.encryptionManager = new EncryptionManager(
+        optionsOrConnectionString.keyEncryptionKeyResolver,
+        optionsOrConnectionString.encryptionKeyResolverName,
+        optionsOrConnectionString.encryptionKeyTimeToLiveInHours,
       );
     }
 
@@ -130,11 +144,11 @@ export class CosmosClient {
       this.backgroundRefreshEndpointList(
         globalEndpointManager,
         optionsOrConnectionString.connectionPolicy.endpointRefreshRateInMs ||
-          defaultConnectionPolicy.endpointRefreshRateInMs,
+        defaultConnectionPolicy.endpointRefreshRateInMs,
       );
     }
 
-    this.databases = new Databases(this, this.clientContext);
+    this.databases = new Databases(this, this.clientContext, this.encryptionManager);
     this.offers = new Offers(this, this.clientContext);
   }
 
@@ -242,7 +256,7 @@ export class CosmosClient {
    * ```
    */
   public database(id: string): Database {
-    return new Database(this, id, this.clientContext);
+    return new Database(this, id, this.clientContext, this.encryptionManager);
   }
 
   /**

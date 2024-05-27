@@ -23,6 +23,7 @@ import { ContainerResponse } from "./ContainerResponse";
 import { validateOffer } from "../../utils/offers";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import { EncryptionManager } from "../../encryption/EncryptionManager";
 
 /**
  * Operations for creating new containers, and reading/querying all containers
@@ -38,6 +39,7 @@ export class Containers {
   constructor(
     public readonly database: Database,
     private readonly clientContext: ClientContext,
+    private encryptionManager?: EncryptionManager,
   ) {}
 
   /**
@@ -200,6 +202,7 @@ export class Containers {
       this.database,
       response.result.id,
       this.clientContext,
+      this.encryptionManager,
       response.result._rid,
     );
     return new ContainerResponse(

@@ -23,13 +23,12 @@ import {
   ClientEncryptionKeyRequest,
   ClientEncryptionKeyProperties,
   KeyEncryptionKey,
-  ProtectedDataEncryptionKey,
   EncryptionAlgorithm,
   EncryptionKeyWrapMetadata,
   KeyEncryptionKeyAlgorithm,
   EncryptionKeyResolverName,
 } from "../../encryption";
-
+import { EncryptionManager } from "../../encryption/EncryptionManager";
 /**
  * Operations for reading or deleting an existing database.
  *
@@ -74,8 +73,9 @@ export class Database {
     public readonly client: CosmosClient,
     public readonly id: string,
     private clientContext: ClientContext,
+    private encryptionManager?: EncryptionManager,
   ) {
-    this.containers = new Containers(this, this.clientContext);
+    this.containers = new Containers(this, this.clientContext, this.encryptionManager);
     this.users = new Users(this, this.clientContext);
   }
 
@@ -90,7 +90,7 @@ export class Database {
    * ```
    */
   public container(id: string): Container {
-    return new Container(this, id, this.clientContext);
+    return new Container(this, id, this.clientContext, this.encryptionManager);
   }
 
   /**
@@ -229,17 +229,18 @@ export class Database {
         throw new Error(`Invalid Key Vault URI '${keyWrapMetadata.value}' passed.`);
       }
     }
-    const keyEncryptionKey: KeyEncryptionKey = KeyEncryptionKey.getOrCreate(
-      keyWrapMetadata.name,
-      keyWrapMetadata.value,
-      this.clientContext.encryptionKeyStoreProvider,
-    );
+    const keyEncryptionKey: KeyEncryptionKey =
+      this.encryptionManager.keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
+        keyWrapMetadata.name,
+        keyWrapMetadata.value,
+        this.encryptionManager.encryptionKeyStoreProvider,
+      );
 
-    const protectedDataEncryptionKey = await ProtectedDataEncryptionKey.getOrCreate(
-      id,
-      keyEncryptionKey,
-      this.clientContext.encryptionKeyTimeToLiveInHours,
-    );
+    const protectedDataEncryptionKey =
+      await this.encryptionManager.protectedDataEncryptionKeyCache.getOrCreateProtectedDataEncryptionKey(
+        id,
+        keyEncryptionKey,
+      );
 
     const wrappedDataEncryptionKey = protectedDataEncryptionKey.encryptedValue;
 
@@ -345,18 +346,13 @@ export class Database {
     const res = await this.readClientEncryptionKey(id);
     let clientEncryptionKeyProperties = res.clientEncryptionKeyProperties;
 
-    let keyEncryptionKey = KeyEncryptionKey.getOrCreate(
+    let keyEncryptionKey = this.encryptionManager.keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
       clientEncryptionKeyProperties.encryptionKeyWrapMetadata.name,
       clientEncryptionKeyProperties.encryptionKeyWrapMetadata.value,
-      this.clientContext.encryptionKeyStoreProvider,
+      this.encryptionManager.encryptionKeyStoreProvider,
     );
     const unwrappedKey = await keyEncryptionKey.unwrapEncryptionKey(
       clientEncryptionKeyProperties.wrappedDataEncryptionKey,
-    );
-    keyEncryptionKey = KeyEncryptionKey.getOrCreate(
-      newKeyWrapMetadata.name,
-      newKeyWrapMetadata.value,
-      this.clientContext.encryptionKeyStoreProvider,
     );
     const rewrappedKey = await keyEncryptionKey.wrapEncryptionKey(unwrappedKey);
     clientEncryptionKeyProperties = new ClientEncryptionKeyProperties(
