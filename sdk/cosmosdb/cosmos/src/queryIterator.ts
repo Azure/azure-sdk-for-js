@@ -50,9 +50,9 @@ export class QueryIterator<T> {
     private query: SqlQuerySpec | string,
     private options: FeedOptions,
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
-    private readonly container?: Container,
     private resourceLink?: string,
     private resourceType?: ResourceType,
+    private readonly container?: Container,
   ) {
     this.container = container;
     this.query = query;
