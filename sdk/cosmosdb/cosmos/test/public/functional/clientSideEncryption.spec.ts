@@ -85,6 +85,7 @@ const client = new CosmosClient({
   key: masterKey,
   enableEncryption: true,
   keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+  encryptionKeyResolverName: testKeyVault,
 });
 
 describe("Client Side Encryption", () => {
@@ -696,6 +697,7 @@ describe("Client Side Encryption", () => {
       enableEncryption: true,
       keyEncryptionKeyResolver: keyEncryptionKeyResolver,
       encryptionKeyTimeToLiveInHours: 0,
+      encryptionKeyResolverName: testKeyVault,
     });
 
     await removeAllDatabases();
@@ -762,6 +764,7 @@ describe("Client Side Encryption", () => {
       enableEncryption: true,
       keyEncryptionKeyResolver: newTestKeyResolver,
       encryptionKeyTimeToLiveInHours: 0,
+      encryptionKeyResolverName: testKeyVault,
     });
     const newDatabase = newClient.database(database.id);
     const path = new ClientEncryptionIncludedPath(

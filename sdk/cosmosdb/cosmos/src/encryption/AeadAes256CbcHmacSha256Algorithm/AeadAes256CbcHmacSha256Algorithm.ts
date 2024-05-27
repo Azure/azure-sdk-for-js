@@ -46,7 +46,6 @@ export class AeadAes256CbcHmacSha256Algorithm {
       throw new Error("Invalid cipher text length");
     }
     if (cipherTextBuffer[0] !== this.algoVersion) {
-      console.log("0 pos ", cipherTextBuffer[0]);
       throw new Error("Invalid cipher text version");
     }
     let authTagStartIndex = 1;

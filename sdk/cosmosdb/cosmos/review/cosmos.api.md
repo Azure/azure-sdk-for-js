@@ -211,8 +211,6 @@ export class ClientContext {
     // (undocumented)
     encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
     // (undocumented)
-    readonly encryptionKeyTimeToLiveInHours: number;
-    // (undocumented)
     execute<T>({ sprocLink, params, options, partitionKey, diagnosticNode, }: {
         sprocLink: string;
         params?: any[];
@@ -637,11 +635,12 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
+    DefaultEncryptionCacheTimeToLive: number;
 };
 
 // @public
 export class Container {
-    constructor(database: Database, id: string, clientContext: ClientContext, containerRid?: string);
+    constructor(database: Database, id: string, clientContext: ClientContext, encryptionManager?: EncryptionManager, _rid?: string);
     conflict(id: string, partitionKey?: PartitionKey): Conflict;
     get conflicts(): Conflicts;
     // (undocumented)
@@ -713,7 +712,7 @@ export class ContainerResponse extends ResourceResponse<ContainerDefinition & Re
 
 // @public
 export class Containers {
-    constructor(database: Database, clientContext: ClientContext);
+    constructor(database: Database, clientContext: ClientContext, encryptionManager?: EncryptionManager);
     create(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     createIfNotExists(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     // (undocumented)
@@ -757,6 +756,8 @@ export interface CosmosClientOptions {
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     // (undocumented)
     enableEncryption?: boolean;
+    // (undocumented)
+    encryptionKeyResolverName?: string;
     // (undocumented)
     encryptionKeyTimeToLiveInHours?: number;
     endpoint: string;
@@ -821,7 +822,7 @@ export interface CreateOperationInput {
 
 // @public
 export class Database {
-    constructor(client: CosmosClient, id: string, clientContext: ClientContext);
+    constructor(client: CosmosClient, id: string, clientContext: ClientContext, encryptionManager?: EncryptionManager);
     // (undocumented)
     readonly client: CosmosClient;
     container(id: string): Container;
@@ -894,7 +895,7 @@ export class DatabaseResponse extends ResourceResponse<DatabaseDefinition & Reso
 
 // @public
 export class Databases {
-    constructor(client: CosmosClient, clientContext: ClientContext);
+    constructor(client: CosmosClient, clientContext: ClientContext, encryptionManager?: EncryptionManager);
     // (undocumented)
     readonly client: CosmosClient;
     create(body: DatabaseRequest, options?: RequestOptions): Promise<DatabaseResponse>;
@@ -1060,6 +1061,31 @@ export class EncryptionKeyWrapMetadata {
     type: EncryptionKeyResolverName;
     // (undocumented)
     value: string;
+}
+
+// @public
+export class EncryptionManager {
+    constructor(encryptionKeyResolver: EncryptionKeyResolver, encryptionKeyResolverName: string, cacheTimeToLive?: number);
+    // (undocumented)
+    cacheTimeToLive: number;
+    // Warning: (ae-forgotten-export) The symbol "ClientEncryptionKeyPropertiesCache" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    clientEncryptionKeyPropertiesCache: ClientEncryptionKeyPropertiesCache;
+    // (undocumented)
+    encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
+    // Warning: (ae-forgotten-export) The symbol "EncryptionSettingsCache" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    encryptionSettingsCache: EncryptionSettingsCache;
+    // Warning: (ae-forgotten-export) The symbol "KeyEncryptionKeyCache" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    keyEncryptionKeyCache: KeyEncryptionKeyCache;
+    // Warning: (ae-forgotten-export) The symbol "ProtectedDataEncryptionKeyCache" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    protectedDataEncryptionKeyCache: ProtectedDataEncryptionKeyCache;
 }
 
 // @public (undocumented)
@@ -1784,7 +1810,7 @@ export interface QueryInfo {
 // @public
 export class QueryIterator<T> {
     // Warning: (ae-forgotten-export) The symbol "FetchFunctionCallback" needs to be exported by the entry point index.d.ts
-    constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], container?: Container, resourceLink?: string, resourceType?: ResourceType);
+    constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], resourceLink?: string, resourceType?: ResourceType, container?: Container);
     fetchAll(): Promise<FeedResponse<T>>;
     // (undocumented)
     fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>>;
