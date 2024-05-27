@@ -20,7 +20,7 @@ The Azure AI Face service provides AI algorithms that detect, recognize, and ana
 
 ### Currently supported environments
 
-- LTS versions of Node.js.
+- LTS versions of Node.js
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
