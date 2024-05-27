@@ -48,14 +48,6 @@ import { DefaultDiagnosticFormatter, DiagnosticFormatter } from "./diagnostics/D
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { randomUUID } from "@azure/core-util";
 import { EncryptionKeyStoreProvider } from "./encryption/EncryptionKeyStoreProvider";
-import {
-  // ClientEncryptionKeyPropertiesCache,
-  EncryptionKeyResolverName,
-  buildCache,
-  // EncryptionSettingsCache,
-  // KeyEncryptionKeyCache,
-  // ProtectedDataEncryptionKeyCache,
-} from "./encryption";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
@@ -74,14 +66,13 @@ export class ClientContext {
   public enableEncryption: boolean = false;
   public encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
 
-  public readonly encryptionKeyTimeToLiveInHours: number;
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
     private clientConfig: ClientConfigDiagnostic,
     public diagnosticLevel: CosmosDbDiagnosticLevel,
   ) {
-    this.enableEncryption = cosmosClientOptions.enableEncryption;
+    this.enableEncryption = cosmosClientOptions.enableEncryption ? true : false;
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
@@ -104,23 +95,6 @@ export class ClientContext {
           },
         }),
       );
-    }
-    if (this.enableEncryption) {
-      this.encryptionKeyTimeToLiveInHours = cosmosClientOptions.encryptionKeyTimeToLiveInHours ?? 2;
-      this.encryptionKeyStoreProvider = new EncryptionKeyStoreProvider(
-        cosmosClientOptions.keyEncryptionKeyResolver,
-        EncryptionKeyResolverName.AzureKeyVault,
-        this.encryptionKeyTimeToLiveInHours,
-      );
-      buildCache();
-      // const protectedDataEncryptionKeyCache = ProtectedDataEncryptionKeyCache.getInstance();
-      // protectedDataEncryptionKeyCache.clearCache();
-      // const keyEncryptionKeyCache = KeyEncryptionKeyCache.getInstance();
-      // const clientEncryptionKeyPropertiesCache = ClientEncryptionKeyPropertiesCache.getInstance();
-      // const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
-      // keyEncryptionKeyCache.clearCache();
-      // clientEncryptionKeyPropertiesCache.clearCache();
-      // encryptionSettingsCache.clearCache();
     }
     this.initializeDiagnosticSettings(diagnosticLevel);
   }

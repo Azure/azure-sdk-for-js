@@ -5,7 +5,6 @@ import { EncryptionSettings } from "./EncryptionSettings";
 import { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
 import { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm";
 import { ContainerDefinition, ItemDefinition } from "../client";
-import { ClientEncryptionKeyPropertiesCache, EncryptionSettingsCache } from "./Cache";
 import { PartitionKeyInternal } from "../documents";
 import { TypeMarker } from "./enums/TypeMarker";
 import { ClientContext } from "../ClientContext";
@@ -13,14 +12,15 @@ import { ClientEncryptionKeyRequest, ClientEncryptionKeyProperties } from "./Cli
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { ResourceType, createDeserializer, createSerializer, extractPath } from "../common";
 import { RequestOptions } from "../request";
-
 import { withDiagnostics } from "../utils/diagnostics";
+import { EncryptionManager } from "./EncryptionManager";
 
 export class EncryptionProcessor {
   constructor(
     private readonly containerId: string,
     private readonly databaseId: string,
     private readonly clientContext: ClientContext,
+    private encryptionManager: EncryptionManager,
   ) {}
 
   async encrypt<T extends ItemDefinition>(body: T): Promise<T> {
@@ -269,8 +269,8 @@ export class EncryptionProcessor {
 
   async getEncryptionSetting(forceRefresh?: boolean): Promise<EncryptionSettings> {
     const key = this.databaseId + "/" + this.containerId;
-    const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
-    const encryptionSetting = encryptionSettingsCache.getEncryptionSettings(key);
+    const encryptionSetting =
+      this.encryptionManager.encryptionSettingsCache.getEncryptionSettings(key);
     if (forceRefresh || !encryptionSetting) {
       return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
         const path = `/dbs/${this.databaseId}/colls/${this.containerId}`;
@@ -284,13 +284,13 @@ export class EncryptionProcessor {
         const containerRid = response.result._rid;
         const clientEncryptionPolicy = response.result.clientEncryptionPolicy;
         const partitionKeyPaths = response.result.partitionKey.paths;
-        const updatedEncryptionSetting = EncryptionSettings.create(
-          key,
-          containerRid,
-          partitionKeyPaths,
-          clientEncryptionPolicy,
-        );
-        encryptionSettingsCache.setEncryptionSettings(key, updatedEncryptionSetting);
+        const updatedEncryptionSetting =
+          await this.encryptionManager.encryptionSettingsCache.createAndSetEncryptionSettings(
+            key,
+            containerRid,
+            partitionKeyPaths,
+            clientEncryptionPolicy,
+          );
         return updatedEncryptionSetting;
       }, this.clientContext);
     }
@@ -301,10 +301,11 @@ export class EncryptionProcessor {
     propertySetting: EncryptionSettingForProperty,
   ): Promise<AeadAes256CbcHmacSha256Algorithm> {
     const key = this.databaseId + "/" + propertySetting.encryptionKeyId;
-    const clientEncryptionKeyPropertiesCache = ClientEncryptionKeyPropertiesCache.getInstance();
 
     let clientEncryptionKeyProperties =
-      clientEncryptionKeyPropertiesCache.getClientEncryptionKeyProperties(key);
+      this.encryptionManager.clientEncryptionKeyPropertiesCache.getClientEncryptionKeyProperties(
+        key,
+      );
     if (!clientEncryptionKeyProperties) {
       clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(
         propertySetting.encryptionKeyId,
@@ -314,10 +315,9 @@ export class EncryptionProcessor {
     try {
       encryptionAlgorithm = await propertySetting.buildEncryptionAlgorithm(
         clientEncryptionKeyProperties,
-        this.clientContext.encryptionKeyStoreProvider,
-        this.clientContext.encryptionKeyTimeToLiveInHours,
+        this.encryptionManager,
       );
-    } catch {
+    } catch (err) {
       // stale value in local cache
       clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(
         propertySetting.encryptionKeyId,
@@ -325,10 +325,9 @@ export class EncryptionProcessor {
       try {
         encryptionAlgorithm = await propertySetting.buildEncryptionAlgorithm(
           clientEncryptionKeyProperties,
-          this.clientContext.encryptionKeyStoreProvider,
-          this.clientContext.encryptionKeyTimeToLiveInHours,
+          this.encryptionManager,
         );
-      } catch {
+      } catch (err) {
         // stale value in gateway cache. fetch from backend
         clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(
           propertySetting.encryptionKeyId,
@@ -337,10 +336,9 @@ export class EncryptionProcessor {
         try {
           encryptionAlgorithm = await propertySetting.buildEncryptionAlgorithm(
             clientEncryptionKeyProperties,
-            this.clientContext.encryptionKeyStoreProvider,
-            this.clientContext.encryptionKeyTimeToLiveInHours,
+            this.encryptionManager,
           );
-        } catch {
+        } catch (err) {
           throw new Error(
             "The Client Encryption Key with key id: " +
               propertySetting.encryptionKeyId +
@@ -373,7 +371,6 @@ export class EncryptionProcessor {
         options: {},
         diagnosticNode,
       });
-      const clientEncryptionKeyPropertiesCache = ClientEncryptionKeyPropertiesCache.getInstance();
       const clientEncryptionKeyProperties = new ClientEncryptionKeyProperties(
         response.result.id,
         response.result.encryptionAlgorithm,
@@ -382,7 +379,7 @@ export class EncryptionProcessor {
         response.result.keyWrapMetadata,
       );
       const key = this.databaseId + "/" + cekId;
-      clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
+      this.encryptionManager.clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
         key,
         clientEncryptionKeyProperties,
       );

@@ -62,6 +62,7 @@ export interface CosmosClientOptions {
   enableEncryption?: boolean;
   keyEncryptionKeyResolver?: EncryptionKeyResolver;
   encryptionKeyTimeToLiveInHours?: number;
+  encryptionKeyResolverName?: string;
   /** @internal */
   plugins?: PluginConfig[];
 }

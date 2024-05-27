@@ -4,11 +4,9 @@
 import { ClientEncryptionIncludedPath } from "./ClientEncryptionIncludedPath";
 import { ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
 import { EncryptionAlgorithm, EncryptionType } from "./enums";
-import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider";
 import { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm";
-import { KeyEncryptionKey } from "./KeyEncryptionKey";
 import { ProtectedDataEncryptionKey } from "./EncryptionKey";
-import { protectedDataEncryptionKeyCache } from "./Cache";
+import { EncryptionManager } from "./EncryptionManager";
 
 export class EncryptionSettingForProperty {
   encryptionKeyId: string;
@@ -23,13 +21,11 @@ export class EncryptionSettingForProperty {
 
   public async buildEncryptionAlgorithm(
     clientEncryptionKeyProperties: ClientEncryptionKeyProperties,
-    encryptionKeyStoreProvider: EncryptionKeyStoreProvider,
-    cacheTimeToLive?: number,
+    encryptionManager: EncryptionManager,
   ): Promise<AeadAes256CbcHmacSha256Algorithm> {
     const protectedDataEncryptionKey = await this.buildProtectedDataEncryptionKey(
       clientEncryptionKeyProperties,
-      encryptionKeyStoreProvider,
-      cacheTimeToLive,
+      encryptionManager,
     );
     const encryptionAlgorithm = new AeadAes256CbcHmacSha256Algorithm(
       protectedDataEncryptionKey,
@@ -41,31 +37,20 @@ export class EncryptionSettingForProperty {
 
   private async buildProtectedDataEncryptionKey(
     clientEncryptionKeyProperties: ClientEncryptionKeyProperties,
-    encryptionKeyStoreProvider: EncryptionKeyStoreProvider,
-    cacheTimeToLive?: number,
+    encryptionManager: EncryptionManager,
   ): Promise<ProtectedDataEncryptionKey> {
-    const keyEncryptionKey = KeyEncryptionKey.getOrCreate(
+    const keyEncryptionKey = encryptionManager.keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
       clientEncryptionKeyProperties.encryptionKeyWrapMetadata.name,
       clientEncryptionKeyProperties.encryptionKeyWrapMetadata.value,
-      encryptionKeyStoreProvider,
+      encryptionManager.encryptionKeyStoreProvider,
     );
-    const key = JSON.stringify([
-      this.encryptionKeyId,
-      keyEncryptionKey.name,
-      clientEncryptionKeyProperties.wrappedDataEncryptionKey.toString("hex"),
-    ]);
 
     let protectedDataEncryptionKey =
-      protectedDataEncryptionKeyCache.getProtectedDataEncryptionKey(key);
-    // console.log(`protectedDataEncryptionKey: ${protectedDataEncryptionKey}`);
-    if (protectedDataEncryptionKey === undefined) {
-      protectedDataEncryptionKey = await ProtectedDataEncryptionKey.getOrCreate(
+      await encryptionManager.protectedDataEncryptionKeyCache.getOrCreateProtectedDataEncryptionKey(
         this.encryptionKeyId,
         keyEncryptionKey,
-        cacheTimeToLive,
         clientEncryptionKeyProperties.wrappedDataEncryptionKey,
       );
-    }
 
     return protectedDataEncryptionKey;
   }

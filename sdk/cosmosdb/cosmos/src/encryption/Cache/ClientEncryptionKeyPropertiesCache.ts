@@ -9,19 +9,11 @@ import { ClientEncryptionKeyProperties } from "../ClientEncryptionKey";
  */
 
 export class ClientEncryptionKeyPropertiesCache {
-  private static instance: ClientEncryptionKeyPropertiesCache;
   // key is database id + '/'+ clientEncryptionKeyId
   private clientEncryptionKeyPropertiesCache: Map<string, ClientEncryptionKeyProperties>;
 
-  private constructor() {
+  public constructor() {
     this.clientEncryptionKeyPropertiesCache = new Map<string, ClientEncryptionKeyProperties>();
-  }
-
-  public static getInstance(): ClientEncryptionKeyPropertiesCache {
-    if (!ClientEncryptionKeyPropertiesCache.instance) {
-      ClientEncryptionKeyPropertiesCache.instance = new ClientEncryptionKeyPropertiesCache();
-    }
-    return ClientEncryptionKeyPropertiesCache.instance;
   }
 
   public getClientEncryptionKeyProperties(key: string): ClientEncryptionKeyProperties | undefined {
@@ -32,8 +24,5 @@ export class ClientEncryptionKeyPropertiesCache {
     clientEncryptionKeyProperties: ClientEncryptionKeyProperties,
   ): void {
     this.clientEncryptionKeyPropertiesCache.set(key, clientEncryptionKeyProperties);
-  }
-  public clearCache(): void {
-    this.clientEncryptionKeyPropertiesCache.clear();
   }
 }
