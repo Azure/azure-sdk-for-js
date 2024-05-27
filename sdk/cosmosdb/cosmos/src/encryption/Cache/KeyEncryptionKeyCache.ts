@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { EncryptionKeyStoreProvider } from "../EncryptionKeyStoreProvider";
 import { KeyEncryptionKey } from "../KeyEncryptionKey";
 
 export class KeyEncryptionKeyCache {
-  // private static instance: KeyEncryptionKeyCache;
   // key is JSON.stringify([name, path])
   public keyEncryptionKeyCache: Map<string, KeyEncryptionKey>;
 
@@ -12,23 +12,24 @@ export class KeyEncryptionKeyCache {
     this.keyEncryptionKeyCache = new Map<string, KeyEncryptionKey>();
   }
 
-  // public static getInstance(): KeyEncryptionKeyCache {
-  //   if (!KeyEncryptionKeyCache.instance) {
-  //     KeyEncryptionKeyCache.instance = new KeyEncryptionKeyCache();
-  //   }
-  //   return KeyEncryptionKeyCache.instance;
-  // }
+  public getOrCreateKeyEncryptionKey(
+    name: string,
+    path: string,
+    keyStoreProvider: EncryptionKeyStoreProvider,
+  ): KeyEncryptionKey {
+    const key = JSON.stringify([name, path]);
+    let keyEncryptionKey = this.getKeyEncryptionKey(key);
+    if (!keyEncryptionKey) {
+      keyEncryptionKey = new KeyEncryptionKey(name, path, keyStoreProvider);
+      this.setKeyEncryptionKey(key, keyEncryptionKey);
+    }
+    return keyEncryptionKey;
+  }
 
-  public getKeyEncryptionKey(key: string): KeyEncryptionKey | undefined {
+  private getKeyEncryptionKey(key: string): KeyEncryptionKey | undefined {
     return this.keyEncryptionKeyCache.get(key);
   }
-  public setKeyEncryptionKey(key: string, keyEncryptionKey: KeyEncryptionKey): void {
+  private setKeyEncryptionKey(key: string, keyEncryptionKey: KeyEncryptionKey): void {
     this.keyEncryptionKeyCache.set(key, keyEncryptionKey);
   }
-  public clearCache(): void {
-    this.keyEncryptionKeyCache.clear();
-  }
 }
-
-// const instance = new KeyEncryptionKeyCache();
-// export { instance as KeyEncryptionKeyCache };
