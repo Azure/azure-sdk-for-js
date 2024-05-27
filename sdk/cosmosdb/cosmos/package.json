@@ -23,7 +23,7 @@
     "./dist-esm/src/utils/atob.js": "./dist-esm/src/utils/atob.browser.js",
     "./dist-esm/src/utils/digest.js": "./dist-esm/src/utils/digest.browser.js",
     "./dist-esm/src/utils/hmac.js": "./dist-esm/src/utils/hmac.browser.js",
-    "./dist-esm/src/encryption/EncryptionKey/ProtectedDataEncryptionKey.js": "./dist-esm/src/encryption/EncryptionKey/ProtectedDataEncryptionKey.browser.js",
+    "./dist-esm/src/encryption/Cache/ProtectedDataEncryptionKeyCache.js": "./dist-esm/src/encryption/Cache/ProtectedDataEncryptionKeyCache.browser.js",
     "./dist-esm/src/encryption/EncryptionKey/DataEncryptionKey.js": "./dist-esm/src/encryption/EncryptionKey/DataEncryptionKey.browser.js",
     "./dist-esm/src/encryption/AeadAes256CbcHmacSha256Algorithm/AeadAes256CbcHmacSha256Algorithm.js": "./dist-esm/src/encryption/AeadAes256CbcHmacSha256Algorithm/AeadAes256CbcHmacSha256Algorithm.browser.js"
   },
