@@ -1,21 +1,21 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://api.loganalytics.io/v1/workspaces/workspace-id/query",
+      "RequestUri": "https://Sanitized.loganalytics.io/v1/workspaces/workspace-id/query",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "175",
+        "Content-Length": "177",
         "Content-Type": "application/json",
         "Prefer": "include-render=true",
-        "User-Agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "d8beb024-e4a4-46b7-914b-2678b6c40380"
+        "User-Agent": "azsdk-js-monitor-query/1.2.0 azsdk-js-monitor-log-query/1.2.0 core-rest-pipeline/1.16.1 Node/20.11.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
       },
       "RequestBody": {
-        "query": "datatable (s: string, i: long) [ \u0022a\u0022, 1, \u0022b\u0022, 2, \u0022c\u0022, 3 ] | render columnchart with (title=\u0022the chart title\u0022, xtitle=\u0022the x axis title\u0022)",
+        "query": "datatable (s: string, i: long) [ \"a\", 1, \"b\", 2, \"c\", 3 ] | render columnchart with (title=\"the chart title\", xtitle=\"the x axis title\")",
         "timespan": "PT24H"
       },
       "StatusCode": 200,
@@ -23,29 +23,25 @@
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Retry-After,Age,WWW-Authenticate,x-resource-identities,x-ms-status-location",
         "Connection": "keep-alive",
-        "Content-Encoding": "gzip",
+        "Content-Length": "459",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 11 Feb 2022 23:17:19 GMT",
+        "Date": "Mon, 27 May 2024 22:07:52 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": [
-          "Accept-Encoding",
-          "Accept-Encoding"
-        ],
-        "Via": "1.1 draft-oms-5565f6c877-gjfwl",
+        "Vary": "Accept-Encoding",
+        "Via": "1.1 draft-oms-84fccbf47-zggng",
         "X-Content-Type-Options": "nosniff"
       },
       "ResponseBody": {
         "tables": [
           {
-            "name": "PrimaryResult",
+            "name": "Sanitized",
             "columns": [
               {
-                "name": "s",
+                "name": "Sanitized",
                 "type": "string"
               },
               {
-                "name": "i",
+                "name": "Sanitized",
                 "type": "long"
               }
             ],
