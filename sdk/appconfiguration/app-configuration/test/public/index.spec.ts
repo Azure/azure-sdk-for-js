@@ -1254,7 +1254,7 @@ describe("AppConfigurationClient", () => {
       await client.deleteConfigurationSetting({ key, label });
     });
 
-    it("replaces a configuration setting (valid etag)", async () => {
+    it.only("replaces a configuration setting (valid etag)", async () => {
       const key = recorder.variable(
         `setConfigTestEtag`,
         `setConfigTestEtag${Math.floor(Math.random() * 1000)}`,

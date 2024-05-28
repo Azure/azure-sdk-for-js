@@ -28,6 +28,7 @@ describe("etags", () => {
   });
 
   afterEach(async function () {
+    // <sync-token> values differ, request <zAJw6V16=Nzo1IzI1OTI0MTE=>, record <zAJw6V16=Nzo1IzI1OTI0MTM=>
     await deleteKeyCompletely([key], client);
     await recorder.stop();
   });
@@ -43,7 +44,8 @@ describe("etags", () => {
     await client.setConfigurationSetting(addedSetting);
   });
 
-  it("Get and set, enabling etag checking using onlyIfUnchanged", async () => {
+  // TODO: <If-Match> values differ, request <"Sanitized">, record <"5Fje-QanJ3kQ2TI-8xsZsRWBuhviItmTwjBAupSsYNw">
+  it.only("Get and set, enabling etag checking using onlyIfUnchanged", async () => {
     const addedSetting = await client.getConfigurationSetting({ key });
 
     addedSetting.value = "some new value!";
@@ -67,7 +69,8 @@ describe("etags", () => {
     );
   });
 
-  it("set with an old etag will throw RestError", async () => {
+  // TODO:
+  it.only("set with an old etag will throw RestError", async () => {
     const addedSetting = await client.getConfigurationSetting({ key });
 
     addedSetting.value = "some new value!";

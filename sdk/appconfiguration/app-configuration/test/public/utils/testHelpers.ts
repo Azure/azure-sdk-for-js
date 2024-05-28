@@ -29,21 +29,11 @@ export interface CredsAndEndpoint {
 export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
   const recorderStartOptions: RecorderStartOptions = {
     envSetupForPlayback: {
-      APPCONFIG_CONNECTION_STRING:
-        "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456",
       AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
-      AZURE_CLIENT_ID: "azure_client_id",
-      AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azuretenantid",
     },
-    sanitizerOptions: {
-      connectionStringSanitizers: [
-        {
-          fakeConnString: "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456",
-          actualConnString: env.APPCONFIG_CONNECTION_STRING,
-        },
-      ],
-    },
+    removeCentralSanitizers: [
+      "AZSDK3447", // .key in the body is not a secret and is also replaced by sanitizer from fakeEnvironment variable\
+    ],
   };
 
   const recorder = new Recorder(that.currentTest);
