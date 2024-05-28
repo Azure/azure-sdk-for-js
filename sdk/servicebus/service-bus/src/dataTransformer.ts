@@ -45,7 +45,8 @@ export const defaultDataTransformer = {
   encode(body: unknown, bodyType: "data" | "value" | "sequence"): any {
     let result: any;
     if (bodyType === "value") {
-      // TODO: Expose value_section from `rhea` similar to the data_section and sequence_section. Right now there isn't a way to create a value section officially.
+      // TODO: Expose value_section from `rhea` similar to the data_section and sequence_section.
+      // Right now there isn't a way to create a value section officially.
       result = message.data_section(body);
       result.typecode = valueSectionTypeCode;
     } else if (bodyType === "sequence") {
@@ -56,18 +57,22 @@ export const defaultDataTransformer = {
       // string, undefined, null, boolean, array, object, number should end up here
       // coercing undefined to null as that will ensure that null value will be given to the
       // customer on receive.
-      if (body === undefined) body = null; // tslint:disable-line
-      try {
-        const bodyStr = JSON.stringify(body);
-        result = message.data_section(Buffer.from(bodyStr, "utf8"));
-      } catch (err: any) {
-        const msg =
-          `An error occurred while executing JSON.stringify() on the given body ` +
-          body +
-          `${err ? err.stack : JSON.stringify(err)}`;
-        logger.warning("[encode] " + msg);
-        logErrorStackTrace(logger, err);
-        throw new Error(msg);
+      if (body === undefined || body === null) {
+        // byte array of length zero indicates empty body
+        result = message.data_section(Buffer.alloc(0));
+      } else {
+        try {
+          const bodyStr = JSON.stringify(body);
+          result = message.data_section(Buffer.from(bodyStr, "utf8"));
+        } catch (err: any) {
+          const msg =
+            `An error occurred while executing JSON.stringify() on the given body ` +
+            body +
+            `${err ? err.stack : JSON.stringify(err)}`;
+          logger.warning("[encode] " + msg);
+          logErrorStackTrace(logger, err);
+          throw new Error(msg);
+        }
       }
     }
     return result;
@@ -115,6 +120,14 @@ export const defaultDataTransformer = {
       if (isRheaAmqpSection(body)) {
         switch (body.typecode) {
           case dataSectionTypeCode:
+            if (isBuffer(body.content) && body.content.byteLength === 0) {
+              // byte array of length zero indicates empty body
+              return {
+                body: null,
+                bodyType: "data",
+              };
+            }
+
             return {
               body: skipParsingBodyAsJson ? body.content : tryToJsonDecode(body.content),
               bodyType: "data",

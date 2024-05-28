@@ -79,7 +79,7 @@ testWithServiceTypes(() => {
       it("should correctly encode/decode a null message body", (done) => {
         const encoded: any = transformer.encode(nullBody, "data");
         encoded.typecode.should.equal(117);
-        isBuffer(encoded.content).should.equal(false);
+        isBuffer(encoded.content).should.equal(true);
         const { body: decoded, bodyType: decodedType } = transformer.decode(encoded, false);
         should.equal(decodedType, bodyType);
         should.equal(decoded, nullBody);
@@ -89,7 +89,7 @@ testWithServiceTypes(() => {
       it("should correctly encode/decode an undefined message body", (done) => {
         const encoded: any = transformer.encode(undefinedBody, "data");
         encoded.typecode.should.equal(117);
-        isBuffer(encoded.content).should.equal(false);
+        isBuffer(encoded.content).should.equal(true);
         const { body: decoded, bodyType: decodedType } = transformer.decode(encoded, false);
         should.equal(decodedType, bodyType);
         should.equal(decoded, nullBody);

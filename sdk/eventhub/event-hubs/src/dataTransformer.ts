@@ -49,7 +49,8 @@ export const defaultDataTransformer = {
     } else if (isBuffer(body) || body instanceof Uint8Array) {
       result = message.data_section(body);
     } else if (body === null && bodyType === "data") {
-      result = message.data_section(null);
+      // byte array of length zero indicates empty body
+      result = message.data_section(Buffer.alloc(0));
     } else {
       try {
         const bodyStr = JSON.stringify(body);
@@ -86,6 +87,14 @@ export const defaultDataTransformer = {
       if (isRheaAmqpSection(body)) {
         switch (body.typecode) {
           case dataSectionTypeCode:
+            if (isBuffer(body.content) && body.content.byteLength === 0) {
+              // byte array of length zero indicates empty body
+              return {
+                body: null,
+                bodyType: "data",
+              };
+            }
+
             return {
               body: skipParsingBodyAsJson ? body.content : tryToJsonDecode(body.content),
               bodyType: "data",

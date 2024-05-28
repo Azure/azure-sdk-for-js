@@ -81,8 +81,9 @@ describe("DataTransformer", function () {
     const encoded: any = transformer.encode(nullBody, "data");
     encoded.typecode.should.equal(117);
     isBuffer(encoded.content).should.equal(true);
-    const decoded: any = transformer.decode(encoded, false);
-    should.equal(decoded, nullBody);
+    const decoded: any = transformer.decodeWithType(encoded, false);
+    should.equal(decoded.body, nullBody);
+    should.equal(decoded.bodyType, "data");
     done();
   });
 
@@ -90,8 +91,9 @@ describe("DataTransformer", function () {
     const encoded: any = transformer.encode(undefinedBody, "data");
     encoded.typecode.should.equal(117);
     isBuffer(encoded.content).should.equal(true);
-    const decoded: any = transformer.decode(encoded, false);
-    should.equal(decoded, nullBody);
+    const decoded: any = transformer.decodeWithType(encoded, false);
+    should.equal(decoded.body, nullBody);
+    should.equal(decoded.bodyType, "data");
     done();
   });
 
@@ -134,7 +136,6 @@ describe("DataTransformer", function () {
   it("should correctly encode/decode a Uint8Array message body", function (done) {
     const encoded: any = transformer.encode(uint8ArrayBody, "data");
     encoded.typecode.should.equal(117);
-    console.dir({ encoded });
     (encoded.content instanceof Uint8Array).should.equal(true);
     (encoded.content as Uint8Array).length.should.equal(4);
     const decoded: any = transformer.decode(encoded, false);
