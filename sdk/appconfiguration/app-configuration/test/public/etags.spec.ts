@@ -211,10 +211,7 @@ describe("etags", () => {
     await assertThrowsRestError(() => client.getConfigurationSetting({ key }), 404);
   });
 
-  // TODO
-  // [node - tests]     request < https://Sanitized.azconfig.io/snapshots/Sanitized?api-version=2023-10-01>
-  // [node - tests]     record < https://Sanitized.azconfig.io/snapshots/snapshot703?api-version=2023-10-01>
-  it.only("archive and recover using etags", async () => {
+  it("archive and recover using etags", async () => {
     const snapshot1 = {
       name: recorder.variable("snapshot", `snapshot${Math.floor(Math.random() * 1000)}`),
       retentionPeriodInSeconds: 2592000,
