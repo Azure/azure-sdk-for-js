@@ -1063,12 +1063,6 @@ export interface ResultInformation extends Omit<RestResultInformation, "code" | 
 }
 
 // @public
-export enum ResultStatus {
-    Final = "final",
-    Intermediate = "intermediate"
-}
-
-// @public
 export type ResumeRecordingOptions = OperationOptions;
 
 // @public

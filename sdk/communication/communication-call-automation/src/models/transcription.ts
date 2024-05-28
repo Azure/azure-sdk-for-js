@@ -5,16 +5,6 @@ import { CommunicationIdentifier } from "@azure/communication-common";
 import { TranscriptionResultState } from "../generated/src";
 
 /**
- * The status of the result of transcription.
- */
-export enum ResultStatus {
-  /** Intermediate result.*/
-  Intermediate = "intermediate",
-  /** Final result.*/
-  Final = "final",
-}
-
-/**
  * The format of transcription text.
  */
 export enum TextFormat {
