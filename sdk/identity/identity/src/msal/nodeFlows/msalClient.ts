@@ -579,6 +579,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
     let msalApp: msal.ConfidentialClientApplication | msal.PublicClientApplication;
     if (clientSecret) {
+      // If a client secret is provided, we need to use a confidential client application
+      // See https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow#request-an-access-token-with-a-client_secret
       state.msalConfig.auth.clientSecret = clientSecret;
       msalApp = await getConfidentialApp(options);
     } else {
