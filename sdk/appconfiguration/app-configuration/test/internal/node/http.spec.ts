@@ -16,6 +16,7 @@ import { InternalAppConfigurationClientOptions } from "../../../src/appConfigura
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import nock from "nock";
+import { NoOpCredential } from "@azure-tools/test-credential";
 
 describe("http request related tests", function () {
   describe("unit tests", () => {
@@ -128,6 +129,7 @@ describe("http request related tests", function () {
       client =
         createAppConfigurationClientForTests({
           syncTokens: syncTokens,
+          testCredential: new NoOpCredential(),
         } as InternalAppConfigurationClientOptions) || this.skip();
 
       nock.recorder.clear();

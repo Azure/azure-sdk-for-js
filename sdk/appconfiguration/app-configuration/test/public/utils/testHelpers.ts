@@ -45,10 +45,12 @@ export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
 }
 
 export function createAppConfigurationClientForTests(
-  options?: AppConfigurationClientOptions,
+  options?: AppConfigurationClientOptions & {
+    testCredential?: TokenCredential,
+  },
 ): AppConfigurationClient {
   const endpoint = env["AZ_CONFIG_ENDPOINT"];
-  const credential = createTestCredential();
+  const credential = options?.testCredential ?? createTestCredential();
   if (endpoint == null) {
     if (!endpointNotPresentWarning) {
       endpointNotPresentWarning = true;
