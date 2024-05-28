@@ -46,7 +46,7 @@ export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
 
 export function createAppConfigurationClientForTests(
   options?: AppConfigurationClientOptions & {
-    testCredential?: TokenCredential,
+    testCredential?: TokenCredential;
   },
 ): AppConfigurationClient {
   const endpoint = env["AZ_CONFIG_ENDPOINT"];
