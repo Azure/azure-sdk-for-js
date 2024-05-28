@@ -577,9 +577,13 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     msalLogger.getToken.info(`Attempting to acquire token using authorization code`);
 
-    state.msalConfig.auth.clientSecret = clientSecret;
-
-    const msalApp = await getConfidentialApp(options);
+    let msalApp: msal.ConfidentialClientApplication | msal.PublicClientApplication;
+    if (clientSecret) {
+      state.msalConfig.auth.clientSecret = clientSecret;
+      msalApp = await getConfidentialApp(options);
+    } else {
+      msalApp = await getPublicApp(options);
+    }
 
     return withSilentAuthentication(msalApp, scopes, options, () => {
       return msalApp.acquireTokenByCode({
