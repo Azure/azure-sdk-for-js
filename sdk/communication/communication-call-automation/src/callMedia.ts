@@ -544,7 +544,7 @@ export class CallMedia {
   public async startMediaStreaming(options: StartMediaStreamingOptions = {}): Promise<void> {
     const startMediaStreamingRequest: StartMediaStreamingRequest = {
       operationContext: options.operationContext,
-      operationCallbackUri: options.operationCallbackUri,
+      operationCallbackUri: options.operationCallbackUrl,
     };
     return this.callMedia.startMediaStreaming(
       this.callConnectionId,
@@ -559,7 +559,7 @@ export class CallMedia {
    */
   public async stopMediaStreaming(options: StopMediaStreamingOptions = {}): Promise<void> {
     const stopMediaStreamingRequest: StopMediaStreamingRequest = {
-      operationCallbackUri: options.operationCallbackUri,
+      operationCallbackUri: options.operationCallbackUrl,
     };
     return this.callMedia.stopMediaStreaming(
       this.callConnectionId,

@@ -1131,7 +1131,7 @@ export interface SsmlSource extends PlaySource {
 
 // @public
 export interface StartMediaStreamingOptions extends OperationOptions {
-    operationCallbackUri?: string;
+    operationCallbackUrl?: string;
     operationContext?: string;
 }
 
@@ -1157,7 +1157,7 @@ export interface StartTranscriptionOptions extends OperationOptions {
 
 // @public
 export interface StopMediaStreamingOptions extends OperationOptions {
-    operationCallbackUri?: string;
+    operationCallbackUrl?: string;
 }
 
 // @public

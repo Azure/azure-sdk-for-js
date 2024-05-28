@@ -635,13 +635,13 @@ describe("CallMedia Unit Tests", async function () {
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const options: StartMediaStreamingOptions = {
       operationContext: "startMediaStreamContext",
-      operationCallbackUri: "https://localhost",
+      operationCallbackUrl: "https://localhost",
     };
     await callMedia.startMediaStreaming(options);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
     assert.equal(data.operationContext, options.operationContext);
-    assert.equal(data.operationCallbackUri, options.operationCallbackUri);
+    assert.equal(data.operationCallbackUri, options.operationCallbackUrl);
     assert.equal(request.method, "POST");
   });
 
@@ -662,12 +662,12 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const options: StopMediaStreamingOptions = {
-      operationCallbackUri: "https://localhost",
+      operationCallbackUrl: "https://localhost",
     };
     await callMedia.stopMediaStreaming(options);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
-    assert.equal(data.operationCallbackUri, options.operationCallbackUri);
+    assert.equal(data.operationCallbackUri, options.operationCallbackUrl);
     assert.equal(request.method, "POST");
   });
 
