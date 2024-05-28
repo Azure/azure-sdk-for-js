@@ -69,9 +69,6 @@ describe("AppConfigurationClient snapshot", () => {
   });
 
   describe("createSnapshot", () => {
-    // TODO
-    // [node - tests]     request < https://Sanitized.com/?api-version=2023-10-01>
-    // [node - tests]     record < https://Sanitized.azconfig.io/operations?snapshot=snapshot-1716563392791&api-version=2023-10-01>
     it("create a snapshot", async () => {
       const poller = await client.beginCreateSnapshot(snapshot1, testPollingOptions);
       newSnapshot = await poller.pollUntilDone();

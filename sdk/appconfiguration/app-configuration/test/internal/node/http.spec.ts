@@ -139,7 +139,7 @@ describe("http request related tests", function () {
       scope = nock(/.*/, {
         reqheaders: {
           authorization: /.*/,
-        }
+        },
       });
     });
 
@@ -187,7 +187,7 @@ describe("http request related tests", function () {
 
       assert.equal(syncTokens.getSyncTokenHeaderValue(), "addConfigurationSetting=value");
     });
-// Live failed
+    // Live failed
     it("getConfigurationSetting", async () => {
       scope.get(/.*/).reply(200, "", { "sync-token": "getConfigurationSetting=value;sn=1" });
 
@@ -217,7 +217,7 @@ describe("http request related tests", function () {
 
       assert.equal(syncTokens.getSyncTokenHeaderValue(), "deleteConfigurationSetting=value");
     });
-// Live failed
+    // Live failed
     it("listConfigurationSetting", async () => {
       scope.get(/.*/).reply(200, "", { "sync-token": "listConfigurationSetting=value;sn=1" });
 
@@ -228,7 +228,7 @@ describe("http request related tests", function () {
       await iterator.next();
       assert.equal(syncTokens.getSyncTokenHeaderValue(), "listConfigurationSetting=value");
     });
-// Live Failed
+    // Live Failed
     it("listRevisions", async () => {
       scope.get(/.*/).reply(200, "", { "sync-token": "listRevisions=value;sn=1" });
 

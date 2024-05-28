@@ -35,7 +35,7 @@ export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
       "AZSDK3447", // .key in the body is not a secret for key-value App Config pair
       "AZSDK3490", // etag value in If-Match header is not a secret and is needed for etag test
       "AZSDK2030", // operation-location header is not a secret and is needed for long running operation tests
-      "AZSDK3493" // .name in the body is not a secret
+      "AZSDK3493", // .name in the body is not a secret
     ],
   };
 
