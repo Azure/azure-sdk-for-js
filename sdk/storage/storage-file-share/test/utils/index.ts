@@ -19,7 +19,7 @@ import {
   ShareClientConfig,
 } from "../../src";
 import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { newPipeline } from "../../../storage-blob/src/Pipeline";
+import { newPipeline } from "../../src/Pipeline";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { getUniqueName, configureStorageClient } from "./testutils.common";
@@ -83,6 +83,18 @@ export function getTokenBSU(
 
 export function getBSU(recorder: Recorder, config?: ShareClientConfig): ShareServiceClient {
   return getGenericBSU(recorder, "", "", config);
+}
+
+export function getAccountName(): string {
+  const accountNameEnvVar = `ACCOUNT_NAME`;
+
+  const accountName = process.env[accountNameEnvVar];
+
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  return accountName;
 }
 
 export function getAlternateBSU(recorder: Recorder): ShareServiceClient {
