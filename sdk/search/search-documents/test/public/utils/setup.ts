@@ -3,7 +3,7 @@
 
 import { assertEnvironmentVariable, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { computeSha256Hash, delay, isDefined } from "@azure/core-util";
-import { AzureOpenAI } from "openai";
+import { OpenAIClient } from "@azure/openai";
 import { assert } from "chai";
 import {
   GeographyPoint,
@@ -347,7 +347,7 @@ export async function createIndex(
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function populateIndex(
   client: SearchClient<Hotel>,
-  openAIClient: AzureOpenAI,
+  openAIClient: OpenAIClient,
 ): Promise<void> {
   // test data from https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/search/Azure.Search.Documents/tests/Utilities/SearchResources.Data.cs
   const testDocuments: Hotel[] = [
@@ -567,15 +567,15 @@ export async function populateIndex(
   await delay(WAIT_TIME);
 }
 
-async function addVectorDescriptions(documents: Hotel[], openAIClient: AzureOpenAI): Promise<void> {
+async function addVectorDescriptions(
+  documents: Hotel[],
+  openAIClient: OpenAIClient,
+): Promise<void> {
   const deploymentName = process.env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
 
   const descriptions = documents.map(({ description }) => description).filter(isDefined);
 
-  const embeddingsArray = await openAIClient.embeddings.create({
-    model: deploymentName,
-    input: descriptions,
-  });
+  const embeddingsArray = await openAIClient.getEmbeddings(deploymentName, descriptions);
 
   embeddingsArray.data.forEach((embeddingItem) => {
     const { embedding, index } = embeddingItem;
