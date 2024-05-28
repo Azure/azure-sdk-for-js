@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists fleets in the specified subscription.
  *
  * @summary Lists fleets in the specified subscription.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-02-02-preview/examples/Fleets_ListBySub.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/Fleets_ListBySub.json
  */
 async function listsTheFleetResourcesInASubscription() {
   const subscriptionId =

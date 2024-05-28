@@ -22,7 +22,7 @@ import {
   ConfigurationAssignmentsCreateOrUpdateOptionalParams,
   ConfigurationAssignmentsCreateOrUpdateResponse,
   ConfigurationAssignmentsDeleteOptionalParams,
-  ConfigurationAssignmentsDeleteResponse
+  ConfigurationAssignmentsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export interface ConfigurationAssignments {
     resourceParentName: string,
     resourceType: string,
     resourceName: string,
-    options?: ConfigurationAssignmentsListParentOptionalParams
+    options?: ConfigurationAssignmentsListParentOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationAssignment>;
   /**
    * List configurationAssignments for resource.
@@ -60,7 +60,7 @@ export interface ConfigurationAssignments {
     providerName: string,
     resourceType: string,
     resourceName: string,
-    options?: ConfigurationAssignmentsListOptionalParams
+    options?: ConfigurationAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationAssignment>;
   /**
    * Get configuration assignment for resource..
@@ -81,7 +81,7 @@ export interface ConfigurationAssignments {
     resourceType: string,
     resourceName: string,
     configurationAssignmentName: string,
-    options?: ConfigurationAssignmentsGetParentOptionalParams
+    options?: ConfigurationAssignmentsGetParentOptionalParams,
   ): Promise<ConfigurationAssignmentsGetParentResponse>;
   /**
    * Register configuration for resource.
@@ -104,7 +104,7 @@ export interface ConfigurationAssignments {
     resourceName: string,
     configurationAssignmentName: string,
     configurationAssignment: ConfigurationAssignment,
-    options?: ConfigurationAssignmentsCreateOrUpdateParentOptionalParams
+    options?: ConfigurationAssignmentsCreateOrUpdateParentOptionalParams,
   ): Promise<ConfigurationAssignmentsCreateOrUpdateParentResponse>;
   /**
    * Unregister configuration for resource.
@@ -125,7 +125,7 @@ export interface ConfigurationAssignments {
     resourceType: string,
     resourceName: string,
     configurationAssignmentName: string,
-    options?: ConfigurationAssignmentsDeleteParentOptionalParams
+    options?: ConfigurationAssignmentsDeleteParentOptionalParams,
   ): Promise<ConfigurationAssignmentsDeleteParentResponse>;
   /**
    * Get configuration assignment for resource..
@@ -142,7 +142,7 @@ export interface ConfigurationAssignments {
     resourceType: string,
     resourceName: string,
     configurationAssignmentName: string,
-    options?: ConfigurationAssignmentsGetOptionalParams
+    options?: ConfigurationAssignmentsGetOptionalParams,
   ): Promise<ConfigurationAssignmentsGetResponse>;
   /**
    * Register configuration for resource.
@@ -161,7 +161,7 @@ export interface ConfigurationAssignments {
     resourceName: string,
     configurationAssignmentName: string,
     configurationAssignment: ConfigurationAssignment,
-    options?: ConfigurationAssignmentsCreateOrUpdateOptionalParams
+    options?: ConfigurationAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationAssignmentsCreateOrUpdateResponse>;
   /**
    * Unregister configuration for resource.
@@ -178,6 +178,6 @@ export interface ConfigurationAssignments {
     resourceType: string,
     resourceName: string,
     configurationAssignmentName: string,
-    options?: ConfigurationAssignmentsDeleteOptionalParams
+    options?: ConfigurationAssignmentsDeleteOptionalParams,
   ): Promise<ConfigurationAssignmentsDeleteResponse>;
 }

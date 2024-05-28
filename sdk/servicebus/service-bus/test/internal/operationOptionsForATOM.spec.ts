@@ -7,7 +7,6 @@ import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import { ServiceBusAdministrationClient } from "../../src";
 import { EnvVarNames, getEnvVars } from "../public/utils/envVarUtils";
-import { AbortController } from "@azure/abort-controller";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper";
 import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer";
@@ -38,119 +37,119 @@ describe("Operation Options", () => {
     it("getNamespaceProperties", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.getNamespaceProperties({
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("createQueue", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.createQueue(entityName1, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("getQueue", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.getQueue(entityName1, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("updateQueue", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.updateQueue({ name: entityName1 } as any, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("deleteQueue", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.deleteQueue(entityName1, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("getQueueRuntimeProperties", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.getQueueRuntimeProperties(entityName1, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("getQueues", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient["getQueues"]({
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("getQueuesRuntimeProperties", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient["getQueuesRuntimeProperties"]({
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("createTopic", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.createTopic(entityName1, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("getTopic", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.getTopic(entityName1, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("updateTopic", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.updateTopic({ name: entityName1 } as any, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("deleteTopic", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.deleteTopic(entityName1, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("getTopicRuntimeProperties", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.getTopicRuntimeProperties(entityName1, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("getTopics", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient["getTopics"]({
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("getTopicsRuntimeProperties", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient["getTopicsRuntimeProperties"]({
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("createSubscription", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.createSubscription(entityName1, entityName2, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("getSubscription", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.getSubscription(entityName1, entityName2, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
@@ -159,7 +158,7 @@ describe("Operation Options", () => {
         serviceBusAtomManagementClient.updateSubscription(
           { topicName: entityName1, subscriptionName: entityName2 } as any,
           {
-            abortSignal: AbortController.timeout(1),
+            abortSignal: AbortSignal.timeout(1),
           },
         ),
       );
@@ -167,28 +166,28 @@ describe("Operation Options", () => {
     it("deleteSubscription", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.deleteSubscription(entityName1, entityName2, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("getSubscriptionRuntimeProperties", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(entityName1, entityName2, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("getSubscriptions", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient["getSubscriptions"](entityName1, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });
     it("getSubscriptionsRuntimeProperties", async () => {
       await verifyAbortError(async () =>
         serviceBusAtomManagementClient["getSubscriptionsRuntimeProperties"](entityName1, {
-          abortSignal: AbortController.timeout(1),
+          abortSignal: AbortSignal.timeout(1),
         }),
       );
     });

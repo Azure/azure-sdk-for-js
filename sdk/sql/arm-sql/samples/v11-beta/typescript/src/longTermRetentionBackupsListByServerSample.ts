@@ -31,7 +31,7 @@ async function getAllLongTermRetentionBackupsUnderTheServer() {
   const resArray = new Array();
   for await (let item of client.longTermRetentionBackups.listByServer(
     locationName,
-    longTermRetentionServerName
+    longTermRetentionServerName,
   )) {
     resArray.push(item);
   }

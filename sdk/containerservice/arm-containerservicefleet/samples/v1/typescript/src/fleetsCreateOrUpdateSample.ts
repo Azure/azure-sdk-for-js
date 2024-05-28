@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   Fleet,
-  ContainerServiceFleetClient
+  ContainerServiceFleetClient,
 } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a Fleet.
  *
  * @summary Creates or updates a Fleet.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2023-10-15/examples/Fleets_CreateOrUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/Fleets_CreateOrUpdate.json
  */
 async function createsAFleetResourceWithALongRunningOperation() {
   const subscriptionId =
@@ -30,15 +30,19 @@ async function createsAFleetResourceWithALongRunningOperation() {
     process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const fleetName = "fleet1";
   const resource: Fleet = {
+    hubProfile: {
+      agentProfile: { vmSize: "Standard_DS1" },
+      dnsPrefix: "dnsprefix1",
+    },
     location: "East US",
-    tags: { archv2: "", tier: "production" }
+    tags: { archv2: "", tier: "production" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
   const result = await client.fleets.beginCreateOrUpdateAndWait(
     resourceGroupName,
     fleetName,
-    resource
+    resource,
   );
   console.log(result);
 }

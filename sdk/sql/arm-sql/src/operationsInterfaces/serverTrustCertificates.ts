@@ -15,7 +15,7 @@ import {
   ServerTrustCertificatesGetResponse,
   ServerTrustCertificatesCreateOrUpdateOptionalParams,
   ServerTrustCertificatesCreateOrUpdateResponse,
-  ServerTrustCertificatesDeleteOptionalParams
+  ServerTrustCertificatesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ServerTrustCertificates {
   listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ServerTrustCertificatesListByInstanceOptionalParams
+    options?: ServerTrustCertificatesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ServerTrustCertificate>;
   /**
    * Gets a server trust certificate that was uploaded from box to Sql Managed Instance.
@@ -46,7 +46,7 @@ export interface ServerTrustCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     certificateName: string,
-    options?: ServerTrustCertificatesGetOptionalParams
+    options?: ServerTrustCertificatesGetOptionalParams,
   ): Promise<ServerTrustCertificatesGetResponse>;
   /**
    * Uploads a server trust certificate from box to Sql Managed Instance.
@@ -62,7 +62,7 @@ export interface ServerTrustCertificates {
     managedInstanceName: string,
     certificateName: string,
     parameters: ServerTrustCertificate,
-    options?: ServerTrustCertificatesCreateOrUpdateOptionalParams
+    options?: ServerTrustCertificatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerTrustCertificatesCreateOrUpdateResponse>,
@@ -83,7 +83,7 @@ export interface ServerTrustCertificates {
     managedInstanceName: string,
     certificateName: string,
     parameters: ServerTrustCertificate,
-    options?: ServerTrustCertificatesCreateOrUpdateOptionalParams
+    options?: ServerTrustCertificatesCreateOrUpdateOptionalParams,
   ): Promise<ServerTrustCertificatesCreateOrUpdateResponse>;
   /**
    * Deletes a server trust certificate that was uploaded from box to Sql Managed Instance.
@@ -97,7 +97,7 @@ export interface ServerTrustCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     certificateName: string,
-    options?: ServerTrustCertificatesDeleteOptionalParams
+    options?: ServerTrustCertificatesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a server trust certificate that was uploaded from box to Sql Managed Instance.
@@ -111,6 +111,6 @@ export interface ServerTrustCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     certificateName: string,
-    options?: ServerTrustCertificatesDeleteOptionalParams
+    options?: ServerTrustCertificatesDeleteOptionalParams,
   ): Promise<void>;
 }

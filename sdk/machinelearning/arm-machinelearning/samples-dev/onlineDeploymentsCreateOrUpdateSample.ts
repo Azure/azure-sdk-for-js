@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   OnlineDeployment,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update Inference Endpoint Deployment (asynchronous).
@@ -21,15 +24,18 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/KubernetesOnlineDeployment/createOrUpdate.json
  */
 async function createOrUpdateKubernetesOnlineDeployment() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
   const body: OnlineDeployment = {
     identity: {
       type: "SystemAssigned",
-      userAssignedIdentities: { string: {} }
+      userAssignedIdentities: { string: {} },
     },
     kind: "string",
     location: "string",
@@ -39,7 +45,7 @@ async function createOrUpdateKubernetesOnlineDeployment() {
       codeConfiguration: { codeId: "string", scoringScript: "string" },
       containerResourceRequirements: {
         containerResourceLimits: { cpu: '"1"', gpu: '"1"', memory: '"2Gi"' },
-        containerResourceRequests: { cpu: '"1"', gpu: '"1"', memory: '"2Gi"' }
+        containerResourceRequests: { cpu: '"1"', gpu: '"1"', memory: '"2Gi"' },
       },
       endpointComputeType: "Kubernetes",
       environmentId: "string",
@@ -50,7 +56,7 @@ async function createOrUpdateKubernetesOnlineDeployment() {
         initialDelay: "PT5M",
         period: "PT5M",
         successThreshold: 1,
-        timeout: "PT5M"
+        timeout: "PT5M",
       },
       model: "string",
       modelMountPath: "string",
@@ -58,18 +64,18 @@ async function createOrUpdateKubernetesOnlineDeployment() {
       requestSettings: {
         maxConcurrentRequestsPerInstance: 1,
         maxQueueWait: "PT5M",
-        requestTimeout: "PT5M"
+        requestTimeout: "PT5M",
       },
-      scaleSettings: { scaleType: "Default" }
+      scaleSettings: { scaleType: "Default" },
     },
     sku: {
       name: "string",
       capacity: 1,
       family: "string",
       size: "string",
-      tier: "Free"
+      tier: "Free",
     },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -78,12 +84,10 @@ async function createOrUpdateKubernetesOnlineDeployment() {
     workspaceName,
     endpointName,
     deploymentName,
-    body
+    body,
   );
   console.log(result);
 }
-
-createOrUpdateKubernetesOnlineDeployment().catch(console.error);
 
 /**
  * This sample demonstrates how to Create or update Inference Endpoint Deployment (asynchronous).
@@ -92,15 +96,18 @@ createOrUpdateKubernetesOnlineDeployment().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/ManagedOnlineDeployment/createOrUpdate.json
  */
 async function createOrUpdateManagedOnlineDeployment() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
   const body: OnlineDeployment = {
     identity: {
       type: "SystemAssigned",
-      userAssignedIdentities: { string: {} }
+      userAssignedIdentities: { string: {} },
     },
     kind: "string",
     location: "string",
@@ -117,7 +124,7 @@ async function createOrUpdateManagedOnlineDeployment() {
         initialDelay: "PT5M",
         period: "PT5M",
         successThreshold: 1,
-        timeout: "PT5M"
+        timeout: "PT5M",
       },
       model: "string",
       modelMountPath: "string",
@@ -127,23 +134,23 @@ async function createOrUpdateManagedOnlineDeployment() {
         initialDelay: "PT1S",
         period: "PT10S",
         successThreshold: 1,
-        timeout: "PT2S"
+        timeout: "PT2S",
       },
       requestSettings: {
         maxConcurrentRequestsPerInstance: 1,
         maxQueueWait: "PT5M",
-        requestTimeout: "PT5M"
+        requestTimeout: "PT5M",
       },
-      scaleSettings: { scaleType: "Default" }
+      scaleSettings: { scaleType: "Default" },
     },
     sku: {
       name: "string",
       capacity: 1,
       family: "string",
       size: "string",
-      tier: "Free"
+      tier: "Free",
     },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -152,9 +159,14 @@ async function createOrUpdateManagedOnlineDeployment() {
     workspaceName,
     endpointName,
     deploymentName,
-    body
+    body,
   );
   console.log(result);
 }
 
-createOrUpdateManagedOnlineDeployment().catch(console.error);
+async function main() {
+  createOrUpdateKubernetesOnlineDeployment();
+  createOrUpdateManagedOnlineDeployment();
+}
+
+main().catch(console.error);
