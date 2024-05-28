@@ -28,7 +28,6 @@ describe("etags", () => {
   });
 
   afterEach(async function () {
-    // <sync-token> values differ, request <zAJw6V16=Nzo1IzI1OTI0MTE=>, record <zAJw6V16=Nzo1IzI1OTI0MTM=>
     await deleteKeyCompletely([key], client);
     await recorder.stop();
   });
