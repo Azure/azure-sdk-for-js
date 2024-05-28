@@ -7,12 +7,11 @@ import {
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
-import { MsalAuthorizationCode } from "../msal/nodeFlows/msalAuthorizationCode";
-import { MsalFlow } from "../msal/flows";
 import { checkTenantId } from "../util/tenantIdUtils";
 import { credentialLogger } from "../util/logging";
 import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
+import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -24,12 +23,13 @@ const logger = credentialLogger("AuthorizationCodeCredential");
  * https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow
  */
 export class AuthorizationCodeCredential implements TokenCredential {
-  private msalFlow: MsalFlow;
+  private msalClient: MsalClient;
   private disableAutomaticAuthentication?: boolean;
   private authorizationCode: string;
   private redirectUri: string;
   private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
+  private clientSecret?: string;
 
   /**
    * Creates an instance of AuthorizationCodeCredential with the details needed
@@ -102,7 +102,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     options?: AuthorizationCodeCredentialOptions,
   ) {
     checkTenantId(logger, tenantId);
-    let clientSecret: string | undefined = clientSecretOrAuthorizationCode;
+    this.clientSecret = clientSecretOrAuthorizationCode;
 
     if (typeof redirectUriOrOptions === "string") {
       // the clientId+clientSecret constructor
@@ -113,7 +113,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       // clientId only
       this.authorizationCode = clientSecretOrAuthorizationCode;
       this.redirectUri = authorizationCodeOrRedirectUri as string;
-      clientSecret = undefined;
+      this.clientSecret = undefined;
       options = redirectUriOrOptions as AuthorizationCodeCredentialOptions;
     }
 
@@ -123,16 +123,21 @@ export class AuthorizationCodeCredential implements TokenCredential {
       options?.additionallyAllowedTenants,
     );
 
-    this.msalFlow = new MsalAuthorizationCode({
+    this.msalClient = createMsalClient(clientId, tenantId, {
       ...options,
-      clientSecret,
-      clientId,
-      tenantId,
-      tokenCredentialOptions: options || {},
       logger,
-      redirectUri: this.redirectUri,
-      authorizationCode: this.authorizationCode,
+      tokenCredentialOptions: options ?? {},
     });
+    // this.msalFlow = new MsalAuthorizationCode({
+    //   ...options,
+    //   clientSecret,
+    //   clientId,
+    //   tenantId,
+    //   tokenCredentialOptions: options || {},
+    //   logger,
+    //   redirectUri: this.redirectUri,
+    //   authorizationCode: this.authorizationCode,
+    // });
   }
 
   /**
@@ -156,10 +161,19 @@ export class AuthorizationCodeCredential implements TokenCredential {
         newOptions.tenantId = tenantId;
 
         const arrayScopes = ensureScopes(scopes);
-        return this.msalFlow.getToken(arrayScopes, {
-          ...newOptions,
-          disableAutomaticAuthentication: this.disableAutomaticAuthentication,
-        });
+        return this.msalClient.getTokenByAuthorizationCode(
+          arrayScopes,
+          this.redirectUri,
+          this.authorizationCode,
+          this.clientSecret,
+          {
+            ...newOptions,
+            disableAutomaticAuthentication: this.disableAutomaticAuthentication,
+          },
+        );
+        // return this.msalFlow.getToken(arrayScopes, {
+        //   ...newOptions,
+        // });
       },
     );
   }
