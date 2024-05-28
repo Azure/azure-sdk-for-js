@@ -28,6 +28,7 @@ async function main() {
   const apiVersion = "2024-04-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const events = await client.chat.completions.create({
+    stream: true,
     messages: [
       {
         role: "user",
@@ -51,7 +52,6 @@ async function main() {
         },
       ],
     },
-    stream: true,
   });
 
   for await (const event of events) {

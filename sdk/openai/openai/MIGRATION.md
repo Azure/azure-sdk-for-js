@@ -155,7 +155,7 @@ const result = await client.chat.completions.create({ messages, ... { extensions
         }
       }
     }]
-  } as any
+  } as Record<string, any>
 });
 ```
 
@@ -501,4 +501,4 @@ The following table explores several type names from `@azure/openai` and shows t
 
 ## Azure types
 
-`AzureOpenAI` connects to the Azure OpenAI service and can call all the operations available in the service. However, the types of the requests and responses are inherited from the `OpenAI` and are not yet updated to reflect the additional features supported exclusively by the Azure OpenAI service. TypeScript users will be required to cast to a more permissive type such as `any` to access those features. Examples in [the Migration examples](#migration-examples) section show how to do this.
+`AzureOpenAI` connects to the Azure OpenAI service and can call all the operations available in the service. However, the types of the requests and responses are inherited from the `OpenAI` and are not yet updated to reflect the additional features supported exclusively by the Azure OpenAI service. TypeScript users will be required to cast to a more permissive type such as `Record<string, any>` to access those features. Examples in [the Migration examples](#migration-examples) section show how to do this.
