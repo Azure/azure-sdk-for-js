@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AzureMachineLearningWorkspaces.",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "engines": {
     "node": ">=18.0.0"
   },
