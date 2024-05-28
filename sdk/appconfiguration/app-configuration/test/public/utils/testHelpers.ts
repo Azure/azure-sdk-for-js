@@ -32,7 +32,8 @@ export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
       AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
     },
     removeCentralSanitizers: [
-      "AZSDK3447", // .key in the body is not a secret and is also replaced by sanitizer from fakeEnvironment variable\
+      "AZSDK3447", // .key in the body is not a secret and is also replaced by sanitizer from fakeEnvironment variable
+      "AZSDK3490", // etag value in If-Match header is not a secret
     ],
   };
 

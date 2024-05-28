@@ -44,8 +44,7 @@ describe("etags", () => {
     await client.setConfigurationSetting(addedSetting);
   });
 
-  // TODO: <If-Match> values differ, request <"Sanitized">, record <"5Fje-QanJ3kQ2TI-8xsZsRWBuhviItmTwjBAupSsYNw">
-  it.only("Get and set, enabling etag checking using onlyIfUnchanged", async () => {
+  it("Get and set, enabling etag checking using onlyIfUnchanged", async () => {
     const addedSetting = await client.getConfigurationSetting({ key });
 
     addedSetting.value = "some new value!";
@@ -69,8 +68,7 @@ describe("etags", () => {
     );
   });
 
-  // TODO:
-  it.only("set with an old etag will throw RestError", async () => {
+  it("set with an old etag will throw RestError", async () => {
     const addedSetting = await client.getConfigurationSetting({ key });
 
     addedSetting.value = "some new value!";
@@ -213,7 +211,10 @@ describe("etags", () => {
     await assertThrowsRestError(() => client.getConfigurationSetting({ key }), 404);
   });
 
-  it("archive and recover using etags", async () => {
+  // TODO
+  // [node - tests]     request < https://Sanitized.azconfig.io/snapshots/Sanitized?api-version=2023-10-01>
+  // [node - tests]     record < https://Sanitized.azconfig.io/snapshots/snapshot703?api-version=2023-10-01>
+  it.only("archive and recover using etags", async () => {
     const snapshot1 = {
       name: recorder.variable("snapshot", `snapshot${Math.floor(Math.random() * 1000)}`),
       retentionPeriodInSeconds: 2592000,

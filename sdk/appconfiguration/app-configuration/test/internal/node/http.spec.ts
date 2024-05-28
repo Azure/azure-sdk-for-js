@@ -136,7 +136,11 @@ describe("http request related tests", function () {
       if (!nock.isActive()) {
         nock.activate();
       }
-      scope = nock(/.*/);
+      scope = nock(/.*/, {
+        reqheaders: {
+          authorization: /.*/,
+        }
+      });
     });
 
     afterEach(function (this: Context) {
@@ -184,7 +188,7 @@ describe("http request related tests", function () {
       assert.equal(syncTokens.getSyncTokenHeaderValue(), "addConfigurationSetting=value");
     });
 // Live failed
-    it.skip("getConfigurationSetting", async () => {
+    it("getConfigurationSetting", async () => {
       scope.get(/.*/).reply(200, "", { "sync-token": "getConfigurationSetting=value;sn=1" });
 
       await client.getConfigurationSetting({
@@ -214,7 +218,7 @@ describe("http request related tests", function () {
       assert.equal(syncTokens.getSyncTokenHeaderValue(), "deleteConfigurationSetting=value");
     });
 // Live failed
-    it.skip("listConfigurationSetting", async () => {
+    it("listConfigurationSetting", async () => {
       scope.get(/.*/).reply(200, "", { "sync-token": "listConfigurationSetting=value;sn=1" });
 
       const iterator = client.listConfigurationSettings({
@@ -225,7 +229,7 @@ describe("http request related tests", function () {
       assert.equal(syncTokens.getSyncTokenHeaderValue(), "listConfigurationSetting=value");
     });
 // Live Failed
-    it.skip("listRevisions", async () => {
+    it("listRevisions", async () => {
       scope.get(/.*/).reply(200, "", { "sync-token": "listRevisions=value;sn=1" });
 
       const iterator = client.listRevisions({
