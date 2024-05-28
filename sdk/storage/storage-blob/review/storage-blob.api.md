@@ -2160,7 +2160,7 @@ export interface GeoReplication {
 // @public
 export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
-// @public (undocumented)
+// @public
 export function getBlobServiceAccountAudience(storageAccountName: string): string;
 
 // @public

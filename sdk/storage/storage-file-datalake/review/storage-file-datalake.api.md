@@ -642,7 +642,6 @@ export interface FileQueryParquetConfiguration {
 export interface FileReadHeaders {
     // (undocumented)
     acceptRanges?: string;
-    // (undocumented)
     acl: PathAccessControlItem[];
     // (undocumented)
     cacheControl?: string;
@@ -1085,7 +1084,7 @@ export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: D
 // @public
 export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: DataLakeSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
 
-// @public (undocumented)
+// @public
 export function getDataLakeServiceAccountAudience(storageAccountName: string): string;
 
 export { HttpHeaders }
@@ -1221,7 +1220,6 @@ export interface Path {
 
 // @public (undocumented)
 export interface PathAccessControl {
-    // (undocumented)
     acl: PathAccessControlItem[];
     // (undocumented)
     group?: string;
@@ -1449,7 +1447,6 @@ export interface PathGetPropertiesHeaders {
     accessTierChangedOn?: Date;
     // (undocumented)
     accessTierInferred?: boolean;
-    // (undocumented)
     acl: PathAccessControlItem[];
     // (undocumented)
     archiveStatus?: string;
@@ -2003,7 +2000,7 @@ export enum StorageDataLakeAudience {
     StorageOAuthScopes = "https://storage.azure.com/.default"
 }
 
-// @public (undocumented)
+// @public
 export const StorageOAuthScopes: string | string[];
 
 // @public

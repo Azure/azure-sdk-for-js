@@ -162,7 +162,7 @@ export interface GeoReplication {
 // @public
 export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
-// @public (undocumented)
+// @public
 export function getQueueServiceAccountAudience(storageAccountName: string): string;
 
 export { HttpHeaders }

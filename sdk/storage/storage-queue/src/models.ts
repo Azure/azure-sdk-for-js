@@ -21,6 +21,9 @@ export enum StorageQueueAudience {
   StorageOAuthScopes = "https://storage.azure.com/.default",
 }
 
+/**
+ * To get OAuth audience for a storage account for queue service.
+ */
 export function getQueueServiceAccountAudience(storageAccountName: string): string {
   return `https://${storageAccountName}.queue.core.windows.net/.default`;
 }

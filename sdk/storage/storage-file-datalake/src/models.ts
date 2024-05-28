@@ -783,6 +783,9 @@ export interface PathAccessControl {
   owner?: string;
   group?: string;
   permissions?: PathPermissions;
+  /**
+   * POSIX access control rights on files and directories.
+   */
   acl: PathAccessControlItem[];
 }
 
@@ -978,6 +981,9 @@ export interface PathGetPropertiesHeaders {
   owner?: string;
   group?: string;
   permissions?: PathPermissions;
+  /**
+   * POSIX access control rights on files and directories.
+   */
   acl: PathAccessControlItem[];
 }
 
@@ -1202,6 +1208,9 @@ export interface FileReadHeaders {
   owner?: string;
   group?: string;
   permissions?: PathPermissions;
+  /**
+   * POSIX access control rights on files and directories.
+   */
   acl: PathAccessControlItem[];
 }
 
@@ -1587,6 +1596,9 @@ export enum StorageDataLakeAudience {
   StorageOAuthScopes = "https://storage.azure.com/.default",
 }
 
+/**
+ * To get OAuth audience for a storage account for datalake service.
+ */
 export function getDataLakeServiceAccountAudience(storageAccountName: string): string {
   return `https://${storageAccountName}.dfs.core.windows.net/.default`;
 }

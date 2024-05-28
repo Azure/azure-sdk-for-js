@@ -1067,7 +1067,7 @@ export function generateAccountSASQueryParameters(accountSASSignatureValues: Acc
 // @public
 export function generateFileSASQueryParameters(fileSASSignatureValues: FileSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
-// @public (undocumented)
+// @public
 export function getFileServiceAccountAudience(storageAccountName: string): string;
 
 // @public

@@ -370,6 +370,9 @@ export enum StorageFileAudience {
   StorageOAuthScopes = "https://storage.azure.com/.default",
 }
 
+/**
+ * To get the OAuth audience for a storage account for file service.
+ */
 export function getFileServiceAccountAudience(storageAccountName: string): string {
   return `https://${storageAccountName}.file.core.windows.net/.default`;
 }
