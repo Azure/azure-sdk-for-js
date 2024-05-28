@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.2 (2024-05-28)
+
+### Other Changes
+
+- core-tracing moved to peerDependencies
+
 ## 1.0.1 (2024-05-08)
 
 ### Other Changes
