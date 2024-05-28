@@ -6,7 +6,7 @@ import { assert } from "chai";
 import { Context, Suite } from "mocha";
 
 import { delay } from "@azure/core-util";
-import { OpenAIClient } from "@azure/openai";
+import type { AzureOpenAI } from "openai";
 import {
   AutocompleteResult,
   AzureKeyCredential,
@@ -69,7 +69,7 @@ describe("SearchClient", function (this: Suite) {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
-    let openAIClient: OpenAIClient;
+    let openAIClient: AzureOpenAI;
     let TEST_INDEX_NAME: string;
 
     beforeEach(async function (this: Context) {
@@ -420,7 +420,7 @@ describe("SearchClient", function (this: Suite) {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
-    let openAIClient: OpenAIClient;
+    let openAIClient: AzureOpenAI;
     let TEST_INDEX_NAME: string;
     let indexDefinition: SearchIndex;
 
@@ -564,10 +564,10 @@ describe("SearchClient", function (this: Suite) {
       if (isLiveMode()) {
         this.skip();
       }
-      const embeddings = await openAIClient.getEmbeddings(
-        env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
-        ["What are the most luxurious hotels?"],
-      );
+      const embeddings = await openAIClient.embeddings.create({
+        model: env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+        input: ["What are the most luxurious hotels?"],
+      });
 
       const embedding = embeddings.data[0].embedding;
 
@@ -598,10 +598,10 @@ describe("SearchClient", function (this: Suite) {
       if (isLiveMode()) {
         this.skip();
       }
-      const embeddings = await openAIClient.getEmbeddings(
-        env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
-        ["What are the most luxurious hotels?"],
-      );
+      const embeddings = await openAIClient.embeddings.create({
+        model: env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+        input: ["What are the most luxurious hotels?"],
+      });
 
       const embedding = embeddings.data[0].embedding;
 
@@ -639,10 +639,10 @@ describe("SearchClient", function (this: Suite) {
         this.skip();
       }
 
-      const embeddings = await openAIClient.getEmbeddings(
-        env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
-        ["What are the most luxurious hotels?"],
-      );
+      const embeddings = await openAIClient.embeddings.create({
+        model: env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+        input: ["What are the most luxurious hotels?"],
+      });
 
       const embedding = embeddings.data[0].embedding;
       const searchResults = await searchClient.search("*", {

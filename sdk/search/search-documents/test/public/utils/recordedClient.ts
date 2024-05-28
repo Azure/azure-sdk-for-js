@@ -10,15 +10,16 @@ import {
   SanitizerOptions,
 } from "@azure-tools/test-recorder";
 import { isDefined } from "@azure/core-util";
-import { OpenAIClient } from "@azure/openai";
+import { AzureOpenAI } from "openai";
 import { SearchClient, SearchIndexClient, SearchIndexerClient } from "../../../src";
+import { getBearerTokenProvider } from "@azure/identity";
 
 export interface Clients<IndexModel extends object> {
   searchClient: SearchClient<IndexModel>;
   indexClient: SearchIndexClient;
   indexerClient: SearchIndexerClient;
   indexName: string;
-  openAIClient: OpenAIClient;
+  openAIClient: AzureOpenAI;
 }
 
 interface Env {
@@ -123,11 +124,11 @@ export async function createClients<IndexModel extends object>(
       serviceVersion,
     }),
   );
-  const openAIClient = new OpenAIClient(
-    openAIEndpoint,
-    credential,
-    recorder.configureClientOptions({}),
-  );
+  const scope = "https://cognitiveservices.azure.com/.default";
+  const openAIClient = new AzureOpenAI({
+    endpoint: openAIEndpoint,
+    azureADTokenProvider: getBearerTokenProvider(credential, scope),
+  });
 
   return {
     searchClient,
