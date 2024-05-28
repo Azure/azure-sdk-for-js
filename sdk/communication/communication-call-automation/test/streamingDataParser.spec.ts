@@ -54,12 +54,12 @@ function validateTranscriptionData(transcriptionData: TranscriptionData): void {
   assert.equal(transcriptionData.text, "Hello everyone.");
   assert.equal(transcriptionData.resultStatus, "Final");
   assert.equal(transcriptionData.confidence, 0.8249790668487549);
-  assert.equal(transcriptionData.offset, 2516933652456984600);
+  assert.equal(transcriptionData.offsetInTicks, 2516933652456984600);
   assert.equal(transcriptionData.words.length, 2);
   assert.equal(transcriptionData.words[0].text, "hello");
-  assert.equal(transcriptionData.words[0].offset, 2516933652456984600);
+  assert.equal(transcriptionData.words[0].offsetInTicks, 2516933652456984600);
   assert.equal(transcriptionData.words[1].text, "everyone");
-  assert.equal(transcriptionData.words[1].offset, 2516933652459784700);
+  assert.equal(transcriptionData.words[1].offsetInTicks, 2516933652459784700);
   if ("kind" in transcriptionData.participant) {
     assert.equal(transcriptionData.participant.kind, "phoneNumber");
   }

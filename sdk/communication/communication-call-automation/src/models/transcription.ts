@@ -18,7 +18,7 @@ export enum ResultStatus {
  */
 export enum TextFormat {
   /** Formatted recognize text with punctuations.*/
-  Disply = "display",
+  Display = "display",
 }
 
 /**
@@ -28,9 +28,9 @@ export interface WordData {
   /** Text in the phrase.*/
   text: string;
   /** The word's position within the phrase.*/
-  offset: number;
+  offsetInTicks: number;
   /** Duration in ticks. 1 tick = 100 nanoseconds.*/
-  duration: number;
+  durationInTicks: number;
 }
 
 /**
@@ -57,10 +57,10 @@ export interface TranscriptionData {
   format: TextFormat;
   /** Confidence of recognition of the whole phrase, from 0.0 (no confidence) to 1.0 (full confidence). */
   confidence: number;
-  /** The position of this payload. */
-  offset: number;
+  /** The position of this payload. 1 tick = 100 nanoseconds. */
+  offsetInTicks: number;
   /** Duration in ticks. 1 tick = 100 nanoseconds. */
-  duration: number;
+  durationInTicks: number;
   /** The result for each word of the phrase. */
   words: WordData[];
   /** The identified speaker based on participant raw ID. */

@@ -1170,7 +1170,7 @@ export interface StopTranscriptionOptions extends OperationOptions {
 
 // @public
 export enum TextFormat {
-    Disply = "display"
+    Display = "display"
 }
 
 // @public
@@ -1195,9 +1195,9 @@ export type Tone = string;
 // @public
 export interface TranscriptionData {
     confidence: number;
-    duration: number;
+    durationInTicks: number;
     format: TextFormat;
-    offset: number;
+    offsetInTicks: number;
     participant: CommunicationIdentifier;
     resultStatus: ResultStatus;
     text: string;
@@ -1308,8 +1308,8 @@ export interface VoipHeader extends CustomCallingContextHeader {
 
 // @public
 export interface WordData {
-    duration: number;
-    offset: number;
+    durationInTicks: number;
+    offsetInTicks: number;
     text: string;
 }
 
