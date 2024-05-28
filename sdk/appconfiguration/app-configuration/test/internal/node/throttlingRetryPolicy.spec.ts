@@ -38,7 +38,6 @@ describe("Should not retry forever", () => {
     nock.enableNetConnect();
   });
 
-  // FAIL
   it("simulate the service throttling - honors the abort signal passed", async () => {
     mockErrorResponse("123456");
     const key = randomUUID();
