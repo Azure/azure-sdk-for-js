@@ -1199,7 +1199,8 @@ export interface TranscriptionData {
     format: TextFormat;
     offsetInTicks: number;
     participant: CommunicationIdentifier;
-    resultStatus: ResultStatus;
+    // Warning: (ae-forgotten-export) The symbol "TranscriptionResultState" needs to be exported by the entry point index.d.ts
+    resultState: TranscriptionResultState;
     text: string;
     words: WordData[];
 }
@@ -1254,8 +1255,7 @@ export interface TranscriptionSubscription {
     id?: string;
     // Warning: (ae-forgotten-export) The symbol "TranscriptionSubscriptionState" needs to be exported by the entry point index.d.ts
     state?: TranscriptionSubscriptionState;
-    // Warning: (ae-forgotten-export) The symbol "TranscriptionResultType" needs to be exported by the entry point index.d.ts
-    subscribedResultTypes?: TranscriptionResultType[];
+    subscribedResultStates?: TranscriptionResultState[];
 }
 
 // @public

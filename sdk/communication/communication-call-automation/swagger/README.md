@@ -79,3 +79,19 @@ directive:
   transform: >
     $["x-ms-client-name"] = "recordingStorage";
 ```
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.TranscriptionResultType.x-ms-enum"
+  transform: >
+    $["name"] = "TranscriptionResultState";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.TranscriptionSubscription.properties.subscribedResultTypes"
+  transform: >
+    $["x-ms-client-name"] = "subscribedResultStates";
+```

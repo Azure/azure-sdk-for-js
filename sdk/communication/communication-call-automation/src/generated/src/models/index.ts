@@ -165,7 +165,7 @@ export interface TranscriptionSubscription {
   /** Transcription subscription state. */
   state?: TranscriptionSubscriptionState;
   /** Subscribed transcription result types. */
-  subscribedResultTypes?: TranscriptionResultType[];
+  subscribedResultStates?: TranscriptionResultState[];
 }
 
 /** The Communication Services error. */
@@ -1487,8 +1487,8 @@ export enum KnownTranscriptionSubscriptionState {
  */
 export type TranscriptionSubscriptionState = string;
 
-/** Known values of {@link TranscriptionResultType} that the service accepts. */
-export enum KnownTranscriptionResultType {
+/** Known values of {@link TranscriptionResultState} that the service accepts. */
+export enum KnownTranscriptionResultState {
   /** Final */
   Final = "final",
   /** Intermediate */
@@ -1496,14 +1496,14 @@ export enum KnownTranscriptionResultType {
 }
 
 /**
- * Defines values for TranscriptionResultType. \
- * {@link KnownTranscriptionResultType} can be used interchangeably with TranscriptionResultType,
+ * Defines values for TranscriptionResultState. \
+ * {@link KnownTranscriptionResultState} can be used interchangeably with TranscriptionResultState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **final** \
  * **intermediate**
  */
-export type TranscriptionResultType = string;
+export type TranscriptionResultState = string;
 
 /** Known values of {@link CallRejectReason} that the service accepts. */
 export enum KnownCallRejectReason {

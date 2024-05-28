@@ -21,7 +21,12 @@ export function streamingData(
 
   switch (kind) {
     case "TranscriptionMetadata": {
-      const transcriptionMetadata: TranscriptionMetadata = jsonObject.transcriptionMetadata;
+      const transcriptionMetadata: TranscriptionMetadata = {
+        subscriptionId: jsonObject.transcriptionMetadata.subscriptionId,
+        locale: jsonObject.transcriptionMetadata.locale,
+        callConnectionId: jsonObject.transcriptionMetadata.callConnectionId,
+        correlationId: jsonObject.transcriptionMetadata.correlationId,
+      };
       return transcriptionMetadata;
     }
     case "TranscriptionData": {
@@ -33,7 +38,7 @@ export function streamingData(
         durationInTicks: jsonObject.transcriptionData.durationInTicks,
         words: jsonObject.transcriptionData.words,
         participant: createIdentifierFromRawId(jsonObject.transcriptionData.participantRawID),
-        resultStatus: jsonObject.transcriptionData.resultStatus,
+        resultState: jsonObject.transcriptionData.resultState,
       };
       return transcriptionData;
     }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommunicationIdentifier } from "@azure/communication-common";
+import { TranscriptionResultState } from "../generated/src";
 
 /**
  * The status of the result of transcription.
@@ -65,6 +66,6 @@ export interface TranscriptionData {
   words: WordData[];
   /** The identified speaker based on participant raw ID. */
   participant: CommunicationIdentifier;
-  /** Status of the result of transcription. */
-  resultStatus: ResultStatus;
+  /** State of the result of transcription. */
+  resultState: TranscriptionResultState;
 }

@@ -52,7 +52,7 @@ function validateTranscriptionMetadata(transcriptionMetadata: TranscriptionMetad
 
 function validateTranscriptionData(transcriptionData: TranscriptionData): void {
   assert.equal(transcriptionData.text, "Hello everyone.");
-  assert.equal(transcriptionData.resultStatus, "Final");
+  assert.equal(transcriptionData.resultState, "Final");
   assert.equal(transcriptionData.confidence, 0.8249790668487549);
   assert.equal(transcriptionData.offsetInTicks, 2516933652456984600);
   assert.equal(transcriptionData.words.length, 2);

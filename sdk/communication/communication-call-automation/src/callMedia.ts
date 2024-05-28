@@ -528,7 +528,7 @@ export class CallMedia {
   ): Promise<void> {
     const updateTranscriptionRequest: UpdateTranscriptionRequest = {
       locale: locale,
-      speechRecognitionModelEndpointId: options?.speechRecognitionModelEndpointId
+      speechRecognitionModelEndpointId: options?.speechRecognitionModelEndpointId,
     };
     return this.callMedia.updateTranscription(
       this.callConnectionId,

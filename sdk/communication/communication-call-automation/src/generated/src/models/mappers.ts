@@ -470,7 +470,7 @@ export const TranscriptionSubscription: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      subscribedResultTypes: {
+      subscribedResultStates: {
         serializedName: "subscribedResultTypes",
         type: {
           name: "Sequence",
