@@ -128,16 +128,6 @@ export class AuthorizationCodeCredential implements TokenCredential {
       logger,
       tokenCredentialOptions: options ?? {},
     });
-    // this.msalFlow = new MsalAuthorizationCode({
-    //   ...options,
-    //   clientSecret,
-    //   clientId,
-    //   tenantId,
-    //   tokenCredentialOptions: options || {},
-    //   logger,
-    //   redirectUri: this.redirectUri,
-    //   authorizationCode: this.authorizationCode,
-    // });
   }
 
   /**
@@ -171,9 +161,6 @@ export class AuthorizationCodeCredential implements TokenCredential {
             disableAutomaticAuthentication: this.disableAutomaticAuthentication,
           },
         );
-        // return this.msalFlow.getToken(arrayScopes, {
-        //   ...newOptions,
-        // });
       },
     );
   }
