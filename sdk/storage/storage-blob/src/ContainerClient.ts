@@ -85,6 +85,8 @@ import {
   ListBlobsFlatSegmentResponse as ListBlobsFlatSegmentResponseInternal,
   ListBlobsHierarchySegmentResponse as ListBlobsHierarchySegmentResponseInternal,
   ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
+  ContainerGetAccountInfoHeaders,
+  ContainerGetAccountInfoResponse,
 } from "./generated/src";
 
 /**
@@ -571,6 +573,17 @@ export type ContainerFindBlobsByTagsSegmentResponse = WithResponse<
   ContainerFilterBlobsHeaders,
   FilterBlobSegmentModel
 >;
+
+/**
+ * Options to configure the {@link ContainerClient.getAccountInfo} operation.
+ */
+export interface ContainerGetAccountInfoOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 /**
  * A ContainerClient represents a URL to the Azure Storage container allowing you to manipulate its blobs.
@@ -1937,6 +1950,33 @@ export class ContainerClient extends StorageClient {
         });
       },
     };
+  }
+
+  /**
+   * The Get Account Information operation returns the sku name and account kind
+   * for the specified account.
+   * The Get Account Information operation is available on service versions beginning
+   * with version 2018-03-28.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-account-information
+   *
+   * @param options - Options to the Service Get Account Info operation.
+   * @returns Response data for the Service Get Account Info operation.
+   */
+  public async getAccountInfo(
+    options: ContainerGetAccountInfoOptions = {},
+  ): Promise<ContainerGetAccountInfoResponse> {
+    return tracingClient.withSpan(
+      "ContainerClient-getAccountInfo",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<ContainerGetAccountInfoHeaders, ContainerGetAccountInfoHeaders>(
+          await this.containerContext.getAccountInfo({
+            abortSignal: options.abortSignal,
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
+        );
+      },
+    );
   }
 
   private getContainerNameFromUrl(): string {

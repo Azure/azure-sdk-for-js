@@ -304,6 +304,27 @@ export const StorageError: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      copySourceStatusCode: {
+        serializedName: "CopySourceStatusCode",
+        xmlName: "CopySourceStatusCode",
+        type: {
+          name: "Number",
+        },
+      },
+      copySourceErrorCode: {
+        serializedName: "CopySourceErrorCode",
+        xmlName: "CopySourceErrorCode",
+        type: {
+          name: "String",
+        },
+      },
+      copySourceErrorMessage: {
+        serializedName: "CopySourceErrorMessage",
+        xmlName: "CopySourceErrorMessage",
+        type: {
+          name: "String",
+        },
+      },
       code: {
         serializedName: "Code",
         xmlName: "Code",
@@ -3858,6 +3879,13 @@ export const ContainerGetAccountInfoHeaders: coreClient.CompositeMapper = {
           ],
         },
       },
+      isHierarchicalNamespaceEnabled: {
+        serializedName: "x-ms-is-hns-enabled",
+        xmlName: "x-ms-is-hns-enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -5766,6 +5794,20 @@ export const BlobStartCopyFromURLExceptionHeaders: coreClient.CompositeMapper =
             name: "String",
           },
         },
+        copySourceErrorCode: {
+          serializedName: "x-ms-copy-source-error-code",
+          xmlName: "x-ms-copy-source-error-code",
+          type: {
+            name: "String",
+          },
+        },
+        copySourceStatusCode: {
+          serializedName: "x-ms-copy-source-status-code",
+          xmlName: "x-ms-copy-source-status-code",
+          type: {
+            name: "Number",
+          },
+        },
       },
     },
   };
@@ -5883,6 +5925,20 @@ export const BlobCopyFromURLExceptionHeaders: coreClient.CompositeMapper = {
         xmlName: "x-ms-error-code",
         type: {
           name: "String",
+        },
+      },
+      copySourceErrorCode: {
+        serializedName: "x-ms-copy-source-error-code",
+        xmlName: "x-ms-copy-source-error-code",
+        type: {
+          name: "String",
+        },
+      },
+      copySourceStatusCode: {
+        serializedName: "x-ms-copy-source-status-code",
+        xmlName: "x-ms-copy-source-status-code",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -6067,6 +6123,13 @@ export const BlobGetAccountInfoHeaders: coreClient.CompositeMapper = {
             "FileStorage",
             "BlockBlobStorage",
           ],
+        },
+      },
+      isHierarchicalNamespaceEnabled: {
+        serializedName: "x-ms-is-hns-enabled",
+        xmlName: "x-ms-is-hns-enabled",
+        type: {
+          name: "Boolean",
         },
       },
     },
@@ -6926,6 +6989,20 @@ export const PageBlobUploadPagesFromURLExceptionHeaders: coreClient.CompositeMap
             name: "String",
           },
         },
+        copySourceErrorCode: {
+          serializedName: "x-ms-copy-source-error-code",
+          xmlName: "x-ms-copy-source-error-code",
+          type: {
+            name: "String",
+          },
+        },
+        copySourceStatusCode: {
+          serializedName: "x-ms-copy-source-status-code",
+          xmlName: "x-ms-copy-source-status-code",
+          type: {
+            name: "Number",
+          },
+        },
       },
     },
   };
@@ -7709,6 +7786,20 @@ export const AppendBlobAppendBlockFromUrlExceptionHeaders: coreClient.CompositeM
             name: "String",
           },
         },
+        copySourceErrorCode: {
+          serializedName: "x-ms-copy-source-error-code",
+          xmlName: "x-ms-copy-source-error-code",
+          type: {
+            name: "String",
+          },
+        },
+        copySourceStatusCode: {
+          serializedName: "x-ms-copy-source-status-code",
+          xmlName: "x-ms-copy-source-status-code",
+          type: {
+            name: "Number",
+          },
+        },
       },
     },
   };
@@ -8008,6 +8099,20 @@ export const BlockBlobPutBlobFromUrlExceptionHeaders: coreClient.CompositeMapper
             name: "String",
           },
         },
+        copySourceErrorCode: {
+          serializedName: "x-ms-copy-source-error-code",
+          xmlName: "x-ms-copy-source-error-code",
+          type: {
+            name: "String",
+          },
+        },
+        copySourceStatusCode: {
+          serializedName: "x-ms-copy-source-status-code",
+          xmlName: "x-ms-copy-source-status-code",
+          type: {
+            name: "Number",
+          },
+        },
       },
     },
   };
@@ -8201,6 +8306,20 @@ export const BlockBlobStageBlockFromURLExceptionHeaders: coreClient.CompositeMap
           xmlName: "x-ms-error-code",
           type: {
             name: "String",
+          },
+        },
+        copySourceErrorCode: {
+          serializedName: "x-ms-copy-source-error-code",
+          xmlName: "x-ms-copy-source-error-code",
+          type: {
+            name: "String",
+          },
+        },
+        copySourceStatusCode: {
+          serializedName: "x-ms-copy-source-status-code",
+          xmlName: "x-ms-copy-source-status-code",
+          type: {
+            name: "Number",
           },
         },
       },

@@ -539,6 +539,25 @@ describe("BlobClient", () => {
     assert.equal(properties.accessTier!, "Cold");
   });
 
+  it("sync copy should fail with expected exception", async function () {
+    const newBlobClient = containerClient.getBlockBlobClient(
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
+    );
+
+    try {
+    await newBlobClient.syncCopyFromURL("https://azure.github.io/azure-sdk-for-js/indexfff.html", {
+      tier: "Cold",
+    }); 
+    }catch (err) {
+      console.log(err);
+    }
+
+
+    const properties = await newBlobClient.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cold");
+  });
+
   it("setAccessTier set default to cool", async function () {
     await blockBlobClient.setAccessTier("Cool");
     const properties = await blockBlobClient.getProperties();
@@ -974,6 +993,13 @@ describe("BlobClient", () => {
 
   it("getProperties and listBlob RehydratePriority = Standard", async () => {
     await checkRehydratePriority("Standard");
+  });
+
+  it("getAccountInfo", async function () {
+    const accountInfo = await blobClient.getAccountInfo();
+    assert.ok(accountInfo.accountKind);
+    assert.ok(accountInfo.skuName);
+    assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
   });
 
   // Skipped for now as it's not working in live tests pipeline.

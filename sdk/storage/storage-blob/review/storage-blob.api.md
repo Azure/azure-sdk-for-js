@@ -409,6 +409,8 @@ export class BlobClient extends StorageClient {
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
     generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string>;
+    // Warning: (ae-forgotten-export) The symbol "BlobGetAccountInfoResponse" needs to be exported by the entry point index.d.ts
+    getAccountInfo(options?: BlobGetAccountInfoOptions): Promise<BlobGetAccountInfoResponse>;
     getAppendBlobClient(): AppendBlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
     getBlockBlobClient(): BlockBlobClient;
@@ -646,6 +648,11 @@ export interface BlobFlatListSegmentModel {
 // @public
 export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
     permissions?: BlobSASPermissions;
+}
+
+// @public
+export interface BlobGetAccountInfoOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -1683,6 +1690,8 @@ export class ContainerClient extends StorageClient {
     findBlobsByTags(tagFilterSqlExpression: string, options?: ContainerFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ContainerFindBlobsByTagsSegmentResponse>;
     generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
+    // Warning: (ae-forgotten-export) The symbol "ContainerGetAccountInfoResponse" needs to be exported by the entry point index.d.ts
+    getAccountInfo(options?: ContainerGetAccountInfoOptions): Promise<ContainerGetAccountInfoResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
     getBlobBatchClient(): BlobBatchClient;
     getBlobClient(blobName: string): BlobClient;
@@ -1819,6 +1828,11 @@ export type ContainerGetAccessPolicyResponse = WithResponse<{
 
 // @public
 export type ContainerGetAccessPolicyResponseModel = ContainerGetAccessPolicyHeaders & SignedIdentifierModel[];
+
+// @public
+export interface ContainerGetAccountInfoOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
 
 // @public
 export interface ContainerGetPropertiesHeaders {
