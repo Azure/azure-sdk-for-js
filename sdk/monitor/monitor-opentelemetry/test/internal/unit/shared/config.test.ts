@@ -327,7 +327,7 @@ describe("OpenTelemetry Resource", () => {
     );
     assert.ok(
       String(config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_VERSION]).length >
-        0,
+      0,
       "Wrong TELEMETRY_SDK_VERSION",
     );
     assert.deepStrictEqual(
@@ -645,5 +645,5 @@ const testAttributes: any = {
   "service.name": "unknown_service:node",
   "telemetry.sdk.language": "nodejs",
   "telemetry.sdk.name": "opentelemetry",
-  "telemetry.sdk.version": "1.24.0",
+  "telemetry.sdk.version": "1.24.1",
 };
