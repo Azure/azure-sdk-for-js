@@ -121,6 +121,5 @@ export async function parseXMLError(bodyText: string): Promise<string | undefine
     // nothing to do
   }
 
-
   return result;
 }

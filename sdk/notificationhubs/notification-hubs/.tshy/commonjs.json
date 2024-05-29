@@ -6,7 +6,8 @@
     "../src/**/*.tsx"
   ],
   "exclude": [
-    "../src/**/*.mts"
+    "../src/**/*.mts",
+    "../src/auth/hmacSha256-browser.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/commonjs"

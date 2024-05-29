@@ -5,7 +5,9 @@
     "../src/**/*.mts",
     "../src/**/*.tsx"
   ],
-  "exclude": [],
+  "exclude": [
+    ".././src/auth/hmacSha256-browser.mts"
+  ],
   "compilerOptions": {
     "outDir": "../.tshy-build/esm"
   }
