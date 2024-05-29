@@ -70,7 +70,12 @@ export interface MsalNodeOptions extends MsalFlowOptions {
     enableUnsafeSupportLogging?: boolean;
   };
 }
+export type ClientAssertionCallback = (config: ClientAssertionConfig) => Promise<string>;
 
+export type ClientAssertionConfig = {
+  clientId: string;
+  tokenEndpoint?: string;
+};
 /**
  * MSAL partial base client for Node.js.
  *
@@ -113,13 +118,13 @@ export abstract class MsalNode implements MsalFlow {
    */
   private cachedClaims: string | undefined;
 
-  protected getAssertion: (() => Promise<string>) | undefined;
+  protected getAssertion?: () => Promise<string>;
   constructor(options: MsalNodeOptions) {
     this.logger = options.logger;
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.tokenCredentialOptions?.additionallyAllowedTenants,
+      options?.tokenCredentialOptions?.additionallyAllowedTenants
     );
     this.clientId = this.msalConfig.auth.clientId;
     if (options?.getAssertion) {
@@ -149,7 +154,7 @@ export abstract class MsalNode implements MsalFlow {
           "You must install the identity-cache-persistence plugin package (`npm install --save @azure/identity-cache-persistence`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
           "`useIdentityPlugin(cachePersistencePlugin)` before using `tokenCachePersistenceOptions`.",
-        ].join(" "),
+        ].join(" ")
       );
     }
 
@@ -161,7 +166,7 @@ export abstract class MsalNode implements MsalFlow {
           "You must install the identity-broker plugin package (`npm install --save @azure/identity-broker`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
           "`useIdentityPlugin(createNativeBrokerPlugin())` before using `enableBroker`.",
-        ].join(" "),
+        ].join(" ")
       );
     }
 
@@ -193,7 +198,7 @@ export abstract class MsalNode implements MsalFlow {
         knownAuthorities: getKnownAuthorities(
           tenantId,
           authority,
-          options.disableInstanceDiscovery,
+          options.disableInstanceDiscovery
         ),
         clientCapabilities,
       },
@@ -210,18 +215,18 @@ export abstract class MsalNode implements MsalFlow {
   }
   protected getApp(
     appType: "publicFirst" | "confidentialFirst",
-    enableCae?: boolean,
+    enableCae?: boolean
   ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication;
   protected getApp(appType: "public", enableCae?: boolean): msalNode.PublicClientApplication;
 
   protected getApp(
     appType: "confidential",
-    enableCae?: boolean,
+    enableCae?: boolean
   ): msalNode.ConfidentialClientApplication;
 
   protected getApp(
     appType: AppType,
-    enableCae?: boolean,
+    enableCae?: boolean
   ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication {
     const app = enableCae ? this.caeApp : this.app;
     if (appType === "publicFirst") {
@@ -272,7 +277,7 @@ export abstract class MsalNode implements MsalFlow {
       if (!this.parentWindowHandle) {
         // error should have been thrown from within the constructor of InteractiveBrowserCredential
         this.logger.warning(
-          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle.",
+          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle."
         );
       }
     }
@@ -283,8 +288,18 @@ export abstract class MsalNode implements MsalFlow {
       this.app.public = new msalNode.PublicClientApplication(this.msalConfig);
     }
 
-    if (this.getAssertion) {
-      this.msalConfig.auth.clientAssertion = await this.getAssertion();
+    // write a test so that user callback is invoked just once and the second time the token is cached and user callback not called
+    //
+    if (this.getAssertion !== undefined) {
+      const clientAssertionCallback: ClientAssertionCallback = async (
+        _config: ClientAssertionConfig
+      ): Promise<string> => {
+        // network request that uses config.clientId and (optionally) config.tokenEndpoint
+        if (this.getAssertion !== undefined) return await this.getAssertion();
+        throw new Error("why is getAssertion is undefined");
+      };
+
+      this.msalConfig.auth.clientAssertion = clientAssertionCallback; //await this.getAssertion();
     }
     // The confidential client requires either a secret, assertion or certificate.
     if (
@@ -300,7 +315,7 @@ export abstract class MsalNode implements MsalFlow {
     } else {
       if (this.requiresConfidential) {
         throw new Error(
-          "Unable to generate the MSAL confidential client. Missing either the client's secret, certificate or assertion.",
+          "Unable to generate the MSAL confidential client. Missing either the client's secret, certificate or assertion."
         );
       }
     }
@@ -312,7 +327,7 @@ export abstract class MsalNode implements MsalFlow {
   protected withCancellation(
     promise: Promise<msalNode.AuthenticationResult | null>,
     abortSignal?: AbortSignalLike,
-    onCancel?: () => void,
+    onCancel?: () => void
   ): Promise<msalNode.AuthenticationResult | null> {
     return new Promise((resolve, reject) => {
       promise
@@ -362,7 +377,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   async getTokenSilent(
     scopes: string[],
-    options?: CredentialFlowGetTokenOptions,
+    options?: CredentialFlowGetTokenOptions
   ): Promise<AccessToken> {
     await this.getActiveAccount(options?.enableCae);
     if (!this.account) {
@@ -390,7 +405,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       if (!this.parentWindowHandle) {
         // error should have been thrown from within the constructor of InteractiveBrowserCredential
         this.logger.warning(
-          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle.",
+          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle."
         );
       }
       if (this.enableMsaPassthrough) {
@@ -409,7 +424,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       await this.getApp("publicFirst", options?.enableCae)?.getTokenCache().getAllAccounts();
       const response =
         (await this.getApp("confidential", options?.enableCae)?.acquireTokenSilent(
-          silentRequest,
+          silentRequest
         )) ?? (await this.getApp("public", options?.enableCae).acquireTokenSilent(silentRequest));
       return this.handleResult(scopes, response || undefined);
     } catch (err: any) {
@@ -428,7 +443,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   public async getToken(
     scopes: string[],
-    options: CredentialFlowGetTokenOptions = {},
+    options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     const tenantId =
       processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds) ||
@@ -477,7 +492,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   protected handleResult(
     scopes: string | string[],
     result?: MsalResult,
-    getTokenOptions?: GetTokenOptions,
+    getTokenOptions?: GetTokenOptions
   ): AccessToken {
     if (result?.account) {
       this.account = msalToPublic(this.clientId, result.account);

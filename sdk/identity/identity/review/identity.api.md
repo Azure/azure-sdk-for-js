@@ -390,8 +390,10 @@ export interface OnBehalfOfCredentialCertificateOptions {
     userAssertionToken: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "OnBehalfOfCredentialAssertionOptions" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | OnBehalfOfCredentialCertificateOptions) & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions & AuthorityValidationOptions;
+export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | OnBehalfOfCredentialCertificateOptions | OnBehalfOfCredentialAssertionOptions) & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions & AuthorityValidationOptions;
 
 // @public
 export interface OnBehalfOfCredentialSecretOptions {
