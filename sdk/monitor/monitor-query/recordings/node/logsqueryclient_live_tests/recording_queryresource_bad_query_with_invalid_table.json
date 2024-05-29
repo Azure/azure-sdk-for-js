@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.loganalytics.io/v1metrics-arm-resource-id/query",
+      "RequestUri": "https://api.loganalytics.io/v1/logs-arm-resource-id/query",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "57",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-monitor-query/1.2.0 azsdk-js-monitor-log-query/1.2.0 core-rest-pipeline/1.16.1 Node/20.11.1 OS/(x64-Windows_NT-10.0.22631)",
-        "x-ms-client-request-id": "Sanitized"
+        "User-Agent": "azsdk-js-monitor-query/1.0.4 azsdk-js-monitor-log-query/1.1.0 core-rest-pipeline/1.10.4 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b911b122-10bf-4112-b05c-c6271a0350a0"
       },
       "RequestBody": {
         "query": "resource | summarize count()",
@@ -24,23 +24,23 @@
         "Connection": "keep-alive",
         "Content-Length": "349",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 27 May 2024 22:01:13 GMT",
+        "Date": "Tue, 02 May 2023 00:15:20 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding",
-        "Via": "1.1 draft-oms-84fccbf47-gntm6",
+        "Via": "1.1 draft-oms-585bfd996d-xglgz",
         "X-Content-Type-Options": "nosniff"
       },
       "ResponseBody": {
         "error": {
           "message": "The request had some invalid properties",
           "code": "BadArgumentError",
-          "correlationId": "70b4754e-7abc-47e5-a14a-a330bd12ee11",
+          "correlationId": "0b48cfb2-81d6-4dd5-a082-714b0f97c369",
           "innererror": {
             "code": "SemanticError",
             "message": "A semantic error occurred.",
             "innererror": {
               "code": "SEM0100",
-              "message": "'summarize' operator: Failed to resolve table or column expression named 'resource'"
+              "message": "\u0027summarize\u0027 operator: Failed to resolve table or column expression named \u0027resource\u0027"
             }
           }
         }
