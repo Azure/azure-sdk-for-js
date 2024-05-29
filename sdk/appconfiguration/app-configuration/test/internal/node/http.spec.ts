@@ -126,6 +126,7 @@ describe("http request related tests", function () {
 
       syncTokens = new SyncTokens();
 
+      // Use NoOpCredential for nock tests to avoid interception for credential request
       client =
         createAppConfigurationClientForTests({
           syncTokens: syncTokens,
@@ -138,6 +139,8 @@ describe("http request related tests", function () {
       if (!nock.isActive()) {
         nock.activate();
       }
+
+      // Add authorization request headers to match GET requests with NoOpCredential
       scope = nock(/.*/, {
         reqheaders: {
           authorization: /.*/,

@@ -19,8 +19,6 @@ import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-let endpointNotPresentWarning = false;
-
 export interface CredsAndEndpoint {
   credential: TokenCredential;
   endpoint: string;
@@ -52,9 +50,6 @@ export function createAppConfigurationClientForTests(
   const endpoint = env["AZ_CONFIG_ENDPOINT"];
   const credential = options?.testCredential ?? createTestCredential();
   if (endpoint == null) {
-    if (!endpointNotPresentWarning) {
-      endpointNotPresentWarning = true;
-    }
     throw new Error("Invalid value for APPCONFIG_CONNECTION_STRING");
   }
 
