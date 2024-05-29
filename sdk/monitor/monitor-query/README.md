@@ -74,7 +74,7 @@ const logsQueryClient = new LogsQueryClient(credential, {
 });
 
 // or
-const metricsQueryClient = new MetricsQueryClient(credential{
+const metricsQueryClient = new MetricsQueryClient(credential, {
   endpoint: "https://management.chinacloudapi.cn",
 });
 ```
@@ -584,7 +584,7 @@ To get logs query execution statistics, such as CPU and memory consumption:
 The following example prints the query execution time:
 
 ```ts
-const workspaceId = "<workspace_id>";
+const monitorWorkspaceId = "<workspace_id>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 const kustoQuery = "AzureActivity | top 10 by TimeGenerated";
 
@@ -630,16 +630,16 @@ To get visualization data for logs queries using the [render operator](https://l
 For example:
 
 ```ts
-const workspaceId = "<workspace_id>";
+const monitorWorkspaceId = "<workspace_id>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 const result = await logsQueryClient.queryWorkspace(
     monitorWorkspaceId,
-    @"StormEvents
+    `StormEvents
         | summarize event_count = count() by State
         | where event_count > 10
         | project State, event_count
-        | render columnchart",
+        | render columnchart`,
     { duration: Durations.oneDay },
     {
       includeVisualization: true

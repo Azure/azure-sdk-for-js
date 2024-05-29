@@ -14,7 +14,7 @@ import {
   EnvironmentVersionsGetOptionalParams,
   EnvironmentVersionsGetResponse,
   EnvironmentVersionsCreateOrUpdateOptionalParams,
-  EnvironmentVersionsCreateOrUpdateResponse
+  EnvironmentVersionsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface EnvironmentVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: EnvironmentVersionsListOptionalParams
+    options?: EnvironmentVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<EnvironmentVersion>;
   /**
    * Delete version.
@@ -46,7 +46,7 @@ export interface EnvironmentVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: EnvironmentVersionsDeleteOptionalParams
+    options?: EnvironmentVersionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get version.
@@ -61,7 +61,7 @@ export interface EnvironmentVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: EnvironmentVersionsGetOptionalParams
+    options?: EnvironmentVersionsGetOptionalParams,
   ): Promise<EnvironmentVersionsGetResponse>;
   /**
    * Creates or updates an EnvironmentVersion.
@@ -78,6 +78,6 @@ export interface EnvironmentVersions {
     name: string,
     version: string,
     body: EnvironmentVersion,
-    options?: EnvironmentVersionsCreateOrUpdateOptionalParams
+    options?: EnvironmentVersionsCreateOrUpdateOptionalParams,
   ): Promise<EnvironmentVersionsCreateOrUpdateResponse>;
 }
