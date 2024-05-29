@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { InputTextItem, TextTranslationClient, isUnexpected } from "../../src";
+import { TextTranslationClient, isUnexpected } from "../../src";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
@@ -21,7 +21,7 @@ describe("DictionaryLookup tests", () => {
   });
 
   it("single input element", async () => {
-    const inputText: InputTextItem[] = [{ text: "fly" }];
+    const inputText = [{ text: "fly" }];
     const parameters = {
       to: "es",
       from: "en",
@@ -43,7 +43,7 @@ describe("DictionaryLookup tests", () => {
   });
 
   it("multiple input elements", async () => {
-    const inputText: InputTextItem[] = [{ text: "fly" }, { text: "fox" }];
+    const inputText = [{ text: "fly" }, { text: "fox" }];
     const parameters = {
       to: "es",
       from: "en",

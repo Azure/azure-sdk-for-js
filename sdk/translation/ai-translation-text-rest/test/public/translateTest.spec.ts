@@ -4,11 +4,8 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import {
-  InputTextItem,
   TextTranslationClient,
   isUnexpected,
-  ProfanityAction,
-  ProfanityMarker,
 } from "../../src";
 import {
   createCustomTranslationClient,
@@ -35,13 +32,12 @@ describe("Translate tests", () => {
   });
 
   it("translate basic", async () => {
-    const inputText: InputTextItem[] = [{ text: "This is a test." }];
     const parameters = {
       to: "cs",
       from: "en",
     };
     const response = await client.path("/translate").post({
-      body: inputText,
+      body: [{ text: "This is a test." }],
       queryParameters: parameters,
     });
     assert.equal(response.status, "200");
@@ -56,7 +52,7 @@ describe("Translate tests", () => {
   });
 
   it("with auto detect", async () => {
-    const inputText: InputTextItem[] = [{ text: "This is a test." }];
+    const inputText = [{ text: "This is a test." }];
     const parameters = {
       to: "cs",
     };
@@ -78,7 +74,7 @@ describe("Translate tests", () => {
   });
 
   it("no translate tag", async () => {
-    const inputText: InputTextItem[] = [
+    const inputText = [
       { text: "<span class=notranslate>今天是怎么回事是</span>非常可怕的" },
     ];
     const parameters = {
@@ -103,7 +99,7 @@ describe("Translate tests", () => {
   });
 
   it("dictionary tag", async () => {
-    const inputText: InputTextItem[] = [
+    const inputText = [
       {
         text: 'The word < mstrans:dictionary translation ="wordomatic">wordomatic</mstrans:dictionary> is a dictionary entry.',
       },
@@ -129,7 +125,7 @@ describe("Translate tests", () => {
   });
 
   it("transliteration", async () => {
-    const inputText: InputTextItem[] = [{ text: "hudha akhtabar." }];
+    const inputText = [{ text: "hudha akhtabar." }];
     const parameters = {
       to: "zh-Hans",
       from: "ar",
@@ -152,7 +148,7 @@ describe("Translate tests", () => {
   });
 
   it("from latin to latin script", async () => {
-    const inputText: InputTextItem[] = [{ text: "ap kaise ho" }];
+    const inputText = [{ text: "ap kaise ho" }];
     const parameters = {
       to: "ta",
       from: "hi",
@@ -178,7 +174,7 @@ describe("Translate tests", () => {
   });
 
   it("multiple input text", async () => {
-    const inputText: InputTextItem[] = [
+    const inputText = [
       { text: "This is a test." },
       { text: "Esto es una prueba." },
       { text: "Dies ist ein Test." },
@@ -212,7 +208,7 @@ describe("Translate tests", () => {
   });
 
   it("multiple target languages", async () => {
-    const inputText: InputTextItem[] = [{ text: "This is a test." }];
+    const inputText = [{ text: "This is a test." }];
     const parameters = {
       to: "cs,es,de",
     };
@@ -237,7 +233,7 @@ describe("Translate tests", () => {
   });
 
   it("different text types", async () => {
-    const inputText: InputTextItem[] = [
+    const inputText = [
       { text: "<html><body>This <b>is</b> a test.</body></html>" },
     ];
     const parameters = {
@@ -261,17 +257,14 @@ describe("Translate tests", () => {
   });
 
   it("with profanity", async () => {
-    const inputText: InputTextItem[] = [{ text: "shit this is fucking crazy" }];
-    const profanityAction: ProfanityAction = "Marked";
-    const profanityMarker: ProfanityMarker = "Asterisk";
-    const parameters = {
-      to: "zh-cn",
-      profanityAction: profanityAction,
-      profanityMarker: profanityMarker,
-    };
+    const inputText = [{ text: "shit this is fucking crazy" }];
     const response = await client.path("/translate").post({
       body: inputText,
-      queryParameters: parameters,
+      queryParameters: {
+        to: "zh-cn",
+        profanityAction: "Marked",
+        profanityMarker: "Asterisk",
+      },
     });
     assert.equal(response.status, "200");
 
@@ -288,7 +281,7 @@ describe("Translate tests", () => {
   });
 
   it("with alignment", async () => {
-    const inputText: InputTextItem[] = [{ text: "It is a beautiful morning" }];
+    const inputText = [{ text: "It is a beautiful morning" }];
     const parameters = {
       to: "cs",
       includeAlignment: true,
@@ -312,7 +305,7 @@ describe("Translate tests", () => {
   });
 
   it("with include sentence length", async () => {
-    const inputText: InputTextItem[] = [
+    const inputText = [
       {
         text: "La réponse se trouve dans la traduction automatique. La meilleure technologie de traduction automatique ne peut pas toujours fournir des traductions adaptées à un site ou des utilisateurs comme un être humain. Il suffit de copier et coller un extrait de code n'importe où.",
       },
@@ -341,7 +334,7 @@ describe("Translate tests", () => {
   });
 
   it("with custom endpoint", async () => {
-    const inputText: InputTextItem[] = [{ text: "This is a test." }];
+    const inputText = [{ text: "This is a test." }];
     const parameters = {
       to: "cs",
       includeSentenceLength: true,
@@ -366,7 +359,7 @@ describe("Translate tests", () => {
 
   it("with token", async () => {
     const tokenClient = await createTokenTranslationClient({ recorder });
-    const inputText: InputTextItem[] = [{ text: "This is a test." }];
+    const inputText = [{ text: "This is a test." }];
     const parameters = {
       to: "cs",
     };
@@ -379,7 +372,7 @@ describe("Translate tests", () => {
 
   it("with AAD authentication", async () => {
     const tokenClient = await createAADAuthenticationTranslationClient({ recorder });
-    const inputText: InputTextItem[] = [{ text: "This is a test." }];
+    const inputText = [{ text: "This is a test." }];
     const parameters = {
       to: "cs",
     };

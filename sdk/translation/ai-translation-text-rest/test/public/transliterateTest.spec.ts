@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { InputTextItem, TextTranslationClient, isUnexpected } from "../../src";
+import { TextTranslationClient, isUnexpected } from "../../src";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { editDistance } from "./utils/testHelper";
@@ -22,7 +22,7 @@ describe("Transliterate tests", () => {
   });
 
   it("transliterate basic", async () => {
-    const inputText: InputTextItem[] = [{ text: "这里怎么一回事?" }];
+    const inputText = [{ text: "这里怎么一回事?" }];
     const parameters = {
       language: "zh-Hans",
       fromScript: "Hans",
@@ -44,7 +44,7 @@ describe("Transliterate tests", () => {
   });
 
   it("multiple text array", async () => {
-    const inputText: InputTextItem[] = [
+    const inputText = [
       { text: "यहएककसौटीहैयहएककसौटीहै" },
       { text: "यहएककसौटीहै" },
     ];
@@ -69,7 +69,7 @@ describe("Transliterate tests", () => {
   });
 
   it("with edit distance", async () => {
-    const inputText: InputTextItem[] = [
+    const inputText = [
       { text: "gujarat" },
       { text: "hadman" },
       { text: "hukkabar" },
