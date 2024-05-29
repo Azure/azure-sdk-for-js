@@ -48,6 +48,10 @@ const sanitizerOptions: SanitizerOptions = {
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
   sanitizerOptions: sanitizerOptions,
+  removeCentralSanitizers: [
+    "AZSDK3421", // .urlSource in the body is not a secret and is listed below in the beforeEach section
+  ],
+
 };
 
 /**
