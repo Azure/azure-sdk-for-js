@@ -32,7 +32,7 @@ async function processEvent(): Promise<EventGridEvent<unknown>[]> {
 
 export async function main() {
   // Set the following environment variable or edit the value on the following line.
-  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<connection string>";
+  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
 
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationClient(endpoint, credential);
