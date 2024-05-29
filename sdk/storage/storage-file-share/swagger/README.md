@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/5da3c08b92d05858b728b013b69502dc93485373/specification/storage/data-plane/Microsoft.FileStorage/stable/2024-05-04/file.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/8b14ba4a3232adb8538d96832a47dfd695904341/specification/storage/data-plane/Microsoft.FileStorage/stable/2024-08-04/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -870,15 +870,6 @@ directive:
     where: $["parameters"]["SourceAllowTrailingDot"]
     transform: >
       $["x-ms-parameter-location"] = "method";
-```
-
-### Update service version from "2024-02-04" to "2024-05-04"
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2024-05-04" ];
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2Fswagger%2FREADME.png)

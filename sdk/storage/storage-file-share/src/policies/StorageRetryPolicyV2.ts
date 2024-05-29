@@ -12,7 +12,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { getErrorMessage } from "@azure/core-util";
 import { StorageRetryOptions } from "../StorageRetryPolicyFactory";
-import { URLConstants } from "../utils/constants";
+import { HeaderConstants, URLConstants } from "../utils/constants";
 import { delay, setURLParameter } from "../utils/utils.common";
 import { logger } from "../log";
 
@@ -119,6 +119,22 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
       if (statusCode === 503 || statusCode === 500) {
         logger.info(`RetryPolicy: Will retry for status code ${statusCode}.`);
         return true;
+      }
+    }
+
+    if (response) {
+      // Retry select Copy Source Error Codes.
+      if (response?.status >= 400) {
+        const copySourceError = response.headers.get(HeaderConstants.X_MS_CopySourceErrorCode);
+        if (copySourceError !== undefined) {
+          switch (copySourceError)
+          {
+              case "InternalError":
+              case "OperationTimedOut":
+              case "ServerBusy":
+                  return true;
+          }
+        }
       }
     }
 

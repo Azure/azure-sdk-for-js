@@ -431,6 +431,42 @@ describe("FileClient Node.js only", () => {
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 
+  it.only("uploadRangeFromURL - should fail with copy source error message", async function (this: Context) {
+    await fileClient.create(1024);
+
+    const fileContent = "a".repeat(512) + "b".repeat(512);
+    await fileClient.uploadRange(fileContent, 0, fileContent.length);
+
+    // Get a SAS for fileURL
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;
+    const expiresOn = new Date(recorder.variable("now", new Date().toISOString()));
+    expiresOn.setDate(expiresOn.getDate() - 1);
+    const sas = generateFileSASQueryParameters(
+      {
+        expiresOn,
+        shareName,
+        filePath: `${dirName}/${fileName}`,
+        permissions: FileSASPermissions.parse("r"),
+      },
+      credential,
+    );
+
+    const fileName2 = recorder.variable("file2", getUniqueName("file2"));
+    const fileURL2 = dirClient.getFileClient(fileName2);
+
+    await fileURL2.create(1024);
+
+    try {
+      await fileURL2.uploadRangeFromURL(`${fileClient.url}?${sas}`, 0, 0, 512);
+    }
+    catch (err){
+      assert.deepEqual((err as any).details.errorCode, "CannotVerifyCopySource");
+      assert.deepEqual((err as any).details.copySourceStatusCode, 403);
+      assert.deepEqual((err as any).details.copySourceErrorCode, "AuthenticationFailed");
+      assert.deepEqual((err as any).details.copySourceErrorMessage, "Server failed to authenticate the request. Make sure the value of Authorization header is formed correctly including the signature.");
+    }
+  });
+
   it("should not decompress during downloading", async function () {
     // recorder doesn't save binary payload correctly
     if (!isLiveMode()) {

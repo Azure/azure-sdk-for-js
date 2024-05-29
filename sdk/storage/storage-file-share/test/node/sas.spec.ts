@@ -692,4 +692,37 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     assert.isFalse(await sourceDirClient.exists(), "Source directory should not exist anymore");
   });
+  
+  it("create share with invalid SAS should fail", async () => {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() - 1);
+
+    const sharedKeyCredential = serviceClient["credential"];
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: AccountSASPermissions.parse("rwdlacup"),
+        protocol: SASProtocol.HttpsAndHttp,
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+      },
+      sharedKeyCredential as StorageSharedKeyCredential,
+    ).toString();
+
+    const sasURL = `${serviceClient.url}?${sas}`;
+    const serviceClientWithSAS = new ShareServiceClient(sasURL, newPipeline());
+    configureStorageClient(recorder, serviceClientWithSAS);
+
+    const shareName = recorder.variable("share", getUniqueName("share"));
+    const shareClient = serviceClientWithSAS.getShareClient(shareName);
+    try
+    {
+      await shareClient.create();
+    }
+    catch (err){
+      assert.ok((err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"));
+    }
+  });
 });

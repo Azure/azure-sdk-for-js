@@ -207,6 +207,7 @@ export interface ShareCreateOptions extends CommonOptions {
    * 'NoRootSquash', 'RootSquash', 'AllSquash'.
    */
   rootSquash?: ShareRootSquash;
+  enableSnapshotVirtualDirectoryAccess?: boolean;
 }
 
 /**
