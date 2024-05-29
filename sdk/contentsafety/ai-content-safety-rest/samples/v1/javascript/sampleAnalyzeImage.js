@@ -21,7 +21,7 @@ async function main() {
   const credential = new AzureKeyCredential(key);
   const client = ContentSafetyClient(endpoint, credential);
 
-  const image_path = path.resolve(__dirname, "../../../samples-dev/example-data/image.png");
+  const image_path = path.resolve(__dirname, "./example-data/image.png");
 
   const imageBuffer = fs.readFileSync(image_path);
   const base64Image = imageBuffer.toString("base64");
