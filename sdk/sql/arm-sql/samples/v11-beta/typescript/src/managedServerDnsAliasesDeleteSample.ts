@@ -32,7 +32,7 @@ async function deleteManagedServerDnsAlias() {
   const result = await client.managedServerDnsAliases.beginDeleteAndWait(
     resourceGroupName,
     managedInstanceName,
-    dnsAliasName
+    dnsAliasName,
   );
   console.log(result);
 }

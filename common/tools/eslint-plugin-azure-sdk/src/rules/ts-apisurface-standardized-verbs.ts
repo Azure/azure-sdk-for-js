@@ -3,16 +3,11 @@
 
 /**
  * @file Rule to require client methods to use standardized verb prefixes and suffixes where possible.
- * @author Arpan Laha
  */
 
-import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
-import { getPublicMethods, getRuleMetaData } from "../utils";
-import { Rule } from "eslint";
-
-//------------------------------------------------------------------------------
-// Rule Definition
-//------------------------------------------------------------------------------
+import { getPublicMethods } from "../utils";
+import { createRule } from "../utils/ruleCreator";
+import { TSESTree, ASTUtils } from "@typescript-eslint/utils";
 
 /**
  * A list of regexes corresponding to banned verb prefixes
@@ -30,21 +25,29 @@ const bannedPrefixes = [
   "fetch",
 ];
 
-export = {
-  meta: getRuleMetaData(
-    "ts-apisurface-standardized-verbs",
-    "require client methods to use standardized verb prefixes and suffixes where possible",
-  ),
-  create: (context: Rule.RuleContext): Rule.RuleListener =>
-    ({
-      // callback functions
-
+export default createRule({
+  name: "ts-apisurface-standardized-verbs",
+  meta: {
+    type: "suggestion",
+    docs: {
+      description:
+        "require client methods to use standardized verb prefixes and suffixes where possible",
+      recommended: "recommended",
+    },
+    messages: {
+      bannedPrefix:
+        "method {{methodName}} uses the banned prefix {{usedPrefix}}, use one of the approved prefixes instead",
+    },
+    schema: [],
+    fixable: "code",
+  },
+  defaultOptions: [],
+  create(context) {
+    return {
       // call on Client classes
-      "ClassDeclaration[id.name=/Client$/]": (node: ClassDeclaration): void => {
-        getPublicMethods(node).forEach((method: MethodDefinition): void => {
-          const key = method.key as Identifier;
-          const methodName = key.name;
-
+      "ClassDeclaration[id.name=/Client$/]": (node: TSESTree.ClassDeclaration): void => {
+        for (const method of getPublicMethods(node)) {
+          const methodName = ASTUtils.getPropertyName(method) ?? "";
           // look for if any of the banned prefixes are used
           const usedPrefix = bannedPrefixes.find((bannedPrefix: string): boolean =>
             methodName.startsWith(bannedPrefix),
@@ -52,10 +55,15 @@ export = {
           if (usedPrefix !== undefined) {
             context.report({
               node: method,
-              message: `method ${methodName} uses the banned prefix ${usedPrefix}, use one of the approved prefixes instead`,
+              messageId: "bannedPrefix",
+              data: {
+                methodName,
+                usedPrefix,
+              },
             });
           }
-        });
+        }
       },
-    }) as Rule.RuleListener,
-};
+    };
+  },
+});

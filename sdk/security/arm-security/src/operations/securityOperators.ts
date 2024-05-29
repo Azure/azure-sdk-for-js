@@ -18,7 +18,7 @@ import {
   SecurityOperatorsGetResponse,
   SecurityOperatorsCreateOrUpdateOptionalParams,
   SecurityOperatorsCreateOrUpdateResponse,
-  SecurityOperatorsDeleteOptionalParams
+  SecurityOperatorsDeleteOptionalParams,
 } from "../models";
 
 /** Class containing SecurityOperators operations. */
@@ -40,11 +40,11 @@ export class SecurityOperatorsImpl implements SecurityOperators {
    */
   list(
     pricingName: string,
-    options?: SecurityOperatorsListOptionalParams
+    options?: SecurityOperatorsListOptionalParams,
   ): Promise<SecurityOperatorsListResponse> {
     return this.client.sendOperationRequest(
       { pricingName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -57,11 +57,11 @@ export class SecurityOperatorsImpl implements SecurityOperators {
   get(
     pricingName: string,
     securityOperatorName: string,
-    options?: SecurityOperatorsGetOptionalParams
+    options?: SecurityOperatorsGetOptionalParams,
   ): Promise<SecurityOperatorsGetResponse> {
     return this.client.sendOperationRequest(
       { pricingName, securityOperatorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -74,11 +74,11 @@ export class SecurityOperatorsImpl implements SecurityOperators {
   createOrUpdate(
     pricingName: string,
     securityOperatorName: string,
-    options?: SecurityOperatorsCreateOrUpdateOptionalParams
+    options?: SecurityOperatorsCreateOrUpdateOptionalParams,
   ): Promise<SecurityOperatorsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { pricingName, securityOperatorName, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -91,11 +91,11 @@ export class SecurityOperatorsImpl implements SecurityOperators {
   delete(
     pricingName: string,
     securityOperatorName: string,
-    options?: SecurityOperatorsDeleteOptionalParams
+    options?: SecurityOperatorsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { pricingName, securityOperatorName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -103,88 +103,84 @@ export class SecurityOperatorsImpl implements SecurityOperators {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings/{pricingName}/securityOperators",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings/{pricingName}/securityOperators",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityOperatorList
+      bodyMapper: Mappers.SecurityOperatorList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion21],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.pricingName1
+    Parameters.pricingName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings/{pricingName}/securityOperators/{securityOperatorName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings/{pricingName}/securityOperators/{securityOperatorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityOperator
+      bodyMapper: Mappers.SecurityOperator,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion21],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.pricingName1,
-    Parameters.securityOperatorName
+    Parameters.pricingName,
+    Parameters.securityOperatorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings/{pricingName}/securityOperators/{securityOperatorName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings/{pricingName}/securityOperators/{securityOperatorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityOperator
+      bodyMapper: Mappers.SecurityOperator,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion21],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.pricingName1,
-    Parameters.securityOperatorName
+    Parameters.pricingName,
+    Parameters.securityOperatorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings/{pricingName}/securityOperators/{securityOperatorName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings/{pricingName}/securityOperators/{securityOperatorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion21],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.pricingName1,
-    Parameters.securityOperatorName
+    Parameters.pricingName,
+    Parameters.securityOperatorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -25,7 +25,7 @@ import { versionsToTest } from "@azure-tools/test-utils";
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
 const should = chai.should();
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 const env = getEnvVars();
 

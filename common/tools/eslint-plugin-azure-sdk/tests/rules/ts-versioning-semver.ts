@@ -3,10 +3,10 @@
 
 /**
  * @file Testing the ts-versioning-semver rule.
- * @author Arpan Laha
+ *
  */
 
-import { RuleTester } from "../ruleTester";
+import { createRuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-versioning-semver";
 
 //------------------------------------------------------------------------------
@@ -239,13 +239,7 @@ const examplePackageBad = `{
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-versioning-semver", rule, {
   valid: [
@@ -319,7 +313,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "version does not exist at the outermost level",
+          messageId: "outerMostNotExist",
         },
       ],
     },
@@ -329,7 +323,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "version does not exist at the outermost level",
+          messageId: "outerMostNotExist",
         },
       ],
     },
@@ -339,7 +333,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "version is not set to a string",
+          messageId: "versionNotString",
         },
       ],
     },
@@ -349,7 +343,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "version is not in semver",
+          messageId: "versionNotSemver",
         },
       ],
     },
@@ -358,7 +352,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "version is not in semver",
+          messageId: "versionNotSemver",
         },
       ],
     },
@@ -367,7 +361,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "version is not in semver",
+          messageId: "versionNotSemver",
         },
       ],
     },
@@ -376,7 +370,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "version is not in semver",
+          messageId: "versionNotSemver",
         },
       ],
     },
@@ -385,7 +379,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "version is not in semver",
+          messageId: "versionNotSemver",
         },
       ],
     },
@@ -394,7 +388,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "version is not in semver",
+          messageId: "versionNotSemver",
         },
       ],
     },
@@ -404,7 +398,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "unrecognized version syntax: preview.1",
+          messageId: "unrecognizedPrerelease",
         },
       ],
     },
@@ -413,7 +407,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "unrecognized version syntax: Beta-1",
+          messageId: "unrecognizedPrerelease",
         },
       ],
     },
@@ -422,7 +416,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "beta format is not x.y.z-beta.i",
+          messageId: "prereleaseBadFormat",
         },
       ],
     },
@@ -431,7 +425,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "beta format is not x.y.z-beta.i",
+          messageId: "prereleaseBadFormat",
         },
       ],
     },
@@ -440,7 +434,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "beta format is not x.y.z-beta.i",
+          messageId: "prereleaseBadFormat",
         },
       ],
     },
@@ -450,7 +444,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "unrecognized version syntax: dev.20200728.1",
+          messageId: "unrecognizedPrerelease",
         },
       ],
     },
@@ -459,7 +453,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "unrecognized version syntax: Alpha-1",
+          messageId: "unrecognizedPrerelease",
         },
       ],
     },
@@ -468,7 +462,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "alpha format is not x.y.z-alpha.<date>.i",
+          messageId: "prereleaseBadFormat",
         },
       ],
     },
@@ -477,7 +471,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "alpha format is not x.y.z-alpha.<date>.i",
+          messageId: "prereleaseBadFormat",
         },
       ],
     },
@@ -486,7 +480,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "alpha format is not x.y.z-alpha.<date>.i",
+          messageId: "prereleaseBadFormat",
         },
       ],
     },
@@ -495,7 +489,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "alpha format is not x.y.z-alpha.<date>.i",
+          messageId: "prereleaseBadFormat",
         },
       ],
     },
@@ -505,7 +499,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "major version should not be set to 0",
+          messageId: "majorNotZero",
         },
       ],
     },
@@ -515,10 +509,10 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "major version should not be set to 0",
+          messageId: "majorNotZero",
         },
         {
-          message: "beta format is not x.y.z-beta.i",
+          messageId: "prereleaseBadFormat",
         },
       ],
     },
@@ -528,7 +522,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "version is not in semver",
+          messageId: "versionNotSemver",
         },
       ],
     },

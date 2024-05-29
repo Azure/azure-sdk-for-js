@@ -5,12 +5,8 @@
  * @summary Demonstrates vector search
  */
 
-import {
-  AzureKeyCredential,
-  GeographyPoint,
-  SearchClient,
-  SearchIndexClient,
-} from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+import { GeographyPoint, SearchClient, SearchIndexClient } from "@azure/search-documents";
 import { Hotel } from "./interfaces";
 import { createIndex, delay, WAIT_TIME } from "./setup";
 
@@ -22,16 +18,15 @@ dotenv.config();
  * This sample is to demonstrate the use of SearchClient's vector search feature.
  */
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-7";
 
 async function main(): Promise<void> {
-  if (!endpoint || !apiKey) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
 
-  const credential = new AzureKeyCredential(apiKey);
+  const credential = new DefaultAzureCredential();
 
   const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
     endpoint,

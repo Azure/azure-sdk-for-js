@@ -3,10 +3,10 @@
 
 /**
  * @file Testing the ts-package-json-sdktype rule.
- * @author Ben Zhang
+ *
  */
 
-import { RuleTester } from "../ruleTester";
+import { createRuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-package-json-sdktype";
 
 //------------------------------------------------------------------------------
@@ -326,13 +326,7 @@ const examplePackageBad = `{
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-package-json-sdktype", rule, {
   valid: [
@@ -370,7 +364,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            'unrecognized sdk-type value: clien. Expected either "client", "mgmt", or "utility."',
+            "unrecognized sdk-type value: clien. Expected one of 'client', 'mgmt', or 'utility.'",
         },
       ],
     },
@@ -381,7 +375,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            'unrecognized sdk-type value: mgm. Expected either "client", "mgmt", or "utility."',
+            "unrecognized sdk-type value: mgm. Expected one of 'client', 'mgmt', or 'utility.'",
         },
       ],
     },
@@ -392,7 +386,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            'unrecognized sdk-type value: util. Expected either "client", "mgmt", or "utility."',
+            "unrecognized sdk-type value: util. Expected one of 'client', 'mgmt', or 'utility.'",
         },
       ],
     },

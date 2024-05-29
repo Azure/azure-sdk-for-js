@@ -106,13 +106,13 @@ export interface AzureDeveloperCliCredentialOptions extends MultiTenantTokenCred
 }
 
 // @public
-export class AzurePipelinesServiceConnectionCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, serviceConnectionId: string, options?: AzurePipelinesServiceConnectionCredentialOptions);
+export class AzurePipelinesCredential implements TokenCredential {
+    constructor(tenantId: string, clientId: string, serviceConnectionId: string, options?: AzurePipelinesCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
 // @public
-export interface AzurePipelinesServiceConnectionCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
+export interface AzurePipelinesCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
 }
 
 // @public

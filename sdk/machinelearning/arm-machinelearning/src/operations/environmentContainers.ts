@@ -23,7 +23,7 @@ import {
   EnvironmentContainersGetResponse,
   EnvironmentContainersCreateOrUpdateOptionalParams,
   EnvironmentContainersCreateOrUpdateResponse,
-  EnvironmentContainersListNextResponse
+  EnvironmentContainersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,7 +48,7 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EnvironmentContainersListOptionalParams
+    options?: EnvironmentContainersListOptionalParams,
   ): PagedAsyncIterableIterator<EnvironmentContainer> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -66,9 +66,9 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +76,7 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
     resourceGroupName: string,
     workspaceName: string,
     options?: EnvironmentContainersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EnvironmentContainer[]> {
     let result: EnvironmentContainersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -104,12 +104,12 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EnvironmentContainersListOptionalParams
+    options?: EnvironmentContainersListOptionalParams,
   ): AsyncIterableIterator<EnvironmentContainer> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -124,11 +124,11 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EnvironmentContainersListOptionalParams
+    options?: EnvironmentContainersListOptionalParams,
   ): Promise<EnvironmentContainersListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -143,11 +143,11 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: EnvironmentContainersDeleteOptionalParams
+    options?: EnvironmentContainersDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -162,11 +162,11 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: EnvironmentContainersGetOptionalParams
+    options?: EnvironmentContainersGetOptionalParams,
   ): Promise<EnvironmentContainersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -183,11 +183,11 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
     workspaceName: string,
     name: string,
     body: EnvironmentContainer,
-    options?: EnvironmentContainersCreateOrUpdateOptionalParams
+    options?: EnvironmentContainersCreateOrUpdateOptionalParams,
   ): Promise<EnvironmentContainersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, body, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -202,11 +202,11 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: EnvironmentContainersListNextOptionalParams
+    options?: EnvironmentContainersListNextOptionalParams,
   ): Promise<EnvironmentContainersListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -214,41 +214,39 @@ export class EnvironmentContainersImpl implements EnvironmentContainers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentContainerResourceArmPaginatedResult
+      bodyMapper: Mappers.EnvironmentContainerResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skip,
-    Parameters.listViewType
+    Parameters.listViewType,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -256,22 +254,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentContainer
+      bodyMapper: Mappers.EnvironmentContainer,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -279,25 +276,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentContainer
+      bodyMapper: Mappers.EnvironmentContainer,
     },
     201: {
-      bodyMapper: Mappers.EnvironmentContainer
+      bodyMapper: Mappers.EnvironmentContainer,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body11,
   queryParameters: [Parameters.apiVersion],
@@ -306,35 +302,30 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name1
+    Parameters.name1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentContainerResourceArmPaginatedResult
+      bodyMapper: Mappers.EnvironmentContainerResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.listViewType
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

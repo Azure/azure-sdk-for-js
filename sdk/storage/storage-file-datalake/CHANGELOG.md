@@ -2,21 +2,37 @@
 
 ## 12.22.0-beta.2 (Unreleased)
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
 
 - Allow HTTP connections
+
+## 12.17.0-beta.1 (2024-04-18)
+
+### Features Added
+
+- Added support for service version 2024-05-04.
+- Added ability to retrieve path ACL with DataLakePathClient.getProperties(), DataLakeFileClient.getProperties(), DataLakeDirectoryClient.getProperties(), DataLakeFileClient.read().
 
 ## 12.22.0-beta.1 (2023-11-01)
 
 ### Other Changes
 
 - Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
+
+## 12.16.0 (2023-11-09)
+
+### Features Added
+
+- Includes all features released in 12.16.0-beta.1.
+
+## 12.16.0-beta.1 (2023-10-18)
+
+### Features Added
+
+- Added support for service version 2023-11-03.
+- Added support for indicating audience in StoragePipelineOptions.
+
+## 12.15.0 (2023-09-14)
 
 ## 12.15.0-beta.1 (2023-08-11)
 

@@ -78,6 +78,9 @@
       "esm",
       "commonjs"
     ],
+    "esmDialects": [
+      "browser"
+    ],
     "selfLink": false
   },
   "exports": {

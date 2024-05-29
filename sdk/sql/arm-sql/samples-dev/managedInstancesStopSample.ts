@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Stops the managed instance.
  *
  * @summary Stops the managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/StopManagedInstance.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/StopManagedInstance.json
  */
 async function stopsTheManagedInstance() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function stopsTheManagedInstance() {
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedInstances.beginStopAndWait(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   );
   console.log(result);
 }

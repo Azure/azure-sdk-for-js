@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get Configuration records within a subscription
  *
  * @summary Get Configuration records within a subscription
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/ApplyUpdates_List.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ApplyUpdates_List.json
  */
 async function applyUpdatesList() {
   const subscriptionId =

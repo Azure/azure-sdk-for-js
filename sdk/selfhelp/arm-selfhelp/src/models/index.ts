@@ -576,7 +576,7 @@ export interface SectionSelfHelp {
 export interface DiscoveryNlpRequest {
   /** Natural language description of the issue. */
   issueSummary: string;
-  /** ARM resource Id of the resource that is having the issue. */
+  /** ARM resource Id of the resource that is having the issue. Only applicable for Discovery Solution NLP Subscription Scope. */
   resourceId?: string;
   /** ARM service Id of the service that is having the issue. For more information on service Id see https://learn.microsoft.com/rest/api/support/services/list?tabs=HTTP. */
   serviceId?: string;

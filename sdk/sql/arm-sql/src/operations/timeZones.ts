@@ -20,7 +20,7 @@ import {
   TimeZonesListByLocationResponse,
   TimeZonesGetOptionalParams,
   TimeZonesGetResponse,
-  TimeZonesListByLocationNextResponse
+  TimeZonesListByLocationNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export class TimeZonesImpl implements TimeZones {
    */
   public listByLocation(
     locationName: string,
-    options?: TimeZonesListByLocationOptionalParams
+    options?: TimeZonesListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<TimeZone> {
     const iter = this.listByLocationPagingAll(locationName, options);
     return {
@@ -58,14 +58,14 @@ export class TimeZonesImpl implements TimeZones {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByLocationPagingPage(locationName, options, settings);
-      }
+      },
     };
   }
 
   private async *listByLocationPagingPage(
     locationName: string,
     options?: TimeZonesListByLocationOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TimeZone[]> {
     let result: TimeZonesListByLocationResponse;
     let continuationToken = settings?.continuationToken;
@@ -80,7 +80,7 @@ export class TimeZonesImpl implements TimeZones {
       result = await this._listByLocationNext(
         locationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -91,11 +91,11 @@ export class TimeZonesImpl implements TimeZones {
 
   private async *listByLocationPagingAll(
     locationName: string,
-    options?: TimeZonesListByLocationOptionalParams
+    options?: TimeZonesListByLocationOptionalParams,
   ): AsyncIterableIterator<TimeZone> {
     for await (const page of this.listByLocationPagingPage(
       locationName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -108,11 +108,11 @@ export class TimeZonesImpl implements TimeZones {
    */
   private _listByLocation(
     locationName: string,
-    options?: TimeZonesListByLocationOptionalParams
+    options?: TimeZonesListByLocationOptionalParams,
   ): Promise<TimeZonesListByLocationResponse> {
     return this.client.sendOperationRequest(
       { locationName, options },
-      listByLocationOperationSpec
+      listByLocationOperationSpec,
     );
   }
 
@@ -125,11 +125,11 @@ export class TimeZonesImpl implements TimeZones {
   get(
     locationName: string,
     timeZoneId: string,
-    options?: TimeZonesGetOptionalParams
+    options?: TimeZonesGetOptionalParams,
   ): Promise<TimeZonesGetResponse> {
     return this.client.sendOperationRequest(
       { locationName, timeZoneId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -142,11 +142,11 @@ export class TimeZonesImpl implements TimeZones {
   private _listByLocationNext(
     locationName: string,
     nextLink: string,
-    options?: TimeZonesListByLocationNextOptionalParams
+    options?: TimeZonesListByLocationNextOptionalParams,
   ): Promise<TimeZonesListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       { locationName, nextLink, options },
-      listByLocationNextOperationSpec
+      listByLocationNextOperationSpec,
     );
   }
 }
@@ -154,59 +154,57 @@ export class TimeZonesImpl implements TimeZones {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/timeZones",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/timeZones",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TimeZoneListResult
+      bodyMapper: Mappers.TimeZoneListResult,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/timeZones/{timeZoneId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TimeZone
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.locationName,
-    Parameters.timeZoneId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/timeZones/{timeZoneId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TimeZone,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.locationName,
+    Parameters.timeZoneId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TimeZoneListResult
+      bodyMapper: Mappers.TimeZoneListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

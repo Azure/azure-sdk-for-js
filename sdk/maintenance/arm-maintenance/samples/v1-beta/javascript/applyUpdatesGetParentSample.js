@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Track maintenance updates to resource with parent
  *
  * @summary Track maintenance updates to resource with parent
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/ApplyUpdates_GetParent.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ApplyUpdates_GetParent.json
  */
 async function applyUpdatesGetParent() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function applyUpdatesGetParent() {
     resourceParentName,
     resourceType,
     resourceName,
-    applyUpdateName
+    applyUpdateName,
   );
   console.log(result);
 }

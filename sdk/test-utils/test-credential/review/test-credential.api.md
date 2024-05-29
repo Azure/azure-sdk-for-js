@@ -5,22 +5,21 @@
 ```ts
 
 import { AccessToken } from '@azure/core-auth';
-import { ClientSecretCredential } from '@azure/identity';
+import { DefaultAzureCredentialClientIdOptions } from '@azure/identity';
+import { DefaultAzureCredentialOptions } from '@azure/identity';
+import { DefaultAzureCredentialResourceIdOptions } from '@azure/identity';
 import { TokenCredential } from '@azure/core-auth';
-import { TokenCredentialOptions } from '@azure/identity';
 
 // @public
-export function createTestCredential(tokenCredentialOptions?: TokenCredentialOptions, createTestCredentialOptions?: CreateTestCredentialOptions): ClientSecretCredential | NoOpCredential;
+export function createTestCredential(tokenCredentialOptions?: CreateTestCredentialOptions): TokenCredential;
 
-// @public (undocumented)
-export interface CreateTestCredentialOptions {
-    // (undocumented)
-    clientId?: string;
-    // (undocumented)
-    clientSecret?: string;
-    // (undocumented)
-    tenantId?: string;
-}
+// @public
+export type CreateTestCredentialOptions = DefaultAzureCredentialCombinedOptions & {
+    browserRelayServerUrl?: string;
+};
+
+// @public
+export type DefaultAzureCredentialCombinedOptions = DefaultAzureCredentialClientIdOptions | DefaultAzureCredentialResourceIdOptions | DefaultAzureCredentialOptions;
 
 // @public
 export class NoOpCredential implements TokenCredential {

@@ -3,7 +3,7 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
-import { newPipeline } from "../../../storage-blob/src/Pipeline";
+import { newPipeline } from "../../src/Pipeline";
 import { ShareClientConfig } from "../../src/models";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { configureStorageClient, SimpleTokenCredential } from "./testutils.common";

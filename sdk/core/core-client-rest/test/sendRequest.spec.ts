@@ -529,7 +529,7 @@ describe("sendRequest", () => {
     assert.equal(response.body, "test");
   });
 
-  it.skipIf(typeof FormData === undefined)("should send FormData body", async () => {
+  it.skipIf(typeof FormData === "undefined")("should send FormData body", async () => {
     const formData = new FormData();
     formData.append("foo", "test");
 

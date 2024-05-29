@@ -1,6 +1,6 @@
 # Release History
 
-## 5.11.5 (Unreleased)
+## 5.12.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.12.0 (2024-05-20)
+
+### Features Added
+
+- Adds support for connecting to the development emulator. The connection string for the development emulator should have the `";UseDevelopmentEmulator=true"` slug.
 
 ## 5.11.4 (2024-03-21)
 

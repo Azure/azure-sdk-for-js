@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 import { ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../../src";
 
 export class TestMessage {

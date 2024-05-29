@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete existing partner configuration.
  *
  * @summary Delete existing partner configuration.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerConfigurations_Delete.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerConfigurations_Delete.json
  */
 async function partnerConfigurationsDelete() {
   const subscriptionId =

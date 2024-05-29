@@ -9,6 +9,7 @@ describe("Recorder file paths", () => {
     const vitestTest = (): void => {
       /* no-op */
     };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (vitestTest as any).task = {
       name: "vitest test title",
       suite: {
@@ -16,6 +17,7 @@ describe("Recorder file paths", () => {
       },
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const context = calculatePaths(vitestTest as any);
     expect(context).to.eql({
       suiteTitle: "vitest suite title",
@@ -27,6 +29,7 @@ describe("Recorder file paths", () => {
     const vitestTest = (): void => {
       /* no-op */
     };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (vitestTest as any).task = {
       name: "vitest test title",
       suite: {
@@ -37,6 +40,7 @@ describe("Recorder file paths", () => {
       },
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const context = calculatePaths(vitestTest as any);
     expect(context).to.eql({
       suiteTitle: "toplevel suite_vitest suite title",
