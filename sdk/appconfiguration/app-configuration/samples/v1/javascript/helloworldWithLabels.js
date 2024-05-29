@@ -5,6 +5,7 @@
  * @summary This sample builds on concepts in helloworld.ts and shows you how to use labels.
  */
 const { AppConfigurationClient } = require("@azure/app-configuration");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -15,8 +16,10 @@ async function main() {
   console.log("Running helloworldWithLabels sample");
 
   // Set the following environment variable or edit the value on the following line.
-  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
-  const client = new AppConfigurationClient(connectionString);
+  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<connection string>";
+
+  const credential = new DefaultAzureCredential();
+  const client = new AppConfigurationClient(endpoint, credential);
 
   const urlKey = "Samples:Endpoint:Url";
 

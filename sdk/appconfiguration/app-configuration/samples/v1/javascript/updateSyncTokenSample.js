@@ -14,7 +14,9 @@ const { isSystemEvent, EventGridDeserializer } = require("@azure/eventgrid");
 const { appConfigTestEvent } = require("./testData");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+const { DefaultAzureCredential } = require("@azure/identity");
+dotenv.config();
 
 // Create an Event Grid Consumer which will decode a hard coded test object into an EventGridEvent object.
 const consumer = new EventGridDeserializer();
@@ -30,8 +32,10 @@ async function processEvent() {
 
 async function main() {
   // Set the following environment variable or edit the value on the following line.
-  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
-  const client = new AppConfigurationClient(connectionString);
+  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<connection string>";
+
+  const credential = new DefaultAzureCredential();
+  const client = new AppConfigurationClient(endpoint, credential);
 
   const greetingKey = "Samples:Greeting";
 

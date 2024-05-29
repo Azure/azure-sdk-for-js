@@ -6,6 +6,7 @@
  * @azsdk-weight 70
  */
 import { AppConfigurationClient } from "@azure/app-configuration";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -15,8 +16,10 @@ export async function main() {
   console.log("Running setReadOnly sample");
 
   // Set the following environment variable or edit the value on the following line.
-  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
-  const client = new AppConfigurationClient(connectionString);
+  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<connection string>";
+
+  const credential = new DefaultAzureCredential();
+  const client = new AppConfigurationClient(endpoint, credential);
 
   const readOnlySampleKey = "readOnlySampleKey";
   await cleanupSampleValues([readOnlySampleKey], client);

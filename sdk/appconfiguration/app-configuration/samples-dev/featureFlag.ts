@@ -13,6 +13,7 @@ import {
   FeatureFlagValue,
   parseFeatureFlag,
 } from "@azure/app-configuration";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -62,8 +63,9 @@ export async function main() {
   };
 
   // Set the following environment variable or edit the value on the following line.
-  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
-  const appConfigClient = new AppConfigurationClient(connectionString);
+  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<connection string>";
+  const credential = new DefaultAzureCredential();
+  const appConfigClient = new AppConfigurationClient(endpoint, credential);
 
   await cleanupSampleValues([originalFeatureFlag.key], appConfigClient);
 
