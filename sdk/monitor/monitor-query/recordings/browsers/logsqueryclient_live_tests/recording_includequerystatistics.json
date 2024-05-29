@@ -1,26 +1,27 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.loganalytics.io/v1/workspaces/workspace-id/query",
+      "RequestUri": "https://api.loganalytics.io/v1/workspaces/workspace-id/query",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "50",
+        "Content-Length": "48",
         "Content-Type": "application/json",
         "prefer": "include-statistics=true",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\"HeadlessChrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+        "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\"Windows\"",
+        "sec-ch-ua-platform": "",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/125.0.6422.60 Safari/537.36",
-        "x-ms-client-request-id": "Sanitized",
-        "x-ms-useragent": "azsdk-js-monitor-query/1.2.0 azsdk-js-monitor-log-query/1.2.0 core-rest-pipeline/1.16.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "a4273574-0e96-4fa6-8d1d-fb4e1e747541",
+        "x-ms-useragent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.5.1 OS/Win32"
       },
       "RequestBody": {
         "query": "AppEvents | limit 1",
@@ -30,144 +31,143 @@
       "ResponseHeaders": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Retry-After,Age,WWW-Authenticate,x-resource-identities,x-ms-status-location",
-        "Age": "62",
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 27 May 2024 22:08:53 GMT",
+        "Date": "Fri, 11 Feb 2022 23:21:12 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
-        "Via": "1.1 draft-oms-84fccbf47-mvhmg",
+        "Via": "1.1 draft-oms-5565f6c877-p7b2k",
         "X-Content-Type-Options": "nosniff"
       },
       "ResponseBody": {
         "tables": [
           {
-            "name": "Sanitized",
+            "name": "PrimaryResult",
             "columns": [
               {
-                "name": "Sanitized",
+                "name": "TenantId",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "TimeGenerated",
                 "type": "datetime"
               },
               {
-                "name": "Sanitized",
+                "name": "Name",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "Properties",
                 "type": "dynamic"
               },
               {
-                "name": "Sanitized",
+                "name": "Measurements",
                 "type": "dynamic"
               },
               {
-                "name": "Sanitized",
+                "name": "OperationName",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "OperationId",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "ParentId",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "SyntheticSource",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "SessionId",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "UserId",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "UserAuthenticatedId",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "UserAccountId",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "AppVersion",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "AppRoleName",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "AppRoleInstance",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "ClientType",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "ClientModel",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "ClientOS",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "ClientIP",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "ClientCity",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "ClientStateOrProvince",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "ClientCountryOrRegion",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "ClientBrowser",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "ResourceGUID",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "IKey",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "SDKVersion",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "ItemCount",
                 "type": "int"
               },
               {
-                "name": "Sanitized",
+                "name": "SourceSystem",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "Type",
                 "type": "string"
               },
               {
-                "name": "Sanitized",
+                "name": "_ResourceId",
                 "type": "string"
               }
             ],
@@ -179,6 +179,16 @@
             "executionTime": 0,
             "resourceUsage": {
               "cache": {
+                "memory": {
+                  "hits": 0,
+                  "misses": 0,
+                  "total": 0
+                },
+                "disk": {
+                  "hits": 0,
+                  "misses": 0,
+                  "total": 0
+                },
                 "shards": {
                   "hot": {
                     "hitbytes": 0,
@@ -231,8 +241,7 @@
                 "tableRowCount": 0,
                 "tableSize": 0
               }
-            ],
-            "crossClusterResourceUsage": {}
+            ]
           }
         }
       }

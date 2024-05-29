@@ -1,25 +1,26 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.loganalytics.io/v1metrics-arm-resource-id/query",
+      "RequestUri": "https://api.loganalytics.io/v1/logs-arm-resource-id/query",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "57",
         "Content-Type": "application/json",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\"HeadlessChrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+        "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\"Windows\"",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/125.0.6422.60 Safari/537.36",
-        "x-ms-client-request-id": "Sanitized",
-        "x-ms-useragent": "azsdk-js-monitor-query/1.2.0 azsdk-js-monitor-log-query/1.2.0 core-rest-pipeline/1.16.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "45471c0d-4f04-4f03-9646-1aafbfcd4f50",
+        "x-ms-useragent": "azsdk-js-monitor-query/1.1.0-beta.1 azsdk-js-monitor-log-query/1.1.0-beta.1 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
         "query": "resource | summarize count()",
@@ -32,23 +33,23 @@
         "Connection": "keep-alive",
         "Content-Length": "349",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 27 May 2024 22:09:00 GMT",
+        "Date": "Tue, 02 May 2023 22:03:17 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding",
-        "Via": "1.1 draft-oms-84fccbf47-89vtw",
+        "Via": "1.1 draft-oms-848f8fcc7f-kmz5f",
         "X-Content-Type-Options": "nosniff"
       },
       "ResponseBody": {
         "error": {
           "message": "The request had some invalid properties",
           "code": "BadArgumentError",
-          "correlationId": "661f880f-e60e-4c00-a5de-a238cc03cbb1",
+          "correlationId": "130afe9a-eef0-44c4-8480-dd0dfac0fabc",
           "innererror": {
             "code": "SemanticError",
             "message": "A semantic error occurred.",
             "innererror": {
               "code": "SEM0100",
-              "message": "'summarize' operator: Failed to resolve table or column expression named 'resource'"
+              "message": "\u0027summarize\u0027 operator: Failed to resolve table or column expression named \u0027resource\u0027"
             }
           }
         }
