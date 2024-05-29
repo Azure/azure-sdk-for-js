@@ -59,6 +59,7 @@ export const HeaderConstants = {
   X_MS_DATE: "x-ms-date",
   X_MS_ERROR_CODE: "x-ms-error-code",
   X_MS_VERSION: "x-ms-version",
+  X_MS_CopySourceErrorCode: "x-ms-copy-source-error-code",
 };
 
 export const ETagNone = "";
@@ -166,7 +167,7 @@ export const StorageBlobLoggingAllowedHeaderNames = [
   "x-ms-source-if-none-match",
   "x-ms-source-if-unmodified-since",
   "x-ms-tag-count",
-  "x-ms-encryption-key-sha256", 
+  "x-ms-encryption-key-sha256",
   "x-ms-copy-source-error-code",
   "x-ms-copy-source-status-code",
   "x-ms-if-tags",

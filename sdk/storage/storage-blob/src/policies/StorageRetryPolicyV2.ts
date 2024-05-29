@@ -12,7 +12,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { getErrorMessage } from "@azure/core-util";
 import { StorageRetryOptions } from "../StorageRetryPolicyFactory";
-import { URLConstants } from "../utils/constants";
+import { HeaderConstants, URLConstants } from "../utils/constants";
 import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
 import { logger } from "../log";
 
@@ -106,6 +106,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
         return true;
       }
     }
+
     // If attempt was against the secondary & it returned a StatusNotFound (404), then
     // the resource was not found. This may be due to replication delay. So, in this
     // case, we'll never try the secondary again for this operation.
@@ -120,6 +121,21 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
       if (statusCode === 503 || statusCode === 500) {
         logger.info(`RetryPolicy: Will retry for status code ${statusCode}.`);
         return true;
+      }
+    }
+
+    if (response) {
+      // Retry select Copy Source Error Codes.
+      if (response?.status >= 400) {
+        const copySourceError = response.headers.get(HeaderConstants.X_MS_CopySourceErrorCode);
+        if (copySourceError !== undefined) {
+          switch (copySourceError) {
+            case "InternalError":
+            case "OperationTimedOut":
+            case "ServerBusy":
+              return true;
+          }
+        }
       }
     }
 

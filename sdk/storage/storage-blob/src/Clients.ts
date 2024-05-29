@@ -2230,7 +2230,7 @@ export class BlobClient extends StorageClient {
       );
     });
   }
-  
+
   /**
    * The Get Account Information operation returns the sku name and account kind
    * for the specified account.
@@ -2244,18 +2244,14 @@ export class BlobClient extends StorageClient {
   public async getAccountInfo(
     options: BlobGetAccountInfoOptions = {},
   ): Promise<BlobGetAccountInfoResponse> {
-    return tracingClient.withSpan(
-      "BlobClient-getAccountInfo",
-      options,
-      async (updatedOptions) => {
-        return assertResponse<BlobGetAccountInfoHeaders, BlobGetAccountInfoHeaders>(
-          await this.blobContext.getAccountInfo({
-            abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
-        );
-      },
-    );
+    return tracingClient.withSpan("BlobClient-getAccountInfo", options, async (updatedOptions) => {
+      return assertResponse<BlobGetAccountInfoHeaders, BlobGetAccountInfoHeaders>(
+        await this.blobContext.getAccountInfo({
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        }),
+      );
+    });
   }
 }
 
