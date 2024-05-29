@@ -2,24 +2,14 @@ trigger: none
 pr: none
 
 parameters:
-
-- name: accessLevel
-  displayName: 'Publishing access level'
-  type: string
-  default: 'public'
 - name: BlobPath
   displayName: 'Container relative blob path'
   type: string
   default: '<team>/js/<version>'
-- name: SkipDiff
-  displayName: 'Should the diff be skipped?'
-  type: string
-  default: 'False'
 - name: Tag
   displayName: 'The tag under which the package will be published.'
   type: string
   default: 'latest'
-
 
 extends:
   template: /eng/pipelines/templates/stages/1es-redirect.yml
