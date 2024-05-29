@@ -53,7 +53,7 @@ extends:
 
           - template: /eng/pipelines/templates/steps/npm-release-task.yml
             parameters:
-              ArtifactName: ${{parameters.ArtifactName}}
+              ArtifactName: Partner Drop
               Artifact: 
                 name: Partner Drop
                 path: $(Artifacts)
