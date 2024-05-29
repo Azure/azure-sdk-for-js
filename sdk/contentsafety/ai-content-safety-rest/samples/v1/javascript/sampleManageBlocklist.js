@@ -40,7 +40,7 @@ async function createOrUpdateTextBlocklist() {
     "Blocklist created or updated: Name",
     result.body.blocklistName,
     ", Description: ",
-    result.body.description
+    result.body.description,
   );
 }
 
@@ -80,7 +80,7 @@ async function addBlockItems() {
         ", Text: ",
         blockItem.text,
         ", Description: ",
-        blockItem.description
+        blockItem.description,
       );
     }
   }
@@ -112,7 +112,7 @@ async function analyzeTextWithBlocklists() {
         ", BlockItemId: ",
         blocklistMatchResult.blocklistItemId,
         ", BlockItemText: ",
-        blocklistMatchResult.blocklistItemText
+        blocklistMatchResult.blocklistItemText,
       );
     }
   }
@@ -132,7 +132,7 @@ async function listTextBlocklists() {
         "BlocklistName: ",
         blocklist.blocklistName,
         ", Description: ",
-        blocklist.description
+        blocklist.description,
       );
     }
   }
@@ -171,7 +171,7 @@ async function listBlockItems() {
         ", Text: ",
         blockItem.text,
         ", Description: ",
-        blockItem.description
+        blockItem.description,
       );
     }
   }
@@ -202,7 +202,7 @@ async function getBlockItem() {
     .path(
       "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}",
       blocklistName,
-      blockItemId
+      blockItemId,
     )
     .get();
 
@@ -217,7 +217,7 @@ async function getBlockItem() {
     ", Text: ",
     blockItem.body.text,
     ", Description: ",
-    blockItem.body.description
+    blockItem.body.description,
   );
 }
 
