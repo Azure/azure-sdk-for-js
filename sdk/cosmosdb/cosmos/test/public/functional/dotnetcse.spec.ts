@@ -1153,7 +1153,6 @@ describe("dotnet test cases", () => {
     try {
       await testCreateItem(encryptionContainerToDelete);
     } catch (err) {
-      console.log("item creation error, emryptionContainerToDelette", err);
       assert.ok(
         err.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1169,14 +1168,20 @@ describe("dotnet test cases", () => {
         operationType: BulkOperationType.Create,
         resourceBody: JSON.parse(JSON.stringify(TestDoc.create())),
       },
+      {
+        operationType: BulkOperationType.Replace,
+        id: docToReplace.id,
+        resourceBody: JSON.parse(JSON.stringify(docToReplace)),
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert)),
+      },
     ];
     try {
-      console.log("reached here");
-      console.log("operations", operations);
-      const res = await otherEncryptionContainer.items.bulk(operations);
-      console.log("bulk res", res);
+      await otherEncryptionContainer.items.bulk(operations);
     } catch (error) {
-      console.log("reached here1");
+      console.log(error);
       assert.ok(
         error.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1184,16 +1189,10 @@ describe("dotnet test cases", () => {
       );
     }
     // retry bulk operation with 2nd client
-    console.log("second bulk operation");
-    const res2 = await otherEncryptionContainer.items.bulk(operations);
-    console.log("bulk res2", res2);
-    console.log("reached here2");
+    await otherEncryptionContainer.items.bulk(operations);
     await verifyItemByRead(encryptionContainerToDelete, docToReplace);
-    console.log("reached here3");
     await testCreateItem(encryptionContainerToDelete);
-    console.log("reached here4");
     await verifyItemByRead(encryptionContainerToDelete, docToUpsert);
-    console.log("reached here5");
     // validate if the right policy was used, by reading them all back
     const response = await otherEncryptionContainer.items.readAll().fetchAll();
     console.log("query response: ", response);

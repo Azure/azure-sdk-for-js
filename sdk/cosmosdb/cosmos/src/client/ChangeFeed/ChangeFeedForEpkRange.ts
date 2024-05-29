@@ -406,6 +406,13 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = this.startTime;
     }
     const rangeId = await this.getPartitionRangeId(feedRange, diagnosticNode);
+    if (this.clientContext.enableEncryption) {
+      if (!this.container._rid) {
+        const { resource: containerDefinition } = await this.container.read();
+        this.container._rid = containerDefinition._rid;
+      }
+      feedOptions.collectionRid = this.container._rid;
+    }
     try {
       // startEpk and endEpk are only valid in case we want to fetch result for a part of partition and not the entire partition.
       const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({

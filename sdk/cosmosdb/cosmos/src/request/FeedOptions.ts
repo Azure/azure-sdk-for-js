@@ -101,4 +101,6 @@ export interface FeedOptions extends SharedOptions {
    * Enable returning index metrics in response headers. Default: false
    */
   populateIndexMetrics?: boolean;
+  /** collection rid for setting CollectionRidHeader */
+  collectionRid?: string;
 }

@@ -1185,6 +1185,7 @@ export interface FeedOptions extends SharedOptions {
         condition: string;
     };
     bufferItems?: boolean;
+    collectionRid?: string;
     // @deprecated
     continuation?: string;
     continuationToken?: string;

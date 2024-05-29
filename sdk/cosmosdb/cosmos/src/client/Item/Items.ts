@@ -152,7 +152,6 @@ export class Items {
       ResourceType.item,
       this.container,
     );
-    iterator.addEncryptionProcessor(this.container.encryptionProcessor);
     return iterator;
   }
   /**
@@ -422,7 +421,7 @@ export class Items {
         if (this.clientContext.enableEncryption) {
           await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
         }
-        throw err;
+        throw error;
       }
 
       if (this.clientContext.enableEncryption) {
@@ -493,6 +492,10 @@ export class Items {
       if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         options = options || {};
+        if (!this.container._rid) {
+          const { resource: containerDefinition } = await this.container.read();
+          this.container._rid = containerDefinition._rid;
+        }
         options.collectionRid = this.container._rid;
         body = await this.container.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
@@ -589,6 +592,11 @@ export class Items {
       if (this.clientContext.enableEncryption) {
         operations = copyObject(operations);
         options = options || {};
+        if (!this.container._rid) {
+          const { resource: containerDefinition } = await this.container.read();
+          this.container._rid = containerDefinition._rid;
+        }
+        console.log("container._rid", this.container._rid);
         options.collectionRid = this.container._rid;
         operations = await this.bulkBatchEncryptionHelper(operations);
       }
@@ -655,7 +663,7 @@ export class Items {
               if (err.code === 410) {
                 throw new Error(
                   "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type" +
-                  err.message,
+                    err.message,
                 );
               }
               throw new Error(`Bulk request errored with: ${err.message}`);
@@ -749,6 +757,10 @@ export class Items {
       if (this.clientContext.enableEncryption) {
         operations = copyObject(operations);
         options = options || {};
+        if (!this.container._rid) {
+          const { resource: containerDefinition } = await this.container.read();
+          this.container._rid = containerDefinition._rid;
+        }
         options.collectionRid = this.container._rid;
         if (partitionKey) {
           const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
