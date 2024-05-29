@@ -353,6 +353,11 @@ export class Database {
     const unwrappedKey = await keyEncryptionKey.unwrapEncryptionKey(
       clientEncryptionKeyProperties.wrappedDataEncryptionKey,
     );
+    keyEncryptionKey = this.encryptionManager.keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
+      newKeyWrapMetadata.name,
+      newKeyWrapMetadata.value,
+      this.encryptionManager.encryptionKeyStoreProvider,
+    );
     const rewrappedKey = await keyEncryptionKey.wrapEncryptionKey(unwrappedKey);
     clientEncryptionKeyProperties = new ClientEncryptionKeyProperties(
       id,

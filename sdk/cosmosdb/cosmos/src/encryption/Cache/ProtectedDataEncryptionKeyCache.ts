@@ -59,7 +59,7 @@ export class ProtectedDataEncryptionKeyCache {
     }
     const newKey = new ProtectedDataEncryptionKey(name, keyEncryptionKey, rawKey, encryptedKey);
     if (this.cacheTimeToLive !== 0) {
-      const key = JSON.stringify([name, keyEncryptionKey.name, encryptedKey.toString("hex")]);
+      const key = JSON.stringify([name, keyEncryptionKey, encryptedKey.toString("hex")]);
       this.setProtectedDataEncryptionKey(key, newKey);
     }
     return newKey;
@@ -69,13 +69,12 @@ export class ProtectedDataEncryptionKeyCache {
     name: string,
     keyEncryptionKey: KeyEncryptionKey,
     encryptedValue?: Buffer,
-    forceRefresh?: boolean,
   ): Promise<ProtectedDataEncryptionKey> {
-    if (this.cacheTimeToLive === 0 || forceRefresh) {
+    if (this.cacheTimeToLive === 0) {
       return this.createProtectedDataEncryptionKey(name, keyEncryptionKey, encryptedValue);
     }
     if (encryptedValue) {
-      const key = JSON.stringify([name, keyEncryptionKey.name, encryptedValue.toString("hex")]);
+      const key = JSON.stringify([name, keyEncryptionKey, encryptedValue.toString("hex")]);
       const protectedDataEncryptionKey = this.getProtectedDataEncryptionKey(key);
       if (protectedDataEncryptionKey) {
         return protectedDataEncryptionKey;

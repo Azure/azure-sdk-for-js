@@ -10,8 +10,14 @@ import { TypeMarker } from "./enums/TypeMarker";
 import { ClientContext } from "../ClientContext";
 import { ClientEncryptionKeyRequest, ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { ResourceType, createDeserializer, createSerializer, extractPath } from "../common";
-import { RequestOptions } from "../request";
+import {
+  ResourceType,
+  StatusCodes,
+  createDeserializer,
+  createSerializer,
+  extractPath,
+} from "../common";
+import { ErrorResponse, RequestOptions } from "../request";
 import { withDiagnostics } from "../utils/diagnostics";
 import { EncryptionManager } from "./EncryptionManager";
 
@@ -25,7 +31,7 @@ export class EncryptionProcessor {
 
   async encrypt<T extends ItemDefinition>(body: T): Promise<T> {
     if (!body) {
-      throw new Error("Input body is null or undefined.");
+      throw new ErrorResponse("Input body is null or undefined.");
     }
     const encryptionSettings = await this.getEncryptionSetting();
     if (!encryptionSettings) return body;
@@ -37,7 +43,7 @@ export class EncryptionProcessor {
 
       const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(pathToEncrypt);
       if (!settingForProperty) {
-        throw new Error("Invalid Encryption Setting for the Property: " + propertyName);
+        throw new ErrorResponse("Invalid Encryption Setting for the Property: " + propertyName);
       }
       body[propertyName as keyof T] = await this.encryptToken(
         body[propertyName],
@@ -171,7 +177,7 @@ export class EncryptionProcessor {
     const cipherText = encryptionAlgorithm.encrypt(plainText);
     if (isValueId) {
       if (typeof valueToEncrypt !== "string") {
-        throw new Error("The id should be of string type.");
+        throw new ErrorResponse("The id should be of string type.");
       }
     }
 
@@ -200,7 +206,7 @@ export class EncryptionProcessor {
       }
       const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(pathToEncrypt);
       if (settingForProperty == null) {
-        throw new Error("Invalid Encryption Setting for the Path: " + pathToEncrypt);
+        throw new ErrorResponse("Invalid Encryption Setting for the Path: " + pathToEncrypt);
       }
 
       body[propertyName as keyof T] = await this.decryptToken(
@@ -260,7 +266,7 @@ export class EncryptionProcessor {
     const encryptionAlgorithm = await this.buildEncryptionAlgorithm(propertySetting);
     const plainText = encryptionAlgorithm.decrypt(cipherText);
     if (plainText === null) {
-      throw new Error("returned null plain text");
+      throw new ErrorResponse("returned null plain text");
     }
 
     const serializer = createDeserializer(cipherTextWithTypeMarker[0] as TypeMarker);
@@ -296,11 +302,10 @@ export class EncryptionProcessor {
     }
     return encryptionSetting;
   }
-
   private async buildEncryptionAlgorithm(
     propertySetting: EncryptionSettingForProperty,
   ): Promise<AeadAes256CbcHmacSha256Algorithm> {
-    const key = this.databaseId + "/" + propertySetting.encryptionKeyId;
+    const key = `${this.databaseId}/${propertySetting.encryptionKeyId}`;
 
     let clientEncryptionKeyProperties =
       this.encryptionManager.clientEncryptionKeyPropertiesCache.getClientEncryptionKeyProperties(
@@ -311,46 +316,46 @@ export class EncryptionProcessor {
         propertySetting.encryptionKeyId,
       );
     }
-    let encryptionAlgorithm: AeadAes256CbcHmacSha256Algorithm;
     try {
-      encryptionAlgorithm = await propertySetting.buildEncryptionAlgorithm(
+      // the buildEncryptionAlgorithm will build ProtectedDEK which calls unwrapKey  using the masterKey configured in
+      // KeyEncryptionKey(created before creating Protected DEK)
+      // we get wrapped key and key wrap metadata info from clientEncryptionKeyProperties.
+      return await propertySetting.buildEncryptionAlgorithm(
         clientEncryptionKeyProperties,
         this.encryptionManager,
       );
     } catch (err) {
-      // stale value in local cache
+      if (err.code !== StatusCodes.Forbidden) throw err;
+      // if access to key is revoked, and in case there's stale value in cache
       clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(
         propertySetting.encryptionKeyId,
       );
+
       try {
-        encryptionAlgorithm = await propertySetting.buildEncryptionAlgorithm(
+        // This will succeed after if client has rewrapped CEK and gateway cache has updated value.
+        return await propertySetting.buildEncryptionAlgorithm(
           clientEncryptionKeyProperties,
           this.encryptionManager,
         );
-      } catch (err) {
-        // stale value in gateway cache. fetch from backend
-        clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(
-          propertySetting.encryptionKeyId,
-          clientEncryptionKeyProperties.etag,
-        );
+      } catch (retryErr) {
+        if (retryErr.code !== 403) throw retryErr;
+        // in case there's stale value in gateway cache. get fresh value from backend
         try {
-          encryptionAlgorithm = await propertySetting.buildEncryptionAlgorithm(
+          clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(
+            propertySetting.encryptionKeyId,
+            clientEncryptionKeyProperties.etag,
+          );
+          return await propertySetting.buildEncryptionAlgorithm(
             clientEncryptionKeyProperties,
             this.encryptionManager,
           );
-        } catch (err) {
-          throw new Error(
-            "The Client Encryption Key with key id: " +
-              propertySetting.encryptionKeyId +
-              " on database: " +
-              this.databaseId +
-              " needs to be rewrapped with a valid Key Encryption Key using rewrapClientEncryptionKey." +
-              " The Key Encryption Key used to wrap the Client Encryption Key has been revoked",
+        } catch (finalErr) {
+          throw new ErrorResponse(
+            `The Client Encryption Key with key id: ${propertySetting.encryptionKeyId} on database: ${this.databaseId} needs to be rewrapped with a valid Key Encryption Key using rewrapClientEncryptionKey. The Key Encryption Key used to wrap the Client Encryption Key has been revoked`,
           );
         }
       }
     }
-    return encryptionAlgorithm;
   }
 
   private async fetchClientEncryptionKey(
