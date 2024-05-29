@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import url from "url";
-import { redirectPolicyName } from "@azure/core-rest-pipeline";
+import { RestError, redirectPolicyName } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
+import { diag } from "@opentelemetry/api";
 import {
-  PingOptionalParams,
-  PingResponse,
-  PostOptionalParams,
-  PostResponse,
+  IsSubscribedOptionalParams,
+  IsSubscribedResponse,
+  PublishOptionalParams,
+  PublishResponse,
   QuickpulseClient,
   QuickpulseClientOptionalParams,
 } from "../../../generated";
-import { TokenCredential } from "@azure/core-auth";
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";
 
@@ -22,6 +23,7 @@ export class QuickpulseSender {
   private readonly quickpulseClient: QuickpulseClient;
   private quickpulseClientOptions: QuickpulseClientOptionalParams;
   private instrumentationKey: string;
+  private endpointUrl: string;
 
   constructor(options: {
     endpointUrl: string;
@@ -30,8 +32,9 @@ export class QuickpulseSender {
     aadAudience?: string;
   }) {
     // Build endpoint using provided configuration or default values
+    this.endpointUrl = options.endpointUrl;
     this.quickpulseClientOptions = {
-      host: options.endpointUrl,
+      endpoint: this.endpointUrl,
     };
 
     this.instrumentationKey = options.instrumentationKey;
@@ -53,28 +56,50 @@ export class QuickpulseSender {
   }
 
   /**
-   * Ping Quickpulse service
+   * isSubscribed Quickpulse service
    * @internal
    */
-  async ping(optionalParams: PingOptionalParams): Promise<PingResponse> {
-    let response = await this.quickpulseClient.ping(this.instrumentationKey, optionalParams);
-    return response;
+  async isSubscribed(
+    optionalParams: IsSubscribedOptionalParams,
+  ): Promise<IsSubscribedResponse | undefined> {
+    try {
+      let response = await this.quickpulseClient.isSubscribed(
+        this.endpointUrl,
+        this.instrumentationKey,
+        optionalParams,
+      );
+      return response;
+    } catch (error: any) {
+      const restError = error as RestError;
+      diag.info("Failed to ping Quickpulse service", restError.message);
+    }
+    return;
   }
 
   /**
-   * Post Quickpulse service
+   * publish Quickpulse service
    * @internal
    */
-  async post(optionalParams: PostOptionalParams): Promise<PostResponse> {
-    let response = await this.quickpulseClient.post(this.instrumentationKey, optionalParams);
-    return response;
+  async publish(optionalParams: PublishOptionalParams): Promise<PublishResponse | undefined> {
+    try {
+      let response = await this.quickpulseClient.publish(
+        this.endpointUrl,
+        this.instrumentationKey,
+        optionalParams,
+      );
+      return response;
+    } catch (error: any) {
+      const restError = error as RestError;
+      diag.warn("Failed to post Quickpulse service", restError.message);
+    }
+    return;
   }
 
   handlePermanentRedirect(location: string | undefined) {
     if (location) {
       const locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {
-        this.quickpulseClient.host = "https://" + locUrl.host;
+        this.endpointUrl = "https://" + locUrl.host;
       }
     }
   }

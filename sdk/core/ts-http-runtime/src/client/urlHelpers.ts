@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestParameters } from "./common";
+import { RequestParameters } from "./common.js";
 
 /**
  * Builds the request url, filling in query and path parameters
- * @param baseUrl - base url which can be a template url
- * @param routePath - path to append to the baseUrl
+ * @param endpoint - base url which can be a template url
+ * @param routePath - path to append to the endpoint
  * @param pathParameters - values of the path parameters
  * @param options - request parameters including query parameters
  * @returns a full url with path and query parameters
  */
 export function buildRequestUrl(
-  baseUrl: string,
+  endpoint: string,
   routePath: string,
   pathParameters: string[],
   options: RequestParameters = {},
@@ -20,9 +20,9 @@ export function buildRequestUrl(
   if (routePath.startsWith("https://") || routePath.startsWith("http://")) {
     return routePath;
   }
-  baseUrl = buildBaseUrl(baseUrl, options);
+  endpoint = buildBaseUrl(endpoint, options);
   routePath = buildRoutePath(routePath, pathParameters, options);
-  const requestUrl = appendQueryParams(`${baseUrl}/${routePath}`, options);
+  const requestUrl = appendQueryParams(`${endpoint}/${routePath}`, options);
   const url = new URL(requestUrl);
 
   return (
@@ -33,7 +33,7 @@ export function buildRequestUrl(
   );
 }
 
-function appendQueryParams(url: string, options: RequestParameters = {}) {
+function appendQueryParams(url: string, options: RequestParameters = {}): string {
   if (!options.queryParameters) {
     return url;
   }
@@ -57,7 +57,7 @@ function appendQueryParams(url: string, options: RequestParameters = {}) {
   return parsedUrl.toString();
 }
 
-function skipQueryParameterEncoding(url: URL) {
+function skipQueryParameterEncoding(url: URL): URL {
   if (!url) {
     return url;
   }
@@ -71,9 +71,9 @@ function skipQueryParameterEncoding(url: URL) {
   return url;
 }
 
-export function buildBaseUrl(baseUrl: string, options: RequestParameters): string {
+export function buildBaseUrl(endpoint: string, options: RequestParameters): string {
   if (!options.pathParameters) {
-    return baseUrl;
+    return endpoint;
   }
   const pathParams = options.pathParameters;
   for (const [key, param] of Object.entries(pathParams)) {
@@ -87,16 +87,16 @@ export function buildBaseUrl(baseUrl: string, options: RequestParameters): strin
     if (!options.skipUrlEncoding) {
       value = encodeURIComponent(param);
     }
-    baseUrl = replaceAll(baseUrl, `{${key}}`, value) ?? "";
+    endpoint = replaceAll(endpoint, `{${key}}`, value) ?? "";
   }
-  return baseUrl;
+  return endpoint;
 }
 
 function buildRoutePath(
   routePath: string,
   pathParameters: string[],
   options: RequestParameters = {},
-) {
+): string {
   for (const pathParam of pathParameters) {
     let value = pathParam;
     if (!options.skipUrlEncoding) {

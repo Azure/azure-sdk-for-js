@@ -1,6 +1,6 @@
 # Release History
 
-## 13.0.1 (Unreleased)
+## 15.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,100 @@
 
 ### Other Changes
 
+## 15.0.0 (2024-04-12)
+    
+**Features**
+
+  - Added Interface ServicePrincipalCredentialResource
+  - Type of parameter headers of interface AzureFunctionActivity is changed from {
+        [propertyName: string]: string;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter headers of interface WebActivity is changed from {
+        [propertyName: string]: string;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter headers of interface WebHookActivity is changed from {
+        [propertyName: string]: string;
+    } to {
+        [propertyName: string]: any;
+    }
+
+**Breaking Changes**
+
+  - Operation CredentialOperations.createOrUpdate has a new signature
+  - Interface ManagedIdentityCredential no longer has parameter resourceId
+  - Type of parameter value of interface CredentialListResponse is changed from ManagedIdentityCredentialResource[] to CredentialResource[]
+    
+    
+## 14.1.0 (2024-03-11)
+    
+**Features**
+
+  - Added Interface ExpressionV2
+  - Added Interface GoogleBigQueryV2LinkedService
+  - Added Interface GoogleBigQueryV2ObjectDataset
+  - Added Interface GoogleBigQueryV2Source
+  - Added Interface PostgreSqlV2LinkedService
+  - Added Interface PostgreSqlV2Source
+  - Added Interface PostgreSqlV2TableDataset
+  - Added Interface ServiceNowV2LinkedService
+  - Added Interface ServiceNowV2ObjectDataset
+  - Added Interface ServiceNowV2Source
+  - Added Type Alias ExpressionV2Type
+  - Added Type Alias GoogleBigQueryV2AuthenticationType
+  - Added Type Alias ServiceNowV2AuthenticationType
+  - Type of parameter type of interface CopySource has four new values "PostgreSqlV2Source" | "GoogleBigQueryV2Source" | "GreenplumSource" | "ServiceNowV2Source"
+  - Type of parameter type of interface Dataset has four new values "PostgreSqlV2Source" | "GoogleBigQueryV2Source" | "GreenplumSource" | "ServiceNowV2Source"
+  - Type of parameter type of interface LinkedService has three new values "PostgreSqlV2" | "GoogleBigQueryV2" | "ServiceNowV2"
+  - Type of parameter type of interface TabularSource has four new values "PostgreSqlV2Source" | "GoogleBigQueryV2Source" | "GreenplumSource" | "ServiceNowV2Source"
+  - Added Enum KnownExpressionV2Type
+  - Added Enum KnownGoogleBigQueryV2AuthenticationType
+  - Added Enum KnownServiceNowV2AuthenticationType
+    
+    
+## 14.0.0 (2024-02-04)
+    
+**Features**
+
+  - Added Interface SnowflakeV2Dataset
+  - Added Interface SnowflakeV2LinkedService
+  - Added Interface SnowflakeV2Sink
+  - Added Interface SnowflakeV2Source
+  - Added Interface WarehouseLinkedService
+  - Added Interface WarehouseSink
+  - Added Interface WarehouseSource
+  - Added Interface WarehouseTableDataset
+  - Added Type Alias SnowflakeAuthenticationType
+  - Interface SalesforceServiceCloudV2LinkedService has a new optional parameter authenticationType
+  - Interface SalesforceServiceCloudV2Source has a new optional parameter includeDeletedObjects
+  - Interface SalesforceV2LinkedService has a new optional parameter authenticationType
+  - Interface SalesforceV2Source has a new optional parameter includeDeletedObjects
+  - Type of parameter type of interface CopySink has two new values  "WarehouseSink" | "SnowflakeV2Sink"
+  - Type of parameter type of interface CopySource has two new values "WarehouseSource" | "SnowflakeV2Source"
+  - Type of parameter type of interface Dataset has two new values "SnowflakeV2Table" | "WarehouseTable"
+  - Type of parameter type of interface LinkedService has two new values "SnowflakeV2" | "Warehouse"
+  - Type of parameter type of interface TabularSource has a new value "WarehouseSource"
+  - Added Enum KnownSnowflakeAuthenticationType
+
+**Breaking Changes**
+
+  - Interface SalesforceServiceCloudV2Source no longer has parameter readBehavior
+  - Interface SalesforceV2Source no longer has parameter readBehavior
+  - Type of parameter headers of interface AzureFunctionActivity is changed from any to {
+        [propertyName: string]: string;
+    }
+  - Type of parameter headers of interface WebActivity is changed from any to {
+        [propertyName: string]: string;
+    }
+  - Type of parameter headers of interface WebHookActivity is changed from any to {
+        [propertyName: string]: string;
+    }
+  - Removed Enum KnownSalesforceV2SourceReadBehavior
+    
+    
 ## 13.0.0 (2023-12-28)
     
 **Features**

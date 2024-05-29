@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates scope connection from Network Manager
  *
  * @summary Creates or updates scope connection from Network Manager
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerScopeConnectionPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerScopeConnectionPut.json
  */
 async function createOrUpdateNetworkManagerScopeConnection() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function createOrUpdateNetworkManagerScopeConnection() {
   const parameters: ScopeConnection = {
     description: "This is a scope connection to a cross tenant subscription.",
     resourceId: "subscriptions/f0dc2b34-dfad-40e4-83e0-2309fed8d00b",
-    tenantId: "6babcaad-604b-40ac-a9d7-9fd97c0b779f"
+    tenantId: "6babcaad-604b-40ac-a9d7-9fd97c0b779f",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -38,7 +38,7 @@ async function createOrUpdateNetworkManagerScopeConnection() {
     resourceGroupName,
     networkManagerName,
     scopeConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

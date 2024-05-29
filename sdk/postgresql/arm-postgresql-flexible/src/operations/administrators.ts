@@ -16,7 +16,7 @@ import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,7 +30,7 @@ import {
   AdministratorsDeleteOptionalParams,
   AdministratorsGetOptionalParams,
   AdministratorsGetResponse,
-  AdministratorsListByServerNextResponse
+  AdministratorsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,12 +55,12 @@ export class AdministratorsImpl implements Administrators {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: AdministratorsListByServerOptionalParams
+    options?: AdministratorsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ActiveDirectoryAdministrator> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +77,9 @@ export class AdministratorsImpl implements Administrators {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +87,7 @@ export class AdministratorsImpl implements Administrators {
     resourceGroupName: string,
     serverName: string,
     options?: AdministratorsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ActiveDirectoryAdministrator[]> {
     let result: AdministratorsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class AdministratorsImpl implements Administrators {
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +115,12 @@ export class AdministratorsImpl implements Administrators {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: AdministratorsListByServerOptionalParams
+    options?: AdministratorsListByServerOptionalParams,
   ): AsyncIterableIterator<ActiveDirectoryAdministrator> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -139,7 +139,7 @@ export class AdministratorsImpl implements Administrators {
     serverName: string,
     objectId: string,
     parameters: ActiveDirectoryAdministratorAdd,
-    options?: AdministratorsCreateOptionalParams
+    options?: AdministratorsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AdministratorsCreateResponse>,
@@ -148,21 +148,20 @@ export class AdministratorsImpl implements Administrators {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AdministratorsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -171,8 +170,8 @@ export class AdministratorsImpl implements Administrators {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -180,15 +179,15 @@ export class AdministratorsImpl implements Administrators {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serverName, objectId, parameters, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       AdministratorsCreateResponse,
@@ -196,7 +195,7 @@ export class AdministratorsImpl implements Administrators {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -215,14 +214,14 @@ export class AdministratorsImpl implements Administrators {
     serverName: string,
     objectId: string,
     parameters: ActiveDirectoryAdministratorAdd,
-    options?: AdministratorsCreateOptionalParams
+    options?: AdministratorsCreateOptionalParams,
   ): Promise<AdministratorsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       serverName,
       objectId,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -238,25 +237,24 @@ export class AdministratorsImpl implements Administrators {
     resourceGroupName: string,
     serverName: string,
     objectId: string,
-    options?: AdministratorsDeleteOptionalParams
+    options?: AdministratorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -265,8 +263,8 @@ export class AdministratorsImpl implements Administrators {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -274,20 +272,20 @@ export class AdministratorsImpl implements Administrators {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serverName, objectId, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -304,13 +302,13 @@ export class AdministratorsImpl implements Administrators {
     resourceGroupName: string,
     serverName: string,
     objectId: string,
-    options?: AdministratorsDeleteOptionalParams
+    options?: AdministratorsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serverName,
       objectId,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -326,11 +324,11 @@ export class AdministratorsImpl implements Administrators {
     resourceGroupName: string,
     serverName: string,
     objectId: string,
-    options?: AdministratorsGetOptionalParams
+    options?: AdministratorsGetOptionalParams,
   ): Promise<AdministratorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, objectId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -343,11 +341,11 @@ export class AdministratorsImpl implements Administrators {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: AdministratorsListByServerOptionalParams
+    options?: AdministratorsListByServerOptionalParams,
   ): Promise<AdministratorsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -362,11 +360,11 @@ export class AdministratorsImpl implements Administrators {
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: AdministratorsListByServerNextOptionalParams
+    options?: AdministratorsListByServerNextOptionalParams,
   ): Promise<AdministratorsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -374,25 +372,24 @@ export class AdministratorsImpl implements Administrators {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators/{objectId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators/{objectId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ActiveDirectoryAdministrator
+      bodyMapper: Mappers.ActiveDirectoryAdministrator,
     },
     201: {
-      bodyMapper: Mappers.ActiveDirectoryAdministrator
+      bodyMapper: Mappers.ActiveDirectoryAdministrator,
     },
     202: {
-      bodyMapper: Mappers.ActiveDirectoryAdministrator
+      bodyMapper: Mappers.ActiveDirectoryAdministrator,
     },
     204: {
-      bodyMapper: Mappers.ActiveDirectoryAdministrator
+      bodyMapper: Mappers.ActiveDirectoryAdministrator,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -401,15 +398,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.objectId
+    Parameters.objectId,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators/{objectId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators/{objectId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -417,8 +413,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -426,22 +422,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.objectId
+    Parameters.objectId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators/{objectId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators/{objectId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ActiveDirectoryAdministrator
+      bodyMapper: Mappers.ActiveDirectoryAdministrator,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -449,51 +444,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.objectId
+    Parameters.objectId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/administrators",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdministratorListResult
+      bodyMapper: Mappers.AdministratorListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdministratorListResult
+      bodyMapper: Mappers.AdministratorListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

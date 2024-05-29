@@ -6,10 +6,36 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MetricsListOptionalParams, MetricsListResponse } from "../models";
+import {
+  MetricsListAtSubscriptionScopeOptionalParams,
+  MetricsListAtSubscriptionScopeResponse,
+  MetricsListAtSubscriptionScopePostOptionalParams,
+  MetricsListAtSubscriptionScopePostResponse,
+  MetricsListOptionalParams,
+  MetricsListResponse,
+} from "../models";
 
 /** Interface representing a MetricsOperations. */
 export interface MetricsOperations {
+  /**
+   * **Lists the metric data for a subscription**.
+   * @param region The region where the metrics you want reside.
+   * @param options The options parameters.
+   */
+  listAtSubscriptionScope(
+    region: string,
+    options?: MetricsListAtSubscriptionScopeOptionalParams,
+  ): Promise<MetricsListAtSubscriptionScopeResponse>;
+  /**
+   * **Lists the metric data for a subscription**. Parameters can be specified on either query params or
+   * the body.
+   * @param region The region where the metrics you want reside.
+   * @param options The options parameters.
+   */
+  listAtSubscriptionScopePost(
+    region: string,
+    options?: MetricsListAtSubscriptionScopePostOptionalParams,
+  ): Promise<MetricsListAtSubscriptionScopePostResponse>;
   /**
    * **Lists the metric values for a resource**.
    * @param resourceUri The identifier of the resource.
@@ -17,6 +43,6 @@ export interface MetricsOperations {
    */
   list(
     resourceUri: string,
-    options?: MetricsListOptionalParams
+    options?: MetricsListOptionalParams,
   ): Promise<MetricsListResponse>;
 }

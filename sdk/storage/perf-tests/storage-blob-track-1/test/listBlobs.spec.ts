@@ -3,7 +3,7 @@
 
 import { randomUUID } from "@azure/core-util";
 import { Aborter, BlockBlobURL } from "@azure/storage-blob";
-import { executeParallel, PerfOptionDictionary } from "@azure/test-utils-perf";
+import { executeParallel, PerfOptionDictionary } from "@azure-tools/test-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 interface StorageBlobListTestOptions {
   count: number;

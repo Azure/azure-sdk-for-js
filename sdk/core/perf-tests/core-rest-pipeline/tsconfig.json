@@ -2,7 +2,8 @@
   "extends": "../../../../tsconfig.package",
   "compilerOptions": {
     "outDir": "./dist-esm",
-    "module": "CommonJS",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "target": "ESNext",
     "lib": ["ESNext", "DOM"]
   },

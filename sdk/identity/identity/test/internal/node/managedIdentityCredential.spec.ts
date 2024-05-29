@@ -8,10 +8,7 @@ import {
   imdsEndpointPath,
   imdsHost,
 } from "../../../src/credentials/managedIdentityCredential/constants";
-import {
-  imdsMsi,
-  imdsMsiRetryConfig,
-} from "../../../src/credentials/managedIdentityCredential/imdsMsi";
+import { imdsMsi } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import { Context } from "mocha";
 import { GetTokenOptions } from "@azure/core-auth";
@@ -316,21 +313,22 @@ describe("ManagedIdentityCredential", function () {
   });
 
   it("IMDS MSI retries up to a limit on 404", async function () {
+    const credential = new ManagedIdentityCredential("errclient");
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential("errclient"),
+      credential: credential,
       insecureResponses: [
         createResponse(200),
         createResponse(404),
         createResponse(404),
         createResponse(404),
         createResponse(404),
+        createResponse(404),
       ],
     });
-
     assert.ok(
       error!.message!.indexOf(
-        `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`,
+        `Failed to retrieve IMDS token after ${credential["msiRetryConfig"].maxRetries} retries.`,
       ) > -1,
     );
   });

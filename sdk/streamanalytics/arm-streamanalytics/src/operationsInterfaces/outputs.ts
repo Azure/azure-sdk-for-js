@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Output,
   OutputsListByStreamingJobOptionalParams,
@@ -19,7 +19,7 @@ import {
   OutputsGetOptionalParams,
   OutputsGetResponse,
   OutputsTestOptionalParams,
-  OutputsTestResponse
+  OutputsTestResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Outputs {
   listByStreamingJob(
     resourceGroupName: string,
     jobName: string,
-    options?: OutputsListByStreamingJobOptionalParams
+    options?: OutputsListByStreamingJobOptionalParams,
   ): PagedAsyncIterableIterator<Output>;
   /**
    * Creates an output or replaces an already existing output under an existing streaming job.
@@ -50,7 +50,7 @@ export interface Outputs {
     jobName: string,
     outputName: string,
     output: Output,
-    options?: OutputsCreateOrReplaceOptionalParams
+    options?: OutputsCreateOrReplaceOptionalParams,
   ): Promise<OutputsCreateOrReplaceResponse>;
   /**
    * Updates an existing output under an existing streaming job. This can be used to partially update
@@ -70,7 +70,7 @@ export interface Outputs {
     jobName: string,
     outputName: string,
     output: Output,
-    options?: OutputsUpdateOptionalParams
+    options?: OutputsUpdateOptionalParams,
   ): Promise<OutputsUpdateResponse>;
   /**
    * Deletes an output from the streaming job.
@@ -83,7 +83,7 @@ export interface Outputs {
     resourceGroupName: string,
     jobName: string,
     outputName: string,
-    options?: OutputsDeleteOptionalParams
+    options?: OutputsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets details about the specified output.
@@ -96,7 +96,7 @@ export interface Outputs {
     resourceGroupName: string,
     jobName: string,
     outputName: string,
-    options?: OutputsGetOptionalParams
+    options?: OutputsGetOptionalParams,
   ): Promise<OutputsGetResponse>;
   /**
    * Tests whether an output’s datasource is reachable and usable by the Azure Stream Analytics service.
@@ -109,9 +109,9 @@ export interface Outputs {
     resourceGroupName: string,
     jobName: string,
     outputName: string,
-    options?: OutputsTestOptionalParams
+    options?: OutputsTestOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<OutputsTestResponse>, OutputsTestResponse>
+    SimplePollerLike<OperationState<OutputsTestResponse>, OutputsTestResponse>
   >;
   /**
    * Tests whether an output’s datasource is reachable and usable by the Azure Stream Analytics service.
@@ -124,6 +124,6 @@ export interface Outputs {
     resourceGroupName: string,
     jobName: string,
     outputName: string,
-    options?: OutputsTestOptionalParams
+    options?: OutputsTestOptionalParams,
   ): Promise<OutputsTestResponse>;
 }

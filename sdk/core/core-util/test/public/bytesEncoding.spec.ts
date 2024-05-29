@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { stringToUint8Array, uint8ArrayToString } from "../../src/bytesEncoding.js";
 import { describe, it, assert } from "vitest";
-import { stringToUint8Array, uint8ArrayToString } from "../../src/bytesEncoding";
 
 describe("bytesEncoding", function () {
   describe("base64ToBytes", function () {

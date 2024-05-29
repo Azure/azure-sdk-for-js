@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a ConfigurationPolicyGroup.
  *
  * @summary Deletes a ConfigurationPolicyGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ConfigurationPolicyGroupDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ConfigurationPolicyGroupDelete.json
  */
 async function configurationPolicyGroupDelete() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function configurationPolicyGroupDelete() {
   const result = await client.configurationPolicyGroups.beginDeleteAndWait(
     resourceGroupName,
     vpnServerConfigurationName,
-    configurationPolicyGroupName
+    configurationPolicyGroupName,
   );
   console.log(result);
 }

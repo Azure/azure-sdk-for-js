@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ChangeLongTermRetentionBackupAccessTierParameters,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -36,18 +36,19 @@ async function changeTheLongTermRetentionBackupStorageAccessTierForAResourceGrou
     "55555555-6666-7777-8888-999999999999;131637960820000000;Archive";
   const parameters: ChangeLongTermRetentionBackupAccessTierParameters = {
     backupStorageAccessTier: "Hot",
-    operationMode: "Copy"
+    operationMode: "Copy",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.longTermRetentionBackups.beginChangeAccessTierByResourceGroupAndWait(
-    resourceGroupName,
-    locationName,
-    longTermRetentionServerName,
-    longTermRetentionDatabaseName,
-    backupName,
-    parameters
-  );
+  const result =
+    await client.longTermRetentionBackups.beginChangeAccessTierByResourceGroupAndWait(
+      resourceGroupName,
+      locationName,
+      longTermRetentionServerName,
+      longTermRetentionDatabaseName,
+      backupName,
+      parameters,
+    );
   console.log(result);
 }
 

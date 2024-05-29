@@ -33,7 +33,7 @@ export function createClient(
   options: {
     recorder?: Recorder;
     clientOptions?: ClientOptions;
-  }
+  },
 ): AssistantsClient {
   const { recorder, clientOptions = {} } = options;
   const endpoint = assertEnvironmentVariable("ENDPOINT");
@@ -44,13 +44,13 @@ export function createClient(
       return new AssistantsClient(
         endpoint,
         new AzureKeyCredential(assertEnvironmentVariable("AZURE_API_KEY")),
-        updatedOptions
+        updatedOptions,
       );
     }
     case "OpenAIKey": {
       return new AssistantsClient(
         new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY")),
-        updatedOptions
+        updatedOptions,
       );
     }
     case "AAD": {

@@ -19,7 +19,7 @@ import {
   TagsObject,
   PoliciesUpdateOptionalParams,
   PoliciesUpdateResponse,
-  PoliciesDeleteOptionalParams
+  PoliciesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface Policies {
    */
   list(
     resourceGroupName: string,
-    options?: PoliciesListOptionalParams
+    options?: PoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
   /**
    * Lists all of the protection policies within a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: PoliciesListBySubscriptionOptionalParams
+    options?: PoliciesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
   /**
    * Retrieve protection policy with specified name within a resource group.
@@ -50,7 +50,7 @@ export interface Policies {
   get(
     resourceGroupName: string,
     policyName: string,
-    options?: PoliciesGetOptionalParams
+    options?: PoliciesGetOptionalParams,
   ): Promise<PoliciesGetResponse>;
   /**
    * Create or update policy with specified rule set name within a resource group.
@@ -63,7 +63,7 @@ export interface Policies {
     resourceGroupName: string,
     policyName: string,
     parameters: WebApplicationFirewallPolicy,
-    options?: PoliciesCreateOrUpdateOptionalParams
+    options?: PoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PoliciesCreateOrUpdateResponse>,
@@ -81,7 +81,7 @@ export interface Policies {
     resourceGroupName: string,
     policyName: string,
     parameters: WebApplicationFirewallPolicy,
-    options?: PoliciesCreateOrUpdateOptionalParams
+    options?: PoliciesCreateOrUpdateOptionalParams,
   ): Promise<PoliciesCreateOrUpdateResponse>;
   /**
    * Patch a specific frontdoor webApplicationFirewall policy for tags update under the specified
@@ -95,7 +95,7 @@ export interface Policies {
     resourceGroupName: string,
     policyName: string,
     parameters: TagsObject,
-    options?: PoliciesUpdateOptionalParams
+    options?: PoliciesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PoliciesUpdateResponse>,
@@ -114,7 +114,7 @@ export interface Policies {
     resourceGroupName: string,
     policyName: string,
     parameters: TagsObject,
-    options?: PoliciesUpdateOptionalParams
+    options?: PoliciesUpdateOptionalParams,
   ): Promise<PoliciesUpdateResponse>;
   /**
    * Deletes Policy
@@ -125,7 +125,7 @@ export interface Policies {
   beginDelete(
     resourceGroupName: string,
     policyName: string,
-    options?: PoliciesDeleteOptionalParams
+    options?: PoliciesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes Policy
@@ -136,6 +136,6 @@ export interface Policies {
   beginDeleteAndWait(
     resourceGroupName: string,
     policyName: string,
-    options?: PoliciesDeleteOptionalParams
+    options?: PoliciesDeleteOptionalParams,
   ): Promise<void>;
 }

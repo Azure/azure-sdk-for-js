@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all ASR network mappings for the specified network.
  *
  * @summary Lists all ASR network mappings for the specified network.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworkMappings_ListByReplicationNetworks.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworkMappings_ListByReplicationNetworks.json
  */
 async function getsAllTheNetworkMappingsUnderANetwork() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getsAllTheNetworkMappingsUnderANetwork() {
     resourceName,
     resourceGroupName,
     fabricName,
-    networkName
+    networkName,
   )) {
     resArray.push(item);
   }

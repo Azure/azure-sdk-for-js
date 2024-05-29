@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as http from "http";
-import * as https from "https";
-import * as zlib from "zlib";
-import { Transform } from "stream";
+import * as http from "node:http";
+import * as https from "node:https";
+import * as zlib from "node:zlib";
+import { Transform } from "node:stream";
 import { AbortError } from "@azure/abort-controller";
 import type {
   HttpClient,
@@ -14,11 +14,11 @@ import type {
   RequestBodyType,
   TlsSettings,
   TransferProgressEvent,
-} from "./interfaces";
-import { createHttpHeaders } from "./httpHeaders";
-import { RestError } from "./restError";
-import type { IncomingMessage } from "http";
-import { logger } from "./log";
+} from "./interfaces.js";
+import { createHttpHeaders } from "./httpHeaders.js";
+import { RestError } from "./restError.js";
+import type { IncomingMessage } from "node:http";
+import { logger } from "./log.js";
 
 const DEFAULT_TLS_SETTINGS = {};
 

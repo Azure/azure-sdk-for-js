@@ -318,7 +318,12 @@ export interface ListConfigurationSettingsForSnapshotOptions
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {}
+export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
+  /**
+   * etag
+   */
+  pageEtags?: string[];
+}
 
 /**
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
@@ -355,11 +360,22 @@ export interface PageSettings {
 }
 
 /**
+ * Entity with etag.
+ */
+export interface EtagEntity {
+  /**
+   * The etag for this entity
+   */
+  etag?: string;
+}
+
+/**
  * A page of configuration settings and the corresponding HTTP response
  */
 export interface ListConfigurationSettingPage
   extends HttpResponseField<SyncTokenHeaderField>,
-    PageSettings {
+    PageSettings,
+    EtagEntity {
   /**
    * The configuration settings for this page of results.
    */

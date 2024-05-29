@@ -11,7 +11,7 @@
 import {
   EffectiveRoutesParameters,
   VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/EffectiveRoutesListForConnection.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/EffectiveRoutesListForConnection.json
  */
 async function effectiveRoutesForAConnectionResource() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -31,18 +31,19 @@ async function effectiveRoutesForAConnectionResource() {
   const effectiveRoutesParameters: EffectiveRoutesParameters = {
     resourceId:
       "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/expressRouteGatewayName/expressRouteConnections/connectionName",
-    virtualWanResourceType: "ExpressRouteConnection"
+    virtualWanResourceType: "ExpressRouteConnection",
   };
   const options: VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams = {
-    effectiveRoutesParameters
+    effectiveRoutesParameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualHubs.beginGetEffectiveVirtualHubRoutesAndWait(
-    resourceGroupName,
-    virtualHubName,
-    options
-  );
+  const result =
+    await client.virtualHubs.beginGetEffectiveVirtualHubRoutesAndWait(
+      resourceGroupName,
+      virtualHubName,
+      options,
+    );
   console.log(result);
 }
 
@@ -50,7 +51,7 @@ async function effectiveRoutesForAConnectionResource() {
  * This sample demonstrates how to Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/EffectiveRoutesListForRouteTable.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/EffectiveRoutesListForRouteTable.json
  */
 async function effectiveRoutesForARouteTableResource() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -59,18 +60,19 @@ async function effectiveRoutesForARouteTableResource() {
   const effectiveRoutesParameters: EffectiveRoutesParameters = {
     resourceId:
       "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1",
-    virtualWanResourceType: "RouteTable"
+    virtualWanResourceType: "RouteTable",
   };
   const options: VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams = {
-    effectiveRoutesParameters
+    effectiveRoutesParameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualHubs.beginGetEffectiveVirtualHubRoutesAndWait(
-    resourceGroupName,
-    virtualHubName,
-    options
-  );
+  const result =
+    await client.virtualHubs.beginGetEffectiveVirtualHubRoutesAndWait(
+      resourceGroupName,
+      virtualHubName,
+      options,
+    );
   console.log(result);
 }
 
@@ -78,7 +80,7 @@ async function effectiveRoutesForARouteTableResource() {
  * This sample demonstrates how to Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/EffectiveRoutesListForVirtualHub.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/EffectiveRoutesListForVirtualHub.json
  */
 async function effectiveRoutesForTheVirtualHub() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -86,15 +88,16 @@ async function effectiveRoutesForTheVirtualHub() {
   const virtualHubName = "virtualHub1";
   const effectiveRoutesParameters: EffectiveRoutesParameters = {};
   const options: VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams = {
-    effectiveRoutesParameters
+    effectiveRoutesParameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualHubs.beginGetEffectiveVirtualHubRoutesAndWait(
-    resourceGroupName,
-    virtualHubName,
-    options
-  );
+  const result =
+    await client.virtualHubs.beginGetEffectiveVirtualHubRoutesAndWait(
+      resourceGroupName,
+      virtualHubName,
+      options,
+    );
   console.log(result);
 }
 

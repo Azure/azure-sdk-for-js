@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   UpdateProtectionContainerMappingInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update protection container mapping.
  *
  * @summary The operation to update protection container mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainerMappings_Update.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainerMappings_Update.json
  */
 async function updateProtectionContainerMapping() {
   const subscriptionId =
@@ -40,20 +40,21 @@ async function updateProtectionContainerMapping() {
         agentAutoUpdateStatus: "Enabled",
         automationAccountArmId:
           "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/automationrg1/providers/Microsoft.Automation/automationAccounts/automationaccount1",
-        instanceType: "A2A"
-      }
-    }
+        instanceType: "A2A",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationProtectionContainerMappings.beginUpdateAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    protectionContainerName,
-    mappingName,
-    updateInput
-  );
+  const result =
+    await client.replicationProtectionContainerMappings.beginUpdateAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      protectionContainerName,
+      mappingName,
+      updateInput,
+    );
   console.log(result);
 }
 

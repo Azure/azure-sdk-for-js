@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to delete the extension.
  *
  * @summary The operation to delete the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExamples/VirtualMachineExtension_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachineExtension_Delete_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionDeleteMaximumSetGen() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function virtualMachineExtensionDeleteMaximumSetGen() {
   const result = await client.virtualMachineExtensions.beginDeleteAndWait(
     resourceGroupName,
     vmName,
-    vmExtensionName
+    vmExtensionName,
   );
   console.log(result);
 }
@@ -41,7 +41,7 @@ async function virtualMachineExtensionDeleteMaximumSetGen() {
  * This sample demonstrates how to The operation to delete the extension.
  *
  * @summary The operation to delete the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExamples/VirtualMachineExtension_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachineExtension_Delete_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionDeleteMinimumSetGen() {
   const subscriptionId =
@@ -55,7 +55,7 @@ async function virtualMachineExtensionDeleteMinimumSetGen() {
   const result = await client.virtualMachineExtensions.beginDeleteAndWait(
     resourceGroupName,
     vmName,
-    vmExtensionName
+    vmExtensionName,
   );
   console.log(result);
 }

@@ -219,31 +219,28 @@ export interface SupportTicketDetails {
   /** System generated support ticket Id that is unique. */
   supportTicketId?: string;
   /** Detailed description of the question or issue. */
-  description?: string;
+  description: string;
   /** Each Azure service has its own set of issue categories, also known as problem classification. This parameter is the unique Id for the type of problem you are experiencing. */
-  problemClassificationId?: string;
+  problemClassificationId: string;
   /**
    * Localized name of problem classification.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly problemClassificationDisplayName?: string;
   /** A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure. Note: 'Highest critical impact', also known as the 'Emergency - Severe impact' level in the Azure portal is reserved only for our Premium customers. */
-  severity?: SeverityLevel;
-  /**
-   * Enrollment Id associated with the support ticket.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly enrollmentId?: string;
+  severity: SeverityLevel;
+  /** Enrollment Id associated with the support ticket. */
+  enrollmentId?: string;
   /** Indicates if this requires a 24x7 response from Azure. */
   require24X7Response?: boolean;
   /** Advanced diagnostic consent to be updated on the support ticket. */
-  advancedDiagnosticConsent?: Consent;
+  advancedDiagnosticConsent: Consent;
   /** Problem scoping questions associated with the support ticket. */
   problemScopingQuestions?: string;
   /** Support plan id associated with the support ticket. */
   supportPlanId?: string;
   /** Contact information of the user requesting to create a support ticket. */
-  contactDetails?: ContactProfile;
+  contactDetails: ContactProfile;
   /** Service Level Agreement information for this support ticket. */
   serviceLevelAgreement?: ServiceLevelAgreement;
   /** Information about the support engineer working on this support ticket. */
@@ -259,11 +256,11 @@ export interface SupportTicketDetails {
    */
   readonly supportPlanDisplayName?: string;
   /** Title of the support ticket. */
-  title?: string;
+  title: string;
   /** Time in UTC (ISO 8601 format) when the problem started. */
   problemStartTime?: Date;
   /** This is the resource Id of the Azure service resource associated with the support ticket. */
-  serviceId?: string;
+  serviceId: string;
   /**
    * Localized name of the Azure service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -286,6 +283,11 @@ export interface SupportTicketDetails {
   readonly modifiedDate?: Date;
   /** File workspace name. */
   fileWorkspaceName?: string;
+  /**
+   * This property indicates if support ticket is a temporary ticket.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isTemporaryTicket?: IsTemporaryTicket;
   /** Additional ticket details associated with a technical support ticket request. */
   technicalTicketDetails?: TechnicalTicketDetails;
   /** Additional ticket details associated with a quota support ticket request. */
@@ -376,7 +378,7 @@ export interface SecondaryConsent {
   type?: string;
 }
 
-/** Updates severity, ticket status, and contact details in the support ticket. */
+/** Updates severity, ticket status, contact details, advanced diagnostic consent and secondary consent in the support ticket. */
 export interface UpdateSupportTicket {
   /** Severity level. */
   severity?: SeverityLevel;
@@ -450,9 +452,9 @@ export interface CommunicationDetails {
   /** Email address of the sender. This property is required if called by a service principal. */
   sender?: string;
   /** Subject of the communication. */
-  subject?: string;
+  subject: string;
   /** Body of the communication. */
-  body?: string;
+  body: string;
   /**
    * Time in UTC (ISO 8601 format) when the communication was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -483,7 +485,7 @@ export interface MessageProperties {
   /** Name of the sender. */
   sender?: string;
   /** Body of the communication. */
-  body: string;
+  body?: string;
   /**
    * Time in UTC (ISO 8601 format) when the communication was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -582,11 +584,11 @@ export interface FileDetails extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdOn?: Date;
-  /** Size of each chunk */
+  /** Size of each chunk. The size of each chunk should be provided in bytes and must not exceed 2.5 megabytes (MB). */
   chunkSize?: number;
-  /** Size of the file to be uploaded */
+  /** Size of the file to be uploaded. The file size must not exceed 5 MB and should be provided in bytes. */
   fileSize?: number;
-  /** Number of chunks to be uploaded */
+  /** Number of chunks to be uploaded. The maximum number of allowed chunks is 2. */
   numberOfChunks?: number;
 }
 
@@ -609,7 +611,7 @@ export enum KnownSeverityLevel {
   /** Critical */
   Critical = "critical",
   /** Highestcriticalimpact */
-  Highestcriticalimpact = "highestcriticalimpact"
+  Highestcriticalimpact = "highestcriticalimpact",
 }
 
 /**
@@ -629,7 +631,7 @@ export enum KnownConsent {
   /** Yes */
   Yes = "Yes",
   /** No */
-  No = "No"
+  No = "No",
 }
 
 /**
@@ -647,7 +649,7 @@ export enum KnownPreferredContactMethod {
   /** Email */
   Email = "email",
   /** Phone */
-  Phone = "phone"
+  Phone = "phone",
 }
 
 /**
@@ -660,12 +662,30 @@ export enum KnownPreferredContactMethod {
  */
 export type PreferredContactMethod = string;
 
+/** Known values of {@link IsTemporaryTicket} that the service accepts. */
+export enum KnownIsTemporaryTicket {
+  /** Yes */
+  Yes = "Yes",
+  /** No */
+  No = "No",
+}
+
+/**
+ * Defines values for IsTemporaryTicket. \
+ * {@link KnownIsTemporaryTicket} can be used interchangeably with IsTemporaryTicket,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Yes** \
+ * **No**
+ */
+export type IsTemporaryTicket = string;
+
 /** Known values of {@link UserConsent} that the service accepts. */
 export enum KnownUserConsent {
   /** Yes */
   Yes = "Yes",
   /** No */
-  No = "No"
+  No = "No",
 }
 
 /**
@@ -683,7 +703,7 @@ export enum KnownStatus {
   /** Open */
   Open = "open",
   /** Closed */
-  Closed = "closed"
+  Closed = "closed",
 }
 
 /**
@@ -701,7 +721,7 @@ export enum KnownCommunicationType {
   /** Web */
   Web = "web",
   /** Phone */
-  Phone = "phone"
+  Phone = "phone",
 }
 
 /**
@@ -719,7 +739,7 @@ export enum KnownCommunicationDirection {
   /** Inbound */
   Inbound = "inbound",
   /** Outbound */
-  Outbound = "outbound"
+  Outbound = "outbound",
 }
 
 /**
@@ -753,7 +773,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -798,7 +818,8 @@ export interface ProblemClassificationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ProblemClassificationsListResponse = ProblemClassificationsListResult;
+export type ProblemClassificationsListResponse =
+  ProblemClassificationsListResult;
 
 /** Optional parameters. */
 export interface ProblemClassificationsGetOptionalParams
@@ -812,7 +833,8 @@ export interface SupportTicketsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type SupportTicketsCheckNameAvailabilityResponse = CheckNameAvailabilityOutput;
+export type SupportTicketsCheckNameAvailabilityResponse =
+  CheckNameAvailabilityOutput;
 
 /** Optional parameters. */
 export interface SupportTicketsListOptionalParams
@@ -864,7 +886,8 @@ export interface SupportTicketsNoSubscriptionCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type SupportTicketsNoSubscriptionCheckNameAvailabilityResponse = CheckNameAvailabilityOutput;
+export type SupportTicketsNoSubscriptionCheckNameAvailabilityResponse =
+  CheckNameAvailabilityOutput;
 
 /** Optional parameters. */
 export interface SupportTicketsNoSubscriptionListOptionalParams
@@ -909,14 +932,16 @@ export interface SupportTicketsNoSubscriptionListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SupportTicketsNoSubscriptionListNextResponse = SupportTicketsListResult;
+export type SupportTicketsNoSubscriptionListNextResponse =
+  SupportTicketsListResult;
 
 /** Optional parameters. */
 export interface CommunicationsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type CommunicationsCheckNameAvailabilityResponse = CheckNameAvailabilityOutput;
+export type CommunicationsCheckNameAvailabilityResponse =
+  CheckNameAvailabilityOutput;
 
 /** Optional parameters. */
 export interface CommunicationsListOptionalParams
@@ -961,7 +986,20 @@ export interface CommunicationsNoSubscriptionCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type CommunicationsNoSubscriptionCheckNameAvailabilityResponse = CheckNameAvailabilityOutput;
+export type CommunicationsNoSubscriptionCheckNameAvailabilityResponse =
+  CheckNameAvailabilityOutput;
+
+/** Optional parameters. */
+export interface CommunicationsNoSubscriptionListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of values to return in the collection. Default is 10 and max is 10. */
+  top?: number;
+  /** The filter to apply on the operation. You can filter by communicationType and createdDate properties. CommunicationType supports Equals ('eq') operator and createdDate supports Greater Than ('gt') and Greater Than or Equals ('ge') operators. You may combine the CommunicationType and CreatedDate filters by Logical And ('and') operator. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type CommunicationsNoSubscriptionListResponse = CommunicationsListResult;
 
 /** Optional parameters. */
 export interface CommunicationsNoSubscriptionGetOptionalParams
@@ -983,23 +1021,12 @@ export interface CommunicationsNoSubscriptionCreateOptionalParams
 export type CommunicationsNoSubscriptionCreateResponse = CommunicationDetails;
 
 /** Optional parameters. */
-export interface SupportTicketCommunicationsNoSubscriptionListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of values to return in the collection. Default is 10 and max is 10. */
-  top?: number;
-  /** The filter to apply on the operation. You can filter by communicationType and createdDate properties. CommunicationType supports Equals ('eq') operator and createdDate supports Greater Than ('gt') and Greater Than or Equals ('ge') operators. You may combine the CommunicationType and CreatedDate filters by Logical And ('and') operator. */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type SupportTicketCommunicationsNoSubscriptionListResponse = CommunicationsListResult;
-
-/** Optional parameters. */
-export interface SupportTicketCommunicationsNoSubscriptionListNextOptionalParams
+export interface CommunicationsNoSubscriptionListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SupportTicketCommunicationsNoSubscriptionListNextResponse = CommunicationsListResult;
+export type CommunicationsNoSubscriptionListNextResponse =
+  CommunicationsListResult;
 
 /** Optional parameters. */
 export interface ChatTranscriptsListOptionalParams
@@ -1023,18 +1050,12 @@ export interface ChatTranscriptsListNextOptionalParams
 export type ChatTranscriptsListNextResponse = ChatTranscriptsListResult;
 
 /** Optional parameters. */
-export interface SupportTicketChatTranscriptsNoSubscriptionListOptionalParams
+export interface ChatTranscriptsNoSubscriptionListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type SupportTicketChatTranscriptsNoSubscriptionListResponse = ChatTranscriptsListResult;
-
-/** Optional parameters. */
-export interface SupportTicketChatTranscriptsNoSubscriptionListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SupportTicketChatTranscriptsNoSubscriptionListNextResponse = ChatTranscriptsListResult;
+export type ChatTranscriptsNoSubscriptionListResponse =
+  ChatTranscriptsListResult;
 
 /** Optional parameters. */
 export interface ChatTranscriptsNoSubscriptionGetOptionalParams
@@ -1042,6 +1063,14 @@ export interface ChatTranscriptsNoSubscriptionGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type ChatTranscriptsNoSubscriptionGetResponse = ChatTranscriptDetails;
+
+/** Optional parameters. */
+export interface ChatTranscriptsNoSubscriptionListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ChatTranscriptsNoSubscriptionListNextResponse =
+  ChatTranscriptsListResult;
 
 /** Optional parameters. */
 export interface FileWorkspacesGetOptionalParams

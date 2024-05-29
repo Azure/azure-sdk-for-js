@@ -64,7 +64,7 @@ import {
   ReplicationProtectedItemsUpdateApplianceResponse,
   UpdateMobilityServiceRequest,
   ReplicationProtectedItemsUpdateMobilityServiceOptionalParams,
-  ReplicationProtectedItemsUpdateMobilityServiceResponse
+  ReplicationProtectedItemsUpdateMobilityServiceResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -84,7 +84,7 @@ export interface ReplicationProtectedItems {
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectedItemsListByReplicationProtectionContainersOptionalParams
+    options?: ReplicationProtectedItemsListByReplicationProtectionContainersOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationProtectedItem>;
   /**
    * Gets the list of ASR replication protected items in the vault.
@@ -96,7 +96,7 @@ export interface ReplicationProtectedItems {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationProtectedItemsListOptionalParams
+    options?: ReplicationProtectedItemsListOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationProtectedItem>;
   /**
    * Gets the details of an ASR replication protected item.
@@ -114,7 +114,7 @@ export interface ReplicationProtectedItems {
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: ReplicationProtectedItemsGetOptionalParams
+    options?: ReplicationProtectedItemsGetOptionalParams,
   ): Promise<ReplicationProtectedItemsGetResponse>;
   /**
    * The operation to create an ASR replication protected item (Enable replication).
@@ -134,7 +134,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     input: EnableProtectionInput,
-    options?: ReplicationProtectedItemsCreateOptionalParams
+    options?: ReplicationProtectedItemsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsCreateResponse>,
@@ -159,7 +159,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     input: EnableProtectionInput,
-    options?: ReplicationProtectedItemsCreateOptionalParams
+    options?: ReplicationProtectedItemsCreateOptionalParams,
   ): Promise<ReplicationProtectedItemsCreateResponse>;
   /**
    * The operation to delete or purge a replication protected item. This operation will force delete the
@@ -179,7 +179,7 @@ export interface ReplicationProtectedItems {
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: ReplicationProtectedItemsPurgeOptionalParams
+    options?: ReplicationProtectedItemsPurgeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete or purge a replication protected item. This operation will force delete the
@@ -199,7 +199,7 @@ export interface ReplicationProtectedItems {
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: ReplicationProtectedItemsPurgeOptionalParams
+    options?: ReplicationProtectedItemsPurgeOptionalParams,
   ): Promise<void>;
   /**
    * The operation to update the recovery settings of an ASR replication protected item.
@@ -219,7 +219,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     updateProtectionInput: UpdateReplicationProtectedItemInput,
-    options?: ReplicationProtectedItemsUpdateOptionalParams
+    options?: ReplicationProtectedItemsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsUpdateResponse>,
@@ -244,7 +244,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     updateProtectionInput: UpdateReplicationProtectedItemInput,
-    options?: ReplicationProtectedItemsUpdateOptionalParams
+    options?: ReplicationProtectedItemsUpdateOptionalParams,
   ): Promise<ReplicationProtectedItemsUpdateResponse>;
   /**
    * Operation to add disks(s) to the replication protected item.
@@ -264,7 +264,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     addDisksInput: AddDisksInput,
-    options?: ReplicationProtectedItemsAddDisksOptionalParams
+    options?: ReplicationProtectedItemsAddDisksOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsAddDisksResponse>,
@@ -289,7 +289,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     addDisksInput: AddDisksInput,
-    options?: ReplicationProtectedItemsAddDisksOptionalParams
+    options?: ReplicationProtectedItemsAddDisksOptionalParams,
   ): Promise<ReplicationProtectedItemsAddDisksResponse>;
   /**
    * The operation to change the recovery point of a failed over replication protected item.
@@ -309,7 +309,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     applyRecoveryPointInput: ApplyRecoveryPointInput,
-    options?: ReplicationProtectedItemsApplyRecoveryPointOptionalParams
+    options?: ReplicationProtectedItemsApplyRecoveryPointOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsApplyRecoveryPointResponse>,
@@ -334,7 +334,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     applyRecoveryPointInput: ApplyRecoveryPointInput,
-    options?: ReplicationProtectedItemsApplyRecoveryPointOptionalParams
+    options?: ReplicationProtectedItemsApplyRecoveryPointOptionalParams,
   ): Promise<ReplicationProtectedItemsApplyRecoveryPointResponse>;
   /**
    * Operation to cancel the failover of the replication protected item.
@@ -352,7 +352,7 @@ export interface ReplicationProtectedItems {
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: ReplicationProtectedItemsFailoverCancelOptionalParams
+    options?: ReplicationProtectedItemsFailoverCancelOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsFailoverCancelResponse>,
@@ -375,7 +375,7 @@ export interface ReplicationProtectedItems {
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: ReplicationProtectedItemsFailoverCancelOptionalParams
+    options?: ReplicationProtectedItemsFailoverCancelOptionalParams,
   ): Promise<ReplicationProtectedItemsFailoverCancelResponse>;
   /**
    * Operation to commit the failover of the replication protected item.
@@ -393,7 +393,7 @@ export interface ReplicationProtectedItems {
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: ReplicationProtectedItemsFailoverCommitOptionalParams
+    options?: ReplicationProtectedItemsFailoverCommitOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsFailoverCommitResponse>,
@@ -416,7 +416,7 @@ export interface ReplicationProtectedItems {
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: ReplicationProtectedItemsFailoverCommitOptionalParams
+    options?: ReplicationProtectedItemsFailoverCommitOptionalParams,
   ): Promise<ReplicationProtectedItemsFailoverCommitResponse>;
   /**
    * Operation to initiate a planned failover of the replication protected item.
@@ -436,7 +436,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     failoverInput: PlannedFailoverInput,
-    options?: ReplicationProtectedItemsPlannedFailoverOptionalParams
+    options?: ReplicationProtectedItemsPlannedFailoverOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsPlannedFailoverResponse>,
@@ -461,7 +461,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     failoverInput: PlannedFailoverInput,
-    options?: ReplicationProtectedItemsPlannedFailoverOptionalParams
+    options?: ReplicationProtectedItemsPlannedFailoverOptionalParams,
   ): Promise<ReplicationProtectedItemsPlannedFailoverResponse>;
   /**
    * The operation to disable replication on a replication protected item. This will also remove the
@@ -482,7 +482,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     disableProtectionInput: DisableProtectionInput,
-    options?: ReplicationProtectedItemsDeleteOptionalParams
+    options?: ReplicationProtectedItemsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to disable replication on a replication protected item. This will also remove the
@@ -503,7 +503,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     disableProtectionInput: DisableProtectionInput,
-    options?: ReplicationProtectedItemsDeleteOptionalParams
+    options?: ReplicationProtectedItemsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Operation to remove disk(s) from the replication protected item.
@@ -523,7 +523,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     removeDisksInput: RemoveDisksInput,
-    options?: ReplicationProtectedItemsRemoveDisksOptionalParams
+    options?: ReplicationProtectedItemsRemoveDisksOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsRemoveDisksResponse>,
@@ -548,7 +548,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     removeDisksInput: RemoveDisksInput,
-    options?: ReplicationProtectedItemsRemoveDisksOptionalParams
+    options?: ReplicationProtectedItemsRemoveDisksOptionalParams,
   ): Promise<ReplicationProtectedItemsRemoveDisksResponse>;
   /**
    * The operation to start resynchronize/repair replication for a replication protected item requiring
@@ -567,7 +567,7 @@ export interface ReplicationProtectedItems {
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: ReplicationProtectedItemsRepairReplicationOptionalParams
+    options?: ReplicationProtectedItemsRepairReplicationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsRepairReplicationResponse>,
@@ -591,7 +591,7 @@ export interface ReplicationProtectedItems {
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: ReplicationProtectedItemsRepairReplicationOptionalParams
+    options?: ReplicationProtectedItemsRepairReplicationOptionalParams,
   ): Promise<ReplicationProtectedItemsRepairReplicationResponse>;
   /**
    * Operation to reprotect or reverse replicate a failed over replication protected item.
@@ -611,7 +611,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     reprotectInput: ReverseReplicationInput,
-    options?: ReplicationProtectedItemsReprotectOptionalParams
+    options?: ReplicationProtectedItemsReprotectOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsReprotectResponse>,
@@ -636,7 +636,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     reprotectInput: ReverseReplicationInput,
-    options?: ReplicationProtectedItemsReprotectOptionalParams
+    options?: ReplicationProtectedItemsReprotectOptionalParams,
   ): Promise<ReplicationProtectedItemsReprotectResponse>;
   /**
    * Operation to resolve health issues of the replication protected item.
@@ -656,7 +656,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     resolveHealthInput: ResolveHealthInput,
-    options?: ReplicationProtectedItemsResolveHealthErrorsOptionalParams
+    options?: ReplicationProtectedItemsResolveHealthErrorsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsResolveHealthErrorsResponse>,
@@ -681,7 +681,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     resolveHealthInput: ResolveHealthInput,
-    options?: ReplicationProtectedItemsResolveHealthErrorsOptionalParams
+    options?: ReplicationProtectedItemsResolveHealthErrorsOptionalParams,
   ): Promise<ReplicationProtectedItemsResolveHealthErrorsResponse>;
   /**
    * Operation to initiate a switch provider of the replication protected item.
@@ -701,7 +701,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     switchProviderInput: SwitchProviderInput,
-    options?: ReplicationProtectedItemsSwitchProviderOptionalParams
+    options?: ReplicationProtectedItemsSwitchProviderOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsSwitchProviderResponse>,
@@ -726,7 +726,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     switchProviderInput: SwitchProviderInput,
-    options?: ReplicationProtectedItemsSwitchProviderOptionalParams
+    options?: ReplicationProtectedItemsSwitchProviderOptionalParams,
   ): Promise<ReplicationProtectedItemsSwitchProviderResponse>;
   /**
    * Operation to perform a test failover of the replication protected item.
@@ -746,7 +746,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     testfailoverInput: TestFailoverInput,
-    options?: ReplicationProtectedItemsTestFailoverOptionalParams
+    options?: ReplicationProtectedItemsTestFailoverOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsTestFailoverResponse>,
@@ -771,7 +771,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     testfailoverInput: TestFailoverInput,
-    options?: ReplicationProtectedItemsTestFailoverOptionalParams
+    options?: ReplicationProtectedItemsTestFailoverOptionalParams,
   ): Promise<ReplicationProtectedItemsTestFailoverResponse>;
   /**
    * Operation to clean up the test failover of a replication protected item.
@@ -791,7 +791,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     cleanupInput: TestFailoverCleanupInput,
-    options?: ReplicationProtectedItemsTestFailoverCleanupOptionalParams
+    options?: ReplicationProtectedItemsTestFailoverCleanupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsTestFailoverCleanupResponse>,
@@ -816,7 +816,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     cleanupInput: TestFailoverCleanupInput,
-    options?: ReplicationProtectedItemsTestFailoverCleanupOptionalParams
+    options?: ReplicationProtectedItemsTestFailoverCleanupOptionalParams,
   ): Promise<ReplicationProtectedItemsTestFailoverCleanupResponse>;
   /**
    * Operation to initiate a failover of the replication protected item.
@@ -836,7 +836,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     failoverInput: UnplannedFailoverInput,
-    options?: ReplicationProtectedItemsUnplannedFailoverOptionalParams
+    options?: ReplicationProtectedItemsUnplannedFailoverOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsUnplannedFailoverResponse>,
@@ -861,7 +861,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     failoverInput: UnplannedFailoverInput,
-    options?: ReplicationProtectedItemsUnplannedFailoverOptionalParams
+    options?: ReplicationProtectedItemsUnplannedFailoverOptionalParams,
   ): Promise<ReplicationProtectedItemsUnplannedFailoverResponse>;
   /**
    * The operation to update appliance of an ASR replication protected item.
@@ -881,7 +881,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     applianceUpdateInput: UpdateApplianceForReplicationProtectedItemInput,
-    options?: ReplicationProtectedItemsUpdateApplianceOptionalParams
+    options?: ReplicationProtectedItemsUpdateApplianceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsUpdateApplianceResponse>,
@@ -906,7 +906,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     applianceUpdateInput: UpdateApplianceForReplicationProtectedItemInput,
-    options?: ReplicationProtectedItemsUpdateApplianceOptionalParams
+    options?: ReplicationProtectedItemsUpdateApplianceOptionalParams,
   ): Promise<ReplicationProtectedItemsUpdateApplianceResponse>;
   /**
    * The operation to update(push update) the installed mobility service software on a replication
@@ -928,7 +928,7 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     updateMobilityServiceRequest: UpdateMobilityServiceRequest,
-    options?: ReplicationProtectedItemsUpdateMobilityServiceOptionalParams
+    options?: ReplicationProtectedItemsUpdateMobilityServiceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectedItemsUpdateMobilityServiceResponse>,
@@ -955,6 +955,6 @@ export interface ReplicationProtectedItems {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     updateMobilityServiceRequest: UpdateMobilityServiceRequest,
-    options?: ReplicationProtectedItemsUpdateMobilityServiceOptionalParams
+    options?: ReplicationProtectedItemsUpdateMobilityServiceOptionalParams,
   ): Promise<ReplicationProtectedItemsUpdateMobilityServiceResponse>;
 }

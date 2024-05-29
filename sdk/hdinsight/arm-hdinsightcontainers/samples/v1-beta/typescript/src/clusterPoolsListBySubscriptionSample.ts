@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the list of Cluster Pools within a Subscription.
  *
  * @summary Gets the list of Cluster Pools within a Subscription.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-06-01-preview/examples/ListClusterPoolsSubscription.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/ListClusterPoolsSubscription.json
  */
 async function clusterPoolsListBySubscription() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function clusterPoolsListBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new HDInsightContainersManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.clusterPools.listBySubscription()) {

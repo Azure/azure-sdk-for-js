@@ -53,7 +53,7 @@ npx cross-env DOCUMENT_INTELLIGENCE_ENDPOINT="<document intelligence endpoint>" 
 
 ## Next Steps
 
-Take a look at our samples for more information about the APIs that are available in the clients.
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [composemodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1-beta/javascript/composeModel.js
 [analyzedocumentbymodelid]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1-beta/javascript/analyzeDocumentByModelId.js
@@ -67,5 +67,6 @@ Take a look at our samples for more information about the APIs that are availabl
 [getmodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1-beta/javascript/getModel.js
 [listmodels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1-beta/javascript/listModels.js
 [readdocument]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1-beta/javascript/readDocument.js
+[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/ai-document-intelligence
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/README.md

@@ -14,7 +14,7 @@ import {
   ServerBlobAuditingPoliciesGetOptionalParams,
   ServerBlobAuditingPoliciesGetResponse,
   ServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
-  ServerBlobAuditingPoliciesCreateOrUpdateResponse
+  ServerBlobAuditingPoliciesCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ServerBlobAuditingPolicies {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerBlobAuditingPoliciesListByServerOptionalParams
+    options?: ServerBlobAuditingPoliciesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerBlobAuditingPolicy>;
   /**
    * Gets a server's blob auditing policy.
@@ -42,7 +42,7 @@ export interface ServerBlobAuditingPolicies {
   get(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerBlobAuditingPoliciesGetOptionalParams
+    options?: ServerBlobAuditingPoliciesGetOptionalParams,
   ): Promise<ServerBlobAuditingPoliciesGetResponse>;
   /**
    * Creates or updates a server's blob auditing policy.
@@ -56,7 +56,7 @@ export interface ServerBlobAuditingPolicies {
     resourceGroupName: string,
     serverName: string,
     parameters: ServerBlobAuditingPolicy,
-    options?: ServerBlobAuditingPoliciesCreateOrUpdateOptionalParams
+    options?: ServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerBlobAuditingPoliciesCreateOrUpdateResponse>,
@@ -75,6 +75,6 @@ export interface ServerBlobAuditingPolicies {
     resourceGroupName: string,
     serverName: string,
     parameters: ServerBlobAuditingPolicy,
-    options?: ServerBlobAuditingPoliciesCreateOrUpdateOptionalParams
+    options?: ServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ServerBlobAuditingPoliciesCreateOrUpdateResponse>;
 }

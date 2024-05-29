@@ -15,7 +15,7 @@ import {
   FleetUpdateStrategiesGetResponse,
   FleetUpdateStrategiesCreateOrUpdateOptionalParams,
   FleetUpdateStrategiesCreateOrUpdateResponse,
-  FleetUpdateStrategiesDeleteOptionalParams
+  FleetUpdateStrategiesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface FleetUpdateStrategies {
   listByFleet(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetUpdateStrategiesListByFleetOptionalParams
+    options?: FleetUpdateStrategiesListByFleetOptionalParams,
   ): PagedAsyncIterableIterator<FleetUpdateStrategy>;
   /**
    * Get a FleetUpdateStrategy
@@ -43,7 +43,7 @@ export interface FleetUpdateStrategies {
     resourceGroupName: string,
     fleetName: string,
     updateStrategyName: string,
-    options?: FleetUpdateStrategiesGetOptionalParams
+    options?: FleetUpdateStrategiesGetOptionalParams,
   ): Promise<FleetUpdateStrategiesGetResponse>;
   /**
    * Create a FleetUpdateStrategy
@@ -58,7 +58,7 @@ export interface FleetUpdateStrategies {
     fleetName: string,
     updateStrategyName: string,
     resource: FleetUpdateStrategy,
-    options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams
+    options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FleetUpdateStrategiesCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface FleetUpdateStrategies {
     fleetName: string,
     updateStrategyName: string,
     resource: FleetUpdateStrategy,
-    options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams
+    options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams,
   ): Promise<FleetUpdateStrategiesCreateOrUpdateResponse>;
   /**
    * Delete a FleetUpdateStrategy
@@ -91,7 +91,7 @@ export interface FleetUpdateStrategies {
     resourceGroupName: string,
     fleetName: string,
     updateStrategyName: string,
-    options?: FleetUpdateStrategiesDeleteOptionalParams
+    options?: FleetUpdateStrategiesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a FleetUpdateStrategy
@@ -104,6 +104,6 @@ export interface FleetUpdateStrategies {
     resourceGroupName: string,
     fleetName: string,
     updateStrategyName: string,
-    options?: FleetUpdateStrategiesDeleteOptionalParams
+    options?: FleetUpdateStrategiesDeleteOptionalParams,
   ): Promise<void>;
 }

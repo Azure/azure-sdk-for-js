@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -43,7 +43,7 @@ import {
   LoadBalancersMigrateToIpBasedOptionalParams,
   LoadBalancersMigrateToIpBasedResponse,
   LoadBalancersListAllNextResponse,
-  LoadBalancersListNextResponse
+  LoadBalancersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -64,7 +64,7 @@ export class LoadBalancersImpl implements LoadBalancers {
    * @param options The options parameters.
    */
   public listAll(
-    options?: LoadBalancersListAllOptionalParams
+    options?: LoadBalancersListAllOptionalParams,
   ): PagedAsyncIterableIterator<LoadBalancer> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -79,13 +79,13 @@ export class LoadBalancersImpl implements LoadBalancers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: LoadBalancersListAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LoadBalancer[]> {
     let result: LoadBalancersListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -106,7 +106,7 @@ export class LoadBalancersImpl implements LoadBalancers {
   }
 
   private async *listAllPagingAll(
-    options?: LoadBalancersListAllOptionalParams
+    options?: LoadBalancersListAllOptionalParams,
   ): AsyncIterableIterator<LoadBalancer> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -120,7 +120,7 @@ export class LoadBalancersImpl implements LoadBalancers {
    */
   public list(
     resourceGroupName: string,
-    options?: LoadBalancersListOptionalParams
+    options?: LoadBalancersListOptionalParams,
   ): PagedAsyncIterableIterator<LoadBalancer> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -135,14 +135,14 @@ export class LoadBalancersImpl implements LoadBalancers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: LoadBalancersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LoadBalancer[]> {
     let result: LoadBalancersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -157,7 +157,7 @@ export class LoadBalancersImpl implements LoadBalancers {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -168,7 +168,7 @@ export class LoadBalancersImpl implements LoadBalancers {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: LoadBalancersListOptionalParams
+    options?: LoadBalancersListOptionalParams,
   ): AsyncIterableIterator<LoadBalancer> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -184,25 +184,24 @@ export class LoadBalancersImpl implements LoadBalancers {
   async beginDelete(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancersDeleteOptionalParams
+    options?: LoadBalancersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -211,8 +210,8 @@ export class LoadBalancersImpl implements LoadBalancers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -220,20 +219,20 @@ export class LoadBalancersImpl implements LoadBalancers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, loadBalancerName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -248,12 +247,12 @@ export class LoadBalancersImpl implements LoadBalancers {
   async beginDeleteAndWait(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancersDeleteOptionalParams
+    options?: LoadBalancersDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       loadBalancerName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -267,11 +266,11 @@ export class LoadBalancersImpl implements LoadBalancers {
   get(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancersGetOptionalParams
+    options?: LoadBalancersGetOptionalParams,
   ): Promise<LoadBalancersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, loadBalancerName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -286,7 +285,7 @@ export class LoadBalancersImpl implements LoadBalancers {
     resourceGroupName: string,
     loadBalancerName: string,
     parameters: LoadBalancer,
-    options?: LoadBalancersCreateOrUpdateOptionalParams
+    options?: LoadBalancersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LoadBalancersCreateOrUpdateResponse>,
@@ -295,21 +294,20 @@ export class LoadBalancersImpl implements LoadBalancers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LoadBalancersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -318,8 +316,8 @@ export class LoadBalancersImpl implements LoadBalancers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -327,15 +325,15 @@ export class LoadBalancersImpl implements LoadBalancers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, loadBalancerName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       LoadBalancersCreateOrUpdateResponse,
@@ -343,7 +341,7 @@ export class LoadBalancersImpl implements LoadBalancers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -360,13 +358,13 @@ export class LoadBalancersImpl implements LoadBalancers {
     resourceGroupName: string,
     loadBalancerName: string,
     parameters: LoadBalancer,
-    options?: LoadBalancersCreateOrUpdateOptionalParams
+    options?: LoadBalancersCreateOrUpdateOptionalParams,
   ): Promise<LoadBalancersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       loadBalancerName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -382,11 +380,11 @@ export class LoadBalancersImpl implements LoadBalancers {
     resourceGroupName: string,
     loadBalancerName: string,
     parameters: TagsObject,
-    options?: LoadBalancersUpdateTagsOptionalParams
+    options?: LoadBalancersUpdateTagsOptionalParams,
   ): Promise<LoadBalancersUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, loadBalancerName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -395,7 +393,7 @@ export class LoadBalancersImpl implements LoadBalancers {
    * @param options The options parameters.
    */
   private _listAll(
-    options?: LoadBalancersListAllOptionalParams
+    options?: LoadBalancersListAllOptionalParams,
   ): Promise<LoadBalancersListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
@@ -407,11 +405,11 @@ export class LoadBalancersImpl implements LoadBalancers {
    */
   private _list(
     resourceGroupName: string,
-    options?: LoadBalancersListOptionalParams
+    options?: LoadBalancersListOptionalParams,
   ): Promise<LoadBalancersListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -424,25 +422,24 @@ export class LoadBalancersImpl implements LoadBalancers {
   async beginSwapPublicIpAddresses(
     location: string,
     parameters: LoadBalancerVipSwapRequest,
-    options?: LoadBalancersSwapPublicIpAddressesOptionalParams
+    options?: LoadBalancersSwapPublicIpAddressesOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -451,8 +448,8 @@ export class LoadBalancersImpl implements LoadBalancers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -460,20 +457,20 @@ export class LoadBalancersImpl implements LoadBalancers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { location, parameters, options },
-      spec: swapPublicIpAddressesOperationSpec
+      spec: swapPublicIpAddressesOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -488,12 +485,12 @@ export class LoadBalancersImpl implements LoadBalancers {
   async beginSwapPublicIpAddressesAndWait(
     location: string,
     parameters: LoadBalancerVipSwapRequest,
-    options?: LoadBalancersSwapPublicIpAddressesOptionalParams
+    options?: LoadBalancersSwapPublicIpAddressesOptionalParams,
   ): Promise<void> {
     const poller = await this.beginSwapPublicIpAddresses(
       location,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -511,7 +508,7 @@ export class LoadBalancersImpl implements LoadBalancers {
     loadBalancerName: string,
     backendPoolName: string,
     parameters: QueryInboundNatRulePortMappingRequest,
-    options?: LoadBalancersListInboundNatRulePortMappingsOptionalParams
+    options?: LoadBalancersListInboundNatRulePortMappingsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LoadBalancersListInboundNatRulePortMappingsResponse>,
@@ -520,21 +517,20 @@ export class LoadBalancersImpl implements LoadBalancers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LoadBalancersListInboundNatRulePortMappingsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -543,8 +539,8 @@ export class LoadBalancersImpl implements LoadBalancers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -552,8 +548,8 @@ export class LoadBalancersImpl implements LoadBalancers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -564,9 +560,9 @@ export class LoadBalancersImpl implements LoadBalancers {
         loadBalancerName,
         backendPoolName,
         parameters,
-        options
+        options,
       },
-      spec: listInboundNatRulePortMappingsOperationSpec
+      spec: listInboundNatRulePortMappingsOperationSpec,
     });
     const poller = await createHttpPoller<
       LoadBalancersListInboundNatRulePortMappingsResponse,
@@ -574,7 +570,7 @@ export class LoadBalancersImpl implements LoadBalancers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -593,14 +589,14 @@ export class LoadBalancersImpl implements LoadBalancers {
     loadBalancerName: string,
     backendPoolName: string,
     parameters: QueryInboundNatRulePortMappingRequest,
-    options?: LoadBalancersListInboundNatRulePortMappingsOptionalParams
+    options?: LoadBalancersListInboundNatRulePortMappingsOptionalParams,
   ): Promise<LoadBalancersListInboundNatRulePortMappingsResponse> {
     const poller = await this.beginListInboundNatRulePortMappings(
       groupName,
       loadBalancerName,
       backendPoolName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -614,11 +610,11 @@ export class LoadBalancersImpl implements LoadBalancers {
   migrateToIpBased(
     groupName: string,
     loadBalancerName: string,
-    options?: LoadBalancersMigrateToIpBasedOptionalParams
+    options?: LoadBalancersMigrateToIpBasedOptionalParams,
   ): Promise<LoadBalancersMigrateToIpBasedResponse> {
     return this.client.sendOperationRequest(
       { groupName, loadBalancerName, options },
-      migrateToIpBasedOperationSpec
+      migrateToIpBasedOperationSpec,
     );
   }
 
@@ -629,11 +625,11 @@ export class LoadBalancersImpl implements LoadBalancers {
    */
   private _listAllNext(
     nextLink: string,
-    options?: LoadBalancersListAllNextOptionalParams
+    options?: LoadBalancersListAllNextOptionalParams,
   ): Promise<LoadBalancersListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
     );
   }
 
@@ -646,11 +642,11 @@ export class LoadBalancersImpl implements LoadBalancers {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: LoadBalancersListNextOptionalParams
+    options?: LoadBalancersListNextOptionalParams,
   ): Promise<LoadBalancersListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -658,8 +654,7 @@ export class LoadBalancersImpl implements LoadBalancers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -667,61 +662,59 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.loadBalancerName
+    Parameters.loadBalancerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadBalancer
+      bodyMapper: Mappers.LoadBalancer,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.loadBalancerName
+    Parameters.loadBalancerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadBalancer
+      bodyMapper: Mappers.LoadBalancer,
     },
     201: {
-      bodyMapper: Mappers.LoadBalancer
+      bodyMapper: Mappers.LoadBalancer,
     },
     202: {
-      bodyMapper: Mappers.LoadBalancer
+      bodyMapper: Mappers.LoadBalancer,
     },
     204: {
-      bodyMapper: Mappers.LoadBalancer
+      bodyMapper: Mappers.LoadBalancer,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters26,
   queryParameters: [Parameters.apiVersion],
@@ -729,23 +722,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.loadBalancerName
+    Parameters.loadBalancerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadBalancer
+      bodyMapper: Mappers.LoadBalancer,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -753,53 +745,50 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.loadBalancerName
+    Parameters.loadBalancerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/loadBalancers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/loadBalancers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadBalancerListResult
+      bodyMapper: Mappers.LoadBalancerListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadBalancerListResult
+      bodyMapper: Mappers.LoadBalancerListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const swapPublicIpAddressesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/setLoadBalancerFrontendPublicIpAddresses",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/setLoadBalancerFrontendPublicIpAddresses",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -807,40 +796,39 @@ const swapPublicIpAddressesOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters27,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listInboundNatRulePortMappingsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendPoolName}/queryInboundNatRulePortMapping",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendPoolName}/queryInboundNatRulePortMapping",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BackendAddressInboundNatRulePortMappings
+      bodyMapper: Mappers.BackendAddressInboundNatRulePortMappings,
     },
     201: {
-      bodyMapper: Mappers.BackendAddressInboundNatRulePortMappings
+      bodyMapper: Mappers.BackendAddressInboundNatRulePortMappings,
     },
     202: {
-      bodyMapper: Mappers.BackendAddressInboundNatRulePortMappings
+      bodyMapper: Mappers.BackendAddressInboundNatRulePortMappings,
     },
     204: {
-      bodyMapper: Mappers.BackendAddressInboundNatRulePortMappings
+      bodyMapper: Mappers.BackendAddressInboundNatRulePortMappings,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters28,
   queryParameters: [Parameters.apiVersion],
@@ -849,23 +837,22 @@ const listInboundNatRulePortMappingsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.groupName,
     Parameters.loadBalancerName,
-    Parameters.backendPoolName
+    Parameters.backendPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const migrateToIpBasedOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/migrateToIpBased",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/migrateToIpBased",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MigratedPools
+      bodyMapper: Mappers.MigratedPools,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters29,
   queryParameters: [Parameters.apiVersion],
@@ -873,48 +860,48 @@ const migrateToIpBasedOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName1,
-    Parameters.loadBalancerName1
+    Parameters.loadBalancerName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadBalancerListResult
+      bodyMapper: Mappers.LoadBalancerListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadBalancerListResult
+      bodyMapper: Mappers.LoadBalancerListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

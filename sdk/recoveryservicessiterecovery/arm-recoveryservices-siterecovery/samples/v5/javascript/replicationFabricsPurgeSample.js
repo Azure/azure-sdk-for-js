@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to purge(force delete) an Azure Site Recovery fabric.
  *
  * @summary The operation to purge(force delete) an Azure Site Recovery fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationFabrics_Purge.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationFabrics_Purge.json
  */
 async function purgesTheSite() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function purgesTheSite() {
   const result = await client.replicationFabrics.beginPurgeAndWait(
     resourceName,
     resourceGroupName,
-    fabricName
+    fabricName,
   );
   console.log(result);
 }

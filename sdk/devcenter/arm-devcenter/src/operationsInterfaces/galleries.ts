@@ -15,7 +15,8 @@ import {
   GalleriesGetResponse,
   GalleriesCreateOrUpdateOptionalParams,
   GalleriesCreateOrUpdateResponse,
-  GalleriesDeleteOptionalParams
+  GalleriesDeleteOptionalParams,
+  GalleriesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +31,7 @@ export interface Galleries {
   listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: GalleriesListByDevCenterOptionalParams
+    options?: GalleriesListByDevCenterOptionalParams,
   ): PagedAsyncIterableIterator<Gallery>;
   /**
    * Gets a gallery
@@ -43,7 +44,7 @@ export interface Galleries {
     resourceGroupName: string,
     devCenterName: string,
     galleryName: string,
-    options?: GalleriesGetOptionalParams
+    options?: GalleriesGetOptionalParams,
   ): Promise<GalleriesGetResponse>;
   /**
    * Creates or updates a gallery.
@@ -58,7 +59,7 @@ export interface Galleries {
     devCenterName: string,
     galleryName: string,
     body: Gallery,
-    options?: GalleriesCreateOrUpdateOptionalParams
+    options?: GalleriesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleriesCreateOrUpdateResponse>,
@@ -78,7 +79,7 @@ export interface Galleries {
     devCenterName: string,
     galleryName: string,
     body: Gallery,
-    options?: GalleriesCreateOrUpdateOptionalParams
+    options?: GalleriesCreateOrUpdateOptionalParams,
   ): Promise<GalleriesCreateOrUpdateResponse>;
   /**
    * Deletes a gallery resource.
@@ -91,8 +92,13 @@ export interface Galleries {
     resourceGroupName: string,
     devCenterName: string,
     galleryName: string,
-    options?: GalleriesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: GalleriesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GalleriesDeleteResponse>,
+      GalleriesDeleteResponse
+    >
+  >;
   /**
    * Deletes a gallery resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -104,6 +110,6 @@ export interface Galleries {
     resourceGroupName: string,
     devCenterName: string,
     galleryName: string,
-    options?: GalleriesDeleteOptionalParams
-  ): Promise<void>;
+    options?: GalleriesDeleteOptionalParams,
+  ): Promise<GalleriesDeleteResponse>;
 }

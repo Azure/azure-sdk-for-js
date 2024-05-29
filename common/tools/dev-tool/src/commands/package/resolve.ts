@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import path from "path";
-
+import path from "node:path";
 import { resolveProject } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
 import { leafCommand } from "../../framework/command";
@@ -41,7 +40,7 @@ export default leafCommand(commandInfo, async (options) => {
         log.info(`Version specifier: ${currentPackage.name}@${currentPackage.version}`);
         log.info(`Location: ${path.resolve(dir, currentPackage.path)}`);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       log.error("Could not find package starting from", dir);
       log.error(error);
     }

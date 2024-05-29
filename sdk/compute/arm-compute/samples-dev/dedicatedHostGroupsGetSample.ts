@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves information about a dedicated host group.
  *
  * @summary Retrieves information about a dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get.json
  */
 async function createADedicatedHostGroup() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function createADedicatedHostGroup() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.dedicatedHostGroups.get(
     resourceGroupName,
-    hostGroupName
+    hostGroupName,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function createADedicatedHostGroup() {
  * This sample demonstrates how to Retrieves information about a dedicated host group.
  *
  * @summary Retrieves information about a dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
  */
 async function createAnUltraSsdEnabledDedicatedHostGroup() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function createAnUltraSsdEnabledDedicatedHostGroup() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.dedicatedHostGroups.get(
     resourceGroupName,
-    hostGroupName
+    hostGroupName,
   );
   console.log(result);
 }

@@ -17,7 +17,7 @@ import {
   PipelineRunsQueryByFactoryResponse,
   PipelineRunsGetOptionalParams,
   PipelineRunsGetResponse,
-  PipelineRunsCancelOptionalParams
+  PipelineRunsCancelOptionalParams,
 } from "../models";
 
 /** Class containing PipelineRuns operations. */
@@ -43,11 +43,11 @@ export class PipelineRunsImpl implements PipelineRuns {
     resourceGroupName: string,
     factoryName: string,
     filterParameters: RunFilterParameters,
-    options?: PipelineRunsQueryByFactoryOptionalParams
+    options?: PipelineRunsQueryByFactoryOptionalParams,
   ): Promise<PipelineRunsQueryByFactoryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, filterParameters, options },
-      queryByFactoryOperationSpec
+      queryByFactoryOperationSpec,
     );
   }
 
@@ -62,11 +62,11 @@ export class PipelineRunsImpl implements PipelineRuns {
     resourceGroupName: string,
     factoryName: string,
     runId: string,
-    options?: PipelineRunsGetOptionalParams
+    options?: PipelineRunsGetOptionalParams,
   ): Promise<PipelineRunsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, runId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -81,11 +81,11 @@ export class PipelineRunsImpl implements PipelineRuns {
     resourceGroupName: string,
     factoryName: string,
     runId: string,
-    options?: PipelineRunsCancelOptionalParams
+    options?: PipelineRunsCancelOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, runId, options },
-      cancelOperationSpec
+      cancelOperationSpec,
     );
   }
 }
@@ -93,16 +93,15 @@ export class PipelineRunsImpl implements PipelineRuns {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const queryByFactoryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryPipelineRuns",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryPipelineRuns",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PipelineRunsQueryResponse
+      bodyMapper: Mappers.PipelineRunsQueryResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.filterParameters,
   queryParameters: [Parameters.apiVersion],
@@ -110,23 +109,22 @@ const queryByFactoryOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PipelineRun
+      bodyMapper: Mappers.PipelineRun,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -134,20 +132,19 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.runId
+    Parameters.runId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}/cancel",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}/cancel",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.isRecursive],
   urlParameters: [
@@ -155,8 +152,8 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.runId
+    Parameters.runId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

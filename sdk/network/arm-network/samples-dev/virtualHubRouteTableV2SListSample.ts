@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the details of all VirtualHubRouteTableV2s.
  *
  * @summary Retrieves the details of all VirtualHubRouteTableV2s.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualHubRouteTableV2List.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualHubRouteTableV2List.json
  */
 async function virtualHubRouteTableV2List() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function virtualHubRouteTableV2List() {
   const resArray = new Array();
   for await (let item of client.virtualHubRouteTableV2S.list(
     resourceGroupName,
-    virtualHubName
+    virtualHubName,
   )) {
     resArray.push(item);
   }

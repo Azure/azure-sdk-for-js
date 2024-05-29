@@ -17,6 +17,6 @@ export interface ResourceUsageOperations {
    * @param options The options parameters.
    */
   list(
-    options?: ResourceUsageListOptionalParams
+    options?: ResourceUsageListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceUsage>;
 }

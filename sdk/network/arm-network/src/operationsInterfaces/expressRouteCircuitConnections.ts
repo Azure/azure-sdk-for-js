@@ -15,7 +15,7 @@ import {
   ExpressRouteCircuitConnectionsGetOptionalParams,
   ExpressRouteCircuitConnectionsGetResponse,
   ExpressRouteCircuitConnectionsCreateOrUpdateOptionalParams,
-  ExpressRouteCircuitConnectionsCreateOrUpdateResponse
+  ExpressRouteCircuitConnectionsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ExpressRouteCircuitConnections {
     resourceGroupName: string,
     circuitName: string,
     peeringName: string,
-    options?: ExpressRouteCircuitConnectionsListOptionalParams
+    options?: ExpressRouteCircuitConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<ExpressRouteCircuitConnection>;
   /**
    * Deletes the specified Express Route Circuit Connection from the specified express route circuit.
@@ -47,7 +47,7 @@ export interface ExpressRouteCircuitConnections {
     circuitName: string,
     peeringName: string,
     connectionName: string,
-    options?: ExpressRouteCircuitConnectionsDeleteOptionalParams
+    options?: ExpressRouteCircuitConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Express Route Circuit Connection from the specified express route circuit.
@@ -62,7 +62,7 @@ export interface ExpressRouteCircuitConnections {
     circuitName: string,
     peeringName: string,
     connectionName: string,
-    options?: ExpressRouteCircuitConnectionsDeleteOptionalParams
+    options?: ExpressRouteCircuitConnectionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified Express Route Circuit Connection from the specified express route circuit.
@@ -77,7 +77,7 @@ export interface ExpressRouteCircuitConnections {
     circuitName: string,
     peeringName: string,
     connectionName: string,
-    options?: ExpressRouteCircuitConnectionsGetOptionalParams
+    options?: ExpressRouteCircuitConnectionsGetOptionalParams,
   ): Promise<ExpressRouteCircuitConnectionsGetResponse>;
   /**
    * Creates or updates a Express Route Circuit Connection in the specified express route circuits.
@@ -95,7 +95,7 @@ export interface ExpressRouteCircuitConnections {
     peeringName: string,
     connectionName: string,
     expressRouteCircuitConnectionParameters: ExpressRouteCircuitConnection,
-    options?: ExpressRouteCircuitConnectionsCreateOrUpdateOptionalParams
+    options?: ExpressRouteCircuitConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExpressRouteCircuitConnectionsCreateOrUpdateResponse>,
@@ -118,6 +118,6 @@ export interface ExpressRouteCircuitConnections {
     peeringName: string,
     connectionName: string,
     expressRouteCircuitConnectionParameters: ExpressRouteCircuitConnection,
-    options?: ExpressRouteCircuitConnectionsCreateOrUpdateOptionalParams
+    options?: ExpressRouteCircuitConnectionsCreateOrUpdateOptionalParams,
   ): Promise<ExpressRouteCircuitConnectionsCreateOrUpdateResponse>;
 }

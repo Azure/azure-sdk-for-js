@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to cleanup test failover of a recovery plan.
  *
  * @summary The operation to cleanup test failover of a recovery plan.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationRecoveryPlans_TestFailoverCleanup.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryPlans_TestFailoverCleanup.json
  */
 async function executeTestFailoverCleanupOfTheRecoveryPlan() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function executeTestFailoverCleanupOfTheRecoveryPlan() {
     resourceName,
     resourceGroupName,
     recoveryPlanName,
-    input
+    input,
   );
   console.log(result);
 }

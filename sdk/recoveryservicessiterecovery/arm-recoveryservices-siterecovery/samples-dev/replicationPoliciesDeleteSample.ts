@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to delete a replication policy.
  *
  * @summary The operation to delete a replication policy.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationPolicies_Delete.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationPolicies_Delete.json
  */
 async function deleteThePolicy() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function deleteThePolicy() {
   const result = await client.replicationPolicies.beginDeleteAndWait(
     resourceName,
     resourceGroupName,
-    policyName
+    policyName,
   );
   console.log(result);
 }

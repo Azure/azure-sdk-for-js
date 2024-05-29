@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   NameAvailabilityParameters,
-  HDInsightContainersManagementClient
+  HDInsightContainersManagementClient,
 } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Check the availability of the resource name.
  *
  * @summary Check the availability of the resource name.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-06-01-preview/examples/LocationsNameAvailability.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/LocationsNameAvailability.json
  */
 async function locationsNameAvailability() {
   const subscriptionId =
@@ -30,16 +30,16 @@ async function locationsNameAvailability() {
   const location = "southeastasia";
   const nameAvailabilityParameters: NameAvailabilityParameters = {
     name: "contosemember1",
-    type: "Microsoft.HDInsight/clusterPools/clusters"
+    type: "Microsoft.HDInsight/clusterPools/clusters",
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightContainersManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.locations.checkNameAvailability(
     location,
-    nameAvailabilityParameters
+    nameAvailabilityParameters,
   );
   console.log(result);
 }

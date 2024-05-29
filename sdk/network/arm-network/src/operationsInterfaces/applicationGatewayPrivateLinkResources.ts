@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ApplicationGatewayPrivateLinkResource,
-  ApplicationGatewayPrivateLinkResourcesListOptionalParams
+  ApplicationGatewayPrivateLinkResourcesListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface ApplicationGatewayPrivateLinkResources {
   list(
     resourceGroupName: string,
     applicationGatewayName: string,
-    options?: ApplicationGatewayPrivateLinkResourcesListOptionalParams
+    options?: ApplicationGatewayPrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGatewayPrivateLinkResource>;
 }

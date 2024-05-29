@@ -1,6 +1,6 @@
 # Release History
 
-## 4.2.1 (Unreleased)
+## 4.3.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,32 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.3.0 (2024-05-20)
+
+### Breaking Changes
+- Moved to ESM core with builds for ESM, CommonJS, React-Native and Browser.
+- Moved unit tests from mocha to vitest.
+
+### Other Changes
+
+- Adds support for connecting to the development emulator. The connection string for the development emulator should have the `";UseDevelopmentEmulator=true"` slug.
+
+## 4.2.2 (2024-05-02)
+
+### Bugs Fixed
+
+- Handle translation of ErrorEvent properly [PR #29297](https://github.com/Azure/azure-sdk-for-js/pull/29297)
+
+### Other Changes
+
+- Add support for the `deleteMessages` operation in @azure/service-bus.
+
+## 4.2.1 (2024-03-04)
+
+### Other Changes
+
+- Update the message of the error thrown from `retry` to include all errors occurred between retries.
 
 ## 4.2.0 (2024-02-01)
 

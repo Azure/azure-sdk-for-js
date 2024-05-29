@@ -15,7 +15,7 @@ import {
   ReplicationVaultSettingGetResponse,
   VaultSettingCreationInput,
   ReplicationVaultSettingCreateOptionalParams,
-  ReplicationVaultSettingCreateResponse
+  ReplicationVaultSettingCreateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ReplicationVaultSetting {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationVaultSettingListOptionalParams
+    options?: ReplicationVaultSettingListOptionalParams,
   ): PagedAsyncIterableIterator<VaultSetting>;
   /**
    * Gets the vault setting. This includes the Migration Hub connection settings.
@@ -45,7 +45,7 @@ export interface ReplicationVaultSetting {
     resourceName: string,
     resourceGroupName: string,
     vaultSettingName: string,
-    options?: ReplicationVaultSettingGetOptionalParams
+    options?: ReplicationVaultSettingGetOptionalParams,
   ): Promise<ReplicationVaultSettingGetResponse>;
   /**
    * The operation to configure vault setting.
@@ -61,7 +61,7 @@ export interface ReplicationVaultSetting {
     resourceGroupName: string,
     vaultSettingName: string,
     input: VaultSettingCreationInput,
-    options?: ReplicationVaultSettingCreateOptionalParams
+    options?: ReplicationVaultSettingCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationVaultSettingCreateResponse>,
@@ -82,6 +82,6 @@ export interface ReplicationVaultSetting {
     resourceGroupName: string,
     vaultSettingName: string,
     input: VaultSettingCreationInput,
-    options?: ReplicationVaultSettingCreateOptionalParams
+    options?: ReplicationVaultSettingCreateOptionalParams,
   ): Promise<ReplicationVaultSettingCreateResponse>;
 }

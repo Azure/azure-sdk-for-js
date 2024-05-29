@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "../auth/keyCredential";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
+import { KeyCredential } from "../auth/keyCredential.js";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import { PipelinePolicy } from "../pipeline.js";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.

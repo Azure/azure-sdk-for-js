@@ -11,7 +11,7 @@ import {
   ProblemClassification,
   ProblemClassificationsListOptionalParams,
   ProblemClassificationsGetOptionalParams,
-  ProblemClassificationsGetResponse
+  ProblemClassificationsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface ProblemClassifications {
    */
   list(
     serviceName: string,
-    options?: ProblemClassificationsListOptionalParams
+    options?: ProblemClassificationsListOptionalParams,
   ): PagedAsyncIterableIterator<ProblemClassification>;
   /**
    * Get problem classification details for a specific Azure service.
@@ -38,6 +38,6 @@ export interface ProblemClassifications {
   get(
     serviceName: string,
     problemClassificationName: string,
-    options?: ProblemClassificationsGetOptionalParams
+    options?: ProblemClassificationsGetOptionalParams,
   ): Promise<ProblemClassificationsGetResponse>;
 }

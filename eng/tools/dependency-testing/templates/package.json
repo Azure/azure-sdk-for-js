@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc -p .",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "mocha -r esm-workaround.js -r esm --require source-map-support/register --reporter mocha-multi-reporter.js  --reporter-option output=test-results.xml --timeout 350000 --full-trace \"dist-esm/**/{,!(browser)/**/}*.spec.js\" --exit",
+    "integration-test:node": "mocha --require tsx --require source-map-support/register --reporter mocha-multi-reporter.js  --reporter-option output=test-results.xml --timeout 350000 --full-trace \"dist-esm/**/{,!(browser)/**/}*.spec.js\" --exit",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser"
   },
   "repository": {

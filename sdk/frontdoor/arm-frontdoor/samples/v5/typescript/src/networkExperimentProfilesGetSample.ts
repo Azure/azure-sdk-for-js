@@ -29,7 +29,7 @@ async function getsAnNetworkExperimentProfileByProfileId() {
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const result = await client.networkExperimentProfiles.get(
     resourceGroupName,
-    profileName
+    profileName,
   );
   console.log(result);
 }

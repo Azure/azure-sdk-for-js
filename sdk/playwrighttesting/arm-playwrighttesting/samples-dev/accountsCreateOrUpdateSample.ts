@@ -29,7 +29,7 @@ async function accountsCreateOrUpdate() {
   const name = "myPlaywrightAccount";
   const resource: Account = {
     location: "westus",
-    regionalAffinity: "Enabled",
+    properties: { regionalAffinity: "Enabled" },
     tags: { team: "Dev Exp" }
   };
   const credential = new DefaultAzureCredential();

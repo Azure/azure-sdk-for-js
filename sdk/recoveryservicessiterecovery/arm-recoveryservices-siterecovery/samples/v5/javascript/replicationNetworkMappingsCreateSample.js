@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to create an ASR network mapping.
  *
  * @summary The operation to create an ASR network mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworkMappings_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworkMappings_Create.json
  */
 async function createsNetworkMapping() {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function createsNetworkMapping() {
     fabricName,
     networkName,
     networkMappingName,
-    input
+    input,
   );
   console.log(result);
 }

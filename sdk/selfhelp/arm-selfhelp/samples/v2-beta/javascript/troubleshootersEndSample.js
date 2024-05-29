@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Ends the troubleshooter action
  *
  * @summary Ends the troubleshooter action
- * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2023-09-01-preview/examples/Troubleshooter_End.json
+ * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/Troubleshooter_End.json
  */
 async function troubleshootersEnd() {
   const scope =

@@ -1,5 +1,8 @@
-import { PerfTest } from "@azure/test-utils-perf";
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { PerfTest } from "@azure-tools/test-perf";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   AuthorizeRequestOnChallengeOptions,
   bearerTokenAuthenticationPolicy,
@@ -11,7 +14,7 @@ import {
   PipelineRequest,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import { TextDecoder } from "util";
+import { TextDecoder } from "node:util";
 
 export interface TestChallenge {
   scope: string;
@@ -50,6 +53,7 @@ export function decodeString(value: string): Uint8Array {
 //     [ { a: 'b', c: 'd' }, { d: 'e', f: 'g"' } ]
 // Important:
 //     Do not use this in production, as values might contain the strings we use to split things up.
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 function parseCAEChallenge(challenges: string): any[] {
   return challenges
     .split("Bearer ")
@@ -195,6 +199,9 @@ export class BearerTokenAuthenticationPolicyChallengeTest extends PerfTest {
 
   async run(): Promise<void> {
     const { pipeline, testHttpsClient, request } = BearerTokenAuthenticationPolicyChallengeTest;
-    await pipeline!.sendRequest(testHttpsClient!, request!);
+    if (!pipeline || !testHttpsClient || !request) {
+      throw new Error("Bad initialization for tests");
+    }
+    await pipeline.sendRequest(testHttpsClient, request);
   }
 }

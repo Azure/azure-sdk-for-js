@@ -17,7 +17,7 @@ import {
   LedgerDigestUploadsCreateOrUpdateOptionalParams,
   LedgerDigestUploadsCreateOrUpdateResponse,
   LedgerDigestUploadsDisableOptionalParams,
-  LedgerDigestUploadsDisableResponse
+  LedgerDigestUploadsDisableResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface LedgerDigestUploadsOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: LedgerDigestUploadsListByDatabaseOptionalParams
+    options?: LedgerDigestUploadsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<LedgerDigestUploads>;
   /**
    * Gets the current ledger digest upload configuration for a database.
@@ -51,7 +51,7 @@ export interface LedgerDigestUploadsOperations {
     serverName: string,
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
-    options?: LedgerDigestUploadsGetOptionalParams
+    options?: LedgerDigestUploadsGetOptionalParams,
   ): Promise<LedgerDigestUploadsGetResponse>;
   /**
    * Enables upload ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
@@ -69,7 +69,7 @@ export interface LedgerDigestUploadsOperations {
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
     parameters: LedgerDigestUploads,
-    options?: LedgerDigestUploadsCreateOrUpdateOptionalParams
+    options?: LedgerDigestUploadsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LedgerDigestUploadsCreateOrUpdateResponse>,
@@ -92,7 +92,7 @@ export interface LedgerDigestUploadsOperations {
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
     parameters: LedgerDigestUploads,
-    options?: LedgerDigestUploadsCreateOrUpdateOptionalParams
+    options?: LedgerDigestUploadsCreateOrUpdateOptionalParams,
   ): Promise<LedgerDigestUploadsCreateOrUpdateResponse>;
   /**
    * Disables uploading ledger digests to an Azure Storage account or an Azure Confidential Ledger
@@ -109,7 +109,7 @@ export interface LedgerDigestUploadsOperations {
     serverName: string,
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
-    options?: LedgerDigestUploadsDisableOptionalParams
+    options?: LedgerDigestUploadsDisableOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LedgerDigestUploadsDisableResponse>,
@@ -131,6 +131,6 @@ export interface LedgerDigestUploadsOperations {
     serverName: string,
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
-    options?: LedgerDigestUploadsDisableOptionalParams
+    options?: LedgerDigestUploadsDisableOptionalParams,
   ): Promise<LedgerDigestUploadsDisableResponse>;
 }

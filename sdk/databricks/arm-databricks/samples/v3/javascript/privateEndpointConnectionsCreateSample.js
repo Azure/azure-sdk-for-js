@@ -38,7 +38,7 @@ async function updateAPrivateEndpointConnection() {
     resourceGroupName,
     workspaceName,
     privateEndpointConnectionName,
-    privateEndpointConnection
+    privateEndpointConnection,
   );
   console.log(result);
 }

@@ -57,17 +57,18 @@ export async function msalNodeTestSetup(
         AZURE_TENANT_ID: PlaybackTenantId,
         AZURE_CLIENT_ID: playbackClientId,
         AZURE_CLIENT_SECRET: "azure_client_secret",
-        AZURE_USERNAME: "azure_username",
-        AZURE_PASSWORD: "azure_password",
-        AZURE_IDENTITY_TEST_TENANTID: "",
-        AZURE_IDENTITY_TEST_USERNAME: "",
-        AZURE_IDENTITY_TEST_PASSWORD: "",
+        AZURE_IDENTITY_TEST_TENANTID: PlaybackTenantId,
+        AZURE_IDENTITY_TEST_USERNAME: "azure_username",
+        AZURE_IDENTITY_TEST_PASSWORD: "azure_password",
         IDENTITY_SP_CLIENT_ID: "",
         IDENTITY_SP_TENANT_ID: "",
         IDENTITY_SP_CLIENT_SECRET: "",
         IDENTITY_SP_CERT_PEM: "",
         AZURE_CAE_MANAGEMENT_ENDPOINT: "https://management.azure.com/",
         AZURE_CLIENT_CERTIFICATE_PATH: "assets/fake-cert.pem",
+        AZURE_IDENTITY_MULTI_TENANT_TENANT_ID: "99999999-9999-9999-9999-999999999999",
+        AZURE_IDENTITY_MULTI_TENANT_CLIENT_ID: "azure_multi_tenant_client_id",
+        AZURE_IDENTITY_MULTI_TENANT_CLIENT_SECRET: "azure_multi_tenant_client_secret",
       },
       sanitizerOptions: {
         headerSanitizers: [
@@ -99,6 +100,11 @@ export async function msalNodeTestSetup(
         bodySanitizers: [
           {
             regex: true,
+            target: 'username=[^&"]+', // env sanitizers do not handle matching urlencoded params well (@ character is urlencoded)
+            value: "username=azure_username",
+          },
+          {
+            regex: true,
             target: 'client_secret=[^&"]+',
             value: "client_secret=azure_client_secret",
           },
@@ -115,12 +121,12 @@ export async function msalNodeTestSetup(
           {
             regex: true,
             target: `x-client-OS=[a-zA-Z0-9]+`,
-            value: `x-client-OS=x-client-OS`,
+            value: `x-client-OS=Sanitized`,
           },
           {
             regex: true,
             target: `x-client-CPU=[a-zA-Z0-9]+`,
-            value: `x-client-CPU=x-client-CPU`,
+            value: `x-client-CPU=Sanitized`,
           },
           {
             regex: true,

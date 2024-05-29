@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the protectable items in a protection container.
  *
  * @summary Lists the protectable items in a protection container.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectableItems_ListByReplicationProtectionContainers.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectableItems_ListByReplicationProtectionContainers.json
  */
 async function getsTheListOfProtectableItems() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getsTheListOfProtectableItems() {
     resourceName,
     resourceGroupName,
     fabricName,
-    protectionContainerName
+    protectionContainerName,
   )) {
     resArray.push(item);
   }

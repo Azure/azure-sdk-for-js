@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified public IP prefix.
  *
  * @summary Deletes the specified public IP prefix.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PublicIpPrefixDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/PublicIpPrefixDelete.json
  */
 async function deletePublicIPPrefix() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function deletePublicIPPrefix() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.publicIPPrefixes.beginDeleteAndWait(
     resourceGroupName,
-    publicIpPrefixName
+    publicIpPrefixName,
   );
   console.log(result);
 }

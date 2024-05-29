@@ -20,6 +20,7 @@ export interface AmlFilesystem extends TrackedResource {
     identity?: AmlFilesystemIdentity;
     maintenanceWindow?: AmlFilesystemPropertiesMaintenanceWindow;
     readonly provisioningState?: AmlFilesystemProvisioningStateType;
+    rootSquashSettings?: AmlFilesystemRootSquashSettings;
     sku?: SkuName;
     storageCapacityTiB?: number;
     readonly throughputProvisionedMBps?: number;
@@ -92,6 +93,7 @@ export type AmlFilesystemHealthStateType = string;
 export interface AmlFilesystemHsmSettings {
     container: string;
     importPrefix?: string;
+    importPrefixesInitial?: string[];
     loggingContainer: string;
 }
 
@@ -122,6 +124,15 @@ export interface AmlFilesystemPropertiesMaintenanceWindow {
 
 // @public
 export type AmlFilesystemProvisioningStateType = string;
+
+// @public
+export interface AmlFilesystemRootSquashSettings {
+    mode?: AmlFilesystemSquashMode;
+    noSquashNidLists?: string;
+    squashGID?: number;
+    squashUID?: number;
+    readonly status?: string;
+}
 
 // @public
 export interface AmlFilesystems {
@@ -215,6 +226,9 @@ export interface AmlFilesystemsListResult {
 }
 
 // @public
+export type AmlFilesystemSquashMode = string;
+
+// @public
 export interface AmlFilesystemSubnetInfo {
     filesystemSubnet?: string;
     location?: string;
@@ -241,6 +255,7 @@ export type AmlFilesystemsUpdateResponse = AmlFilesystem;
 export interface AmlFilesystemUpdate {
     encryptionSettings?: AmlFilesystemEncryptionSettings;
     maintenanceWindow?: AmlFilesystemUpdatePropertiesMaintenanceWindow;
+    rootSquashSettings?: AmlFilesystemRootSquashSettings;
     tags?: {
         [propertyName: string]: string;
     };
@@ -287,7 +302,7 @@ export type ArchiveStatusType = string;
 // @public
 export interface AscOperation {
     endTime?: string;
-    error?: ErrorResponse;
+    error?: AscOperationErrorResponse;
     id?: string;
     name?: string;
     output?: {
@@ -295,6 +310,12 @@ export interface AscOperation {
     };
     startTime?: string;
     status?: string;
+}
+
+// @public
+export interface AscOperationErrorResponse {
+    code?: string;
+    message?: string;
 }
 
 // @public
@@ -751,15 +772,32 @@ export interface Condition {
 }
 
 // @public
+export type ConflictResolutionMode = string;
+
+// @public
 export type CreatedByType = string;
 
 // @public
 export type DomainJoinedType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
 export interface ErrorResponse {
-    code?: string;
-    message?: string;
+    error?: ErrorDetail;
 }
 
 // @public
@@ -781,6 +819,120 @@ export type GetRequiredAmlFSSubnetsSizeResponse = RequiredAmlFilesystemSubnetsSi
 
 // @public
 export type HealthStateType = string;
+
+// @public
+export interface ImportJob extends TrackedResource {
+    readonly blobsImportedPerSecond?: number;
+    readonly blobsWalkedPerSecond?: number;
+    conflictResolutionMode?: ConflictResolutionMode;
+    importPrefixes?: string[];
+    readonly lastCompletionTime?: Date;
+    readonly lastStartedTime?: Date;
+    maximumErrors?: number;
+    readonly provisioningState?: ImportJobProvisioningStateType;
+    readonly state?: ImportStatusType;
+    readonly statusMessage?: string;
+    readonly totalBlobsImported?: number;
+    readonly totalBlobsWalked?: number;
+    readonly totalConflicts?: number;
+    readonly totalErrors?: number;
+}
+
+// @public
+export type ImportJobProvisioningStateType = string;
+
+// @public
+export interface ImportJobs {
+    beginCreateOrUpdate(resourceGroupName: string, amlFilesystemName: string, importJobName: string, importJob: ImportJob, options?: ImportJobsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImportJobsCreateOrUpdateResponse>, ImportJobsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, importJobName: string, importJob: ImportJob, options?: ImportJobsCreateOrUpdateOptionalParams): Promise<ImportJobsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, amlFilesystemName: string, importJobName: string, options?: ImportJobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ImportJobsDeleteResponse>, ImportJobsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, amlFilesystemName: string, importJobName: string, options?: ImportJobsDeleteOptionalParams): Promise<ImportJobsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, amlFilesystemName: string, importJobName: string, importJob: ImportJobUpdate, options?: ImportJobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImportJobsUpdateResponse>, ImportJobsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, importJobName: string, importJob: ImportJobUpdate, options?: ImportJobsUpdateOptionalParams): Promise<ImportJobsUpdateResponse>;
+    get(resourceGroupName: string, amlFilesystemName: string, importJobName: string, options?: ImportJobsGetOptionalParams): Promise<ImportJobsGetResponse>;
+    listByAmlFilesystem(resourceGroupName: string, amlFilesystemName: string, options?: ImportJobsListByAmlFilesystemOptionalParams): PagedAsyncIterableIterator<ImportJob>;
+}
+
+// @public
+export interface ImportJobsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface ImportJobsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ImportJobsCreateOrUpdateResponse = ImportJob;
+
+// @public
+export interface ImportJobsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ImportJobsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ImportJobsDeleteResponse = ImportJobsDeleteHeaders;
+
+// @public
+export interface ImportJobsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsGetResponse = ImportJob;
+
+// @public
+export interface ImportJobsListByAmlFilesystemNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsListByAmlFilesystemNextResponse = ImportJobsListResult;
+
+// @public
+export interface ImportJobsListByAmlFilesystemOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsListByAmlFilesystemResponse = ImportJobsListResult;
+
+// @public
+export interface ImportJobsListResult {
+    nextLink?: string;
+    value?: ImportJob[];
+}
+
+// @public
+export interface ImportJobsUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ImportJobsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ImportJobsUpdateResponse = ImportJob;
+
+// @public
+export interface ImportJobUpdate {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export type ImportStatusType = string;
 
 // @public
 export interface KeyVaultKeyReference {
@@ -813,6 +965,13 @@ export enum KnownAmlFilesystemProvisioningStateType {
 }
 
 // @public
+export enum KnownAmlFilesystemSquashMode {
+    All = "All",
+    None = "None",
+    RootOnly = "RootOnly"
+}
+
+// @public
 export enum KnownArchiveStatusType {
     Canceled = "Canceled",
     Cancelling = "Cancelling",
@@ -822,6 +981,14 @@ export enum KnownArchiveStatusType {
     Idle = "Idle",
     InProgress = "InProgress",
     NotConfigured = "NotConfigured"
+}
+
+// @public
+export enum KnownConflictResolutionMode {
+    Fail = "Fail",
+    OverwriteAlways = "OverwriteAlways",
+    OverwriteIfDirty = "OverwriteIfDirty",
+    Skip = "Skip"
 }
 
 // @public
@@ -865,6 +1032,26 @@ export enum KnownHealthStateType {
     UpgradeFailed = "UpgradeFailed",
     Upgrading = "Upgrading",
     WaitingForKey = "WaitingForKey"
+}
+
+// @public
+export enum KnownImportJobProvisioningStateType {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownImportStatusType {
+    Canceled = "Canceled",
+    Cancelling = "Cancelling",
+    Completed = "Completed",
+    CompletedPartial = "CompletedPartial",
+    Failed = "Failed",
+    InProgress = "InProgress"
 }
 
 // @public
@@ -1181,6 +1368,8 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
     caches: Caches;
     checkAmlFSSubnets(options?: CheckAmlFSSubnetsOptionalParams): Promise<void>;
     getRequiredAmlFSSubnetsSize(options?: GetRequiredAmlFSSubnetsSizeOptionalParams): Promise<GetRequiredAmlFSSubnetsSizeResponse>;
+    // (undocumented)
+    importJobs: ImportJobs;
     // (undocumented)
     operations: Operations;
     // (undocumented)

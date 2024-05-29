@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "../logger.js";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
@@ -27,8 +19,8 @@ export default function createClient(
   options: ClientOptions = {},
 ): OpenAIContext {
   const baseUrl = options.baseUrl ?? `${endpoint}/openai`;
-  options.apiVersion = options.apiVersion ?? "2023-12-01-preview";
-  const userAgentInfo = `azsdk-js-openai-rest/1.0.0-beta.11`;
+  options.apiVersion = options.apiVersion ?? "2024-03-01-preview";
+  const userAgentInfo = `azsdk-js-openai-rest/1.0.0-beta.12`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

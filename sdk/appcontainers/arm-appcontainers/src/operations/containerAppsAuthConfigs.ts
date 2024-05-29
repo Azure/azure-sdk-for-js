@@ -23,7 +23,7 @@ import {
   ContainerAppsAuthConfigsCreateOrUpdateOptionalParams,
   ContainerAppsAuthConfigsCreateOrUpdateResponse,
   ContainerAppsAuthConfigsDeleteOptionalParams,
-  ContainerAppsAuthConfigsListByContainerAppNextResponse
+  ContainerAppsAuthConfigsListByContainerAppNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,12 +48,12 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
   public listByContainerApp(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsAuthConfigsListByContainerAppOptionalParams
+    options?: ContainerAppsAuthConfigsListByContainerAppOptionalParams,
   ): PagedAsyncIterableIterator<AuthConfig> {
     const iter = this.listByContainerAppPagingAll(
       resourceGroupName,
       containerAppName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
           resourceGroupName,
           containerAppName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
     resourceGroupName: string,
     containerAppName: string,
     options?: ContainerAppsAuthConfigsListByContainerAppOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AuthConfig[]> {
     let result: ContainerAppsAuthConfigsListByContainerAppResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
       result = await this._listByContainerApp(
         resourceGroupName,
         containerAppName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -100,7 +100,7 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
         resourceGroupName,
         containerAppName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +112,12 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
   private async *listByContainerAppPagingAll(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsAuthConfigsListByContainerAppOptionalParams
+    options?: ContainerAppsAuthConfigsListByContainerAppOptionalParams,
   ): AsyncIterableIterator<AuthConfig> {
     for await (const page of this.listByContainerAppPagingPage(
       resourceGroupName,
       containerAppName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,11 +132,11 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
   private _listByContainerApp(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsAuthConfigsListByContainerAppOptionalParams
+    options?: ContainerAppsAuthConfigsListByContainerAppOptionalParams,
   ): Promise<ContainerAppsAuthConfigsListByContainerAppResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, options },
-      listByContainerAppOperationSpec
+      listByContainerAppOperationSpec,
     );
   }
 
@@ -151,11 +151,11 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
     resourceGroupName: string,
     containerAppName: string,
     authConfigName: string,
-    options?: ContainerAppsAuthConfigsGetOptionalParams
+    options?: ContainerAppsAuthConfigsGetOptionalParams,
   ): Promise<ContainerAppsAuthConfigsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, authConfigName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -172,7 +172,7 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
     containerAppName: string,
     authConfigName: string,
     authConfigEnvelope: AuthConfig,
-    options?: ContainerAppsAuthConfigsCreateOrUpdateOptionalParams
+    options?: ContainerAppsAuthConfigsCreateOrUpdateOptionalParams,
   ): Promise<ContainerAppsAuthConfigsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -180,9 +180,9 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
         containerAppName,
         authConfigName,
         authConfigEnvelope,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -197,11 +197,11 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
     resourceGroupName: string,
     containerAppName: string,
     authConfigName: string,
-    options?: ContainerAppsAuthConfigsDeleteOptionalParams
+    options?: ContainerAppsAuthConfigsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, authConfigName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -216,11 +216,11 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
     resourceGroupName: string,
     containerAppName: string,
     nextLink: string,
-    options?: ContainerAppsAuthConfigsListByContainerAppNextOptionalParams
+    options?: ContainerAppsAuthConfigsListByContainerAppNextOptionalParams,
   ): Promise<ContainerAppsAuthConfigsListByContainerAppNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, nextLink, options },
-      listByContainerAppNextOperationSpec
+      listByContainerAppNextOperationSpec,
     );
   }
 }
@@ -228,38 +228,15 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByContainerAppOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/authConfigs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/authConfigs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthConfigCollection
+      bodyMapper: Mappers.AuthConfigCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.containerAppName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/authConfigs/{authConfigName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AuthConfig
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -267,22 +244,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerAppName,
-    Parameters.authConfigName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/authConfigs/{authConfigName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthConfig,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.containerAppName,
+    Parameters.authConfigName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/authConfigs/{authConfigName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/authConfigs/{authConfigName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthConfig
+      bodyMapper: Mappers.AuthConfig,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.authConfigEnvelope,
   queryParameters: [Parameters.apiVersion],
@@ -291,22 +288,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerAppName,
-    Parameters.authConfigName
+    Parameters.authConfigName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/authConfigs/{authConfigName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/authConfigs/{authConfigName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -314,29 +310,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerAppName,
-    Parameters.authConfigName
+    Parameters.authConfigName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByContainerAppNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthConfigCollection
+      bodyMapper: Mappers.AuthConfigCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.nextLink,
     Parameters.containerAppName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

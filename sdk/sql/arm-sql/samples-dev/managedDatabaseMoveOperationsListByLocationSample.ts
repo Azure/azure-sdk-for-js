@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedDatabaseMoveOperationsListByLocationOptionalParams,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,7 +34,7 @@ async function getsAllManagedDatabaseMoveOperationsForSpecifiedSubscriptionResou
   const resArray = new Array();
   for await (let item of client.managedDatabaseMoveOperations.listByLocation(
     resourceGroupName,
-    locationName
+    locationName,
   )) {
     resArray.push(item);
   }
@@ -55,7 +55,7 @@ async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpe
   const locationName = "westeurope";
   const filter = "Properties/Operation eq 'StartManagedInstanceDatabaseMove'";
   const options: ManagedDatabaseMoveOperationsListByLocationOptionalParams = {
-    filter
+    filter,
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -63,7 +63,7 @@ async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpe
   for await (let item of client.managedDatabaseMoveOperations.listByLocation(
     resourceGroupName,
     locationName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -87,7 +87,7 @@ async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpe
   const resArray = new Array();
   for await (let item of client.managedDatabaseMoveOperations.listByLocation(
     resourceGroupName,
-    locationName
+    locationName,
   )) {
     resArray.push(item);
   }

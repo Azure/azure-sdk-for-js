@@ -129,6 +129,45 @@ export interface FleetListResult {
   nextLink?: string;
 }
 
+/** The FleetHubProfile configures the fleet hub. */
+export interface FleetHubProfile {
+  /** DNS prefix used to create the FQDN for the Fleet hub. */
+  dnsPrefix?: string;
+  /** The access profile for the Fleet hub API server. */
+  apiServerAccessProfile?: APIServerAccessProfile;
+  /** The agent profile for the Fleet hub. */
+  agentProfile?: AgentProfile;
+  /**
+   * The FQDN of the Fleet hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /**
+   * The Kubernetes version of the Fleet hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubernetesVersion?: string;
+  /**
+   * The Azure Portal FQDN of the Fleet hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly portalFqdn?: string;
+}
+
+/** Access profile for the Fleet hub API server. */
+export interface APIServerAccessProfile {
+  /** Whether to create the Fleet hub as a private cluster or not. */
+  enablePrivateCluster?: boolean;
+}
+
+/** Agent profile for the Fleet hub. */
+export interface AgentProfile {
+  /** The ID of the subnet which the Fleet hub node will join on startup. If this is not specified, a vnet and subnet will be generated and used. */
+  subnetId?: string;
+  /** The virtual machine size of the Fleet hub. */
+  vmSize?: string;
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /**
@@ -297,11 +336,7 @@ export interface ManagedClusterUpdate {
 
 /** The upgrade to apply to a ManagedCluster. */
 export interface ManagedClusterUpgradeSpec {
-  /**
-   * The upgrade type.
-   * Full requires the KubernetesVersion property to be set.
-   * NodeImageOnly requires the KubernetesVersion property not to be set.
-   */
+  /** ManagedClusterUpgradeType is the type of upgrade to be applied. */
   type: ManagedClusterUpgradeType;
   /** The Kubernetes version to upgrade the member clusters to. */
   kubernetesVersion?: string;
@@ -460,6 +495,24 @@ export interface NodeImageVersion {
   readonly version?: string;
 }
 
+/** The properties of a skip operation containing multiple skip requests. */
+export interface SkipProperties {
+  /** The targets to skip. */
+  targets: SkipTarget[];
+}
+
+/** The definition of a single skip request. */
+export interface SkipTarget {
+  /** The skip target type. */
+  type: TargetType;
+  /**
+   * The skip target's name.
+   * To skip a member/group/stage, use the member/group/stage's name;
+   * Tp skip an after stage wait, use the parent stage's name.
+   */
+  name: string;
+}
+
 /** The response of a FleetUpdateStrategy list operation. */
 export interface FleetUpdateStrategyListResult {
   /** The FleetUpdateStrategy items on this page */
@@ -493,6 +546,8 @@ export interface Fleet extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: FleetProvisioningState;
+  /** The FleetHubProfile configures the Fleet's hub. */
+  hubProfile?: FleetHubProfile;
 }
 
 /** A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure. */
@@ -579,18 +634,18 @@ export interface FleetsCreateOrUpdateHeaders {
 
 /** Defines headers for Fleets_update operation. */
 export interface FleetsUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Fleets_delete operation. */
 export interface FleetsDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for FleetMembers_create operation. */
@@ -601,18 +656,18 @@ export interface FleetMembersCreateHeaders {
 
 /** Defines headers for FleetMembers_update operation. */
 export interface FleetMembersUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for FleetMembers_delete operation. */
 export interface FleetMembersDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for UpdateRuns_createOrUpdate operation. */
@@ -623,26 +678,34 @@ export interface UpdateRunsCreateOrUpdateHeaders {
 
 /** Defines headers for UpdateRuns_delete operation. */
 export interface UpdateRunsDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for UpdateRuns_skip operation. */
+export interface UpdateRunsSkipHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for UpdateRuns_start operation. */
 export interface UpdateRunsStartHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for UpdateRuns_stop operation. */
 export interface UpdateRunsStopHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for FleetUpdateStrategies_createOrUpdate operation. */
@@ -653,10 +716,10 @@ export interface FleetUpdateStrategiesCreateOrUpdateHeaders {
 
 /** Defines headers for FleetUpdateStrategies_delete operation. */
 export interface FleetUpdateStrategiesDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -666,7 +729,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -683,7 +746,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -708,7 +771,7 @@ export enum KnownFleetProvisioningState {
   /** The provisioning state of a fleet being updated. */
   Updating = "Updating",
   /** The provisioning state of a fleet being deleted. */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -734,7 +797,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -758,7 +821,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -786,7 +849,7 @@ export enum KnownFleetMemberProvisioningState {
   /** The provisioning state of a member leaving a fleet. */
   Leaving = "Leaving",
   /** The provisioning state of a member being updated. */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -810,7 +873,7 @@ export enum KnownUpdateRunProvisioningState {
   /** Resource creation failed. */
   Failed = "Failed",
   /** Resource creation was canceled. */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -826,10 +889,12 @@ export type UpdateRunProvisioningState = string;
 
 /** Known values of {@link ManagedClusterUpgradeType} that the service accepts. */
 export enum KnownManagedClusterUpgradeType {
-  /** Full upgrades the control plane and all agent pools of the target ManagedClusters. */
+  /** Full upgrades the control plane and all agent pools of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set. */
   Full = "Full",
-  /** NodeImageOnly upgrades only the node images of the target ManagedClusters. */
-  NodeImageOnly = "NodeImageOnly"
+  /** NodeImageOnly upgrades only the node images of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to NOT be set. */
+  NodeImageOnly = "NodeImageOnly",
+  /** ControlPlaneOnly upgrades only targets the KubernetesVersion of the ManagedClusters and will not be applied to the AgentPool. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set. */
+  ControlPlaneOnly = "ControlPlaneOnly",
 }
 
 /**
@@ -837,8 +902,9 @@ export enum KnownManagedClusterUpgradeType {
  * {@link KnownManagedClusterUpgradeType} can be used interchangeably with ManagedClusterUpgradeType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Full**: Full upgrades the control plane and all agent pools of the target ManagedClusters. \
- * **NodeImageOnly**: NodeImageOnly upgrades only the node images of the target ManagedClusters.
+ * **Full**: Full upgrades the control plane and all agent pools of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set. \
+ * **NodeImageOnly**: NodeImageOnly upgrades only the node images of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to NOT be set. \
+ * **ControlPlaneOnly**: ControlPlaneOnly upgrades only targets the KubernetesVersion of the ManagedClusters and will not be applied to the AgentPool. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set.
  */
 export type ManagedClusterUpgradeType = string;
 
@@ -847,7 +913,7 @@ export enum KnownNodeImageSelectionType {
   /** Use the latest image version when upgrading nodes. Clusters may use different image versions (e.g., 'AKSUbuntu-1804gen2containerd-2021.10.12' and 'AKSUbuntu-1804gen2containerd-2021.10.19') because, for example, the latest available version is different in different regions. */
   Latest = "Latest",
   /** The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'. */
-  Consistent = "Consistent"
+  Consistent = "Consistent",
 }
 
 /**
@@ -875,7 +941,7 @@ export enum KnownUpdateState {
   /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has failed. */
   Failed = "Failed",
   /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has completed. */
-  Completed = "Completed"
+  Completed = "Completed",
 }
 
 /**
@@ -893,6 +959,30 @@ export enum KnownUpdateState {
  */
 export type UpdateState = string;
 
+/** Known values of {@link TargetType} that the service accepts. */
+export enum KnownTargetType {
+  /** Skip the update of a member. */
+  Member = "Member",
+  /** Skip the update of a group. */
+  Group = "Group",
+  /** Skip the update of an entire stage including the after stage wait. */
+  Stage = "Stage",
+  /** Skip the update of the after stage wait of a certain stage. */
+  AfterStageWait = "AfterStageWait",
+}
+
+/**
+ * Defines values for TargetType. \
+ * {@link KnownTargetType} can be used interchangeably with TargetType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Member**: Skip the update of a member. \
+ * **Group**: Skip the update of a group. \
+ * **Stage**: Skip the update of an entire stage including the after stage wait. \
+ * **AfterStageWait**: Skip the update of the after stage wait of a certain stage.
+ */
+export type TargetType = string;
+
 /** Known values of {@link FleetUpdateStrategyProvisioningState} that the service accepts. */
 export enum KnownFleetUpdateStrategyProvisioningState {
   /** Resource has been created. */
@@ -900,7 +990,7 @@ export enum KnownFleetUpdateStrategyProvisioningState {
   /** Resource creation failed. */
   Failed = "Failed",
   /** Resource creation was canceled. */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -1114,6 +1204,20 @@ export interface UpdateRunsDeleteOptionalParams
 }
 
 /** Optional parameters. */
+export interface UpdateRunsSkipOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the skip operation. */
+export type UpdateRunsSkipResponse = UpdateRun;
+
+/** Optional parameters. */
 export interface UpdateRunsStartOptionalParams
   extends coreClient.OperationOptions {
   /** The request should only proceed if an entity matches this string. */
@@ -1153,7 +1257,8 @@ export interface FleetUpdateStrategiesListByFleetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFleet operation. */
-export type FleetUpdateStrategiesListByFleetResponse = FleetUpdateStrategyListResult;
+export type FleetUpdateStrategiesListByFleetResponse =
+  FleetUpdateStrategyListResult;
 
 /** Optional parameters. */
 export interface FleetUpdateStrategiesGetOptionalParams
@@ -1194,7 +1299,8 @@ export interface FleetUpdateStrategiesListByFleetNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFleetNext operation. */
-export type FleetUpdateStrategiesListByFleetNextResponse = FleetUpdateStrategyListResult;
+export type FleetUpdateStrategiesListByFleetNextResponse =
+  FleetUpdateStrategyListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceFleetClientOptionalParams

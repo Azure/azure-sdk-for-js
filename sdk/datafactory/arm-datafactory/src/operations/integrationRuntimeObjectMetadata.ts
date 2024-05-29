@@ -14,19 +14,20 @@ import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   IntegrationRuntimeObjectMetadataRefreshOptionalParams,
   IntegrationRuntimeObjectMetadataRefreshResponse,
   IntegrationRuntimeObjectMetadataGetOptionalParams,
-  IntegrationRuntimeObjectMetadataGetResponse
+  IntegrationRuntimeObjectMetadataGetResponse,
 } from "../models";
 
 /** Class containing IntegrationRuntimeObjectMetadata operations. */
 export class IntegrationRuntimeObjectMetadataImpl
-  implements IntegrationRuntimeObjectMetadata {
+  implements IntegrationRuntimeObjectMetadata
+{
   private readonly client: DataFactoryManagementClient;
 
   /**
@@ -48,7 +49,7 @@ export class IntegrationRuntimeObjectMetadataImpl
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams
+    options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IntegrationRuntimeObjectMetadataRefreshResponse>,
@@ -57,21 +58,20 @@ export class IntegrationRuntimeObjectMetadataImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IntegrationRuntimeObjectMetadataRefreshResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -80,8 +80,8 @@ export class IntegrationRuntimeObjectMetadataImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -89,22 +89,22 @@ export class IntegrationRuntimeObjectMetadataImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, factoryName, integrationRuntimeName, options },
-      spec: refreshOperationSpec
+      spec: refreshOperationSpec,
     });
     const poller = await createHttpPoller<
       IntegrationRuntimeObjectMetadataRefreshResponse,
       OperationState<IntegrationRuntimeObjectMetadataRefreshResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -121,13 +121,13 @@ export class IntegrationRuntimeObjectMetadataImpl
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams
+    options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams,
   ): Promise<IntegrationRuntimeObjectMetadataRefreshResponse> {
     const poller = await this.beginRefresh(
       resourceGroupName,
       factoryName,
       integrationRuntimeName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -144,11 +144,11 @@ export class IntegrationRuntimeObjectMetadataImpl
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeObjectMetadataGetOptionalParams
+    options?: IntegrationRuntimeObjectMetadataGetOptionalParams,
   ): Promise<IntegrationRuntimeObjectMetadataGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, integrationRuntimeName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -156,25 +156,24 @@ export class IntegrationRuntimeObjectMetadataImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const refreshOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/refreshObjectMetadata",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/refreshObjectMetadata",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SsisObjectMetadataStatusResponse
+      bodyMapper: Mappers.SsisObjectMetadataStatusResponse,
     },
     201: {
-      bodyMapper: Mappers.SsisObjectMetadataStatusResponse
+      bodyMapper: Mappers.SsisObjectMetadataStatusResponse,
     },
     202: {
-      bodyMapper: Mappers.SsisObjectMetadataStatusResponse
+      bodyMapper: Mappers.SsisObjectMetadataStatusResponse,
     },
     204: {
-      bodyMapper: Mappers.SsisObjectMetadataStatusResponse
+      bodyMapper: Mappers.SsisObjectMetadataStatusResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -182,22 +181,21 @@ const refreshOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getObjectMetadata",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getObjectMetadata",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SsisObjectMetadataListResponse
+      bodyMapper: Mappers.SsisObjectMetadataListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.getMetadataRequest,
   queryParameters: [Parameters.apiVersion],
@@ -206,9 +204,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

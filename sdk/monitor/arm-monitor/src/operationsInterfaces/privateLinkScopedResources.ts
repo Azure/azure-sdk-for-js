@@ -15,7 +15,7 @@ import {
   PrivateLinkScopedResourcesGetResponse,
   PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
   PrivateLinkScopedResourcesCreateOrUpdateResponse,
-  PrivateLinkScopedResourcesDeleteOptionalParams
+  PrivateLinkScopedResourcesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface PrivateLinkScopedResources {
   listByPrivateLinkScope(
     resourceGroupName: string,
     scopeName: string,
-    options?: PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams
+    options?: PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams,
   ): PagedAsyncIterableIterator<ScopedResource>;
   /**
    * Gets a scoped resource in a private link scope.
@@ -43,7 +43,7 @@ export interface PrivateLinkScopedResources {
     resourceGroupName: string,
     scopeName: string,
     name: string,
-    options?: PrivateLinkScopedResourcesGetOptionalParams
+    options?: PrivateLinkScopedResourcesGetOptionalParams,
   ): Promise<PrivateLinkScopedResourcesGetResponse>;
   /**
    * Approve or reject a private endpoint connection with a given name.
@@ -58,7 +58,7 @@ export interface PrivateLinkScopedResources {
     scopeName: string,
     name: string,
     parameters: ScopedResource,
-    options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams
+    options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateLinkScopedResourcesCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface PrivateLinkScopedResources {
     scopeName: string,
     name: string,
     parameters: ScopedResource,
-    options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams
+    options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
   ): Promise<PrivateLinkScopedResourcesCreateOrUpdateResponse>;
   /**
    * Deletes a private endpoint connection with a given name.
@@ -91,7 +91,7 @@ export interface PrivateLinkScopedResources {
     resourceGroupName: string,
     scopeName: string,
     name: string,
-    options?: PrivateLinkScopedResourcesDeleteOptionalParams
+    options?: PrivateLinkScopedResourcesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection with a given name.
@@ -104,6 +104,6 @@ export interface PrivateLinkScopedResources {
     resourceGroupName: string,
     scopeName: string,
     name: string,
-    options?: PrivateLinkScopedResourcesDeleteOptionalParams
+    options?: PrivateLinkScopedResourcesDeleteOptionalParams,
   ): Promise<void>;
 }

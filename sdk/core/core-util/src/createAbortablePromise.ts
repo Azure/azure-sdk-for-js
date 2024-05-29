@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortError } from "@azure/abort-controller";
-import type { AbortOptions } from "./aborterUtils";
+import type { AbortOptions } from "./aborterUtils.js";
 
 /**
  * Options for the createAbortablePromise function.

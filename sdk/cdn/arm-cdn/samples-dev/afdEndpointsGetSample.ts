@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an existing AzureFrontDoor endpoint with the specified endpoint name under the specified subscription, resource group and profile.
  *
  * @summary Gets an existing AzureFrontDoor endpoint with the specified endpoint name under the specified subscription, resource group and profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDEndpoints_Get.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDEndpoints_Get.json
  */
 async function afdEndpointsGet() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function afdEndpointsGet() {
   const result = await client.afdEndpoints.get(
     resourceGroupName,
     profileName,
-    endpointName
+    endpointName,
   );
   console.log(result);
 }

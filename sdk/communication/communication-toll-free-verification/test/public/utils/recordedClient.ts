@@ -12,10 +12,10 @@ import {
 } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { TollFreeVerificationClient } from "../../../src";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 
-if (isNode) {
+if (isNodeLike) {
   dotenv.config();
 }
 
@@ -107,7 +107,7 @@ export async function createRecordedClientWithToken(
     };
   }
 
-  if (isNode) {
+  if (isNodeLike) {
     credential = new DefaultAzureCredential();
   } else {
     credential = new ClientSecretCredential(

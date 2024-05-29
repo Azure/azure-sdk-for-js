@@ -6,7 +6,7 @@ The `InteractiveBrowserCredential` uses [Authorization Code Flow][AuthCodeFlow],
 
 ## For Node.js
 
-For Node.js, if a `clientId` is provided, the Microsoft Entra application will need to be configured to have a "Mobile and desktop applications" redirect endpoint. Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://learn.microsoft.com/azure/active-directory/develop/scenario-desktop-app-registration#redirect-uris).
+For Node.js, if a `clientId` is provided, the Microsoft Entra application will need to be configured to have a "Mobile and desktop applications" redirect endpoint. Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://learn.microsoft.com/entra/identity-platform/scenario-desktop-app-registration#redirect-uris).
 
 When using `InteractiveBrowserCredential` on Node, you may specify a `clientId` and `tenantId`, but otherwise we try to authenticate using a public client that's available for all Azure accounts and the default tenant of your account. For Node, this credential uses a web server to fulfill the redirection. This web server tries to use the port `80` by default. A `redirectUri` can be provided to determine the proper redirection URI with the adequate port, as follows:
 
@@ -23,7 +23,7 @@ const credential = new InteractiveBrowserCredential({
 
 ## For browsers
 
-Follow the instructions for [creating and configuring a Microsoft Entra application to authenticate a single-page application](https://learn.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow) to correctly mark your redirect URI as enabled for CORS.
+Follow the instructions for [creating and configuring a Microsoft Entra application to authenticate a single-page application](https://learn.microsoft.com/entra/identity-platform/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow) to correctly mark your redirect URI as enabled for CORS.
 
 When using `InteractiveBrowserCredential` in the browser, you will be required to pass a `clientId` in the constructor parameters, such as:
 
@@ -54,4 +54,4 @@ Then you need to visit your app registration and update the redirect URI you're 
 
 You can see a sample project that uses `InteractiveBrowserCredential` here: [link to the sample project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/test/manual).
 
-[AuthCodeFlow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow
+[AuthCodeFlow]: https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow

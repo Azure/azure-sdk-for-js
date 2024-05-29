@@ -25,6 +25,12 @@ const Constants = {
   },
 };
 
+function isUuid(text: string): boolean {
+  return /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/.test(
+    text,
+  );
+}
+
 /**
  * Defines a callback to handle auth challenge for Storage APIs.
  * This implements the bearer challenge process described here: https://docs.microsoft.com/rest/api/storageservices/authorize-with-azure-active-directory#bearer-challenge
@@ -39,6 +45,9 @@ export const authorizeRequestOnTenantChallenge: (
     const challengeInfo: Challenge = parseChallenge(challenge);
     const challengeScopes = buildScopes(challengeOptions, challengeInfo);
     const tenantId = extractTenantId(challengeInfo);
+    if (!tenantId) {
+      return false;
+    }
     const accessToken = await challengeOptions.getAccessToken(challengeScopes, {
       ...requestOptions,
       tenantId,
@@ -62,12 +71,14 @@ export const authorizeRequestOnTenantChallenge: (
  * The tenant id is contained in the authorization_uri as the first
  * path part.
  */
-function extractTenantId(challengeInfo: Challenge): string {
+function extractTenantId(challengeInfo: Challenge): string | undefined {
   const parsedAuthUri = new URL(challengeInfo.authorization_uri);
   const pathSegments = parsedAuthUri.pathname.split("/");
   const tenantId = pathSegments[1];
-
-  return tenantId;
+  if (tenantId && isUuid(tenantId)) {
+    return tenantId;
+  }
+  return undefined;
 }
 
 /**
@@ -79,13 +90,18 @@ function buildScopes(
   challengeOptions: AuthorizeRequestOnChallengeOptions,
   challengeInfo: Challenge,
 ): string[] {
-  if (!challengeInfo.resource_uri) {
+  if (!challengeInfo.resource_id) {
     return challengeOptions.scopes;
   }
 
-  const challengeScopes = new URL(challengeInfo.resource_uri);
+  const challengeScopes = new URL(challengeInfo.resource_id);
   challengeScopes.pathname = Constants.DefaultScope;
-  return [challengeScopes.toString()];
+  let scope = challengeScopes.toString();
+  if (scope === "https://disk.azure.com/.default") {
+    // the extra slash is required by the service
+    scope = "https://disk.azure.com//.default";
+  }
+  return [scope];
 }
 
 /**
@@ -105,7 +121,7 @@ function getChallenge(response: PipelineResponse): string | undefined {
  */
 interface Challenge {
   authorization_uri: string;
-  resource_uri?: string;
+  resource_id?: string;
 }
 
 /**

@@ -15,7 +15,7 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   Metric,
   DatabaseAccountRegionListMetricsOptionalParams,
-  DatabaseAccountRegionListMetricsResponse
+  DatabaseAccountRegionListMetricsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,14 +46,14 @@ export class DatabaseAccountRegionImpl implements DatabaseAccountRegion {
     accountName: string,
     region: string,
     filter: string,
-    options?: DatabaseAccountRegionListMetricsOptionalParams
+    options?: DatabaseAccountRegionListMetricsOptionalParams,
   ): PagedAsyncIterableIterator<Metric> {
     const iter = this.listMetricsPagingAll(
       resourceGroupName,
       accountName,
       region,
       filter,
-      options
+      options,
     );
     return {
       next() {
@@ -72,9 +72,9 @@ export class DatabaseAccountRegionImpl implements DatabaseAccountRegion {
           region,
           filter,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +84,7 @@ export class DatabaseAccountRegionImpl implements DatabaseAccountRegion {
     region: string,
     filter: string,
     options?: DatabaseAccountRegionListMetricsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Metric[]> {
     let result: DatabaseAccountRegionListMetricsResponse;
     result = await this._listMetrics(
@@ -92,7 +92,7 @@ export class DatabaseAccountRegionImpl implements DatabaseAccountRegion {
       accountName,
       region,
       filter,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -102,14 +102,14 @@ export class DatabaseAccountRegionImpl implements DatabaseAccountRegion {
     accountName: string,
     region: string,
     filter: string,
-    options?: DatabaseAccountRegionListMetricsOptionalParams
+    options?: DatabaseAccountRegionListMetricsOptionalParams,
   ): AsyncIterableIterator<Metric> {
     for await (const page of this.listMetricsPagingPage(
       resourceGroupName,
       accountName,
       region,
       filter,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -130,11 +130,11 @@ export class DatabaseAccountRegionImpl implements DatabaseAccountRegion {
     accountName: string,
     region: string,
     filter: string,
-    options?: DatabaseAccountRegionListMetricsOptionalParams
+    options?: DatabaseAccountRegionListMetricsOptionalParams,
   ): Promise<DatabaseAccountRegionListMetricsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, region, filter, options },
-      listMetricsOperationSpec
+      listMetricsOperationSpec,
     );
   }
 }
@@ -142,13 +142,12 @@ export class DatabaseAccountRegionImpl implements DatabaseAccountRegion {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listMetricsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/metrics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/metrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetricListResult
-    }
+      bodyMapper: Mappers.MetricListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -156,8 +155,8 @@ const listMetricsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.region
+    Parameters.region,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

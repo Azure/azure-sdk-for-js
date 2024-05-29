@@ -15,7 +15,7 @@ import {
   RoutingIntentCreateOrUpdateResponse,
   RoutingIntentGetOptionalParams,
   RoutingIntentGetResponse,
-  RoutingIntentDeleteOptionalParams
+  RoutingIntentDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface RoutingIntentOperations {
   list(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: RoutingIntentListOptionalParams
+    options?: RoutingIntentListOptionalParams,
   ): PagedAsyncIterableIterator<RoutingIntent>;
   /**
    * Creates a RoutingIntent resource if it doesn't exist else updates the existing RoutingIntent.
@@ -45,7 +45,7 @@ export interface RoutingIntentOperations {
     virtualHubName: string,
     routingIntentName: string,
     routingIntentParameters: RoutingIntent,
-    options?: RoutingIntentCreateOrUpdateOptionalParams
+    options?: RoutingIntentCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RoutingIntentCreateOrUpdateResponse>,
@@ -65,7 +65,7 @@ export interface RoutingIntentOperations {
     virtualHubName: string,
     routingIntentName: string,
     routingIntentParameters: RoutingIntent,
-    options?: RoutingIntentCreateOrUpdateOptionalParams
+    options?: RoutingIntentCreateOrUpdateOptionalParams,
   ): Promise<RoutingIntentCreateOrUpdateResponse>;
   /**
    * Retrieves the details of a RoutingIntent.
@@ -78,7 +78,7 @@ export interface RoutingIntentOperations {
     resourceGroupName: string,
     virtualHubName: string,
     routingIntentName: string,
-    options?: RoutingIntentGetOptionalParams
+    options?: RoutingIntentGetOptionalParams,
   ): Promise<RoutingIntentGetResponse>;
   /**
    * Deletes a RoutingIntent.
@@ -91,7 +91,7 @@ export interface RoutingIntentOperations {
     resourceGroupName: string,
     virtualHubName: string,
     routingIntentName: string,
-    options?: RoutingIntentDeleteOptionalParams
+    options?: RoutingIntentDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a RoutingIntent.
@@ -104,6 +104,6 @@ export interface RoutingIntentOperations {
     resourceGroupName: string,
     virtualHubName: string,
     routingIntentName: string,
-    options?: RoutingIntentDeleteOptionalParams
+    options?: RoutingIntentDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -19,7 +19,7 @@ import {
   TagsObject,
   VpnSitesUpdateTagsOptionalParams,
   VpnSitesUpdateTagsResponse,
-  VpnSitesDeleteOptionalParams
+  VpnSitesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface VpnSites {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: VpnSitesListByResourceGroupOptionalParams
+    options?: VpnSitesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VpnSite>;
   /**
    * Lists all the VpnSites in a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: VpnSitesListOptionalParams
+    options?: VpnSitesListOptionalParams,
   ): PagedAsyncIterableIterator<VpnSite>;
   /**
    * Retrieves the details of a VPN site.
@@ -50,7 +50,7 @@ export interface VpnSites {
   get(
     resourceGroupName: string,
     vpnSiteName: string,
-    options?: VpnSitesGetOptionalParams
+    options?: VpnSitesGetOptionalParams,
   ): Promise<VpnSitesGetResponse>;
   /**
    * Creates a VpnSite resource if it doesn't exist else updates the existing VpnSite.
@@ -63,7 +63,7 @@ export interface VpnSites {
     resourceGroupName: string,
     vpnSiteName: string,
     vpnSiteParameters: VpnSite,
-    options?: VpnSitesCreateOrUpdateOptionalParams
+    options?: VpnSitesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VpnSitesCreateOrUpdateResponse>,
@@ -81,7 +81,7 @@ export interface VpnSites {
     resourceGroupName: string,
     vpnSiteName: string,
     vpnSiteParameters: VpnSite,
-    options?: VpnSitesCreateOrUpdateOptionalParams
+    options?: VpnSitesCreateOrUpdateOptionalParams,
   ): Promise<VpnSitesCreateOrUpdateResponse>;
   /**
    * Updates VpnSite tags.
@@ -94,7 +94,7 @@ export interface VpnSites {
     resourceGroupName: string,
     vpnSiteName: string,
     vpnSiteParameters: TagsObject,
-    options?: VpnSitesUpdateTagsOptionalParams
+    options?: VpnSitesUpdateTagsOptionalParams,
   ): Promise<VpnSitesUpdateTagsResponse>;
   /**
    * Deletes a VpnSite.
@@ -105,7 +105,7 @@ export interface VpnSites {
   beginDelete(
     resourceGroupName: string,
     vpnSiteName: string,
-    options?: VpnSitesDeleteOptionalParams
+    options?: VpnSitesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a VpnSite.
@@ -116,6 +116,6 @@ export interface VpnSites {
   beginDeleteAndWait(
     resourceGroupName: string,
     vpnSiteName: string,
-    options?: VpnSitesDeleteOptionalParams
+    options?: VpnSitesDeleteOptionalParams,
   ): Promise<void>;
 }

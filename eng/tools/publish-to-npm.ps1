@@ -8,7 +8,9 @@ param (
   $filterArg="",
   $basicDeployment=$false,
   $devopsFeed=$false,
-  $skipDiff=$false
+  $skipDiff=$false,
+  $packagesToPublishPath,
+  $addTag=$false
 )
 
 function replaceText($oldText,$newText,$filePath){
@@ -85,6 +87,9 @@ function containsProductCodeDiff($currentDevPackage,$lastDevPackage) {
     return $false
 }
 
+$ErrorActionPreference = "Stop"
+$PSNativeCommandUseErrorActionPreference = $true
+
 try {
     $regAuth=$registry.replace("https:","")
     $filterPackageList= $filterArg -split "," | % { return $_.trim() }
@@ -98,23 +103,26 @@ try {
         }
     }
 
-    if(!$basicDeployment) {
-       if($registry -eq 'https://registry.npmjs.org/'){
-        Write-Host "Choosing AuthToken Deployment"
-        $env:NPM_TOKEN=$npmToken
-        npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
-       }
-       else{
-          Write-Host "Choosing Private Devops Feed Deployment"
-          $npmReg = $regAuth.replace("registry/","");
-          $env:NPM_TOKEN=$npmToken
-          npm config set $regAuth`:username=azure-sdk
-          npm config set $regAuth`:_password=`$`{NPM_TOKEN`}
-          npm config set $regAuth`:email=not_set
-          npm config set $npmReg`:username=azure-sdk
-          npm config set $npmReg`:_password=`$`{NPM_TOKEN`}
-          npm config set $npmReg`:email=not_set
-       }
+    $publishToNpm = $false
+    if (!$basicDeployment) {
+        if ($registry -eq 'https://registry.npmjs.org/') {
+            $publishToNpm = $true
+            if ($npmToken) {
+                $env:NPM_TOKEN=$npmToken
+                npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
+            }
+        }
+        else {
+            Write-Host "Choosing Private Devops Feed Deployment"
+            $npmReg = $regAuth.replace("registry/","");
+            $env:NPM_TOKEN=$npmToken
+            npm config set $regAuth`:username=azure-sdk
+            npm config set $regAuth`:_password=`$`{NPM_TOKEN`}
+            npm config set $regAuth`:email=not_set
+            npm config set $npmReg`:username=azure-sdk
+            npm config set $npmReg`:_password=`$`{NPM_TOKEN`}
+            npm config set $npmReg`:email=not_set
+      }
     }
     else {
         Write-Host "Choosing BasicAuth Deployment"
@@ -124,15 +132,16 @@ try {
     }
 
     foreach ($p in $packageList) {
-        if($p.Publish) {
+        if($p.Publish -and !$publishToNpm) {
+            # Publishing to private feed
             if ($tag) {
-              Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
-              npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
+                Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
+                npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
             }
             else {
-              Write-Host "Tag is empty"
-              Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true"
-              npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true
+                Write-Host "Tag is empty"
+                Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true"
+                npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true
             }
             
             if ($LastExitCode -ne 0) {
@@ -140,7 +149,7 @@ try {
                 exit 1
             }
             $addTagCheck = 0
-            if(($additionalTag) -and ($additionalTag -ne $tag)) {
+            if (($additionalTag) -and ($additionalTag -ne $tag)) {
                 $nameAndVersion = $p.Project.name + "@" + $p.Project.version
                 Write-Host "npm dist-tag add $($nameAndVersion) $additionalTag"
                 npm dist-tag add $nameAndVersion $additionalTag
@@ -151,7 +160,22 @@ try {
                 exit 1
             }
         }
-        else{
+        elseif ($addTag -and $publishToNpm) {
+            $nameAndVersion = $p.Project.name + "@" + $p.Project.version
+            if ($tag) {
+                Write-Host "Adding tag for package"
+                Write-Host "npm dist-tag add $nameAndVersion $tag"
+                npm dist-tag add $nameAndVersion $tag
+            }
+            if (![string]::IsNullOrWhitespace($additionalTag) -and ($additionalTag -ne $tag)) {
+                Write-Host "Tag: '$tag'"
+                Write-Host "Additional tag: '$additionalTag'"
+                Write-Host "Adding additional tag for package"
+                Write-Host "npm dist-tag add $nameAndVersion $additionalTag"
+                npm dist-tag add $nameAndVersion $additionalTag
+            }
+        }
+        else {
             Write-Host "Skipping package publish $($p.TarGz)"
         }
     }

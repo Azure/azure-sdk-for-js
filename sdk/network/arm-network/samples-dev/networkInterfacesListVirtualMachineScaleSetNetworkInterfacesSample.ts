@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all network interfaces in a virtual machine scale set.
  *
  * @summary Gets all network interfaces in a virtual machine scale set.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VmssNetworkInterfaceList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VmssNetworkInterfaceList.json
  */
 async function listVirtualMachineScaleSetNetworkInterfaces() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function listVirtualMachineScaleSetNetworkInterfaces() {
   const resArray = new Array();
   for await (let item of client.networkInterfaces.listVirtualMachineScaleSetNetworkInterfaces(
     resourceGroupName,
-    virtualMachineScaleSetName
+    virtualMachineScaleSetName,
   )) {
     resArray.push(item);
   }

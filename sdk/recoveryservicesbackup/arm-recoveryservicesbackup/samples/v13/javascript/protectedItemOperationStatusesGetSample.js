@@ -20,7 +20,7 @@ create jobs. This method returns the list of jobs associated with the operation.
  * @summary Fetches the status of an operation such as triggering a backup, restore. The status can be in progress, completed
 or failed. You can refer to the OperationStatus enum for all the possible states of the operation. Some operations
 create jobs. This method returns the list of jobs associated with the operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/ProtectedItemOperationStatus.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectedItemOperationStatus.json
  */
 async function getOperationStatusOfProtectedVM() {
   const subscriptionId =

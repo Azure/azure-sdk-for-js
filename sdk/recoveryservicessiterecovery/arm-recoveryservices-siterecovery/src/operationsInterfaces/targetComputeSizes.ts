@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   TargetComputeSize,
-  TargetComputeSizesListByReplicationProtectedItemsOptionalParams
+  TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,6 +31,6 @@ export interface TargetComputeSizes {
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams
+    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
   ): PagedAsyncIterableIterator<TargetComputeSize>;
 }

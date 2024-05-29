@@ -20,7 +20,7 @@ import {
   CommunityGalleryImagesListResponse,
   CommunityGalleryImagesGetOptionalParams,
   CommunityGalleryImagesGetResponse,
-  CommunityGalleryImagesListNextResponse
+  CommunityGalleryImagesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
   public list(
     location: string,
     publicGalleryName: string,
-    options?: CommunityGalleryImagesListOptionalParams
+    options?: CommunityGalleryImagesListOptionalParams,
   ): PagedAsyncIterableIterator<CommunityGalleryImage> {
     const iter = this.listPagingAll(location, publicGalleryName, options);
     return {
@@ -63,9 +63,9 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
           location,
           publicGalleryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -73,7 +73,7 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
     location: string,
     publicGalleryName: string,
     options?: CommunityGalleryImagesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CommunityGalleryImage[]> {
     let result: CommunityGalleryImagesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
         location,
         publicGalleryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,12 +101,12 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
   private async *listPagingAll(
     location: string,
     publicGalleryName: string,
-    options?: CommunityGalleryImagesListOptionalParams
+    options?: CommunityGalleryImagesListOptionalParams,
   ): AsyncIterableIterator<CommunityGalleryImage> {
     for await (const page of this.listPagingPage(
       location,
       publicGalleryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -123,11 +123,11 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
     location: string,
     publicGalleryName: string,
     galleryImageName: string,
-    options?: CommunityGalleryImagesGetOptionalParams
+    options?: CommunityGalleryImagesGetOptionalParams,
   ): Promise<CommunityGalleryImagesGetResponse> {
     return this.client.sendOperationRequest(
       { location, publicGalleryName, galleryImageName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -140,11 +140,11 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
   private _list(
     location: string,
     publicGalleryName: string,
-    options?: CommunityGalleryImagesListOptionalParams
+    options?: CommunityGalleryImagesListOptionalParams,
   ): Promise<CommunityGalleryImagesListResponse> {
     return this.client.sendOperationRequest(
       { location, publicGalleryName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
     location: string,
     publicGalleryName: string,
     nextLink: string,
-    options?: CommunityGalleryImagesListNextOptionalParams
+    options?: CommunityGalleryImagesListNextOptionalParams,
   ): Promise<CommunityGalleryImagesListNextResponse> {
     return this.client.sendOperationRequest(
       { location, publicGalleryName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,16 +171,15 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CommunityGalleryImage
+      bodyMapper: Mappers.CommunityGalleryImage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -188,51 +187,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.location1,
     Parameters.galleryImageName,
-    Parameters.publicGalleryName
+    Parameters.publicGalleryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CommunityGalleryImageList
+      bodyMapper: Mappers.CommunityGalleryImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location1,
-    Parameters.publicGalleryName
+    Parameters.publicGalleryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CommunityGalleryImageList
+      bodyMapper: Mappers.CommunityGalleryImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.location1,
-    Parameters.publicGalleryName
+    Parameters.publicGalleryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

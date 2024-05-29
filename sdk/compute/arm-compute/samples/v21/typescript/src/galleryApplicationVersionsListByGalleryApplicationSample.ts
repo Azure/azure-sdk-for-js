@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List gallery Application Versions in a gallery Application Definition.
  *
  * @summary List gallery Application Versions in a gallery Application Definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryApplicationVersion_ListByGalleryApplication.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryApplicationVersion_ListByGalleryApplication.json
  */
 async function listGalleryApplicationVersionsInAGalleryApplicationDefinition() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function listGalleryApplicationVersionsInAGalleryApplicationDefinition() {
   for await (let item of client.galleryApplicationVersions.listByGalleryApplication(
     resourceGroupName,
     galleryName,
-    galleryApplicationName
+    galleryApplicationName,
   )) {
     resArray.push(item);
   }

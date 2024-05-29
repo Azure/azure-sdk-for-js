@@ -19,7 +19,7 @@ import {
   IntegrationRuntimeNodesUpdateOptionalParams,
   IntegrationRuntimeNodesUpdateResponse,
   IntegrationRuntimeNodesGetIpAddressOptionalParams,
-  IntegrationRuntimeNodesGetIpAddressResponse
+  IntegrationRuntimeNodesGetIpAddressResponse,
 } from "../models";
 
 /** Class containing IntegrationRuntimeNodes operations. */
@@ -47,7 +47,7 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
     factoryName: string,
     integrationRuntimeName: string,
     nodeName: string,
-    options?: IntegrationRuntimeNodesGetOptionalParams
+    options?: IntegrationRuntimeNodesGetOptionalParams,
   ): Promise<IntegrationRuntimeNodesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -55,9 +55,9 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
         factoryName,
         integrationRuntimeName,
         nodeName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -74,7 +74,7 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
     factoryName: string,
     integrationRuntimeName: string,
     nodeName: string,
-    options?: IntegrationRuntimeNodesDeleteOptionalParams
+    options?: IntegrationRuntimeNodesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -82,9 +82,9 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
         factoryName,
         integrationRuntimeName,
         nodeName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -103,7 +103,7 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
     integrationRuntimeName: string,
     nodeName: string,
     updateIntegrationRuntimeNodeRequest: UpdateIntegrationRuntimeNodeRequest,
-    options?: IntegrationRuntimeNodesUpdateOptionalParams
+    options?: IntegrationRuntimeNodesUpdateOptionalParams,
   ): Promise<IntegrationRuntimeNodesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -112,9 +112,9 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
         integrationRuntimeName,
         nodeName,
         updateIntegrationRuntimeNodeRequest,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -131,7 +131,7 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
     factoryName: string,
     integrationRuntimeName: string,
     nodeName: string,
-    options?: IntegrationRuntimeNodesGetIpAddressOptionalParams
+    options?: IntegrationRuntimeNodesGetIpAddressOptionalParams,
   ): Promise<IntegrationRuntimeNodesGetIpAddressResponse> {
     return this.client.sendOperationRequest(
       {
@@ -139,9 +139,9 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
         factoryName,
         integrationRuntimeName,
         nodeName,
-        options
+        options,
       },
-      getIpAddressOperationSpec
+      getIpAddressOperationSpec,
     );
   }
 }
@@ -149,16 +149,15 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SelfHostedIntegrationRuntimeNode
+      bodyMapper: Mappers.SelfHostedIntegrationRuntimeNode,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -167,21 +166,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.integrationRuntimeName,
-    Parameters.nodeName
+    Parameters.nodeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -190,22 +188,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.integrationRuntimeName,
-    Parameters.nodeName
+    Parameters.nodeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SelfHostedIntegrationRuntimeNode
+      bodyMapper: Mappers.SelfHostedIntegrationRuntimeNode,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.updateIntegrationRuntimeNodeRequest,
   queryParameters: [Parameters.apiVersion],
@@ -215,23 +212,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.integrationRuntimeName,
-    Parameters.nodeName
+    Parameters.nodeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getIpAddressOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}/ipAddress",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}/ipAddress",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeNodeIpAddress
+      bodyMapper: Mappers.IntegrationRuntimeNodeIpAddress,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -240,8 +236,8 @@ const getIpAddressOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.integrationRuntimeName,
-    Parameters.nodeName
+    Parameters.nodeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of an ASR network mapping.
  *
  * @summary Gets the details of an ASR network mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworkMappings_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworkMappings_Get.json
  */
 async function getsNetworkMappingByName() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function getsNetworkMappingByName() {
     resourceGroupName,
     fabricName,
     networkName,
-    networkMappingName
+    networkMappingName,
   );
   console.log(result);
 }

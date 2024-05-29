@@ -9,7 +9,7 @@
 import {
   NetworkManagerDeploymentStatusParameter,
   NetworkManagerDeploymentStatusListOptionalParams,
-  NetworkManagerDeploymentStatusListResponse
+  NetworkManagerDeploymentStatusListResponse,
 } from "../models";
 
 /** Interface representing a NetworkManagerDeploymentStatusOperations. */
@@ -25,6 +25,6 @@ export interface NetworkManagerDeploymentStatusOperations {
     resourceGroupName: string,
     networkManagerName: string,
     parameters: NetworkManagerDeploymentStatusParameter,
-    options?: NetworkManagerDeploymentStatusListOptionalParams
+    options?: NetworkManagerDeploymentStatusListOptionalParams,
   ): Promise<NetworkManagerDeploymentStatusListResponse>;
 }

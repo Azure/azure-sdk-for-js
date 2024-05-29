@@ -28,7 +28,7 @@ async function listCommitmentPlans() {
   const resArray = new Array();
   for await (let item of client.commitmentPlans.listAssociations(
     resourceGroupName,
-    commitmentPlanName
+    commitmentPlanName,
   )) {
     resArray.push(item);
   }

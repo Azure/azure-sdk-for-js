@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it, beforeEach, afterEach, vi } from "vitest";
-import { createFetchHttpClient } from "../../src/fetchHttpClient";
-import { createPipelineRequest } from "../../src/pipelineRequest";
-import { png } from "./mocks/encodedPng";
-import { createHttpHeaders } from "../../src/httpHeaders";
-import { AbortError, type AbortSignalLike } from "@azure/abort-controller";
-import { delay } from "../../src/util/helpers";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import { createFetchHttpClient } from "../../src/fetchHttpClient.js";
+import { createPipelineRequest } from "../../src/pipelineRequest.js";
+import { png } from "./mocks/encodedPng.js";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { delay } from "../../src/util/helpers.js";
 
 const streamBody = new ReadableStream({
   async start(controller) {

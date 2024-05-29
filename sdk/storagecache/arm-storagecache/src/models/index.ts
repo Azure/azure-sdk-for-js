@@ -153,8 +153,10 @@ export interface AmlFilesystemHsmSettings {
   container: string;
   /** Resource ID of storage container used for logging events and errors.  Must be a separate container in the same storage account as the hydration and archive container. The resource provider must have permission to create SAS tokens on the storage account. */
   loggingContainer: string;
-  /** Only blobs in the non-logging container that start with this path/prefix get hydrated into the cluster namespace. */
+  /** Only blobs in the non-logging container that start with this path/prefix get imported into the cluster namespace. This is only used during initial creation of the AML file system. It automatically creates an import job resource that can be deleted. */
   importPrefix?: string;
+  /** Only blobs in the non-logging container that start with one of the paths/prefixes in this array get imported into the cluster namespace. This is only used during initial creation of the AML file system and has '/' as the default value. It automatically creates an import job resource that can be deleted. */
+  importPrefixesInitial?: string[];
 }
 
 /** Information about the AML file system archive */
@@ -203,6 +205,23 @@ export interface AmlFilesystemArchiveStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errorMessage?: string;
+}
+
+/** AML file system squash settings. */
+export interface AmlFilesystemRootSquashSettings {
+  /** Squash mode of the AML file system. 'All': User and Group IDs on files will be squashed to the provided values for all users on non-trusted systems. 'RootOnly': User and Group IDs on files will be squashed to provided values for solely the root user on non-trusted systems. 'None': No squashing of User and Group IDs is performed for any users on any systems. */
+  mode?: AmlFilesystemSquashMode;
+  /** Semicolon separated NID IP Address list(s) to be added to the TrustedSystems. */
+  noSquashNidLists?: string;
+  /** User ID to squash to. */
+  squashUID?: number;
+  /** Group ID to squash to. */
+  squashGID?: number;
+  /**
+   * AML file system squash status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -271,6 +290,8 @@ export interface AmlFilesystemUpdate {
   encryptionSettings?: AmlFilesystemEncryptionSettings;
   /** Start time of a 30-minute weekly maintenance window. */
   maintenanceWindow?: AmlFilesystemUpdatePropertiesMaintenanceWindow;
+  /** Specifies root squash settings of the AML file system. */
+  rootSquashSettings?: AmlFilesystemRootSquashSettings;
 }
 
 /** Start time of a 30-minute weekly maintenance window. */
@@ -285,6 +306,69 @@ export interface AmlFilesystemUpdatePropertiesMaintenanceWindow {
 export interface AmlFilesystemArchiveInfo {
   /** Lustre file system path to archive relative to the file system root.  Specify '/' to archive all modified data. */
   filesystemPath?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** An import job update instance. */
+export interface ImportJobUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Result of the request to list import jobs. It contains a list of import jobs and a URL link to get the next set of results. */
+export interface ImportJobsListResult {
+  /** URL to get the next set of import job list results, if there are any. */
+  nextLink?: string;
+  /** List of import jobs. */
+  value?: ImportJob[];
 }
 
 /** Information required to validate the subnet that will be used in AML file system create */
@@ -511,13 +595,13 @@ export interface AscOperation {
   /** The status of the operation. */
   status?: string;
   /** The error detail of the operation if any. */
-  error?: ErrorResponse;
+  error?: AscOperationErrorResponse;
   /** Additional operation-specific output. */
   output?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** Describes the format of Error response. */
-export interface ErrorResponse {
+export interface AscOperationErrorResponse {
   /** Error code */
   code?: string;
   /** Error message indicating why the operation failed. */
@@ -1087,6 +1171,73 @@ export interface AmlFilesystem extends TrackedResource {
   maintenanceWindow?: AmlFilesystemPropertiesMaintenanceWindow;
   /** Hydration and archive settings and status */
   hsm?: AmlFilesystemPropertiesHsm;
+  /** Specifies root squash settings of the AML file system. */
+  rootSquashSettings?: AmlFilesystemRootSquashSettings;
+}
+
+/** An import job instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
+export interface ImportJob extends TrackedResource {
+  /**
+   * ARM provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ImportJobProvisioningStateType;
+  /** An array of blob paths/prefixes that get imported into the cluster namespace. It has '/' as the default value. */
+  importPrefixes?: string[];
+  /** How the import job will handle conflicts. For example, if the import job is trying to bring in a directory, but a file is at that path, how it handles it. Fail indicates that the import job should stop immediately and not do anything with the conflict. Skip indicates that it should pass over the conflict. OverwriteIfDirty causes the import job to delete and re-import the file or directory if it is a conflicting type, is dirty, or was not previously imported. OverwriteAlways extends OverwriteIfDirty to include releasing files that had been restored but were not dirty. Please reference https://learn.microsoft.com/en-us/azure/azure-managed-lustre/ for a thorough explanation of these resolution modes. */
+  conflictResolutionMode?: ConflictResolutionMode;
+  /** Total non-conflict oriented errors the import job will tolerate before exiting with failure. -1 means infinite. 0 means exit immediately and is the default. */
+  maximumErrors?: number;
+  /**
+   * The state of the import job. InProgress indicates the import is still running. Canceled indicates it has been canceled by the user. Completed indicates import finished, successfully importing all discovered blobs into the Lustre namespace. CompletedPartial indicates the import finished but some blobs either were found to be conflicting and could not be imported or other errors were encountered. Failed means the import was unable to complete due to a fatal error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: ImportStatusType;
+  /**
+   * The status message of the import job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusMessage?: string;
+  /**
+   * The total blob objects walked.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalBlobsWalked?: number;
+  /**
+   * A recent and frequently updated rate of blobs walked per second.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly blobsWalkedPerSecond?: number;
+  /**
+   * The total blobs that have been imported since import began.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalBlobsImported?: number;
+  /**
+   * A recent and frequently updated rate of total files, directories, and symlinks imported per second.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly blobsImportedPerSecond?: number;
+  /**
+   * The time of the last completed archive operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastCompletionTime?: Date;
+  /**
+   * The time the latest archive operation started
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastStartedTime?: Date;
+  /**
+   * Number of errors in the import job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalErrors?: number;
+  /**
+   * Number of conflicts in the import job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalConflicts?: number;
 }
 
 /** Defines headers for AmlFilesystems_delete operation. */
@@ -1105,6 +1256,28 @@ export interface AmlFilesystemsCreateOrUpdateHeaders {
 
 /** Defines headers for AmlFilesystems_update operation. */
 export interface AmlFilesystemsUpdateHeaders {
+  /** URI to poll for the operation status */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ImportJobs_delete operation. */
+export interface ImportJobsDeleteHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ImportJobs_createOrUpdate operation. */
+export interface ImportJobsCreateOrUpdateHeaders {
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ImportJobs_update operation. */
+export interface ImportJobsUpdateHeaders {
   /** URI to poll for the operation status */
   location?: string;
   /** URI to poll for the operation status */
@@ -1274,7 +1447,7 @@ export enum KnownAmlFilesystemHealthStateType {
   /** Transitioning */
   Transitioning = "Transitioning",
   /** Maintenance */
-  Maintenance = "Maintenance"
+  Maintenance = "Maintenance",
 }
 
 /**
@@ -1303,7 +1476,7 @@ export enum KnownAmlFilesystemProvisioningStateType {
   /** Updating */
   Updating = "Updating",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -1337,7 +1510,7 @@ export enum KnownArchiveStatusType {
   /** Cancelling */
   Cancelling = "Cancelling",
   /** FSScanInProgress */
-  FSScanInProgress = "FSScanInProgress"
+  FSScanInProgress = "FSScanInProgress",
 }
 
 /**
@@ -1356,6 +1529,27 @@ export enum KnownArchiveStatusType {
  */
 export type ArchiveStatusType = string;
 
+/** Known values of {@link AmlFilesystemSquashMode} that the service accepts. */
+export enum KnownAmlFilesystemSquashMode {
+  /** None */
+  None = "None",
+  /** RootOnly */
+  RootOnly = "RootOnly",
+  /** All */
+  All = "All",
+}
+
+/**
+ * Defines values for AmlFilesystemSquashMode. \
+ * {@link KnownAmlFilesystemSquashMode} can be used interchangeably with AmlFilesystemSquashMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **RootOnly** \
+ * **All**
+ */
+export type AmlFilesystemSquashMode = string;
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -1365,7 +1559,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1380,12 +1574,96 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link ImportJobProvisioningStateType} that the service accepts. */
+export enum KnownImportJobProvisioningStateType {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for ImportJobProvisioningStateType. \
+ * {@link KnownImportJobProvisioningStateType} can be used interchangeably with ImportJobProvisioningStateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Creating** \
+ * **Deleting** \
+ * **Updating** \
+ * **Canceled**
+ */
+export type ImportJobProvisioningStateType = string;
+
+/** Known values of {@link ConflictResolutionMode} that the service accepts. */
+export enum KnownConflictResolutionMode {
+  /** Fail */
+  Fail = "Fail",
+  /** Skip */
+  Skip = "Skip",
+  /** OverwriteIfDirty */
+  OverwriteIfDirty = "OverwriteIfDirty",
+  /** OverwriteAlways */
+  OverwriteAlways = "OverwriteAlways",
+}
+
+/**
+ * Defines values for ConflictResolutionMode. \
+ * {@link KnownConflictResolutionMode} can be used interchangeably with ConflictResolutionMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Fail** \
+ * **Skip** \
+ * **OverwriteIfDirty** \
+ * **OverwriteAlways**
+ */
+export type ConflictResolutionMode = string;
+
+/** Known values of {@link ImportStatusType} that the service accepts. */
+export enum KnownImportStatusType {
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Cancelling */
+  Cancelling = "Cancelling",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Completed */
+  Completed = "Completed",
+  /** CompletedPartial */
+  CompletedPartial = "CompletedPartial",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for ImportStatusType. \
+ * {@link KnownImportStatusType} can be used interchangeably with ImportStatusType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress** \
+ * **Cancelling** \
+ * **Canceled** \
+ * **Completed** \
+ * **CompletedPartial** \
+ * **Failed**
+ */
+export type ImportStatusType = string;
+
 /** Known values of {@link FilesystemSubnetStatusType} that the service accepts. */
 export enum KnownFilesystemSubnetStatusType {
   /** Ok */
   Ok = "Ok",
   /** Invalid */
-  Invalid = "Invalid"
+  Invalid = "Invalid",
 }
 
 /**
@@ -1413,7 +1691,7 @@ export enum KnownMetricAggregationType {
   /** Total */
   Total = "Total",
   /** Count */
-  Count = "Count"
+  Count = "Count",
 }
 
 /**
@@ -1436,7 +1714,7 @@ export enum KnownReasonCode {
   /** QuotaId */
   QuotaId = "QuotaId",
   /** NotAvailableForSubscription */
-  NotAvailableForSubscription = "NotAvailableForSubscription"
+  NotAvailableForSubscription = "NotAvailableForSubscription",
 }
 
 /**
@@ -1474,7 +1752,7 @@ export enum KnownHealthStateType {
   /** StartFailed */
   StartFailed = "StartFailed",
   /** UpgradeFailed */
-  UpgradeFailed = "UpgradeFailed"
+  UpgradeFailed = "UpgradeFailed",
 }
 
 /**
@@ -1510,7 +1788,7 @@ export enum KnownProvisioningStateType {
   /** Deleting */
   Deleting = "Deleting",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -1532,7 +1810,7 @@ export enum KnownFirmwareStatusType {
   /** Available */
   Available = "available",
   /** Unavailable */
-  Unavailable = "unavailable"
+  Unavailable = "unavailable",
 }
 
 /**
@@ -1552,7 +1830,7 @@ export enum KnownNfsAccessRuleScope {
   /** Network */
   Network = "network",
   /** Host */
-  Host = "host"
+  Host = "host",
 }
 
 /**
@@ -1573,7 +1851,7 @@ export enum KnownNfsAccessRuleAccess {
   /** Ro */
   Ro = "ro",
   /** Rw */
-  Rw = "rw"
+  Rw = "rw",
 }
 
 /**
@@ -1594,7 +1872,7 @@ export enum KnownDomainJoinedType {
   /** No */
   No = "No",
   /** Error */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -1617,7 +1895,7 @@ export enum KnownUsernameSource {
   /** File */
   File = "File",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -1639,7 +1917,7 @@ export enum KnownUsernameDownloadedType {
   /** No */
   No = "No",
   /** Error */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -1662,7 +1940,7 @@ export enum KnownPrimingJobState {
   /** Paused */
   Paused = "Paused",
   /** Complete */
-  Complete = "Complete"
+  Complete = "Complete",
 }
 
 /**
@@ -1686,7 +1964,7 @@ export enum KnownStorageTargetType {
   /** Unknown */
   Unknown = "unknown",
   /** BlobNfs */
-  BlobNfs = "blobNfs"
+  BlobNfs = "blobNfs",
 }
 
 /**
@@ -1710,7 +1988,7 @@ export enum KnownOperationalStateType {
   /** Suspended */
   Suspended = "Suspended",
   /** Flushing */
-  Flushing = "Flushing"
+  Flushing = "Flushing",
 }
 
 /**
@@ -1744,17 +2022,18 @@ export type CacheIdentityType =
 
 /** Optional parameters. */
 export interface AmlFilesystemsListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AmlFilesystemsListResponse = AmlFilesystemsListResult;
 
 /** Optional parameters. */
 export interface AmlFilesystemsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AmlFilesystemsListByResourceGroupResponse = AmlFilesystemsListResult;
+export type AmlFilesystemsListByResourceGroupResponse =
+  AmlFilesystemsListResult;
 
 /** Optional parameters. */
 export interface AmlFilesystemsDeleteOptionalParams
@@ -1767,7 +2046,7 @@ export interface AmlFilesystemsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface AmlFilesystemsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AmlFilesystemsGetResponse = AmlFilesystem;
@@ -1805,21 +2084,79 @@ export interface AmlFilesystemsArchiveOptionalParams
 
 /** Optional parameters. */
 export interface AmlFilesystemsCancelArchiveOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface AmlFilesystemsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AmlFilesystemsListNextResponse = AmlFilesystemsListResult;
 
 /** Optional parameters. */
 export interface AmlFilesystemsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type AmlFilesystemsListByResourceGroupNextResponse = AmlFilesystemsListResult;
+export type AmlFilesystemsListByResourceGroupNextResponse =
+  AmlFilesystemsListResult;
+
+/** Optional parameters. */
+export interface ImportJobsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ImportJobsDeleteResponse = ImportJobsDeleteHeaders;
+
+/** Optional parameters. */
+export interface ImportJobsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ImportJobsGetResponse = ImportJob;
+
+/** Optional parameters. */
+export interface ImportJobsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ImportJobsCreateOrUpdateResponse = ImportJob;
+
+/** Optional parameters. */
+export interface ImportJobsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ImportJobsUpdateResponse = ImportJob;
+
+/** Optional parameters. */
+export interface ImportJobsListByAmlFilesystemOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAmlFilesystem operation. */
+export type ImportJobsListByAmlFilesystemResponse = ImportJobsListResult;
+
+/** Optional parameters. */
+export interface ImportJobsListByAmlFilesystemNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAmlFilesystemNext operation. */
+export type ImportJobsListByAmlFilesystemNextResponse = ImportJobsListResult;
 
 /** Optional parameters. */
 export interface CheckAmlFSSubnetsOptionalParams
@@ -1836,79 +2173,80 @@ export interface GetRequiredAmlFSSubnetsSizeOptionalParams
 }
 
 /** Contains response data for the getRequiredAmlFSSubnetsSize operation. */
-export type GetRequiredAmlFSSubnetsSizeResponse = RequiredAmlFilesystemSubnetsSize;
+export type GetRequiredAmlFSSubnetsSizeResponse =
+  RequiredAmlFilesystemSubnetsSize;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = ApiOperationListResult;
 
 /** Optional parameters. */
 export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = ApiOperationListResult;
 
 /** Optional parameters. */
-export interface SkusListOptionalParams extends coreClient.OperationOptions { }
+export interface SkusListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type SkusListResponse = ResourceSkusResult;
 
 /** Optional parameters. */
 export interface SkusListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SkusListNextResponse = ResourceSkusResult;
 
 /** Optional parameters. */
 export interface UsageModelsListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type UsageModelsListResponse = UsageModelsResult;
 
 /** Optional parameters. */
 export interface UsageModelsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UsageModelsListNextResponse = UsageModelsResult;
 
 /** Optional parameters. */
 export interface AscOperationsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AscOperationsGetResponse = AscOperation;
 
 /** Optional parameters. */
 export interface AscUsagesListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AscUsagesListResponse = ResourceUsagesListResult;
 
 /** Optional parameters. */
 export interface AscUsagesListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AscUsagesListNextResponse = ResourceUsagesListResult;
 
 /** Optional parameters. */
-export interface CachesListOptionalParams extends coreClient.OperationOptions { }
+export interface CachesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type CachesListResponse = CachesListResult;
 
 /** Optional parameters. */
 export interface CachesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type CachesListByResourceGroupResponse = CachesListResult;
@@ -1923,7 +2261,7 @@ export interface CachesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface CachesGetOptionalParams extends coreClient.OperationOptions { }
+export interface CachesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CachesGetResponse = Cache;
@@ -2068,14 +2406,14 @@ export type CachesSpaceAllocationResponse = CachesSpaceAllocationHeaders;
 
 /** Optional parameters. */
 export interface CachesListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CachesListNextResponse = CachesListResult;
 
 /** Optional parameters. */
 export interface CachesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type CachesListByResourceGroupNextResponse = CachesListResult;
@@ -2091,7 +2429,7 @@ export interface StorageTargetsDnsRefreshOptionalParams
 
 /** Optional parameters. */
 export interface StorageTargetsListByCacheOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCache operation. */
 export type StorageTargetsListByCacheResponse = StorageTargetsResult;
@@ -2109,7 +2447,7 @@ export interface StorageTargetsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface StorageTargetsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type StorageTargetsGetResponse = StorageTarget;
@@ -2137,7 +2475,7 @@ export interface StorageTargetsRestoreDefaultsOptionalParams
 
 /** Optional parameters. */
 export interface StorageTargetsListByCacheNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCacheNext operation. */
 export type StorageTargetsListByCacheNextResponse = StorageTargetsResult;

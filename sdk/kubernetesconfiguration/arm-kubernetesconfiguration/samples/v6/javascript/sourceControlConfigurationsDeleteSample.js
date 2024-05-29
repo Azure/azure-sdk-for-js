@@ -32,7 +32,7 @@ async function deleteSourceControlConfiguration() {
     clusterRp,
     clusterResourceName,
     clusterName,
-    sourceControlConfigurationName
+    sourceControlConfigurationName,
   );
   console.log(result);
 }

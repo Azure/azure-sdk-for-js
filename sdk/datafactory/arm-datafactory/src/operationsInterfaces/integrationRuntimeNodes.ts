@@ -14,7 +14,7 @@ import {
   IntegrationRuntimeNodesUpdateOptionalParams,
   IntegrationRuntimeNodesUpdateResponse,
   IntegrationRuntimeNodesGetIpAddressOptionalParams,
-  IntegrationRuntimeNodesGetIpAddressResponse
+  IntegrationRuntimeNodesGetIpAddressResponse,
 } from "../models";
 
 /** Interface representing a IntegrationRuntimeNodes. */
@@ -32,7 +32,7 @@ export interface IntegrationRuntimeNodes {
     factoryName: string,
     integrationRuntimeName: string,
     nodeName: string,
-    options?: IntegrationRuntimeNodesGetOptionalParams
+    options?: IntegrationRuntimeNodesGetOptionalParams,
   ): Promise<IntegrationRuntimeNodesGetResponse>;
   /**
    * Deletes a self-hosted integration runtime node.
@@ -47,7 +47,7 @@ export interface IntegrationRuntimeNodes {
     factoryName: string,
     integrationRuntimeName: string,
     nodeName: string,
-    options?: IntegrationRuntimeNodesDeleteOptionalParams
+    options?: IntegrationRuntimeNodesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a self-hosted integration runtime node.
@@ -64,7 +64,7 @@ export interface IntegrationRuntimeNodes {
     integrationRuntimeName: string,
     nodeName: string,
     updateIntegrationRuntimeNodeRequest: UpdateIntegrationRuntimeNodeRequest,
-    options?: IntegrationRuntimeNodesUpdateOptionalParams
+    options?: IntegrationRuntimeNodesUpdateOptionalParams,
   ): Promise<IntegrationRuntimeNodesUpdateResponse>;
   /**
    * Get the IP address of self-hosted integration runtime node.
@@ -79,6 +79,6 @@ export interface IntegrationRuntimeNodes {
     factoryName: string,
     integrationRuntimeName: string,
     nodeName: string,
-    options?: IntegrationRuntimeNodesGetIpAddressOptionalParams
+    options?: IntegrationRuntimeNodesGetIpAddressOptionalParams,
   ): Promise<IntegrationRuntimeNodesGetIpAddressResponse>;
 }

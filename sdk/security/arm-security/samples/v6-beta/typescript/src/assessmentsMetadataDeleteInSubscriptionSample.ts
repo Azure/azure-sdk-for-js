@@ -28,7 +28,7 @@ async function deleteASecurityAssessmentMetadataForSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.assessmentsMetadata.deleteInSubscription(
-    assessmentMetadataName
+    assessmentMetadataName,
   );
   console.log(result);
 }

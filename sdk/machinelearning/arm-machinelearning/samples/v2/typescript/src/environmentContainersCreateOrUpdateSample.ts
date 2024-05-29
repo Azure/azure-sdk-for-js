@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   EnvironmentContainer,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update container.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/EnvironmentContainer/createOrUpdate.json
  */
 async function createOrUpdateEnvironmentContainer() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "testworkspace";
   const name = "testEnvironment";
   const body: EnvironmentContainer = {
@@ -31,14 +37,14 @@ async function createOrUpdateEnvironmentContainer() {
       properties: {
         additionalProp1: "string",
         additionalProp2: "string",
-        additionalProp3: "string"
+        additionalProp3: "string",
       },
       tags: {
         additionalProp1: "string",
         additionalProp2: "string",
-        additionalProp3: "string"
-      }
-    }
+        additionalProp3: "string",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -46,9 +52,13 @@ async function createOrUpdateEnvironmentContainer() {
     resourceGroupName,
     workspaceName,
     name,
-    body
+    body,
   );
   console.log(result);
 }
 
-createOrUpdateEnvironmentContainer().catch(console.error);
+async function main() {
+  createOrUpdateEnvironmentContainer();
+}
+
+main().catch(console.error);

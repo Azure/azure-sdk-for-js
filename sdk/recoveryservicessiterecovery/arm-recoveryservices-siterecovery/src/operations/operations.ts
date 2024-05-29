@@ -18,7 +18,7 @@ import {
   OperationsListNextOptionalParams,
   OperationsListOptionalParams,
   OperationsListResponse,
-  OperationsListNextResponse
+  OperationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,7 +42,7 @@ export class OperationsImpl implements Operations {
    */
   public list(
     resourceGroupName: string,
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): PagedAsyncIterableIterator<OperationsDiscovery> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -57,14 +57,14 @@ export class OperationsImpl implements Operations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: OperationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OperationsDiscovery[]> {
     let result: OperationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -79,7 +79,7 @@ export class OperationsImpl implements Operations {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -90,7 +90,7 @@ export class OperationsImpl implements Operations {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): AsyncIterableIterator<OperationsDiscovery> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -105,11 +105,11 @@ export class OperationsImpl implements Operations {
    */
   private _list(
     resourceGroupName: string,
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -123,11 +123,11 @@ export class OperationsImpl implements Operations {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: OperationsListNextOptionalParams
+    options?: OperationsListNextOptionalParams,
   ): Promise<OperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -135,37 +135,36 @@ export class OperationsImpl implements Operations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/operations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/operations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationsDiscoveryCollection
-    }
+      bodyMapper: Mappers.OperationsDiscoveryCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationsDiscoveryCollection
-    }
+      bodyMapper: Mappers.OperationsDiscoveryCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -32,7 +32,7 @@ async function createAWorkspaceWhichIsReadyForCustomerManagedKeyCmkEncryption() 
   const result = await client.workspaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -69,7 +69,7 @@ async function createAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisk
   const result = await client.workspaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -93,7 +93,7 @@ async function createOrUpdateWorkspace() {
   const result = await client.workspaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -125,7 +125,7 @@ async function createOrUpdateWorkspaceWithCustomParameters() {
   const result = await client.workspaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -160,7 +160,7 @@ async function enableCustomerManagedKeyCmkEncryptionOnAWorkspaceWhichIsPreparedF
   const result = await client.workspaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -185,7 +185,7 @@ async function revertCustomerManagedKeyCmkEncryptionToMicrosoftManagedKeysEncryp
   const result = await client.workspaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -223,7 +223,7 @@ async function updateAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisk
   const result = await client.workspaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

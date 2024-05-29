@@ -18,7 +18,7 @@ import {
   TargetComputeSizesListByReplicationProtectedItemsNextOptionalParams,
   TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
   TargetComputeSizesListByReplicationProtectedItemsResponse,
-  TargetComputeSizesListByReplicationProtectedItemsNextResponse
+  TargetComputeSizesListByReplicationProtectedItemsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,7 +50,7 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams
+    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
   ): PagedAsyncIterableIterator<TargetComputeSize> {
     const iter = this.listByReplicationProtectedItemsPagingAll(
       resourceName,
@@ -58,7 +58,7 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
       fabricName,
       protectionContainerName,
       replicatedProtectedItemName,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +78,9 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
           protectionContainerName,
           replicatedProtectedItemName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -91,7 +91,7 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TargetComputeSize[]> {
     let result: TargetComputeSizesListByReplicationProtectedItemsResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
         fabricName,
         protectionContainerName,
         replicatedProtectedItemName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -117,7 +117,7 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
         protectionContainerName,
         replicatedProtectedItemName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -132,7 +132,7 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams
+    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
   ): AsyncIterableIterator<TargetComputeSize> {
     for await (const page of this.listByReplicationProtectedItemsPagingPage(
       resourceName,
@@ -140,7 +140,7 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
       fabricName,
       protectionContainerName,
       replicatedProtectedItemName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -162,7 +162,7 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams
+    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
   ): Promise<TargetComputeSizesListByReplicationProtectedItemsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -171,9 +171,9 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
         fabricName,
         protectionContainerName,
         replicatedProtectedItemName,
-        options
+        options,
       },
-      listByReplicationProtectedItemsOperationSpec
+      listByReplicationProtectedItemsOperationSpec,
     );
   }
 
@@ -196,7 +196,7 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     nextLink: string,
-    options?: TargetComputeSizesListByReplicationProtectedItemsNextOptionalParams
+    options?: TargetComputeSizesListByReplicationProtectedItemsNextOptionalParams,
   ): Promise<TargetComputeSizesListByReplicationProtectedItemsNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -206,9 +206,9 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
         protectionContainerName,
         replicatedProtectedItemName,
         nextLink,
-        options
+        options,
       },
-      listByReplicationProtectedItemsNextOperationSpec
+      listByReplicationProtectedItemsNextOperationSpec,
     );
   }
 }
@@ -216,13 +216,12 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByReplicationProtectedItemsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/targetComputeSizes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/targetComputeSizes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TargetComputeSizeCollection
-    }
+      bodyMapper: Mappers.TargetComputeSizeCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -232,29 +231,30 @@ const listByReplicationProtectedItemsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.replicatedProtectedItemName
+    Parameters.replicatedProtectedItemName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByReplicationProtectedItemsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TargetComputeSizeCollection
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.replicatedProtectedItemName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+const listByReplicationProtectedItemsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.TargetComputeSizeCollection,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.resourceName,
+      Parameters.fabricName,
+      Parameters.protectionContainerName,
+      Parameters.replicatedProtectedItemName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

@@ -14,6 +14,7 @@ import {
   createCustomTranslationClient,
   createTranslationClient,
   createTokenTranslationClient,
+  createAADAuthenticationTranslationClient,
   startRecorder,
 } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -363,6 +364,19 @@ describe("Translate tests", () => {
 
   it("with token", async () => {
     const tokenClient = await createTokenTranslationClient({ recorder });
+    const inputText: InputTextItem[] = [{ text: "This is a test." }];
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
+      to: "cs",
+    };
+    const response = await tokenClient.path("/translate").post({
+      body: inputText,
+      queryParameters: parameters,
+    });
+    assert.equal(response.status, "200");
+  });
+
+  it("with AAD authentication", async () => {
+    const tokenClient = await createAADAuthenticationTranslationClient({ recorder });
     const inputText: InputTextItem[] = [{ text: "This is a test." }];
     const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "cs",

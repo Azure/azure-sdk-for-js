@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.1 (Unreleased)
+## 8.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,64 @@
 
 ### Other Changes
 
+## 8.0.0 (2024-05-13)
+    
+**Features**
+
+  - Added operation group ImportJobs
+  - Added Interface AmlFilesystemRootSquashSettings
+  - Added Interface AscOperationErrorResponse
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ImportJob
+  - Added Interface ImportJobsCreateOrUpdateHeaders
+  - Added Interface ImportJobsCreateOrUpdateOptionalParams
+  - Added Interface ImportJobsDeleteHeaders
+  - Added Interface ImportJobsDeleteOptionalParams
+  - Added Interface ImportJobsGetOptionalParams
+  - Added Interface ImportJobsListByAmlFilesystemNextOptionalParams
+  - Added Interface ImportJobsListByAmlFilesystemOptionalParams
+  - Added Interface ImportJobsListResult
+  - Added Interface ImportJobsUpdateHeaders
+  - Added Interface ImportJobsUpdateOptionalParams
+  - Added Interface ImportJobUpdate
+  - Added Type Alias AmlFilesystemSquashMode
+  - Added Type Alias ConflictResolutionMode
+  - Added Type Alias ImportJobProvisioningStateType
+  - Added Type Alias ImportJobsCreateOrUpdateResponse
+  - Added Type Alias ImportJobsDeleteResponse
+  - Added Type Alias ImportJobsGetResponse
+  - Added Type Alias ImportJobsListByAmlFilesystemNextResponse
+  - Added Type Alias ImportJobsListByAmlFilesystemResponse
+  - Added Type Alias ImportJobsUpdateResponse
+  - Added Type Alias ImportStatusType
+  - Interface AmlFilesystem has a new optional parameter rootSquashSettings
+  - Interface AmlFilesystemHsmSettings has a new optional parameter importPrefixesInitial
+  - Interface AmlFilesystemUpdate has a new optional parameter rootSquashSettings
+  - Interface ErrorResponse has a new optional parameter error
+  - Added Enum KnownAmlFilesystemSquashMode
+  - Added Enum KnownConflictResolutionMode
+  - Added Enum KnownImportJobProvisioningStateType
+  - Added Enum KnownImportStatusType
+
+**Breaking Changes**
+
+  - Interface ErrorResponse no longer has parameter code
+  - Interface ErrorResponse no longer has parameter message
+  - Type of parameter error of interface AscOperation is changed from ErrorResponse to AscOperationErrorResponse
+    
+    
+## 7.1.0-beta.1 (2024-02-01)
+    
+**Features**
+
+  - Added Interface AmlFilesystemRootSquashSettings
+  - Added Type Alias AmlFilesystemSquashMode
+  - Interface AmlFilesystem has a new optional parameter rootSquashSettings
+  - Interface AmlFilesystemUpdate has a new optional parameter rootSquashSettings
+  - Added Enum KnownAmlFilesystemSquashMode
+    
+    
 ## 7.0.0 (2023-06-09)
     
 **Features**
@@ -202,4 +260,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

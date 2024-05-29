@@ -8,7 +8,7 @@ import { Context, Suite } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { matrix } from "@azure/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";

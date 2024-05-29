@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all of the private link resources in the specified account.
  *
  * @summary Lists all of the private link resources in the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PrivateLinkResourcesList.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PrivateLinkResourcesList.json
  */
 async function listPrivateLinkResource() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy";
-import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy";
-
-import type { HttpClient } from "../../src/interfaces";
+import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy.js";
+import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy.js";
+import type { HttpClient } from "../../src/interfaces.js";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { assert, describe, it, afterEach, vi } from "vitest";
-import { createEmptyPipeline } from "../../src/pipeline";
-import { createHttpHeaders } from "../../src/httpHeaders";
-import { createNodeHttpClient } from "../../src/nodeHttpClient";
-import { createPipelineFromOptions } from "../../src/createPipelineFromOptions";
+import { createEmptyPipeline } from "../../src/pipeline.js";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
+import { createNodeHttpClient } from "../../src/nodeHttpClient.js";
+import { createPipelineFromOptions } from "../../src/createPipelineFromOptions.js";
 
 vi.mock("https", async () => {
   const actual = await vi.importActual("https");
@@ -20,8 +19,8 @@ vi.mock("https", async () => {
   };
 });
 
-import type { Agent } from "http";
-import * as https from "https";
+import type { Agent } from "node:http";
+import * as https from "node:https";
 
 describe("HttpsPipeline", function () {
   describe("Agent creation", function () {

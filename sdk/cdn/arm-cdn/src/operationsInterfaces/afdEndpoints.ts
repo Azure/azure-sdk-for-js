@@ -25,7 +25,7 @@ import {
   AfdEndpointsPurgeContentOptionalParams,
   ValidateCustomDomainInput,
   AfdEndpointsValidateCustomDomainOptionalParams,
-  AfdEndpointsValidateCustomDomainResponse
+  AfdEndpointsValidateCustomDomainResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export interface AfdEndpoints {
   listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdEndpointsListByProfileOptionalParams
+    options?: AfdEndpointsListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<AFDEndpoint>;
   /**
    * Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
@@ -55,7 +55,7 @@ export interface AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsListResourceUsageOptionalParams
+    options?: AfdEndpointsListResourceUsageOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
   /**
    * Gets an existing AzureFrontDoor endpoint with the specified endpoint name under the specified
@@ -70,7 +70,7 @@ export interface AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsGetOptionalParams
+    options?: AfdEndpointsGetOptionalParams,
   ): Promise<AfdEndpointsGetResponse>;
   /**
    * Creates a new AzureFrontDoor endpoint with the specified endpoint name under the specified
@@ -87,7 +87,7 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     endpoint: AFDEndpoint,
-    options?: AfdEndpointsCreateOptionalParams
+    options?: AfdEndpointsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AfdEndpointsCreateResponse>,
@@ -109,7 +109,7 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     endpoint: AFDEndpoint,
-    options?: AfdEndpointsCreateOptionalParams
+    options?: AfdEndpointsCreateOptionalParams,
   ): Promise<AfdEndpointsCreateResponse>;
   /**
    * Updates an existing AzureFrontDoor endpoint with the specified endpoint name under the specified
@@ -128,7 +128,7 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     endpointUpdateProperties: AFDEndpointUpdateParameters,
-    options?: AfdEndpointsUpdateOptionalParams
+    options?: AfdEndpointsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AfdEndpointsUpdateResponse>,
@@ -152,7 +152,7 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     endpointUpdateProperties: AFDEndpointUpdateParameters,
-    options?: AfdEndpointsUpdateOptionalParams
+    options?: AfdEndpointsUpdateOptionalParams,
   ): Promise<AfdEndpointsUpdateResponse>;
   /**
    * Deletes an existing AzureFrontDoor endpoint with the specified endpoint name under the specified
@@ -167,7 +167,7 @@ export interface AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsDeleteOptionalParams
+    options?: AfdEndpointsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing AzureFrontDoor endpoint with the specified endpoint name under the specified
@@ -182,7 +182,7 @@ export interface AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsDeleteOptionalParams
+    options?: AfdEndpointsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Removes a content from AzureFrontDoor.
@@ -200,7 +200,7 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     contents: AfdPurgeParameters,
-    options?: AfdEndpointsPurgeContentOptionalParams
+    options?: AfdEndpointsPurgeContentOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Removes a content from AzureFrontDoor.
@@ -218,7 +218,7 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     contents: AfdPurgeParameters,
-    options?: AfdEndpointsPurgeContentOptionalParams
+    options?: AfdEndpointsPurgeContentOptionalParams,
   ): Promise<void>;
   /**
    * Validates the custom domain mapping to ensure it maps to the correct Azure Front Door endpoint in
@@ -235,6 +235,6 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     customDomainProperties: ValidateCustomDomainInput,
-    options?: AfdEndpointsValidateCustomDomainOptionalParams
+    options?: AfdEndpointsValidateCustomDomainOptionalParams,
   ): Promise<AfdEndpointsValidateCustomDomainResponse>;
 }

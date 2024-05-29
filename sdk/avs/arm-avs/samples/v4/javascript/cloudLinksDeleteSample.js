@@ -29,7 +29,7 @@ async function cloudLinksDelete() {
   const result = await client.cloudLinks.beginDeleteAndWait(
     resourceGroupName,
     privateCloudName,
-    cloudLinkName
+    cloudLinkName,
   );
   console.log(result);
 }

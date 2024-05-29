@@ -8,50 +8,339 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type FunctionPropertiesUnion =
+  | FunctionProperties
+  | ScalarFunctionProperties
+  | AggregateFunctionProperties;
+export type FunctionBindingUnion =
+  | FunctionBinding
+  | AzureMachineLearningStudioFunctionBinding
+  | JavaScriptFunctionBinding
+  | CSharpFunctionBinding
+  | AzureMachineLearningServiceFunctionBinding;
+export type FunctionRetrieveDefaultDefinitionParametersUnion =
+  | FunctionRetrieveDefaultDefinitionParameters
+  | AzureMachineLearningStudioFunctionRetrieveDefaultDefinitionParameters
+  | AzureMachineLearningServiceFunctionRetrieveDefaultDefinitionParameters
+  | JavaScriptFunctionRetrieveDefaultDefinitionParameters
+  | CSharpFunctionRetrieveDefaultDefinitionParameters;
 export type InputPropertiesUnion =
   | InputProperties
   | StreamInputProperties
   | ReferenceInputProperties;
 export type SerializationUnion =
   | Serialization
+  | DeltaSerialization
   | ParquetSerialization
+  | CustomClrSerialization
   | CsvSerialization
   | JsonSerialization
   | AvroSerialization;
 export type OutputDataSourceUnion =
   | OutputDataSource
+  | RawOutputDatasource
   | BlobOutputDataSource
   | AzureTableOutputDataSource
   | EventHubOutputDataSource
   | EventHubV2OutputDataSource
   | AzureSqlDatabaseOutputDataSource
   | AzureSynapseOutputDataSource
+  | PostgreSQLOutputDataSource
   | DocumentDbOutputDataSource
+  | AzureFunctionOutputDataSource
   | ServiceBusQueueOutputDataSource
   | ServiceBusTopicOutputDataSource
   | PowerBIOutputDataSource
-  | AzureDataLakeStoreOutputDataSource;
-export type FunctionPropertiesUnion =
-  | FunctionProperties
-  | ScalarFunctionProperties;
-export type FunctionRetrieveDefaultDefinitionParametersUnion =
-  | FunctionRetrieveDefaultDefinitionParameters
-  | AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters
-  | JavaScriptFunctionRetrieveDefaultDefinitionParameters;
+  | AzureDataLakeStoreOutputDataSource
+  | GatewayMessageBusOutputDataSource
+  | AzureDataExplorerOutputDataSource;
 export type StreamInputDataSourceUnion =
   | StreamInputDataSource
   | BlobStreamInputDataSource
   | EventHubStreamInputDataSource
   | EventHubV2StreamInputDataSource
-  | IoTHubStreamInputDataSource;
+  | IoTHubStreamInputDataSource
+  | RawStreamInputDataSource
+  | GatewayMessageBusStreamInputDataSource
+  | EventGridStreamInputDataSource;
 export type ReferenceInputDataSourceUnion =
   | ReferenceInputDataSource
+  | FileReferenceInputDataSource
   | BlobReferenceInputDataSource
+  | RawReferenceInputDataSource
   | AzureSqlReferenceInputDataSource;
-export type FunctionBindingUnion =
-  | FunctionBinding
-  | AzureMachineLearningWebServiceFunctionBinding
-  | JavaScriptFunctionBinding;
+
+/** The properties that are associated with a function. */
+export interface FunctionProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Scalar" | "Aggregate";
+  /**
+   * The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  inputs?: FunctionInput[];
+  /** Describes the output of a function. */
+  output?: FunctionOutput;
+  /** The physical binding of the function. For example, in the Azure Machine Learning web service’s case, this describes the endpoint. */
+  binding?: FunctionBindingUnion;
+}
+
+/** Describes one input parameter of a function. */
+export interface FunctionInput {
+  /** The (Azure Stream Analytics supported) data type of the function input parameter. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx */
+  dataType?: string;
+  /** A flag indicating if the parameter is a configuration parameter. True if this input parameter is expected to be a constant. Default is false. */
+  isConfigurationParameter?: boolean;
+}
+
+/** Describes the output of a function. */
+export interface FunctionOutput {
+  /** The (Azure Stream Analytics supported) data type of the function output. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx */
+  dataType?: string;
+}
+
+/** The physical binding of the function. For example, in the Azure Machine Learning web service’s case, this describes the endpoint. */
+export interface FunctionBinding {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type:
+    | "Microsoft.MachineLearning/WebService"
+    | "Microsoft.StreamAnalytics/JavascriptUdf"
+    | "Microsoft.StreamAnalytics/CLRUdf"
+    | "Microsoft.MachineLearningServices";
+}
+
+/** The base sub-resource model definition. */
+export interface SubResource {
+  /**
+   * Resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** Resource name */
+  name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** Common error representation. */
+export interface ErrorModel {
+  /** Error definition properties. */
+  error?: ErrorError;
+}
+
+/** Error definition properties. */
+export interface ErrorError {
+  /** Error code. */
+  code?: string;
+  /** Error message. */
+  message?: string;
+  /** Error target. */
+  target?: string;
+  /** Error details. */
+  details?: ErrorDetails[];
+}
+
+/** Common error details representation. */
+export interface ErrorDetails {
+  /** Error code. */
+  code?: string;
+  /** Error target. */
+  target?: string;
+  /** Error message. */
+  message?: string;
+}
+
+/** Object containing a list of functions under a streaming job. */
+export interface FunctionListResult {
+  /**
+   * A list of functions under a streaming job. Populated by a 'List' operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: FunctionModel[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Describes the status of the test operation along with error information, if applicable. */
+export interface ResourceTestStatus {
+  /**
+   * The status of the test operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Describes the error that occurred.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ErrorResponse;
+}
+
+/** Describes the error that occurred. */
+export interface ErrorResponse {
+  /**
+   * Error code associated with the error that occurred.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Describes the error in detail.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** Parameters used to specify the type of function to retrieve the default definition for. */
+export interface FunctionRetrieveDefaultDefinitionParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  bindingType:
+    | "Microsoft.MachineLearning/WebService"
+    | "Microsoft.MachineLearningServices"
+    | "Microsoft.StreamAnalytics/JavascriptUdf"
+    | "Microsoft.StreamAnalytics/CLRUdf";
+}
+
+/** The properties that are associated with an input. */
+export interface InputProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Stream" | "Reference";
+  /** Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests. */
+  serialization?: SerializationUnion;
+  /**
+   * Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diagnostics?: Diagnostics;
+  /**
+   * The current entity tag for the input. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Describes how input data is compressed */
+  compression?: Compression;
+  /** partitionKey Describes a key in the input data which is used for partitioning the input data */
+  partitionKey?: string;
+  /** Settings which determine whether to read watermark events. */
+  watermarkSettings?: InputWatermarkProperties;
+}
+
+/** Describes how data from an input is serialized or how data is serialized when written to an output. */
+export interface Serialization {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Delta" | "Parquet" | "CustomClr" | "Csv" | "Json" | "Avro";
+}
+
+/** Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention. */
+export interface Diagnostics {
+  /**
+   * A collection of zero or more conditions applicable to the resource, or to the job overall, that warrant customer attention.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly conditions?: DiagnosticCondition[];
+}
+
+/** Condition applicable to the resource, or to the job overall, that warrant customer attention. */
+export interface DiagnosticCondition {
+  /**
+   * The UTC timestamp of when the condition started. Customers should be able to find a corresponding event in the ops log around this time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly since?: string;
+  /**
+   * The opaque diagnostic code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The human-readable message describing the condition in detail. Localized in the Accept-Language of the client request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** Describes how input data is compressed */
+export interface Compression {
+  /** Indicates the type of compression that the input uses. Required on PUT (CreateOrReplace) requests. */
+  type: CompressionType;
+}
+
+/** Settings which determine whether to read watermark events. */
+export interface InputWatermarkProperties {
+  /** The input watermark mode. */
+  watermarkMode?: InputWatermarkMode;
+}
+
+/** Object containing a list of inputs under a streaming job. */
+export interface InputListResult {
+  /**
+   * A list of inputs under a streaming job. Populated by a 'List' operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Input[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Describes the data source that output will be written to. */
+export interface OutputDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type:
+    | "Raw"
+    | "Microsoft.Storage/Blob"
+    | "Microsoft.Storage/Table"
+    | "Microsoft.ServiceBus/EventHub"
+    | "Microsoft.EventHub/EventHub"
+    | "Microsoft.Sql/Server/Database"
+    | "Microsoft.Sql/Server/DataWarehouse"
+    | "Microsoft.DBForPostgreSQL/servers/databases"
+    | "Microsoft.Storage/DocumentDB"
+    | "Microsoft.AzureFunction"
+    | "Microsoft.ServiceBus/Queue"
+    | "Microsoft.ServiceBus/Topic"
+    | "PowerBI"
+    | "Microsoft.DataLake/Accounts"
+    | "GatewayMessageBus"
+    | "Microsoft.Kusto/clusters/databases";
+}
+
+/** An output event timestamp. */
+export interface LastOutputEventTimestamp {
+  /** The last output event time. */
+  lastOutputEventTime?: string;
+  /** The time that the last update happened. */
+  lastUpdateTime?: string;
+}
+
+/** Settings which determine whether to send watermarks to downstream. */
+export interface OutputWatermarkProperties {
+  /** The output watermark mode. */
+  watermarkMode?: OutputWatermarkMode;
+  /** Describes the maximal delta between the fastest and slowest partitions, so the out of order window that catches all necessary events in downstream jobs is well defined. */
+  maxWatermarkDifferenceAcrossPartitions?: string;
+}
+
+/** Object containing a list of outputs under a streaming job. */
+export interface OutputListResult {
+  /**
+   * A list of outputs under a streaming job. Populated by a 'List' operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Output[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
 
 /** Result of the request to list Stream Analytics operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
@@ -107,144 +396,12 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** Common error representation. */
-export interface ErrorModel {
-  /** Error definition properties. */
-  error?: ErrorError;
-}
-
-/** Error definition properties. */
-export interface ErrorError {
-  /** Error code. */
-  code?: string;
-  /** Error message. */
-  message?: string;
-  /** Error target. */
-  target?: string;
-  /** Error details. */
-  details?: ErrorDetails[];
-}
-
-/** Common error details representation. */
-export interface ErrorDetails {
-  /** Error code. */
-  code?: string;
-  /** Error target. */
-  target?: string;
-  /** Error message. */
-  message?: string;
-}
-
 /** The properties that are associated with a SKU. */
 export interface Sku {
   /** The name of the SKU. Required on PUT (CreateOrReplace) requests. */
   name?: SkuName;
-}
-
-/** The properties that are associated with an input. */
-export interface InputProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Stream" | "Reference";
-  /** Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests. */
-  serialization?: SerializationUnion;
-  /**
-   * Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly diagnostics?: Diagnostics;
-  /**
-   * The current entity tag for the input. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Describes how input data is compressed */
-  compression?: Compression;
-  /** partitionKey Describes a key in the input data which is used for partitioning the input data */
-  partitionKey?: string;
-}
-
-/** Describes how data from an input is serialized or how data is serialized when written to an output. */
-export interface Serialization {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Parquet" | "Csv" | "Json" | "Avro";
-}
-
-/** Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention. */
-export interface Diagnostics {
-  /**
-   * A collection of zero or more conditions applicable to the resource, or to the job overall, that warrant customer attention.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly conditions?: DiagnosticCondition[];
-}
-
-/** Condition applicable to the resource, or to the job overall, that warrant customer attention. */
-export interface DiagnosticCondition {
-  /**
-   * The UTC timestamp of when the condition started. Customers should be able to find a corresponding event in the ops log around this time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly since?: string;
-  /**
-   * The opaque diagnostic code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The human-readable message describing the condition in detail. Localized in the Accept-Language of the client request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-}
-
-/** Describes how input data is compressed */
-export interface Compression {
-  /** Indicates the type of compression that the input uses. Required on PUT (CreateOrReplace) requests. */
-  type: CompressionType;
-}
-
-/** The base sub-resource model definition. */
-export interface SubResource {
-  /**
-   * Resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** Resource name */
-  name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
-/** Describes the data source that output will be written to. */
-export interface OutputDataSource {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "Microsoft.Storage/Blob"
-    | "Microsoft.Storage/Table"
-    | "Microsoft.ServiceBus/EventHub"
-    | "Microsoft.EventHub/EventHub"
-    | "Microsoft.Sql/Server/Database"
-    | "Microsoft.Sql/Server/DataWarehouse"
-    | "Microsoft.Storage/DocumentDB"
-    | "Microsoft.ServiceBus/Queue"
-    | "Microsoft.ServiceBus/Topic"
-    | "PowerBI"
-    | "Microsoft.DataLake/Accounts";
-}
-
-/** The properties that are associated with a function. */
-export interface FunctionProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Scalar";
-  /**
-   * The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
+  /** The capacity of the SKU. */
+  capacity?: number;
 }
 
 /** The properties that are associated with an Azure Storage account */
@@ -253,6 +410,34 @@ export interface StorageAccount {
   accountName?: string;
   /** The account key for the Azure Storage account. Required on PUT (CreateOrReplace) requests. */
   accountKey?: string;
+  /** Authentication Mode. */
+  authenticationMode?: AuthenticationMode;
+}
+
+/** The storage account where the custom code artifacts are located. */
+export interface External {
+  /** The properties that are associated with an Azure Storage account */
+  storageAccount?: StorageAccount;
+  /** The UserCustomCode container. */
+  container?: string;
+  /** The UserCustomCode path. */
+  path?: string;
+  /** The refresh parameters for any/all updatable user defined functions present in the job config. */
+  refreshConfiguration?: RefreshConfiguration;
+}
+
+/** The refresh parameters for any/all updatable user defined functions present in the job config. */
+export interface RefreshConfiguration {
+  /** The blob path pattern. Not a regular expression. It represents a pattern against which blob names will be matched to determine whether or not they should be included as input or output to the job. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a more detailed explanation and example. */
+  pathPattern?: string;
+  /** The date format. Wherever {date} appears in pathPattern, the value of this property is used as the date format instead. */
+  dateFormat?: string;
+  /** The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead. */
+  timeFormat?: string;
+  /** The refresh interval. */
+  refreshInterval?: string;
+  /** This property indicates which data refresh option to use, Blocking or Nonblocking. */
+  refreshType?: UpdatableUdfRefreshType;
 }
 
 /** The properties associated with a Stream Analytics cluster. */
@@ -263,12 +448,20 @@ export interface ClusterInfo {
 
 /** Describes how identity is verified */
 export interface Identity {
-  /** The identity tenantId */
-  tenantId?: string;
-  /** The identity principal ID */
-  principalId?: string;
-  /** The identity type */
+  /**
+   * The tenantId of the identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /**
+   * The principalId of the identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /** The type of identity, can be SystemAssigned or UserAssigned. */
   type?: string;
+  /** The user assigned identities associated with the streaming job resource. */
+  userAssignedIdentities?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** The base resource definition */
@@ -318,13 +511,10 @@ export interface ScaleStreamingJobParameters {
   streamingUnits?: number;
 }
 
-/** Object containing a list of inputs under a streaming job. */
-export interface InputListResult {
-  /**
-   * A list of inputs under a streaming job. Populated by a 'List' operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Input[];
+/** Result of the request to get streaming job SKUs. */
+export interface GetStreamingJobSkuResults {
+  /** The list of available SKUs that the streaming job can use. */
+  value?: GetStreamingJobSkuResult[];
   /**
    * The link (url) to the next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -332,68 +522,58 @@ export interface InputListResult {
   readonly nextLink?: string;
 }
 
-/** Describes the status of the test operation along with error information, if applicable. */
-export interface ResourceTestStatus {
+/** Describes an available SKU information. */
+export interface GetStreamingJobSkuResult {
   /**
-   * The status of the test operation.
+   * The type of resource the SKU applies to.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly status?: string;
+  readonly resourceType?: ResourceType;
   /**
-   * Describes the error that occurred.
+   * The properties that are associated with a SKU.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: ErrorResponse;
+  readonly sku?: GetStreamingJobSkuResultSku;
+  /**
+   * Describes scaling information of a SKU.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capacity?: SkuCapacity;
 }
 
-/** Describes the error that occurred. */
-export interface ErrorResponse {
-  /**
-   * Error code associated with the error that occurred.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Describes the error in detail.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
+/** The properties that are associated with a SKU. */
+export interface GetStreamingJobSkuResultSku {
+  /** The name of the SKU. */
+  name?: SkuName;
 }
 
-/** Object containing a list of outputs under a streaming job. */
-export interface OutputListResult {
+/** Describes scaling information of a SKU. */
+export interface SkuCapacity {
   /**
-   * A list of outputs under a streaming job. Populated by a 'List' operation.
+   * Specifies the minimum streaming units that the streaming job can use.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: Output[];
+  readonly minimum?: number;
   /**
-   * The link (url) to the next page of results.
+   * Specifies the maximum streaming units that the streaming job can use.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
-}
-
-/** Object containing a list of functions under a streaming job. */
-export interface FunctionListResult {
+  readonly maximum?: number;
   /**
-   * A list of functions under a streaming job. Populated by a 'List' operation.
+   * Specifies the default streaming units that the streaming job can use.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: FunctionModel[];
+  readonly default?: number;
   /**
-   * The link (url) to the next page of results.
+   * The scale type applicable to the SKU.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
-}
-
-/** Parameters used to specify the type of function to retrieve the default definition for. */
-export interface FunctionRetrieveDefaultDefinitionParameters {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  bindingType:
-    | "Microsoft.MachineLearning/WebService"
-    | "Microsoft.StreamAnalytics/JavascriptUdf";
+  readonly scaleType?: SkuCapacityScaleType;
+  /**
+   * Specifies the valid streaming units a streaming job can scale to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allowedValues?: number[];
 }
 
 /** Result of the GetQuotas operation. It contains a list of quotas for the subscription in a particular region. */
@@ -405,12 +585,180 @@ export interface SubscriptionQuotasListResult {
   readonly value?: SubscriptionQuota[];
 }
 
+/** The request object for query testing. */
+export interface TestQuery {
+  /** Diagnostics information related to query testing. */
+  diagnostics?: TestQueryDiagnostics;
+  /** Stream analytics job object which defines the input, output, and transformation for the query testing. */
+  streamingJob: StreamingJob;
+}
+
+/** Diagnostics information related to query testing. */
+export interface TestQueryDiagnostics {
+  /** The SAS URI to the container or directory. */
+  writeUri: string;
+  /** The path to the subdirectory. */
+  path?: string;
+}
+
+/** The query compilation object which defines the input, output, and transformation for the query compilation. */
+export interface CompileQuery {
+  /** The query to compile. */
+  query: string;
+  /** The inputs for the query compilation. */
+  inputs?: QueryInput[];
+  /** The functions for the query compilation. */
+  functions?: QueryFunction[];
+  /** Describes the type of the job. Valid values are `Cloud` and 'Edge'. */
+  jobType: JobType;
+  /** The query to compile. */
+  compatibilityLevel?: CompatibilityLevel;
+}
+
+/** An input for the query compilation. */
+export interface QueryInput {
+  /** The name of the input. */
+  name: string;
+  /** The type of the input, can be Stream or Reference. */
+  type: string;
+}
+
+/** A function for the query compilation. */
+export interface QueryFunction {
+  /** The name of the function. */
+  name: string;
+  /** The type of the function. */
+  type: string;
+  /** The type of the function binding. */
+  bindingType: string;
+  /** The inputs for the function. */
+  inputs: FunctionInput[];
+  /** An output for the function. */
+  output: FunctionOutput;
+}
+
+/** The result of the query compilation request. */
+export interface QueryCompilationResult {
+  /**
+   * Error messages produced by the compiler.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: QueryCompilationError[];
+  /**
+   * Warning messages produced by the compiler.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly warnings?: string[];
+  /**
+   * All input names used by the query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputs?: string[];
+  /**
+   * All output names used by the query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputs?: string[];
+  /**
+   * All function names used by the query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly functions?: string[];
+}
+
+/** An error produced by the compiler. */
+export interface QueryCompilationError {
+  /**
+   * The content of the error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Describes the error location in the original query. Not set if isGlobal is true.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startLine?: number;
+  /**
+   * Describes the error location in the original query. Not set if isGlobal is true.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startColumn?: number;
+  /**
+   * Describes the error location in the original query. Not set if isGlobal is true.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endLine?: number;
+  /**
+   * Describes the error location in the original query. Not set if isGlobal is true.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endColumn?: number;
+  /**
+   * Whether the error is not for a specific part but for the entire query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isGlobal?: boolean;
+}
+
+/** The stream analytics input to sample. */
+export interface SampleInput {
+  /** The stream analytics input to sample. */
+  input?: Input;
+  /** Defaults to the default ASA job compatibility level. Today it is 1.2 */
+  compatibilityLevel?: string;
+  /** The SAS URI of the storage blob for service to write the sampled events to. If this parameter is not provided, service will write events to he system account and share a temporary SAS URI to it. */
+  eventsUri?: string;
+  /** Defaults to en-US. */
+  dataLocale?: string;
+}
+
+/** A stream analytics input. */
+export interface TestInput {
+  /** The stream analytics input to test. */
+  input: Input;
+}
+
+/** A stream analytics output. */
+export interface TestOutput {
+  /** The stream analytics output to test. */
+  output: Output;
+}
+
 /** The SKU of the cluster. This determines the size/capacity of the cluster. Required on PUT (CreateOrUpdate) requests. */
 export interface ClusterSku {
   /** Specifies the SKU name of the cluster. Required on PUT (CreateOrUpdate) requests. */
   name?: ClusterSkuName;
   /** Denotes the number of streaming units the cluster can support. Valid values for this property are multiples of 36 with a minimum value of 36 and maximum value of 216. Required on PUT (CreateOrUpdate) requests. */
   capacity?: number;
+}
+
+/** The properties associated with a Stream Analytics cluster. */
+export interface ClusterProperties {
+  /**
+   * The date this cluster was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDate?: Date;
+  /**
+   * Unique identifier for the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clusterId?: string;
+  /**
+   * The status of the cluster provisioning. The three terminal states are: Succeeded, Failed and Canceled
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ClusterProvisioningState;
+  /**
+   * Represents the number of streaming units currently being used on the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capacityAllocated?: number;
+  /**
+   * Represents the sum of the SUs of all streaming jobs associated with the cluster. If all of the jobs were running, this would be the capacity allocated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capacityAssigned?: number;
 }
 
 /** A list of clusters populated by a 'list' operation. */
@@ -458,6 +806,17 @@ export interface ClusterJob {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly jobState?: JobState;
+}
+
+/** The properties associated with a private endpoint. */
+export interface PrivateEndpointProperties {
+  /**
+   * The date when this private endpoint was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDate?: string;
+  /** A list of connections to the remote resource. Immutable after it is set. */
+  manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
 }
 
 /** A grouping of information about the connection to the remote resource. */
@@ -508,6 +867,60 @@ export interface PrivateEndpointListResult {
   readonly nextLink?: string;
 }
 
+/** The inputs for the Azure Machine Learning Studio endpoint. */
+export interface AzureMachineLearningStudioInputs {
+  /** The name of the input. This is the name provided while authoring the endpoint. */
+  name?: string;
+  /** A list of input columns for the Azure Machine Learning Studio endpoint. */
+  columnNames?: AzureMachineLearningStudioInputColumn[];
+}
+
+/** Describes an input column for the Azure Machine Learning Studio endpoint. */
+export interface AzureMachineLearningStudioInputColumn {
+  /** The name of the input column. */
+  name?: string;
+  /** The (Azure Machine Learning supported) data type of the input column. A list of valid  Azure Machine Learning data types are described at https://msdn.microsoft.com/en-us/library/azure/dn905923.aspx . */
+  dataType?: string;
+  /** The zero based index of the function parameter this input maps to. */
+  mapTo?: number;
+}
+
+/** Describes an output column for the Azure Machine Learning Studio endpoint. */
+export interface AzureMachineLearningStudioOutputColumn {
+  /** The name of the output column. */
+  name?: string;
+  /** The (Azure Machine Learning supported) data type of the output column. A list of valid  Azure Machine Learning data types are described at https://msdn.microsoft.com/en-us/library/azure/dn905923.aspx . */
+  dataType?: string;
+}
+
+/** Describes an input column for the Azure Machine Learning web service endpoint. */
+export interface AzureMachineLearningServiceInputColumn {
+  /** The name of the input column. */
+  name?: string;
+  /** The (Azure Machine Learning supported) data type of the input column. */
+  dataType?: string;
+  /** The zero based index of the function parameter this input maps to. */
+  mapTo?: number;
+}
+
+/** Describes an output column for the Azure Machine Learning web service endpoint. */
+export interface AzureMachineLearningServiceOutputColumn {
+  /** The name of the output column. */
+  name?: string;
+  /** The (Azure Machine Learning supported) data type of the output column. */
+  dataType?: string;
+  /** The zero based index of the function parameter this input maps to. */
+  mapTo?: number;
+}
+
+/** The inputs for the Azure Machine Learning web service endpoint. */
+export interface AzureMachineLearningServiceInputs {
+  /** The name of the input. This is the name provided while authoring the endpoint. */
+  name?: string;
+  /** A list of input columns for the Azure Machine Learning web service endpoint. */
+  columnNames?: AzureMachineLearningServiceInputColumn[];
+}
+
 /** Describes an input data source that contains stream data. */
 export interface StreamInputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -515,13 +928,20 @@ export interface StreamInputDataSource {
     | "Microsoft.Storage/Blob"
     | "Microsoft.ServiceBus/EventHub"
     | "Microsoft.EventHub/EventHub"
-    | "Microsoft.Devices/IotHubs";
+    | "Microsoft.Devices/IotHubs"
+    | "Raw"
+    | "GatewayMessageBus"
+    | "Microsoft.EventGrid/EventSubscriptions";
 }
 
 /** Describes an input data source that contains reference data. */
 export interface ReferenceInputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Microsoft.Storage/Blob" | "Microsoft.Sql/Server/Database";
+  type:
+    | "File"
+    | "Microsoft.Storage/Blob"
+    | "Raw"
+    | "Microsoft.Sql/Server/Database";
 }
 
 /** The properties that are associated with a blob data source. */
@@ -536,6 +956,8 @@ export interface BlobDataSourceProperties {
   dateFormat?: string;
   /** The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead. */
   timeFormat?: string;
+  /** Authentication Mode. */
+  authenticationMode?: AuthenticationMode;
 }
 
 /** The common properties that are associated with Service Bus data sources (Queues, Topics, Event Hubs, etc.). */
@@ -548,6 +970,12 @@ export interface ServiceBusDataSourceProperties {
   sharedAccessPolicyKey?: string;
   /** Authentication Mode. */
   authenticationMode?: AuthenticationMode;
+}
+
+/** The properties that are associated with a gateway message bus datasource. */
+export interface GatewayMessageBusSourceProperties {
+  /** The name of the Service Bus topic. */
+  topic?: string;
 }
 
 /** The properties that are associated with an Azure SQL database data source. */
@@ -582,6 +1010,26 @@ export interface AzureSynapseDataSourceProperties {
   user?: string;
   /** The password that will be used to connect to the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
   password?: string;
+  /** Authentication Mode. */
+  authenticationMode?: AuthenticationMode;
+}
+
+/** The properties that are associated with an Azure SQL database data source. */
+export interface PostgreSQLDataSourceProperties {
+  /** The name of the SQL server containing the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
+  server?: string;
+  /** The name of the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
+  database?: string;
+  /** The name of the table in the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
+  table?: string;
+  /** The user name that will be used to connect to the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
+  user?: string;
+  /** The password that will be used to connect to the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
+  password?: string;
+  /** Max Writer count, currently only 1(single writer) and 0(based on query partition) are available. Optional on PUT requests. */
+  maxWriterCount?: number;
+  /** Authentication Mode. */
+  authenticationMode?: AuthenticationMode;
 }
 
 /** The properties that are associated with data sources that use OAuth as their authentication model. */
@@ -594,52 +1042,239 @@ export interface OAuthBasedDataSourceProperties {
   tokenUserDisplayName?: string;
 }
 
-/** Describes one input parameter of a function. */
-export interface FunctionInput {
-  /** The (Azure Stream Analytics supported) data type of the function input parameter. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx */
-  dataType?: string;
-  /** A flag indicating if the parameter is a configuration parameter. True if this input parameter is expected to be a constant. Default is false. */
-  isConfigurationParameter?: boolean;
-}
-
-/** Describes the output of a function. */
-export interface FunctionOutput {
-  /** The (Azure Stream Analytics supported) data type of the function output. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx */
-  dataType?: string;
-}
-
-/** The physical binding of the function. For example, in the Azure Machine Learning web service’s case, this describes the endpoint. */
-export interface FunctionBinding {
+/** The properties that are associated with a scalar function. */
+export interface ScalarFunctionProperties extends FunctionProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "Microsoft.MachineLearning/WebService"
-    | "Microsoft.StreamAnalytics/JavascriptUdf";
+  type: "Scalar";
 }
 
-/** The inputs for the Azure Machine Learning web service endpoint. */
-export interface AzureMachineLearningWebServiceInputs {
-  /** The name of the input. This is the name provided while authoring the endpoint. */
-  name?: string;
-  /** A list of input columns for the Azure Machine Learning web service endpoint. */
-  columnNames?: AzureMachineLearningWebServiceInputColumn[];
+/** The properties that are associated with an aggregate function. */
+export interface AggregateFunctionProperties extends FunctionProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Aggregate";
 }
 
-/** Describes an input column for the Azure Machine Learning web service endpoint. */
-export interface AzureMachineLearningWebServiceInputColumn {
-  /** The name of the input column. */
-  name?: string;
-  /** The (Azure Machine Learning supported) data type of the input column. A list of valid  Azure Machine Learning data types are described at https://msdn.microsoft.com/en-us/library/azure/dn905923.aspx . */
-  dataType?: string;
-  /** The zero based index of the function parameter this input maps to. */
-  mapTo?: number;
+/** The binding to an Azure Machine Learning Studio. */
+export interface AzureMachineLearningStudioFunctionBinding
+  extends FunctionBinding {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Microsoft.MachineLearning/WebService";
+  /** The Request-Response execute endpoint of the Azure Machine Learning Studio. Find out more here: https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-consume-web-services#request-response-service-rrs */
+  endpoint?: string;
+  /** The API key used to authenticate with Request-Response endpoint. */
+  apiKey?: string;
+  /** The inputs for the Azure Machine Learning Studio endpoint. */
+  inputs?: AzureMachineLearningStudioInputs;
+  /** A list of outputs from the Azure Machine Learning Studio endpoint execution. */
+  outputs?: AzureMachineLearningStudioOutputColumn[];
+  /** Number between 1 and 10000 describing maximum number of rows for every Azure ML RRS execute request. Default is 1000. */
+  batchSize?: number;
 }
 
-/** Describes an output column for the Azure Machine Learning web service endpoint. */
-export interface AzureMachineLearningWebServiceOutputColumn {
-  /** The name of the output column. */
-  name?: string;
-  /** The (Azure Machine Learning supported) data type of the output column. A list of valid  Azure Machine Learning data types are described at https://msdn.microsoft.com/en-us/library/azure/dn905923.aspx . */
-  dataType?: string;
+/** The binding to a JavaScript function. */
+export interface JavaScriptFunctionBinding extends FunctionBinding {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Microsoft.StreamAnalytics/JavascriptUdf";
+  /** The JavaScript code containing a single function definition. For example: 'function (x, y) { return x + y; }' */
+  script?: string;
+}
+
+/** The binding to a CSharp function. */
+export interface CSharpFunctionBinding extends FunctionBinding {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Microsoft.StreamAnalytics/CLRUdf";
+  /** The Csharp code containing a single function definition. */
+  dllPath?: string;
+  /** The Csharp code containing a single function definition. */
+  class?: string;
+  /** The Csharp code containing a single function definition. */
+  method?: string;
+  /** Refresh modes for Stream Analytics functions. */
+  updateMode?: UpdateMode;
+}
+
+/** The binding to an Azure Machine Learning web service. */
+export interface AzureMachineLearningServiceFunctionBinding
+  extends FunctionBinding {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Microsoft.MachineLearningServices";
+  /** The Request-Response execute endpoint of the Azure Machine Learning web service. */
+  endpoint?: string;
+  /** The API key used to authenticate with Request-Response endpoint. */
+  apiKey?: string;
+  /** The inputs for the Azure Machine Learning web service endpoint. */
+  inputs?: AzureMachineLearningServiceInputColumn[];
+  /** A list of outputs from the Azure Machine Learning web service endpoint execution. */
+  outputs?: AzureMachineLearningServiceOutputColumn[];
+  /** Number between 1 and 10000 describing maximum number of rows for every Azure ML RRS execute request. Default is 1000. */
+  batchSize?: number;
+  /** The number of parallel requests that will be sent per partition of your job to the machine learning service. Default is 1. */
+  numberOfParallelRequests?: number;
+  /** Label for the input request object. */
+  inputRequestName?: string;
+  /** Label for the output request object. */
+  outputResponseName?: string;
+}
+
+/** A function object, containing all information associated with the named function. All functions are contained under a streaming job. */
+export interface FunctionModel extends SubResource {
+  /** The properties that are associated with a function. */
+  properties?: FunctionPropertiesUnion;
+}
+
+/** An input object, containing all information associated with the named input. All inputs are contained under a streaming job. */
+export interface Input extends SubResource {
+  /** The properties that are associated with an input. Required on PUT (CreateOrReplace) requests. */
+  properties?: InputPropertiesUnion;
+}
+
+/** An output object, containing all information associated with the named output. All outputs are contained under a streaming job. */
+export interface Output extends SubResource {
+  /** Describes the data source that output will be written to. Required on PUT (CreateOrReplace) requests. */
+  datasource?: OutputDataSourceUnion;
+  /** The time frame for filtering Stream Analytics job outputs. */
+  timeWindow?: string;
+  /** The size window to constrain a Stream Analytics output to. */
+  sizeWindow?: number;
+  /** Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests. */
+  serialization?: SerializationUnion;
+  /**
+   * Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diagnostics?: Diagnostics;
+  /**
+   * The current entity tag for the output. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * A list of the last output event times for each output partition. The index of the array corresponds to the partition number.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOutputEventTimestamps?: LastOutputEventTimestamp[];
+  /** Settings which determine whether to send watermarks to downstream. */
+  watermarkSettings?: OutputWatermarkProperties;
+}
+
+/** A transformation object, containing all information associated with the named transformation. All transformations are contained under a streaming job. */
+export interface Transformation extends SubResource {
+  /** Specifies the number of streaming units that the streaming job uses. */
+  streamingUnits?: number;
+  /** Specifies the valid streaming units a streaming job can scale to. */
+  validStreamingUnits?: number[];
+  /** Specifies the query that will be run in the streaming job. You can learn more about the Stream Analytics Query Language (SAQL) here: https://msdn.microsoft.com/library/azure/dn834998 . Required on PUT (CreateOrReplace) requests. */
+  query?: string;
+  /**
+   * The current entity tag for the transformation. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+}
+
+/** Describes the current quota for the subscription. */
+export interface SubscriptionQuota extends SubResource {
+  /**
+   * The max permitted usage of this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxCount?: number;
+  /**
+   * The current usage of this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentCount?: number;
+}
+
+/** The result of the query testing request. */
+export interface QueryTestingResult extends ErrorModel {
+  /**
+   * The status of the query testing request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: QueryTestingResultStatus;
+  /**
+   * The SAS URL to the outputs payload.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputUri?: string;
+}
+
+/** The result of the sample input request. */
+export interface SampleInputResult extends ErrorModel {
+  /**
+   * The status of the sample input request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: SampleInputResultStatus;
+  /**
+   * Diagnostics messages. E.g. message indicating some partitions from the input have no data.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diagnostics?: string[];
+  /**
+   * A SAS URL to download the sampled input data.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eventsDownloadUrl?: string;
+  /**
+   * The timestamp for the last event in the data. It is in DateTime format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastArrivalTime?: string;
+}
+
+/** The result of the test input or output request. */
+export interface TestDatasourceResult extends ErrorModel {
+  /**
+   * The status of the sample output request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: TestDatasourceResultStatus;
+}
+
+/** The parameters needed to retrieve the default function definition for an Azure Machine Learning Studio function. */
+export interface AzureMachineLearningStudioFunctionRetrieveDefaultDefinitionParameters
+  extends FunctionRetrieveDefaultDefinitionParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  bindingType: "Microsoft.MachineLearning/WebService";
+  /** The Request-Response execute endpoint of the Azure Machine Learning Studio. Find out more here: https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-consume-web-services#request-response-service-rrs */
+  executeEndpoint?: string;
+  /** The function type. */
+  udfType?: "Scalar";
+}
+
+/** The parameters needed to retrieve the default function definition for an Azure Machine Learning web service function. */
+export interface AzureMachineLearningServiceFunctionRetrieveDefaultDefinitionParameters
+  extends FunctionRetrieveDefaultDefinitionParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  bindingType: "Microsoft.MachineLearningServices";
+  /** The Request-Response execute endpoint of the Azure Machine Learning web service. */
+  executeEndpoint?: string;
+  /** The function type. */
+  udfType?: "Scalar";
+}
+
+/** The parameters needed to retrieve the default function definition for a JavaScript function. */
+export interface JavaScriptFunctionRetrieveDefaultDefinitionParameters
+  extends FunctionRetrieveDefaultDefinitionParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  bindingType: "Microsoft.StreamAnalytics/JavascriptUdf";
+  /** The JavaScript code containing a single function definition. For example: 'function (x, y) { return x + y; }'. */
+  script?: string;
+  /** The function type. */
+  udfType?: "Scalar";
+}
+
+/** The parameters needed to retrieve the default function definition for a CSharp function. */
+export interface CSharpFunctionRetrieveDefaultDefinitionParameters
+  extends FunctionRetrieveDefaultDefinitionParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  bindingType: "Microsoft.StreamAnalytics/CLRUdf";
+  /** The CSharp code containing a single function definition. */
+  script?: string;
+  /** The function type. */
+  udfType?: "Scalar";
 }
 
 /** The properties that are associated with an input containing stream data. */
@@ -658,12 +1293,32 @@ export interface ReferenceInputProperties extends InputProperties {
   datasource?: ReferenceInputDataSourceUnion;
 }
 
+/** Describes how data from an input is serialized or how data is serialized when written to an output in Delta Lake format. */
+export interface DeltaSerialization extends Serialization {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Delta";
+  /** Specifies the path of the Delta Lake table that the output will be written to. */
+  deltaTablePath?: string;
+  /** Specifies the names of the columns for which the Delta Lake table will be partitioned. We are only supporting 1 partition column, but keeping it as an array for extensibility. */
+  partitionColumns?: string[];
+}
+
 /** Describes how data from an input is serialized or how data is serialized when written to an output in Parquet format. */
 export interface ParquetSerialization extends Serialization {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Parquet";
   /** The properties that are associated with the Parquet serialization type. Required on PUT (CreateOrReplace) requests. */
   properties?: Record<string, unknown>;
+}
+
+/** Describes how data from an input is serialized or how data is serialized when written to an output in custom format. */
+export interface CustomClrSerialization extends Serialization {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "CustomClr";
+  /** The serialization library path. */
+  serializationDllPath?: string;
+  /** The serialization class name. */
+  serializationClassName?: string;
 }
 
 /** Describes how data from an input is serialized or how data is serialized when written to an output in CSV format. */
@@ -694,67 +1349,12 @@ export interface AvroSerialization extends Serialization {
   properties?: Record<string, unknown>;
 }
 
-/** An input object, containing all information associated with the named input. All inputs are contained under a streaming job. */
-export interface Input extends SubResource {
-  /** The properties that are associated with an input. Required on PUT (CreateOrReplace) requests. */
-  properties?: InputPropertiesUnion;
-}
-
-/** A transformation object, containing all information associated with the named transformation. All transformations are contained under a streaming job. */
-export interface Transformation extends SubResource {
-  /** Specifies the number of streaming units that the streaming job uses. */
-  streamingUnits?: number;
-  /** Specifies the valid streaming units a streaming job can scale to. */
-  validStreamingUnits?: number[];
-  /** Specifies the query that will be run in the streaming job. You can learn more about the Stream Analytics Query Language (SAQL) here: https://msdn.microsoft.com/library/azure/dn834998 . Required on PUT (CreateOrReplace) requests. */
-  query?: string;
-  /**
-   * The current entity tag for the transformation. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-}
-
-/** An output object, containing all information associated with the named output. All outputs are contained under a streaming job. */
-export interface Output extends SubResource {
-  /** Describes the data source that output will be written to. Required on PUT (CreateOrReplace) requests. */
-  datasource?: OutputDataSourceUnion;
-  /** The time frame for filtering Stream Analytics job outputs. */
-  timeWindow?: string;
-  /** The size window to constrain a Stream Analytics output to. */
-  sizeWindow?: number;
-  /** Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests. */
-  serialization?: SerializationUnion;
-  /**
-   * Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly diagnostics?: Diagnostics;
-  /**
-   * The current entity tag for the output. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-}
-
-/** A function object, containing all information associated with the named function. All functions are contained under a streaming job. */
-export interface FunctionModel extends SubResource {
-  /** The properties that are associated with a function. */
-  properties?: FunctionPropertiesUnion;
-}
-
-/** Describes the current quota for the subscription. */
-export interface SubscriptionQuota extends SubResource {
-  /**
-   * The max permitted usage of this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maxCount?: number;
-  /**
-   * The current usage of this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly currentCount?: number;
+/** Describes a raw output data source. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an output of this data source type to an existing job. */
+export interface RawOutputDatasource extends OutputDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Raw";
+  /** The SAS URL to a blob where the output should be written. If this property is not set, output data will be written into a temporary storage, and a SAS URL to that temporary storage will be included in the result. */
+  payloadUri?: string;
 }
 
 /** Describes a blob output data source. */
@@ -773,6 +1373,10 @@ export interface BlobOutputDataSource extends OutputDataSource {
   timeFormat?: string;
   /** Authentication Mode. */
   authenticationMode?: AuthenticationMode;
+  /** Blob path prefix. */
+  blobPathPrefix?: string;
+  /** Blob write mode. */
+  blobWriteMode?: BlobWriteMode;
 }
 
 /** Describes an Azure Table output data source. */
@@ -809,6 +1413,8 @@ export interface EventHubOutputDataSource extends OutputDataSource {
   authenticationMode?: AuthenticationMode;
   /** The name of the Event Hub. Required on PUT (CreateOrReplace) requests. */
   eventHubName?: string;
+  /** The partition count of the event hub data source. Range 1 - 256. */
+  partitionCount?: number;
   /** The key/column that is used to determine to which partition to send event data. */
   partitionKey?: string;
   /** The properties associated with this Event Hub output. */
@@ -829,6 +1435,8 @@ export interface EventHubV2OutputDataSource extends OutputDataSource {
   authenticationMode?: AuthenticationMode;
   /** The name of the Event Hub. Required on PUT (CreateOrReplace) requests. */
   eventHubName?: string;
+  /** The partition count of the event hub data source. Range 1 - 256. */
+  partitionCount?: number;
   /** The key/column that is used to determine to which partition to send event data. */
   partitionKey?: string;
   /** The properties associated with this Event Hub output. */
@@ -871,6 +1479,28 @@ export interface AzureSynapseOutputDataSource extends OutputDataSource {
   user?: string;
   /** The password that will be used to connect to the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
   password?: string;
+  /** Authentication Mode. */
+  authenticationMode?: AuthenticationMode;
+}
+
+/** Describes a PostgreSQL output data source. */
+export interface PostgreSQLOutputDataSource extends OutputDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Microsoft.DBForPostgreSQL/servers/databases";
+  /** The name of the SQL server containing the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
+  server?: string;
+  /** The name of the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
+  database?: string;
+  /** The name of the table in the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
+  table?: string;
+  /** The user name that will be used to connect to the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
+  user?: string;
+  /** The password that will be used to connect to the Azure SQL database. Required on PUT (CreateOrReplace) requests. */
+  password?: string;
+  /** Max Writer count, currently only 1(single writer) and 0(based on query partition) are available. Optional on PUT requests. */
+  maxWriterCount?: number;
+  /** Authentication Mode. */
+  authenticationMode?: AuthenticationMode;
 }
 
 /** Describes a DocumentDB output data source. */
@@ -889,6 +1519,24 @@ export interface DocumentDbOutputDataSource extends OutputDataSource {
   partitionKey?: string;
   /** The name of the field in output events used to specify the primary key which insert or update operations are based on. */
   documentId?: string;
+  /** Authentication Mode. */
+  authenticationMode?: AuthenticationMode;
+}
+
+/** Defines the metadata of AzureFunctionOutputDataSource */
+export interface AzureFunctionOutputDataSource extends OutputDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Microsoft.AzureFunction";
+  /** The name of your Azure Functions app. */
+  functionAppName?: string;
+  /** The name of the function in your Azure Functions app. */
+  functionName?: string;
+  /** If you want to use an Azure Function from another subscription, you can do so by providing the key to access your function. */
+  apiKey?: string;
+  /** A property that lets you set the maximum size for each output batch that's sent to your Azure function. The input unit is in bytes. By default, this value is 262,144 bytes (256 KB). */
+  maxBatchSize?: number;
+  /** A property that lets you specify the maximum number of events in each batch that's sent to Azure Functions. The default value is 100. */
+  maxBatchCount?: number;
 }
 
 /** Describes a Service Bus Queue output data source. */
@@ -977,23 +1625,30 @@ export interface AzureDataLakeStoreOutputDataSource extends OutputDataSource {
   authenticationMode?: AuthenticationMode;
 }
 
-/** The properties that are associated with a scalar function. */
-export interface ScalarFunctionProperties extends FunctionProperties {
+/** Describes a Gateway Message Bus output data source. */
+export interface GatewayMessageBusOutputDataSource extends OutputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Scalar";
-  /** A list of inputs describing the parameters of the function. */
-  inputs?: FunctionInput[];
-  /** The output of the function. */
-  output?: FunctionOutput;
-  /** The physical binding of the function. For example, in the Azure Machine Learning web service’s case, this describes the endpoint. */
-  binding?: FunctionBindingUnion;
+  type: "GatewayMessageBus";
+  /** The name of the Service Bus topic. */
+  topic?: string;
 }
 
-/** The properties that are associated with an Azure Storage account with MSI */
-export interface JobStorageAccount extends StorageAccount {
+/** Describes an Azure Data Explorer output data source. */
+export interface AzureDataExplorerOutputDataSource extends OutputDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Microsoft.Kusto/clusters/databases";
+  /** The name of the Azure Data Explorer cluster. Required on PUT (CreateOrReplace) requests. */
+  cluster?: string;
+  /** The name of the Azure Data Explorer database. Required on PUT (CreateOrReplace) requests. */
+  database?: string;
+  /** The name of the Azure Table. Required on PUT (CreateOrReplace) requests. */
+  table?: string;
   /** Authentication Mode. */
   authenticationMode?: AuthenticationMode;
 }
+
+/** The properties that are associated with an Azure Storage account with MSI */
+export interface JobStorageAccount extends StorageAccount {}
 
 /** The resource model definition for a ARM tracked top level resource */
 export interface TrackedResource extends Resource {
@@ -1005,28 +1660,6 @@ export interface TrackedResource extends Resource {
 
 /** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
 export interface ProxyResource extends Resource {}
-
-/** The parameters needed to retrieve the default function definition for an Azure Machine Learning web service function. */
-export interface AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters
-  extends FunctionRetrieveDefaultDefinitionParameters {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  bindingType: "Microsoft.MachineLearning/WebService";
-  /** The Request-Response execute endpoint of the Azure Machine Learning web service. Find out more here: https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-consume-web-services#request-response-service-rrs */
-  executeEndpoint?: string;
-  /** The function type. */
-  udfType?: "Scalar";
-}
-
-/** The parameters needed to retrieve the default function definition for a JavaScript function. */
-export interface JavaScriptFunctionRetrieveDefaultDefinitionParameters
-  extends FunctionRetrieveDefaultDefinitionParameters {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  bindingType: "Microsoft.StreamAnalytics/JavascriptUdf";
-  /** The JavaScript code containing a single function definition. For example: 'function (x, y) { return x + y; }'. */
-  script?: string;
-  /** The function type. */
-  udfType?: "Scalar";
-}
 
 /** Describes a blob input data source that contains stream data. */
 export interface BlobStreamInputDataSource extends StreamInputDataSource {
@@ -1042,7 +1675,9 @@ export interface BlobStreamInputDataSource extends StreamInputDataSource {
   dateFormat?: string;
   /** The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead. */
   timeFormat?: string;
-  /** The partition count of the blob input data source. Range 1 - 256. */
+  /** Authentication Mode. */
+  authenticationMode?: AuthenticationMode;
+  /** The partition count of the blob input data source. Range 1 - 1024. */
   sourcePartitionCount?: number;
 }
 
@@ -1060,8 +1695,12 @@ export interface EventHubStreamInputDataSource extends StreamInputDataSource {
   authenticationMode?: AuthenticationMode;
   /** The name of the Event Hub. Required on PUT (CreateOrReplace) requests. */
   eventHubName?: string;
+  /** The partition count of the event hub data source. Range 1 - 256. */
+  partitionCount?: number;
   /** The name of an Event Hub Consumer Group that should be used to read events from the Event Hub. Specifying distinct consumer group names for multiple inputs allows each of those inputs to receive the same events from the Event Hub. If not specified, the input uses the Event Hub’s default consumer group. */
   consumerGroupName?: string;
+  /** The number of messages that the message receiver can simultaneously request. */
+  prefetchCount?: number;
 }
 
 /** Describes an Event Hub input data source that contains stream data. */
@@ -1078,8 +1717,12 @@ export interface EventHubV2StreamInputDataSource extends StreamInputDataSource {
   authenticationMode?: AuthenticationMode;
   /** The name of the Event Hub. Required on PUT (CreateOrReplace) requests. */
   eventHubName?: string;
+  /** The partition count of the event hub data source. Range 1 - 256. */
+  partitionCount?: number;
   /** The name of an Event Hub Consumer Group that should be used to read events from the Event Hub. Specifying distinct consumer group names for multiple inputs allows each of those inputs to receive the same events from the Event Hub. If not specified, the input uses the Event Hub’s default consumer group. */
   consumerGroupName?: string;
+  /** The number of messages that the message receiver can simultaneously request. */
+  prefetchCount?: number;
 }
 
 /** Describes an IoT Hub input data source that contains stream data. */
@@ -1098,6 +1741,47 @@ export interface IoTHubStreamInputDataSource extends StreamInputDataSource {
   endpoint?: string;
 }
 
+/** Describes a raw input data source that contains stream data. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an input of this data source type to an existing job. */
+export interface RawStreamInputDataSource extends StreamInputDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Raw";
+  /** The JSON serialized content of the input data. Either payload or payloadUri must be set, but not both. */
+  payload?: string;
+  /** The SAS URL to a blob containing the JSON serialized content of the input data. Either payload or payloadUri must be set, but not both. */
+  payloadUri?: string;
+}
+
+/** Describes a blob input data source that contains stream data. */
+export interface GatewayMessageBusStreamInputDataSource
+  extends StreamInputDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GatewayMessageBus";
+  /** The name of the Service Bus topic. */
+  topic?: string;
+}
+
+/** Describes an event grid input data source that contains stream data. */
+export interface EventGridStreamInputDataSource extends StreamInputDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Microsoft.EventGrid/EventSubscriptions";
+  /** Subscribers for the Event Grid. Currently only EventHub Subscriber is supported. */
+  subscriber?: EventHubV2StreamInputDataSource;
+  /** Indicates the Event Grid schema type. */
+  schema?: EventGridEventSchemaType;
+  /** A list of one or more Azure Storage accounts. Required on PUT (CreateOrReplace) requests. */
+  storageAccounts?: StorageAccount[];
+  /** List of Event Types that are supported by the Event Grid adapter. */
+  eventTypes?: string[];
+}
+
+/** Describes a file input data source that contains reference data. */
+export interface FileReferenceInputDataSource extends ReferenceInputDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "File";
+  /** The path of the file. */
+  path?: string;
+}
+
 /** Describes a blob input data source that contains reference data. */
 export interface BlobReferenceInputDataSource extends ReferenceInputDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1112,6 +1796,28 @@ export interface BlobReferenceInputDataSource extends ReferenceInputDataSource {
   dateFormat?: string;
   /** The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead. */
   timeFormat?: string;
+  /** Authentication Mode. */
+  authenticationMode?: AuthenticationMode;
+  /** The name of the blob input. */
+  blobName?: string;
+  /** The path pattern of the delta snapshot. */
+  deltaPathPattern?: string;
+  /** The partition count of the blob input data source. Range 1 - 256. */
+  sourcePartitionCount?: number;
+  /** The refresh interval of the blob input data source. */
+  fullSnapshotRefreshRate?: string;
+  /** The interval that the user generates a delta snapshot of this reference blob input data source. */
+  deltaSnapshotRefreshRate?: string;
+}
+
+/** Describes a raw input data source that contains reference data. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an input of this data source type to an existing job. */
+export interface RawReferenceInputDataSource extends ReferenceInputDataSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Raw";
+  /** The JSON serialized content of the input data. Either payload or payloadUri must be set, but not both. */
+  payload?: string;
+  /** The SAS URL to a blob containing the JSON serialized content of the input data. Either payload or payloadUri must be set, but not both. */
+  payloadUri?: string;
 }
 
 /** Describes an Azure SQL database reference input data source. */
@@ -1127,8 +1833,6 @@ export interface AzureSqlReferenceInputDataSource
   user?: string;
   /** This element is associated with the datasource element. This is the password that will be used to connect to the SQL Database instance. */
   password?: string;
-  /** This element is associated with the datasource element. The name of the table in the Azure SQL database.. */
-  table?: string;
   /** Indicates the type of data refresh option. */
   refreshType?: RefreshType;
   /** This element is associated with the datasource element. This indicates how frequently the data will be fetched from the database. It is of DateTime format. */
@@ -1137,24 +1841,39 @@ export interface AzureSqlReferenceInputDataSource
   fullSnapshotQuery?: string;
   /** This element is associated with the datasource element. This query is used to fetch incremental changes from the SQL database. To use this option, we recommend using temporal tables in Azure SQL Database. */
   deltaSnapshotQuery?: string;
+  /** Authentication Mode. */
+  authenticationMode?: AuthenticationMode;
 }
 
 /** The properties that are associated with a blob input containing stream data. */
 export interface BlobStreamInputDataSourceProperties
   extends BlobDataSourceProperties {
-  /** The partition count of the blob input data source. Range 1 - 256. */
+  /** The partition count of the blob input data source. Range 1 - 1024. */
   sourcePartitionCount?: number;
 }
 
 /** The properties that are associated with a blob input containing reference data. */
 export interface BlobReferenceInputDataSourceProperties
-  extends BlobDataSourceProperties {}
+  extends BlobDataSourceProperties {
+  /** The name of the blob input. */
+  blobName?: string;
+  /** The path pattern of the delta snapshot. */
+  deltaPathPattern?: string;
+  /** The partition count of the blob input data source. Range 1 - 256. */
+  sourcePartitionCount?: number;
+  /** The refresh interval of the blob input data source. */
+  fullSnapshotRefreshRate?: string;
+  /** The interval that the user generates a delta snapshot of this reference blob input data source. */
+  deltaSnapshotRefreshRate?: string;
+}
 
 /** The properties that are associated with a blob output. */
 export interface BlobOutputDataSourceProperties
   extends BlobDataSourceProperties {
-  /** Authentication Mode. */
-  authenticationMode?: AuthenticationMode;
+  /** Blob path prefix. */
+  blobPathPrefix?: string;
+  /** Blob write mode. */
+  blobWriteMode?: BlobWriteMode;
 }
 
 /** The common properties that are associated with Event Hub data sources. */
@@ -1162,6 +1881,8 @@ export interface EventHubDataSourceProperties
   extends ServiceBusDataSourceProperties {
   /** The name of the Event Hub. Required on PUT (CreateOrReplace) requests. */
   eventHubName?: string;
+  /** The partition count of the event hub data source. Range 1 - 256. */
+  partitionCount?: number;
 }
 
 /** The properties that are associated with a Service Bus Queue output. */
@@ -1186,6 +1907,14 @@ export interface ServiceBusTopicOutputDataSourceProperties
   systemPropertyColumns?: { [propertyName: string]: string };
 }
 
+/** The properties that are associated with a gateway message bus input containing stream data. */
+export interface GatewayMessageBusStreamInputDataSourceProperties
+  extends GatewayMessageBusSourceProperties {}
+
+/** The properties that are associated with a Gateway Message Bus. */
+export interface GatewayMessageBusOutputDataSourceProperties
+  extends GatewayMessageBusSourceProperties {}
+
 /** The properties that are associated with an Azure SQL database output. */
 export interface AzureSqlDatabaseOutputDataSourceProperties
   extends AzureSqlDatabaseDataSourceProperties {}
@@ -1193,6 +1922,10 @@ export interface AzureSqlDatabaseOutputDataSourceProperties
 /** The properties that are associated with an Azure Synapse output. */
 export interface AzureSynapseOutputDataSourceProperties
   extends AzureSynapseDataSourceProperties {}
+
+/** The properties that are associated with a PostgreSQL output. */
+export interface PostgreSQLOutputDataSourceProperties
+  extends PostgreSQLDataSourceProperties {}
 
 /** The properties that are associated with a Power BI output. */
 export interface PowerBIOutputDataSourceProperties
@@ -1226,37 +1959,14 @@ export interface AzureDataLakeStoreOutputDataSourceProperties
   authenticationMode?: AuthenticationMode;
 }
 
-/** The binding to an Azure Machine Learning web service. */
-export interface AzureMachineLearningWebServiceFunctionBinding
-  extends FunctionBinding {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Microsoft.MachineLearning/WebService";
-  /** The Request-Response execute endpoint of the Azure Machine Learning web service. Find out more here: https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-consume-web-services#request-response-service-rrs */
-  endpoint?: string;
-  /** The API key used to authenticate with Request-Response endpoint. */
-  apiKey?: string;
-  /** The inputs for the Azure Machine Learning web service endpoint. */
-  inputs?: AzureMachineLearningWebServiceInputs;
-  /** A list of outputs from the Azure Machine Learning web service endpoint execution. */
-  outputs?: AzureMachineLearningWebServiceOutputColumn[];
-  /** Number between 1 and 10000 describing maximum number of rows for every Azure ML RRS execute request. Default is 1000. */
-  batchSize?: number;
-}
-
-/** The binding to a JavaScript function. */
-export interface JavaScriptFunctionBinding extends FunctionBinding {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Microsoft.StreamAnalytics/JavascriptUdf";
-  /** The JavaScript code containing a single function definition. For example: 'function (x, y) { return x + y; }' */
-  script?: string;
-}
-
 /** A streaming job object, containing all information associated with the named streaming job. */
 export interface StreamingJob extends TrackedResource {
-  /** Describes the system-assigned managed identity assigned to this job that can be used to authenticate with inputs and outputs. */
-  identity?: Identity;
   /** Describes the SKU of the streaming job. Required on PUT (CreateOrReplace) requests. */
   sku?: Sku;
+  /** Describes the managed identity assigned to this job that can be used to authenticate with inputs and outputs. */
+  identity?: Identity;
+  /** Describes the SKU of the streaming job. Required on PUT (CreateOrReplace) requests. */
+  skuPropertiesSku?: Sku;
   /**
    * A GUID uniquely identifying the streaming job. This GUID is generated upon creation of the streaming job.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1317,6 +2027,8 @@ export interface StreamingJob extends TrackedResource {
   jobStorageAccount?: JobStorageAccount;
   /** Valid values are JobStorageAccount and SystemAccount. If set to JobStorageAccount, this requires the user to also specify jobStorageAccount property. . */
   contentStoragePolicy?: ContentStoragePolicy;
+  /** The storage account where the custom code artifacts are located. */
+  externals?: External;
   /** The cluster which streaming jobs will run on. */
   cluster?: ClusterInfo;
 }
@@ -1330,47 +2042,19 @@ export interface Cluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
-  /**
-   * The date this cluster was created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdDate?: Date;
-  /**
-   * Unique identifier for the cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clusterId?: string;
-  /**
-   * The status of the cluster provisioning. The three terminal states are: Succeeded, Failed and Canceled
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ClusterProvisioningState;
-  /**
-   * Represents the number of streaming units currently being used on the cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly capacityAllocated?: number;
-  /**
-   * Represents the sum of the SUs of all streaming jobs associated with the cluster. If all of the jobs were running, this would be the capacity allocated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly capacityAssigned?: number;
+  /** The properties associated with a Stream Analytics cluster. */
+  properties?: ClusterProperties;
 }
 
 /** Complete information about the private endpoint. */
 export interface PrivateEndpoint extends ProxyResource {
+  /** The properties associated with a private endpoint. */
+  properties?: PrivateEndpointProperties;
   /**
    * Unique opaque string (generally a GUID) that represents the metadata state of the resource (private endpoint) and changes whenever the resource is updated. Required on PUT (CreateOrUpdate) requests.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
-  /**
-   * The date when this private endpoint was created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdDate?: string;
-  /** A list of connections to the remote resource. Immutable after it is set. */
-  manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
 }
 
 /** The properties that are associated with a Event Hub input containing stream data. */
@@ -1378,6 +2062,8 @@ export interface EventHubStreamInputDataSourceProperties
   extends EventHubDataSourceProperties {
   /** The name of an Event Hub Consumer Group that should be used to read events from the Event Hub. Specifying distinct consumer group names for multiple inputs allows each of those inputs to receive the same events from the Event Hub. If not specified, the input uses the Event Hub’s default consumer group. */
   consumerGroupName?: string;
+  /** The number of messages that the message receiver can simultaneously request. */
+  prefetchCount?: number;
 }
 
 /** The properties that are associated with an Event Hub output. */
@@ -1389,21 +2075,21 @@ export interface EventHubOutputDataSourceProperties
   propertyColumns?: string[];
 }
 
-/** Defines headers for StreamingJobs_createOrReplace operation. */
-export interface StreamingJobsCreateOrReplaceHeaders {
-  /** The current entity tag for the streaming job. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+/** Defines headers for Functions_createOrReplace operation. */
+export interface FunctionsCreateOrReplaceHeaders {
+  /** The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
   eTag?: string;
 }
 
-/** Defines headers for StreamingJobs_update operation. */
-export interface StreamingJobsUpdateHeaders {
-  /** The current entity tag for the streaming job. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+/** Defines headers for Functions_update operation. */
+export interface FunctionsUpdateHeaders {
+  /** The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
   eTag?: string;
 }
 
-/** Defines headers for StreamingJobs_get operation. */
-export interface StreamingJobsGetHeaders {
-  /** The current entity tag for the streaming job. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+/** Defines headers for Functions_get operation. */
+export interface FunctionsGetHeaders {
+  /** The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
   eTag?: string;
 }
 
@@ -1443,6 +2129,24 @@ export interface OutputsGetHeaders {
   eTag?: string;
 }
 
+/** Defines headers for StreamingJobs_createOrReplace operation. */
+export interface StreamingJobsCreateOrReplaceHeaders {
+  /** The current entity tag for the streaming job. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
+}
+
+/** Defines headers for StreamingJobs_update operation. */
+export interface StreamingJobsUpdateHeaders {
+  /** The current entity tag for the streaming job. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
+}
+
+/** Defines headers for StreamingJobs_get operation. */
+export interface StreamingJobsGetHeaders {
+  /** The current entity tag for the streaming job. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
+}
+
 /** Defines headers for Transformations_createOrReplace operation. */
 export interface TransformationsCreateOrReplaceHeaders {
   /** The current entity tag for the transformation. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
@@ -1461,28 +2165,100 @@ export interface TransformationsGetHeaders {
   eTag?: string;
 }
 
-/** Defines headers for Functions_createOrReplace operation. */
-export interface FunctionsCreateOrReplaceHeaders {
-  /** The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
-  eTag?: string;
+/** Known values of {@link EventSerializationType} that the service accepts. */
+export enum KnownEventSerializationType {
+  /** Csv */
+  Csv = "Csv",
+  /** Avro */
+  Avro = "Avro",
+  /** Json */
+  Json = "Json",
+  /** CustomClr */
+  CustomClr = "CustomClr",
+  /** Parquet */
+  Parquet = "Parquet",
+  /** Delta */
+  Delta = "Delta",
 }
 
-/** Defines headers for Functions_update operation. */
-export interface FunctionsUpdateHeaders {
-  /** The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
-  eTag?: string;
+/**
+ * Defines values for EventSerializationType. \
+ * {@link KnownEventSerializationType} can be used interchangeably with EventSerializationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Csv** \
+ * **Avro** \
+ * **Json** \
+ * **CustomClr** \
+ * **Parquet** \
+ * **Delta**
+ */
+export type EventSerializationType = string;
+
+/** Known values of {@link CompressionType} that the service accepts. */
+export enum KnownCompressionType {
+  /** None */
+  None = "None",
+  /** GZip */
+  GZip = "GZip",
+  /** Deflate */
+  Deflate = "Deflate",
 }
 
-/** Defines headers for Functions_get operation. */
-export interface FunctionsGetHeaders {
-  /** The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
-  eTag?: string;
+/**
+ * Defines values for CompressionType. \
+ * {@link KnownCompressionType} can be used interchangeably with CompressionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **GZip** \
+ * **Deflate**
+ */
+export type CompressionType = string;
+
+/** Known values of {@link InputWatermarkMode} that the service accepts. */
+export enum KnownInputWatermarkMode {
+  /** None */
+  None = "None",
+  /** ReadWatermark */
+  ReadWatermark = "ReadWatermark",
 }
+
+/**
+ * Defines values for InputWatermarkMode. \
+ * {@link KnownInputWatermarkMode} can be used interchangeably with InputWatermarkMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **ReadWatermark**
+ */
+export type InputWatermarkMode = string;
+
+/** Known values of {@link OutputWatermarkMode} that the service accepts. */
+export enum KnownOutputWatermarkMode {
+  /** None */
+  None = "None",
+  /** SendCurrentPartitionWatermark */
+  SendCurrentPartitionWatermark = "SendCurrentPartitionWatermark",
+  /** SendLowestWatermarkAcrossPartitions */
+  SendLowestWatermarkAcrossPartitions = "SendLowestWatermarkAcrossPartitions",
+}
+
+/**
+ * Defines values for OutputWatermarkMode. \
+ * {@link KnownOutputWatermarkMode} can be used interchangeably with OutputWatermarkMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SendCurrentPartitionWatermark** \
+ * **SendLowestWatermarkAcrossPartitions**
+ */
+export type OutputWatermarkMode = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -1499,7 +2275,7 @@ export enum KnownJobType {
   /** Cloud */
   Cloud = "Cloud",
   /** Edge */
-  Edge = "Edge"
+  Edge = "Edge",
 }
 
 /**
@@ -1519,7 +2295,7 @@ export enum KnownOutputStartMode {
   /** CustomTime */
   CustomTime = "CustomTime",
   /** LastOutputEventTime */
-  LastOutputEventTime = "LastOutputEventTime"
+  LastOutputEventTime = "LastOutputEventTime",
 }
 
 /**
@@ -1538,7 +2314,7 @@ export enum KnownEventsOutOfOrderPolicy {
   /** Adjust */
   Adjust = "Adjust",
   /** Drop */
-  Drop = "Drop"
+  Drop = "Drop",
 }
 
 /**
@@ -1556,7 +2332,7 @@ export enum KnownOutputErrorPolicy {
   /** Stop */
   Stop = "Stop",
   /** Drop */
-  Drop = "Drop"
+  Drop = "Drop",
 }
 
 /**
@@ -1574,7 +2350,7 @@ export enum KnownCompatibilityLevel {
   /** One0 */
   One0 = "1.0",
   /** One2 */
-  One2 = "1.2"
+  One2 = "1.2",
 }
 
 /**
@@ -1587,51 +2363,6 @@ export enum KnownCompatibilityLevel {
  */
 export type CompatibilityLevel = string;
 
-/** Known values of {@link EventSerializationType} that the service accepts. */
-export enum KnownEventSerializationType {
-  /** Csv */
-  Csv = "Csv",
-  /** Avro */
-  Avro = "Avro",
-  /** Json */
-  Json = "Json",
-  /** Parquet */
-  Parquet = "Parquet"
-}
-
-/**
- * Defines values for EventSerializationType. \
- * {@link KnownEventSerializationType} can be used interchangeably with EventSerializationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Csv** \
- * **Avro** \
- * **Json** \
- * **Parquet**
- */
-export type EventSerializationType = string;
-
-/** Known values of {@link CompressionType} that the service accepts. */
-export enum KnownCompressionType {
-  /** None */
-  None = "None",
-  /** GZip */
-  GZip = "GZip",
-  /** Deflate */
-  Deflate = "Deflate"
-}
-
-/**
- * Defines values for CompressionType. \
- * {@link KnownCompressionType} can be used interchangeably with CompressionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **GZip** \
- * **Deflate**
- */
-export type CompressionType = string;
-
 /** Known values of {@link AuthenticationMode} that the service accepts. */
 export enum KnownAuthenticationMode {
   /** Msi */
@@ -1639,7 +2370,7 @@ export enum KnownAuthenticationMode {
   /** UserToken */
   UserToken = "UserToken",
   /** ConnectionString */
-  ConnectionString = "ConnectionString"
+  ConnectionString = "ConnectionString",
 }
 
 /**
@@ -1658,7 +2389,7 @@ export enum KnownContentStoragePolicy {
   /** SystemAccount */
   SystemAccount = "SystemAccount",
   /** JobStorageAccount */
-  JobStorageAccount = "JobStorageAccount"
+  JobStorageAccount = "JobStorageAccount",
 }
 
 /**
@@ -1671,10 +2402,133 @@ export enum KnownContentStoragePolicy {
  */
 export type ContentStoragePolicy = string;
 
+/** Known values of {@link UpdatableUdfRefreshType} that the service accepts. */
+export enum KnownUpdatableUdfRefreshType {
+  /** Blocking */
+  Blocking = "Blocking",
+  /** Nonblocking */
+  Nonblocking = "Nonblocking",
+}
+
+/**
+ * Defines values for UpdatableUdfRefreshType. \
+ * {@link KnownUpdatableUdfRefreshType} can be used interchangeably with UpdatableUdfRefreshType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Blocking** \
+ * **Nonblocking**
+ */
+export type UpdatableUdfRefreshType = string;
+
+/** Known values of {@link ResourceType} that the service accepts. */
+export enum KnownResourceType {
+  /** MicrosoftStreamAnalyticsStreamingjobs */
+  MicrosoftStreamAnalyticsStreamingjobs = "Microsoft.StreamAnalytics/streamingjobs",
+}
+
+/**
+ * Defines values for ResourceType. \
+ * {@link KnownResourceType} can be used interchangeably with ResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.StreamAnalytics\/streamingjobs**
+ */
+export type ResourceType = string;
+
+/** Known values of {@link SkuCapacityScaleType} that the service accepts. */
+export enum KnownSkuCapacityScaleType {
+  /** Supported scale type automatic. */
+  Automatic = "automatic",
+  /** Supported scale type manual. */
+  Manual = "manual",
+  /** Scaling not supported. */
+  None = "none",
+}
+
+/**
+ * Defines values for SkuCapacityScaleType. \
+ * {@link KnownSkuCapacityScaleType} can be used interchangeably with SkuCapacityScaleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **automatic**: Supported scale type automatic. \
+ * **manual**: Supported scale type manual. \
+ * **none**: Scaling not supported.
+ */
+export type SkuCapacityScaleType = string;
+
+/** Known values of {@link QueryTestingResultStatus} that the service accepts. */
+export enum KnownQueryTestingResultStatus {
+  /** The query testing operation was initiated. */
+  Started = "Started",
+  /** The query testing operation succeeded. */
+  Success = "Success",
+  /** The query testing operation failed due to a compiler error. */
+  CompilerError = "CompilerError",
+  /** The query testing operation failed due to a runtime error. */
+  RuntimeError = "RuntimeError",
+  /** The query testing operation failed due to a timeout. */
+  Timeout = "Timeout",
+  /** The query testing operation failed due to an unknown error . */
+  UnknownError = "UnknownError",
+}
+
+/**
+ * Defines values for QueryTestingResultStatus. \
+ * {@link KnownQueryTestingResultStatus} can be used interchangeably with QueryTestingResultStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Started**: The query testing operation was initiated. \
+ * **Success**: The query testing operation succeeded. \
+ * **CompilerError**: The query testing operation failed due to a compiler error. \
+ * **RuntimeError**: The query testing operation failed due to a runtime error. \
+ * **Timeout**: The query testing operation failed due to a timeout. \
+ * **UnknownError**: The query testing operation failed due to an unknown error .
+ */
+export type QueryTestingResultStatus = string;
+
+/** Known values of {@link SampleInputResultStatus} that the service accepts. */
+export enum KnownSampleInputResultStatus {
+  /** The sample input operation successfully read all the events in the range. */
+  ReadAllEventsInRange = "ReadAllEventsInRange",
+  /** The sample input operation found no events in the range. */
+  NoEventsFoundInRange = "NoEventsFoundInRange",
+  /** The sample input operation failed to connect to the input. */
+  ErrorConnectingToInput = "ErrorConnectingToInput",
+}
+
+/**
+ * Defines values for SampleInputResultStatus. \
+ * {@link KnownSampleInputResultStatus} can be used interchangeably with SampleInputResultStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ReadAllEventsInRange**: The sample input operation successfully read all the events in the range. \
+ * **NoEventsFoundInRange**: The sample input operation found no events in the range. \
+ * **ErrorConnectingToInput**: The sample input operation failed to connect to the input.
+ */
+export type SampleInputResultStatus = string;
+
+/** Known values of {@link TestDatasourceResultStatus} that the service accepts. */
+export enum KnownTestDatasourceResultStatus {
+  /** The test datasource operation succeeded. */
+  TestSucceeded = "TestSucceeded",
+  /** The test datasource operation failed. */
+  TestFailed = "TestFailed",
+}
+
+/**
+ * Defines values for TestDatasourceResultStatus. \
+ * {@link KnownTestDatasourceResultStatus} can be used interchangeably with TestDatasourceResultStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TestSucceeded**: The test datasource operation succeeded. \
+ * **TestFailed**: The test datasource operation failed.
+ */
+export type TestDatasourceResultStatus = string;
+
 /** Known values of {@link ClusterSkuName} that the service accepts. */
 export enum KnownClusterSkuName {
   /** The default SKU. */
-  Default = "Default"
+  Default = "Default",
 }
 
 /**
@@ -1695,7 +2549,7 @@ export enum KnownClusterProvisioningState {
   /** The cluster provisioning was canceled. */
   Canceled = "Canceled",
   /** The cluster provisioning was inprogress. */
-  InProgress = "InProgress"
+  InProgress = "InProgress",
 }
 
 /**
@@ -1731,7 +2585,7 @@ export enum KnownJobState {
   /** The job is currently in the Restarting state. */
   Restarting = "Restarting",
   /** The job is currently in the Scaling state. */
-  Scaling = "Scaling"
+  Scaling = "Scaling",
 }
 
 /**
@@ -1752,10 +2606,28 @@ export enum KnownJobState {
  */
 export type JobState = string;
 
+/** Known values of {@link UpdateMode} that the service accepts. */
+export enum KnownUpdateMode {
+  /** Static */
+  Static = "Static",
+  /** Refreshable */
+  Refreshable = "Refreshable",
+}
+
+/**
+ * Defines values for UpdateMode. \
+ * {@link KnownUpdateMode} can be used interchangeably with UpdateMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Static** \
+ * **Refreshable**
+ */
+export type UpdateMode = string;
+
 /** Known values of {@link Encoding} that the service accepts. */
 export enum KnownEncoding {
   /** UTF8 */
-  UTF8 = "UTF8"
+  UTF8 = "UTF8",
 }
 
 /**
@@ -1772,7 +2644,7 @@ export enum KnownJsonOutputSerializationFormat {
   /** LineSeparated */
   LineSeparated = "LineSeparated",
   /** Array */
-  Array = "Array"
+  Array = "Array",
 }
 
 /**
@@ -1792,7 +2664,7 @@ export enum KnownRefreshType {
   /** RefreshPeriodicallyWithFull */
   RefreshPeriodicallyWithFull = "RefreshPeriodicallyWithFull",
   /** RefreshPeriodicallyWithDelta */
-  RefreshPeriodicallyWithDelta = "RefreshPeriodicallyWithDelta"
+  RefreshPeriodicallyWithDelta = "RefreshPeriodicallyWithDelta",
 }
 
 /**
@@ -1806,131 +2678,116 @@ export enum KnownRefreshType {
  */
 export type RefreshType = string;
 
+/** Known values of {@link EventGridEventSchemaType} that the service accepts. */
+export enum KnownEventGridEventSchemaType {
+  /** EventGridEventSchema */
+  EventGridEventSchema = "EventGridEventSchema",
+  /** CloudEventSchema */
+  CloudEventSchema = "CloudEventSchema",
+}
+
+/**
+ * Defines values for EventGridEventSchemaType. \
+ * {@link KnownEventGridEventSchemaType} can be used interchangeably with EventGridEventSchemaType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EventGridEventSchema** \
+ * **CloudEventSchema**
+ */
+export type EventGridEventSchemaType = string;
+
+/** Known values of {@link BlobWriteMode} that the service accepts. */
+export enum KnownBlobWriteMode {
+  /** Append */
+  Append = "Append",
+  /** Once */
+  Once = "Once",
+}
+
+/**
+ * Defines values for BlobWriteMode. \
+ * {@link KnownBlobWriteMode} can be used interchangeably with BlobWriteMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Append** \
+ * **Once**
+ */
+export type BlobWriteMode = string;
+
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface StreamingJobsCreateOrReplaceOptionalParams
+export interface FunctionsCreateOrReplaceOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the streaming job. Omit this value to always overwrite the current record set. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  /** The ETag of the function. Omit this value to always overwrite the current function. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
   ifMatch?: string;
-  /** Set to '*' to allow a new streaming job to be created, but to prevent updating an existing record set. Other values will result in a 412 Pre-condition Failed response. */
+  /** Set to '*' to allow a new function to be created, but to prevent updating an existing function. Other values will result in a 412 Pre-condition Failed response. */
   ifNoneMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
 }
 
 /** Contains response data for the createOrReplace operation. */
-export type StreamingJobsCreateOrReplaceResponse = StreamingJobsCreateOrReplaceHeaders &
-  StreamingJob;
+export type FunctionsCreateOrReplaceResponse = FunctionsCreateOrReplaceHeaders &
+  FunctionModel;
 
 /** Optional parameters. */
-export interface StreamingJobsUpdateOptionalParams
+export interface FunctionsUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the streaming job. Omit this value to always overwrite the current record set. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  /** The ETag of the function. Omit this value to always overwrite the current function. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
   ifMatch?: string;
 }
 
 /** Contains response data for the update operation. */
-export type StreamingJobsUpdateResponse = StreamingJobsUpdateHeaders &
-  StreamingJob;
+export type FunctionsUpdateResponse = FunctionsUpdateHeaders & FunctionModel;
 
 /** Optional parameters. */
-export interface StreamingJobsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+export interface FunctionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface StreamingJobsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** The $expand OData query parameter. This is a comma-separated list of additional streaming job properties to include in the response, beyond the default set returned when this parameter is absent. The default set is all streaming job properties other than 'inputs', 'transformation', 'outputs', and 'functions'. */
-  expand?: string;
-}
+export interface FunctionsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type StreamingJobsGetResponse = StreamingJobsGetHeaders & StreamingJob;
+export type FunctionsGetResponse = FunctionsGetHeaders & FunctionModel;
 
 /** Optional parameters. */
-export interface StreamingJobsListByResourceGroupOptionalParams
+export interface FunctionsListByStreamingJobOptionalParams
   extends coreClient.OperationOptions {
-  /** The $expand OData query parameter. This is a comma-separated list of additional streaming job properties to include in the response, beyond the default set returned when this parameter is absent. The default set is all streaming job properties other than 'inputs', 'transformation', 'outputs', and 'functions'. */
-  expand?: string;
+  /** The $select OData query parameter. This is a comma-separated list of structural properties to include in the response, or "*" to include all properties. By default, all properties are returned except diagnostics. Currently only accepts '*' as a valid value. */
+  select?: string;
 }
 
-/** Contains response data for the listByResourceGroup operation. */
-export type StreamingJobsListByResourceGroupResponse = StreamingJobListResult;
+/** Contains response data for the listByStreamingJob operation. */
+export type FunctionsListByStreamingJobResponse = FunctionListResult;
 
 /** Optional parameters. */
-export interface StreamingJobsListOptionalParams
+export interface FunctionsTestOptionalParams
   extends coreClient.OperationOptions {
-  /** The $expand OData query parameter. This is a comma-separated list of additional streaming job properties to include in the response, beyond the default set returned when this parameter is absent. The default set is all streaming job properties other than 'inputs', 'transformation', 'outputs', and 'functions'. */
-  expand?: string;
-}
-
-/** Contains response data for the list operation. */
-export type StreamingJobsListResponse = StreamingJobListResult;
-
-/** Optional parameters. */
-export interface StreamingJobsStartOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameters applicable to a start streaming job operation. */
-  startJobParameters?: StartStreamingJobParameters;
+  /** If the function specified does not already exist, this parameter must contain the full function definition intended to be tested. If the function specified already exists, this parameter can be left null to test the existing function as is or if specified, the properties specified will overwrite the corresponding properties in the existing function (exactly like a PATCH operation) and the resulting function will be tested. */
+  function?: FunctionModel;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
 
-/** Optional parameters. */
-export interface StreamingJobsStopOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+/** Contains response data for the test operation. */
+export type FunctionsTestResponse = ResourceTestStatus;
 
 /** Optional parameters. */
-export interface StreamingJobsScaleOptionalParams
+export interface FunctionsRetrieveDefaultDefinitionOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameters applicable to a scale streaming job operation. */
-  scaleJobParameters?: ScaleStreamingJobParameters;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
+  /** Parameters used to specify the type of function to retrieve the default definition for. */
+  functionRetrieveDefaultDefinitionParameters?: FunctionRetrieveDefaultDefinitionParametersUnion;
 }
 
+/** Contains response data for the retrieveDefaultDefinition operation. */
+export type FunctionsRetrieveDefaultDefinitionResponse = FunctionModel;
+
 /** Optional parameters. */
-export interface StreamingJobsListByResourceGroupNextOptionalParams
+export interface FunctionsListByStreamingJobNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByResourceGroupNext operation. */
-export type StreamingJobsListByResourceGroupNextResponse = StreamingJobListResult;
-
-/** Optional parameters. */
-export interface StreamingJobsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type StreamingJobsListNextResponse = StreamingJobListResult;
+/** Contains response data for the listByStreamingJobNext operation. */
+export type FunctionsListByStreamingJobNextResponse = FunctionListResult;
 
 /** Optional parameters. */
 export interface InputsCreateOrReplaceOptionalParams
@@ -2059,6 +2916,208 @@ export interface OutputsListByStreamingJobNextOptionalParams
 export type OutputsListByStreamingJobNextResponse = OutputListResult;
 
 /** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface StreamingJobsCreateOrReplaceOptionalParams
+  extends coreClient.OperationOptions {
+  /** The ETag of the streaming job. Omit this value to always overwrite the current record set. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Set to '*' to allow a new streaming job to be created, but to prevent updating an existing record set. Other values will result in a 412 Pre-condition Failed response. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrReplace operation. */
+export type StreamingJobsCreateOrReplaceResponse =
+  StreamingJobsCreateOrReplaceHeaders & StreamingJob;
+
+/** Optional parameters. */
+export interface StreamingJobsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The ETag of the streaming job. Omit this value to always overwrite the current record set. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+}
+
+/** Contains response data for the update operation. */
+export type StreamingJobsUpdateResponse = StreamingJobsUpdateHeaders &
+  StreamingJob;
+
+/** Optional parameters. */
+export interface StreamingJobsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StreamingJobsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** The $expand OData query parameter. This is a comma-separated list of additional streaming job properties to include in the response, beyond the default set returned when this parameter is absent. The default set is all streaming job properties other than 'inputs', 'transformation', 'outputs', and 'functions'. */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type StreamingJobsGetResponse = StreamingJobsGetHeaders & StreamingJob;
+
+/** Optional parameters. */
+export interface StreamingJobsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The $expand OData query parameter. This is a comma-separated list of additional streaming job properties to include in the response, beyond the default set returned when this parameter is absent. The default set is all streaming job properties other than 'inputs', 'transformation', 'outputs', and 'functions'. */
+  expand?: string;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type StreamingJobsListByResourceGroupResponse = StreamingJobListResult;
+
+/** Optional parameters. */
+export interface StreamingJobsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The $expand OData query parameter. This is a comma-separated list of additional streaming job properties to include in the response, beyond the default set returned when this parameter is absent. The default set is all streaming job properties other than 'inputs', 'transformation', 'outputs', and 'functions'. */
+  expand?: string;
+}
+
+/** Contains response data for the list operation. */
+export type StreamingJobsListResponse = StreamingJobListResult;
+
+/** Optional parameters. */
+export interface StreamingJobsStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters applicable to a start streaming job operation. */
+  startJobParameters?: StartStreamingJobParameters;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StreamingJobsStopOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StreamingJobsScaleOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters applicable to a scale streaming job operation. */
+  scaleJobParameters?: ScaleStreamingJobParameters;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StreamingJobsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type StreamingJobsListByResourceGroupNextResponse =
+  StreamingJobListResult;
+
+/** Optional parameters. */
+export interface StreamingJobsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type StreamingJobsListNextResponse = StreamingJobListResult;
+
+/** Optional parameters. */
+export interface SkuListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SkuListResponse = GetStreamingJobSkuResults;
+
+/** Optional parameters. */
+export interface SkuListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SkuListNextResponse = GetStreamingJobSkuResults;
+
+/** Optional parameters. */
+export interface SubscriptionsListQuotasOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listQuotas operation. */
+export type SubscriptionsListQuotasResponse = SubscriptionQuotasListResult;
+
+/** Optional parameters. */
+export interface SubscriptionsTestQueryOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the testQuery operation. */
+export type SubscriptionsTestQueryResponse = QueryTestingResult;
+
+/** Optional parameters. */
+export interface SubscriptionsCompileQueryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the compileQuery operation. */
+export type SubscriptionsCompileQueryResponse = QueryCompilationResult;
+
+/** Optional parameters. */
+export interface SubscriptionsSampleInputOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the sampleInput operation. */
+export type SubscriptionsSampleInputResponse = SampleInputResult;
+
+/** Optional parameters. */
+export interface SubscriptionsTestInputOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the testInput operation. */
+export type SubscriptionsTestInputResponse = TestDatasourceResult;
+
+/** Optional parameters. */
+export interface SubscriptionsTestOutputOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the testOutput operation. */
+export type SubscriptionsTestOutputResponse = TestDatasourceResult;
+
+/** Optional parameters. */
 export interface TransformationsCreateOrReplaceOptionalParams
   extends coreClient.OperationOptions {
   /** The ETag of the transformation. Omit this value to always overwrite the current transformation. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
@@ -2068,8 +3127,8 @@ export interface TransformationsCreateOrReplaceOptionalParams
 }
 
 /** Contains response data for the createOrReplace operation. */
-export type TransformationsCreateOrReplaceResponse = TransformationsCreateOrReplaceHeaders &
-  Transformation;
+export type TransformationsCreateOrReplaceResponse =
+  TransformationsCreateOrReplaceHeaders & Transformation;
 
 /** Optional parameters. */
 export interface TransformationsUpdateOptionalParams
@@ -2089,88 +3148,6 @@ export interface TransformationsGetOptionalParams
 /** Contains response data for the get operation. */
 export type TransformationsGetResponse = TransformationsGetHeaders &
   Transformation;
-
-/** Optional parameters. */
-export interface FunctionsCreateOrReplaceOptionalParams
-  extends coreClient.OperationOptions {
-  /** The ETag of the function. Omit this value to always overwrite the current function. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new function to be created, but to prevent updating an existing function. Other values will result in a 412 Pre-condition Failed response. */
-  ifNoneMatch?: string;
-}
-
-/** Contains response data for the createOrReplace operation. */
-export type FunctionsCreateOrReplaceResponse = FunctionsCreateOrReplaceHeaders &
-  FunctionModel;
-
-/** Optional parameters. */
-export interface FunctionsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The ETag of the function. Omit this value to always overwrite the current function. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-}
-
-/** Contains response data for the update operation. */
-export type FunctionsUpdateResponse = FunctionsUpdateHeaders & FunctionModel;
-
-/** Optional parameters. */
-export interface FunctionsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface FunctionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type FunctionsGetResponse = FunctionsGetHeaders & FunctionModel;
-
-/** Optional parameters. */
-export interface FunctionsListByStreamingJobOptionalParams
-  extends coreClient.OperationOptions {
-  /** The $select OData query parameter. This is a comma-separated list of structural properties to include in the response, or "*" to include all properties. By default, all properties are returned except diagnostics. Currently only accepts '*' as a valid value. */
-  select?: string;
-}
-
-/** Contains response data for the listByStreamingJob operation. */
-export type FunctionsListByStreamingJobResponse = FunctionListResult;
-
-/** Optional parameters. */
-export interface FunctionsTestOptionalParams
-  extends coreClient.OperationOptions {
-  /** If the function specified does not already exist, this parameter must contain the full function definition intended to be tested. If the function specified already exists, this parameter can be left null to test the existing function as is or if specified, the properties specified will overwrite the corresponding properties in the existing function (exactly like a PATCH operation) and the resulting function will be tested. */
-  functionParam?: FunctionModel;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the test operation. */
-export type FunctionsTestResponse = ResourceTestStatus;
-
-/** Optional parameters. */
-export interface FunctionsRetrieveDefaultDefinitionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameters used to specify the type of function to retrieve the default definition for. */
-  functionRetrieveDefaultDefinitionParameters?: FunctionRetrieveDefaultDefinitionParametersUnion;
-}
-
-/** Contains response data for the retrieveDefaultDefinition operation. */
-export type FunctionsRetrieveDefaultDefinitionResponse = FunctionModel;
-
-/** Optional parameters. */
-export interface FunctionsListByStreamingJobNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByStreamingJobNext operation. */
-export type FunctionsListByStreamingJobNextResponse = FunctionListResult;
-
-/** Optional parameters. */
-export interface SubscriptionsListQuotasOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listQuotas operation. */
-export type SubscriptionsListQuotasResponse = SubscriptionQuotasListResult;
 
 /** Optional parameters. */
 export interface ClustersCreateOrUpdateOptionalParams
@@ -2300,15 +3277,14 @@ export interface PrivateEndpointsListByClusterNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByClusterNext operation. */
-export type PrivateEndpointsListByClusterNextResponse = PrivateEndpointListResult;
+export type PrivateEndpointsListByClusterNextResponse =
+  PrivateEndpointListResult;
 
 /** Optional parameters. */
 export interface StreamAnalyticsManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
-  /** Api Version */
-  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

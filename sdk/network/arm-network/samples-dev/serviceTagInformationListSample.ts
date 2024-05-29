@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ServiceTagInformationListOptionalParams,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of service tag information resources with pagination.
  *
  * @summary Gets a list of service tag information resources with pagination.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ServiceTagInformationListResult.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ServiceTagInformationListResult.json
  */
 async function getListOfServiceTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function getListOfServiceTags() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.serviceTagInformationOperations.list(
-    location
+    location,
   )) {
     resArray.push(item);
   }
@@ -41,21 +41,21 @@ async function getListOfServiceTags() {
  * This sample demonstrates how to Gets a list of service tag information resources with pagination.
  *
  * @summary Gets a list of service tag information resources with pagination.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ServiceTagInformationListResultWithNoAddressPrefixes.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ServiceTagInformationListResultWithNoAddressPrefixes.json
  */
 async function getListOfServiceTagsWithNoAddressPrefixes() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westeurope";
   const noAddressPrefixes = true;
   const options: ServiceTagInformationListOptionalParams = {
-    noAddressPrefixes
+    noAddressPrefixes,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.serviceTagInformationOperations.list(
     location,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -66,7 +66,7 @@ async function getListOfServiceTagsWithNoAddressPrefixes() {
  * This sample demonstrates how to Gets a list of service tag information resources with pagination.
  *
  * @summary Gets a list of service tag information resources with pagination.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ServiceTagInformationListResultWithTagname.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ServiceTagInformationListResultWithTagname.json
  */
 async function getListOfServiceTagsWithTagName() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -78,7 +78,7 @@ async function getListOfServiceTagsWithTagName() {
   const resArray = new Array();
   for await (let item of client.serviceTagInformationOperations.list(
     location,
-    options
+    options,
   )) {
     resArray.push(item);
   }

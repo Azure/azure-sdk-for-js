@@ -29,7 +29,7 @@ async function workloadNetworksDeleteDnsZone() {
   const result = await client.workloadNetworks.beginDeleteDnsZoneAndWait(
     resourceGroupName,
     dnsZoneId,
-    privateCloudName
+    privateCloudName,
   );
   console.log(result);
 }

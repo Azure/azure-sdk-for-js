@@ -58,7 +58,7 @@ import {
   CloudServiceRolesImpl,
   CloudServicesImpl,
   CloudServicesUpdateDomainImpl,
-  CloudServiceOperatingSystemsImpl
+  CloudServiceOperatingSystemsImpl,
 } from "./operations";
 import {
   Operations,
@@ -109,7 +109,7 @@ import {
   CloudServiceRoles,
   CloudServices,
   CloudServicesUpdateDomain,
-  CloudServiceOperatingSystems
+  CloudServiceOperatingSystems,
 } from "./operationsInterfaces";
 import { ComputeManagementClientOptionalParams } from "./models";
 
@@ -127,7 +127,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ComputeManagementClientOptionalParams
+    options?: ComputeManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -142,10 +142,10 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     }
     const defaults: ComputeManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-compute/21.4.1`;
+    const packageDetails = `azsdk-js-arm-compute/21.6.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -155,20 +155,21 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -178,7 +179,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -188,9 +189,9 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -202,24 +203,21 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.usageOperations = new UsageOperationsImpl(this);
     this.virtualMachineSizes = new VirtualMachineSizesImpl(this);
     this.virtualMachineScaleSets = new VirtualMachineScaleSetsImpl(this);
-    this.virtualMachineScaleSetExtensions = new VirtualMachineScaleSetExtensionsImpl(
-      this
-    );
-    this.virtualMachineScaleSetRollingUpgrades = new VirtualMachineScaleSetRollingUpgradesImpl(
-      this
-    );
-    this.virtualMachineScaleSetVMExtensions = new VirtualMachineScaleSetVMExtensionsImpl(
-      this
-    );
+    this.virtualMachineScaleSetExtensions =
+      new VirtualMachineScaleSetExtensionsImpl(this);
+    this.virtualMachineScaleSetRollingUpgrades =
+      new VirtualMachineScaleSetRollingUpgradesImpl(this);
+    this.virtualMachineScaleSetVMExtensions =
+      new VirtualMachineScaleSetVMExtensionsImpl(this);
     this.virtualMachineScaleSetVMs = new VirtualMachineScaleSetVMsImpl(this);
     this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(this);
     this.virtualMachines = new VirtualMachinesImpl(this);
     this.virtualMachineImages = new VirtualMachineImagesImpl(this);
     this.virtualMachineImagesEdgeZone = new VirtualMachineImagesEdgeZoneImpl(
-      this
+      this,
     );
     this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesImpl(
-      this
+      this,
     );
     this.availabilitySets = new AvailabilitySetsImpl(this);
     this.proximityPlacementGroups = new ProximityPlacementGroupsImpl(this);
@@ -233,9 +231,8 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.capacityReservations = new CapacityReservationsImpl(this);
     this.logAnalytics = new LogAnalyticsImpl(this);
     this.virtualMachineRunCommands = new VirtualMachineRunCommandsImpl(this);
-    this.virtualMachineScaleSetVMRunCommands = new VirtualMachineScaleSetVMRunCommandsImpl(
-      this
-    );
+    this.virtualMachineScaleSetVMRunCommands =
+      new VirtualMachineScaleSetVMRunCommandsImpl(this);
     this.disks = new DisksImpl(this);
     this.diskAccesses = new DiskAccessesImpl(this);
     this.diskEncryptionSets = new DiskEncryptionSetsImpl(this);
@@ -254,14 +251,14 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.communityGalleries = new CommunityGalleriesImpl(this);
     this.communityGalleryImages = new CommunityGalleryImagesImpl(this);
     this.communityGalleryImageVersions = new CommunityGalleryImageVersionsImpl(
-      this
+      this,
     );
     this.cloudServiceRoleInstances = new CloudServiceRoleInstancesImpl(this);
     this.cloudServiceRoles = new CloudServiceRolesImpl(this);
     this.cloudServices = new CloudServicesImpl(this);
     this.cloudServicesUpdateDomain = new CloudServicesUpdateDomainImpl(this);
     this.cloudServiceOperatingSystems = new CloudServiceOperatingSystemsImpl(
-      this
+      this,
     );
   }
 

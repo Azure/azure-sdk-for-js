@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DdosProtectionPlan,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a DDoS protection plan.
  *
  * @summary Creates or updates a DDoS protection plan.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/DdosProtectionPlanCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/DdosProtectionPlanCreate.json
  */
 async function createDDoSProtectionPlan() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function createDDoSProtectionPlan() {
   const result = await client.ddosProtectionPlans.beginCreateOrUpdateAndWait(
     resourceGroupName,
     ddosProtectionPlanName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

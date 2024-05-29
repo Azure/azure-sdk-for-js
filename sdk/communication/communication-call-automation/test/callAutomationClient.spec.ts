@@ -302,7 +302,7 @@ describe("Call Automation Main Client Live Tests", function () {
       await receiverCallAutomationClient.rejectCall(incomingCallContext);
     }
 
-    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
-    assert.isDefined(callDisconnectedEvent);
+    const createCallFailedEvent = await waitForEvent("CreateCallFailed", callConnectionId, 8000);
+    assert.isDefined(createCallFailedEvent);
   }).timeout(60000);
 });

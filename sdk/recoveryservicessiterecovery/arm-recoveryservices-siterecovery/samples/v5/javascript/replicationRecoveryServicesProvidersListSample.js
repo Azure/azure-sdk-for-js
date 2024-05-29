@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the registered recovery services providers in the vault.
  *
  * @summary Lists the registered recovery services providers in the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationRecoveryServicesProviders_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryServicesProviders_List.json
  */
 async function getsTheListOfRegisteredRecoveryServicesProvidersInTheVaultThisIsAViewOnlyApi() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function getsTheListOfRegisteredRecoveryServicesProvidersInTheVaultThisIsA
   const resArray = new Array();
   for await (let item of client.replicationRecoveryServicesProviders.list(
     resourceName,
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

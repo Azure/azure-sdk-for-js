@@ -1,5 +1,119 @@
 # Release History
 
+## 12.1.0-beta.2 (2024-05-20)
+
+### Breaking Changes
+
+- Fixed an incorrect enum variant in `KnownVectorQueryKind` [#29601](https://github.com/Azure/azure-sdk-for-js/pull/29601)
+
+### Bugs Fixed
+
+- Fixed serialization performance on large payloads [#29597](https://github.com/Azure/azure-sdk-for-js/pull/29597)
+
+### Features Added
+
+- Enhance vector search support for image data [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
+  - `AIServicesVisionVectorizer` leverages your Azure AI Vision deployment to generate embeddings from image data or text provided at query ime
+  - `VisionVectorizeSkill` allows for indexers to do the same
+  - Vector queries now have the ability to accept an image in the form of a URL or base64 encoded string
+- Add support for enrichment of search results with your own ML model [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
+  - `AzureMachineLearningVectorizer` leverages your Azure AI Studio model deployment to generate embeddings for text provided at query time
+- Add support for search indexers to use OneLake as a data source [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
+- Add support for search score and vector similarity to be used as a threshold on the results of vector queries [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
+- Add support for hybrid search [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
+
+## 12.1.0-beta.1 (2024-02-06)
+
+### Breaking Changes
+
+- Refactor in alignment with v12 [#28576](https://github.com/Azure/azure-sdk-for-js/pull/28576)
+  - Replace or replace the following types/properties
+    - Use `ExhaustiveKnnAlgorithmConfiguration` in place of
+      - `ExhaustiveKnnVectorSearchAlgorithmConfiguration`
+    - Use `HnswAlgorithmConfiguration` in place of
+      - `HnswVectorSearchAlgorithmConfiguration`
+    - Use `PIIDetectionSkill.categories` in place of
+      - `PIIDetectionSkill.piiCategories`
+    - Use `QueryAnswer` in place of
+      - `Answers`
+      - `AnswersOption`
+      - `QueryAnswerType`
+    - Use `QueryAnswerResult` in place of
+      - `AnswerResult`
+    - Use `QueryCaption` in place of
+      - `Captions`
+        - `QueryCaptionType`
+    - Use `QueryCaptionResult` in place of
+      - `CaptionResult`
+    - Use `SearchRequestOptions.VectorSearchOptions.filterMode` in place of
+      - `SearchRequestOptions.vectorFilterMode`
+    - Use `SearchRequestOptions.VectorSearchOptions.queries` in place of
+      - `SearchRequestOptions.vectorQueries`
+    - Use `SearchRequestOptions.semanticSearchOptions.answers` in place of
+      - `SearchRequestOptions.answers`
+    - Use `SearchRequestOptions.semanticSearchOptions.captions` in place of
+      - `SearchRequestOptions.captions`
+    - Use `SearchRequestOptions.semanticSearchOptions.configurationName` in place of
+      - `SearchRequestOptions.semanticConfiguration`
+    - Use `SearchRequestOptions.semanticSearchOptions.debugMode` in place of
+      - `SearchRequestOptions.debugMode`
+    - Use `SearchRequestOptions.semanticSearchOptions.errorMode` in place of
+      - `SearchRequestOptions.semanticErrorHandlingMode`
+    - Use `SearchRequestOptions.semanticSearchOptions.maxWaitInMilliseconds` in place of
+      - `SearchRequestOptions.semanticMaxWaitInMilliseconds`
+    - Use `SearchRequestOptions.semanticSearchOptions.semanticFields` in place of
+      - `SearchRequestOptions.semanticFields`
+    - Use `SearchRequestOptions.semanticSearchOptions.semanticQuery` in place of
+      - `SearchRequestOptions.semanticQuery`
+    - Use `SemanticErrorMode` in place of
+      - `SemanticErrorHandlingMode`
+    - Use `SemanticErrorReason` in place of
+      - `SemanticPartialResponseReason`
+    - Use `SemanticPrioritizedFields` in place of
+      - `PrioritizedFields`
+    - Use `SemanticSearch` in place of
+      - `SemanticSettings`
+    - Use `SemanticSearchResultsType` in place of
+      - `SemanticPartialResponseType`
+    - Use `SimpleField.vectorSearchProfileName` in place of
+      - `SimpleField.vectorSearchProfile`
+    - Use `VectorSearchProfile.algorithmConfigurationName` in place of
+      - `VectorSearchProfile.algorithm`
+  - Narrow some enum property types to the respective string literal union
+    - `BlobIndexerDataToExtract`
+    - `BlobIndexerImageAction`
+    - `BlobIndexerParsingMode`
+    - `BlobIndexerPDFTextRotationAlgorithm`
+    - `CustomEntityLookupSkillLanguage`
+    - `EntityCategory`
+    - `EntityRecognitionSkillLanguage`
+    - `ImageAnalysisSkillLanguage`
+    - `ImageDetail`
+    - `IndexerExecutionEnvironment`
+    - `KeyPhraseExtractionSkillLanguage`
+    - `OcrSkillLanguage`
+    - `RegexFlags`
+    - `SearchIndexerDataSourceType`
+    - `SentimentSkillLanguage`
+    - `SplitSkillLanguage`
+    - `TextSplitMode`
+    - `TextTranslationSkillLanguage`
+    - `VisualFeature`
+  - Remove `KnownLexicalAnalyzerName` as a duplicate of `KnownAnalyzerNames`
+  - Remove `KnownCharFilterName` as a duplicate of `KnownCharFilterNames`
+  - Remove `KnownTokenFilterName` as a duplicate of `KnownTokenFilterNames`
+  - Remove `SearchRequest` as a duplicate of `SearchRequestOptions`
+
+### Features Added
+
+- Add vector compression [#28772](https://github.com/Azure/azure-sdk-for-js/pull/28772)
+  - Service-side scalar quantization of your vector data
+  - Optional reranking with full-precision vectors
+  - Optional oversampling of documents when reranking compressed vectors
+- Add `Edm.Half`, `Edm.Int16`, and `Edm.SByte` vector spaces [#28772](https://github.com/Azure/azure-sdk-for-js/pull/28772)
+- Add non-persistent vector usage through `SimpleField.stored` [#28772](https://github.com/Azure/azure-sdk-for-js/pull/28772)
+- Expose the internal HTTP pipeline to allow users to send raw requests with it
+
 ## 12.0.0-beta.4 (2023-10-11)
 
 ### Features Added

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a route in the specified route table.
  *
  * @summary Creates or updates a route in the specified route table.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/RouteTableRouteCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/RouteTableRouteCreate.json
  */
 async function createRoute() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -27,7 +27,7 @@ async function createRoute() {
   const routeName = "route1";
   const routeParameters: Route = {
     addressPrefix: "10.0.3.0/24",
-    nextHopType: "VirtualNetworkGateway"
+    nextHopType: "VirtualNetworkGateway",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -35,7 +35,7 @@ async function createRoute() {
     resourceGroupName,
     routeTableName,
     routeName,
-    routeParameters
+    routeParameters,
   );
   console.log(result);
 }

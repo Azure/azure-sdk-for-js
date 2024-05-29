@@ -1,5 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { AbortError } from "./AbortError";
-export { AbortSignalLike } from "./AbortSignalLike";
+declare global {
+  interface Event {}
+}
+
+export { AbortError } from "./AbortError.js";
+export { AbortSignalLike } from "./AbortSignalLike.js";

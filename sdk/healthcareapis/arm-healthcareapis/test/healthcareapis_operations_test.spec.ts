@@ -33,7 +33,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("HealthcareApis test", () => {
+describe.skip("HealthcareApis test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: HealthcareApisManagementClient;

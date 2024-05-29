@@ -19,6 +19,6 @@ export interface MetricNamespaces {
    */
   list(
     resourceUri: string,
-    options?: MetricNamespacesListOptionalParams
+    options?: MetricNamespacesListOptionalParams,
   ): PagedAsyncIterableIterator<MetricNamespace>;
 }

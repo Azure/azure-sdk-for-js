@@ -20,6 +20,6 @@ export interface Operations {
    */
   list(
     resourceGroupName: string,
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): PagedAsyncIterableIterator<OperationsDiscovery>;
 }

@@ -29,7 +29,7 @@ async function workloadNetworksGet() {
   const result = await client.workloadNetworks.get(
     resourceGroupName,
     privateCloudName,
-    workloadNetworkName
+    workloadNetworkName,
   );
   console.log(result);
 }

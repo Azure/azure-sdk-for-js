@@ -39,7 +39,7 @@ export interface AdmNativeNotification {
     image?: string;
     local_only?: boolean;
     notification_count?: number;
-    notification_priority?: "PRIORITY_UNSPECIFIED" | "PRIORITY_MIN" | "PRIORITY_LOW" | "PRIORITY_DEFAULT" | "PRIORITY_HIGH" | "PRIORITY_MAX";
+    notification_priority?: number;
     sound?: string;
     sticky?: boolean;
     tag?: string;
@@ -47,7 +47,7 @@ export interface AdmNativeNotification {
     title?: string;
     title_loc_args?: string[];
     title_loc_key?: string;
-    visibility?: "VISIBILITY_UNSPECIFIED" | "PRIVATE" | "PUBLIC" | "SECRET";
+    visibility?: number;
 }
 
 // @public
@@ -58,7 +58,7 @@ export interface AdmNotification extends JsonNotification {
 // @public
 export interface AdmNotificationParams {
     body: string | AdmNativeMessage;
-    headers?: Record<string, string | undefined>;
+    headers?: Record<string, string>;
 }
 
 // @public
@@ -131,7 +131,7 @@ export interface AppleCriticalSound {
 }
 
 // @public
-export interface AppleHeaders extends Record<string, string | undefined> {
+export interface AppleHeaders extends Record<string, unknown> {
     "apns-collapse-id"?: string;
     "apns-expiration"?: string;
     "apns-id"?: string;
@@ -334,7 +334,7 @@ export function createAppleTemplateRegistrationDescription(description: AppleTem
 export function createBaiduInstallation(installation: DeviceTokenInstallation): BaiduInstallation;
 
 // @public
-export function createBaiduNotification(notification: NotificationCommon): BaiduNotification;
+export function createBaiduNotification(notification: NotificationCommonParams): BaiduNotification;
 
 // @public
 export function createBaiduNotificationBody(nativeMessage: BaiduNativeMessage): string;
@@ -349,7 +349,7 @@ export function createBaiduTemplateRegistrationDescription(description: BaiduTem
 export function createBrowserInstallation(installation: BrowserInstallationCommon): BrowserInstallation;
 
 // @public
-export function createBrowserNotification(notification: NotificationCommon): BrowserNotification;
+export function createBrowserNotification(notification: NotificationCommonParams): BrowserNotification;
 
 // @public
 export function createBrowserRegistrationDescription(description: BrowserRegistrationDescriptionCommon): BrowserRegistrationDescription;
@@ -385,13 +385,13 @@ export function createFcmV1TemplateRegistrationDescription(description: FcmV1Tem
 export function createFirebaseLegacyNotificationBody(nativeMessage: FirebaseLegacyNativeMessage): string;
 
 // @public
-export function createFirebaseV1NotificationBody(nativeMessage: FirebaseV1NativeMessage): string;
+export function createFirebaseV1NotificationBody(nativeMessage: FirebaseV1NativeMessageEnvelope): string;
 
 // @public
 export function createTagExpression(tags: string[]): string;
 
 // @public
-export function createTemplateNotification(notification: NotificationCommon): TemplateNotification;
+export function createTemplateNotification(notification: NotificationCommonParams): TemplateNotification;
 
 // @public
 export function createWindowsBadgeNotification(notification: WnsNotificationParams): WindowsNotification;
@@ -424,7 +424,7 @@ export function createWindowsToastNotification(notification: WnsNotificationPara
 export function createXiaomiInstallation(installation: DeviceTokenInstallation): XiaomiInstallation;
 
 // @public
-export function createXiaomiNotification(notification: NotificationCommon): XiaomiNotification;
+export function createXiaomiNotification(notification: NotificationCommonParams): XiaomiNotification;
 
 // @public
 export function createXiaomiRegistrationDescription(description: XiaomiRegistrationDescriptionCommon): XiaomiRegistrationDescription;
@@ -460,7 +460,7 @@ export interface FcmLegacyNotification extends JsonNotification {
 // @public
 export interface FcmLegacyNotificationParams {
     body: string | FirebaseLegacyNativeMessage;
-    headers?: Record<string, string | undefined>;
+    headers?: Record<string, string>;
 }
 
 // @public
@@ -476,7 +476,7 @@ export interface FcmV1Notification extends JsonNotification {
 // @public
 export interface FcmV1NotificationParams {
     body: string | FirebaseV1NativeMessage;
-    headers?: Record<string, string | undefined>;
+    headers?: Record<string, string>;
 }
 
 // @public
@@ -561,11 +561,11 @@ export interface FirebaseLegacyWebNativePayload {
 // @public
 export interface FirebaseV1AndroidConfig {
     collapse_key?: string;
-    data?: Record<string, any>;
+    data?: Record<string, string>;
     direct_boot_ok?: boolean;
     fcm_options?: FirebaseV1AndroidFcmOptions;
     notification?: FirebaseV1AndroidNotification;
-    priority: "normal" | "high";
+    priority?: "normal" | "high";
     restricted_package_name?: string;
     ttl?: string;
 }
@@ -601,8 +601,7 @@ export interface FirebaseV1AndroidNotification {
     };
     local_only?: boolean;
     notification_count?: number;
-    // (undocumented)
-    notification_priority?: "PRIORITY_UNSPECIFIED" | "PRIORITY_MIN" | "PRIORITY_LOW" | "PRIORITY_DEFAULT" | "PRIORITY_HIGH" | "PRIORITY_MAX";
+    notification_priority?: number;
     sound?: string;
     sticky?: boolean;
     tag?: string;
@@ -611,7 +610,7 @@ export interface FirebaseV1AndroidNotification {
     title_loc_args?: string[];
     title_loc_key?: string;
     vibrate_timings?: string[];
-    visibility?: "VISIBILITY_UNSPECIFIED" | "PRIVATE" | "PUBLIC" | "SECRET";
+    visibility?: number;
 }
 
 // @public
@@ -623,13 +622,13 @@ export interface FirebaseV1ApnsConfig {
 
 // @public
 export interface FirebaseV1ApnsFcmOptions {
-    analytics_label: string;
-    image: string;
+    analytics_label?: string;
+    image?: string;
 }
 
 // @public (undocumented)
 export interface FirebaseV1FcmOptions {
-    analytics_label: string;
+    analytics_label?: string;
 }
 
 // @public
@@ -637,12 +636,17 @@ export interface FirebaseV1NativeMessage {
     android?: FirebaseV1AndroidConfig;
     apns?: FirebaseV1ApnsConfig;
     condition?: string;
-    data?: Record<string, any>;
+    data?: Record<string, string>;
     fcm_options?: FirebaseV1FcmOptions;
     notification?: FirebaseV1NativeNotification;
     token?: string;
     topic?: string;
     webpush?: FirebaseV1WebPushConfig;
+}
+
+// @public
+export interface FirebaseV1NativeMessageEnvelope {
+    message: FirebaseV1NativeMessage;
 }
 
 // @public
@@ -675,13 +679,13 @@ export interface FirebaseV1WebPushFcmOptions {
 // @public
 export interface FirebaseV1WebPushNotification {
     actions?: {
-        action: string;
-        title: string;
-        icon: string;
+        action?: string;
+        title?: string;
+        icon?: string;
     }[];
     badge?: string;
     body?: string;
-    data?: Record<string, any>;
+    data?: Record<string, string>;
     dir?: "auto" | "ltr" | "rtl";
     icon?: string;
     image?: string;
@@ -776,12 +780,18 @@ export interface MpnsTemplateRegistrationDescriptionCommon extends MpnsRegistrat
 }
 
 // @public
-export type Notification = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FcmLegacyNotification | XiaomiNotification | WindowsNotification | TemplateNotification;
+export type Notification = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FcmLegacyNotification | FcmV1Notification | XiaomiNotification | WindowsNotification | TemplateNotification;
 
 // @public
 export interface NotificationCommon {
     body: string;
-    headers?: Record<string, string | undefined>;
+    headers?: Record<string, unknown>;
+}
+
+// @public
+export interface NotificationCommonParams {
+    body: string | unknown;
+    headers?: Record<string, unknown>;
 }
 
 // @public
@@ -793,6 +803,7 @@ export interface NotificationDetails {
     endTime?: Date;
     enqueueTime?: Date;
     fcmOutcomeCounts?: NotificationOutcome[];
+    fcmV1OutcomeCounts?: NotificationOutcome[];
     location?: string;
     notificationBody?: string;
     notificationId?: string;
@@ -1009,7 +1020,7 @@ export interface WindowsBadgeNativeMessage {
 export type WindowsContentType = "application/xml" | "application/octet-stream";
 
 // @public
-export interface WindowsHeaders extends Record<string, string | undefined> {
+export interface WindowsHeaders extends Record<string, unknown> {
     "X-WNS-Type"?: WnsTypes;
 }
 

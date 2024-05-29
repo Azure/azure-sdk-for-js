@@ -24,13 +24,14 @@ import {
   ReplicationStorageClassificationsGetOptionalParams,
   ReplicationStorageClassificationsGetResponse,
   ReplicationStorageClassificationsListByReplicationFabricsNextResponse,
-  ReplicationStorageClassificationsListNextResponse
+  ReplicationStorageClassificationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReplicationStorageClassifications operations. */
 export class ReplicationStorageClassificationsImpl
-  implements ReplicationStorageClassifications {
+  implements ReplicationStorageClassifications
+{
   private readonly client: SiteRecoveryManagementClient;
 
   /**
@@ -53,13 +54,13 @@ export class ReplicationStorageClassificationsImpl
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams
+    options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams,
   ): PagedAsyncIterableIterator<StorageClassification> {
     const iter = this.listByReplicationFabricsPagingAll(
       resourceName,
       resourceGroupName,
       fabricName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +78,9 @@ export class ReplicationStorageClassificationsImpl
           resourceGroupName,
           fabricName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +89,7 @@ export class ReplicationStorageClassificationsImpl
     resourceGroupName: string,
     fabricName: string,
     options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<StorageClassification[]> {
     let result: ReplicationStorageClassificationsListByReplicationFabricsResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +98,7 @@ export class ReplicationStorageClassificationsImpl
         resourceName,
         resourceGroupName,
         fabricName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +111,7 @@ export class ReplicationStorageClassificationsImpl
         resourceGroupName,
         fabricName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,13 +124,13 @@ export class ReplicationStorageClassificationsImpl
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams
+    options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams,
   ): AsyncIterableIterator<StorageClassification> {
     for await (const page of this.listByReplicationFabricsPagingPage(
       resourceName,
       resourceGroupName,
       fabricName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -145,7 +146,7 @@ export class ReplicationStorageClassificationsImpl
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationStorageClassificationsListOptionalParams
+    options?: ReplicationStorageClassificationsListOptionalParams,
   ): PagedAsyncIterableIterator<StorageClassification> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -163,9 +164,9 @@ export class ReplicationStorageClassificationsImpl
           resourceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -173,7 +174,7 @@ export class ReplicationStorageClassificationsImpl
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationStorageClassificationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<StorageClassification[]> {
     let result: ReplicationStorageClassificationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -189,7 +190,7 @@ export class ReplicationStorageClassificationsImpl
         resourceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -201,12 +202,12 @@ export class ReplicationStorageClassificationsImpl
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationStorageClassificationsListOptionalParams
+    options?: ReplicationStorageClassificationsListOptionalParams,
   ): AsyncIterableIterator<StorageClassification> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -224,13 +225,11 @@ export class ReplicationStorageClassificationsImpl
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams
-  ): Promise<
-    ReplicationStorageClassificationsListByReplicationFabricsResponse
-  > {
+    options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams,
+  ): Promise<ReplicationStorageClassificationsListByReplicationFabricsResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, fabricName, options },
-      listByReplicationFabricsOperationSpec
+      listByReplicationFabricsOperationSpec,
     );
   }
 
@@ -248,7 +247,7 @@ export class ReplicationStorageClassificationsImpl
     resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
-    options?: ReplicationStorageClassificationsGetOptionalParams
+    options?: ReplicationStorageClassificationsGetOptionalParams,
   ): Promise<ReplicationStorageClassificationsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -256,9 +255,9 @@ export class ReplicationStorageClassificationsImpl
         resourceGroupName,
         fabricName,
         storageClassificationName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -272,11 +271,11 @@ export class ReplicationStorageClassificationsImpl
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationStorageClassificationsListOptionalParams
+    options?: ReplicationStorageClassificationsListOptionalParams,
   ): Promise<ReplicationStorageClassificationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -295,13 +294,11 @@ export class ReplicationStorageClassificationsImpl
     resourceGroupName: string,
     fabricName: string,
     nextLink: string,
-    options?: ReplicationStorageClassificationsListByReplicationFabricsNextOptionalParams
-  ): Promise<
-    ReplicationStorageClassificationsListByReplicationFabricsNextResponse
-  > {
+    options?: ReplicationStorageClassificationsListByReplicationFabricsNextOptionalParams,
+  ): Promise<ReplicationStorageClassificationsListByReplicationFabricsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, fabricName, nextLink, options },
-      listByReplicationFabricsNextOperationSpec
+      listByReplicationFabricsNextOperationSpec,
     );
   }
 
@@ -317,11 +314,11 @@ export class ReplicationStorageClassificationsImpl
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationStorageClassificationsListNextOptionalParams
+    options?: ReplicationStorageClassificationsListNextOptionalParams,
   ): Promise<ReplicationStorageClassificationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -329,33 +326,12 @@ export class ReplicationStorageClassificationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByReplicationFabricsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageClassificationCollection
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageClassification
-    }
+      bodyMapper: Mappers.StorageClassificationCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -364,37 +340,55 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.fabricName,
-    Parameters.storageClassificationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationStorageClassifications",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageClassificationCollection
-    }
+      bodyMapper: Mappers.StorageClassification,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceName,
+    Parameters.fabricName,
+    Parameters.storageClassificationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationStorageClassifications",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageClassificationCollection,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByReplicationFabricsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageClassificationCollection
-    }
+      bodyMapper: Mappers.StorageClassificationCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -402,26 +396,26 @@ const listByReplicationFabricsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceName,
-    Parameters.fabricName
+    Parameters.fabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageClassificationCollection
-    }
+      bodyMapper: Mappers.StorageClassificationCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

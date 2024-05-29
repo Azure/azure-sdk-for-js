@@ -29,7 +29,7 @@ async function addonsDelete() {
   const result = await client.addons.beginDeleteAndWait(
     resourceGroupName,
     privateCloudName,
-    addonName
+    addonName,
   );
   console.log(result);
 }

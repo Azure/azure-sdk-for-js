@@ -16,7 +16,7 @@ import { HDInsightContainersManagementClient } from "../hDInsightContainersManag
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -26,7 +26,7 @@ import {
   ClusterJobsListResponse,
   ClusterJobsRunJobOptionalParams,
   ClusterJobsRunJobResponse,
-  ClusterJobsListNextResponse
+  ClusterJobsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,13 +53,13 @@ export class ClusterJobsImpl implements ClusterJobs {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    options?: ClusterJobsListOptionalParams
+    options?: ClusterJobsListOptionalParams,
   ): PagedAsyncIterableIterator<ClusterJob> {
     const iter = this.listPagingAll(
       resourceGroupName,
       clusterPoolName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +77,9 @@ export class ClusterJobsImpl implements ClusterJobs {
           clusterPoolName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +88,7 @@ export class ClusterJobsImpl implements ClusterJobs {
     clusterPoolName: string,
     clusterName: string,
     options?: ClusterJobsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ClusterJob[]> {
     let result: ClusterJobsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class ClusterJobsImpl implements ClusterJobs {
         resourceGroupName,
         clusterPoolName,
         clusterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +110,7 @@ export class ClusterJobsImpl implements ClusterJobs {
         clusterPoolName,
         clusterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,13 +123,13 @@ export class ClusterJobsImpl implements ClusterJobs {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    options?: ClusterJobsListOptionalParams
+    options?: ClusterJobsListOptionalParams,
   ): AsyncIterableIterator<ClusterJob> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       clusterPoolName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,7 +148,7 @@ export class ClusterJobsImpl implements ClusterJobs {
     clusterPoolName: string,
     clusterName: string,
     clusterJob: ClusterJob,
-    options?: ClusterJobsRunJobOptionalParams
+    options?: ClusterJobsRunJobOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClusterJobsRunJobResponse>,
@@ -157,21 +157,20 @@ export class ClusterJobsImpl implements ClusterJobs {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ClusterJobsRunJobResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -180,8 +179,8 @@ export class ClusterJobsImpl implements ClusterJobs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -189,8 +188,8 @@ export class ClusterJobsImpl implements ClusterJobs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -201,9 +200,9 @@ export class ClusterJobsImpl implements ClusterJobs {
         clusterPoolName,
         clusterName,
         clusterJob,
-        options
+        options,
       },
-      spec: runJobOperationSpec
+      spec: runJobOperationSpec,
     });
     const poller = await createHttpPoller<
       ClusterJobsRunJobResponse,
@@ -211,7 +210,7 @@ export class ClusterJobsImpl implements ClusterJobs {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -230,14 +229,14 @@ export class ClusterJobsImpl implements ClusterJobs {
     clusterPoolName: string,
     clusterName: string,
     clusterJob: ClusterJob,
-    options?: ClusterJobsRunJobOptionalParams
+    options?: ClusterJobsRunJobOptionalParams,
   ): Promise<ClusterJobsRunJobResponse> {
     const poller = await this.beginRunJob(
       resourceGroupName,
       clusterPoolName,
       clusterName,
       clusterJob,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -253,11 +252,11 @@ export class ClusterJobsImpl implements ClusterJobs {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    options?: ClusterJobsListOptionalParams
+    options?: ClusterJobsListOptionalParams,
   ): Promise<ClusterJobsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterPoolName, clusterName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -274,11 +273,11 @@ export class ClusterJobsImpl implements ClusterJobs {
     clusterPoolName: string,
     clusterName: string,
     nextLink: string,
-    options?: ClusterJobsListNextOptionalParams
+    options?: ClusterJobsListNextOptionalParams,
   ): Promise<ClusterJobsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterPoolName, clusterName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -286,25 +285,24 @@ export class ClusterJobsImpl implements ClusterJobs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const runJobOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusterpools/{clusterPoolName}/clusters/{clusterName}/runJob",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusterpools/{clusterPoolName}/clusters/{clusterName}/runJob",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterJob
+      bodyMapper: Mappers.ClusterJob,
     },
     201: {
-      bodyMapper: Mappers.ClusterJob
+      bodyMapper: Mappers.ClusterJob,
     },
     202: {
-      bodyMapper: Mappers.ClusterJob
+      bodyMapper: Mappers.ClusterJob,
     },
     204: {
-      bodyMapper: Mappers.ClusterJob
+      bodyMapper: Mappers.ClusterJob,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.clusterJob,
   queryParameters: [Parameters.apiVersion],
@@ -313,45 +311,44 @@ const runJobOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterPoolName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusterpools/{clusterPoolName}/clusters/{clusterName}/jobs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusterpools/{clusterPoolName}/clusters/{clusterName}/jobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterJobList
+      bodyMapper: Mappers.ClusterJobList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterPoolName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterJobList
+      bodyMapper: Mappers.ClusterJobList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -359,8 +356,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterPoolName,
     Parameters.nextLink,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

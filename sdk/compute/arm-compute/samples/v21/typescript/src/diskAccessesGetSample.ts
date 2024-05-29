@@ -30,7 +30,7 @@ async function getInformationAboutADiskAccessResourceWithPrivateEndpoints() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskAccesses.get(
     resourceGroupName,
-    diskAccessName
+    diskAccessName,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function getInformationAboutADiskAccessResource() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskAccesses.get(
     resourceGroupName,
-    diskAccessName
+    diskAccessName,
   );
   console.log(result);
 }

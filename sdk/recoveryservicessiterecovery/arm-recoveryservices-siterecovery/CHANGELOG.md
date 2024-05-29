@@ -1,4 +1,29 @@
 # Release History
+
+## 5.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 5.2.0 (2024-02-09)
+    
+**Features**
+
+  - Added operation ReplicationFabrics.beginRemoveInfra
+  - Added operation ReplicationFabrics.beginRemoveInfraAndWait
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface ReplicationFabricsRemoveInfraHeaders
+  - Added Interface ReplicationFabricsRemoveInfraOptionalParams
+  - Added Type Alias ReplicationFabricsRemoveInfraResponse
+  - Interface A2AEnableProtectionInput has a new optional parameter autoProtectionOfDataDisk
+    
     
 ## 5.1.0 (2023-09-08)
     

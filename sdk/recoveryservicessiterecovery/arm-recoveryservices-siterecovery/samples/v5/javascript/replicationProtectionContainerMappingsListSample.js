@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the protection container mappings in the vault.
  *
  * @summary Lists the protection container mappings in the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainerMappings_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainerMappings_List.json
  */
 async function getsTheListOfAllProtectionContainerMappingsInAVault() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function getsTheListOfAllProtectionContainerMappingsInAVault() {
   const resArray = new Array();
   for await (let item of client.replicationProtectionContainerMappings.list(
     resourceName,
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

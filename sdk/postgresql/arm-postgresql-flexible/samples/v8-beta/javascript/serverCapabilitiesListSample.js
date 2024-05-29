@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get capabilities for a flexible server.
  *
  * @summary Get capabilities for a flexible server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerCapabilities.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerCapabilities.json
  */
 async function serverCapabilitiesList() {
   const subscriptionId =

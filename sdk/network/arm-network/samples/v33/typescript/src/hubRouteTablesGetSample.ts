@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the details of a RouteTable.
  *
  * @summary Retrieves the details of a RouteTable.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/HubRouteTableGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/HubRouteTableGet.json
  */
 async function routeTableGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function routeTableGet() {
   const result = await client.hubRouteTables.get(
     resourceGroupName,
     virtualHubName,
-    routeTableName
+    routeTableName,
   );
   console.log(result);
 }

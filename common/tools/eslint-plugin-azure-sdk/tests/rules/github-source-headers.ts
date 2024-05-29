@@ -1,20 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RuleTester } from "eslint";
+import { createRuleTester } from "../ruleTester";
 import rule from "../../src/rules/github-source-headers";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 const goodHeader = `// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
@@ -31,7 +25,7 @@ console.log("hello")`;
 
 const invalid2 = `/*
  * Module description
- * @author Someone
+ * 
  */
 
 console.log("hello")`;
@@ -43,7 +37,7 @@ ruleTester.run("github-source-headers", rule, {
     {
       // only the fields we care about
       code: valid,
-      filename: "test.ts",
+      filename: "file.ts",
     },
     {
       // incorrect format but in a file we don't care about
@@ -55,7 +49,7 @@ ruleTester.run("github-source-headers", rule, {
     {
       // no comments
       code: 'console.log("hello")',
-      filename: "test.ts",
+      filename: "file.ts",
       errors: [
         {
           message: configError,
@@ -66,7 +60,7 @@ ruleTester.run("github-source-headers", rule, {
     // wrong headers
     {
       code: invalid1,
-      filename: "test.ts",
+      filename: "file.ts",
       errors: [
         {
           message: configError,
@@ -76,7 +70,7 @@ ruleTester.run("github-source-headers", rule, {
     },
     {
       code: invalid2,
-      filename: "test.ts",
+      filename: "file.ts",
       errors: [
         {
           message: configError,

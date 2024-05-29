@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates an ipGroups in a specified resource group.
  *
  * @summary Creates or updates an ipGroups in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/IpGroupsCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/IpGroupsCreate.json
  */
 async function createOrUpdateIPGroups() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

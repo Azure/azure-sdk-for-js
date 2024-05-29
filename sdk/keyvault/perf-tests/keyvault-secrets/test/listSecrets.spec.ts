@@ -1,4 +1,4 @@
-import { PerfOptionDictionary } from "@azure/test-utils-perf";
+import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { SecretTest } from "./secretTest";
 import { v4 as uuid } from "uuid";
 

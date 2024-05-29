@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   LocalNetworkGateway,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a local network gateway in the specified resource group.
  *
  * @summary Creates or updates a local network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/LocalNetworkGatewayCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LocalNetworkGatewayCreate.json
  */
 async function createLocalNetworkGateway() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -31,14 +31,14 @@ async function createLocalNetworkGateway() {
     fqdn: "site1.contoso.com",
     gatewayIpAddress: "11.12.13.14",
     localNetworkAddressSpace: { addressPrefixes: ["10.1.0.0/16"] },
-    location: "Central US"
+    location: "Central US",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.localNetworkGateways.beginCreateOrUpdateAndWait(
     resourceGroupName,
     localNetworkGatewayName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

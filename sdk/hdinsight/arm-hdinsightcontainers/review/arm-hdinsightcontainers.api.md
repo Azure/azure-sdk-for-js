@@ -90,13 +90,84 @@ export interface CatalogOptions {
 
 // @public
 export interface Cluster extends TrackedResource {
-    clusterProfile?: ClusterProfile;
-    clusterType?: string;
-    computeProfile?: ComputeProfile;
-    readonly deploymentId?: string;
-    readonly provisioningState?: ProvisioningStatus;
-    readonly status?: string;
+    properties?: ClusterResourceProperties;
 }
+
+// @public
+export interface ClusterAccessProfile {
+    enableInternalIngress: boolean;
+    readonly privateLinkServiceId?: string;
+}
+
+// @public
+export interface ClusterAKSPatchVersionUpgradeProperties extends ClusterUpgradeProperties {
+    upgradeType: "AKSPatchUpgrade";
+}
+
+// @public
+export interface ClusterAvailableUpgrade extends ProxyResource {
+    properties?: ClusterAvailableUpgradePropertiesUnion;
+}
+
+// @public
+export interface ClusterAvailableUpgradeAksPatchUpgradeProperties extends ClusterAvailableUpgradeProperties {
+    currentVersion?: string;
+    currentVersionStatus?: CurrentClusterAksVersionStatus;
+    latestVersion?: string;
+    upgradeType: "AKSPatchUpgrade";
+}
+
+// @public
+export interface ClusterAvailableUpgradeHotfixUpgradeProperties extends ClusterAvailableUpgradeProperties {
+    componentName?: string;
+    createdTime?: Date;
+    description?: string;
+    extendedProperties?: string;
+    severity?: Severity;
+    sourceBuildNumber?: string;
+    sourceClusterVersion?: string;
+    sourceOssVersion?: string;
+    targetBuildNumber?: string;
+    targetClusterVersion?: string;
+    targetOssVersion?: string;
+    upgradeType: "HotfixUpgrade";
+}
+
+// @public
+export interface ClusterAvailableUpgradeList {
+    nextLink?: string;
+    value: ClusterAvailableUpgrade[];
+}
+
+// @public
+export interface ClusterAvailableUpgradeProperties {
+    upgradeType: "AKSPatchUpgrade" | "HotfixUpgrade";
+}
+
+// @public (undocumented)
+export type ClusterAvailableUpgradePropertiesUnion = ClusterAvailableUpgradeProperties | ClusterAvailableUpgradeAksPatchUpgradeProperties | ClusterAvailableUpgradeHotfixUpgradeProperties;
+
+// @public
+export interface ClusterAvailableUpgrades {
+    list(resourceGroupName: string, clusterPoolName: string, clusterName: string, options?: ClusterAvailableUpgradesListOptionalParams): PagedAsyncIterableIterator<ClusterAvailableUpgrade>;
+}
+
+// @public
+export interface ClusterAvailableUpgradesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterAvailableUpgradesListNextResponse = ClusterAvailableUpgradeList;
+
+// @public
+export interface ClusterAvailableUpgradesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterAvailableUpgradesListResponse = ClusterAvailableUpgradeList;
+
+// @public
+export type ClusterAvailableUpgradeType = string;
 
 // @public (undocumented)
 export interface ClusterComponentsItem {
@@ -118,6 +189,15 @@ export interface ClusterConfigFile {
 }
 
 // @public
+export interface ClusterHotfixUpgradeProperties extends ClusterUpgradeProperties {
+    componentName?: string;
+    targetBuildNumber?: string;
+    targetClusterVersion?: string;
+    targetOssVersion?: string;
+    upgradeType: "HotfixUpgrade";
+}
+
+// @public
 export interface ClusterInstanceViewProperties {
     serviceStatuses: ServiceStatus[];
     status: ClusterInstanceViewPropertiesStatus;
@@ -130,8 +210,7 @@ export interface ClusterInstanceViewPropertiesStatus extends ClusterInstanceView
 // @public
 export interface ClusterInstanceViewResult {
     name: string;
-    serviceStatuses: ServiceStatus[];
-    status: ClusterInstanceViewPropertiesStatus;
+    properties: ClusterInstanceViewResultProperties;
 }
 
 // @public
@@ -186,6 +265,7 @@ export type ClusterJobsListNextResponse = ClusterJobList;
 
 // @public
 export interface ClusterJobsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
 }
 
 // @public
@@ -225,23 +305,85 @@ export interface ClusterLogAnalyticsProfile {
 }
 
 // @public
-export interface ClusterPatch extends TrackedResource {
+export interface ClusterPatch {
+    properties?: ClusterPatchProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ClusterPatchProperties {
     clusterProfile?: UpdatableClusterProfile;
 }
 
 // @public
 export interface ClusterPool extends TrackedResource {
-    readonly aksClusterProfile?: ClusterPoolResourcePropertiesAksClusterProfile;
-    readonly aksManagedResourceGroupName?: string;
-    clusterPoolProfile?: ClusterPoolResourcePropertiesClusterPoolProfile;
-    computeProfile?: ClusterPoolResourcePropertiesComputeProfile;
-    readonly deploymentId?: string;
-    logAnalyticsProfile?: ClusterPoolResourcePropertiesLogAnalyticsProfile;
-    managedResourceGroupName?: string;
-    networkProfile?: ClusterPoolResourcePropertiesNetworkProfile;
-    readonly provisioningState?: ProvisioningStatus;
-    readonly status?: string;
+    properties?: ClusterPoolResourceProperties;
 }
+
+// @public
+export interface ClusterPoolAKSPatchVersionUpgradeProperties extends ClusterPoolUpgradeProperties {
+    targetAksVersion?: string;
+    upgradeAllClusterNodes?: boolean;
+    upgradeClusterPool?: boolean;
+    upgradeType: "AKSPatchUpgrade";
+}
+
+// @public
+export interface ClusterPoolAvailableUpgrade extends ProxyResource {
+    properties?: ClusterPoolAvailableUpgradePropertiesUnion;
+}
+
+// @public
+export interface ClusterPoolAvailableUpgradeAksPatchUpgradeProperties extends ClusterPoolAvailableUpgradeProperties {
+    currentVersion?: string;
+    currentVersionStatus?: CurrentClusterPoolAksVersionStatus;
+    latestVersion?: string;
+    upgradeType: "AKSPatchUpgrade";
+}
+
+// @public
+export interface ClusterPoolAvailableUpgradeList {
+    nextLink?: string;
+    value: ClusterPoolAvailableUpgrade[];
+}
+
+// @public
+export interface ClusterPoolAvailableUpgradeNodeOsUpgradeProperties extends ClusterPoolAvailableUpgradeProperties {
+    latestVersion?: string;
+    upgradeType: "NodeOsUpgrade";
+}
+
+// @public
+export interface ClusterPoolAvailableUpgradeProperties {
+    upgradeType: "AKSPatchUpgrade" | "NodeOsUpgrade";
+}
+
+// @public (undocumented)
+export type ClusterPoolAvailableUpgradePropertiesUnion = ClusterPoolAvailableUpgradeProperties | ClusterPoolAvailableUpgradeAksPatchUpgradeProperties | ClusterPoolAvailableUpgradeNodeOsUpgradeProperties;
+
+// @public
+export interface ClusterPoolAvailableUpgrades {
+    list(resourceGroupName: string, clusterPoolName: string, options?: ClusterPoolAvailableUpgradesListOptionalParams): PagedAsyncIterableIterator<ClusterPoolAvailableUpgrade>;
+}
+
+// @public
+export interface ClusterPoolAvailableUpgradesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterPoolAvailableUpgradesListNextResponse = ClusterPoolAvailableUpgradeList;
+
+// @public
+export interface ClusterPoolAvailableUpgradesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterPoolAvailableUpgradesListResponse = ClusterPoolAvailableUpgradeList;
+
+// @public
+export type ClusterPoolAvailableUpgradeType = string;
 
 // @public
 export interface ClusterPoolComputeProfile {
@@ -263,12 +405,34 @@ export interface ClusterPoolLogAnalyticsProfile {
 
 // @public
 export interface ClusterPoolNetworkProfile {
+    apiServerAuthorizedIpRanges?: string[];
+    enablePrivateApiServer?: boolean;
+    outboundType?: OutboundType;
     subnetId: string;
+}
+
+// @public
+export interface ClusterPoolNodeOsImageUpdateProperties extends ClusterPoolUpgradeProperties {
+    upgradeType: "NodeOsUpgrade";
 }
 
 // @public
 export interface ClusterPoolProfile {
     clusterPoolVersion: string;
+}
+
+// @public
+export interface ClusterPoolResourceProperties {
+    readonly aksClusterProfile?: ClusterPoolResourcePropertiesAksClusterProfile;
+    readonly aksManagedResourceGroupName?: string;
+    clusterPoolProfile?: ClusterPoolResourcePropertiesClusterPoolProfile;
+    computeProfile: ClusterPoolResourcePropertiesComputeProfile;
+    readonly deploymentId?: string;
+    logAnalyticsProfile?: ClusterPoolResourcePropertiesLogAnalyticsProfile;
+    managedResourceGroupName?: string;
+    networkProfile?: ClusterPoolResourcePropertiesNetworkProfile;
+    readonly provisioningState?: ProvisioningStatus;
+    readonly status?: string;
 }
 
 // @public
@@ -299,6 +463,8 @@ export interface ClusterPools {
     beginDeleteAndWait(resourceGroupName: string, clusterPoolName: string, options?: ClusterPoolsDeleteOptionalParams): Promise<void>;
     beginUpdateTags(resourceGroupName: string, clusterPoolName: string, clusterPoolTags: TagsObject, options?: ClusterPoolsUpdateTagsOptionalParams): Promise<SimplePollerLike<OperationState<ClusterPoolsUpdateTagsResponse>, ClusterPoolsUpdateTagsResponse>>;
     beginUpdateTagsAndWait(resourceGroupName: string, clusterPoolName: string, clusterPoolTags: TagsObject, options?: ClusterPoolsUpdateTagsOptionalParams): Promise<ClusterPoolsUpdateTagsResponse>;
+    beginUpgrade(resourceGroupName: string, clusterPoolName: string, clusterPoolUpgradeRequest: ClusterPoolUpgrade, options?: ClusterPoolsUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<ClusterPoolsUpgradeResponse>, ClusterPoolsUpgradeResponse>>;
+    beginUpgradeAndWait(resourceGroupName: string, clusterPoolName: string, clusterPoolUpgradeRequest: ClusterPoolUpgrade, options?: ClusterPoolsUpgradeOptionalParams): Promise<ClusterPoolsUpgradeResponse>;
     get(resourceGroupName: string, clusterPoolName: string, options?: ClusterPoolsGetOptionalParams): Promise<ClusterPoolsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ClusterPoolsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ClusterPool>;
     listBySubscription(options?: ClusterPoolsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ClusterPool>;
@@ -376,7 +542,42 @@ export interface ClusterPoolsUpdateTagsOptionalParams extends coreClient.Operati
 export type ClusterPoolsUpdateTagsResponse = ClusterPool;
 
 // @public
+export interface ClusterPoolsUpgradeHeaders {
+    location?: string;
+}
+
+// @public
+export interface ClusterPoolsUpgradeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClusterPoolsUpgradeResponse = ClusterPool;
+
+// @public
+export interface ClusterPoolUpgrade {
+    properties: ClusterPoolUpgradePropertiesUnion;
+}
+
+// @public
+export interface ClusterPoolUpgradeProperties {
+    upgradeType: "AKSPatchUpgrade" | "NodeOsUpgrade";
+}
+
+// @public (undocumented)
+export type ClusterPoolUpgradePropertiesUnion = ClusterPoolUpgradeProperties | ClusterPoolAKSPatchVersionUpgradeProperties | ClusterPoolNodeOsImageUpdateProperties;
+
+// @public
+export type ClusterPoolUpgradeType = string;
+
+// @public
 export interface ClusterPoolVersion extends ProxyResource {
+    properties?: ClusterPoolVersionProperties;
+}
+
+// @public
+export interface ClusterPoolVersionProperties {
     aksVersion?: string;
     clusterPoolVersion?: string;
     isPreview?: boolean;
@@ -392,20 +593,21 @@ export interface ClusterPoolVersionsListResult {
 export interface ClusterProfile {
     authorizationProfile: AuthorizationProfile;
     autoscaleProfile?: AutoscaleProfile;
+    clusterAccessProfile?: ClusterAccessProfile;
     clusterVersion: string;
     readonly components?: ClusterComponentsItem[];
     readonly connectivityProfile?: ConnectivityProfile;
     flinkProfile?: FlinkProfile;
-    identityProfile: IdentityProfile;
-    kafkaProfile?: {
-        [propertyName: string]: any;
-    };
+    identityProfile?: IdentityProfile;
+    kafkaProfile?: KafkaProfile;
     llapProfile?: {
         [propertyName: string]: any;
     };
     logAnalyticsProfile?: ClusterLogAnalyticsProfile;
     ossVersion: string;
     prometheusProfile?: ClusterPrometheusProfile;
+    rangerPluginProfile?: ClusterRangerPluginProfile;
+    rangerProfile?: RangerProfile;
     scriptActionProfiles?: ScriptActionProfile[];
     secretsProfile?: SecretsProfile;
     serviceConfigsProfiles?: ClusterServiceConfigsProfile[];
@@ -423,8 +625,28 @@ export interface ClusterPrometheusProfile {
 }
 
 // @public
+export interface ClusterRangerPluginProfile {
+    enabled: boolean;
+}
+
+// @public
 export interface ClusterResizeData extends TrackedResource {
-    targetWorkerNodeCount?: number;
+    properties?: ClusterResizeProperties;
+}
+
+// @public
+export interface ClusterResizeProperties {
+    targetWorkerNodeCount: number;
+}
+
+// @public
+export interface ClusterResourceProperties {
+    clusterProfile: ClusterProfile;
+    clusterType: string;
+    computeProfile: ComputeProfile;
+    readonly deploymentId?: string;
+    readonly provisioningState?: ProvisioningStatus;
+    readonly status?: string;
 }
 
 // @public
@@ -437,6 +659,8 @@ export interface Clusters {
     beginResizeAndWait(resourceGroupName: string, clusterPoolName: string, clusterName: string, clusterResizeRequest: ClusterResizeData, options?: ClustersResizeOptionalParams): Promise<ClustersResizeResponse>;
     beginUpdate(resourceGroupName: string, clusterPoolName: string, clusterName: string, clusterPatchRequest: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterPoolName: string, clusterName: string, clusterPatchRequest: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
+    beginUpgrade(resourceGroupName: string, clusterPoolName: string, clusterName: string, clusterUpgradeRequest: ClusterUpgrade, options?: ClustersUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpgradeResponse>, ClustersUpgradeResponse>>;
+    beginUpgradeAndWait(resourceGroupName: string, clusterPoolName: string, clusterName: string, clusterUpgradeRequest: ClusterUpgrade, options?: ClustersUpgradeOptionalParams): Promise<ClustersUpgradeResponse>;
     get(resourceGroupName: string, clusterPoolName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     getInstanceView(resourceGroupName: string, clusterPoolName: string, clusterName: string, options?: ClustersGetInstanceViewOptionalParams): Promise<ClustersGetInstanceViewResponse>;
     listByClusterPoolName(resourceGroupName: string, clusterPoolName: string, options?: ClustersListByClusterPoolNameOptionalParams): PagedAsyncIterableIterator<Cluster>;
@@ -563,7 +787,42 @@ export interface ClustersUpdateOptionalParams extends coreClient.OperationOption
 export type ClustersUpdateResponse = Cluster;
 
 // @public
+export interface ClustersUpgradeHeaders {
+    location?: string;
+}
+
+// @public
+export interface ClustersUpgradeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClustersUpgradeResponse = Cluster;
+
+// @public
+export interface ClusterUpgrade {
+    properties: ClusterUpgradePropertiesUnion;
+}
+
+// @public
+export interface ClusterUpgradeProperties {
+    upgradeType: "AKSPatchUpgrade" | "HotfixUpgrade";
+}
+
+// @public (undocumented)
+export type ClusterUpgradePropertiesUnion = ClusterUpgradeProperties | ClusterAKSPatchVersionUpgradeProperties | ClusterHotfixUpgradeProperties;
+
+// @public
+export type ClusterUpgradeType = string;
+
+// @public
 export interface ClusterVersion extends ProxyResource {
+    properties?: ClusterVersionProperties;
+}
+
+// @public
+export interface ClusterVersionProperties {
     clusterPoolVersion?: string;
     clusterType?: string;
     clusterVersion?: string;
@@ -615,6 +874,27 @@ export type ContentEncoding = string;
 export type CreatedByType = string;
 
 // @public
+export type CurrentClusterAksVersionStatus = string;
+
+// @public
+export type CurrentClusterPoolAksVersionStatus = string;
+
+// @public
+export type DataDiskType = string;
+
+// @public
+export type DbConnectionAuthenticationMode = string;
+
+// @public
+export type DeploymentMode = string;
+
+// @public
+export interface DiskStorageProfile {
+    dataDiskSize: number;
+    dataDiskType: DataDiskType;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -641,9 +921,20 @@ export interface FlinkCatalogOptions {
 
 // @public
 export interface FlinkHiveCatalogOption {
-    metastoreDbConnectionPasswordSecret: string;
+    metastoreDbConnectionAuthenticationMode?: MetastoreDbConnectionAuthenticationMode;
+    metastoreDbConnectionPasswordSecret?: string;
     metastoreDbConnectionURL: string;
-    metastoreDbConnectionUserName: string;
+    metastoreDbConnectionUserName?: string;
+}
+
+// @public
+export interface FlinkJobProfile {
+    args?: string;
+    entryClass?: string;
+    jarName: string;
+    jobJarDirectory: string;
+    savePointName?: string;
+    upgradeMode: UpgradeMode;
 }
 
 // @public
@@ -658,10 +949,11 @@ export interface FlinkJobProperties extends ClusterJobProperties {
     jarName?: string;
     readonly jobId?: string;
     jobJarDirectory?: string;
-    jobName: string;
+    jobName?: string;
     readonly jobOutput?: string;
     jobType: "FlinkJob";
     readonly lastSavePoint?: string;
+    runId?: string;
     savePointName?: string;
     readonly status?: string;
 }
@@ -669,8 +961,10 @@ export interface FlinkJobProperties extends ClusterJobProperties {
 // @public
 export interface FlinkProfile {
     catalogOptions?: FlinkCatalogOptions;
+    deploymentMode?: DeploymentMode;
     historyServer?: ComputeResourceDefinition;
     jobManager: ComputeResourceDefinition;
+    jobSpec?: FlinkJobProfile;
     numReplicas?: number;
     storage: FlinkStorageProfile;
     taskManager: ComputeResourceDefinition;
@@ -697,7 +991,11 @@ export class HDInsightContainersManagementClient extends coreClient.ServiceClien
     // (undocumented)
     availableClusterVersions: AvailableClusterVersions;
     // (undocumented)
+    clusterAvailableUpgrades: ClusterAvailableUpgrades;
+    // (undocumented)
     clusterJobs: ClusterJobs;
+    // (undocumented)
+    clusterPoolAvailableUpgrades: ClusterPoolAvailableUpgrades;
     // (undocumented)
     clusterPools: ClusterPools;
     // (undocumented)
@@ -720,9 +1018,10 @@ export interface HDInsightContainersManagementClientOptionalParams extends coreC
 // @public
 export interface HiveCatalogOption {
     catalogName: string;
-    metastoreDbConnectionPasswordSecret: string;
+    metastoreDbConnectionAuthenticationMode?: MetastoreDbConnectionAuthenticationMode;
+    metastoreDbConnectionPasswordSecret?: string;
     metastoreDbConnectionURL: string;
-    metastoreDbConnectionUserName: string;
+    metastoreDbConnectionUserName?: string;
     metastoreWarehouseDir: string;
 }
 
@@ -737,14 +1036,32 @@ export interface IdentityProfile {
 export type JobType = string;
 
 // @public
+export interface KafkaConnectivityEndpoints {
+    bootstrapServerEndpoint?: string;
+    brokerEndpoints?: string[];
+}
+
+// @public
+export interface KafkaProfile {
+    readonly clusterIdentity?: IdentityProfile;
+    readonly connectivityEndpoints?: KafkaConnectivityEndpoints;
+    diskStorage: DiskStorageProfile;
+    enableKRaft?: boolean;
+    enablePublicEndpoints?: boolean;
+    remoteStorageUri?: string;
+}
+
+// @public
 export type KeyVaultObjectType = string;
 
 // @public
 export enum KnownAction {
     Cancel = "CANCEL",
     Delete = "DELETE",
+    LastStateUpdate = "LAST_STATE_UPDATE",
     ListSavepoint = "LIST_SAVEPOINT",
     NEW = "NEW",
+    RELaunch = "RE_LAUNCH",
     Savepoint = "SAVEPOINT",
     Start = "START",
     StatelessUpdate = "STATELESS_UPDATE",
@@ -761,6 +1078,30 @@ export enum KnownActionType {
 export enum KnownAutoscaleType {
     LoadBased = "LoadBased",
     ScheduleBased = "ScheduleBased"
+}
+
+// @public
+export enum KnownClusterAvailableUpgradeType {
+    AKSPatchUpgrade = "AKSPatchUpgrade",
+    HotfixUpgrade = "HotfixUpgrade"
+}
+
+// @public
+export enum KnownClusterPoolAvailableUpgradeType {
+    AKSPatchUpgrade = "AKSPatchUpgrade",
+    NodeOsUpgrade = "NodeOsUpgrade"
+}
+
+// @public
+export enum KnownClusterPoolUpgradeType {
+    AKSPatchUpgrade = "AKSPatchUpgrade",
+    NodeOsUpgrade = "NodeOsUpgrade"
+}
+
+// @public
+export enum KnownClusterUpgradeType {
+    AKSPatchUpgrade = "AKSPatchUpgrade",
+    HotfixUpgrade = "HotfixUpgrade"
 }
 
 // @public
@@ -786,6 +1127,40 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownCurrentClusterAksVersionStatus {
+    Deprecated = "Deprecated",
+    Supported = "Supported"
+}
+
+// @public
+export enum KnownCurrentClusterPoolAksVersionStatus {
+    Deprecated = "Deprecated",
+    Supported = "Supported"
+}
+
+// @public
+export enum KnownDataDiskType {
+    PremiumSSDLRS = "Premium_SSD_LRS",
+    PremiumSSDV2LRS = "Premium_SSD_v2_LRS",
+    PremiumSSDZRS = "Premium_SSD_ZRS",
+    StandardHDDLRS = "Standard_HDD_LRS",
+    StandardSSDLRS = "Standard_SSD_LRS",
+    StandardSSDZRS = "Standard_SSD_ZRS"
+}
+
+// @public
+export enum KnownDbConnectionAuthenticationMode {
+    IdentityAuth = "IdentityAuth",
+    SqlAuth = "SqlAuth"
+}
+
+// @public
+export enum KnownDeploymentMode {
+    Application = "Application",
+    Session = "Session"
+}
+
+// @public
 export enum KnownJobType {
     FlinkJob = "FlinkJob"
 }
@@ -798,10 +1173,22 @@ export enum KnownKeyVaultObjectType {
 }
 
 // @public
+export enum KnownMetastoreDbConnectionAuthenticationMode {
+    IdentityAuth = "IdentityAuth",
+    SqlAuth = "SqlAuth"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownOutboundType {
+    LoadBalancer = "loadBalancer",
+    UserDefinedRouting = "userDefinedRouting"
 }
 
 // @public
@@ -810,6 +1197,12 @@ export enum KnownProvisioningStatus {
     Canceled = "Canceled",
     Failed = "Failed",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownRangerUsersyncMode {
+    Automatic = "automatic",
+    Static = "static"
 }
 
 // @public
@@ -827,6 +1220,21 @@ export enum KnownScheduleDay {
     Thursday = "Thursday",
     Tuesday = "Tuesday",
     Wednesday = "Wednesday"
+}
+
+// @public
+export enum KnownSeverity {
+    Critical = "critical",
+    High = "high",
+    Low = "low",
+    Medium = "medium"
+}
+
+// @public
+export enum KnownUpgradeMode {
+    LastStateUpdate = "LAST_STATE_UPDATE",
+    StatelessUpdate = "STATELESS_UPDATE",
+    Update = "UPDATE"
 }
 
 // @public
@@ -849,6 +1257,9 @@ export interface LocationsCheckNameAvailabilityOptionalParams extends coreClient
 
 // @public
 export type LocationsCheckNameAvailabilityResponse = NameAvailabilityResult;
+
+// @public
+export type MetastoreDbConnectionAuthenticationMode = string;
 
 // @public
 export interface NameAvailabilityParameters {
@@ -916,10 +1327,52 @@ export type OperationsListResponse = OperationListResult;
 export type Origin = string;
 
 // @public
+export type OutboundType = string;
+
+// @public
 export type ProvisioningStatus = string;
 
 // @public
 export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface RangerAdminSpec {
+    admins: string[];
+    // (undocumented)
+    database: RangerAdminSpecDatabase;
+}
+
+// @public (undocumented)
+export interface RangerAdminSpecDatabase {
+    host: string;
+    name: string;
+    passwordSecretRef?: string;
+    username?: string;
+}
+
+// @public
+export interface RangerAuditSpec {
+    storageAccount?: string;
+}
+
+// @public
+export interface RangerProfile {
+    rangerAdmin: RangerAdminSpec;
+    rangerAudit?: RangerAuditSpec;
+    rangerUsersync: RangerUsersyncSpec;
+}
+
+// @public
+export type RangerUsersyncMode = string;
+
+// @public
+export interface RangerUsersyncSpec {
+    enabled?: boolean;
+    groups?: string[];
+    mode?: RangerUsersyncMode;
+    userMappingLocation?: string;
+    users?: string[];
 }
 
 // @public
@@ -1014,18 +1467,7 @@ export interface ServiceConfigListResultValueEntity {
 
 // @public
 export interface ServiceConfigResult {
-    componentName?: string;
-    content?: string;
-    customKeys?: {
-        [propertyName: string]: string;
-    };
-    defaultKeys?: {
-        [propertyName: string]: ServiceConfigListResultValueEntity;
-    };
-    fileName?: string;
-    path?: string;
-    serviceName?: string;
-    type?: string;
+    properties?: ServiceConfigResultProperties;
 }
 
 // @public
@@ -1040,12 +1482,16 @@ export interface ServiceStatus {
 }
 
 // @public
+export type Severity = string;
+
+// @public
 export interface SparkMetastoreSpec {
+    dbConnectionAuthenticationMode?: DbConnectionAuthenticationMode;
     dbName: string;
-    dbPasswordSecretName: string;
+    dbPasswordSecretName?: string;
     dbServerHost: string;
-    dbUserName: string;
-    keyVaultId: string;
+    dbUserName?: string;
+    keyVaultId?: string;
     thriftUrl?: string;
 }
 
@@ -1069,6 +1515,7 @@ export interface SparkUserPlugins {
 // @public
 export interface SshConnectivityEndpoint {
     endpoint: string;
+    privateSshEndpoint?: string;
 }
 
 // @public
@@ -1104,8 +1551,13 @@ export interface TrackedResource extends Resource {
 
 // @public
 export interface TrinoCoordinator {
-    enable?: boolean;
+    debug?: TrinoDebugConfig;
     highAvailabilityEnabled?: boolean;
+}
+
+// @public
+export interface TrinoDebugConfig {
+    enable?: boolean;
     port?: number;
     suspend?: boolean;
 }
@@ -1146,9 +1598,7 @@ export interface TrinoUserTelemetry {
 
 // @public
 export interface TrinoWorker {
-    enable?: boolean;
-    port?: number;
-    suspend?: boolean;
+    debug?: TrinoDebugConfig;
 }
 
 // @public
@@ -1157,14 +1607,20 @@ export interface UpdatableClusterProfile {
     autoscaleProfile?: AutoscaleProfile;
     logAnalyticsProfile?: ClusterLogAnalyticsProfile;
     prometheusProfile?: ClusterPrometheusProfile;
+    rangerPluginProfile?: ClusterRangerPluginProfile;
+    rangerProfile?: RangerProfile;
     scriptActionProfiles?: ScriptActionProfile[];
     serviceConfigsProfiles?: ClusterServiceConfigsProfile[];
     sshProfile?: SshProfile;
 }
 
 // @public
+export type UpgradeMode = string;
+
+// @public
 export interface WebConnectivityEndpoint {
     fqdn: string;
+    privateFqdn?: string;
 }
 
 // (No @packageDocumentation comment for this package)

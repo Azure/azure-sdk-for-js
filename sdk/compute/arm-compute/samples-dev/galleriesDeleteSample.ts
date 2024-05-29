@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a Shared Image Gallery.
  *
  * @summary Delete a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/Gallery_Delete.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/Gallery_Delete.json
  */
 async function deleteAGallery() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function deleteAGallery() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleries.beginDeleteAndWait(
     resourceGroupName,
-    galleryName
+    galleryName,
   );
   console.log(result);
 }

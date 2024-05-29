@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   GalleryImageVersionUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a gallery image version.
  *
  * @summary Update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Update.json
  */
 async function updateASimpleGalleryImageVersionManagedImageAsSource() {
   const subscriptionId =
@@ -38,16 +38,15 @@ async function updateASimpleGalleryImageVersionManagedImageAsSource() {
         {
           name: "East US",
           regionalReplicaCount: 2,
-          storageAccountType: "Standard_ZRS"
-        }
-      ]
+          storageAccountType: "Standard_ZRS",
+        },
+      ],
     },
     storageProfile: {
       source: {
-        id:
-          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
-      }
-    }
+        id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -56,7 +55,7 @@ async function updateASimpleGalleryImageVersionManagedImageAsSource() {
     galleryName,
     galleryImageName,
     galleryImageVersionName,
-    galleryImageVersion
+    galleryImageVersion,
   );
   console.log(result);
 }
@@ -65,7 +64,7 @@ async function updateASimpleGalleryImageVersionManagedImageAsSource() {
  * This sample demonstrates how to Update a gallery image version.
  *
  * @summary Update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Update_WithoutSourceId.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Update_WithoutSourceId.json
  */
 async function updateASimpleGalleryImageVersionWithoutSourceId() {
   const subscriptionId =
@@ -82,11 +81,11 @@ async function updateASimpleGalleryImageVersionWithoutSourceId() {
         {
           name: "East US",
           regionalReplicaCount: 2,
-          storageAccountType: "Standard_ZRS"
-        }
-      ]
+          storageAccountType: "Standard_ZRS",
+        },
+      ],
     },
-    storageProfile: {}
+    storageProfile: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -95,7 +94,7 @@ async function updateASimpleGalleryImageVersionWithoutSourceId() {
     galleryName,
     galleryImageName,
     galleryImageVersionName,
-    galleryImageVersion
+    galleryImageVersion,
   );
   console.log(result);
 }

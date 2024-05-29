@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   TriggerDataMoveRequest,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Triggers Data Move Operation on target vault
  *
  * @summary Triggers Data Move Operation on target vault
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/BackupDataMove/TriggerDataMove_Post.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/BackupDataMove/TriggerDataMove_Post.json
  */
 async function triggerDataMove() {
   const subscriptionId =
@@ -36,14 +36,14 @@ async function triggerDataMove() {
     dataMoveLevel: "Vault",
     sourceRegion: "USGov Iowa",
     sourceResourceId:
-      "/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/sourceRG/providers/Microsoft.RecoveryServices/vaults/source-rsv"
+      "/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/sourceRG/providers/Microsoft.RecoveryServices/vaults/source-rsv",
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.beginBMSTriggerDataMoveAndWait(
     vaultName,
     resourceGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

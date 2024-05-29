@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import {
   getDate,
   getDateOrUndefined,
@@ -13,7 +14,6 @@ import {
   getTagsOrUndefined,
   isDefined,
 } from "../../../src/utils/utils.js";
-import { assert } from "@azure/test-utils";
 
 describe("utils", () => {
   describe("isDefined", () => {

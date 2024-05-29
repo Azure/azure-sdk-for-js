@@ -16,7 +16,7 @@ import {
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsDeleteResponse
+  PrivateEndpointConnectionsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface PrivateEndpointConnections {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: PrivateEndpointConnectionsListByClusterOptionalParams
+    options?: PrivateEndpointConnectionsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets private endpoint connection.
@@ -45,7 +45,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     clusterName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Approves or Rejects a private endpoint connection with a given name.
@@ -61,7 +61,7 @@ export interface PrivateEndpointConnections {
     clusterName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
@@ -82,7 +82,7 @@ export interface PrivateEndpointConnections {
     clusterName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes a private endpoint connection with a given name.
@@ -96,7 +96,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     clusterName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionsDeleteResponse>,
@@ -115,6 +115,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     clusterName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<PrivateEndpointConnectionsDeleteResponse>;
 }

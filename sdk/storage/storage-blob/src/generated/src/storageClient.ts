@@ -13,7 +13,7 @@ import {
   BlobImpl,
   PageBlobImpl,
   AppendBlobImpl,
-  BlockBlobImpl
+  BlockBlobImpl,
 } from "./operations";
 import {
   Service,
@@ -21,7 +21,7 @@ import {
   Blob,
   PageBlob,
   AppendBlob,
-  BlockBlob
+  BlockBlob,
 } from "./operationsInterfaces";
 import { StorageClientOptionalParams } from "./models";
 
@@ -45,7 +45,7 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
       options = {};
     }
     const defaults: StorageClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
     const packageDetails = `azsdk-js-azure-storage-blob/12.23.0-beta.2`;
@@ -58,16 +58,16 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{url}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{url}",
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.url = url;
 
     // Assigning values to Constant parameters
-    this.version = options.version || "2023-08-03";
+    this.version = options.version || "2023-11-03";
     this.service = new ServiceImpl(this);
     this.container = new ContainerImpl(this);
     this.blob = new BlobImpl(this);

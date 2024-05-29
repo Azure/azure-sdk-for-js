@@ -18,13 +18,14 @@ import {
   ExpressRouteServiceProvidersListNextOptionalParams,
   ExpressRouteServiceProvidersListOptionalParams,
   ExpressRouteServiceProvidersListResponse,
-  ExpressRouteServiceProvidersListNextResponse
+  ExpressRouteServiceProvidersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ExpressRouteServiceProviders operations. */
 export class ExpressRouteServiceProvidersImpl
-  implements ExpressRouteServiceProviders {
+  implements ExpressRouteServiceProviders
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -40,7 +41,7 @@ export class ExpressRouteServiceProvidersImpl
    * @param options The options parameters.
    */
   public list(
-    options?: ExpressRouteServiceProvidersListOptionalParams
+    options?: ExpressRouteServiceProvidersListOptionalParams,
   ): PagedAsyncIterableIterator<ExpressRouteServiceProvider> {
     const iter = this.listPagingAll(options);
     return {
@@ -55,13 +56,13 @@ export class ExpressRouteServiceProvidersImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ExpressRouteServiceProvidersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ExpressRouteServiceProvider[]> {
     let result: ExpressRouteServiceProvidersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -82,7 +83,7 @@ export class ExpressRouteServiceProvidersImpl
   }
 
   private async *listPagingAll(
-    options?: ExpressRouteServiceProvidersListOptionalParams
+    options?: ExpressRouteServiceProvidersListOptionalParams,
   ): AsyncIterableIterator<ExpressRouteServiceProvider> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -94,7 +95,7 @@ export class ExpressRouteServiceProvidersImpl
    * @param options The options parameters.
    */
   private _list(
-    options?: ExpressRouteServiceProvidersListOptionalParams
+    options?: ExpressRouteServiceProvidersListOptionalParams,
   ): Promise<ExpressRouteServiceProvidersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -106,11 +107,11 @@ export class ExpressRouteServiceProvidersImpl
    */
   private _listNext(
     nextLink: string,
-    options?: ExpressRouteServiceProvidersListNextOptionalParams
+    options?: ExpressRouteServiceProvidersListNextOptionalParams,
   ): Promise<ExpressRouteServiceProvidersListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -118,38 +119,37 @@ export class ExpressRouteServiceProvidersImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteServiceProviderListResult
+      bodyMapper: Mappers.ExpressRouteServiceProviderListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteServiceProviderListResult
+      bodyMapper: Mappers.ExpressRouteServiceProviderListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

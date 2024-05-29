@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified private link service by resource group.
  *
  * @summary Gets the specified private link service by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PrivateLinkServiceGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/PrivateLinkServiceGet.json
  */
 async function getPrivateLinkService() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -28,7 +28,7 @@ async function getPrivateLinkService() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.privateLinkServices.get(
     resourceGroupName,
-    serviceName
+    serviceName,
   );
   console.log(result);
 }

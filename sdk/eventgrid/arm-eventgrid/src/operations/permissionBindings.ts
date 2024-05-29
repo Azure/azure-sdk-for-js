@@ -16,7 +16,7 @@ import { EventGridManagementClient } from "../eventGridManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   PermissionBindingsCreateOrUpdateOptionalParams,
   PermissionBindingsCreateOrUpdateResponse,
   PermissionBindingsDeleteOptionalParams,
-  PermissionBindingsListByNamespaceNextResponse
+  PermissionBindingsListByNamespaceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +54,12 @@ export class PermissionBindingsImpl implements PermissionBindings {
   public listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: PermissionBindingsListByNamespaceOptionalParams
+    options?: PermissionBindingsListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<PermissionBinding> {
     const iter = this.listByNamespacePagingAll(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class PermissionBindingsImpl implements PermissionBindings {
           resourceGroupName,
           namespaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class PermissionBindingsImpl implements PermissionBindings {
     resourceGroupName: string,
     namespaceName: string,
     options?: PermissionBindingsListByNamespaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PermissionBinding[]> {
     let result: PermissionBindingsListByNamespaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class PermissionBindingsImpl implements PermissionBindings {
       result = await this._listByNamespace(
         resourceGroupName,
         namespaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class PermissionBindingsImpl implements PermissionBindings {
         resourceGroupName,
         namespaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class PermissionBindingsImpl implements PermissionBindings {
   private async *listByNamespacePagingAll(
     resourceGroupName: string,
     namespaceName: string,
-    options?: PermissionBindingsListByNamespaceOptionalParams
+    options?: PermissionBindingsListByNamespaceOptionalParams,
   ): AsyncIterableIterator<PermissionBinding> {
     for await (const page of this.listByNamespacePagingPage(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class PermissionBindingsImpl implements PermissionBindings {
     resourceGroupName: string,
     namespaceName: string,
     permissionBindingName: string,
-    options?: PermissionBindingsGetOptionalParams
+    options?: PermissionBindingsGetOptionalParams,
   ): Promise<PermissionBindingsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, permissionBindingName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -161,7 +161,7 @@ export class PermissionBindingsImpl implements PermissionBindings {
     namespaceName: string,
     permissionBindingName: string,
     permissionBindingInfo: PermissionBinding,
-    options?: PermissionBindingsCreateOrUpdateOptionalParams
+    options?: PermissionBindingsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PermissionBindingsCreateOrUpdateResponse>,
@@ -170,21 +170,20 @@ export class PermissionBindingsImpl implements PermissionBindings {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PermissionBindingsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -193,8 +192,8 @@ export class PermissionBindingsImpl implements PermissionBindings {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -202,8 +201,8 @@ export class PermissionBindingsImpl implements PermissionBindings {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -214,9 +213,9 @@ export class PermissionBindingsImpl implements PermissionBindings {
         namespaceName,
         permissionBindingName,
         permissionBindingInfo,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PermissionBindingsCreateOrUpdateResponse,
@@ -224,7 +223,7 @@ export class PermissionBindingsImpl implements PermissionBindings {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -243,14 +242,14 @@ export class PermissionBindingsImpl implements PermissionBindings {
     namespaceName: string,
     permissionBindingName: string,
     permissionBindingInfo: PermissionBinding,
-    options?: PermissionBindingsCreateOrUpdateOptionalParams
+    options?: PermissionBindingsCreateOrUpdateOptionalParams,
   ): Promise<PermissionBindingsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       namespaceName,
       permissionBindingName,
       permissionBindingInfo,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -266,25 +265,24 @@ export class PermissionBindingsImpl implements PermissionBindings {
     resourceGroupName: string,
     namespaceName: string,
     permissionBindingName: string,
-    options?: PermissionBindingsDeleteOptionalParams
+    options?: PermissionBindingsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -293,8 +291,8 @@ export class PermissionBindingsImpl implements PermissionBindings {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -302,8 +300,8 @@ export class PermissionBindingsImpl implements PermissionBindings {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -313,14 +311,14 @@ export class PermissionBindingsImpl implements PermissionBindings {
         resourceGroupName,
         namespaceName,
         permissionBindingName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -337,13 +335,13 @@ export class PermissionBindingsImpl implements PermissionBindings {
     resourceGroupName: string,
     namespaceName: string,
     permissionBindingName: string,
-    options?: PermissionBindingsDeleteOptionalParams
+    options?: PermissionBindingsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       namespaceName,
       permissionBindingName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -357,11 +355,11 @@ export class PermissionBindingsImpl implements PermissionBindings {
   private _listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: PermissionBindingsListByNamespaceOptionalParams
+    options?: PermissionBindingsListByNamespaceOptionalParams,
   ): Promise<PermissionBindingsListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
-      listByNamespaceOperationSpec
+      listByNamespaceOperationSpec,
     );
   }
 
@@ -376,11 +374,11 @@ export class PermissionBindingsImpl implements PermissionBindings {
     resourceGroupName: string,
     namespaceName: string,
     nextLink: string,
-    options?: PermissionBindingsListByNamespaceNextOptionalParams
+    options?: PermissionBindingsListByNamespaceNextOptionalParams,
   ): Promise<PermissionBindingsListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, nextLink, options },
-      listByNamespaceNextOperationSpec
+      listByNamespaceNextOperationSpec,
     );
   }
 }
@@ -388,16 +386,15 @@ export class PermissionBindingsImpl implements PermissionBindings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/permissionBindings/{permissionBindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/permissionBindings/{permissionBindingName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PermissionBinding
+      bodyMapper: Mappers.PermissionBinding,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -405,31 +402,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.permissionBindingName
+    Parameters.permissionBindingName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/permissionBindings/{permissionBindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/permissionBindings/{permissionBindingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PermissionBinding
+      bodyMapper: Mappers.PermissionBinding,
     },
     201: {
-      bodyMapper: Mappers.PermissionBinding
+      bodyMapper: Mappers.PermissionBinding,
     },
     202: {
-      bodyMapper: Mappers.PermissionBinding
+      bodyMapper: Mappers.PermissionBinding,
     },
     204: {
-      bodyMapper: Mappers.PermissionBinding
+      bodyMapper: Mappers.PermissionBinding,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.permissionBindingInfo,
   queryParameters: [Parameters.apiVersion],
@@ -438,15 +434,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.permissionBindingName
+    Parameters.permissionBindingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/permissionBindings/{permissionBindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/permissionBindings/{permissionBindingName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -454,8 +449,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -463,51 +458,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.permissionBindingName
+    Parameters.permissionBindingName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByNamespaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/permissionBindings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/permissionBindings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PermissionBindingsListResult
+      bodyMapper: Mappers.PermissionBindingsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PermissionBindingsListResult
+      bodyMapper: Mappers.PermissionBindingsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

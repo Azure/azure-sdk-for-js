@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { XMLBuilder, XMLParser, XMLValidator } from "fast-xml-parser";
-import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./xml.common";
+import { XML_ATTRKEY, XML_CHARKEY, type XmlOptions } from "./xml.common.js";
 
 function getCommonOptions(options: XmlOptions): {
   attributesGroupName: string;

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CreatePolicyInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to create a replication policy.
  *
  * @summary The operation to create a replication policy.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationPolicies_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationPolicies_Create.json
  */
 async function createsThePolicy() {
   const subscriptionId =
@@ -34,8 +34,8 @@ async function createsThePolicy() {
   const policyName = "protectionprofile1";
   const input: CreatePolicyInput = {
     properties: {
-      providerSpecificInput: { instanceType: "HyperVReplicaAzure" }
-    }
+      providerSpecificInput: { instanceType: "HyperVReplicaAzure" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function createsThePolicy() {
     resourceName,
     resourceGroupName,
     policyName,
-    input
+    input,
   );
   console.log(result);
 }

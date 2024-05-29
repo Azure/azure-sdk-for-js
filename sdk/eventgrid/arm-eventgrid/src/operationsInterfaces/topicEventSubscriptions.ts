@@ -22,7 +22,7 @@ import {
   TopicEventSubscriptionsUpdateOptionalParams,
   TopicEventSubscriptionsUpdateResponse,
   TopicEventSubscriptionsGetFullUrlOptionalParams,
-  TopicEventSubscriptionsGetFullUrlResponse
+  TopicEventSubscriptionsGetFullUrlResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface TopicEventSubscriptions {
   list(
     resourceGroupName: string,
     topicName: string,
-    options?: TopicEventSubscriptionsListOptionalParams
+    options?: TopicEventSubscriptionsListOptionalParams,
   ): PagedAsyncIterableIterator<EventSubscription>;
   /**
    * Get all delivery attributes for an event subscription for topic.
@@ -50,28 +50,27 @@ export interface TopicEventSubscriptions {
     resourceGroupName: string,
     topicName: string,
     eventSubscriptionName: string,
-    options?: TopicEventSubscriptionsGetDeliveryAttributesOptionalParams
+    options?: TopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
   ): Promise<TopicEventSubscriptionsGetDeliveryAttributesResponse>;
   /**
    * Get properties of an event subscription of a topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param topicName Name of the topic.
-   * @param eventSubscriptionName Name of the event subscription to be found. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be found.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     topicName: string,
     eventSubscriptionName: string,
-    options?: TopicEventSubscriptionsGetOptionalParams
+    options?: TopicEventSubscriptionsGetOptionalParams,
   ): Promise<TopicEventSubscriptionsGetResponse>;
   /**
    * Asynchronously creates a new event subscription or updates an existing event subscription.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param topicName Name of the domain topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   *                              must be between 3 and 64 characters in length and use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the destination and filter
    *                              information.
    * @param options The options parameters.
@@ -81,7 +80,7 @@ export interface TopicEventSubscriptions {
     topicName: string,
     eventSubscriptionName: string,
     eventSubscriptionInfo: EventSubscription,
-    options?: TopicEventSubscriptionsCreateOrUpdateOptionalParams
+    options?: TopicEventSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TopicEventSubscriptionsCreateOrUpdateResponse>,
@@ -93,7 +92,7 @@ export interface TopicEventSubscriptions {
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param topicName Name of the domain topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   *                              must be between 3 and 64 characters in length and use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the destination and filter
    *                              information.
    * @param options The options parameters.
@@ -103,35 +102,33 @@ export interface TopicEventSubscriptions {
     topicName: string,
     eventSubscriptionName: string,
     eventSubscriptionInfo: EventSubscription,
-    options?: TopicEventSubscriptionsCreateOrUpdateOptionalParams
+    options?: TopicEventSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<TopicEventSubscriptionsCreateOrUpdateResponse>;
   /**
    * Delete an existing event subscription for a topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param topicName Name of the topic.
-   * @param eventSubscriptionName Name of the event subscription to be deleted. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be deleted.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     topicName: string,
     eventSubscriptionName: string,
-    options?: TopicEventSubscriptionsDeleteOptionalParams
+    options?: TopicEventSubscriptionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an existing event subscription for a topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param topicName Name of the topic.
-   * @param eventSubscriptionName Name of the event subscription to be deleted. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be deleted.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     topicName: string,
     eventSubscriptionName: string,
-    options?: TopicEventSubscriptionsDeleteOptionalParams
+    options?: TopicEventSubscriptionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update an existing event subscription for a topic.
@@ -146,7 +143,7 @@ export interface TopicEventSubscriptions {
     topicName: string,
     eventSubscriptionName: string,
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
-    options?: TopicEventSubscriptionsUpdateOptionalParams
+    options?: TopicEventSubscriptionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TopicEventSubscriptionsUpdateResponse>,
@@ -166,7 +163,7 @@ export interface TopicEventSubscriptions {
     topicName: string,
     eventSubscriptionName: string,
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
-    options?: TopicEventSubscriptionsUpdateOptionalParams
+    options?: TopicEventSubscriptionsUpdateOptionalParams,
   ): Promise<TopicEventSubscriptionsUpdateResponse>;
   /**
    * Get the full endpoint URL for an event subscription for topic.
@@ -179,6 +176,6 @@ export interface TopicEventSubscriptions {
     resourceGroupName: string,
     topicName: string,
     eventSubscriptionName: string,
-    options?: TopicEventSubscriptionsGetFullUrlOptionalParams
+    options?: TopicEventSubscriptionsGetFullUrlOptionalParams,
   ): Promise<TopicEventSubscriptionsGetFullUrlResponse>;
 }

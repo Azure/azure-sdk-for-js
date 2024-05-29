@@ -29,7 +29,7 @@ async function authorizationsGet() {
   const result = await client.authorizations.get(
     resourceGroupName,
     privateCloudName,
-    authorizationName
+    authorizationName,
   );
   console.log(result);
 }

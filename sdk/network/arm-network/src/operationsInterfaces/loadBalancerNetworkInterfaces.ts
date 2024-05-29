@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   NetworkInterface,
-  LoadBalancerNetworkInterfacesListOptionalParams
+  LoadBalancerNetworkInterfacesListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface LoadBalancerNetworkInterfaces {
   list(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancerNetworkInterfacesListOptionalParams
+    options?: LoadBalancerNetworkInterfacesListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterface>;
 }

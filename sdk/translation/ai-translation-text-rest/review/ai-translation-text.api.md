@@ -29,7 +29,7 @@ export interface BreakSentenceItemOutput {
 }
 
 // @public (undocumented)
-export function buildMultiCollection(queryParameters: string[], parameterName: string): string;
+export function buildMultiCollection(items: string[], parameterName: string): string;
 
 // @public
 export interface CommonScriptModelOutput {
@@ -40,7 +40,7 @@ export interface CommonScriptModelOutput {
 }
 
 // @public
-function createClient(endpoint: undefined | string, credential?: undefined | TranslatorCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
+function createClient(endpoint: undefined | string, credential?: undefined | TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
 export default createClient;
 
 // @public
@@ -514,10 +514,10 @@ export interface TranslateQueryParamProperties {
     fromScript?: string;
     includeAlignment?: boolean;
     includeSentenceLength?: boolean;
-    profanityAction?: "NoAction" | "Marked" | "Deleted";
-    profanityMarker?: "Asterisk" | "Tag";
+    profanityAction?: string;
+    profanityMarker?: string;
     suggestedFrom?: string;
-    textType?: "plain" | "html";
+    textType?: string;
     to: string;
     toScript?: string;
 }
@@ -535,7 +535,7 @@ export interface TranslationOutput {
     sentLen?: SentenceLengthOutput;
     text: string;
     to: string;
-    transliteration?: TransliterationOutput;
+    transliteration?: TransliteratedTextOutput;
 }
 
 // @public (undocumented)
@@ -544,6 +544,16 @@ export interface TranslatorCredential {
     key: string;
     // (undocumented)
     region: string;
+}
+
+// @public (undocumented)
+export interface TranslatorTokenCredential {
+    // (undocumented)
+    azureResourceId: string;
+    // (undocumented)
+    region: string;
+    // (undocumented)
+    tokenCredential: TokenCredential;
 }
 
 // @public
@@ -629,12 +639,6 @@ export interface TransliterationLanguageOutput {
     name: string;
     nativeName: string;
     scripts: Array<TransliterableScriptOutput>;
-}
-
-// @public
-export interface TransliterationOutput {
-    script: string;
-    text: string;
 }
 
 // (No @packageDocumentation comment for this package)

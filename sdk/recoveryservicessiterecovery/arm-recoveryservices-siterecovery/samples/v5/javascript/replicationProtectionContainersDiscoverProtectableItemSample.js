@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to a add a protectable item to a protection container(Add physical server).
  *
  * @summary The operation to a add a protectable item to a protection container(Add physical server).
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainers_DiscoverProtectableItem.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainers_DiscoverProtectableItem.json
  */
 async function addsAProtectableItemToTheReplicationProtectionContainer() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function addsAProtectableItemToTheReplicationProtectionContainer() {
     resourceGroupName,
     fabricName,
     protectionContainerName,
-    discoverProtectableItemRequest
+    discoverProtectableItemRequest,
   );
   console.log(result);
 }

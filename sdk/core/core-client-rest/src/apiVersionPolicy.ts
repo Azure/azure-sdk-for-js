@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
-import { ClientOptions } from "./common";
+import { ClientOptions } from "./common.js";
 
 export const apiVersionPolicyName = "ApiVersionPolicy";
 

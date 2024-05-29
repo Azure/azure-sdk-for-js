@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to start resynchronize/repair replication for a replication protected item requiring resynchronization.
  *
  * @summary The operation to start resynchronize/repair replication for a replication protected item requiring resynchronization.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_RepairReplication.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_RepairReplication.json
  */
 async function resynchronizeOrRepairReplication() {
   const subscriptionId =
@@ -33,13 +33,14 @@ async function resynchronizeOrRepairReplication() {
   const replicatedProtectedItemName = "f8491e4f-817a-40dd-a90c-af773978c75b";
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationProtectedItems.beginRepairReplicationAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    protectionContainerName,
-    replicatedProtectedItemName
-  );
+  const result =
+    await client.replicationProtectedItems.beginRepairReplicationAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+    );
   console.log(result);
 }
 

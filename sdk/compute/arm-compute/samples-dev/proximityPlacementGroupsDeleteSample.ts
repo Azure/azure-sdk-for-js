@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a proximity placement group.
  *
  * @summary Delete a proximity placement group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_Delete.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_Delete.json
  */
 async function deleteAProximityPlacementGroup() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function deleteAProximityPlacementGroup() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.proximityPlacementGroups.delete(
     resourceGroupName,
-    proximityPlacementGroupName
+    proximityPlacementGroupName,
   );
   console.log(result);
 }

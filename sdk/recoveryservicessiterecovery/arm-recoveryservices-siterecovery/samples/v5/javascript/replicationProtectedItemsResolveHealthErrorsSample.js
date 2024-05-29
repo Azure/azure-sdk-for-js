@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to resolve health issues of the replication protected item.
  *
  * @summary Operation to resolve health issues of the replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_ResolveHealthErrors.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_ResolveHealthErrors.json
  */
 async function resolveHealthErrors() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function resolveHealthErrors() {
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
-    resolveHealthInput
+    resolveHealthInput,
   );
   console.log(result);
 }

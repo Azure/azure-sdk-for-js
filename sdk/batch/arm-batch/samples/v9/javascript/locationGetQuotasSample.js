@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the Batch service quotas for the specified subscription at the given location.
  *
  * @summary Gets the Batch service quotas for the specified subscription at the given location.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/LocationGetQuotas.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/LocationGetQuotas.json
  */
 async function locationGetQuotas() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

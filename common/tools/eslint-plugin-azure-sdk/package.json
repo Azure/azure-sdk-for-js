@@ -1,6 +1,6 @@
 {
   "name": "@azure/eslint-plugin-azure-sdk",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "An ESLint plugin enforcing design guidelines for the JavaScript/TypeScript Azure SDK",
   "sdk-type": "utility",
   "private": true,
@@ -14,13 +14,6 @@
     "eslint-plugin-azure-sdk"
   ],
   "author": "Microsoft Corporation",
-  "contributors": [
-    {
-      "name": "Arpan Laha",
-      "email": "arpanlaha99@gmail.com",
-      "url": "https://github.com/arpanlaha"
-    }
-  ],
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/eslint-plugin-azure-sdk/",
   "repository": {
@@ -31,26 +24,33 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "main": "dist/index.js",
+  "type": "commonjs",
+  "exports": {
+    ".": {
+      "types": "./dist-esm/src/index.d.ts",
+      "default": "./dist-esm/src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "prettier.json",
-    "dist/"
+    "dist-esm/"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "build:samples": "echo Skipped.",
     "build:test": "echo Skipped.",
-    "clean": "rimraf dist/",
+    "clean": "rimraf --glob dist* types",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
-    "lint": "eslint src tests --ext .ts",
-    "lint:fix": "eslint src tests --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint src tests/rules",
+    "lint:fix": "eslint src tests/rules --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "unit-test:node": "mocha --require source-map-support/register --require ts-node/register --timeout 10000 --full-trace tests/**/*.ts",
+    "unit-test:node": "vitest",
     "unit-test:browser": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test": "npm run clean && npm run build:test && npm run unit-test"
@@ -60,40 +60,44 @@
   },
   "prettier": "./prettier.json",
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "~5.57.0",
-    "@typescript-eslint/parser": "~5.57.0",
+    "@eslint/eslintrc": "^3.0.2",
+    "@typescript-eslint/eslint-plugin": "~7.10.0",
+    "@typescript-eslint/parser": "~7.10.0",
     "eslint": "^8.50.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-no-only-tests": "^3.0.0",
     "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-tsdoc": "^0.2.10"
+    "eslint-plugin-tsdoc": "^0.2.10",
+    "eslint-plugin-markdown": "^5.0.0"
   },
   "dependencies": {
-    "@typescript-eslint/typescript-estree": "~5.57.0",
-    "@types/eslint": "~8.44.0",
+    "@eslint/compat": "^1.0.1",
+    "@eslint/js": "~9.2.0",
+    "@typescript-eslint/typescript-estree": "~7.10.0",
+    "@types/eslint": "~8.56.10",
     "@types/estree": "~1.0.0",
     "eslint-config-prettier": "^9.0.0",
-    "glob": "^9.0.0",
-    "json-schema": "^0.4.0",
-    "typescript": "~5.3.3",
-    "tslib": "^2.2.0"
+    "glob": "^10.3.10",
+    "typescript-eslint": "~7.10.0",
+    "typescript": "~5.4.5",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.6",
-    "@types/json-schema": "^7.0.6",
-    "@types/mocha": "^10.0.0",
+    "@types/eslint__js": "8.42.3",
+    "@types/eslint-config-prettier": "6.11.3",
     "@types/node": "^18.0.0",
-    "@typescript-eslint/eslint-plugin": "~5.57.0",
-    "@typescript-eslint/experimental-utils": "~5.57.0",
-    "@typescript-eslint/parser": "~5.57.0",
-    "chai": "^4.2.0",
+    "@typescript-eslint/eslint-plugin": "~7.10.0",
+    "@typescript-eslint/utils": "~7.10.0",
+    "@typescript-eslint/parser": "~7.10.0",
+    "@typescript-eslint/rule-tester": "~7.10.0",
+    "@vitest/coverage-istanbul": "^1.4.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.50.0",
-    "mocha": "^10.0.0",
+    "eslint-plugin-markdown": "^5.0.0",
     "prettier": "^3.2.5",
-    "rimraf": "^3.0.0",
+    "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.3.3",
-    "eslint-plugin-markdown": "~3.0.0",
-    "ts-node": "^10.0.0"
+    "vitest": "^1.4.0",
+    "@types/eslint": "~8.56.10"
   }
 }

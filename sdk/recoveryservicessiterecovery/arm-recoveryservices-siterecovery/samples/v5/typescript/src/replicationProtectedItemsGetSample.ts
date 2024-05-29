@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of an ASR replication protected item.
  *
  * @summary Gets the details of an ASR replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_Get.json
  */
 async function getsTheDetailsOfAReplicationProtectedItem() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function getsTheDetailsOfAReplicationProtectedItem() {
     resourceGroupName,
     fabricName,
     protectionContainerName,
-    replicatedProtectedItemName
+    replicatedProtectedItemName,
   );
   console.log(result);
 }

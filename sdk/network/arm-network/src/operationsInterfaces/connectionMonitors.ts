@@ -23,7 +23,7 @@ import {
   ConnectionMonitorsStopOptionalParams,
   ConnectionMonitorsStartOptionalParams,
   ConnectionMonitorsQueryOptionalParams,
-  ConnectionMonitorsQueryResponse
+  ConnectionMonitorsQueryResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface ConnectionMonitors {
   list(
     resourceGroupName: string,
     networkWatcherName: string,
-    options?: ConnectionMonitorsListOptionalParams
+    options?: ConnectionMonitorsListOptionalParams,
   ): PagedAsyncIterableIterator<ConnectionMonitorResult>;
   /**
    * Create or update a connection monitor.
@@ -53,7 +53,7 @@ export interface ConnectionMonitors {
     networkWatcherName: string,
     connectionMonitorName: string,
     parameters: ConnectionMonitor,
-    options?: ConnectionMonitorsCreateOrUpdateOptionalParams
+    options?: ConnectionMonitorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConnectionMonitorsCreateOrUpdateResponse>,
@@ -73,7 +73,7 @@ export interface ConnectionMonitors {
     networkWatcherName: string,
     connectionMonitorName: string,
     parameters: ConnectionMonitor,
-    options?: ConnectionMonitorsCreateOrUpdateOptionalParams
+    options?: ConnectionMonitorsCreateOrUpdateOptionalParams,
   ): Promise<ConnectionMonitorsCreateOrUpdateResponse>;
   /**
    * Gets a connection monitor by name.
@@ -86,7 +86,7 @@ export interface ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsGetOptionalParams
+    options?: ConnectionMonitorsGetOptionalParams,
   ): Promise<ConnectionMonitorsGetResponse>;
   /**
    * Deletes the specified connection monitor.
@@ -99,7 +99,7 @@ export interface ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsDeleteOptionalParams
+    options?: ConnectionMonitorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified connection monitor.
@@ -112,7 +112,7 @@ export interface ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsDeleteOptionalParams
+    options?: ConnectionMonitorsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update tags of the specified connection monitor.
@@ -127,7 +127,7 @@ export interface ConnectionMonitors {
     networkWatcherName: string,
     connectionMonitorName: string,
     parameters: TagsObject,
-    options?: ConnectionMonitorsUpdateTagsOptionalParams
+    options?: ConnectionMonitorsUpdateTagsOptionalParams,
   ): Promise<ConnectionMonitorsUpdateTagsResponse>;
   /**
    * Stops the specified connection monitor.
@@ -140,7 +140,7 @@ export interface ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsStopOptionalParams
+    options?: ConnectionMonitorsStopOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops the specified connection monitor.
@@ -153,7 +153,7 @@ export interface ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsStopOptionalParams
+    options?: ConnectionMonitorsStopOptionalParams,
   ): Promise<void>;
   /**
    * Starts the specified connection monitor.
@@ -166,7 +166,7 @@ export interface ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsStartOptionalParams
+    options?: ConnectionMonitorsStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts the specified connection monitor.
@@ -179,7 +179,7 @@ export interface ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsStartOptionalParams
+    options?: ConnectionMonitorsStartOptionalParams,
   ): Promise<void>;
   /**
    * Query a snapshot of the most recent connection states.
@@ -192,7 +192,7 @@ export interface ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsQueryOptionalParams
+    options?: ConnectionMonitorsQueryOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConnectionMonitorsQueryResponse>,
@@ -210,6 +210,6 @@ export interface ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsQueryOptionalParams
+    options?: ConnectionMonitorsQueryOptionalParams,
   ): Promise<ConnectionMonitorsQueryResponse>;
 }

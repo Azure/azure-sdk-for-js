@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -42,7 +42,7 @@ import {
   ReplicationRecoveryPlansImpl,
   SupportedOperatingSystemsOperationsImpl,
   ReplicationVaultHealthImpl,
-  ReplicationVaultSettingImpl
+  ReplicationVaultSettingImpl,
 } from "./operations";
 import {
   Operations,
@@ -72,7 +72,7 @@ import {
   ReplicationRecoveryPlans,
   SupportedOperatingSystemsOperations,
   ReplicationVaultHealth,
-  ReplicationVaultSetting
+  ReplicationVaultSetting,
 } from "./operationsInterfaces";
 import { SiteRecoveryManagementClientOptionalParams } from "./models";
 
@@ -90,7 +90,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: SiteRecoveryManagementClientOptionalParams
+    options?: SiteRecoveryManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -105,10 +105,10 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
     }
     const defaults: SiteRecoveryManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservices-siterecovery/5.1.0`;
+    const packageDetails = `azsdk-js-arm-recoveryservices-siterecovery/5.2.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -118,20 +118,21 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -141,7 +142,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -151,9 +152,9 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -161,51 +162,44 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-06-01";
+    this.apiVersion = options.apiVersion || "2023-08-01";
     this.operations = new OperationsImpl(this);
     this.replicationAlertSettings = new ReplicationAlertSettingsImpl(this);
     this.replicationAppliances = new ReplicationAppliancesImpl(this);
-    this.replicationEligibilityResultsOperations = new ReplicationEligibilityResultsOperationsImpl(
-      this
-    );
+    this.replicationEligibilityResultsOperations =
+      new ReplicationEligibilityResultsOperationsImpl(this);
     this.replicationEvents = new ReplicationEventsImpl(this);
     this.replicationFabrics = new ReplicationFabricsImpl(this);
     this.replicationLogicalNetworks = new ReplicationLogicalNetworksImpl(this);
     this.replicationNetworks = new ReplicationNetworksImpl(this);
     this.replicationNetworkMappings = new ReplicationNetworkMappingsImpl(this);
-    this.replicationProtectionContainers = new ReplicationProtectionContainersImpl(
-      this
-    );
+    this.replicationProtectionContainers =
+      new ReplicationProtectionContainersImpl(this);
     this.replicationMigrationItems = new ReplicationMigrationItemsImpl(this);
     this.migrationRecoveryPoints = new MigrationRecoveryPointsImpl(this);
     this.replicationProtectableItems = new ReplicationProtectableItemsImpl(
-      this
+      this,
     );
     this.replicationProtectedItems = new ReplicationProtectedItemsImpl(this);
     this.recoveryPoints = new RecoveryPointsImpl(this);
     this.targetComputeSizes = new TargetComputeSizesImpl(this);
-    this.replicationProtectionContainerMappings = new ReplicationProtectionContainerMappingsImpl(
-      this
-    );
-    this.replicationRecoveryServicesProviders = new ReplicationRecoveryServicesProvidersImpl(
-      this
-    );
-    this.replicationStorageClassifications = new ReplicationStorageClassificationsImpl(
-      this
-    );
-    this.replicationStorageClassificationMappings = new ReplicationStorageClassificationMappingsImpl(
-      this
-    );
+    this.replicationProtectionContainerMappings =
+      new ReplicationProtectionContainerMappingsImpl(this);
+    this.replicationRecoveryServicesProviders =
+      new ReplicationRecoveryServicesProvidersImpl(this);
+    this.replicationStorageClassifications =
+      new ReplicationStorageClassificationsImpl(this);
+    this.replicationStorageClassificationMappings =
+      new ReplicationStorageClassificationMappingsImpl(this);
     this.replicationvCenters = new ReplicationvCentersImpl(this);
     this.replicationJobs = new ReplicationJobsImpl(this);
     this.replicationPolicies = new ReplicationPoliciesImpl(this);
     this.replicationProtectionIntents = new ReplicationProtectionIntentsImpl(
-      this
+      this,
     );
     this.replicationRecoveryPlans = new ReplicationRecoveryPlansImpl(this);
-    this.supportedOperatingSystemsOperations = new SupportedOperatingSystemsOperationsImpl(
-      this
-    );
+    this.supportedOperatingSystemsOperations =
+      new SupportedOperatingSystemsOperationsImpl(this);
     this.replicationVaultHealth = new ReplicationVaultHealthImpl(this);
     this.replicationVaultSetting = new ReplicationVaultSettingImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -220,7 +214,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -234,7 +228,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

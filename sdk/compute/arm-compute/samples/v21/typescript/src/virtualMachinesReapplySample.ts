@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to reapply a virtual machine's state.
  *
  * @summary The operation to reapply a virtual machine's state.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExamples/VirtualMachine_Reapply.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_Reapply.json
  */
 async function reapplyTheStateOfAVirtualMachine() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function reapplyTheStateOfAVirtualMachine() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginReapplyAndWait(
     resourceGroupName,
-    vmName
+    vmName,
   );
   console.log(result);
 }

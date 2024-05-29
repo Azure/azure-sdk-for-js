@@ -15,7 +15,7 @@ import {
   ExpressRouteCircuitPeeringsGetOptionalParams,
   ExpressRouteCircuitPeeringsGetResponse,
   ExpressRouteCircuitPeeringsCreateOrUpdateOptionalParams,
-  ExpressRouteCircuitPeeringsCreateOrUpdateResponse
+  ExpressRouteCircuitPeeringsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ExpressRouteCircuitPeerings {
   list(
     resourceGroupName: string,
     circuitName: string,
-    options?: ExpressRouteCircuitPeeringsListOptionalParams
+    options?: ExpressRouteCircuitPeeringsListOptionalParams,
   ): PagedAsyncIterableIterator<ExpressRouteCircuitPeering>;
   /**
    * Deletes the specified peering from the specified express route circuit.
@@ -43,7 +43,7 @@ export interface ExpressRouteCircuitPeerings {
     resourceGroupName: string,
     circuitName: string,
     peeringName: string,
-    options?: ExpressRouteCircuitPeeringsDeleteOptionalParams
+    options?: ExpressRouteCircuitPeeringsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified peering from the specified express route circuit.
@@ -56,7 +56,7 @@ export interface ExpressRouteCircuitPeerings {
     resourceGroupName: string,
     circuitName: string,
     peeringName: string,
-    options?: ExpressRouteCircuitPeeringsDeleteOptionalParams
+    options?: ExpressRouteCircuitPeeringsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified peering for the express route circuit.
@@ -69,7 +69,7 @@ export interface ExpressRouteCircuitPeerings {
     resourceGroupName: string,
     circuitName: string,
     peeringName: string,
-    options?: ExpressRouteCircuitPeeringsGetOptionalParams
+    options?: ExpressRouteCircuitPeeringsGetOptionalParams,
   ): Promise<ExpressRouteCircuitPeeringsGetResponse>;
   /**
    * Creates or updates a peering in the specified express route circuits.
@@ -85,7 +85,7 @@ export interface ExpressRouteCircuitPeerings {
     circuitName: string,
     peeringName: string,
     peeringParameters: ExpressRouteCircuitPeering,
-    options?: ExpressRouteCircuitPeeringsCreateOrUpdateOptionalParams
+    options?: ExpressRouteCircuitPeeringsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExpressRouteCircuitPeeringsCreateOrUpdateResponse>,
@@ -106,6 +106,6 @@ export interface ExpressRouteCircuitPeerings {
     circuitName: string,
     peeringName: string,
     peeringParameters: ExpressRouteCircuitPeering,
-    options?: ExpressRouteCircuitPeeringsCreateOrUpdateOptionalParams
+    options?: ExpressRouteCircuitPeeringsCreateOrUpdateOptionalParams,
   ): Promise<ExpressRouteCircuitPeeringsCreateOrUpdateResponse>;
 }

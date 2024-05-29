@@ -20,7 +20,7 @@ import {
   SupportTicketsUpdateOptionalParams,
   SupportTicketsUpdateResponse,
   SupportTicketsCreateOptionalParams,
-  SupportTicketsCreateResponse
+  SupportTicketsCreateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface SupportTickets {
    * @param options The options parameters.
    */
   list(
-    options?: SupportTicketsListOptionalParams
+    options?: SupportTicketsListOptionalParams,
   ): PagedAsyncIterableIterator<SupportTicketDetails>;
   /**
    * Check the availability of a resource name. This API should be used to check the uniqueness of the
@@ -45,7 +45,7 @@ export interface SupportTickets {
    */
   checkNameAvailability(
     checkNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: SupportTicketsCheckNameAvailabilityOptionalParams
+    options?: SupportTicketsCheckNameAvailabilityOptionalParams,
   ): Promise<SupportTicketsCheckNameAvailabilityResponse>;
   /**
    * Get ticket details for an Azure subscription. Support ticket data is available for 18 months after
@@ -56,7 +56,7 @@ export interface SupportTickets {
    */
   get(
     supportTicketName: string,
-    options?: SupportTicketsGetOptionalParams
+    options?: SupportTicketsGetOptionalParams,
   ): Promise<SupportTicketsGetResponse>;
   /**
    * This API allows you to update the severity level, ticket status, advanced diagnostic consent and
@@ -71,7 +71,7 @@ export interface SupportTickets {
   update(
     supportTicketName: string,
     updateSupportTicket: UpdateSupportTicket,
-    options?: SupportTicketsUpdateOptionalParams
+    options?: SupportTicketsUpdateOptionalParams,
   ): Promise<SupportTicketsUpdateResponse>;
   /**
    * Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and
@@ -98,7 +98,7 @@ export interface SupportTickets {
   beginCreate(
     supportTicketName: string,
     createSupportTicketParameters: SupportTicketDetails,
-    options?: SupportTicketsCreateOptionalParams
+    options?: SupportTicketsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SupportTicketsCreateResponse>,
@@ -130,6 +130,6 @@ export interface SupportTickets {
   beginCreateAndWait(
     supportTicketName: string,
     createSupportTicketParameters: SupportTicketDetails,
-    options?: SupportTicketsCreateOptionalParams
+    options?: SupportTicketsCreateOptionalParams,
   ): Promise<SupportTicketsCreateResponse>;
 }

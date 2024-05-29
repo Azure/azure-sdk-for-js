@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to commit the failover of a recovery plan.
  *
  * @summary The operation to commit the failover of a recovery plan.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationRecoveryPlans_FailoverCommit.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryPlans_FailoverCommit.json
  */
 async function executeCommitFailoverOfTheRecoveryPlan() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function executeCommitFailoverOfTheRecoveryPlan() {
   const result = await client.replicationRecoveryPlans.beginFailoverCommitAndWait(
     resourceName,
     resourceGroupName,
-    recoveryPlanName
+    recoveryPlanName,
   );
   console.log(result);
 }

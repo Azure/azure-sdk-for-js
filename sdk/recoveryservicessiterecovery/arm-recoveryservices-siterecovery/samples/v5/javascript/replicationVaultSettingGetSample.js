@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the vault setting. This includes the Migration Hub connection settings.
  *
  * @summary Gets the vault setting. This includes the Migration Hub connection settings.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationVaultSetting_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationVaultSetting_Get.json
  */
 async function getsTheVaultSetting() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getsTheVaultSetting() {
   const result = await client.replicationVaultSetting.get(
     resourceName,
     resourceGroupName,
-    vaultSettingName
+    vaultSettingName,
   );
   console.log(result);
 }

@@ -17,7 +17,7 @@ import { AnonymousCredential } from "../../../storage-blob/src/credentials/Anony
 import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { FileSASPermissions } from "../../src/FileSASPermissions";
 import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues";
-import { newPipeline } from "../../../storage-blob/src/Pipeline";
+import { newPipeline } from "../../src/Pipeline";
 import { ShareSASPermissions } from "../../src/ShareSASPermissions";
 import {
   configureStorageClient,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { UnknownObject, isObject } from "./object";
+import { UnknownObject, isObject } from "./object.js";
 
 /**
  * @internal
@@ -132,6 +132,26 @@ export class Sanitizer {
     );
   }
 
+  public sanitizeUrl(value: string): string {
+    if (typeof value !== "string" || value === null) {
+      return value;
+    }
+
+    const url = new URL(value);
+
+    if (!url.search) {
+      return value;
+    }
+
+    for (const [key] of url.searchParams) {
+      if (!this.allowedQueryParameters.has(key.toLowerCase())) {
+        url.searchParams.set(key, RedactedString);
+      }
+    }
+
+    return url.toString();
+  }
+
   private sanitizeHeaders(obj: UnknownObject): UnknownObject {
     const sanitized: UnknownObject = {};
     for (const key of Object.keys(obj)) {
@@ -160,25 +180,5 @@ export class Sanitizer {
     }
 
     return sanitized;
-  }
-
-  private sanitizeUrl(value: string): string {
-    if (typeof value !== "string" || value === null) {
-      return value;
-    }
-
-    const url = new URL(value);
-
-    if (!url.search) {
-      return value;
-    }
-
-    for (const [key] of url.searchParams) {
-      if (!this.allowedQueryParameters.has(key.toLowerCase())) {
-        url.searchParams.set(key, RedactedString);
-      }
-    }
-
-    return url.toString();
   }
 }

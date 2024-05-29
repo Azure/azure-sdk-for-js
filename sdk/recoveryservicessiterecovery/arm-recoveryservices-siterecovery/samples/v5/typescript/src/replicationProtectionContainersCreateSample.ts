@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CreateProtectionContainerInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to create a protection container.
  *
  * @summary Operation to create a protection container.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainers_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainers_Create.json
  */
 async function createAProtectionContainer() {
   const subscriptionId =
@@ -42,13 +42,14 @@ async function createAProtectionContainer() {
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationProtectionContainers.beginCreateAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    protectionContainerName,
-    creationInput
-  );
+  const result =
+    await client.replicationProtectionContainers.beginCreateAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      protectionContainerName,
+      creationInput,
+    );
   console.log(result);
 }
 

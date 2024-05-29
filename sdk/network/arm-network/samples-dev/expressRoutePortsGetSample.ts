@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the requested ExpressRoutePort resource.
  *
  * @summary Retrieves the requested ExpressRoutePort resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRoutePortGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ExpressRoutePortGet.json
  */
 async function expressRoutePortGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function expressRoutePortGet() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.expressRoutePorts.get(
     resourceGroupName,
-    expressRoutePortName
+    expressRoutePortName,
   );
   console.log(result);
 }

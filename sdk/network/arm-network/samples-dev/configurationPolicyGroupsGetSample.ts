@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the details of a ConfigurationPolicyGroup.
  *
  * @summary Retrieves the details of a ConfigurationPolicyGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ConfigurationPolicyGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ConfigurationPolicyGroupGet.json
  */
 async function configurationPolicyGroupGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function configurationPolicyGroupGet() {
   const result = await client.configurationPolicyGroups.get(
     resourceGroupName,
     vpnServerConfigurationName,
-    configurationPolicyGroupName
+    configurationPolicyGroupName,
   );
   console.log(result);
 }

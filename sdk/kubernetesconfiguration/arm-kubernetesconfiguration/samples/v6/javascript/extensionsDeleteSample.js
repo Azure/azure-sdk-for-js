@@ -32,7 +32,7 @@ async function deleteExtension() {
     clusterRp,
     clusterResourceName,
     clusterName,
-    extensionName
+    extensionName,
   );
   console.log(result);
 }

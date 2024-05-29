@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get all the permission bindings under a namespace.
  *
  * @summary Get all the permission bindings under a namespace.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PermissionBindings_ListByNamespace.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PermissionBindings_ListByNamespace.json
  */
 async function permissionBindingsListByNamespace() {
   const subscriptionId =

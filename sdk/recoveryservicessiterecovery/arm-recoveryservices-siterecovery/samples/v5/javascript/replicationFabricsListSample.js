@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of the Azure Site Recovery fabrics in the vault.
  *
  * @summary Gets a list of the Azure Site Recovery fabrics in the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationFabrics_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationFabrics_List.json
  */
 async function getsTheListOfAsrFabrics() {
   const subscriptionId =

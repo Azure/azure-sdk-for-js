@@ -15,7 +15,7 @@ import {
   FileWorkspacesGetOptionalParams,
   FileWorkspacesGetResponse,
   FileWorkspacesCreateOptionalParams,
-  FileWorkspacesCreateResponse
+  FileWorkspacesCreateResponse,
 } from "../models";
 
 /** Class containing FileWorkspaces operations. */
@@ -37,11 +37,11 @@ export class FileWorkspacesImpl implements FileWorkspaces {
    */
   get(
     fileWorkspaceName: string,
-    options?: FileWorkspacesGetOptionalParams
+    options?: FileWorkspacesGetOptionalParams,
   ): Promise<FileWorkspacesGetResponse> {
     return this.client.sendOperationRequest(
       { fileWorkspaceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -52,11 +52,11 @@ export class FileWorkspacesImpl implements FileWorkspaces {
    */
   create(
     fileWorkspaceName: string,
-    options?: FileWorkspacesCreateOptionalParams
+    options?: FileWorkspacesCreateOptionalParams,
   ): Promise<FileWorkspacesCreateResponse> {
     return this.client.sendOperationRequest(
       { fileWorkspaceName, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 }
@@ -64,44 +64,42 @@ export class FileWorkspacesImpl implements FileWorkspaces {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Support/fileWorkspaces/{fileWorkspaceName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Support/fileWorkspaces/{fileWorkspaceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileWorkspaceDetails
+      bodyMapper: Mappers.FileWorkspaceDetails,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.fileWorkspaceName
+    Parameters.fileWorkspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Support/fileWorkspaces/{fileWorkspaceName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Support/fileWorkspaces/{fileWorkspaceName}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.FileWorkspaceDetails
+      bodyMapper: Mappers.FileWorkspaceDetails,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.fileWorkspaceName1
+    Parameters.fileWorkspaceName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

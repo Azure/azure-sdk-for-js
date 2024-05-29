@@ -16,7 +16,7 @@ import { DevCenterClient } from "../devCenterClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -34,8 +34,9 @@ import {
   AttachedNetworksCreateOrUpdateOptionalParams,
   AttachedNetworksCreateOrUpdateResponse,
   AttachedNetworksDeleteOptionalParams,
+  AttachedNetworksDeleteResponse,
   AttachedNetworksListByProjectNextResponse,
-  AttachedNetworksListByDevCenterNextResponse
+  AttachedNetworksListByDevCenterNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,12 +61,12 @@ export class AttachedNetworksImpl implements AttachedNetworks {
   public listByProject(
     resourceGroupName: string,
     projectName: string,
-    options?: AttachedNetworksListByProjectOptionalParams
+    options?: AttachedNetworksListByProjectOptionalParams,
   ): PagedAsyncIterableIterator<AttachedNetworkConnection> {
     const iter = this.listByProjectPagingAll(
       resourceGroupName,
       projectName,
-      options
+      options,
     );
     return {
       next() {
@@ -82,9 +83,9 @@ export class AttachedNetworksImpl implements AttachedNetworks {
           resourceGroupName,
           projectName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,7 +93,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
     resourceGroupName: string,
     projectName: string,
     options?: AttachedNetworksListByProjectOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AttachedNetworkConnection[]> {
     let result: AttachedNetworksListByProjectResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +101,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
       result = await this._listByProject(
         resourceGroupName,
         projectName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -112,7 +113,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
         resourceGroupName,
         projectName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -124,12 +125,12 @@ export class AttachedNetworksImpl implements AttachedNetworks {
   private async *listByProjectPagingAll(
     resourceGroupName: string,
     projectName: string,
-    options?: AttachedNetworksListByProjectOptionalParams
+    options?: AttachedNetworksListByProjectOptionalParams,
   ): AsyncIterableIterator<AttachedNetworkConnection> {
     for await (const page of this.listByProjectPagingPage(
       resourceGroupName,
       projectName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -144,12 +145,12 @@ export class AttachedNetworksImpl implements AttachedNetworks {
   public listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: AttachedNetworksListByDevCenterOptionalParams
+    options?: AttachedNetworksListByDevCenterOptionalParams,
   ): PagedAsyncIterableIterator<AttachedNetworkConnection> {
     const iter = this.listByDevCenterPagingAll(
       resourceGroupName,
       devCenterName,
-      options
+      options,
     );
     return {
       next() {
@@ -166,9 +167,9 @@ export class AttachedNetworksImpl implements AttachedNetworks {
           resourceGroupName,
           devCenterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -176,7 +177,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
     resourceGroupName: string,
     devCenterName: string,
     options?: AttachedNetworksListByDevCenterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AttachedNetworkConnection[]> {
     let result: AttachedNetworksListByDevCenterResponse;
     let continuationToken = settings?.continuationToken;
@@ -184,7 +185,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
       result = await this._listByDevCenter(
         resourceGroupName,
         devCenterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -196,7 +197,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
         resourceGroupName,
         devCenterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -208,12 +209,12 @@ export class AttachedNetworksImpl implements AttachedNetworks {
   private async *listByDevCenterPagingAll(
     resourceGroupName: string,
     devCenterName: string,
-    options?: AttachedNetworksListByDevCenterOptionalParams
+    options?: AttachedNetworksListByDevCenterOptionalParams,
   ): AsyncIterableIterator<AttachedNetworkConnection> {
     for await (const page of this.listByDevCenterPagingPage(
       resourceGroupName,
       devCenterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -228,11 +229,11 @@ export class AttachedNetworksImpl implements AttachedNetworks {
   private _listByProject(
     resourceGroupName: string,
     projectName: string,
-    options?: AttachedNetworksListByProjectOptionalParams
+    options?: AttachedNetworksListByProjectOptionalParams,
   ): Promise<AttachedNetworksListByProjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, options },
-      listByProjectOperationSpec
+      listByProjectOperationSpec,
     );
   }
 
@@ -247,16 +248,16 @@ export class AttachedNetworksImpl implements AttachedNetworks {
     resourceGroupName: string,
     projectName: string,
     attachedNetworkConnectionName: string,
-    options?: AttachedNetworksGetByProjectOptionalParams
+    options?: AttachedNetworksGetByProjectOptionalParams,
   ): Promise<AttachedNetworksGetByProjectResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         projectName,
         attachedNetworkConnectionName,
-        options
+        options,
       },
-      getByProjectOperationSpec
+      getByProjectOperationSpec,
     );
   }
 
@@ -269,11 +270,11 @@ export class AttachedNetworksImpl implements AttachedNetworks {
   private _listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: AttachedNetworksListByDevCenterOptionalParams
+    options?: AttachedNetworksListByDevCenterOptionalParams,
   ): Promise<AttachedNetworksListByDevCenterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, options },
-      listByDevCenterOperationSpec
+      listByDevCenterOperationSpec,
     );
   }
 
@@ -288,16 +289,16 @@ export class AttachedNetworksImpl implements AttachedNetworks {
     resourceGroupName: string,
     devCenterName: string,
     attachedNetworkConnectionName: string,
-    options?: AttachedNetworksGetByDevCenterOptionalParams
+    options?: AttachedNetworksGetByDevCenterOptionalParams,
   ): Promise<AttachedNetworksGetByDevCenterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         devCenterName,
         attachedNetworkConnectionName,
-        options
+        options,
       },
-      getByDevCenterOperationSpec
+      getByDevCenterOperationSpec,
     );
   }
 
@@ -314,7 +315,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
     devCenterName: string,
     attachedNetworkConnectionName: string,
     body: AttachedNetworkConnection,
-    options?: AttachedNetworksCreateOrUpdateOptionalParams
+    options?: AttachedNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AttachedNetworksCreateOrUpdateResponse>,
@@ -323,21 +324,20 @@ export class AttachedNetworksImpl implements AttachedNetworks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AttachedNetworksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -346,8 +346,8 @@ export class AttachedNetworksImpl implements AttachedNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -355,8 +355,8 @@ export class AttachedNetworksImpl implements AttachedNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -367,9 +367,9 @@ export class AttachedNetworksImpl implements AttachedNetworks {
         devCenterName,
         attachedNetworkConnectionName,
         body,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       AttachedNetworksCreateOrUpdateResponse,
@@ -377,7 +377,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -396,14 +396,14 @@ export class AttachedNetworksImpl implements AttachedNetworks {
     devCenterName: string,
     attachedNetworkConnectionName: string,
     body: AttachedNetworkConnection,
-    options?: AttachedNetworksCreateOrUpdateOptionalParams
+    options?: AttachedNetworksCreateOrUpdateOptionalParams,
   ): Promise<AttachedNetworksCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       devCenterName,
       attachedNetworkConnectionName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -419,25 +419,29 @@ export class AttachedNetworksImpl implements AttachedNetworks {
     resourceGroupName: string,
     devCenterName: string,
     attachedNetworkConnectionName: string,
-    options?: AttachedNetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: AttachedNetworksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AttachedNetworksDeleteResponse>,
+      AttachedNetworksDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<AttachedNetworksDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -446,8 +450,8 @@ export class AttachedNetworksImpl implements AttachedNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -455,8 +459,8 @@ export class AttachedNetworksImpl implements AttachedNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -466,14 +470,17 @@ export class AttachedNetworksImpl implements AttachedNetworks {
         resourceGroupName,
         devCenterName,
         attachedNetworkConnectionName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      AttachedNetworksDeleteResponse,
+      OperationState<AttachedNetworksDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -490,13 +497,13 @@ export class AttachedNetworksImpl implements AttachedNetworks {
     resourceGroupName: string,
     devCenterName: string,
     attachedNetworkConnectionName: string,
-    options?: AttachedNetworksDeleteOptionalParams
-  ): Promise<void> {
+    options?: AttachedNetworksDeleteOptionalParams,
+  ): Promise<AttachedNetworksDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       devCenterName,
       attachedNetworkConnectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -512,11 +519,11 @@ export class AttachedNetworksImpl implements AttachedNetworks {
     resourceGroupName: string,
     projectName: string,
     nextLink: string,
-    options?: AttachedNetworksListByProjectNextOptionalParams
+    options?: AttachedNetworksListByProjectNextOptionalParams,
   ): Promise<AttachedNetworksListByProjectNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, nextLink, options },
-      listByProjectNextOperationSpec
+      listByProjectNextOperationSpec,
     );
   }
 
@@ -531,11 +538,11 @@ export class AttachedNetworksImpl implements AttachedNetworks {
     resourceGroupName: string,
     devCenterName: string,
     nextLink: string,
-    options?: AttachedNetworksListByDevCenterNextOptionalParams
+    options?: AttachedNetworksListByDevCenterNextOptionalParams,
   ): Promise<AttachedNetworksListByDevCenterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, nextLink, options },
-      listByDevCenterNextOperationSpec
+      listByDevCenterNextOperationSpec,
     );
   }
 }
@@ -543,38 +550,36 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByProjectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/attachednetworks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/attachednetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedNetworkListResult
+      bodyMapper: Mappers.AttachedNetworkListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByProjectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/attachednetworks/{attachedNetworkConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/attachednetworks/{attachedNetworkConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedNetworkConnection
+      bodyMapper: Mappers.AttachedNetworkConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -582,44 +587,42 @@ const getByProjectOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.attachedNetworkConnectionName
+    Parameters.attachedNetworkConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDevCenterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/attachednetworks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/attachednetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedNetworkListResult
+      bodyMapper: Mappers.AttachedNetworkListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.devCenterName
+    Parameters.devCenterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByDevCenterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/attachednetworks/{attachedNetworkConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/attachednetworks/{attachedNetworkConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedNetworkConnection
+      bodyMapper: Mappers.AttachedNetworkConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -627,31 +630,30 @@ const getByDevCenterOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.attachedNetworkConnectionName
+    Parameters.attachedNetworkConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/attachednetworks/{attachedNetworkConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/attachednetworks/{attachedNetworkConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedNetworkConnection
+      bodyMapper: Mappers.AttachedNetworkConnection,
     },
     201: {
-      bodyMapper: Mappers.AttachedNetworkConnection
+      bodyMapper: Mappers.AttachedNetworkConnection,
     },
     202: {
-      bodyMapper: Mappers.AttachedNetworkConnection
+      bodyMapper: Mappers.AttachedNetworkConnection,
     },
     204: {
-      bodyMapper: Mappers.AttachedNetworkConnection
+      bodyMapper: Mappers.AttachedNetworkConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
@@ -660,24 +662,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.attachedNetworkConnectionName
+    Parameters.attachedNetworkConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/attachednetworks/{attachedNetworkConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/attachednetworks/{attachedNetworkConnectionName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.AttachedNetworksDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.AttachedNetworksDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.AttachedNetworksDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.AttachedNetworksDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -685,50 +694,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.attachedNetworkConnectionName
+    Parameters.attachedNetworkConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByProjectNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedNetworkListResult
+      bodyMapper: Mappers.AttachedNetworkListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedNetworkListResult
+      bodyMapper: Mappers.AttachedNetworkListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -11,7 +11,7 @@
 import {
   DefaultAdminRule,
   AdminRule,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an admin rule.
  *
  * @summary Creates or updates an admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerDefaultAdminRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerDefaultAdminRulePut.json
  */
 async function createADefaultAdminRule() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function createADefaultAdminRule() {
   const ruleName = "SampleDefaultAdminRule";
   const adminRule: DefaultAdminRule = {
     flag: "AllowVnetInbound",
-    kind: "Default"
+    kind: "Default",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -45,7 +45,7 @@ async function createADefaultAdminRule() {
     configurationName,
     ruleCollectionName,
     ruleName,
-    adminRule
+    adminRule,
   );
   console.log(result);
 }
@@ -54,7 +54,7 @@ async function createADefaultAdminRule() {
  * This sample demonstrates how to Creates or updates an admin rule.
  *
  * @summary Creates or updates an admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerAdminRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerAdminRulePut.json
  */
 async function createAnAdminRule() {
   const subscriptionId =
@@ -75,7 +75,7 @@ async function createAnAdminRule() {
     priority: 1,
     sourcePortRanges: ["0-65535"],
     sources: [{ addressPrefix: "Internet", addressPrefixType: "ServiceTag" }],
-    protocol: "Tcp"
+    protocol: "Tcp",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -85,7 +85,7 @@ async function createAnAdminRule() {
     configurationName,
     ruleCollectionName,
     ruleName,
-    adminRule
+    adminRule,
   );
   console.log(result);
 }

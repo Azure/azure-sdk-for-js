@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists IKE Security Associations for the virtual network gateway connection in the specified resource group.
  *
  * @summary Lists IKE Security Associations for the virtual network gateway connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGatewayConnectionGetIkeSas.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkGatewayConnectionGetIkeSas.json
  */
 async function getVirtualNetworkGatewayConnectionIkeSa() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

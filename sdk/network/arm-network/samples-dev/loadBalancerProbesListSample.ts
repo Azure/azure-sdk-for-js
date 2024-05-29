@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all the load balancer probes.
  *
  * @summary Gets all the load balancer probes.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/LoadBalancerProbeList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LoadBalancerProbeList.json
  */
 async function loadBalancerProbeList() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function loadBalancerProbeList() {
   const resArray = new Array();
   for await (let item of client.loadBalancerProbes.list(
     resourceGroupName,
-    loadBalancerName
+    loadBalancerName,
   )) {
     resArray.push(item);
   }

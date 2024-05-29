@@ -9,7 +9,7 @@
 import {
   CheckNameAvailabilityRequest,
   NamespacesCheckNameAvailabilityOptionalParams,
-  NamespacesCheckNameAvailabilityResponse
+  NamespacesCheckNameAvailabilityResponse,
 } from "../models";
 
 /** Interface representing a Namespaces. */
@@ -25,6 +25,6 @@ export interface Namespaces {
     resourceGroupName: string,
     environmentName: string,
     checkNameAvailabilityRequest: CheckNameAvailabilityRequest,
-    options?: NamespacesCheckNameAvailabilityOptionalParams
+    options?: NamespacesCheckNameAvailabilityOptionalParams,
   ): Promise<NamespacesCheckNameAvailabilityResponse>;
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all subnets in a virtual network.
  *
  * @summary Gets all subnets in a virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/SubnetList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/SubnetList.json
  */
 async function listSubnets() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function listSubnets() {
   const resArray = new Array();
   for await (let item of client.subnets.list(
     resourceGroupName,
-    virtualNetworkName
+    virtualNetworkName,
   )) {
     resArray.push(item);
   }

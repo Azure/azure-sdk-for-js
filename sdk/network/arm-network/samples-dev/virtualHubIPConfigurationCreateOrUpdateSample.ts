@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   HubIpConfiguration,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a VirtualHubIpConfiguration resource if it doesn't exist else updates the existing VirtualHubIpConfiguration.
  *
  * @summary Creates a VirtualHubIpConfiguration resource if it doesn't exist else updates the existing VirtualHubIpConfiguration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualHubIpConfigurationPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualHubIpConfigurationPut.json
  */
 async function virtualHubIPConfigurationPut() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,18 +30,18 @@ async function virtualHubIPConfigurationPut() {
   const ipConfigName = "ipconfig1";
   const parameters: HubIpConfiguration = {
     subnet: {
-      id:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
-    }
+      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualHubIpConfiguration.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    virtualHubName,
-    ipConfigName,
-    parameters
-  );
+  const result =
+    await client.virtualHubIpConfiguration.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      virtualHubName,
+      ipConfigName,
+      parameters,
+    );
   console.log(result);
 }
 

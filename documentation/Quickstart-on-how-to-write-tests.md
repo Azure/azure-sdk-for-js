@@ -172,6 +172,10 @@ Example `assets.json` with an empty tag:
 }
 ```
 
+After init the assets.json file, [run your test with record mode](#run-tests-in-record-mode)
+
+`Notice`: If you have already run tests in record mode before, you need to re-run the tests again to make sure that your records can be pushed later.
+
 Then go to the next step to [Existing package - Tests have been pushed before](#existing-package---tests-have-been-pushed-before).
 
 #### Existing package - Tests have been pushed before

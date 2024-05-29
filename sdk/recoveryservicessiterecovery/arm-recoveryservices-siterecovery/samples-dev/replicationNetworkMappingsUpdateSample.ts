@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   UpdateNetworkMappingInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update an ASR network mapping.
  *
  * @summary The operation to update an ASR network mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworkMappings_Update.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworkMappings_Update.json
  */
 async function updatesNetworkMapping() {
   const subscriptionId =
@@ -40,8 +40,8 @@ async function updatesNetworkMapping() {
       fabricSpecificDetails: { instanceType: "VmmToAzure" },
       recoveryFabricName: "Microsoft Azure",
       recoveryNetworkId:
-        "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/siterecoveryProd1/providers/Microsoft.Network/virtualNetworks/vnetavrai2"
-    }
+        "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/siterecoveryProd1/providers/Microsoft.Network/virtualNetworks/vnetavrai2",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -51,7 +51,7 @@ async function updatesNetworkMapping() {
     fabricName,
     networkName,
     networkMappingName,
-    input
+    input,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the current network topology by resource group.
  *
  * @summary Gets the current network topology by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherTopologyGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkWatcherTopologyGet.json
  */
 async function getTopology() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

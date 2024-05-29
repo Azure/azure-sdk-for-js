@@ -1,6 +1,6 @@
 # Release History
 
-## 1.8.1 (Unreleased)
+## 1.9.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,33 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.9.2 (2024-04-09)
+
+### Bugs Fixed
+
+- Address two issues related to Azure Disk Storage. [PR #29087](https://github.com/Azure/azure-sdk-for-js/pull/29087)
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
+
+## 1.9.1 (2024-03-20)
+
+### Bugs Fixed
+
+- Addressed an issue with `authorizeRequestOnTenantChallenge` not correctly parsing challenges. [PR #28967](https://github.com/Azure/azure-sdk-for-js/pull/28967)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
+## 1.9.0 (2024-03-12)
+
+### Other Changes
+
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
 
 ## 1.8.0 (2024-02-01)
 
@@ -23,6 +50,7 @@
 ## 1.7.3 (2023-06-01)
 
 ### Other Changes
+
 - remove the validation that credential scopes must be a valid URL [Issue #25881](https://github.com/Azure/azure-sdk-for-js/issues/25881)
 
 ## 1.7.2 (2023-02-23)

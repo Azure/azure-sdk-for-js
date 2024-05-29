@@ -14,7 +14,7 @@ import {
   ReplicationAlertSettingsGetResponse,
   ConfigureAlertRequest,
   ReplicationAlertSettingsCreateOptionalParams,
-  ReplicationAlertSettingsCreateResponse
+  ReplicationAlertSettingsCreateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ReplicationAlertSettings {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationAlertSettingsListOptionalParams
+    options?: ReplicationAlertSettingsListOptionalParams,
   ): PagedAsyncIterableIterator<Alert>;
   /**
    * Gets the details of the specified email notification(alert) configuration.
@@ -44,7 +44,7 @@ export interface ReplicationAlertSettings {
     resourceName: string,
     resourceGroupName: string,
     alertSettingName: string,
-    options?: ReplicationAlertSettingsGetOptionalParams
+    options?: ReplicationAlertSettingsGetOptionalParams,
   ): Promise<ReplicationAlertSettingsGetResponse>;
   /**
    * Create or update an email notification(alert) configuration.
@@ -60,6 +60,6 @@ export interface ReplicationAlertSettings {
     resourceGroupName: string,
     alertSettingName: string,
     request: ConfigureAlertRequest,
-    options?: ReplicationAlertSettingsCreateOptionalParams
+    options?: ReplicationAlertSettingsCreateOptionalParams,
   ): Promise<ReplicationAlertSettingsCreateResponse>;
 }

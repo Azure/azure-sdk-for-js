@@ -31,7 +31,7 @@ async function environmentsUpdate() {
   const result = await client.environments.beginUpdateAndWait(
     resourceGroupName,
     environmentName,
-    environmentUpdateParameters
+    environmentUpdateParameters,
   );
   console.log(result);
 }

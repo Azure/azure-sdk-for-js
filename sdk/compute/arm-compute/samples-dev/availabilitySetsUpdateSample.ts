@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AvailabilitySetUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update an availability set.
  *
  * @summary Update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/availabilitySetExamples/AvailabilitySet_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/availabilitySetExamples/AvailabilitySet_Update_MaximumSet_Gen.json
  */
 async function availabilitySetUpdateMaximumSetGen() {
   const subscriptionId =
@@ -33,24 +33,22 @@ async function availabilitySetUpdateMaximumSetGen() {
     platformFaultDomainCount: 2,
     platformUpdateDomainCount: 20,
     proximityPlacementGroup: {
-      id:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
+      id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
     },
     sku: { name: "DSv3-Type1", capacity: 7, tier: "aaa" },
     tags: { key2574: "aaaaaaaa" },
     virtualMachines: [
       {
-        id:
-          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-      }
-    ]
+        id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.availabilitySets.update(
     resourceGroupName,
     availabilitySetName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -59,7 +57,7 @@ async function availabilitySetUpdateMaximumSetGen() {
  * This sample demonstrates how to Update an availability set.
  *
  * @summary Update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/availabilitySetExamples/AvailabilitySet_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/availabilitySetExamples/AvailabilitySet_Update_MinimumSet_Gen.json
  */
 async function availabilitySetUpdateMinimumSetGen() {
   const subscriptionId =
@@ -73,7 +71,7 @@ async function availabilitySetUpdateMinimumSetGen() {
   const result = await client.availabilitySets.update(
     resourceGroupName,
     availabilitySetName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

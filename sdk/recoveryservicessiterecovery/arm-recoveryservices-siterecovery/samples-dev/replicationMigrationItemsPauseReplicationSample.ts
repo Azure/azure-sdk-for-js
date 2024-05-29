@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PauseReplicationInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to initiate pause replication of the item.
  *
  * @summary The operation to initiate pause replication of the item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationMigrationItems_PauseReplication.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_PauseReplication.json
  */
 async function pauseReplication() {
   const subscriptionId =
@@ -35,18 +35,19 @@ async function pauseReplication() {
   const protectionContainerName = "vmwareContainer1";
   const migrationItemName = "virtualmachine1";
   const pauseReplicationInput: PauseReplicationInput = {
-    properties: { instanceType: "VMwareCbt" }
+    properties: { instanceType: "VMwareCbt" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationMigrationItems.beginPauseReplicationAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    protectionContainerName,
-    migrationItemName,
-    pauseReplicationInput
-  );
+  const result =
+    await client.replicationMigrationItems.beginPauseReplicationAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      protectionContainerName,
+      migrationItemName,
+      pauseReplicationInput,
+    );
   console.log(result);
 }
 
