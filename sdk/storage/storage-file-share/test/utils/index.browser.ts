@@ -4,7 +4,7 @@
 import { TokenCredential } from "@azure/core-auth";
 import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
 import { newPipeline } from "../../src/Pipeline";
-import { ShareClientConfig } from "../../src/models";
+import { ShareClientConfig, ShareClientOptions } from "../../src/models";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { configureStorageClient, SimpleTokenCredential } from "./testutils.common";
 import { env, Recorder } from "@azure-tools/test-recorder";
@@ -15,7 +15,7 @@ export function getGenericBSU(
   recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
-  config?: ShareClientConfig,
+  config?: ShareClientOptions,
 ): ShareServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
@@ -34,7 +34,7 @@ export function getGenericBSU(
   }
 
   const credentials = new AnonymousCredential();
-  const pipeline = newPipeline(credentials);
+  const pipeline = newPipeline(credentials, config);
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net${accountSAS}`;
   const client = new ShareServiceClient(filePrimaryURL, pipeline, config);
   configureStorageClient(recorder, client);

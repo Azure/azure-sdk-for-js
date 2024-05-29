@@ -2061,8 +2061,7 @@ export interface StorageRetryOptions {
 
 // @public
 export class StorageRetryPolicy extends BaseRequestPolicy {
-    // Warning: (ae-forgotten-export) The symbol "StorageRetryOptions_2" needs to be exported by the entry point index.d.ts
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageRetryOptions_2);
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageRetryOptions);
     protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
     sendRequest(request: WebResource): Promise<HttpOperationResponse>;
     protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;
