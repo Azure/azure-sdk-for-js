@@ -162,6 +162,15 @@ export class AzurePipelinesCredential implements TokenCredential {
         }
       }
     } catch (e) {
+      if (response.status === 302) {
+        const redirectUrl = response.headers.get("location");
+        if (redirectUrl) {
+          logger.info("Redirecting OIDC authentication to redirect uri .. ");
+          logger.info(redirectUrl);
+          const token = await this.requestOidcToken(redirectUrl, systemAccessToken);
+          return token;
+        }
+      }
       throw new AuthenticationError(
         response.status,
         `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`
