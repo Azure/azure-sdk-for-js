@@ -1480,6 +1480,7 @@
 # Eng Sys
 ###########
 /eng/           @ckairen @mikeharder @weshaggard @benbp
+/eng/common/    @Azure/azure-sdk-eng
 
 ###########
 # Config
