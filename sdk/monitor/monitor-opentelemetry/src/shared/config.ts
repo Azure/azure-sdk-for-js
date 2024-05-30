@@ -91,7 +91,9 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
         options.instrumentationOptions,
       );
       this.resource = Object.assign(this.resource, options.resource);
-      this.samplingRatio = options.samplingRatio || this.samplingRatio;
+      if (typeof(options.samplingRatio) === "number") {
+        this.samplingRatio = options.samplingRatio;
+      }
       this.browserSdkLoaderOptions = Object.assign(
         this.browserSdkLoaderOptions,
         options.browserSdkLoaderOptions,
