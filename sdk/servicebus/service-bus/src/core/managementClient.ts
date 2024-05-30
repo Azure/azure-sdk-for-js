@@ -277,15 +277,16 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           await Promise.race([
             this._init(aborter.signal),
             delay(retryTimeoutInMs, { abortSignal: aborter.signal }).then(
-              () => {
+              function onfulfilled() {
                 throw {
                   name: "OperationTimeoutError",
-                  message: "The management request timed out. Please try again later.",
+                  message:
+                    "The initialization of management client timed out. Please try again later.",
                 };
               },
-              (_) => {
+              function onrejected(_) {
                 managementClientLogger.verbose(
-                  `${this.logPrefix} delay of waiting for initialization aborted but it doesn't matter.`,
+                  `The management client initialization has either completed or been cancelled.`,
                 );
               },
             ),
