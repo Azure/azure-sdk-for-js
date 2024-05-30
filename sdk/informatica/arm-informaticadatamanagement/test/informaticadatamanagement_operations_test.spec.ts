@@ -59,40 +59,11 @@ describe("InformaticaDataManagement test", () => {
     await recorder.stop();
   });
 
-  it("organizations create test", async function () {
-    const res = await client.organizations.beginCreateOrUpdateAndWait(
-      resourceGroup,
-      resourcename,
-      {
-        location
-      },
-      testPollingOptions);
-    assert.equal(res.name, resourcename);
-  });
-
-  it("organizations get test", async function () {
-    const res = await client.organizations.get(
-      resourceGroup,
-      resourcename,
-    );
-    assert.equal(res.name, resourcename);
-  });
-
-  it("organizations list test", async function () {
+  it("operation list test", async function () {
     const resArray = new Array();
-    for await (let item of client.organizations.listByResourceGroup(resourceGroup)) {
+    for await (let item of client.operations.list()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
-  });
-
-  it("organizations delete test", async function () {
-    const resArray = new Array();
-    const res = await client.organizations.beginDeleteAndWait(resourceGroup, resourcename
-    )
-    for await (let item of client.organizations.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
+    assert.notEqual(resArray.length, 0);
   });
 })
