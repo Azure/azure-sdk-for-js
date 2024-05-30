@@ -53,7 +53,12 @@ export default function createClient(
     name: "VerifyImageFilenamePolicy",
     sendRequest: (request, next) => {
       for (const part of request.multipartBody?.parts ?? []) {
-        if (part.headers.get("content-disposition")?.includes(`name="VerifyImage"`)) {
+        const contentDisposition = part.headers.get("content-disposition");
+        if (
+          contentDisposition &&
+          contentDisposition.includes(`name="VerifyImage"`) &&
+          !contentDisposition.includes("filename=")
+        ) {
           part.headers.set("content-disposition", `form-data; name="VerifyImage"; filename="blob"`);
         }
       }

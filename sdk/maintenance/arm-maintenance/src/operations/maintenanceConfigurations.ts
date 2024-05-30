@@ -23,13 +23,14 @@ import {
   MaintenanceConfigurationsDeleteOptionalParams,
   MaintenanceConfigurationsDeleteResponse,
   MaintenanceConfigurationsUpdateOptionalParams,
-  MaintenanceConfigurationsUpdateResponse
+  MaintenanceConfigurationsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MaintenanceConfigurations operations. */
 export class MaintenanceConfigurationsImpl
-  implements MaintenanceConfigurations {
+  implements MaintenanceConfigurations
+{
   private readonly client: MaintenanceManagementClient;
 
   /**
@@ -45,7 +46,7 @@ export class MaintenanceConfigurationsImpl
    * @param options The options parameters.
    */
   public list(
-    options?: MaintenanceConfigurationsListOptionalParams
+    options?: MaintenanceConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<MaintenanceConfiguration> {
     const iter = this.listPagingAll(options);
     return {
@@ -60,13 +61,13 @@ export class MaintenanceConfigurationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: MaintenanceConfigurationsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<MaintenanceConfiguration[]> {
     let result: MaintenanceConfigurationsListResponse;
     result = await this._list(options);
@@ -74,7 +75,7 @@ export class MaintenanceConfigurationsImpl
   }
 
   private async *listPagingAll(
-    options?: MaintenanceConfigurationsListOptionalParams
+    options?: MaintenanceConfigurationsListOptionalParams,
   ): AsyncIterableIterator<MaintenanceConfiguration> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -90,11 +91,11 @@ export class MaintenanceConfigurationsImpl
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsGetOptionalParams
+    options?: MaintenanceConfigurationsGetOptionalParams,
   ): Promise<MaintenanceConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -109,11 +110,11 @@ export class MaintenanceConfigurationsImpl
     resourceGroupName: string,
     resourceName: string,
     configuration: MaintenanceConfiguration,
-    options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams
+    options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<MaintenanceConfigurationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, configuration, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -126,11 +127,11 @@ export class MaintenanceConfigurationsImpl
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsDeleteOptionalParams
+    options?: MaintenanceConfigurationsDeleteOptionalParams,
   ): Promise<MaintenanceConfigurationsDeleteResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -145,11 +146,11 @@ export class MaintenanceConfigurationsImpl
     resourceGroupName: string,
     resourceName: string,
     configuration: MaintenanceConfiguration,
-    options?: MaintenanceConfigurationsUpdateOptionalParams
+    options?: MaintenanceConfigurationsUpdateOptionalParams,
   ): Promise<MaintenanceConfigurationsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, configuration, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -158,7 +159,7 @@ export class MaintenanceConfigurationsImpl
    * @param options The options parameters.
    */
   private _list(
-    options?: MaintenanceConfigurationsListOptionalParams
+    options?: MaintenanceConfigurationsListOptionalParams,
   ): Promise<MaintenanceConfigurationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -167,41 +168,39 @@ export class MaintenanceConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Maintenance/maintenanceConfigurations/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Maintenance/maintenanceConfigurations/{resourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfiguration
+      bodyMapper: Mappers.MaintenanceConfiguration,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Maintenance/maintenanceConfigurations/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Maintenance/maintenanceConfigurations/{resourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfiguration
+      bodyMapper: Mappers.MaintenanceConfiguration,
     },
     201: {
-      bodyMapper: Mappers.MaintenanceConfiguration
+      bodyMapper: Mappers.MaintenanceConfiguration,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   requestBody: Parameters.configuration,
   queryParameters: [Parameters.apiVersion],
@@ -209,46 +208,44 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Maintenance/maintenanceConfigurations/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Maintenance/maintenanceConfigurations/{resourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfiguration
+      bodyMapper: Mappers.MaintenanceConfiguration,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Maintenance/maintenanceConfigurations/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Maintenance/maintenanceConfigurations/{resourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfiguration
+      bodyMapper: Mappers.MaintenanceConfiguration,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   requestBody: Parameters.configuration,
   queryParameters: [Parameters.apiVersion],
@@ -256,26 +253,25 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/maintenanceConfigurations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/maintenanceConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListMaintenanceConfigurationsResult
+      bodyMapper: Mappers.ListMaintenanceConfigurationsResult,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

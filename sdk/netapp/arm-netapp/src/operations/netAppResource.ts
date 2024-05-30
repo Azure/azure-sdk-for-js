@@ -156,7 +156,7 @@ export class NetAppResourceImpl implements NetAppResource {
    *                 /subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySubnet}
    * @param networkSiblingSetStateId Network sibling set state Id identifying the current state of the
    *                                 sibling set.
-   * @param networkFeatures Network features available to the volume, some such
+   * @param networkFeatures Network features available to the volume.
    * @param options The options parameters.
    */
   async beginUpdateNetworkSiblingSet(
@@ -244,7 +244,7 @@ export class NetAppResourceImpl implements NetAppResource {
    *                 /subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySubnet}
    * @param networkSiblingSetStateId Network sibling set state Id identifying the current state of the
    *                                 sibling set.
-   * @param networkFeatures Network features available to the volume, some such
+   * @param networkFeatures Network features available to the volume.
    * @param options The options parameters.
    */
   async beginUpdateNetworkSiblingSetAndWait(

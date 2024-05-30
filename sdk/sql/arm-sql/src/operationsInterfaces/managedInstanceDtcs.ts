@@ -15,7 +15,7 @@ import {
   ManagedInstanceDtcsGetOptionalParams,
   ManagedInstanceDtcsGetResponse,
   ManagedInstanceDtcsCreateOrUpdateOptionalParams,
-  ManagedInstanceDtcsCreateOrUpdateResponse
+  ManagedInstanceDtcsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ManagedInstanceDtcs {
   listByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceDtcsListByManagedInstanceOptionalParams
+    options?: ManagedInstanceDtcsListByManagedInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceDtc>;
   /**
    * Gets managed instance DTC settings.
@@ -45,7 +45,7 @@ export interface ManagedInstanceDtcs {
     resourceGroupName: string,
     managedInstanceName: string,
     dtcName: DtcName,
-    options?: ManagedInstanceDtcsGetOptionalParams
+    options?: ManagedInstanceDtcsGetOptionalParams,
   ): Promise<ManagedInstanceDtcsGetResponse>;
   /**
    * Updates managed instance DTC settings.
@@ -61,7 +61,7 @@ export interface ManagedInstanceDtcs {
     managedInstanceName: string,
     dtcName: DtcName,
     parameters: ManagedInstanceDtc,
-    options?: ManagedInstanceDtcsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceDtcsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedInstanceDtcsCreateOrUpdateResponse>,
@@ -82,6 +82,6 @@ export interface ManagedInstanceDtcs {
     managedInstanceName: string,
     dtcName: DtcName,
     parameters: ManagedInstanceDtc,
-    options?: ManagedInstanceDtcsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceDtcsCreateOrUpdateOptionalParams,
   ): Promise<ManagedInstanceDtcsCreateOrUpdateResponse>;
 }

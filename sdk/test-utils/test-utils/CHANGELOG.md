@@ -11,12 +11,16 @@
 - Removed multi-version test support as it was tied to Mocha.
 - Removed chai based assertions in favor of vitest based assertions.
 
-### Bugs Fixed
-
 ### Other Changes
 
 - Moved from Mocha to vitest for testing.
 - Moved core to ESM with builds for CommonJS, React-Native, Browser and ESM.
+
+## 1.0.2 (2024-05-28)
+
+### Other Changes
+
+- core-tracing moved to peerDependencies
 
 ## 1.0.1 (2024-05-08)
 

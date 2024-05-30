@@ -13,6 +13,8 @@
 ### Other Changes
 
 - `DeviceCodeCredential` migrated to use MSALClient internally instead of MSALNode flow. This is an internal refactoring and should not result in any behavioral changes. [#29405](https://github.com/Azure/azure-sdk-for-js/pull/29405)
+- `UsernamePasswordCredential` migrated to use MSALClient internally instead of MSALNode flow. This is an internal refactoring and should not result in any behavioral changes. [#29656](https://github.com/Azure/azure-sdk-for-js/pull/29656)
+
 
 ## 4.2.0 (2024-04-30)
 

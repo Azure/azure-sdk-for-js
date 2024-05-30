@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   GetTieringCostOperationResultGetOptionalParams,
-  GetTieringCostOperationResultGetResponse
+  GetTieringCostOperationResultGetResponse,
 } from "../models";
 
 /** Class containing GetTieringCostOperationResult operations. */
 export class GetTieringCostOperationResultImpl
-  implements GetTieringCostOperationResult {
+  implements GetTieringCostOperationResult
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -41,11 +42,11 @@ export class GetTieringCostOperationResultImpl
     resourceGroupName: string,
     vaultName: string,
     operationId: string,
-    options?: GetTieringCostOperationResultGetOptionalParams
+    options?: GetTieringCostOperationResultGetOptionalParams,
   ): Promise<GetTieringCostOperationResultGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -53,16 +54,15 @@ export class GetTieringCostOperationResultImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTieringCost/default/operationResults/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTieringCost/default/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TieringCostInfo
+      bodyMapper: Mappers.TieringCostInfo,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -70,8 +70,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.operationId,
-    Parameters.vaultName1
+    Parameters.vaultName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

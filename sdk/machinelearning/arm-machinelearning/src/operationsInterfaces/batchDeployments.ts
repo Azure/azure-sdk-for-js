@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BatchDeployment,
   BatchDeploymentsListOptionalParams,
@@ -18,7 +18,7 @@ import {
   BatchDeploymentsUpdateOptionalParams,
   BatchDeploymentsUpdateResponse,
   BatchDeploymentsCreateOrUpdateOptionalParams,
-  BatchDeploymentsCreateOrUpdateResponse
+  BatchDeploymentsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface BatchDeployments {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: BatchDeploymentsListOptionalParams
+    options?: BatchDeploymentsListOptionalParams,
   ): PagedAsyncIterableIterator<BatchDeployment>;
   /**
    * Delete Batch Inference deployment (asynchronous).
@@ -50,8 +50,8 @@ export interface BatchDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: BatchDeploymentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: BatchDeploymentsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Batch Inference deployment (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -65,7 +65,7 @@ export interface BatchDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: BatchDeploymentsDeleteOptionalParams
+    options?: BatchDeploymentsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a batch inference deployment by id.
@@ -80,7 +80,7 @@ export interface BatchDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: BatchDeploymentsGetOptionalParams
+    options?: BatchDeploymentsGetOptionalParams,
   ): Promise<BatchDeploymentsGetResponse>;
   /**
    * Update a batch inference deployment (asynchronous).
@@ -97,10 +97,10 @@ export interface BatchDeployments {
     endpointName: string,
     deploymentName: string,
     body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
-    options?: BatchDeploymentsUpdateOptionalParams
+    options?: BatchDeploymentsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchDeploymentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BatchDeploymentsUpdateResponse>,
       BatchDeploymentsUpdateResponse
     >
   >;
@@ -119,7 +119,7 @@ export interface BatchDeployments {
     endpointName: string,
     deploymentName: string,
     body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
-    options?: BatchDeploymentsUpdateOptionalParams
+    options?: BatchDeploymentsUpdateOptionalParams,
   ): Promise<BatchDeploymentsUpdateResponse>;
   /**
    * Creates/updates a batch inference deployment (asynchronous).
@@ -136,10 +136,10 @@ export interface BatchDeployments {
     endpointName: string,
     deploymentName: string,
     body: BatchDeployment,
-    options?: BatchDeploymentsCreateOrUpdateOptionalParams
+    options?: BatchDeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchDeploymentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BatchDeploymentsCreateOrUpdateResponse>,
       BatchDeploymentsCreateOrUpdateResponse
     >
   >;
@@ -158,6 +158,6 @@ export interface BatchDeployments {
     endpointName: string,
     deploymentName: string,
     body: BatchDeployment,
-    options?: BatchDeploymentsCreateOrUpdateOptionalParams
+    options?: BatchDeploymentsCreateOrUpdateOptionalParams,
   ): Promise<BatchDeploymentsCreateOrUpdateResponse>;
 }

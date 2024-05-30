@@ -48,7 +48,7 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete.",
-    "build:test": "tsc -p . && dev-tool run bundle",
+    "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "build": "npm run clean && npm run extract-api && tsc -p . && dev-tool run bundle",
     "clean": "rimraf --glob dist dist-* types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -62,11 +62,11 @@
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run clean && npm run build:test && npm run unit-test:node && npm run integration-test:node",
+    "test:browser": "npm run clean && tsc -p . && dev-tool run bundle && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run clean && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "dev-tool run test:browser",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 300000 --exclude 'test/**/browser/**/*.spec.ts' 'test/**/**/*.spec.ts'",
+    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 300000 --exclude 'test/**/browser/**/*.spec.ts' --exclude 'test/integration/**/*.spec.ts' 'test/**/**/*.spec.ts'",
     "unit-test:node:no-timeouts": "dev-tool run test:node-ts-input -- --timeout Infinite --exclude 'test/**/browser/**/*.spec.ts' 'test/**/**/*.spec.ts'",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },

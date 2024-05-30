@@ -29,11 +29,12 @@ async function tryPlannedBeforeForcedFailoverOfAFailoverGroup() {
   const failoverGroupName = "failovergrouptest3";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.failoverGroups.beginTryPlannedBeforeForcedFailoverAndWait(
-    resourceGroupName,
-    serverName,
-    failoverGroupName
-  );
+  const result =
+    await client.failoverGroups.beginTryPlannedBeforeForcedFailoverAndWait(
+      resourceGroupName,
+      serverName,
+      failoverGroupName,
+    );
   console.log(result);
 }
 

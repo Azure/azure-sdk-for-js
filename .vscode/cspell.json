@@ -346,6 +346,7 @@
         "rerank",
         "reranker",
         "sorani",
+        "vectorize",
         "vectorizer",
         "vectorizers"
       ]

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BackupRequestResource,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -23,7 +23,7 @@ operation, call GetProtectedItemOperationResult API.
  *
  * @summary Triggers backup for specified backed up item. This is an asynchronous operation. To know the status of the
 operation, call GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/Common/TriggerBackup_Post.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/TriggerBackup_Post.json
  */
 async function triggerBackup() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function triggerBackup() {
   const containerName = "IaasVMContainer;iaasvmcontainerv2;testrg;v1win2012r";
   const protectedItemName = "VM;iaasvmcontainerv2;testrg;v1win2012r";
   const parameters: BackupRequestResource = {
-    properties: { objectType: "IaasVMBackupRequest" }
+    properties: { objectType: "IaasVMBackupRequest" },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -46,7 +46,7 @@ async function triggerBackup() {
     fabricName,
     containerName,
     protectedItemName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

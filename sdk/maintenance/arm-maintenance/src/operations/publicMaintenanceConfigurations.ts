@@ -17,13 +17,14 @@ import {
   PublicMaintenanceConfigurationsListOptionalParams,
   PublicMaintenanceConfigurationsListResponse,
   PublicMaintenanceConfigurationsGetOptionalParams,
-  PublicMaintenanceConfigurationsGetResponse
+  PublicMaintenanceConfigurationsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PublicMaintenanceConfigurations operations. */
 export class PublicMaintenanceConfigurationsImpl
-  implements PublicMaintenanceConfigurations {
+  implements PublicMaintenanceConfigurations
+{
   private readonly client: MaintenanceManagementClient;
 
   /**
@@ -39,7 +40,7 @@ export class PublicMaintenanceConfigurationsImpl
    * @param options The options parameters.
    */
   public list(
-    options?: PublicMaintenanceConfigurationsListOptionalParams
+    options?: PublicMaintenanceConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<MaintenanceConfiguration> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +55,13 @@ export class PublicMaintenanceConfigurationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: PublicMaintenanceConfigurationsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<MaintenanceConfiguration[]> {
     let result: PublicMaintenanceConfigurationsListResponse;
     result = await this._list(options);
@@ -68,7 +69,7 @@ export class PublicMaintenanceConfigurationsImpl
   }
 
   private async *listPagingAll(
-    options?: PublicMaintenanceConfigurationsListOptionalParams
+    options?: PublicMaintenanceConfigurationsListOptionalParams,
   ): AsyncIterableIterator<MaintenanceConfiguration> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -80,7 +81,7 @@ export class PublicMaintenanceConfigurationsImpl
    * @param options The options parameters.
    */
   private _list(
-    options?: PublicMaintenanceConfigurationsListOptionalParams
+    options?: PublicMaintenanceConfigurationsListOptionalParams,
   ): Promise<PublicMaintenanceConfigurationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -92,11 +93,11 @@ export class PublicMaintenanceConfigurationsImpl
    */
   get(
     resourceName: string,
-    options?: PublicMaintenanceConfigurationsGetOptionalParams
+    options?: PublicMaintenanceConfigurationsGetOptionalParams,
   ): Promise<PublicMaintenanceConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -104,40 +105,38 @@ export class PublicMaintenanceConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/publicMaintenanceConfigurations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/publicMaintenanceConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListMaintenanceConfigurationsResult
+      bodyMapper: Mappers.ListMaintenanceConfigurationsResult,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/{resourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfiguration
+      bodyMapper: Mappers.MaintenanceConfiguration,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

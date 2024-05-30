@@ -433,7 +433,7 @@ export interface BlobCopyFromURLHeaders {
     clientRequestId?: string;
     contentMD5?: Uint8Array;
     copyId?: string;
-    copyStatus?: "success";
+    copyStatus?: SyncCopyStatusType;
     date?: Date;
     encryptionScope?: string;
     errorCode?: string;
@@ -2161,6 +2161,9 @@ export interface GeoReplication {
 export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
 // @public
+export function getBlobServiceAccountAudience(storageAccountName: string): string;
+
+// @public
 export interface HttpAuthorization {
     scheme: string;
     value: string;
@@ -3182,6 +3185,9 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
     protected signRequest(request: WebResource): WebResource;
 }
+
+// @public
+export type SyncCopyStatusType = "success";
 
 // @public
 export interface TagConditions {

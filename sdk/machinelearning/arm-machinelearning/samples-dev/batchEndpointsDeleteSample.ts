@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningWorkspaces } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete Batch Inference Endpoint (asynchronous).
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/BatchEndpoint/delete.json
  */
 async function deleteBatchEndpoint() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "resourceGroup-1234";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "resourceGroup-1234";
   const workspaceName = "testworkspace";
   const endpointName = "testBatchEndpoint";
   const credential = new DefaultAzureCredential();
@@ -27,9 +33,13 @@ async function deleteBatchEndpoint() {
   const result = await client.batchEndpoints.beginDeleteAndWait(
     resourceGroupName,
     workspaceName,
-    endpointName
+    endpointName,
   );
   console.log(result);
 }
 
-deleteBatchEndpoint().catch(console.error);
+async function main() {
+  deleteBatchEndpoint();
+}
+
+main().catch(console.error);
