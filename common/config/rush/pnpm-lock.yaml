@@ -21825,7 +21825,7 @@ packages:
     dev: false
 
   file:projects/openai-1.tgz:
-    resolution: {integrity: sha512-/hEWC93Y6dGctnxyu7/GluD2agiwmTNkPA3VqRdb59ocDjHt93+5RXdTWrVl3kFWgk1vzbf/4tgnG3M936ScvQ==, tarball: file:projects/openai-1.tgz}
+    resolution: {integrity: sha512-gFcXBdZe6oWK1h7f/03QoCi7ZodEgJWDRZvV3BfmkhSj0tioEwE3lrJPff0HyBN3aA5umO+ZyIonMD5DmmJQHg==, tarball: file:projects/openai-1.tgz}
     name: '@rush-temp/openai-1'
     version: 0.0.0
     dependencies:
@@ -21856,7 +21856,7 @@ packages:
       mocha: 10.4.0
       nyc: 15.1.0
       puppeteer: 22.10.0(typescript@5.4.5)
-      rimraf: 3.0.2
+      rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
       typescript: 5.4.5
@@ -21870,7 +21870,7 @@ packages:
     dev: false
 
   file:projects/openai-assistants.tgz:
-    resolution: {integrity: sha512-HHjJ5/7nk0PjHl396f+p6z0wjxj4uT7/y0fgFnDn+/zt7UYZ5SAgH3p+hpPBbCWvLdw1JwRoks29LsOtTjDxQA==, tarball: file:projects/openai-assistants.tgz}
+    resolution: {integrity: sha512-WsbOMkCS7dkBU+b0ERboF8zYs8x7Y4a3DskldgFoZau4AMjaqneie92hfNXJeorQMMWbC0vpVYDI3j825shy8Q==, tarball: file:projects/openai-assistants.tgz}
     name: '@rush-temp/openai-assistants'
     version: 0.0.0
     dependencies:
@@ -21898,7 +21898,7 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.4.0
       nyc: 15.1.0
-      rimraf: 3.0.2
+      rimraf: 5.0.7
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
@@ -23560,7 +23560,7 @@ packages:
     dev: false
 
   file:projects/template-dpg.tgz:
-    resolution: {integrity: sha512-era64OOVVbq7t8sO6CuyVXIMzWBhkJQuVHIYTqjH0jyQPkgbo8waOhwsfEz0sK7dGChhDniYlwP+vnFp/lu6lg==, tarball: file:projects/template-dpg.tgz}
+    resolution: {integrity: sha512-SGarOplEG6BfERUuKVFLmU2ff8N0sE8EsMAsrSmSk18S7hbnTqMlV1adgXZHuSM0AdmoI3PhYxnetwzNv06ZoA==, tarball: file:projects/template-dpg.tgz}
     name: '@rush-temp/template-dpg'
     version: 0.0.0
     dependencies:
@@ -23588,7 +23588,7 @@ packages:
       mocha: 10.4.0
       nyc: 15.1.0
       puppeteer: 22.10.0(typescript@5.4.5)
-      rimraf: 3.0.2
+      rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
       typescript: 5.4.5
@@ -23796,14 +23796,14 @@ packages:
     dev: false
 
   file:projects/vite-plugin-browser-test-map.tgz:
-    resolution: {integrity: sha512-qKZHdG8f3LTACHV3PdZsjAm8dC+A9GyANO24iYg7ATkihTPXf4nO8l7RR9Ur1bHkDyqqMq2AIosv0QhEH5pvnQ==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
+    resolution: {integrity: sha512-NZUMfq9YNwXA816jr0PKWPQ+B6f3yHCoNm4IEQVKnUwuZ0dvhYzr2mliEp6+7Ttz0oO2/SGg3d0rkr3RVOCZBA==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
     name: '@rush-temp/vite-plugin-browser-test-map'
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.33
       eslint: 8.57.0
       prettier: 3.2.5
-      rimraf: 3.0.2
+      rimraf: 5.0.7
       tslib: 2.6.2
       typescript: 5.4.5
     transitivePeerDependencies:
