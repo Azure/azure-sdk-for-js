@@ -22,12 +22,6 @@ const fakeToken = generateToken();
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   sanitizerOptions: {
-    connectionStringSanitizers: [
-      {
-        fakeConnString: envSetupForPlayback["COMMUNICATION_CONNECTION_STRING"],
-        actualConnString: env["COMMUNICATION_CONNECTION_STRING"] || undefined,
-      },
-    ],
     bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
   },
 };
