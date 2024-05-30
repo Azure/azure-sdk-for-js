@@ -273,6 +273,7 @@
     {
       "packageName": "@azure/app-configuration",
       "projectFolder": "sdk/appconfiguration/app-configuration",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
@@ -348,6 +349,7 @@
     {
       "packageName": "@azure/ai-form-recognizer",
       "projectFolder": "sdk/formrecognizer/ai-form-recognizer",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
@@ -563,6 +565,7 @@
     {
       "packageName": "@azure/monitor-query",
       "projectFolder": "sdk/monitor/monitor-query",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
@@ -575,13 +578,12 @@
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility",
       // Add Identity to decoupledLocalDependencies so that dev-tool uses the package from npm, avoiding a cyclic dependency.
-      "decoupledLocalDependencies": [
-        "@azure/identity"
-      ]
+      "decoupledLocalDependencies": ["@azure/identity"]
     },
     {
       "packageName": "@azure/eventgrid",
       "projectFolder": "sdk/eventgrid/eventgrid",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
@@ -592,6 +594,7 @@
     {
       "packageName": "@azure/event-hubs",
       "projectFolder": "sdk/eventhub/event-hubs",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
@@ -612,9 +615,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": [
-        "@azure/keyvault-keys"
-      ],
+      "decoupledLocalDependencies": ["@azure/keyvault-keys", "@azure/core-tracing"],
       "versionPolicyName": "client"
     },
     {
@@ -640,21 +641,25 @@
     {
       "packageName": "@azure/keyvault-admin",
       "projectFolder": "sdk/keyvault/keyvault-admin",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/keyvault-certificates",
       "projectFolder": "sdk/keyvault/keyvault-certificates",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/keyvault-keys",
       "projectFolder": "sdk/keyvault/keyvault-keys",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/keyvault-secrets",
       "projectFolder": "sdk/keyvault/keyvault-secrets",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
@@ -715,6 +720,7 @@
     {
       "packageName": "@azure/service-bus",
       "projectFolder": "sdk/servicebus/service-bus",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
@@ -725,26 +731,31 @@
     {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/storage-blob-changefeed",
       "projectFolder": "sdk/storage/storage-blob-changefeed",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/storage-file-share",
       "projectFolder": "sdk/storage/storage-file-share",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/storage-file-datalake",
       "projectFolder": "sdk/storage/storage-file-datalake",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/storage-queue",
       "projectFolder": "sdk/storage/storage-queue",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
@@ -785,6 +796,7 @@
     {
       "packageName": "@azure/data-tables",
       "projectFolder": "sdk/tables/data-tables",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
@@ -795,6 +807,7 @@
     {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template",
+      "decoupledLocalDependencies": ["@azure/core-tracing"], // https://github.com/Azure/azure-sdk-for-js/issues/29736
       "versionPolicyName": "client"
     },
     {
