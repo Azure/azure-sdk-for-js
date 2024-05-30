@@ -1,4 +1,4 @@
-This is a simple browser page demonstrating the completions API using the Azure OpenAI JS SDK.
+This is a simple browser page demonstrating the completions API using the OpenAI JS SDK.
 
 To run:
 1.

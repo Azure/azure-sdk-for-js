@@ -16,10 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "@azure/search-documents": "^11.2.0",
-    "@azure-rest/core-client": "^1.1.4",
-    "@azure/abort-controller": "^1.1.0",
     "@azure/identity": "^4.0.1",
-    "@azure/openai": "^1.0.0-beta.8",
+    "openai": "^4.42.0",
     "child_process": "^1.0.2",
     "dotenv": "^16.0.0"
   },

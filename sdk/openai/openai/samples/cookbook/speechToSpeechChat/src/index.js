@@ -1,16 +1,18 @@
-const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
+const { AzureOpenAI } = require("openai");
+const { getBearerTokenProvider, InteractiveBrowserCredential } = require("@azure/identity");
 import { sendTextViaAzureSpeechSDK, speakTextViaAzureSpeechSDK } from "./azureSpeech.js";
 import { sendTextViaWebSpeechAPI, speakTextViaWebSpeechAPI } from "./webSpeech.js";
 
-let SpeechSDK, client, statusDiv, stopRecognitionFunc;
+let SpeechSDK, client, statusDiv, stopRecognitionFunc, cred, azureADTokenProvider;
 let useAzureSpeechSDK = true;
 const azureSpeechCheckbox = document.getElementById('useAzureSpeechSDK');
-const speechKeyElement = document.getElementById("speechKey");
 const speechRegionElement = document.getElementById("speechRegion");
+const clientId = document.getElementById("clientId");
+const tenantId = document.getElementById("tenantId");
+const scope = "https://cognitiveservices.azure.com/.default";
 
 azureSpeechCheckbox.addEventListener('change', function() {
   useAzureSpeechSDK = this.checked;
-  speechKeyElement.disabled = !useAzureSpeechSDK;
   speechRegionElement.disabled = !useAzureSpeechSDK;
 });
 
@@ -19,28 +21,32 @@ function startChatFromSpeech() {
   const promptInput = document.getElementById("promptInput");
   statusDiv.innerHTML = "";
   promptInput.innerHTML = "";
+  cred = new InteractiveBrowserCredential({ clientId: clientId.value, tenantId: tenantId.value });
+  azureADTokenProvider = getBearerTokenProvider(cred, scope);
 
   stopRecognitionFunc = useAzureSpeechSDK ? 
-    sendTextViaAzureSpeechSDK(sendTextToChatGPT, promptInput, speechKeyElement.value, speechRegionElement.value) :
+    sendTextViaAzureSpeechSDK(sendTextToChatGPT, promptInput, azureADTokenProvider, speechRegionElement.value) :
     sendTextViaWebSpeechAPI(sendTextToChatGPT, promptInput);
 }
 
 function sendTextToChatGPT(text) {
   if (!client) {
-    const azureOpenAIKey = document.getElementById("azureOpenAIKey");
     const endpoint = document.getElementById("endpoint");
+    const deploymentId = document.getElementById("deploymentId");
 
-    const credential = new AzureKeyCredential(azureOpenAIKey.value);
-    client = new OpenAIClient(endpoint.value, credential);
-  }
+    client = new AzureOpenAI({
+      endpoint: endpoint.value,
+      azureADTokenProvider,
+      deployment: deploymentId.value,
+      apiVersion: "2024-04-01-preview",
+    });  }
 
   async function showResponseChoices() {
     try {
-      const deploymentId = document.getElementById("deploymentId");
-      const { choices } = await client.getCompletions(deploymentId.value, [text]);
+      const { choices } = await client.completions.create({ model: '', prompt: [text]});
       const gptResponseText = choices[0]?.text;
       useAzureSpeechSDK ?
-        speakTextViaAzureSpeechSDK(gptResponseText, speechKeyElement.value, speechRegionElement.value) : 
+        speakTextViaAzureSpeechSDK(gptResponseText, azureADTokenProvider, speechRegionElement.value) : 
         speakTextViaWebSpeechAPI(gptResponseText);
       const resultDiv = document.getElementById("resultDiv");
       resultDiv.innerHTML = gptResponseText;

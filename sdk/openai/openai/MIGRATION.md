@@ -117,7 +117,7 @@ const stream = await client.streamChatCompletions(deploymentName, messages, { ma
 
 Migrated code:
 ```typescript
-const stream = await client.chat.completions.create({ messages, max_tokens: 100, stream: true });
+const stream = await client.chat.completions.create({ model: '', messages, max_tokens: 100, stream: true });
 ```
 
 ### Azure On Your Data
@@ -129,7 +129,7 @@ Original code:
 const azureSearchEndpoint = "Your Azure Search resource endpoint";
 const azureSearchIndexName = "Your Azure Search index name";
 const result = await client.getChatCompletions(deploymentName, messages, { azureExtensionOptions: { 
-    extensions: [{
+    data_sources: [{
       type: "azure_search",
       endpoint: azureSearchEndpoint,
       indexName: azureSearchIndexName,
@@ -145,7 +145,7 @@ Migrated code:
 ```typescript
 const azureSearchEndpoint = "Your Azure Search resource endpoint";
 const azureSearchIndexName = "Your Azure Search index name";
-const result = await client.chat.completions.create({ messages, ... { extensions: [{
+const result = await client.chat.completions.create({ model: '', messages, ... { data_sources: [{
       type: "azure_search",
       parameters: {
         endpoint: azureSearchEndpoint,
@@ -160,7 +160,7 @@ const result = await client.chat.completions.create({ messages, ... { extensions
 ```
 
 Notice that:
-- The `azureExtensionOptions` property has been replaced with the inner `extensions` property
+- The `azureExtensionOptions` property has been replaced with the inner `data_sources` property
 - The `parameters` property has been added to wrap the parameters of the extension, which mirrors the schema of the Azure OpenAI service API
 - camel case properties have been replaced with snake case properties
 
@@ -418,7 +418,7 @@ However `AzureOpenAI` does not have a direct equivalent to the `contentFilterRes
 
 Migrated code:
 ```typescript
-const result = await client.chat.completions.create({ messages });
+const result = await client.chat.completions.create({ model: '', messages });
 for (const choice of results.choices) {
   const filterResults = (choice as any).content_filter_results;
   if (!filterResults) {

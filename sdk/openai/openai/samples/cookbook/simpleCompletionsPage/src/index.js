@@ -1,18 +1,27 @@
-const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
+const { AzureOpenAI } = require("openai");
+const { InteractiveBrowserCredential, getBearerTokenProvider } = require("@azure/identity");
 
 function getOpenAIChoices(resultDiv) {
   const deploymentId = document.getElementById("deploymentId");
-  const azureKey = document.getElementById("azureKey");
   const endpoint = document.getElementById("endpoint");
+  const clientId = document.getElementById("clientId");
+  const tenantId = document.getElementById("tenantId");
   const promptInput = document.getElementById("promptInput");
 
   resultDiv.innerHTML = "";
-  const credential = new AzureKeyCredential(azureKey.value);
-  const client = new OpenAIClient(endpoint.value, credential);
+  const scope = "https://cognitiveservices.azure.com/.default";
+  const cred = new InteractiveBrowserCredential({ clientId: clientId.value, tenantId: tenantId.value });
+  const azureADTokenProvider = getBearerTokenProvider(cred, scope);
+  const client = new AzureOpenAI({
+    endpoint: endpoint.value,
+    azureADTokenProvider,
+    deployment: deploymentId.value,
+    apiVersion: "2024-04-01-preview",
+  });
 
   async function showResponseChoices() {
     try {
-      const { choices } = await client.getCompletions(deploymentId.value, [promptInput.value]);
+      const { choices } = await client.completions.create({ model: '', prompt: [promptInput.value] });
       resultDiv.innerHTML = choices[0].text;
     } catch (e) { 
       console.log(e);

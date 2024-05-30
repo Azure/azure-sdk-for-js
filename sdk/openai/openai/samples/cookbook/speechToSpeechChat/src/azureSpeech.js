@@ -1,6 +1,6 @@
 
-export function sendTextViaAzureSpeechSDK(sendTextFunc, promptInput, speechKey, speechRegion) {
-    const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(speechKey, speechRegion);
+export function sendTextViaAzureSpeechSDK(sendTextFunc, promptInput, azureADTokenProvider, speechRegion) {
+    const speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(azureADTokenProvider(), speechRegion);
     const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
     const recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
 
@@ -47,8 +47,9 @@ export function sendTextViaAzureSpeechSDK(sendTextFunc, promptInput, speechKey, 
     return stopChatViaAzureSpeechSDK;
 }
 
-export function speakTextViaAzureSpeechSDK(text, speechKey, speechRegion) {
-  const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(speechKey, speechRegion);
+export function speakTextViaAzureSpeechSDK(text, azureADTokenProvider, speechRegion) {
+
+  const speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(azureADTokenProvider(), speechRegion);
   const audioConfig = SpeechSDK.AudioConfig.fromDefaultSpeakerOutput();
   let synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
   synthesizer.speakTextAsync(

@@ -4,8 +4,10 @@
 // Importing the @azure/search-documents library
 const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
-// Importing the @azure/openai library
-const { OpenAIClient } = require("@azure/openai");
+// Importing the openai library
+const { AzureOpenAI } = require("openai");
+
+const { DefaultAzureCredential } = require("@azure/identity");
 
 const fs = require("fs");
 
@@ -17,21 +19,18 @@ const indexDefinition = JSON.parse(fs.readFileSync("./hotels_quickstart_index.js
 require("dotenv").config();
 
 // Getting search endpoint, search admin Key, Azure OpenAI endpoint, Azure API Key, and chat deployment id from .env file
-const azureSearchEndpoint = process.env.SEARCH_API_ENDPOINT || "";
-const azureSearchAdminKey = process.env.SEARCH_API_KEY || "";
-const azureApiKey = process.env.AZURE_API_KEY || "";
-const openAiEndpoint = process.env.AZURE_OPENAI_ENDPOINT || "";
+const azureSearchEndpoint = process.env.AZURE_SEARCH_ENDPOINT || "";
 const chatDeploymentId = process.env.AZURE_OPENAI_DEPLOYMENT_ID || "";
 
 async function main() {
   console.log(`Running Azure Cognitive Search Javascript quickstart...`);
-  if (!azureSearchEndpoint || !azureSearchAdminKey || !azureApiKey || !openAiEndpoint || !chatDeploymentId) {
-    console.log("Make sure to set valid values for azureSearchEndpoint, azureSearchAdminKey, azureApiKey, openAiEndpoint, and chatDeploymentId with proper authorization.");
+  if (!azureSearchEndpoint || !chatDeploymentId) {
+    console.log("Make sure to set valid values for AZURE_SEARCH_ENDPOINT and AZURE_OPENAI_DEPLOYMENT_ID environment variables.");
     return;
   }
 
   // Creating an index client to create the search index
-  const indexClient = new SearchIndexClient(azureSearchEndpoint, new AzureKeyCredential(azureSearchAdminKey));
+  const indexClient = new SearchIndexClient(azureSearchEndpoint, new DefaultAzureCredential());
 
   // Getting the name of the index from the index definition
   const indexName = indexDefinition["name"];
@@ -75,25 +74,34 @@ async function deleteIndexIfExists(indexClient, indexName) {
 }
 
 async function askOpenAI(azureSearchIndexName, messages) {
-  const client = new OpenAIClient(openAiEndpoint, new AzureKeyCredential(azureApiKey));
-  const events = client.listChatCompletions(chatDeploymentId, messages, {
-    maxTokens: 128,
+  const scope = "https://cognitiveservices.azure.com/.default";
+  const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
+  const apiVersion = "2024-04-01-preview";
+  const client = new AzureOpenAI({ azureADTokenProvider, deployment: chatDeploymentId, apiVersion });
+  const events = client.chat.completions.create({
+    messages,
+    stream: true,
+    model: '',
+    max_tokens: 128,
     /**
      * The `azureExtensionOptions` property is used to configure the
      * Azure-specific extensions. In this case, we are using the
      * Azure Cognitive Search extension with a vector index to provide
      * the model with additional context.
      */
-    azureExtensionOptions: {
-      extensions: [
+    data_sources:
+      [
         {
-          type: "AzureCognitiveSearch",
-          endpoint: azureSearchEndpoint,
-            key: azureSearchAdminKey,
-            indexName: azureSearchIndexName,
+          type: "azure_search",
+          parameters: {
+            endpoint: azureSearchEndpoint,
+            index_name: azureSearchIndexName,
+            authentication: {
+              type: "system_assigned_managed_identity",
+            },
+          },
         },
       ],
-    },
   });
 
   let chatGptAnswer = "";

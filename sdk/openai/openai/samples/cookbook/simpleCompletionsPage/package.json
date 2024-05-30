@@ -13,7 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/openai": "^1.0.0-beta.8"
+    "openai": "^4.42.0",
+    "@azure/identity": "4.2.0"
   },
   "devDependencies": {
     "@webpack-cli/generators": "^3.0.4",
