@@ -16,11 +16,12 @@ describe("AzurePipelinesCredential", function () {
     const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
     // clientId for above service connection
     const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
-    const credential = new AzurePipelinesCredential(
+    const systemAccessToken = process.env.SYSTEM_ACCESS_TOKEN!;
+    const credential = new AzurePipelinesCredential(systemAccessToken, {
       tenantId,
       clientId,
-      existingServiceConnectionId,
-    );
+      serviceConnectionId: existingServiceConnectionId,
+    });
     try {
       const token = await credential.getToken(scope);
       assert.ok(token?.token);
