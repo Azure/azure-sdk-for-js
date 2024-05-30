@@ -52,13 +52,13 @@ matrix([[true, false]], async function (useAad) {
 
       const routes: SipTrunkRoute[] = [
         {
-          name: "myFirstRoute",
+          name: "Sanitized",
           description: "myFirstRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
         },
         {
-          name: "mySecondRoute",
+          name: "Sanitized",
           description: "mySecondRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
@@ -75,13 +75,13 @@ matrix([[true, false]], async function (useAad) {
     it("can set multiple new and existing routes", async () => {
       const routes: SipTrunkRoute[] = [
         {
-          name: "myFirstRoute",
+          name: "Sanitized",
           description: "myFirstRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
         },
         {
-          name: "mySecondRoute",
+          name: "Sanitized",
           description: "mySecondRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
@@ -92,7 +92,7 @@ matrix([[true, false]], async function (useAad) {
       expectedRoutes[0].numberPattern = "^.*$";
       expectedRoutes[1].description = "ALTERED mySecondRoute's description";
       expectedRoutes.push({
-        name: "myThirdRoute",
+        name: "Sanitized",
         description: "desc",
         numberPattern: "^+[1-9][0-9]{3,23}$",
         trunks: [],
@@ -113,7 +113,7 @@ matrix([[true, false]], async function (useAad) {
       await client.setTrunk(trunk);
 
       const route: SipTrunkRoute = {
-        name: "myFirstRoute",
+        name: "Sanitized",
         description: "myFirstRoute's description",
         numberPattern: "^+[1-9][0-9]{3,23}$",
         trunks: [firstFqdn],
@@ -136,13 +136,13 @@ matrix([[true, false]], async function (useAad) {
     it("can set empty routes when not empty before", async () => {
       const routes: SipTrunkRoute[] = [
         {
-          name: "myFirstRoute",
+          name: "Sanitized",
           description: "myFirstRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
         },
         {
-          name: "mySecondRoute",
+          name: "Sanitized",
           description: "mySecondRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
@@ -275,13 +275,13 @@ matrix([[true, false]], async function (useAad) {
 
       const routes: SipTrunkRoute[] = [
         {
-          name: "myFirstRoute",
+          name: "Sanitized",
           description: "myFirstRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
         },
         {
-          name: "mySecondRoute",
+          name: "Sanitized",
           description: "mySecondRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
