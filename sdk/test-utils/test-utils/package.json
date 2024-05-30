@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/test-utils",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "sdk-type": "utility",
   "description": "Test utilities library for the Azure SDK for JavaScript and TypeScript",
   "main": "dist/index.js",
@@ -58,6 +58,7 @@
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure/abort-controller": "^2.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
+    "@azure/core-tracing": "^1.0.0",
     "@opentelemetry/api": "^1.8.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.4",
@@ -66,9 +67,6 @@
     "chai-exclude": "^2.1.0",
     "mocha": "^10.0.0",
     "tslib": "^2.2.0"
-  },
-  "peerDependencies": {
-    "@azure/core-tracing": "^1.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
