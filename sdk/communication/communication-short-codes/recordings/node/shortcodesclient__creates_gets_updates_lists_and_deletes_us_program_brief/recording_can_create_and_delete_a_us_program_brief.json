@@ -2053,7 +2053,7 @@
           "isPoliticalCampaign": false,
           "name": "Contoso Loyalty Program",
           "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-          "url": "REDACTED",
+          "url": "https://endpoint/loyalty-program",
           "callToActionTypes": [
             "sms",
             "website"
@@ -2064,7 +2064,7 @@
         },
         "companyInformation": {
           "name": "Contoso",
-          "url": "REDACTED",
+          "url": "https://contoso.com",
           "address": "1 Contoso Way Redmond, WA 98052",
           "contactInformation": {
             "name": "Alex",
@@ -2174,7 +2174,7 @@
           "isPoliticalCampaign": false,
           "name": "Contoso Loyalty Program",
           "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-          "url": "REDACTED",
+          "url": "https://endpoint/loyalty-program",
           "callToActionTypes": [
             "sms",
             "website"
