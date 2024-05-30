@@ -5,11 +5,11 @@
  * Audio streaming data.
  */
 export interface AudioData {
-  /** Text in the phrase.*/
+  /** Audio streaming data.*/
   data: string;
-  /** Text in the phrase.*/
+  /** Audio streaming timestamp.*/
   timestamp: Date;
-  /** Text in the phrase.*/
+  /** Audio streaming is silent.*/
   isSilent: boolean;
 }
 
