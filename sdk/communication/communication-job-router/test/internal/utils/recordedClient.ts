@@ -3,7 +3,7 @@
 
 import * as dotenv from "dotenv";
 import { isNode } from "@azure/core-util";
-import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
 import { generateToken } from "../../public/utils/connection";
 
@@ -19,12 +19,6 @@ const fakeToken = generateToken();
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   sanitizerOptions: {
-    connectionStringSanitizers: [
-      {
-        fakeConnString: envSetupForPlayback["COMMUNICATION_CONNECTION_STRING"],
-        actualConnString: env["COMMUNICATION_CONNECTION_STRING"] || undefined,
-      },
-    ],
     bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
   },
   removeCentralSanitizers: [
