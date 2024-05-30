@@ -1,5 +1,11 @@
 # Release History
 
+## Unreleased ()
+
+### Other Changes
+
+- Add support for tracking Application Insights shim usage to statsbeat.
+
 ## 1.5.0 (2024-05-10)
 
 ### Features Added
