@@ -3,11 +3,12 @@
 
 import { createIdentifierFromRawId } from "@azure/communication-common";
 import { TranscriptionMetadata, TranscriptionData } from "../models/transcription";
+import { AudioData, AudioMetadata } from "../models/audio";
 
 /** Parse the incoming package. */
 export function streamingData(
   packetData: string | ArrayBuffer,
-): TranscriptionMetadata | TranscriptionData {
+): TranscriptionMetadata | TranscriptionData | AudioData | AudioMetadata {
   let stringJson: string;
   if (typeof packetData === "string") {
     stringJson = packetData;
@@ -41,6 +42,24 @@ export function streamingData(
         resultState: jsonObject.transcriptionData.resultState,
       };
       return transcriptionData;
+    }
+    case "AudioMetadata": {
+      const audioMetadata: AudioMetadata = {
+        subscriptionId: jsonObject.audioMetadata.subscriptionId,
+        encoding: jsonObject.audioMetadata.encoding,
+        sampleRate: jsonObject.audioMetadata.sampleRate,
+        channels: jsonObject.audioMetadata.channels,
+        length: jsonObject.audioMetadata.length,
+      };
+      return audioMetadata;
+    }
+    case "AudioData": {
+      const audioData: AudioData = {
+        data: jsonObject.audioData.data,
+        timestamp: jsonObject.audioData.timestamp,
+        isSilent: jsonObject.audioData.silent,
+      };
+      return audioData;
     }
     default:
       throw new Error(stringJson);
