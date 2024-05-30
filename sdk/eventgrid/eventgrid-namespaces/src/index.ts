@@ -10,12 +10,13 @@ export {
   ReleaseResult,
   RejectResult,
   ReleaseDelay,
-  RenewCloudEventLocksResult,
-  AcknowledgeCloudEventsOptions,
-  ReceiveCloudEventsOptions,
-  RejectCloudEventsOptions,
-  RenewCloudEventLocksOptions,
-  PublishCloudEventsOptions,
+  RenewCloudEventLocksResult as RenewEventLocksResult,
+  AcknowledgeCloudEventsOptionalParams as AcknowledgeEventsOptionalParams,
+  ReceiveCloudEventsOptionalParams as ReceiveEventsOptionalParams,
+  RejectCloudEventsOptionalParams as RejectEventsOptionalParams,
+  RenewCloudEventLocksOptionalParams as RenewEventLocksOptionalParams,
+  PublishCloudEventsOptionalParams as SendEventsOptionalParams,
+  PublishCloudEventOptionalParams as SendEventOptionalParams,
 } from "./cadl-generated/models";
 
 export { EventGridSenderClient } from "./eventGridSenderClient";

@@ -9,7 +9,7 @@ import {
   CloudEvent,
   ReceiveResult,
   RejectResult,
-  RenewCloudEventLocksResult,
+  RenewEventLocksResult,
   EventGridDeserializer,
 } from "../../src";
 import { createRecordedClient } from "./utils/recordedClient";
@@ -234,10 +234,10 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         eventSubscriptionName,
       });
       const lockToken = receiveResult.details[0].brokerProperties.lockToken;
-      const renewResult: RenewCloudEventLocksResult = await receiverClient.renewEventLocks(
-        [lockToken],
-        { topicName, eventSubscriptionName },
-      );
+      const renewResult: RenewEventLocksResult = await receiverClient.renewEventLocks([lockToken], {
+        topicName,
+        eventSubscriptionName,
+      });
       assert.equal(renewResult.succeededLockTokens.length, 1);
       assert.equal(renewResult.succeededLockTokens[0], lockToken);
     });

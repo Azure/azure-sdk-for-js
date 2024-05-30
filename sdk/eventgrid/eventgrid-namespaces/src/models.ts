@@ -4,11 +4,11 @@
 import { OperationOptions } from "@azure-rest/core-client";
 import {
   BrokerProperties,
-  PublishCloudEventsOptions,
-  ReceiveCloudEventsOptions,
-  AcknowledgeCloudEventsOptions,
-  RejectCloudEventsOptions,
-  RenewCloudEventLocksOptions,
+  PublishCloudEventOptionalParams,
+  ReceiveCloudEventsOptionalParams,
+  AcknowledgeCloudEventsOptionalParams,
+  RejectCloudEventsOptionalParams,
+  RenewCloudEventLocksOptionalParams,
   EventGridClientOptions as EventGridOptions,
   ReleaseDelay,
 } from "./cadl-generated";
@@ -41,13 +41,13 @@ export interface EventGridReceiverClientOptions extends EventGridOptions {
 }
 
 /** Send Events Options */
-export interface SendEventsOptions extends PublishCloudEventsOptions {
+export interface SendEventsOptions extends PublishCloudEventOptionalParams {
   /** Topic name */
   topicName?: string;
 }
 
 /** Receive Events Options */
-export interface ReceiveEventsOptions extends ReceiveCloudEventsOptions {
+export interface ReceiveEventsOptions extends ReceiveCloudEventsOptionalParams {
   /** Topic name */
   topicName?: string;
 
@@ -56,7 +56,7 @@ export interface ReceiveEventsOptions extends ReceiveCloudEventsOptions {
 }
 
 /** Acknowledge Events Options */
-export interface AcknowledgeEventsOptions extends AcknowledgeCloudEventsOptions {
+export interface AcknowledgeEventsOptions extends AcknowledgeCloudEventsOptionalParams {
   /** Topic name */
   topicName?: string;
 
@@ -77,7 +77,7 @@ export interface ReleaseEventsOptions extends OperationOptions {
 }
 
 /** Reject Events Options */
-export interface RejectEventsOptions extends RejectCloudEventsOptions {
+export interface RejectEventsOptions extends RejectCloudEventsOptionalParams {
   /** Topic name */
   topicName?: string;
 
@@ -86,7 +86,7 @@ export interface RejectEventsOptions extends RejectCloudEventsOptions {
 }
 
 /** Renew Event Locks Options */
-export interface RenewEventLocksOptions extends RenewCloudEventLocksOptions {
+export interface RenewEventLocksOptions extends RenewCloudEventLocksOptionalParams {
   /** Topic name */
   topicName?: string;
 
@@ -108,8 +108,8 @@ export const enum KnownReleaseDelay {
   /** One Hour */
   OneHour = "3600",
 
-  /** None */
-  None = "0",
+  /** No Delay */
+  NoDelay = "0",
 }
 
 /** Receive operation details per Cloud Event. */

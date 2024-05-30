@@ -118,7 +118,7 @@ export class EventGridReceiverClient {
     return this._client.acknowledgeCloudEvents(
       topicName,
       eventSubscriptionName,
-      { lockTokens },
+      lockTokens,
       options,
     );
   }
@@ -148,12 +148,10 @@ export class EventGridReceiverClient {
       throw new Error("Event Subscription name is required");
     }
 
-    return this._client.releaseCloudEvents(
-      topicName,
-      eventSubscriptionName,
-      { lockTokens },
-      { ...options, releaseDelayInSeconds: options.releaseDelay },
-    );
+    return this._client.releaseCloudEvents(topicName, eventSubscriptionName, lockTokens, {
+      ...options,
+      releaseDelayInSeconds: options.releaseDelay,
+    });
   }
 
   /**
@@ -179,12 +177,7 @@ export class EventGridReceiverClient {
       throw new Error("Event Subscription name is required");
     }
 
-    return this._client.rejectCloudEvents(
-      topicName,
-      eventSubscriptionName,
-      { lockTokens },
-      options,
-    );
+    return this._client.rejectCloudEvents(topicName, eventSubscriptionName, lockTokens, options);
   }
 
   /**
@@ -209,12 +202,7 @@ export class EventGridReceiverClient {
       throw new Error("Event Subscription name is required");
     }
 
-    return this._client.renewCloudEventLocks(
-      topicName,
-      eventSubscriptionName,
-      { lockTokens },
-      options,
-    );
+    return this._client.renewCloudEventLocks(topicName, eventSubscriptionName, lockTokens, options);
   }
 }
 

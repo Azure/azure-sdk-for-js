@@ -2,14 +2,7 @@
 // Licensed under the MIT license.
 
 import { RequestParameters } from "@azure-rest/core-client";
-import {
-  CloudEvent,
-  AcknowledgeOptions,
-  ReleaseDelay,
-  ReleaseOptions,
-  RejectOptions,
-  RenewLockOptions,
-} from "./models";
+import { CloudEvent, ReleaseDelay } from "./models";
 
 export interface PublishCloudEventBodyParam {
   /** Single Cloud Event being published. */
@@ -53,15 +46,14 @@ export interface ReceiveCloudEventsQueryParam {
 export type ReceiveCloudEventsParameters = ReceiveCloudEventsQueryParam & RequestParameters;
 
 export interface AcknowledgeCloudEventsBodyParam {
-  /** AcknowledgeOptions. */
-  body: AcknowledgeOptions;
+  body?: { lockTokens: string[] };
 }
 
 export type AcknowledgeCloudEventsParameters = AcknowledgeCloudEventsBodyParam & RequestParameters;
 
 export interface ReleaseCloudEventsBodyParam {
   /** ReleaseOptions */
-  body: ReleaseOptions;
+  body: { lockTokens: string[] };
 }
 
 export interface ReleaseCloudEventsQueryParamProperties {
@@ -78,15 +70,13 @@ export type ReleaseCloudEventsParameters = ReleaseCloudEventsQueryParam &
   RequestParameters;
 
 export interface RejectCloudEventsBodyParam {
-  /** RejectOptions */
-  body: RejectOptions;
+  body?: { lockTokens: string[] };
 }
 
 export type RejectCloudEventsParameters = RejectCloudEventsBodyParam & RequestParameters;
 
 export interface RenewCloudEventLocksBodyParam {
-  /** RenewLockOptions */
-  body: RenewLockOptions;
+  body?: { lockTokens: string[] };
 }
 
 export type RenewCloudEventLocksParameters = RenewCloudEventLocksBodyParam & RequestParameters;

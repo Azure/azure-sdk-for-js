@@ -12,11 +12,11 @@ import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export interface AcknowledgeCloudEventsOptions extends OperationOptions {
+export interface AcknowledgeEventsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AcknowledgeEventsOptions extends AcknowledgeCloudEventsOptions {
+export interface AcknowledgeEventsOptions extends AcknowledgeEventsOptionalParams {
     eventSubscriptionName?: string;
     topicName?: string;
 }
@@ -51,6 +51,7 @@ export interface CloudEvent<T> {
 
 // @public (undocumented)
 export interface EventGridClientOptions extends ClientOptions {
+    apiVersion?: string;
 }
 
 export { EventGridDeserializer }
@@ -62,7 +63,7 @@ export class EventGridReceiverClient {
     receiveEvents<T>(options?: ReceiveEventsOptions): Promise<ReceiveResult<T>>;
     rejectEvents(lockTokens: string[], options?: RejectEventsOptions): Promise<RejectResult>;
     releaseEvents(lockTokens: string[], options?: ReleaseEventsOptions): Promise<ReleaseResult>;
-    renewEventLocks(lockTokens: string[], options?: RenewEventLocksOptions): Promise<RenewCloudEventLocksResult>;
+    renewEventLocks(lockTokens: string[], options?: RenewEventLocksOptions): Promise<RenewEventLocksResult>;
 }
 
 // @public
@@ -91,7 +92,7 @@ export interface FailedLockToken {
 
 // @public
 export const enum KnownReleaseDelay {
-    None = "0",
+    NoDelay = "0",
     OneHour = "3600",
     OneMinute = "60",
     TenMinutes = "600",
@@ -100,25 +101,20 @@ export const enum KnownReleaseDelay {
 
 export { OperationOptions }
 
-// @public (undocumented)
-export interface PublishCloudEventsOptions extends OperationOptions {
-    contentType?: string;
-}
-
-// @public (undocumented)
-export interface ReceiveCloudEventsOptions extends OperationOptions {
-    maxEvents?: number;
-    maxWaitTime?: number;
-}
-
 // @public
 export interface ReceiveDetails<T> {
     brokerProperties: BrokerProperties;
     event: CloudEvent<T>;
 }
 
+// @public (undocumented)
+export interface ReceiveEventsOptionalParams extends OperationOptions {
+    maxEvents?: number;
+    maxWaitTime?: number;
+}
+
 // @public
-export interface ReceiveEventsOptions extends ReceiveCloudEventsOptions {
+export interface ReceiveEventsOptions extends ReceiveEventsOptionalParams {
     eventSubscriptionName?: string;
     topicName?: string;
 }
@@ -129,11 +125,11 @@ export interface ReceiveResult<T> {
 }
 
 // @public (undocumented)
-export interface RejectCloudEventsOptions extends OperationOptions {
+export interface RejectEventsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RejectEventsOptions extends RejectCloudEventsOptions {
+export interface RejectEventsOptions extends RejectEventsOptionalParams {
     eventSubscriptionName?: string;
     topicName?: string;
 }
@@ -161,19 +157,24 @@ export interface ReleaseResult {
 }
 
 // @public (undocumented)
-export interface RenewCloudEventLocksOptions extends OperationOptions {
+export interface RenewEventLocksOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RenewCloudEventLocksResult {
+export interface RenewEventLocksOptions extends RenewEventLocksOptionalParams {
+    eventSubscriptionName?: string;
+    topicName?: string;
+}
+
+// @public
+export interface RenewEventLocksResult {
     failedLockTokens: FailedLockToken[];
     succeededLockTokens: string[];
 }
 
-// @public
-export interface RenewEventLocksOptions extends RenewCloudEventLocksOptions {
-    eventSubscriptionName?: string;
-    topicName?: string;
+// @public (undocumented)
+export interface SendEventOptionalParams extends OperationOptions {
+    contentType?: string;
 }
 
 // @public
@@ -183,8 +184,13 @@ export interface SendEventOptions extends OperationOptions {
     topicName?: string;
 }
 
+// @public (undocumented)
+export interface SendEventsOptionalParams extends OperationOptions {
+    contentType?: string;
+}
+
 // @public
-export interface SendEventsOptions extends PublishCloudEventsOptions {
+export interface SendEventsOptions extends SendEventOptionalParams {
     topicName?: string;
 }
 

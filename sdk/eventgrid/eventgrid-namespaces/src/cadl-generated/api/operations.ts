@@ -5,13 +5,9 @@ import {
   CloudEvent,
   PublishResult,
   ReceiveResult,
-  AcknowledgeOptions,
   AcknowledgeResult,
-  ReleaseOptions,
   ReleaseResult,
-  RejectOptions,
   RejectResult,
-  RenewLockOptions,
   RenewCloudEventLocksResult,
 } from "../models/models";
 import {
@@ -39,20 +35,20 @@ import {
 } from "@azure-rest/core-client";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 import {
-  PublishCloudEventOptions,
-  PublishCloudEventsOptions,
-  ReceiveCloudEventsOptions,
-  AcknowledgeCloudEventsOptions,
-  ReleaseCloudEventsOptions,
-  RejectCloudEventsOptions,
-  RenewCloudEventLocksOptions,
+  PublishCloudEventOptionalParams,
+  PublishCloudEventsOptionalParams,
+  ReceiveCloudEventsOptionalParams,
+  AcknowledgeCloudEventsOptionalParams,
+  ReleaseCloudEventsOptionalParams,
+  RejectCloudEventsOptionalParams,
+  RenewCloudEventLocksOptionalParams,
 } from "../models/options";
 
 export function _publishCloudEventSend(
   context: Client,
   topicName: string,
   event: CloudEvent,
-  options: PublishCloudEventOptions = { requestOptions: {} },
+  options: PublishCloudEventOptionalParams = { requestOptions: {} },
 ): StreamableMethod<PublishCloudEvent200Response | PublishCloudEventDefaultResponse> {
   return context.path("/topics/{topicName}:publish", topicName).post({
     ...operationOptionsToRequestParameters(options),
@@ -85,12 +81,12 @@ export async function _publishCloudEventDeserialize(
   return result.body;
 }
 
-/** Publish Single Cloud Event to namespace topic. In case of success, the server responds with an HTTP 200 status code with an empty JSON object in response. Otherwise, the server can return various error codes. For example, 401: which indicates authorization failure, 403: which indicates quota exceeded or message is too large, 410: which indicates that specific topic is not found, 400: for bad request, and 500: for internal server error. */
+/** Publish a single Cloud Event to a namespace topic. */
 export async function publishCloudEvent(
   context: Client,
   topicName: string,
   event: CloudEvent,
-  options: PublishCloudEventOptions = { requestOptions: {} },
+  options: PublishCloudEventOptionalParams = { requestOptions: {} },
 ): Promise<PublishResult> {
   const result = await _publishCloudEventSend(context, topicName, event, options);
   return _publishCloudEventDeserialize(result);
@@ -100,7 +96,7 @@ export function _publishCloudEventsSend(
   context: Client,
   topicName: string,
   events: CloudEvent[],
-  options: PublishCloudEventsOptions = { requestOptions: {} },
+  options: PublishCloudEventsOptionalParams = { requestOptions: {} },
 ): StreamableMethod<PublishCloudEvents200Response | PublishCloudEventsDefaultResponse> {
   return context.path("/topics/{topicName}:publish", topicName).post({
     ...operationOptionsToRequestParameters(options),
@@ -134,12 +130,12 @@ export async function _publishCloudEventsDeserialize(
   return result.body;
 }
 
-/** Publish Batch Cloud Event to namespace topic. In case of success, the server responds with an HTTP 200 status code with an empty JSON object in response. Otherwise, the server can return various error codes. For example, 401: which indicates authorization failure, 403: which indicates quota exceeded or message is too large, 410: which indicates that specific topic is not found, 400: for bad request, and 500: for internal server error. */
+/** Publish a batch of Cloud Events to a namespace topic. */
 export async function publishCloudEvents(
   context: Client,
   topicName: string,
   events: CloudEvent[],
-  options: PublishCloudEventsOptions = { requestOptions: {} },
+  options: PublishCloudEventsOptionalParams = { requestOptions: {} },
 ): Promise<PublishResult> {
   const result = await _publishCloudEventsSend(context, topicName, events, options);
   return _publishCloudEventsDeserialize(result);
@@ -149,7 +145,7 @@ export function _receiveCloudEventsSend(
   context: Client,
   topicName: string,
   eventSubscriptionName: string,
-  options: ReceiveCloudEventsOptions = { requestOptions: {} },
+  options: ReceiveCloudEventsOptionalParams = { requestOptions: {} },
 ): StreamableMethod<ReceiveCloudEvents200Response | ReceiveCloudEventsDefaultResponse> {
   return context
     .path(
@@ -198,12 +194,12 @@ export async function _receiveCloudEventsDeserialize(
   };
 }
 
-/** Receive Batch of Cloud Events from the Event Subscription. */
+/** Receive a batch of Cloud Events from a subscription. */
 export async function receiveCloudEvents(
   context: Client,
   topicName: string,
   eventSubscriptionName: string,
-  options: ReceiveCloudEventsOptions = { requestOptions: {} },
+  options: ReceiveCloudEventsOptionalParams = { requestOptions: {} },
 ): Promise<ReceiveResult> {
   const result = await _receiveCloudEventsSend(context, topicName, eventSubscriptionName, options);
   return _receiveCloudEventsDeserialize(result);
@@ -213,8 +209,8 @@ export function _acknowledgeCloudEventsSend(
   context: Client,
   topicName: string,
   eventSubscriptionName: string,
-  acknowledgeOptions: AcknowledgeOptions,
-  options: AcknowledgeCloudEventsOptions = { requestOptions: {} },
+  lockTokens: string[],
+  options: AcknowledgeCloudEventsOptionalParams = { requestOptions: {} },
 ): StreamableMethod<AcknowledgeCloudEvents200Response | AcknowledgeCloudEventsDefaultResponse> {
   return context
     .path(
@@ -224,7 +220,7 @@ export function _acknowledgeCloudEventsSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: { lockTokens: acknowledgeOptions["lockTokens"] },
+      body: { lockTokens: lockTokens },
     });
 }
 
@@ -244,19 +240,19 @@ export async function _acknowledgeCloudEventsDeserialize(
   };
 }
 
-/** Acknowledge batch of Cloud Events. The server responds with an HTTP 200 status code if the request is successfully accepted. The response body will include the set of successfully acknowledged lockTokens, along with other failed lockTokens with their corresponding error information. Successfully acknowledged events will no longer be available to any consumer. */
+/** Acknowledge a batch of Cloud Events. The response will include the set of successfully acknowledged lock tokens, along with other failed lock tokens with their corresponding error information. Successfully acknowledged events will no longer be available to be received by any consumer. */
 export async function acknowledgeCloudEvents(
   context: Client,
   topicName: string,
   eventSubscriptionName: string,
-  acknowledgeOptions: AcknowledgeOptions,
-  options: AcknowledgeCloudEventsOptions = { requestOptions: {} },
+  lockTokens: string[],
+  options: AcknowledgeCloudEventsOptionalParams = { requestOptions: {} },
 ): Promise<AcknowledgeResult> {
   const result = await _acknowledgeCloudEventsSend(
     context,
     topicName,
     eventSubscriptionName,
-    acknowledgeOptions,
+    lockTokens,
     options,
   );
   return _acknowledgeCloudEventsDeserialize(result);
@@ -266,14 +262,9 @@ export function _releaseCloudEventsSend(
   context: Client,
   topicName: string,
   eventSubscriptionName: string,
-  releaseOptions: ReleaseOptions,
-  options: ReleaseCloudEventsOptions = { requestOptions: {} },
+  lockTokens: string[],
+  options: ReleaseCloudEventsOptionalParams = { requestOptions: {} },
 ): StreamableMethod<ReleaseCloudEvents200Response | ReleaseCloudEventsDefaultResponse> {
-  let releaseDelayInSeconds: number | undefined = undefined;
-  if (options?.releaseDelayInSeconds) {
-    releaseDelayInSeconds = parseInt(options.releaseDelayInSeconds);
-  }
-
   return context
     .path(
       "/topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:release",
@@ -283,9 +274,9 @@ export function _releaseCloudEventsSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       queryParameters: {
-        releaseDelayInSeconds,
+        releaseDelayInSeconds: options?.releaseDelayInSeconds,
       },
-      body: { lockTokens: releaseOptions["lockTokens"] },
+      body: { lockTokens: lockTokens },
     });
 }
 
@@ -305,19 +296,19 @@ export async function _releaseCloudEventsDeserialize(
   };
 }
 
-/** Release batch of Cloud Events. The server responds with an HTTP 200 status code if the request is successfully accepted. The response body will include the set of successfully released lockTokens, along with other failed lockTokens with their corresponding error information. */
+/** Release a batch of Cloud Events. The response will include the set of successfully released lock tokens, along with other failed lock tokens with their corresponding error information. Successfully released events can be received by consumers. */
 export async function releaseCloudEvents(
   context: Client,
   topicName: string,
   eventSubscriptionName: string,
-  releaseOptions: ReleaseOptions,
-  options: ReleaseCloudEventsOptions = { requestOptions: {} },
+  lockTokens: string[],
+  options: ReleaseCloudEventsOptionalParams = { requestOptions: {} },
 ): Promise<ReleaseResult> {
   const result = await _releaseCloudEventsSend(
     context,
     topicName,
     eventSubscriptionName,
-    releaseOptions,
+    lockTokens,
     options,
   );
   return _releaseCloudEventsDeserialize(result);
@@ -327,8 +318,8 @@ export function _rejectCloudEventsSend(
   context: Client,
   topicName: string,
   eventSubscriptionName: string,
-  rejectOptions: RejectOptions,
-  options: RejectCloudEventsOptions = { requestOptions: {} },
+  lockTokens: string[],
+  options: RejectCloudEventsOptionalParams = { requestOptions: {} },
 ): StreamableMethod<RejectCloudEvents200Response | RejectCloudEventsDefaultResponse> {
   return context
     .path(
@@ -338,7 +329,7 @@ export function _rejectCloudEventsSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: { lockTokens: rejectOptions["lockTokens"] },
+      body: { lockTokens: lockTokens },
     });
 }
 
@@ -358,19 +349,19 @@ export async function _rejectCloudEventsDeserialize(
   };
 }
 
-/** Reject batch of Cloud Events. The server responds with an HTTP 200 status code if the request is successfully accepted. The response body will include the set of successfully rejected lockTokens, along with other failed lockTokens with their corresponding error information. */
+/** Reject a batch of Cloud Events. The response will include the set of successfully rejected lock tokens, along with other failed lock tokens with their corresponding error information. Successfully rejected events will be dead-lettered and can no longer be received by a consumer. */
 export async function rejectCloudEvents(
   context: Client,
   topicName: string,
   eventSubscriptionName: string,
-  rejectOptions: RejectOptions,
-  options: RejectCloudEventsOptions = { requestOptions: {} },
+  lockTokens: string[],
+  options: RejectCloudEventsOptionalParams = { requestOptions: {} },
 ): Promise<RejectResult> {
   const result = await _rejectCloudEventsSend(
     context,
     topicName,
     eventSubscriptionName,
-    rejectOptions,
+    lockTokens,
     options,
   );
   return _rejectCloudEventsDeserialize(result);
@@ -380,8 +371,8 @@ export function _renewCloudEventLocksSend(
   context: Client,
   topicName: string,
   eventSubscriptionName: string,
-  renewLockOptions: RenewLockOptions,
-  options: RenewCloudEventLocksOptions = { requestOptions: {} },
+  lockTokens: string[],
+  options: RenewCloudEventLocksOptionalParams = { requestOptions: {} },
 ): StreamableMethod<RenewCloudEventLocks200Response | RenewCloudEventLocksDefaultResponse> {
   return context
     .path(
@@ -391,7 +382,7 @@ export function _renewCloudEventLocksSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: { lockTokens: renewLockOptions["lockTokens"] },
+      body: { lockTokens: lockTokens },
     });
 }
 
@@ -411,19 +402,19 @@ export async function _renewCloudEventLocksDeserialize(
   };
 }
 
-/** Renew lock for batch of Cloud Events. The server responds with an HTTP 200 status code if the request is successfully accepted. The response body will include the set of successfully renewed lockTokens, along with other failed lockTokens with their corresponding error information. */
+/** Renew locks for a batch of Cloud Events. The response will include the set of successfully renewed lock tokens, along with other failed lock tokens with their corresponding error information. Successfully renewed locks will ensure that the associated event is only available to the consumer that holds the renewed lock. */
 export async function renewCloudEventLocks(
   context: Client,
   topicName: string,
   eventSubscriptionName: string,
-  renewLockOptions: RenewLockOptions,
-  options: RenewCloudEventLocksOptions = { requestOptions: {} },
+  lockTokens: string[],
+  options: RenewCloudEventLocksOptionalParams = { requestOptions: {} },
 ): Promise<RenewCloudEventLocksResult> {
   const result = await _renewCloudEventLocksSend(
     context,
     topicName,
     eventSubscriptionName,
-    renewLockOptions,
+    lockTokens,
     options,
   );
   return _renewCloudEventLocksDeserialize(result);
