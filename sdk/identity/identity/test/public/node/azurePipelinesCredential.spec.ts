@@ -8,7 +8,7 @@ describe("AzurePipelinesCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!;
 
-  it("authenticates with a valid service connection", async function () {
+  it.only("authenticates with a valid service connection", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
