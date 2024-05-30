@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureMachineLearningWorkspaces } = require("@azure/arm-machinelearning");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a Job by name/id.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/AutoMLJob/get.json
  */
 async function getAutoMlJob() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const id = "string";
   const credential = new DefaultAzureCredential();
@@ -27,8 +29,6 @@ async function getAutoMlJob() {
   const result = await client.jobs.get(resourceGroupName, workspaceName, id);
   console.log(result);
 }
-
-getAutoMlJob().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a Job by name/id.
@@ -37,8 +37,9 @@ getAutoMlJob().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/CommandJob/get.json
  */
 async function getCommandJob() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const id = "string";
   const credential = new DefaultAzureCredential();
@@ -46,8 +47,6 @@ async function getCommandJob() {
   const result = await client.jobs.get(resourceGroupName, workspaceName, id);
   console.log(result);
 }
-
-getCommandJob().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a Job by name/id.
@@ -56,8 +55,9 @@ getCommandJob().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/PipelineJob/get.json
  */
 async function getPipelineJob() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const id = "string";
   const credential = new DefaultAzureCredential();
@@ -65,8 +65,6 @@ async function getPipelineJob() {
   const result = await client.jobs.get(resourceGroupName, workspaceName, id);
   console.log(result);
 }
-
-getPipelineJob().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a Job by name/id.
@@ -75,8 +73,9 @@ getPipelineJob().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/SweepJob/get.json
  */
 async function getSweepJob() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const id = "string";
   const credential = new DefaultAzureCredential();
@@ -85,4 +84,11 @@ async function getSweepJob() {
   console.log(result);
 }
 
-getSweepJob().catch(console.error);
+async function main() {
+  getAutoMlJob();
+  getCommandJob();
+  getPipelineJob();
+  getSweepJob();
+}
+
+main().catch(console.error);

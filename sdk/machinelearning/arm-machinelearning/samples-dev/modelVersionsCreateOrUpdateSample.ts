@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   ModelVersion,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update version.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/ModelVersion/createOrUpdate.json
  */
 async function createOrUpdateModelVersion() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const version = "string";
@@ -34,8 +40,8 @@ async function createOrUpdateModelVersion() {
       modelType: "CustomModel",
       modelUri: "string",
       properties: { string: "string" },
-      tags: { string: "string" }
-    }
+      tags: { string: "string" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -44,9 +50,13 @@ async function createOrUpdateModelVersion() {
     workspaceName,
     name,
     version,
-    body
+    body,
   );
   console.log(result);
 }
 
-createOrUpdateModelVersion().catch(console.error);
+async function main() {
+  createOrUpdateModelVersion();
+}
+
+main().catch(console.error);

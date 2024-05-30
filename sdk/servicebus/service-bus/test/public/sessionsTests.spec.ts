@@ -25,7 +25,6 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
 } from "./utils/testutils2";
-import { AbortController } from "@azure/abort-controller";
 import sinon from "sinon";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 
