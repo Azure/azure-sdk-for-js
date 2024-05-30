@@ -2,6 +2,10 @@
 
 ## Unreleased ()
 
+### Bugs Fixed
+
+- Setting the sampling ratio to 0 now correctly applies the value instead of defaulting to 1.
+
 ### Other Changes
 
 - Add support for tracking Application Insights shim usage to statsbeat.
