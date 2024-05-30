@@ -47,7 +47,10 @@ export class AzurePipelinesCredential implements TokenCredential {
 
     if (clientId && tenantId && serviceConnectionId) {
       this.ensurePipelinesSystemVars();
+      const oidcRequestUrl2 = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=${OIDC_API_VERSION}&serviceConnectionId=${serviceConnectionId}`;
+      logger.info(`old oidc token url: ${oidcRequestUrl2}`);
       const oidcRequestUrl = `${process.env.SYSTEM_OIDCREQUESTURI}?api-version=${OIDC_API_VERSION}&serviceConnectionId=${serviceConnectionId}`;
+      logger.info(`new oidc token url: ${oidcRequestUrl}`);
       logger.info(
         `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
       );

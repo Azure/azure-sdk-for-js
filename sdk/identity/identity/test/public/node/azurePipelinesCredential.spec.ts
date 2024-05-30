@@ -4,6 +4,9 @@
 import { AzurePipelinesCredential } from "../../../src";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
+import { setLogLevel } from "@azure/logger";
+setLogLevel("verbose");
+
 describe("AzurePipelinesCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!;
