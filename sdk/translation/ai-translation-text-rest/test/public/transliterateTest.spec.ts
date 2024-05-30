@@ -44,10 +44,7 @@ describe("Transliterate tests", () => {
   });
 
   it("multiple text array", async () => {
-    const inputText = [
-      { text: "यहएककसौटीहैयहएककसौटीहै" },
-      { text: "यहएककसौटीहै" },
-    ];
+    const inputText = [{ text: "यहएककसौटीहैयहएककसौटीहै" }, { text: "यहएककसौटीहै" }];
     const parameters = {
       language: "hi",
       fromScript: "Deva",
@@ -69,11 +66,7 @@ describe("Transliterate tests", () => {
   });
 
   it("with edit distance", async () => {
-    const inputText = [
-      { text: "gujarat" },
-      { text: "hadman" },
-      { text: "hukkabar" },
-    ];
+    const inputText = [{ text: "gujarat" }, { text: "hadman" }, { text: "hukkabar" }];
     const parameters = {
       language: "gu",
       fromScript: "Latn",

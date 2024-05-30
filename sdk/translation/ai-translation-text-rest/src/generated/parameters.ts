@@ -220,10 +220,11 @@ export interface FindSentenceBoundariesHeaderParam {
   headers?: RawHttpHeadersInput & FindSentenceBoundariesHeaders;
 }
 
-export type FindSentenceBoundariesParameters = FindSentenceBoundariesQueryParam &
-  FindSentenceBoundariesHeaderParam &
-  FindSentenceBoundariesBodyParam &
-  RequestParameters;
+export type FindSentenceBoundariesParameters =
+  FindSentenceBoundariesQueryParam &
+    FindSentenceBoundariesHeaderParam &
+    FindSentenceBoundariesBodyParam &
+    RequestParameters;
 
 export interface LookupDictionaryEntriesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
@@ -256,10 +257,11 @@ export interface LookupDictionaryEntriesHeaderParam {
   headers?: RawHttpHeadersInput & LookupDictionaryEntriesHeaders;
 }
 
-export type LookupDictionaryEntriesParameters = LookupDictionaryEntriesQueryParam &
-  LookupDictionaryEntriesHeaderParam &
-  LookupDictionaryEntriesBodyParam &
-  RequestParameters;
+export type LookupDictionaryEntriesParameters =
+  LookupDictionaryEntriesQueryParam &
+    LookupDictionaryEntriesHeaderParam &
+    LookupDictionaryEntriesBodyParam &
+    RequestParameters;
 
 export interface LookupDictionaryExamplesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
@@ -292,7 +294,8 @@ export interface LookupDictionaryExamplesHeaderParam {
   headers?: RawHttpHeadersInput & LookupDictionaryExamplesHeaders;
 }
 
-export type LookupDictionaryExamplesParameters = LookupDictionaryExamplesQueryParam &
-  LookupDictionaryExamplesHeaderParam &
-  LookupDictionaryExamplesBodyParam &
-  RequestParameters;
+export type LookupDictionaryExamplesParameters =
+  LookupDictionaryExamplesQueryParam &
+    LookupDictionaryExamplesHeaderParam &
+    LookupDictionaryExamplesBodyParam &
+    RequestParameters;

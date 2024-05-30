@@ -85,10 +85,7 @@ describe("BreakSentence tests", () => {
   });
 
   it("with multiple languages", async () => {
-    const inputText = [
-      { text: "hello world" },
-      { text: "العالم هو مكان مثير جدا للاهتمام" },
-    ];
+    const inputText = [{ text: "hello world" }, { text: "العالم هو مكان مثير جدا للاهتمام" }];
     const response = await client.path("/breaksentence").post({
       body: inputText,
     });

@@ -3,10 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import {
-  TextTranslationClient,
-  isUnexpected,
-} from "../../src";
+import { TextTranslationClient, isUnexpected } from "../../src";
 import {
   createCustomTranslationClient,
   createTranslationClient,
@@ -74,9 +71,7 @@ describe("Translate tests", () => {
   });
 
   it("no translate tag", async () => {
-    const inputText = [
-      { text: "<span class=notranslate>今天是怎么回事是</span>非常可怕的" },
-    ];
+    const inputText = [{ text: "<span class=notranslate>今天是怎么回事是</span>非常可怕的" }];
     const parameters = {
       to: "zh-chs",
       from: "en",
@@ -233,9 +228,7 @@ describe("Translate tests", () => {
   });
 
   it("different text types", async () => {
-    const inputText = [
-      { text: "<html><body>This <b>is</b> a test.</body></html>" },
-    ];
+    const inputText = [{ text: "<html><body>This <b>is</b> a test.</body></html>" }];
     const parameters = {
       to: "cs",
     };
