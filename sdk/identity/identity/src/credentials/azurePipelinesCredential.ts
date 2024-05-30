@@ -127,6 +127,14 @@ export class AzurePipelinesCredential implements TokenCredential {
       );
     }
     try {
+      if (response.status === 302) {
+        const redirectUrl = response.headers.get("location");
+        if (redirectUrl) {
+          logger.info("Redirecting OIDC authentication to redirect uri .. ");
+          logger.info(redirectUrl);
+          return await this.requestOidcToken(redirectUrl, systemAccessToken);
+        }
+      }
       const result = JSON.parse(text);
       if (result?.oidcToken) {
         return result.oidcToken;
