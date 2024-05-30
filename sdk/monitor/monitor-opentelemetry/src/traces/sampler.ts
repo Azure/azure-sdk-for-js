@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Link, Attributes, SpanKind, Context } from "@opentelemetry/api";
+import { Link, Attributes, SpanKind, Context, diag } from "@opentelemetry/api";
 import { Sampler, SamplingDecision, SamplingResult } from "@opentelemetry/sdk-trace-base";
 
 /**
@@ -20,7 +20,7 @@ export class ApplicationInsightsSampler implements Sampler {
   constructor(samplingRatio: number = 1) {
     this._samplingRatio = samplingRatio;
     if (this._samplingRatio > 1 || this._samplingRatio < 0 || !Number.isFinite(this._samplingRatio)) {
-      throw new Error("Invalid sampling rate, sampling rate must be a value in the range [0,1].");
+      diag.warn("Invalid sampling rate, sampling rate must be a value in the range [0,1].");
     }
     this._sampleRate = Math.round(this._samplingRatio * 100);
   }
