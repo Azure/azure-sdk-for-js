@@ -35,7 +35,7 @@ async function deletesARestorePoint() {
     resourceGroupName,
     serverName,
     databaseName,
-    restorePointName
+    restorePointName,
   );
   console.log(result);
 }

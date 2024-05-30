@@ -234,6 +234,8 @@ export interface HandleItem {
   sessionId: string;
   /** Client IP that opened the handle */
   clientIp: string;
+  /** Name of the client machine where the share is being mounted */
+  clientName: string;
   /** Time when the session that previously opened the handle has last been reconnected. (UTC) */
   openTime: Date;
   /** Time handle was last connected to (UTC) */
@@ -1684,6 +1686,8 @@ export enum KnownStorageErrorCode {
   ShareSnapshotOperationNotSupported = "ShareSnapshotOperationNotSupported",
   /** ShareHasSnapshots */
   ShareHasSnapshots = "ShareHasSnapshots",
+  /** PreviousSnapshotNotFound */
+  PreviousSnapshotNotFound = "PreviousSnapshotNotFound",
   /** ContainerQuotaDowngradeNotAllowed */
   ContainerQuotaDowngradeNotAllowed = "ContainerQuotaDowngradeNotAllowed",
   /** AuthorizationSourceIPMismatch */
@@ -1764,6 +1768,7 @@ export enum KnownStorageErrorCode {
  * **ShareSnapshotCountExceeded** \
  * **ShareSnapshotOperationNotSupported** \
  * **ShareHasSnapshots** \
+ * **PreviousSnapshotNotFound** \
  * **ContainerQuotaDowngradeNotAllowed** \
  * **AuthorizationSourceIPMismatch** \
  * **AuthorizationProtocolMismatch** \
@@ -2547,6 +2552,8 @@ export interface FileUploadRangeFromURLOptionalParams
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** If true, the trailing dot will not be trimmed from the source URI. */
@@ -2581,6 +2588,8 @@ export interface FileGetRangeListOptionalParams
   range?: string;
   /** The previous snapshot parameter is an opaque DateTime value that, when present, specifies the previous snapshot. */
   prevsharesnapshot?: string;
+  /** This header is allowed only when PrevShareSnapshot query parameter is set. Determines whether the changed ranges for a file that has been renamed or moved between the target snapshot (or the live file) and the previous snapshot should be listed. If the value is true, the valid changed ranges for the file will be returned. If the value is false, the operation will result in a failure with 409 (Conflict) response. The default value is false. */
+  supportRename?: boolean;
 }
 
 /** Contains response data for the getRangeList operation. */

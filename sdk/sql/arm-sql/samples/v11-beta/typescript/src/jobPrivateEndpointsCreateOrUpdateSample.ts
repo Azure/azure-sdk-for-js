@@ -30,7 +30,7 @@ async function createAPrivateEndpoint() {
   const privateEndpointName = "endpoint1";
   const parameters: JobPrivateEndpoint = {
     targetServerAzureResourceId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/targetserver1"
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/targetserver1",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -39,7 +39,7 @@ async function createAPrivateEndpoint() {
     serverName,
     jobAgentName,
     privateEndpointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

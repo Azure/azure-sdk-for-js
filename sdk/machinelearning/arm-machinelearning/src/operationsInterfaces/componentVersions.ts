@@ -14,7 +14,7 @@ import {
   ComponentVersionsGetOptionalParams,
   ComponentVersionsGetResponse,
   ComponentVersionsCreateOrUpdateOptionalParams,
-  ComponentVersionsCreateOrUpdateResponse
+  ComponentVersionsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ComponentVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: ComponentVersionsListOptionalParams
+    options?: ComponentVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<ComponentVersion>;
   /**
    * Delete version.
@@ -46,7 +46,7 @@ export interface ComponentVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: ComponentVersionsDeleteOptionalParams
+    options?: ComponentVersionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get version.
@@ -61,7 +61,7 @@ export interface ComponentVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: ComponentVersionsGetOptionalParams
+    options?: ComponentVersionsGetOptionalParams,
   ): Promise<ComponentVersionsGetResponse>;
   /**
    * Create or update version.
@@ -78,6 +78,6 @@ export interface ComponentVersions {
     name: string,
     version: string,
     body: ComponentVersion,
-    options?: ComponentVersionsCreateOrUpdateOptionalParams
+    options?: ComponentVersionsCreateOrUpdateOptionalParams,
   ): Promise<ComponentVersionsCreateOrUpdateResponse>;
 }

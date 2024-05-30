@@ -1215,9 +1215,6 @@
 #/<NotInRepo>/          @SameergMS @dadunl @AzMonEssential @AzmonAlerts @AzmonActionG @AzmonLogA
 
 # ServiceLabel: %Monitor - ApplicationInsights %Service Attention
-#/<NotInRepo>/          @azmonapplicationinsights
-
-# ServiceLabel: %Monitor - Exporter %Service Attention
 #/<NotInRepo>/          @JacksonWeber @hectorhdzg @ramthi
 
 # ServiceLabel: %MySQL %Service Attention
@@ -1486,6 +1483,7 @@
 # Eng Sys
 ###########
 /eng/           @ckairen @mikeharder @weshaggard @benbp
+/eng/common/    @Azure/azure-sdk-eng
 
 ###########
 # Config

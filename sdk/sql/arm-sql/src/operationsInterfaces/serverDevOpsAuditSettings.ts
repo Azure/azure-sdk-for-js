@@ -15,7 +15,7 @@ import {
   ServerDevOpsAuditSettingsGetOptionalParams,
   ServerDevOpsAuditSettingsGetResponse,
   ServerDevOpsAuditSettingsCreateOrUpdateOptionalParams,
-  ServerDevOpsAuditSettingsCreateOrUpdateResponse
+  ServerDevOpsAuditSettingsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ServerDevOpsAuditSettings {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerDevOpsAuditSettingsListByServerOptionalParams
+    options?: ServerDevOpsAuditSettingsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerDevOpsAuditingSettings>;
   /**
    * Gets a server's DevOps audit settings.
@@ -45,7 +45,7 @@ export interface ServerDevOpsAuditSettings {
     resourceGroupName: string,
     serverName: string,
     devOpsAuditingSettingsName: DevOpsAuditingSettingsName,
-    options?: ServerDevOpsAuditSettingsGetOptionalParams
+    options?: ServerDevOpsAuditSettingsGetOptionalParams,
   ): Promise<ServerDevOpsAuditSettingsGetResponse>;
   /**
    * Creates or updates a server's DevOps audit settings.
@@ -61,7 +61,7 @@ export interface ServerDevOpsAuditSettings {
     serverName: string,
     devOpsAuditingSettingsName: DevOpsAuditingSettingsName,
     parameters: ServerDevOpsAuditingSettings,
-    options?: ServerDevOpsAuditSettingsCreateOrUpdateOptionalParams
+    options?: ServerDevOpsAuditSettingsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerDevOpsAuditSettingsCreateOrUpdateResponse>,
@@ -82,6 +82,6 @@ export interface ServerDevOpsAuditSettings {
     serverName: string,
     devOpsAuditingSettingsName: DevOpsAuditingSettingsName,
     parameters: ServerDevOpsAuditingSettings,
-    options?: ServerDevOpsAuditSettingsCreateOrUpdateOptionalParams
+    options?: ServerDevOpsAuditSettingsCreateOrUpdateOptionalParams,
   ): Promise<ServerDevOpsAuditSettingsCreateOrUpdateResponse>;
 }

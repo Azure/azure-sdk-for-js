@@ -18,13 +18,14 @@ import {
   ManagedDatabaseSecurityEventsListByDatabaseNextOptionalParams,
   ManagedDatabaseSecurityEventsListByDatabaseOptionalParams,
   ManagedDatabaseSecurityEventsListByDatabaseResponse,
-  ManagedDatabaseSecurityEventsListByDatabaseNextResponse
+  ManagedDatabaseSecurityEventsListByDatabaseNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedDatabaseSecurityEvents operations. */
 export class ManagedDatabaseSecurityEventsImpl
-  implements ManagedDatabaseSecurityEvents {
+  implements ManagedDatabaseSecurityEvents
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -47,13 +48,13 @@ export class ManagedDatabaseSecurityEventsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseSecurityEventsListByDatabaseOptionalParams
+    options?: ManagedDatabaseSecurityEventsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<SecurityEvent> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       managedInstanceName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +72,9 @@ export class ManagedDatabaseSecurityEventsImpl
           managedInstanceName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +83,7 @@ export class ManagedDatabaseSecurityEventsImpl
     managedInstanceName: string,
     databaseName: string,
     options?: ManagedDatabaseSecurityEventsListByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecurityEvent[]> {
     let result: ManagedDatabaseSecurityEventsListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +92,7 @@ export class ManagedDatabaseSecurityEventsImpl
         resourceGroupName,
         managedInstanceName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +105,7 @@ export class ManagedDatabaseSecurityEventsImpl
         managedInstanceName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,13 +118,13 @@ export class ManagedDatabaseSecurityEventsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseSecurityEventsListByDatabaseOptionalParams
+    options?: ManagedDatabaseSecurityEventsListByDatabaseOptionalParams,
   ): AsyncIterableIterator<SecurityEvent> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       managedInstanceName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,11 +142,11 @@ export class ManagedDatabaseSecurityEventsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseSecurityEventsListByDatabaseOptionalParams
+    options?: ManagedDatabaseSecurityEventsListByDatabaseOptionalParams,
   ): Promise<ManagedDatabaseSecurityEventsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, databaseName, options },
-      listByDatabaseOperationSpec
+      listByDatabaseOperationSpec,
     );
   }
 
@@ -163,7 +164,7 @@ export class ManagedDatabaseSecurityEventsImpl
     managedInstanceName: string,
     databaseName: string,
     nextLink: string,
-    options?: ManagedDatabaseSecurityEventsListByDatabaseNextOptionalParams
+    options?: ManagedDatabaseSecurityEventsListByDatabaseNextOptionalParams,
   ): Promise<ManagedDatabaseSecurityEventsListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -171,9 +172,9 @@ export class ManagedDatabaseSecurityEventsImpl
         managedInstanceName,
         databaseName,
         nextLink,
-        options
+        options,
       },
-      listByDatabaseNextOperationSpec
+      listByDatabaseNextOperationSpec,
     );
   }
 }
@@ -181,40 +182,39 @@ export class ManagedDatabaseSecurityEventsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityEvents",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityEvents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityEventCollection
+      bodyMapper: Mappers.SecurityEventCollection,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
     Parameters.filter1,
     Parameters.skip,
     Parameters.apiVersion3,
     Parameters.skiptoken,
-    Parameters.top
+    Parameters.top,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityEventCollection
+      bodyMapper: Mappers.SecurityEventCollection,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -222,8 +222,8 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

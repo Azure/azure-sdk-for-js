@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,13 +30,14 @@ import {
   ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams,
   ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse,
   ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams,
-  ManagedInstanceAzureADOnlyAuthenticationsListByInstanceNextResponse
+  ManagedInstanceAzureADOnlyAuthenticationsListByInstanceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedInstanceAzureADOnlyAuthentications operations. */
 export class ManagedInstanceAzureADOnlyAuthenticationsImpl
-  implements ManagedInstanceAzureADOnlyAuthentications {
+  implements ManagedInstanceAzureADOnlyAuthentications
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -57,12 +58,12 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   public listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams
+    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceAzureADOnlyAuthentication> {
     const iter = this.listByInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +80,9 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
           resourceGroupName,
           managedInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +90,7 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedInstanceAzureADOnlyAuthentication[]> {
     let result: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +98,7 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
       result = await this._listByInstance(
         resourceGroupName,
         managedInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +110,7 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
         resourceGroupName,
         managedInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,12 +122,12 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   private async *listByInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams
+    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams,
   ): AsyncIterableIterator<ManagedInstanceAzureADOnlyAuthentication> {
     for await (const page of this.listByInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -144,11 +145,11 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     authenticationName: AuthenticationName,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsGetOptionalParams
+    options?: ManagedInstanceAzureADOnlyAuthenticationsGetOptionalParams,
   ): Promise<ManagedInstanceAzureADOnlyAuthenticationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, authenticationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -168,32 +169,29 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
     managedInstanceName: string,
     authenticationName: AuthenticationName,
     parameters: ManagedInstanceAzureADOnlyAuthentication,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse
-      >,
+      OperationState<ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse>,
       ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -202,8 +200,8 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -211,8 +209,8 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -223,18 +221,16 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
         managedInstanceName,
         authenticationName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse,
-      OperationState<
-        ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse
-      >
+      OperationState<ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -256,14 +252,14 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
     managedInstanceName: string,
     authenticationName: AuthenticationName,
     parameters: ManagedInstanceAzureADOnlyAuthentication,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams,
   ): Promise<ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       managedInstanceName,
       authenticationName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -280,25 +276,24 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     authenticationName: AuthenticationName,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams
+    options?: ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -307,8 +302,8 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -316,8 +311,8 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -327,13 +322,13 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
         resourceGroupName,
         managedInstanceName,
         authenticationName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -351,13 +346,13 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     authenticationName: AuthenticationName,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams
+    options?: ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       managedInstanceName,
       authenticationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -372,11 +367,11 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   private _listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams
+    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams,
   ): Promise<ManagedInstanceAzureADOnlyAuthenticationsListByInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
-      listByInstanceOperationSpec
+      listByInstanceOperationSpec,
     );
   }
 
@@ -392,13 +387,11 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceNextOptionalParams
-  ): Promise<
-    ManagedInstanceAzureADOnlyAuthenticationsListByInstanceNextResponse
-  > {
+    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceNextOptionalParams,
+  ): Promise<ManagedInstanceAzureADOnlyAuthenticationsListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
-      listByInstanceNextOperationSpec
+      listByInstanceNextOperationSpec,
     );
   }
 }
@@ -406,14 +399,13 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications/{authenticationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications/{authenticationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
+      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -421,29 +413,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.authenticationName
+    Parameters.authenticationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications/{authenticationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications/{authenticationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
+      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication,
     },
     201: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
+      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication,
     },
     202: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
+      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication,
     },
     204: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
+      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters32,
   queryParameters: [Parameters.apiVersion3],
@@ -452,15 +443,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.authenticationName
+    Parameters.authenticationName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications/{authenticationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications/{authenticationName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion3],
@@ -469,46 +459,45 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.authenticationName
+    Parameters.authenticationName,
   ],
-  serializer
+  serializer,
 };
 const listByInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthListResult
+      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthListResult
+      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
