@@ -122,31 +122,38 @@ export class AzurePipelinesCredential implements TokenCredential {
         }. Complete response - ${JSON.stringify(response)}`
       );
     }
-    const result = JSON.parse(text);
-    if (result?.oidcToken) {
-      return result.oidcToken;
-    } else {
-      if (response.status !== 200) {
-        logger.error(
-          `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
-            result
-          )}`
-        );
-        throw new AuthenticationError(
-          response.status,
-          `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
-            result
-          )}`
-        );
+    try {
+      const result = JSON.parse(text);
+      if (result?.oidcToken) {
+        return result.oidcToken;
       } else {
-        logger.error(
-          `${credentialName}: Authentication Failed. oidcToken field not detected in the response but response status is 200.`
-        );
-        throw new AuthenticationError(
-          response.status,
-          `${credentialName}: Authentication Failed. oidcToken field not detected in the response but response status is 200.`
-        );
+        if (response.status !== 200) {
+          logger.error(
+            `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
+              result
+            )}`
+          );
+          throw new AuthenticationError(
+            response.status,
+            `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
+              result
+            )}`
+          );
+        } else {
+          logger.error(
+            `${credentialName}: Authentication Failed. oidcToken field not detected in the response but response status is 200.`
+          );
+          throw new AuthenticationError(
+            response.status,
+            `${credentialName}: Authentication Failed. oidcToken field not detected in the response but response status is 200.`
+          );
+        }
       }
+    } catch (e) {
+      throw new AuthenticationError(
+        response.status,
+        `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`
+      );
     }
   }
 
