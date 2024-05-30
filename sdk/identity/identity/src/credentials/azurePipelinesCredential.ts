@@ -104,6 +104,7 @@ export class AzurePipelinesCredential implements TokenCredential {
       method: "POST",
       headers: createHttpHeaders({
         "Content-Type": "application/json",
+        "Content-Length": 0,
         Authorization: `Bearer ${systemAccessToken}`,
       }),
     });
