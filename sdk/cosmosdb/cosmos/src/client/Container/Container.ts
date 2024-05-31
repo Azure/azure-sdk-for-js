@@ -12,7 +12,11 @@ import {
   StatusCodes,
   SubStatusCodes,
 } from "../../common";
-import { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import {
+  convertToInternalPartitionKey,
+  PartitionKey,
+  PartitionKeyDefinition,
+} from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions, ResourceResponse, Response } from "../../request";
@@ -371,6 +375,11 @@ export class Container {
       let path = getPathFromLink(this.url);
       const id = getIdFromLink(this.url);
       path = path + "/operations/partitionkeydelete";
+      if (this.clientContext.enableEncryption) {
+        const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
+        partitionKey =
+          await this.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
+      }
       const response = await this.clientContext.delete<ContainerDefinition>({
         path,
         resourceType: ResourceType.container,

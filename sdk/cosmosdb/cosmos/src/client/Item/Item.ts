@@ -3,6 +3,7 @@
 import { ClientContext } from "../../ClientContext";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
+  addContainerRid,
   copyObject,
   createDocumentUri,
   getIdFromLink,
@@ -88,7 +89,8 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
-        options.collectionRid = this.container._rid;
+        addContainerRid(this.container);
+        options.containerRid = this.container._rid;
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
@@ -180,7 +182,8 @@ export class Item {
       if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         options = options || {};
-        options.collectionRid = this.container._rid;
+        addContainerRid(this.container);
+        options.containerRid = this.container._rid;
         body = await this.container.encryptionProcessor.encrypt(body);
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
@@ -243,7 +246,8 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
-        options.collectionRid = this.container._rid;
+        addContainerRid(this.container);
+        options.containerRid = this.container._rid;
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
@@ -306,7 +310,8 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
-        options.collectionRid = this.container._rid;
+        addContainerRid(this.container);
+        options.containerRid = this.container._rid;
         body = copyObject(body);
         const operations = Array.isArray(body) ? body : body.operations;
         for (const operation of operations) {

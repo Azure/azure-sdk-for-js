@@ -22,10 +22,12 @@ export class EncryptionSettingForProperty {
   public async buildEncryptionAlgorithm(
     clientEncryptionKeyProperties: ClientEncryptionKeyProperties,
     encryptionManager: EncryptionManager,
+    forceRefresh?: boolean,
   ): Promise<AeadAes256CbcHmacSha256Algorithm> {
     const protectedDataEncryptionKey = await this.buildProtectedDataEncryptionKey(
       clientEncryptionKeyProperties,
       encryptionManager,
+      forceRefresh,
     );
     const encryptionAlgorithm = new AeadAes256CbcHmacSha256Algorithm(
       protectedDataEncryptionKey,
@@ -38,18 +40,19 @@ export class EncryptionSettingForProperty {
   private async buildProtectedDataEncryptionKey(
     clientEncryptionKeyProperties: ClientEncryptionKeyProperties,
     encryptionManager: EncryptionManager,
+    forceRefresh?: boolean,
   ): Promise<ProtectedDataEncryptionKey> {
     const keyEncryptionKey = encryptionManager.keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
       clientEncryptionKeyProperties.encryptionKeyWrapMetadata.name,
       clientEncryptionKeyProperties.encryptionKeyWrapMetadata.value,
       encryptionManager.encryptionKeyStoreProvider,
     );
-
-    let protectedDataEncryptionKey =
+    const protectedDataEncryptionKey =
       await encryptionManager.protectedDataEncryptionKeyCache.getOrCreateProtectedDataEncryptionKey(
         this.encryptionKeyId,
         keyEncryptionKey,
         clientEncryptionKeyProperties.wrappedDataEncryptionKey,
+        forceRefresh,
       );
 
     return protectedDataEncryptionKey;

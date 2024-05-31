@@ -64,6 +64,11 @@ export class Database {
     return createDatabaseUri(this.id);
   }
 
+  /**
+   * @internal
+   */
+  public _rid: string;
+
   /** Returns a new {@link Database} instance.
    *
    * Note: the intention is to get this object from {@link CosmosClient} via `client.database(id)`, not to instantiate it yourself.
@@ -73,9 +78,11 @@ export class Database {
     public readonly id: string,
     private clientContext: ClientContext,
     private encryptionManager?: EncryptionManager,
+    _rid?: string,
   ) {
     this.containers = new Containers(this, this.clientContext, this.encryptionManager);
     this.users = new Users(this, this.clientContext);
+    this._rid = _rid;
   }
 
   /**
@@ -220,14 +227,6 @@ export class Database {
       );
     }
 
-    if (keyWrapMetadata.type === EncryptionKeyResolverName.AzureKeyVault) {
-      // https://KEYVAULTNAME.vault.azure.net/keys/KEYNAME/KEYVERSION
-      const keyVaultUriSegments: string[] = new URL(keyWrapMetadata.value).pathname.split("/");
-
-      if (keyVaultUriSegments.length !== 4 || keyVaultUriSegments[1] !== "keys") {
-        throw new Error(`Invalid Key Vault URI '${keyWrapMetadata.value}' passed.`);
-      }
-    }
     const keyEncryptionKey: KeyEncryptionKey =
       this.encryptionManager.keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
         keyWrapMetadata.name,
@@ -291,6 +290,7 @@ export class Database {
         path: path + `/${id}`,
         resourceType: ResourceType.clientencryptionkey,
         resourceId: resourceid + `/${ResourceType.clientencryptionkey}/${id}`,
+        options: { databaseRid: this._rid },
         diagnosticNode,
       });
       const ref = new ClientEncryptionKeyProperties(
@@ -352,6 +352,11 @@ export class Database {
     );
     const unwrappedKey = await keyEncryptionKey.unwrapEncryptionKey(
       clientEncryptionKeyProperties.wrappedDataEncryptionKey,
+    );
+    keyEncryptionKey = this.encryptionManager.keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
+      newKeyWrapMetadata.name,
+      newKeyWrapMetadata.value,
+      this.encryptionManager.encryptionKeyStoreProvider,
     );
     const rewrappedKey = await keyEncryptionKey.wrapEncryptionKey(unwrappedKey);
     clientEncryptionKeyProperties = new ClientEncryptionKeyProperties(
