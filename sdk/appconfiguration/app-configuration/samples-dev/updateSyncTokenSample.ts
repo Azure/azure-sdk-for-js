@@ -16,7 +16,6 @@ import { appConfigTestEvent } from "./testData";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import { DefaultAzureCredential } from "@azure/identity";
 dotenv.config();
 
 // Create an Event Grid Consumer which will decode a hard coded test object into an EventGridEvent object.
@@ -33,10 +32,8 @@ async function processEvent(): Promise<EventGridEvent<unknown>[]> {
 
 export async function main() {
   // Set the following environment variable or edit the value on the following line.
-  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
-
-  const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationClient(endpoint, credential);
+  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
+  const client = new AppConfigurationClient(connectionString);
 
   const greetingKey = "Samples:Greeting";
 

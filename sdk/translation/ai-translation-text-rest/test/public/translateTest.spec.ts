@@ -3,7 +3,13 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { TextTranslationClient, isUnexpected } from "../../src";
+import {
+  InputTextItem,
+  TextTranslationClient,
+  TranslatedTextItemOutput,
+  TranslateQueryParamProperties,
+  isUnexpected,
+} from "../../src";
 import {
   createCustomTranslationClient,
   createTranslationClient,
@@ -29,12 +35,13 @@ describe("Translate tests", () => {
   });
 
   it("translate basic", async () => {
-    const parameters = {
+    const inputText: InputTextItem[] = [{ text: "This is a test." }];
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "cs",
       from: "en",
     };
     const response = await client.path("/translate").post({
-      body: [{ text: "This is a test." }],
+      body: inputText,
       queryParameters: parameters,
     });
     assert.equal(response.status, "200");
@@ -43,14 +50,15 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations[0].translations.length > 0);
+    assert.isTrue(translations[0].translations[0].to === "cs");
     assert.isTrue(translations[0].translations[0].text !== null);
   });
 
   it("with auto detect", async () => {
-    const inputText = [{ text: "This is a test." }];
-    const parameters = {
+    const inputText: InputTextItem[] = [{ text: "This is a test." }];
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "cs",
     };
     const response = await client.path("/translate").post({
@@ -63,16 +71,19 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations[0].translations.length > 0);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
     assert.isTrue(translations[0].detectedLanguage?.score === 1);
+    assert.isTrue(translations[0].translations[0].to === "cs");
     assert.isTrue(translations[0].translations[0].text !== null);
   });
 
   it("no translate tag", async () => {
-    const inputText = [{ text: "<span class=notranslate>今天是怎么回事是</span>非常可怕的" }];
-    const parameters = {
+    const inputText: InputTextItem[] = [
+      { text: "<span class=notranslate>今天是怎么回事是</span>非常可怕的" },
+    ];
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "zh-chs",
       from: "en",
       textType: "html",
@@ -87,19 +98,19 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].translations[0].text.includes("今天是怎么回事是"));
   });
 
   it("dictionary tag", async () => {
-    const inputText = [
+    const inputText: InputTextItem[] = [
       {
         text: 'The word < mstrans:dictionary translation ="wordomatic">wordomatic</mstrans:dictionary> is a dictionary entry.',
       },
     ];
-    const parameters = {
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "es",
       from: "en",
     };
@@ -113,15 +124,16 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
+    assert.isTrue(translations[0].translations[0].to === "es");
     assert.isTrue(translations[0].translations[0].text.includes("wordomatic"));
   });
 
   it("transliteration", async () => {
-    const inputText = [{ text: "hudha akhtabar." }];
-    const parameters = {
+    const inputText: InputTextItem[] = [{ text: "hudha akhtabar." }];
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "zh-Hans",
       from: "ar",
       fromScript: "Latn",
@@ -137,14 +149,15 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations[0].translations.length === 1);
+    assert.isTrue(translations[0].translations[0].to === "zh-Hans");
     assert.isTrue(translations[0].translations[0].text !== null);
   });
 
   it("from latin to latin script", async () => {
-    const inputText = [{ text: "ap kaise ho" }];
-    const parameters = {
+    const inputText: InputTextItem[] = [{ text: "ap kaise ho" }];
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "ta",
       from: "hi",
       fromScript: "Latn",
@@ -160,7 +173,7 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].translations[0].transliteration != null);
     assert.isTrue(
@@ -169,12 +182,12 @@ describe("Translate tests", () => {
   });
 
   it("multiple input text", async () => {
-    const inputText = [
+    const inputText: InputTextItem[] = [
       { text: "This is a test." },
       { text: "Esto es una prueba." },
       { text: "Dies ist ein Test." },
     ];
-    const parameters = {
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "cs",
     };
     const response = await client.path("/translate").post({
@@ -187,7 +200,7 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 3);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
     assert.isTrue(translations[1].detectedLanguage?.language === "es");
@@ -203,8 +216,8 @@ describe("Translate tests", () => {
   });
 
   it("multiple target languages", async () => {
-    const inputText = [{ text: "This is a test." }];
-    const parameters = {
+    const inputText: InputTextItem[] = [{ text: "This is a test." }];
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "cs,es,de",
     };
     const response = await client.path("/translate").post({
@@ -217,7 +230,7 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations[0].translations.length === 3);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
     assert.isTrue(translations[0].detectedLanguage?.score === 1);
@@ -228,8 +241,10 @@ describe("Translate tests", () => {
   });
 
   it("different text types", async () => {
-    const inputText = [{ text: "<html><body>This <b>is</b> a test.</body></html>" }];
-    const parameters = {
+    const inputText: InputTextItem[] = [
+      { text: "<html><body>This <b>is</b> a test.</body></html>" },
+    ];
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "cs",
     };
     const response = await client.path("/translate").post({
@@ -242,7 +257,7 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
@@ -250,14 +265,15 @@ describe("Translate tests", () => {
   });
 
   it("with profanity", async () => {
-    const inputText = [{ text: "shit this is fucking crazy" }];
+    const inputText: InputTextItem[] = [{ text: "shit this is fucking crazy" }];
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
+      to: "zh-cn",
+      profanityAction: "Marked",
+      profanityMarker: "Asterisk",
+    };
     const response = await client.path("/translate").post({
       body: inputText,
-      queryParameters: {
-        to: "zh-cn",
-        profanityAction: "Marked",
-        profanityMarker: "Asterisk",
-      },
+      queryParameters: parameters,
     });
     assert.equal(response.status, "200");
 
@@ -265,7 +281,7 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
@@ -274,8 +290,8 @@ describe("Translate tests", () => {
   });
 
   it("with alignment", async () => {
-    const inputText = [{ text: "It is a beautiful morning" }];
-    const parameters = {
+    const inputText: InputTextItem[] = [{ text: "It is a beautiful morning" }];
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "cs",
       includeAlignment: true,
     };
@@ -289,7 +305,7 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
@@ -298,12 +314,12 @@ describe("Translate tests", () => {
   });
 
   it("with include sentence length", async () => {
-    const inputText = [
+    const inputText: InputTextItem[] = [
       {
         text: "La réponse se trouve dans la traduction automatique. La meilleure technologie de traduction automatique ne peut pas toujours fournir des traductions adaptées à un site ou des utilisateurs comme un être humain. Il suffit de copier et coller un extrait de code n'importe où.",
       },
     ];
-    const parameters = {
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "fr",
       includeSentenceLength: true,
     };
@@ -317,7 +333,7 @@ describe("Translate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body;
+    const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].detectedLanguage?.language === "fr");
@@ -327,8 +343,8 @@ describe("Translate tests", () => {
   });
 
   it("with custom endpoint", async () => {
-    const inputText = [{ text: "This is a test." }];
-    const parameters = {
+    const inputText: InputTextItem[] = [{ text: "This is a test." }];
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "cs",
       includeSentenceLength: true,
     };
@@ -338,11 +354,7 @@ describe("Translate tests", () => {
     });
     assert.equal(response.status, "200");
 
-    if (isUnexpected(response)) {
-      throw response.body;
-    }
-
-    const translations = response.body;
+    const translations = response.body as TranslatedTextItemOutput[];
     assert.isTrue(translations.length === 1);
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].detectedLanguage?.language === "en");
@@ -352,8 +364,8 @@ describe("Translate tests", () => {
 
   it("with token", async () => {
     const tokenClient = await createTokenTranslationClient({ recorder });
-    const inputText = [{ text: "This is a test." }];
-    const parameters = {
+    const inputText: InputTextItem[] = [{ text: "This is a test." }];
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "cs",
     };
     const response = await tokenClient.path("/translate").post({
@@ -365,8 +377,8 @@ describe("Translate tests", () => {
 
   it("with AAD authentication", async () => {
     const tokenClient = await createAADAuthenticationTranslationClient({ recorder });
-    const inputText = [{ text: "This is a test." }];
-    const parameters = {
+    const inputText: InputTextItem[] = [{ text: "This is a test." }];
+    const parameters: TranslateQueryParamProperties & Record<string, unknown> = {
       to: "cs",
     };
     const response = await tokenClient.path("/translate").post({

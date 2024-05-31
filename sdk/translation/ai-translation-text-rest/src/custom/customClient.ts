@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./generated/logger";
+import { logger } from "../logger";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import { TextTranslationClient } from "./generated/clientDefinitions";
+import { TextTranslationClient } from "../clientDefinitions";
 import {
   DEFAULT_SCOPE,
   TranslatorCredential,
@@ -38,26 +38,6 @@ function isTranslatorTokenCredential(credential: any): credential is TranslatorT
   );
 }
 
-function isCredentials(credential: any): boolean {
-  return (
-    isKeyCredential(credential) ||
-    isTranslatorKeyCredential(credential) ||
-    isTokenCredential(credential) ||
-    isTranslatorTokenCredential(credential)
-  );
-}
-
-/**
- * Initialize a new instance of `TextTranslationClient`
- * @param credential type: TranslatorCredential | TranslatorTokenCredential | KeyCredential |TokenCredential, credentials
- *      used to authenticate the service with.
- * @param options type: ClientOptions, the parameter for all optional parameters
- */
-export default function createClient(
-  credential: TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential,
-  options?: ClientOptions,
-): TextTranslationClient;
-
 /**
  * Initialize a new instance of `TextTranslationClient`
  * @param endpoint type: string, Supported Text Translation endpoints (protocol and hostname, for example:
@@ -65,64 +45,16 @@ export default function createClient(
  * @param options type: ClientOptions, the parameter for all optional parameters
  */
 export default function createClient(
-  endpoint: string,
-  options?: ClientOptions,
-): TextTranslationClient;
-
-/**
- * Initialize a new instance of `TextTranslationClient`
- * @param endpoint type: string, Supported Text Translation endpoints (protocol and hostname, for example:
- *     https://api.cognitive.microsofttranslator.com).
- * @param credential type: TranslatorCredential | TranslatorTokenCredential | KeyCredential |TokenCredential, credentials
- *      used to authenticate the service with.
- * @param options type: ClientOptions, the parameter for all optional parameters
- */
-export default function createClient(
-  endpoint: string,
-  credential: TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential,
-  options?: ClientOptions,
-): TextTranslationClient;
-
-// Implementation
-export default function createClient(
-  arg1?:
-    | string
-    | (TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential),
-  arg2?:
-    | (TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential)
-    | ClientOptions,
-  arg3?: ClientOptions,
-): TextTranslationClient {
-  let serviceEndpoint: string;
-
-  let endpoint: string | undefined;
-  let options: ClientOptions | undefined;
-  let credential:
+  endpoint: undefined | string,
+  credential:
+    | undefined
     | TranslatorCredential
     | TranslatorTokenCredential
     | KeyCredential
-    | TokenCredential
-    | undefined;
-
-  if (typeof arg1 === "string") {
-    endpoint = arg1;
-  }
-
-  if (typeof arg1 !== "string" && isCredentials(arg1)) {
-    credential = arg1;
-    options = arg2 as ClientOptions;
-  } else if (isCredentials(arg2)) {
-    credential = arg2 as
-      | TranslatorCredential
-      | TranslatorTokenCredential
-      | KeyCredential
-      | TokenCredential;
-    options = arg3;
-  }
-
-  if (!options) {
-    options = {};
-  }
+    | TokenCredential = undefined,
+  options: ClientOptions = {},
+): TextTranslationClient {
+  let serviceEndpoint: string;
 
   options.apiVersion = options.apiVersion ?? "3.0";
 
@@ -136,7 +68,7 @@ export default function createClient(
 
   const baseUrl = options.baseUrl ?? `${serviceEndpoint}`;
 
-  const userAgentInfo = `azsdk-js-ai-translation-text-rest/1.0.0`;
+  const userAgentInfo = `azsdk-js-ai-translation-text-rest/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -167,14 +99,14 @@ export default function createClient(
     client.pipeline.addPolicy(
       coreRestPipeline.bearerTokenAuthenticationPolicy({
         credential: credential as TokenCredential,
-        scopes: options?.credentials?.scopes ?? DEFAULT_SCOPE,
+        scopes: DEFAULT_SCOPE,
       }),
     );
   } else if (isTranslatorTokenCredential(credential)) {
     client.pipeline.addPolicy(
       coreRestPipeline.bearerTokenAuthenticationPolicy({
         credential: (credential as TranslatorTokenCredential).tokenCredential,
-        scopes: options?.credentials?.scopes ?? DEFAULT_SCOPE,
+        scopes: DEFAULT_SCOPE,
       }),
     );
     client.pipeline.addPolicy(

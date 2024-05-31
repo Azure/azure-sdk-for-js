@@ -2213,11 +2213,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/arm-informaticadatamanagement",
-      "projectFolder": "sdk/informatica/arm-informaticadatamanagement",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/arm-oracledatabase",
       "projectFolder": "sdk/oracledatabase/arm-oracledatabase",
       "versionPolicyName": "management"

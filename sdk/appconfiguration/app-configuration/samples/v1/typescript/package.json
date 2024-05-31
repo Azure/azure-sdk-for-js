@@ -32,8 +32,8 @@
   "dependencies": {
     "@azure/app-configuration": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.0.1",
     "@azure/keyvault-secrets": "^4.2.0",
+    "@azure/identity": "^4.0.1",
     "@azure/eventgrid": "^5.0.0"
   },
   "devDependencies": {

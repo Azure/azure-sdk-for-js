@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "prebuild": "rimraf --glob dist/"
+    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,6 @@
     "dotenv": "^16.0.0"
   },
   "devDependencies": {
-    "rimraf": "^5.0.0"
+    "rimraf": "^3.0.0"
   }
 }

@@ -40,7 +40,7 @@ async function main() {
   for (const translation of translations) {
     for (const textKey in translation.translations) {
       console.log(
-        `Text was translated to: '${translation?.translations[textKey]?.to}' and the result is: '${translation?.translations[textKey]?.text}'.`,
+        `Text was translated to: '${translation?.translations[textKey]?.to}' and the result is: '${translation?.translations[textKey]?.text}'.`
       );
     }
   }

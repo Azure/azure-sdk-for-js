@@ -96,7 +96,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [translatetexttype]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-text-rest/samples/v1-beta/javascript/translateTextType.js
 [translatewithtransliteration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-text-rest/samples/v1-beta/javascript/translateWithTransliteration.js
 [transliterate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-text-rest/samples/v1-beta/javascript/transliterate.js
-[apiref]: https://learn.microsoft.com/azure/ai-services/translator/reference/v3-0-reference
+[apiref]: https://learn.microsoft.com/azure/cognitive-services/translator/translator-text-apis
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_translatorresourceinstance]: https://learn.microsoft.com/azure/cognitive-services/Translator/create-translator-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-text-rest/README.md

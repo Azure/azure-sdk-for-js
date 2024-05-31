@@ -13,7 +13,7 @@
  * or when localization is not available.
  */
 import TextTranslationClient, {
-  GetSupportedLanguagesParameters,
+  GetLanguagesParameters,
   isUnexpected,
 } from "@azure-rest/ai-translation-text";
 
@@ -25,12 +25,12 @@ const endpoint = process.env["ENDPOINT"] || "https://api.cognitive.microsofttran
 export async function main() {
   console.log("== List supported localized languages sample ==");
 
-  const parameters: GetSupportedLanguagesParameters = {
+  const parameters: GetLanguagesParameters = {
     headers: {
       "Accept-Language": "cs",
     },
   };
-  const translationClient = TextTranslationClient(endpoint);
+  const translationClient = TextTranslationClient(endpoint, undefined, undefined);
   const langResponse = await translationClient.path("/languages").get(parameters);
 
   if (isUnexpected(langResponse)) {

@@ -74,6 +74,16 @@ export async function createCustomTranslationClient(options: {
   return client;
 }
 
+export async function createLanguageClient(options: {
+  recorder?: Recorder;
+  clientOptions?: ClientOptions;
+}): Promise<TextTranslationClient> {
+  const { recorder, clientOptions = {} } = options;
+  const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
+  const endpoint = assertEnvironmentVariable("TEXT_TRANSLATION_ENDPOINT");
+  return createTextTranslationClient(endpoint, undefined, updatedOptions);
+}
+
 export async function createTokenTranslationClient(options: {
   recorder?: Recorder;
   clientOptions?: ClientOptions;

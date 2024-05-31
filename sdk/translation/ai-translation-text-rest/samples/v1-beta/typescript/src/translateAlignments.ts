@@ -23,7 +23,7 @@ export async function main() {
 
   const translateCedential: TranslatorCredential = {
     key: apiKey,
-    region,
+    region
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
@@ -35,8 +35,7 @@ export async function main() {
       from: "en",
 
       includeAlignment: true,
-    },
-  });
+  }});
 
   if (isUnexpected(translateResponse)) {
     throw translateResponse.body.error;
@@ -45,7 +44,7 @@ export async function main() {
   const translations = translateResponse.body;
   for (const translation of translations) {
     console.log(
-      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
+      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`
     );
     console.log(`Alignments: ${translation?.translations[0]?.alignment?.proj}`);
   }

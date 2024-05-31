@@ -23,7 +23,7 @@ export async function main() {
 
   const translateCedential: TranslatorCredential = {
     key: apiKey,
-    region,
+    region
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
@@ -33,8 +33,7 @@ export async function main() {
     queryParameters: {
       to: "cs,es,de",
       from: "en",
-    },
-  });
+  }});
 
   if (isUnexpected(translateResponse)) {
     throw translateResponse.body.error;
@@ -44,7 +43,7 @@ export async function main() {
   for (const translation of translations) {
     for (const textKey in translation.translations) {
       console.log(
-        `Text was translated to: '${translation?.translations[textKey]?.to}' and the result is: '${translation?.translations[textKey]?.text}'.`,
+        `Text was translated to: '${translation?.translations[textKey]?.to}' and the result is: '${translation?.translations[textKey]?.text}'.`
       );
     }
   }

@@ -5,7 +5,6 @@
  * @summary Demonstrates listing revisions for a configuration setting.
  */
 const { AppConfigurationClient } = require("@azure/app-configuration");
-const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -14,10 +13,8 @@ async function main() {
   console.log(`Running listRevisions sample`);
 
   // Set the following environment variable or edit the value on the following line.
-  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
-
-  const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationClient(endpoint, credential);
+  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
+  const client = new AppConfigurationClient(connectionString);
 
   // let's create the setting
   const originalSetting = await client.addConfigurationSetting({

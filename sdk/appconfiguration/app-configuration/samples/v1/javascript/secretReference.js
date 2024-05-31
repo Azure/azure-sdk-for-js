@@ -27,9 +27,8 @@ async function main() {
 
   console.log(`Get the added secretReference from App Config with key: ${key}`);
   // Set the following environment variable or edit the value on the following line.
-  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "";
-  const credential = new DefaultAzureCredential();
-  const appConfigClient = new AppConfigurationClient(endpoint, credential);
+  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "";
+  const appConfigClient = new AppConfigurationClient(connectionString);
   const getResponse = await appConfigClient.getConfigurationSetting({
     key,
   });
@@ -97,9 +96,8 @@ async function setup(key) {
 
 async function createConfigSetting(key, secretId) {
   // Set the following environment variable or edit the value on the following line.
-  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
-  const credential = new DefaultAzureCredential();
-  const appConfigClient = new AppConfigurationClient(endpoint, credential);
+  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
+  const appConfigClient = new AppConfigurationClient(connectionString);
 
   const secretReference = {
     key,

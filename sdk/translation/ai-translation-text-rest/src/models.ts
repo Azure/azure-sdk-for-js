@@ -16,10 +16,3 @@ export interface DictionaryExampleTextItem extends InputTextItem {
    */
   translation: string;
 }
-
-/** Alias for TextType */
-export type TextType = string | "Plain" | "Html";
-/** Translator profanity actions */
-export type ProfanityAction = "NoAction" | "Marked" | "Deleted";
-/** Translator profanity markers */
-export type ProfanityMarker = "Asterisk" | "Tag";

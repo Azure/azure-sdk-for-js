@@ -14,7 +14,7 @@ const endpoint = process.env["ENDPOINT"] || "https://api.cognitive.microsofttran
 export async function main() {
   console.log("== List supported languages sample ==");
 
-  const translationClient = TextTranslationClient(endpoint);
+  const translationClient = TextTranslationClient(endpoint, undefined, undefined);
   const langResponse = await translationClient.path("/languages").get();
 
   if (isUnexpected(langResponse)) {

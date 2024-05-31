@@ -6,7 +6,7 @@
  * service to get a list of supported languages for a selected scope
  */
 import TextTranslationClient, {
-  GetSupportedLanguagesParameters,
+  GetLanguagesParameters,
   isUnexpected,
 } from "@azure-rest/ai-translation-text";
 
@@ -18,12 +18,12 @@ const endpoint = process.env["ENDPOINT"] || "https://api.cognitive.microsofttran
 export async function main() {
   console.log("== Scoped list supported languages sample ==");
 
-  const parameters: GetSupportedLanguagesParameters = {
+  const parameters: GetLanguagesParameters = {
     queryParameters: {
       scope: "translation",
     },
   };
-  const translationClient = TextTranslationClient(endpoint);
+  const translationClient = TextTranslationClient(endpoint, undefined, undefined);
   const langResponse = await translationClient.path("/languages").get(parameters);
 
   if (isUnexpected(langResponse)) {
@@ -37,7 +37,7 @@ export async function main() {
     for (const key in languages.translation) {
       const translationLanguage = languages.translation[key];
       console.log(
-        `${key} -- name: ${translationLanguage.name} (${translationLanguage.nativeName})`,
+        `${key} -- name: ${translationLanguage.name} (${translationLanguage.nativeName})`
       );
     }
   }
@@ -47,7 +47,7 @@ export async function main() {
     for (const key in languages.transliteration) {
       const transliterationLanguage = languages.transliteration[key];
       console.log(
-        `${key} -- name: ${transliterationLanguage.name} (${transliterationLanguage.nativeName})`,
+        `${key} -- name: ${transliterationLanguage.name} (${transliterationLanguage.nativeName})`
       );
     }
   }
@@ -57,7 +57,7 @@ export async function main() {
     for (const key in languages.dictionary) {
       const dictionaryLanguage = languages.dictionary[key];
       console.log(
-        `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`,
+        `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`
       );
     }
   }
