@@ -31,8 +31,7 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE",
-    "dist-esm/src"
+    "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
