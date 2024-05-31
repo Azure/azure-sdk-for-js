@@ -34,8 +34,7 @@ import {
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions,
 } from "./internal/modelConverters";
-import { SDK_VERSION } from "./constants";
-const defaultMetricsScope = "https://management.azure.com/.default";
+import { SDK_VERSION, KnownMonitorAudience } from "./constants";
 
 /**
  * Options for the MetricsQueryClient.
@@ -43,6 +42,13 @@ const defaultMetricsScope = "https://management.azure.com/.default";
 export interface MetricsQueryClientOptions extends CommonClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
+
+  /**
+   * The Audience to use for authentication with Azure Active Directory (AAD). The
+   * audience is not considered when using a shared key.
+   * {@link KnownMonitorAudience} can be used interchangeably with audience
+   */
+  audience?: string;
 }
 
 /**
@@ -59,13 +65,10 @@ export class MetricsQueryClient {
    * @param options - Options for the client like controlling request retries.
    */
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
-    let scope;
-    if (options?.endpoint) {
-      scope = `${options?.endpoint}/.default`;
-    }
-    const credentialOptions = {
-      credentialScopes: scope,
-    };
+    const scope: string = options?.audience
+      ? `${options.audience}/.default`
+      : `${KnownMonitorAudience.AzurePublicCloud}/.default`;
+
     const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
     const userAgentPrefix =
       options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
@@ -75,7 +78,7 @@ export class MetricsQueryClient {
       ...options,
       $host: options?.endpoint,
       endpoint: options?.endpoint,
-      credentialScopes: credentialOptions?.credentialScopes ?? defaultMetricsScope,
+      credentialScopes: scope,
       credential: tokenCredential,
       userAgentOptions: {
         userAgentPrefix,

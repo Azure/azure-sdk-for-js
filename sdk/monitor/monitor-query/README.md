@@ -61,21 +61,28 @@ const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(endPoint, 
 
 #### Configure client for Azure sovereign cloud
 
-By default, `LogsQueryClient` and `MetricsQueryClient` are configured to use the Azure Public Cloud. To use a sovereign cloud instead, provide the correct `endpoint` argument. For example:
+By default, all clients are configured to use the Azure public cloud. To use a sovereign cloud, provide the correct endpoint and audience value while instantiating the clients. For example:
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, MetricsQueryClient } from "@azure/monitor-query";
+import { LogsQueryClient, MetricsQueryClient, metricsClient } from "@azure/monitor-query";
 
 const credential = new DefaultAzureCredential();
 
-const logsQueryClient = new LogsQueryClient(credential, {
+const logsQueryClient: LogsQueryClient = new LogsQueryClient(credential, {
   endpoint: "https://api.loganalytics.azure.cn/v1",
+  audience: "https://api.loganalytics.azure.cn/.default",
 });
-
 // or
-const metricsQueryClient = new MetricsQueryClient(credential, {
+const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(credential, {
   endpoint: "https://management.chinacloudapi.cn",
+  audience: "https://monitor.azure.cn/.default",
+});
+// or
+const endPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
+
+const metricsClient: MetricsClient = new MetricsClient(endPoint, credential, {
+  audience: "https://monitor.azure.cn/.default",
 });
 ```
 

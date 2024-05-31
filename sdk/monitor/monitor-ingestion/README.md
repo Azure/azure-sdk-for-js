@@ -242,6 +242,28 @@ module.exports = { main };
 
 Logs uploaded using the Monitor Ingestion client library can be retrieved using the [Monitor Query client library][monitor_query].
 
+#### Configure client for Azure sovereign cloud
+
+By default, the clients is configured to use the Azure public cloud. To use a sovereign cloud, provide the correct endpoint and audience value while instantiating the client. For example:
+
+```ts
+import { DefaultAzureCredential } from "@azure/identity";
+import { LogsIngestionClient } from "@azure/monitor-ingestion";
+
+import * as dotenv from "dotenv";
+dotenv.config();
+
+const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
+
+const credential = new DefaultAzureCredential();
+const logsIngestionClient = new LogsIngestionClient(logsIngestionEndpoint, credential, {
+  audience: "https://api.loganalytics.azure.cn/.default",
+});
+```
+
+**Note**: Currently, `MetricsQueryClient` uses the Azure Resource Manager (ARM) endpoint for querying metrics. You need the corresponding management endpoint for your cloud when using this client. This detail is subject to change in the future.
+
+
 ## Troubleshooting
 
 For details on diagnosing various failure scenarios, see our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/TROUBLESHOOTING.md).
