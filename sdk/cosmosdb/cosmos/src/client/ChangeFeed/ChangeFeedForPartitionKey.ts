@@ -4,7 +4,7 @@ import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import { Container, Resource } from "../../client";
 import { ClientContext } from "../../ClientContext";
-import { Constants, ResourceType, StatusCodes } from "../../common";
+import { Constants, ResourceType, StatusCodes, addContainerRid } from "../../common";
 import { FeedOptions, Response, ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
@@ -150,6 +150,8 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
     }
 
     if (this.clientContext.enableEncryption) {
+      addContainerRid(this.container);
+      feedOptions.containerRid = this.container._rid;
       this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
         convertToInternalPartitionKey(this.partitionKey),
       );

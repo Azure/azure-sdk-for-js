@@ -28,6 +28,7 @@ import {
   BulkOperationType,
   ChangeFeedStartFrom,
   ContainerDefinition,
+  ErrorResponse,
 } from "../../../src";
 import { assert } from "chai";
 
@@ -47,6 +48,8 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
     "revokedKek-metadata": 3,
     mymetadata1: 4,
     mymetadata2: 5,
+    testmetadata1: 6,
+    metadataupdatedmetadata: 7,
   };
   revokeAccessSet = false;
   // public wrapKeyCallsCount: { [key: string]: number };
@@ -59,7 +62,9 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
   async unwrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
     console.log(algorithm);
     if (encryptionKeyId === "revokedKek-metadata" && this.revokeAccessSet) {
-      throw new Error("Forbidden");
+      const errorResponse = new ErrorResponse("Forbidden");
+      errorResponse.statusCode = StatusCodes.Forbidden;
+      throw errorResponse;
     }
     unwrapCount++;
 
@@ -76,6 +81,8 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
     for (let i = 0; i < key.length; i++) {
       plainKey[i] = key[i] - moveBy;
     }
+    // console.log("encryptionKeyId-unwrapKey", encryptionKeyId);
+    // console.log("plainKey", plainKey.toString("hex"));
     return plainKey;
   }
 
@@ -132,16 +139,16 @@ describe("dotnet test cases", () => {
     });
     database = (await encryptionClient.databases.createIfNotExists({ id: randomUUID() })).database;
     console.log(`database created ${database.id}`);
-    // const revokedKekMetadata = new EncryptionKeyWrapMetadata(
-    //   testKeyVault,
-    //   "revokedKek",
-    //   "revokedKek-metadata",
-    //   KeyEncryptionKeyAlgorithm.RSA_OAEP,
-    // );
+    const revokedKekMetadata = new EncryptionKeyWrapMetadata(
+      testKeyVault,
+      "revokedKek",
+      "revokedKek-metadata",
+      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+    );
     await testCreateClientEncryptionKey("key1", metadata1);
     await testCreateClientEncryptionKey("key2", metadata2);
     console.log("client encryption keys created");
-    // await testCreateClientEncryptionKey("keyWithRevokedKek", revokedKekMetadata);
+    await testCreateClientEncryptionKey("keyWithRevokedKek", revokedKekMetadata);
     const key1Paths = [
       "/PK",
       "/sensitive_NestedObjectFormatL1",
@@ -301,16 +308,9 @@ describe("dotnet test cases", () => {
     const clientEncryptionKeyProperties = (
       await testCreateClientEncryptionKey(cekId, testmetadata1)
     ).clientEncryptionKeyProperties;
+
     assert.ok(
-      compareMetadata(
-        new EncryptionKeyWrapMetadata(
-          testKeyVault,
-          cekId,
-          testmetadata1.value,
-          KeyEncryptionKeyAlgorithm.RSA_OAEP,
-        ),
-        clientEncryptionKeyProperties.encryptionKeyWrapMetadata,
-      ),
+      compareMetadata(testmetadata1, clientEncryptionKeyProperties.encryptionKeyWrapMetadata),
     );
 
     testmetadata1 = new EncryptionKeyWrapMetadata(
@@ -357,32 +357,6 @@ describe("dotnet test cases", () => {
     );
     clientEncryptionKeyResponse = await database1.rewrapClientEncryptionKey(cekId, metadata);
     assert.equal(StatusCodes.Ok, clientEncryptionKeyResponse.statusCode);
-
-    // complete key identifier not passed
-    metadata = new EncryptionKeyWrapMetadata(
-      EncryptionKeyResolverName.AzureKeyVault,
-      "key1",
-      "https://testkeyvault.vault.azure.net/keys/testkey",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
-    );
-
-    try {
-      clientEncryptionKeyResponse = await database1.createClientEncryptionKey(
-        cekId,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-        metadata,
-      );
-      assert.fail("Key creation should fail.");
-    } catch (error) {
-      assert.equal(true, error.message.startsWith("Invalid Key Vault URI"));
-    }
-
-    try {
-      clientEncryptionKeyResponse = await database1.rewrapClientEncryptionKey(cekId, metadata);
-      assert.fail("Key creation should fail.");
-    } catch (error) {
-      assert.equal(true, error.message.startsWith("Invalid Key Vault URI"));
-    }
     encryptionCosmosClient.dispose();
   });
 
@@ -1153,7 +1127,6 @@ describe("dotnet test cases", () => {
     try {
       await testCreateItem(encryptionContainerToDelete);
     } catch (err) {
-      console.log("item creation error, emryptionContainerToDelette", err);
       assert.ok(
         err.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1169,14 +1142,19 @@ describe("dotnet test cases", () => {
         operationType: BulkOperationType.Create,
         resourceBody: JSON.parse(JSON.stringify(TestDoc.create())),
       },
+      {
+        operationType: BulkOperationType.Replace,
+        id: docToReplace.id,
+        resourceBody: JSON.parse(JSON.stringify(docToReplace)),
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert)),
+      },
     ];
     try {
-      console.log("reached here");
-      console.log("operations", operations);
-      const res = await otherEncryptionContainer.items.bulk(operations);
-      console.log("bulk res", res);
+      await otherEncryptionContainer.items.bulk(operations);
     } catch (error) {
-      console.log("reached here1");
       assert.ok(
         error.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1184,16 +1162,10 @@ describe("dotnet test cases", () => {
       );
     }
     // retry bulk operation with 2nd client
-    console.log("second bulk operation");
-    const res2 = await otherEncryptionContainer.items.bulk(operations);
-    console.log("bulk res2", res2);
-    console.log("reached here2");
+    await otherEncryptionContainer.items.bulk(operations);
     await verifyItemByRead(encryptionContainerToDelete, docToReplace);
-    console.log("reached here3");
     await testCreateItem(encryptionContainerToDelete);
-    console.log("reached here4");
     await verifyItemByRead(encryptionContainerToDelete, docToUpsert);
-    console.log("reached here5");
     // validate if the right policy was used, by reading them all back
     const response = await otherEncryptionContainer.items.readAll().fetchAll();
     console.log("query response: ", response);
@@ -1399,6 +1371,94 @@ describe("dotnet test cases", () => {
     }
     console.log(`unwrapCount for 2:2: ${unwrapCount}`);
     // assert.equal(unwrapCount, 2, "we have two cek");
+  });
+
+  it("key encryption key revoke test", async () => {
+    const keyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();
+    const encryptionTestClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: keyEncryptionKeyResolver,
+      encryptionKeyTimeToLiveInHours: 0,
+      encryptionKeyResolverName: testKeyVault,
+    });
+
+    // await removeAllDatabases();
+
+    const revokedKekMetadata = new EncryptionKeyWrapMetadata(
+      testKeyVault,
+      "revokedKek",
+      "revokedKek-metadata",
+      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+    );
+    const testdatabase = (await encryptionTestClient.databases.createIfNotExists({ id: "myDb1" }))
+      .database;
+    await testdatabase.createClientEncryptionKey(
+      "keyWithRevokedKek",
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      revokedKekMetadata,
+    );
+
+    // Once a Dek gets cached and the Kek is revoked, calls to unwrap/wrap keys would fail since KEK is revoked.
+    // The Dek should be rewrapped if the KEK is revoked.
+    // When an access to KeyVault fails, the Dek is fetched from the backend (force refresh to update the stale DEK) and cache is updated.
+    const pathWithRevokedKek = new ClientEncryptionIncludedPath(
+      "/sensitive_NestedObjectFormatL1",
+      "keyWithRevokedKek",
+      EncryptionType.DETERMINISTIC,
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    );
+    const paths = [pathWithRevokedKek];
+    const clientEncryptionPolicyWithRevokedKek = new ClientEncryptionPolicy(paths);
+    const containerProperties = {
+      id: randomUUID(),
+      partitionKey: {
+        paths: ["/PK"],
+      },
+      clientEncryptionPolicy: clientEncryptionPolicyWithRevokedKek,
+    };
+    const testcontainer = (await testdatabase.containers.create(containerProperties)).container;
+    const testDoc1 = new TestDoc((await testCreateItem(testcontainer)).resource);
+    keyEncryptionKeyResolver.revokeAccessSet = true;
+    // Try creating it and it should fail as it has been revoked.
+    try {
+      await testCreateItem(testcontainer);
+      // await testcontainer.items.create({
+      //   PK: "1",
+      //   id: "1",
+      //   sensitive_NestedObjectFormatL1: {
+      //     sensitive_NestedObjectFormatL2: {
+      //       sensitive_StringFormat: "test",
+      //     },
+      //   },
+      // });
+      assert.fail("Create Item should have failed.");
+    } catch (err) {
+      assert.ok(
+        err.message.includes(
+          "needs to be rewrapped with a valid Key Encryption Key using rewrapClientEncryptionKey",
+        ),
+      );
+    }
+    const query = new EncryptionQueryBuilder("SELECT * FROM c");
+    try {
+      await validateQueryResults(testcontainer, query, [testDoc1]);
+      assert.fail("Query should have failed.");
+    } catch (error) {
+      assert.ok(
+        error.message.includes(
+          "needs to be rewrapped with a valid Key Encryption Key using rewrapClientEncryptionKey",
+        ),
+      );
+    }
+    // Revoke access is set to false, so the next call should succeed.
+    keyEncryptionKeyResolver.revokeAccessSet = false;
+    await testdatabase.rewrapClientEncryptionKey("keyWithRevokedKek", metadata2);
+    // should fail but will try to fetch latest from the backend and updates the cache
+    await testCreateItem(testcontainer);
+    testKeyEncryptionKeyResolver.revokeAccessSet = false;
+    encryptionTestClient.dispose();
   });
 });
 

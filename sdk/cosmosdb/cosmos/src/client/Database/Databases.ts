@@ -162,7 +162,13 @@ export class Databases {
       diagnosticNode,
       options,
     });
-    const ref = new Database(this.client, body.id, this.clientContext, this.encryptionManager);
+    const ref = new Database(
+      this.client,
+      body.id,
+      this.clientContext,
+      this.encryptionManager,
+      response.result._rid,
+    );
     return new DatabaseResponse(
       response.result,
       response.headers,
