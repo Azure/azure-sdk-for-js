@@ -34,6 +34,7 @@ export class AzurePipelinesCredential implements TokenCredential {
     const serviceConnectionId =
       options?.serviceConnectionId || process.env.AZURESUBSCRIPTION_SERVICE_CONNECTION_ID;
     logger.info(`system access token = ${systemAccessToken}`);
+    logger.info(`the env system access token = ${process.env.SYSTEM_ACESSTOKEN}.substring()`);
     if (!clientId || !tenantId || !serviceConnectionId) {
       throw new CredentialUnavailableError(
         `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required either as options parameters OR environment variables, namely - AZURESUBSCRIPTION_TENANT_ID, AZURESUBSCRIPTION_CLIENT_ID and AZURESUBSCRIPTION_SERVICE_CONNECTION_ID`
