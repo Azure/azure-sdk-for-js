@@ -32,7 +32,7 @@ async function getsTheSoftwareInventoryOfTheVirtualMachine() {
     resourceGroupName,
     resourceNamespace,
     resourceType,
-    resourceName
+    resourceName,
   )) {
     resArray.push(item);
   }

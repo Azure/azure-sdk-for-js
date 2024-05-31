@@ -26,7 +26,7 @@ async function listCustomEntityStoreAssignmentsInASubscriptionAndAResourceGroup(
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.customEntityStoreAssignments.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

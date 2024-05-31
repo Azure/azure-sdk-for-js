@@ -11,9 +11,12 @@
 import {
   Datastore,
   DatastoresCreateOrUpdateOptionalParams,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update datastore.
@@ -22,8 +25,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Datastore/AzureDataLakeGen1WServicePrincipal/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const skipValidation = false;
@@ -36,13 +42,13 @@ async function createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal() {
         credentialsType: "ServicePrincipal",
         resourceUrl: "string",
         secrets: { clientSecret: "string", secretsType: "ServicePrincipal" },
-        tenantId: "00000000-1111-2222-3333-444444444444"
+        tenantId: "00000000-1111-2222-3333-444444444444",
       },
       datastoreType: "AzureDataLakeGen1",
       properties: {},
       storeName: "string",
-      tags: { string: "string" }
-    }
+      tags: { string: "string" },
+    },
   };
   const options: DatastoresCreateOrUpdateOptionalParams = { skipValidation };
   const credential = new DefaultAzureCredential();
@@ -52,14 +58,10 @@ async function createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal() {
     workspaceName,
     name,
     body,
-    options
+    options,
   );
   console.log(result);
 }
-
-createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal().catch(
-  console.error
-);
 
 /**
  * This sample demonstrates how to Create or update datastore.
@@ -68,8 +70,11 @@ createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal().catch(
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Datastore/AzureDataLakeGen2WServicePrincipal/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const skipValidation = false;
@@ -83,15 +88,15 @@ async function createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal() {
         credentialsType: "ServicePrincipal",
         resourceUrl: "string",
         secrets: { clientSecret: "string", secretsType: "ServicePrincipal" },
-        tenantId: "00000000-1111-2222-3333-444444444444"
+        tenantId: "00000000-1111-2222-3333-444444444444",
       },
       datastoreType: "AzureDataLakeGen2",
       endpoint: "string",
       filesystem: "string",
       properties: {},
       tags: { string: "string" },
-      protocol: "string"
-    }
+      protocol: "string",
+    },
   };
   const options: DatastoresCreateOrUpdateOptionalParams = { skipValidation };
   const credential = new DefaultAzureCredential();
@@ -101,14 +106,10 @@ async function createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal() {
     workspaceName,
     name,
     body,
-    options
+    options,
   );
   console.log(result);
 }
-
-createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal().catch(
-  console.error
-);
 
 /**
  * This sample demonstrates how to Create or update datastore.
@@ -117,8 +118,11 @@ createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal().catch(
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Datastore/AzureFileWAccountKey/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureFileStoreWOrAccountKey() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const skipValidation = false;
@@ -128,15 +132,15 @@ async function createOrUpdateDatastoreAzureFileStoreWOrAccountKey() {
       accountName: "string",
       credentials: {
         credentialsType: "AccountKey",
-        secrets: { key: "string", secretsType: "AccountKey" }
+        secrets: { key: "string", secretsType: "AccountKey" },
       },
       datastoreType: "AzureFile",
       endpoint: "string",
       fileShareName: "string",
       properties: {},
       tags: { string: "string" },
-      protocol: "string"
-    }
+      protocol: "string",
+    },
   };
   const options: DatastoresCreateOrUpdateOptionalParams = { skipValidation };
   const credential = new DefaultAzureCredential();
@@ -146,12 +150,10 @@ async function createOrUpdateDatastoreAzureFileStoreWOrAccountKey() {
     workspaceName,
     name,
     body,
-    options
+    options,
   );
   console.log(result);
 }
-
-createOrUpdateDatastoreAzureFileStoreWOrAccountKey().catch(console.error);
 
 /**
  * This sample demonstrates how to Create or update datastore.
@@ -160,8 +162,11 @@ createOrUpdateDatastoreAzureFileStoreWOrAccountKey().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Datastore/AzureBlobWAccountKey/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureBlobWOrAccountKey() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const skipValidation = false;
@@ -172,14 +177,14 @@ async function createOrUpdateDatastoreAzureBlobWOrAccountKey() {
       containerName: "string",
       credentials: {
         credentialsType: "AccountKey",
-        secrets: { key: "string", secretsType: "AccountKey" }
+        secrets: { key: "string", secretsType: "AccountKey" },
       },
       datastoreType: "AzureBlob",
       endpoint: "core.windows.net",
       properties: {},
       tags: { string: "string" },
-      protocol: "https"
-    }
+      protocol: "https",
+    },
   };
   const options: DatastoresCreateOrUpdateOptionalParams = { skipValidation };
   const credential = new DefaultAzureCredential();
@@ -189,9 +194,16 @@ async function createOrUpdateDatastoreAzureBlobWOrAccountKey() {
     workspaceName,
     name,
     body,
-    options
+    options,
   );
   console.log(result);
 }
 
-createOrUpdateDatastoreAzureBlobWOrAccountKey().catch(console.error);
+async function main() {
+  createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal();
+  createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal();
+  createOrUpdateDatastoreAzureFileStoreWOrAccountKey();
+  createOrUpdateDatastoreAzureBlobWOrAccountKey();
+}
+
+main().catch(console.error);

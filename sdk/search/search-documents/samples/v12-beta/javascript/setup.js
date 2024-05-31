@@ -254,7 +254,6 @@ async function createIndex(client, name) {
           kind: "azureOpenAI",
           azureOpenAIParameters: {
             resourceUri: env.AZURE_OPENAI_ENDPOINT,
-            apiKey: env.AZURE_OPENAI_KEY,
             deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
           },
         },

@@ -17,7 +17,7 @@ import {
   ProtectedItemResource,
   ProtectedItemsCreateOrUpdateOptionalParams,
   ProtectedItemsCreateOrUpdateResponse,
-  ProtectedItemsDeleteOptionalParams
+  ProtectedItemsDeleteOptionalParams,
 } from "../models";
 
 /** Class containing ProtectedItems operations. */
@@ -50,7 +50,7 @@ export class ProtectedItemsImpl implements ProtectedItems {
     fabricName: string,
     containerName: string,
     protectedItemName: string,
-    options?: ProtectedItemsGetOptionalParams
+    options?: ProtectedItemsGetOptionalParams,
   ): Promise<ProtectedItemsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -59,9 +59,9 @@ export class ProtectedItemsImpl implements ProtectedItems {
         fabricName,
         containerName,
         protectedItemName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -85,7 +85,7 @@ export class ProtectedItemsImpl implements ProtectedItems {
     containerName: string,
     protectedItemName: string,
     parameters: ProtectedItemResource,
-    options?: ProtectedItemsCreateOrUpdateOptionalParams
+    options?: ProtectedItemsCreateOrUpdateOptionalParams,
   ): Promise<ProtectedItemsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -95,9 +95,9 @@ export class ProtectedItemsImpl implements ProtectedItems {
         containerName,
         protectedItemName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -119,7 +119,7 @@ export class ProtectedItemsImpl implements ProtectedItems {
     fabricName: string,
     containerName: string,
     protectedItemName: string,
-    options?: ProtectedItemsDeleteOptionalParams
+    options?: ProtectedItemsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -128,9 +128,9 @@ export class ProtectedItemsImpl implements ProtectedItems {
         fabricName,
         containerName,
         protectedItemName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -138,16 +138,15 @@ export class ProtectedItemsImpl implements ProtectedItems {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectedItemResource
+      bodyMapper: Mappers.ProtectedItemResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -157,23 +156,22 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.fabricName,
     Parameters.containerName,
-    Parameters.protectedItemName
+    Parameters.protectedItemName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectedItemResource
+      bodyMapper: Mappers.ProtectedItemResource,
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
@@ -184,23 +182,26 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.fabricName,
     Parameters.containerName,
-    Parameters.protectedItemName
+    Parameters.protectedItemName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.xMsAuthorizationAuxiliary,
+  ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -210,8 +211,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.fabricName,
     Parameters.containerName,
-    Parameters.protectedItemName
+    Parameters.protectedItemName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

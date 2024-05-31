@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { UserDelegationKey } from "@azure/storage-blob";
 import { Recorder, delay } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -22,6 +20,7 @@ import {
   PathAccessControlItem,
   PathPermissions,
   StorageSharedKeyCredential,
+  UserDelegationKey,
   SASQueryParameters,
   FileSystemListPathsResponse,
 } from "../../src";

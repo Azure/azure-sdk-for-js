@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureMachineLearningWorkspaces } = require("@azure/arm-machinelearning");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the specified private endpoint connection associated with the workspace.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/PrivateEndpointConnection/get.json
  */
 async function workspaceGetPrivateEndpointConnection() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "rg-1234";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "rg-1234";
   const workspaceName = "testworkspace";
   const privateEndpointConnectionName = "{privateEndpointConnectionName}";
   const credential = new DefaultAzureCredential();
@@ -27,9 +29,13 @@ async function workspaceGetPrivateEndpointConnection() {
   const result = await client.privateEndpointConnections.get(
     resourceGroupName,
     workspaceName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }
 
-workspaceGetPrivateEndpointConnection().catch(console.error);
+async function main() {
+  workspaceGetPrivateEndpointConnection();
+}
+
+main().catch(console.error);

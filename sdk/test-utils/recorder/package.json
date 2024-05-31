@@ -96,7 +96,8 @@
     "esmDialects": [
       "browser",
       "react-native"
-    ]
+    ],
+    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",

@@ -33,7 +33,7 @@ async function listPrivateEndpointsInAJobAgent() {
   for await (let item of client.jobPrivateEndpoints.listByAgent(
     resourceGroupName,
     serverName,
-    jobAgentName
+    jobAgentName,
   )) {
     resArray.push(item);
   }

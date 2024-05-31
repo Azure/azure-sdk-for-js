@@ -58,7 +58,7 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
     this.url = url;
 
     // Assigning values to Constant parameters
-    this.version = options.version || "2023-01-03";
+    this.version = options.version || "2023-11-03";
     this.service = new ServiceImpl(this);
     this.queue = new QueueImpl(this);
     this.messages = new MessagesImpl(this);

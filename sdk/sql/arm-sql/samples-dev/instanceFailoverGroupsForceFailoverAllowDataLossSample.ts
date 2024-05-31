@@ -29,11 +29,12 @@ async function forcedFailoverOfAFailoverGroupAllowingDataLoss() {
   const failoverGroupName = "failover-group-test-3";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.instanceFailoverGroups.beginForceFailoverAllowDataLossAndWait(
-    resourceGroupName,
-    locationName,
-    failoverGroupName
-  );
+  const result =
+    await client.instanceFailoverGroups.beginForceFailoverAllowDataLossAndWait(
+      resourceGroupName,
+      locationName,
+      failoverGroupName,
+    );
   console.log(result);
 }
 

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns the list of available operations.
  *
  * @summary Returns the list of available operations.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ListOperations.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ListOperations.json
  */
 async function listOperations() {
   const subscriptionId =

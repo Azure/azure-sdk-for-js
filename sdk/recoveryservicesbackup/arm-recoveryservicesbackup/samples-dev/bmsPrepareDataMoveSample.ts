@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrepareDataMoveRequest,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Prepares source vault for Data Move operation
  *
  * @summary Prepares source vault for Data Move operation
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/BackupDataMove/PrepareDataMove_Post.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/BackupDataMove/PrepareDataMove_Post.json
  */
 async function prepareDataMove() {
   const subscriptionId =
@@ -34,14 +34,14 @@ async function prepareDataMove() {
     dataMoveLevel: "Vault",
     targetRegion: "USGov Virginia",
     targetResourceId:
-      "/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/targetRG/providers/Microsoft.RecoveryServices/vaults/target-rsv"
+      "/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/targetRG/providers/Microsoft.RecoveryServices/vaults/target-rsv",
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.beginBMSPrepareDataMoveAndWait(
     vaultName,
     resourceGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

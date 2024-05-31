@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   UpdateRun,
-  ContainerServiceFleetClient
+  ContainerServiceFleetClient,
 } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a UpdateRun
  *
  * @summary Create a UpdateRun
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2023-10-15/examples/UpdateRuns_CreateOrUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/UpdateRuns_CreateOrUpdate.json
  */
 async function createAnUpdateRun() {
   const subscriptionId =
@@ -34,19 +34,19 @@ async function createAnUpdateRun() {
   const resource: UpdateRun = {
     managedClusterUpdate: {
       nodeImageSelection: { type: "Latest" },
-      upgrade: { type: "Full", kubernetesVersion: "1.26.1" }
+      upgrade: { type: "Full", kubernetesVersion: "1.26.1" },
     },
     strategy: {
       stages: [
         {
           name: "stage1",
           afterStageWaitInSeconds: 3600,
-          groups: [{ name: "group-a" }]
-        }
-      ]
+          groups: [{ name: "group-a" }],
+        },
+      ],
     },
     updateStrategyId:
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ContainerService/fleets/myFleet/updateStrategies/strategy1"
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ContainerService/fleets/myFleet/updateStrategies/strategy1",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -54,7 +54,7 @@ async function createAnUpdateRun() {
     resourceGroupName,
     fleetName,
     updateRunName,
-    resource
+    resource,
   );
   console.log(result);
 }

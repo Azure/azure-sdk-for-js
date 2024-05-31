@@ -16,6 +16,14 @@ param (
     
 )
 
+Import-Module -Name $PSScriptRoot/../../eng/common/scripts/X509Certificate2 -Verbose
+
+Remove-Item $PSScriptRoot/sshKey* -Force
+ssh-keygen -t rsa -b 4096 -f $PSScriptRoot/sshKey -N '' -C ''
+$sshKey = Get-Content $PSScriptRoot/sshKey.pub
+
+$templateFileParameters['sshPubKey'] = $sshKey
+
 if (!$CI) {
     # TODO: Remove this once auto-cloud config downloads are supported locally
     Write-Host "Skipping cert setup in local testing mode"
@@ -45,13 +53,6 @@ Write-Host "##vso[task.setvariable variable=IDENTITY_SP_CERT_PEM;]$pemPath"
 $env:IDENTITY_SP_CERT_PFX = $pfxPath
 $env:IDENTITY_SP_CERT_PEM = $pemPath
 
-Import-Module -Name $PSScriptRoot/../../eng/common/scripts/X509Certificate2 -Verbose
-
-Remove-Item $PSScriptRoot/sshKey* -Force
-ssh-keygen -t rsa -b 4096 -f $PSScriptRoot/sshKey -N '' -C ''
-$sshKey = Get-Content $PSScriptRoot/sshKey.pub
-
-$templateFileParameters['sshPubKey'] = $sshKey
 
 if ($CI) {
   # Install this specific version of the Azure CLI to avoid https://github.com/Azure/azure-cli/issues/28358.

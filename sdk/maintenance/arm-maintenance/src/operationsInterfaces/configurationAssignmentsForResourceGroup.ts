@@ -15,7 +15,7 @@ import {
   ConfigurationAssignmentsForResourceGroupUpdateOptionalParams,
   ConfigurationAssignmentsForResourceGroupUpdateResponse,
   ConfigurationAssignmentsForResourceGroupDeleteOptionalParams,
-  ConfigurationAssignmentsForResourceGroupDeleteResponse
+  ConfigurationAssignmentsForResourceGroupDeleteResponse,
 } from "../models";
 
 /** Interface representing a ConfigurationAssignmentsForResourceGroup. */
@@ -29,7 +29,7 @@ export interface ConfigurationAssignmentsForResourceGroup {
   get(
     resourceGroupName: string,
     configurationAssignmentName: string,
-    options?: ConfigurationAssignmentsForResourceGroupGetOptionalParams
+    options?: ConfigurationAssignmentsForResourceGroupGetOptionalParams,
   ): Promise<ConfigurationAssignmentsForResourceGroupGetResponse>;
   /**
    * Register configuration for resource.
@@ -42,7 +42,7 @@ export interface ConfigurationAssignmentsForResourceGroup {
     resourceGroupName: string,
     configurationAssignmentName: string,
     configurationAssignment: ConfigurationAssignment,
-    options?: ConfigurationAssignmentsForResourceGroupCreateOrUpdateOptionalParams
+    options?: ConfigurationAssignmentsForResourceGroupCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponse>;
   /**
    * Register configuration for resource.
@@ -55,7 +55,7 @@ export interface ConfigurationAssignmentsForResourceGroup {
     resourceGroupName: string,
     configurationAssignmentName: string,
     configurationAssignment: ConfigurationAssignment,
-    options?: ConfigurationAssignmentsForResourceGroupUpdateOptionalParams
+    options?: ConfigurationAssignmentsForResourceGroupUpdateOptionalParams,
   ): Promise<ConfigurationAssignmentsForResourceGroupUpdateResponse>;
   /**
    * Unregister configuration for resource.
@@ -66,6 +66,6 @@ export interface ConfigurationAssignmentsForResourceGroup {
   delete(
     resourceGroupName: string,
     configurationAssignmentName: string,
-    options?: ConfigurationAssignmentsForResourceGroupDeleteOptionalParams
+    options?: ConfigurationAssignmentsForResourceGroupDeleteOptionalParams,
   ): Promise<ConfigurationAssignmentsForResourceGroupDeleteResponse>;
 }

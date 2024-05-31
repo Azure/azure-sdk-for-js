@@ -29,7 +29,7 @@ async function getAllLongTermRetentionBackupsUnderTheLocation() {
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.longTermRetentionManagedInstanceBackups.listByLocation(
-    locationName
+    locationName,
   )) {
     resArray.push(item);
   }
