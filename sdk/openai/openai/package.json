@@ -1,6 +1,6 @@
 {
   "name": "@azure/openai",
-  "version": "1.0.0-beta.13",
+  "version": "2.0.0-beta.1",
   "description": "An isomorphic client library for Azure OpenAI.",
   "sdk-type": "client",
   "main": "dist/index.cjs",

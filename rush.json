@@ -381,11 +381,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/openai-extra",
-      "projectFolder": "sdk/openai/openai-extra",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure-rest/openai",
       "projectFolder": "sdk/openai/openai-rest",
       "versionPolicyName": "client"

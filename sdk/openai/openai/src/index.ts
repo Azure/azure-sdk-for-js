@@ -1,138 +1,156 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/** *
- * [Azure OpenAI](https://learn.microsoft.com/azure/cognitive-services/openai/overview)
- * provides REST API access to OpenAI's powerful language models including the GPT-3,
- * Codex and Embeddings model series. In addition, the new GPT-4 and ChatGPT (gpt-35-turbo)
- * model series have now reached general availability. These models can be easily adapted
- * to your specific task including but not limited to content generation, summarization,
- * semantic search, and natural language to code translation.
- *
- * @packageDocumentation
- */
+import {
+  CompletionCreateParamsNonStreaming,
+  CompletionCreateParamsStreaming,
+  ChatCompletionCreateParamsNonStreaming,
+  ChatCompletionCreateParamsStreaming,
+  ChatCompletion,
+  ChatCompletionChunk,
+  ChatCompletionMessage,
+} from "openai/resources/index";
+import {
+  ContentFilterResultsForPromptOutput,
+  ChatFinishDetailsOutput,
+  ContentFilterResultsForChoiceOutput,
+  AzureChatEnhancementsOutput,
+  AzureChatExtensionsMessageContextOutput,
+} from "./outputModels";
+import { AzureChatExtensionConfiguration, AzureChatEnhancementConfiguration } from "./models";
 
-export { AzureKeyCredential } from "@azure/core-auth";
-export { OpenAIClient, OpenAIClientOptions } from "./OpenAIClient.js";
-export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
-export * from "./models/audio.js";
+declare module "openai/resources/index" {
+  interface CompletionCreateParamsNonStreaming {
+    /**
+     *   The configuration entries for Azure OpenAI chat extensions that use them.
+     *   This additional specification is only compatible with Azure OpenAI.
+     */
+    data_sources?: Array<AzureChatExtensionConfiguration>;
+    /** If provided, the configuration options for available Azure OpenAI chat enhancements. */
+    enhancements?: AzureChatEnhancementConfiguration;
+  }
+
+  interface CompletionCreateParamsStreaming {
+    /**
+     *   The configuration entries for Azure OpenAI chat extensions that use them.
+     *   This additional specification is only compatible with Azure OpenAI.
+     */
+    data_sources?: Array<AzureChatExtensionConfiguration>;
+    /** If provided, the configuration options for available Azure OpenAI chat enhancements. */
+    enhancements?: AzureChatEnhancementConfiguration;
+  }
+
+  interface ChatCompletionCreateParamsNonStreaming {
+    /**
+     *   The configuration entries for Azure OpenAI chat extensions that use them.
+     *   This additional specification is only compatible with Azure OpenAI.
+     */
+    data_sources?: Array<AzureChatExtensionConfiguration>;
+    /** If provided, the configuration options for available Azure OpenAI chat enhancements. */
+    enhancements?: AzureChatEnhancementConfiguration;
+  }
+
+  interface ChatCompletionCreateParamsStreaming {
+    /**
+     *   The configuration entries for Azure OpenAI chat extensions that use them.
+     *   This additional specification is only compatible with Azure OpenAI.
+     */
+    data_sources?: Array<AzureChatExtensionConfiguration>;
+    /** If provided, the configuration options for available Azure OpenAI chat enhancements. */
+    enhancements?: AzureChatEnhancementConfiguration;
+  }
+
+  // TODO: choice
+  interface ChatCompletion {
+    /**
+     * Content filtering results for zero or more prompts in the request. In a streaming request,
+     * results for different prompts may arrive at different times or in different orders.
+     */
+    prompt_filter_results?: Array<ContentFilterResultsForPromptOutput>;
+  }
+
+  interface ChatCompletionMessage {
+    /**
+     * If Azure OpenAI chat extensions are configured, this array represents the incremental steps performed by those
+     * extensions while processing the chat completions request.
+     */
+    context?: AzureChatExtensionsMessageContextOutput;
+  }
+
+  namespace ChatCompletion {
+    interface Choice {
+      /**
+       * The reason the model stopped generating tokens, together with any applicable details.
+       * This structured representation replaces 'finish_reason' for some models.
+       */
+      finish_details?: ChatFinishDetailsOutput;
+      /**
+       * Information about the content filtering category (hate, sexual, violence, self_harm), if it
+       * has been detected, as well as the severity level (very_low, low, medium, high-scale that
+       * determines the intensity and risk level of harmful content) and if it has been filtered or not.
+       */
+      content_filter_results?: ContentFilterResultsForChoiceOutput;
+      /**
+       * Represents the output results of Azure OpenAI enhancements to chat completions, as configured via the matching input
+       * provided in the request. This supplementary information is only available when using Azure OpenAI and only when the
+       * request is configured to use enhancements.
+       */
+      enhancements?: AzureChatEnhancementsOutput;
+    }
+  }
+  interface ChatCompletionChunk {
+    /**
+     * Content filtering results for zero or more prompts in the request. In a streaming request,
+     * results for different prompts may arrive at different times or in different orders.
+     */
+    prompt_filter_results?: Array<ContentFilterResultsForPromptOutput>;
+  }
+
+  namespace ChatCompletionChunk {
+    interface Choice {
+      /**
+       * The reason the model stopped generating tokens, together with any applicable details.
+       * This structured representation replaces 'finish_reason' for some models.
+       */
+      finish_details?: ChatFinishDetailsOutput;
+      /**
+       * Information about the content filtering category (hate, sexual, violence, self_harm), if it
+       * has been detected, as well as the severity level (very_low, low, medium, high-scale that
+       * determines the intensity and risk level of harmful content) and if it has been filtered or not.
+       */
+      content_filter_results?: ContentFilterResultsForChoiceOutput;
+      /**
+       * Represents the output results of Azure OpenAI enhancements to chat completions, as configured via the matching input
+       * provided in the request. This supplementary information is only available when using Azure OpenAI and only when the
+       * request is configured to use enhancements.
+       */
+      enhancements?: AzureChatEnhancementsOutput;
+    }
+
+    namespace Choice {
+      /**
+       * A chat completion delta generated by streamed model responses.
+       */
+      interface Delta {
+        /**
+         * If Azure OpenAI chat extensions are configured, this array represents the incremental steps performed by those
+         * extensions while processing the chat completions request.
+         */
+        context?: AzureChatExtensionsMessageContextOutput;
+      }
+    }
+  }
+}
+
 export {
-  AzureChatExtensionConfigurationUnion,
-  AzureExtensionsOptions,
-  Completions,
-  ContentFilterResultsForPrompt,
-  ContentFilterResultDetailsForPrompt,
-  ContentFilterResult,
-  ContentFilterSeverity,
-  ContentFilterDetectionResult,
-  ContentFilterBlocklistIdResult,
-  Choice,
-  ContentFilterResultsForChoice,
-  ContentFilterSuccessResultDetailsForPrompt,
-  ContentFilterErrorResults,
-  ContentFilterSuccessResultsForChoice,
-  ContentFilterCitedDetectionResult,
-  CompletionsLogProbabilityModel,
-  CompletionsFinishReason,
-  CompletionsUsage,
-  ChatRequestMessage,
-  ChatRequestSystemMessage,
-  ChatRequestUserMessage,
-  ChatMessageContentItem,
-  ChatMessageTextContentItem,
-  ChatMessageImageContentItem,
-  ChatMessageImageUrl,
-  ChatMessageImageDetailLevel,
-  ChatRequestAssistantMessage,
-  ChatCompletionsToolCall,
-  ChatCompletionsFunctionToolCall,
-  FunctionCall,
-  ChatRequestToolMessage,
-  ChatRequestFunctionMessage,
-  ChatRole,
-  FunctionDefinition,
-  FunctionCallPreset,
-  FunctionName,
-  AzureChatExtensionConfiguration,
-  AzureSearchChatExtensionConfiguration,
-  OnYourDataAuthenticationOptions,
-  OnYourDataApiKeyAuthenticationOptions,
-  OnYourDataConnectionStringAuthenticationOptions,
-  OnYourDataKeyAndKeyIdAuthenticationOptions,
-  OnYourDataEncodedApiKeyAuthenticationOptions,
-  OnYourDataAccessTokenAuthenticationOptions,
-  OnYourDataSystemAssignedManagedIdentityAuthenticationOptions,
-  OnYourDataUserAssignedManagedIdentityAuthenticationOptions,
-  OnYourDataAuthenticationType,
-  AzureSearchIndexFieldMappingOptions,
-  AzureSearchQueryType,
-  OnYourDataVectorizationSource,
-  OnYourDataEndpointVectorizationSource,
-  OnYourDataDeploymentNameVectorizationSource,
-  OnYourDataModelIdVectorizationSource,
-  OnYourDataVectorizationSourceType,
-  AzureMachineLearningIndexChatExtensionConfiguration,
-  AzureCosmosDBChatExtensionConfiguration,
-  AzureCosmosDBFieldMappingOptions,
-  ElasticsearchChatExtensionConfiguration,
-  ElasticsearchIndexFieldMappingOptions,
-  ElasticsearchQueryType,
-  PineconeChatExtensionConfiguration,
-  PineconeFieldMappingOptions,
-  AzureChatExtensionType,
-  AzureChatEnhancementConfiguration,
-  AzureChatGroundingEnhancementConfiguration,
-  AzureChatOCREnhancementConfiguration,
-  ChatCompletionsResponseFormat,
-  ChatCompletionsTextResponseFormat,
-  ChatCompletionsJsonResponseFormat,
-  ChatCompletionsToolDefinition,
-  ChatCompletionsFunctionToolDefinition,
-  ChatCompletionsToolSelectionPreset,
-  ChatCompletionsNamedToolSelection,
-  ChatCompletionsNamedFunctionToolSelection,
-  ChatCompletionsFunctionToolSelection,
-  ChatCompletions,
-  ChatChoice,
-  ChatResponseMessage,
-  AzureChatExtensionsMessageContext,
-  AzureChatExtensionDataSourceResponseCitation,
-  ChatChoiceLogProbabilityInfo,
-  ChatTokenLogProbabilityResult,
-  ChatTokenLogProbabilityInfo,
-  ChatFinishDetails,
-  StopFinishDetails,
-  MaxTokensFinishDetails,
-  AzureChatEnhancements,
-  AzureGroundingEnhancement,
-  AzureGroundingEnhancementLine,
-  AzureGroundingEnhancementLineSpan,
-  AzureGroundingEnhancementCoordinatePoint,
-  ImageSize,
-  ImageGenerationResponseFormat,
-  ImageGenerationQuality,
-  ImageGenerationStyle,
-  ImageGenerations,
-  ImageGenerationData,
-  ImageGenerationContentFilterResults,
-  ImageGenerationPromptFilterResults,
-  Embeddings,
-  EmbeddingItem,
-  EmbeddingsUsage,
-  ChatRequestMessageUnion,
-  ChatMessageContentItemUnion,
-  ChatCompletionsToolCallUnion,
-  OnYourDataAuthenticationOptionsUnion,
-  OnYourDataVectorizationSourceUnion,
-  ChatCompletionsResponseFormatUnion,
-  ChatCompletionsToolDefinitionUnion,
-  ChatCompletionsNamedToolSelectionUnion,
-  ChatFinishDetailsUnion,
-  GetCompletionsOptions,
-  GetChatCompletionsOptions,
-  GetImagesOptions,
-  GetEmbeddingsOptions,
-  EventStream,
-  OpenAIError,
-} from "./models/index.js";
-export { isOpenAIError } from "./api/index.js";
+  CompletionCreateParamsNonStreaming,
+  CompletionCreateParamsStreaming,
+  ChatCompletionCreateParamsNonStreaming,
+  ChatCompletionCreateParamsStreaming,
+  ChatCompletion,
+  ChatCompletionChunk,
+  ChatCompletionMessage,
+};
+export * from "./outputModels";
+export * from "./models";
+export { ErrorModel } from "@azure-rest/core-client";
