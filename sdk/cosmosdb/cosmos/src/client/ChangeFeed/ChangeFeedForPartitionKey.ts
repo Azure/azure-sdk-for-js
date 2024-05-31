@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
-import type { Container, Resource } from "../../client";
-import type { ClientContext } from "../../ClientContext";
-import { Constants, ResourceType, StatusCodes } from "../../common";
-import type { FeedOptions, Response } from "../../request";
-import { ErrorResponse } from "../../request";
+import { Container, Resource } from "../../client";
+import { ClientContext } from "../../ClientContext";
+import { Constants, ResourceType, StatusCodes, addContainerRid } from "../../common";
+import { FeedOptions, Response, ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
 import { PartitionKey, convertToInternalPartitionKey } from "../../documents";
@@ -167,6 +166,8 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       feedOptions.useLatestVersionFeed = false;
     }
     if (this.clientContext.enableEncryption) {
+      addContainerRid(this.container);
+      feedOptions.containerRid = this.container._rid;
       this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
         convertToInternalPartitionKey(this.partitionKey),
       );

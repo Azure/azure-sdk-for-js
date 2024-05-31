@@ -867,7 +867,7 @@ export interface CreateOperationInput {
 
 // @public
 export class Database {
-    constructor(client: CosmosClient, id: string, clientContext: ClientContext, encryptionManager?: EncryptionManager);
+    constructor(client: CosmosClient, id: string, clientContext: ClientContext, encryptionManager?: EncryptionManager, _rid?: string);
     // (undocumented)
     readonly client: CosmosClient;
     container(id: string): Container;
@@ -1231,6 +1231,7 @@ export interface FeedOptions extends SharedOptions {
     };
     allowUnboundedNonStreamingQueries?: boolean;
     bufferItems?: boolean;
+    containerRid?: string;
     // @deprecated
     continuation?: string;
     continuationToken?: string;
@@ -2120,8 +2121,8 @@ export interface RequestOptions extends SharedOptions {
         type: string;
         condition: string;
     };
-    collectionRid?: string;
     contentResponseOnWriteEnabled?: boolean;
+    containerRid?: string;
     databaseRid?: string;
     disableAutomaticIdGeneration?: boolean;
     enableScriptLogging?: boolean;

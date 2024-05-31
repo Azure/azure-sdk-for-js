@@ -5,11 +5,16 @@ import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import type { PartitionKeyRangeCache } from "../../routing";
 import { QueryRange } from "../../routing";
 import { FeedRangeQueue } from "./FeedRangeQueue";
-import type { ClientContext } from "../../ClientContext";
-import type { Container, Resource } from "../../client";
-import { Constants, SubStatusCodes, StatusCodes, ResourceType } from "../../common";
-import type { Response, FeedOptions } from "../../request";
-import { ErrorResponse } from "../../request";
+import { ClientContext } from "../../ClientContext";
+import { Container, Resource } from "../../client";
+import {
+  Constants,
+  SubStatusCodes,
+  StatusCodes,
+  ResourceType,
+  addContainerRid,
+} from "../../common";
+import { Response, FeedOptions, ErrorResponse } from "../../request";
 import { CompositeContinuationToken } from "./CompositeContinuationToken";
 import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
 import { extractOverlappingRanges } from "./changeFeedUtils";
@@ -428,6 +433,10 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     }
 
     const rangeId = await this.getPartitionRangeId(feedRange, diagnosticNode);
+    if (this.clientContext.enableEncryption) {
+      addContainerRid(this.container);
+      feedOptions.containerRid = this.container._rid;
+    }
     try {
       // startEpk and endEpk are only valid in case we want to fetch result for a part of partition and not the entire partition.
       const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
