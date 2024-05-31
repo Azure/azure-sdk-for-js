@@ -85,7 +85,9 @@
     "typescript": "~5.4.5"
   },
   "dependencies": {
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.0",
+    "openai": "^4.47.2",
+    "@azure-rest/core-client": "^1.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure OpenAI",

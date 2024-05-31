@@ -16,8 +16,8 @@ import {
   ContentFilterResultsForChoiceOutput,
   AzureChatEnhancementsOutput,
   AzureChatExtensionsMessageContextOutput,
-} from "./outputModels";
-import { AzureChatExtensionConfiguration, AzureChatEnhancementConfiguration } from "./models";
+} from "./outputModels.js";
+import { AzureChatExtensionConfiguration, AzureChatEnhancementConfiguration } from "./models.js";
 
 declare module "openai/resources/index" {
   interface CompletionCreateParamsNonStreaming {
@@ -151,6 +151,6 @@ export {
   ChatCompletionChunk,
   ChatCompletionMessage,
 };
-export * from "./outputModels";
-export * from "./models";
+export * from "./outputModels.js";
+export * from "./models.js";
 export { ErrorModel } from "@azure-rest/core-client";
