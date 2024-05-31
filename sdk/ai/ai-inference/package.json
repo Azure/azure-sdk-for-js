@@ -17,19 +17,8 @@
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
-  "module": "./dist-esm/src/rest/index.js",
-  "types": "./types/src/rest/ai-inference.d.ts",
-  "exports": {
-    ".": {
-      "types": "./types/src/rest/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist-esm/src/rest/index.js"
-    },
-    "./rest": {
-      "types": "./types/src/rest/index.d.ts",
-      "import": "./dist-esm/src/rest/index.js"
-    }
-  },
+  "module": "./dist-esm/src/index.js",
+  "types": "./types/ai-inference.d.ts",
   "repository": "github:Azure/azure-sdk-for-js",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference/README.md",
   "bugs": {
@@ -37,9 +26,8 @@
   },
   "files": [
     "dist/",
-    "dist-esm/src/rest",
-    "types/src/rest/ai-inference.d.ts",
-    "types/src/rest",
+    "dist-esm/src",
+    "types/ai-inference.d.ts",
     "README.md",
     "LICENSE",
     "CHANGELOG.md",
