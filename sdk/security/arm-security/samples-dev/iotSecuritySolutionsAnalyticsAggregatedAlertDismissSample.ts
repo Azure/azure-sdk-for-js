@@ -30,11 +30,12 @@ async function dismissAnAggregatedIoTSecuritySolutionAlert() {
   const aggregatedAlertName = "IoT_Bruteforce_Fail/2019-02-02/dismiss";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.iotSecuritySolutionsAnalyticsAggregatedAlert.dismiss(
-    resourceGroupName,
-    solutionName,
-    aggregatedAlertName
-  );
+  const result =
+    await client.iotSecuritySolutionsAnalyticsAggregatedAlert.dismiss(
+      resourceGroupName,
+      solutionName,
+      aggregatedAlertName,
+    );
   console.log(result);
 }
 

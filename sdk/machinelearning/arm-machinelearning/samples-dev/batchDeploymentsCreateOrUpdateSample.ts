@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   BatchDeployment,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates/updates a batch inference deployment (asynchronous).
@@ -21,15 +24,18 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/BatchDeployment/createOrUpdate.json
  */
 async function createOrUpdateBatchDeployment() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
   const body: BatchDeployment = {
     identity: {
       type: "SystemAssigned",
-      userAssignedIdentities: { string: {} }
+      userAssignedIdentities: { string: {} },
     },
     kind: "string",
     location: "string",
@@ -50,18 +56,20 @@ async function createOrUpdateBatchDeployment() {
       resources: {
         instanceCount: 1,
         instanceType: "string",
-        properties: { string: { "cd3c37dc-2876-4ca4-8a54-21bd7619724a": null } }
+        properties: {
+          string: { "cd3c37dc-2876-4ca4-8a54-21bd7619724a": null },
+        },
       },
-      retrySettings: { maxRetries: 1, timeout: "PT5M" }
+      retrySettings: { maxRetries: 1, timeout: "PT5M" },
     },
     sku: {
       name: "string",
       capacity: 1,
       family: "string",
       size: "string",
-      tier: "Free"
+      tier: "Free",
     },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -70,9 +78,13 @@ async function createOrUpdateBatchDeployment() {
     workspaceName,
     endpointName,
     deploymentName,
-    body
+    body,
   );
   console.log(result);
 }
 
-createOrUpdateBatchDeployment().catch(console.error);
+async function main() {
+  createOrUpdateBatchDeployment();
+}
+
+main().catch(console.error);

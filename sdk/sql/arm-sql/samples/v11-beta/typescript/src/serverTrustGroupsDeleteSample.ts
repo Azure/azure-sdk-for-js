@@ -32,7 +32,7 @@ async function dropServerTrustGroup() {
   const result = await client.serverTrustGroups.beginDeleteAndWait(
     resourceGroupName,
     locationName,
-    serverTrustGroupName
+    serverTrustGroupName,
   );
   console.log(result);
 }

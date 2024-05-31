@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DatabasesGetOptionalParams,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -36,7 +36,7 @@ async function getsADatabaseConfiguredWithDefaultEnclaveType() {
   const result = await client.databases.get(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }
@@ -60,7 +60,7 @@ async function getsADatabaseConfiguredWithVbsEnclaveType() {
   const result = await client.databases.get(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }
@@ -84,7 +84,7 @@ async function getsADatabaseWithAvailabilityZoneSpecified() {
   const result = await client.databases.get(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }
@@ -111,7 +111,7 @@ async function getsADatabaseWithDatabaseLevelKeysExpanded() {
     resourceGroupName,
     serverName,
     databaseName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -135,7 +135,7 @@ async function getsADatabase() {
   const result = await client.databases.get(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }

@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   Workspace,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a workspace with the specified parameters.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Workspace/create.json
  */
 async function createWorkspace() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "workspace-1234";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "workspace-1234";
   const workspaceName = "testworkspace";
   const parameters: Workspace = {
     description: "test description",
@@ -33,24 +39,25 @@ async function createWorkspace() {
     encryption: {
       identity: {
         userAssignedIdentity:
-          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workspace-1234/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testuai"
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workspace-1234/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testuai",
       },
       keyVaultProperties: {
         identityClientId: "",
         keyIdentifier:
           "https://testkv.vault.azure.net/keys/testkey/aabbccddee112233445566778899aabb",
         keyVaultArmId:
-          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workspace-1234/providers/Microsoft.KeyVault/vaults/testkv"
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workspace-1234/providers/Microsoft.KeyVault/vaults/testkv",
       },
-      status: "Enabled"
+      status: "Enabled",
     },
     friendlyName: "HelloName",
     hbiWorkspace: false,
     identity: {
       type: "SystemAssigned,UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/00000000111122223333444444444444/resourceGroups/workspace1234/providers/MicrosoftManagedIdentity/userAssignedIdentities/testuai": {}
-      }
+        "/subscriptions/00000000111122223333444444444444/resourceGroups/workspace1234/providers/MicrosoftManagedIdentity/userAssignedIdentities/testuai":
+          {},
+      },
     },
     keyVault:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workspace-1234/providers/Microsoft.KeyVault/vaults/testkv",
@@ -62,20 +69,24 @@ async function createWorkspace() {
         privateLinkResourceId:
           "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workspace-1234/providers/Microsoft.DocumentDB/databaseAccounts/testdbresource/privateLinkResources/Sql",
         requestMessage: "Please approve",
-        status: "Approved"
-      }
+        status: "Approved",
+      },
     ],
     storageAccount:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/accountcrud-1234/providers/Microsoft.Storage/storageAccounts/testStorageAccount"
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/accountcrud-1234/providers/Microsoft.Storage/storageAccounts/testStorageAccount",
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
   const result = await client.workspaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-createWorkspace().catch(console.error);
+async function main() {
+  createWorkspace();
+}
+
+main().catch(console.error);

@@ -1,21 +1,32 @@
 # Release History
 
-## 1.4.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## Unreleased ()
 
 ### Bugs Fixed
 
+- Setting the sampling ratio to 0 now correctly applies the value instead of defaulting to 1.
+
 ### Other Changes
 
-## 1.4.0 (2024-04-16)
+- Add support for tracking Application Insights shim usage to statsbeat.
 
-- Capture live metrics and live metrics activation in statsbeat.
+## 1.5.0 (2024-05-10)
 
 ### Features Added
 
+- Allow setting log level for winston and bunyan via environment variable.
+- Add Winston Log instrumentation.
+- Add log level configuration for Bunyan and Winston loggers.
+
+### Other Changes
+
+- Updated OpenTelemetry dependencies.
+
+## 1.4.0 (2024-04-16)
+
+### Features Added
+
+- Capture live metrics and live metrics activation in statsbeat.
 - Add support for Trace based sampling for logs.
 - Add support for Winston log instrumentation.
 

@@ -34,7 +34,7 @@ async function getTheLongTermRetentionPolicyForTheDatabase() {
   for await (let item of client.longTermRetentionPolicies.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

@@ -29,6 +29,7 @@ export const Constants = {
   partitionId: "partitionId",
   readOperation: "READ",
   TLS: "tls",
+  TCP: "tcp",
   establishConnection: "establishConnection",
   defaultConsumerGroup: "$default",
   eventHub: "eventhub",

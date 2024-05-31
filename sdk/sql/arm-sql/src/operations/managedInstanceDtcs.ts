@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   ManagedInstanceDtcsGetResponse,
   ManagedInstanceDtcsCreateOrUpdateOptionalParams,
   ManagedInstanceDtcsCreateOrUpdateResponse,
-  ManagedInstanceDtcsListByManagedInstanceNextResponse
+  ManagedInstanceDtcsListByManagedInstanceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,12 +55,12 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
   public listByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceDtcsListByManagedInstanceOptionalParams
+    options?: ManagedInstanceDtcsListByManagedInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceDtc> {
     const iter = this.listByManagedInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +77,9 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
           resourceGroupName,
           managedInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +87,7 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ManagedInstanceDtcsListByManagedInstanceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedInstanceDtc[]> {
     let result: ManagedInstanceDtcsListByManagedInstanceResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +95,7 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
       result = await this._listByManagedInstance(
         resourceGroupName,
         managedInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +107,7 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
         resourceGroupName,
         managedInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -119,12 +119,12 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
   private async *listByManagedInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceDtcsListByManagedInstanceOptionalParams
+    options?: ManagedInstanceDtcsListByManagedInstanceOptionalParams,
   ): AsyncIterableIterator<ManagedInstanceDtc> {
     for await (const page of this.listByManagedInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
   private _listByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceDtcsListByManagedInstanceOptionalParams
+    options?: ManagedInstanceDtcsListByManagedInstanceOptionalParams,
   ): Promise<ManagedInstanceDtcsListByManagedInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
-      listByManagedInstanceOperationSpec
+      listByManagedInstanceOperationSpec,
     );
   }
 
@@ -160,11 +160,11 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
     resourceGroupName: string,
     managedInstanceName: string,
     dtcName: DtcName,
-    options?: ManagedInstanceDtcsGetOptionalParams
+    options?: ManagedInstanceDtcsGetOptionalParams,
   ): Promise<ManagedInstanceDtcsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, dtcName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -182,7 +182,7 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
     managedInstanceName: string,
     dtcName: DtcName,
     parameters: ManagedInstanceDtc,
-    options?: ManagedInstanceDtcsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceDtcsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedInstanceDtcsCreateOrUpdateResponse>,
@@ -191,21 +191,20 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedInstanceDtcsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -214,8 +213,8 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -223,8 +222,8 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -235,16 +234,16 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
         managedInstanceName,
         dtcName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedInstanceDtcsCreateOrUpdateResponse,
       OperationState<ManagedInstanceDtcsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -264,14 +263,14 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
     managedInstanceName: string,
     dtcName: DtcName,
     parameters: ManagedInstanceDtc,
-    options?: ManagedInstanceDtcsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceDtcsCreateOrUpdateOptionalParams,
   ): Promise<ManagedInstanceDtcsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       managedInstanceName,
       dtcName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -288,11 +287,11 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: ManagedInstanceDtcsListByManagedInstanceNextOptionalParams
+    options?: ManagedInstanceDtcsListByManagedInstanceNextOptionalParams,
   ): Promise<ManagedInstanceDtcsListByManagedInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
-      listByManagedInstanceNextOperationSpec
+      listByManagedInstanceNextOperationSpec,
     );
   }
 }
@@ -300,94 +299,91 @@ export class ManagedInstanceDtcsImpl implements ManagedInstanceDtcs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByManagedInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dtc",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dtc",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceDtcListResult
+      bodyMapper: Mappers.ManagedInstanceDtcListResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion9],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dtc/{dtcName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedInstanceDtc
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.dtcName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dtc/{dtcName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedInstanceDtc,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion10],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.dtcName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dtc/{dtcName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/dtc/{dtcName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceDtc
+      bodyMapper: Mappers.ManagedInstanceDtc,
     },
     201: {
-      bodyMapper: Mappers.ManagedInstanceDtc
+      bodyMapper: Mappers.ManagedInstanceDtc,
     },
     202: {
-      bodyMapper: Mappers.ManagedInstanceDtc
+      bodyMapper: Mappers.ManagedInstanceDtc,
     },
     204: {
-      bodyMapper: Mappers.ManagedInstanceDtc
+      bodyMapper: Mappers.ManagedInstanceDtc,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters78,
-  queryParameters: [Parameters.apiVersion9],
+  requestBody: Parameters.parameters80,
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.dtcName
+    Parameters.dtcName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByManagedInstanceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceDtcListResult
+      bodyMapper: Mappers.ManagedInstanceDtcListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

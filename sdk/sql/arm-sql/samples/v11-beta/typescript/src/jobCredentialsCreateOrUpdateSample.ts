@@ -30,7 +30,7 @@ async function createOrUpdateACredential() {
   const credentialName = "cred1";
   const parameters: JobCredential = {
     password: "<password>",
-    username: "myuser"
+    username: "myuser",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -39,7 +39,7 @@ async function createOrUpdateACredential() {
     serverName,
     jobAgentName,
     credentialName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

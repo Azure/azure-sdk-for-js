@@ -9,7 +9,7 @@
 import {
   RestoreDetailsName,
   ManagedDatabaseRestoreDetailsGetOptionalParams,
-  ManagedDatabaseRestoreDetailsGetResponse
+  ManagedDatabaseRestoreDetailsGetResponse,
 } from "../models";
 
 /** Interface representing a ManagedDatabaseRestoreDetails. */
@@ -28,6 +28,6 @@ export interface ManagedDatabaseRestoreDetails {
     managedInstanceName: string,
     databaseName: string,
     restoreDetailsName: RestoreDetailsName,
-    options?: ManagedDatabaseRestoreDetailsGetOptionalParams
+    options?: ManagedDatabaseRestoreDetailsGetOptionalParams,
   ): Promise<ManagedDatabaseRestoreDetailsGetResponse>;
 }

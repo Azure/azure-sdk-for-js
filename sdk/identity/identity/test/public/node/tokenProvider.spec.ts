@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvironmentCredential, getBearerTokenProvider } from "../../../src";
+import { DefaultAzureCredential, getBearerTokenProvider } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
@@ -23,7 +23,7 @@ describe("getBearerTokenProvider", function () {
   const scope = "https://vault.azure.net/.default";
 
   it("returns a callback that returns string tokens", async function () {
-    const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
+    const credential = new DefaultAzureCredential(recorder.configureClientOptions({}));
 
     const getAccessToken = getBearerTokenProvider(credential, scope);
 

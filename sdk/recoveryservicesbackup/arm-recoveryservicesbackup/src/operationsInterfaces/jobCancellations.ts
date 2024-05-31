@@ -23,6 +23,6 @@ export interface JobCancellations {
     vaultName: string,
     resourceGroupName: string,
     jobName: string,
-    options?: JobCancellationsTriggerOptionalParams
+    options?: JobCancellationsTriggerOptionalParams,
   ): Promise<void>;
 }

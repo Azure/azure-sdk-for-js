@@ -123,9 +123,9 @@ export function communicationIdentifierConverter(
     identifierModel.microsoftTeamsApp !== undefined
   ) {
     const microsoftTeamsAppIdentifier: MicrosoftTeamsAppIdentifier = {
-      teamsAppId: identifierModel.microsoftTeamsApp.appId,
-      cloud: identifierModel.microsoftTeamsApp.cloud as "public" | "dod" | "gcch" | undefined,
       rawId: rawId,
+      teamsAppId: identifierModel.microsoftTeamsApp.appId,
+      cloud: identifierModel.microsoftTeamsApp.cloud as KnownCommunicationCloudEnvironmentModel,
     };
     return microsoftTeamsAppIdentifier;
   }
@@ -167,11 +167,11 @@ export function communicationIdentifierModelConverter(
   }
 
   if (isMicrosoftTeamsAppIdentifier(identifier)) {
-    const microsoftTeamsAppIdentifier: CommunicationIdentifierModel = {
+    const microsoftTeamsAppIdentifierModel: CommunicationIdentifierModel = {
       kind: KnownCommunicationIdentifierModelKind.MicrosoftTeamsApp,
       ...serializedIdentifier,
     };
-    return microsoftTeamsAppIdentifier;
+    return microsoftTeamsAppIdentifierModel;
   }
 
   if (isUnknownIdentifier(identifier)) {
