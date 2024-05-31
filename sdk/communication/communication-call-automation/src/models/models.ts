@@ -4,7 +4,6 @@
 import {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
-  MicrosoftTeamsAppIdentifier,
   MicrosoftTeamsUserIdentifier,
   MicrosoftTeamsAppIdentifier,
   PhoneNumberIdentifier,
