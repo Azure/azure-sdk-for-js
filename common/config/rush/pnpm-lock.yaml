@@ -275,6 +275,9 @@ dependencies:
   '@rush-temp/arm-deviceupdate':
     specifier: file:./projects/arm-deviceupdate.tgz
     version: file:projects/arm-deviceupdate.tgz
+  '@rush-temp/arm-devopsinfrastructure':
+    specifier: file:./projects/arm-devopsinfrastructure.tgz
+    version: file:projects/arm-devopsinfrastructure.tgz
   '@rush-temp/arm-devspaces':
     specifier: file:./projects/arm-devspaces.tgz
     version: file:projects/arm-devspaces.tgz
@@ -13978,6 +13981,37 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-devopsinfrastructure.tgz:
+    resolution: {integrity: sha512-agOPzyir3njIoVm8GrTT+SUrKZ7B2EwJEuAqj9j2sQEAEuiuIL5p3AGJafgKiEMZcdTv6mDX1r2v7qotem+BlA==, tarball: file:projects/arm-devopsinfrastructure.tgz}
+    name: '@rush-temp/arm-devopsinfrastructure'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.1.0
+      '@azure-tools/test-recorder': 3.5.0
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.2.0
+      '@microsoft/api-extractor': 7.45.1(@types/node@18.19.33)
+      '@types/chai': 4.3.16
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.33
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      esm: 3.2.25
+      mkdirp: 3.0.1
+      mocha: 10.4.0
+      rimraf: 5.0.7
+      ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
+      tslib: 2.6.2
+      typescript: 5.4.5
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/arm-devspaces.tgz:
     resolution: {integrity: sha512-4S6jJOao/eo9J1EnWIE/vkYtlYLRsTdMWryGe6ILyq3JGfQj7LIvuB9gT6r3yVI4oDhzo25/u7lVUTMSLhJ/wQ==, tarball: file:projects/arm-devspaces.tgz}
     name: '@rush-temp/arm-devspaces'
@@ -21697,7 +21731,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-RBEpLP5B1aAAf4iTK9r4N6g77n24F4zeaVZ0z9E6PFacbszFJ3h9I08r+w7KjSPKITOquC0+otdOJw2j/zsxvw==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-bez1TxrezRQsChge0JC8h1Yw+30+LfyTUCDwfZUEt5qSwigyIoAY+c1JP6ETGRZ0ZhWqPcKZEHchn8923jACug==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -21732,7 +21766,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-h+uhqPeVXpFWuwP2hECZ/VtNUBMda9US9itPi481shpCIS9lIXaTElGhR6+cdiasEfBgjOn5OW1jRks01yP2vw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-uHI/C3l3+w6e1PwyU3lcaw+ZIkkAnMVEwkS25/O1Bh/nJT5XWZWJeS5r6nK5bASCRJ9h/5VouPnwme45uiWOwA==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -21780,7 +21814,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-HbWJ6LVOP5aHHrp0Ve4YP6TJ1sbzFMenebQu2Uy1OlsxjjxfZr0FbSj20aHxliyVxMGhMN107PL9YeoLqExrYQ==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-+SUfKUZID+J5rONvscLV2mFT8ARnOiDhvDyiKtdBs8sauB/ht8rCY5Fvx2MTqwfIxeCxwNzVh9imhRTnFUPu/Q==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -21969,7 +22003,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-JZIZCjOmPbiKTkvQF7JtUNfbomWa6GE4a9ot6hvFA8PQmwN3WPb+0u7iEPt/rMIAASE+a6JkgHchQ+Q4PgOujA==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-odT/FVeffhudC/PGQIjGfFf83o5xvelcfY2GmfsffV6urdfJt+lEbd2ZpVa7iamWQQPeqBP1MDjTwrLXm1ygYQ==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -22306,7 +22340,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-CcTaHO08tDr9UWe44ob9/YIl4PpsYsQ7GczD6UAprlHR/Rcb3+XP2VKktNr4QcUZhsu6KHM8Dui6KbLmtmUtMg==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-L0p8dt8jdIoONSVU73sloWfrAU8M2Avaug9lVEM6kRdqwejCeQ6rwad78GIH0aGoxOOBH2/mRd0flReeo4Vrvw==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
