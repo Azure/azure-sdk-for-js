@@ -19,7 +19,7 @@ describe("AzurePipelinesCredential", function () {
     const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
     // clientId for above service connection
     const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
-    const systemAccessToken = process.env.SYSTEM_ACCESS_TOKEN!;
+    const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN!;
     const credential = new AzurePipelinesCredential(systemAccessToken, {
       tenantId,
       clientId,
