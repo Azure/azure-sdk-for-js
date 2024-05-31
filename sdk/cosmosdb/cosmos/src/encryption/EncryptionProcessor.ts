@@ -340,7 +340,7 @@ export class EncryptionProcessor {
           true,
         );
       } catch (retryErr) {
-        if (retryErr.statusCode !== 403) throw retryErr;
+        if (retryErr.statusCode !== StatusCodes.Forbidden) throw retryErr;
 
         // in case there's stale value in gateway cache. get fresh value from backend
         clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(

@@ -12,7 +12,7 @@ export class ClientEncryptionPolicy {
 
   constructor(includedPaths: ClientEncryptionIncludedPath[], policyFormatVersion?: number) {
     this.validatePolicyVersion(this.policyFormatVersion);
-    this.validateIncludedPaths(includedPaths, this.policyFormatVersion);
+    this.validateIncludedPaths(includedPaths);
     this.includedPaths = includedPaths;
     this.policyFormatVersion = policyFormatVersion || 1;
   }
@@ -23,10 +23,7 @@ export class ClientEncryptionPolicy {
     }
   }
 
-  private validateIncludedPaths(
-    includedPaths: ClientEncryptionIncludedPath[],
-    policyFormatVersion: number,
-  ) {
+  private validateIncludedPaths(includedPaths: ClientEncryptionIncludedPath[]) {
     const paths = new Set<string>();
     for (const includedPath of includedPaths) {
       if (paths.has(includedPath.path)) {
@@ -34,15 +31,12 @@ export class ClientEncryptionPolicy {
           `Duplicate path found: ${includedPath.path} in client encryption policy.`,
         );
       }
-      this.validateClientEncryptionIncludedPath(includedPath, policyFormatVersion);
+      this.validateClientEncryptionIncludedPath(includedPath);
       paths.add(includedPath.path);
     }
   }
 
-  private validateClientEncryptionIncludedPath(
-    includedPath: ClientEncryptionIncludedPath,
-    policyFormatVersion: number,
-  ) {
+  private validateClientEncryptionIncludedPath(includedPath: ClientEncryptionIncludedPath) {
     if (includedPath.path === undefined || includedPath.path === null || includedPath.path === "") {
       throw new ErrorResponse("Path needs to be defined in ClientEncryptionIncludedPath.");
     }

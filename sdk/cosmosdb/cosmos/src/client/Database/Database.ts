@@ -227,14 +227,6 @@ export class Database {
       );
     }
 
-    // if (keyWrapMetadata.type === EncryptionKeyResolverName.AzureKeyVault) {
-    //   // https://KEYVAULTNAME.vault.azure.net/keys/KEYNAME/KEYVERSION
-    //   const keyVaultUriSegments: string[] = new URL(keyWrapMetadata.value).pathname.split("/");
-
-    //   if (keyVaultUriSegments.length !== 4 || keyVaultUriSegments[1] !== "keys") {
-    //     throw new Error(`Invalid Key Vault URI '${keyWrapMetadata.value}' passed.`);
-    //   }
-    // }
     const keyEncryptionKey: KeyEncryptionKey =
       this.encryptionManager.keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
         keyWrapMetadata.name,

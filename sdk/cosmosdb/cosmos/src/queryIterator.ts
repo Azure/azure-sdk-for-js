@@ -369,7 +369,7 @@ export class QueryIterator<T> {
         const { resource: containerDefinition } = await this.container.read();
         this.container._rid = containerDefinition._rid;
       }
-      this.options.collectionRid = this.container._rid;
+      this.options.containerRid = this.container._rid;
     }
     if (this.isInitialized === true) {
       return;

@@ -6,6 +6,7 @@ import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
 import {
+  addContainerRid,
   copyObject,
   getIdFromLink,
   getPathFromLink,
@@ -391,13 +392,10 @@ export class Items {
       );
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       if (this.clientContext.enableEncryption) {
-        if (!this.container._rid) {
-          const { resource: containerDefinition } = await this.container.read();
-          this.container._rid = containerDefinition._rid;
-        }
+        addContainerRid(this.container);
         body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body);
-        options.collectionRid = this.container._rid;
+        options.containerRid = this.container._rid;
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
       const err = {};
@@ -492,11 +490,8 @@ export class Items {
       if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         options = options || {};
-        if (!this.container._rid) {
-          const { resource: containerDefinition } = await this.container.read();
-          this.container._rid = containerDefinition._rid;
-        }
-        options.collectionRid = this.container._rid;
+        addContainerRid(this.container);
+        options.containerRid = this.container._rid;
         body = await this.container.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
@@ -592,11 +587,8 @@ export class Items {
       if (this.clientContext.enableEncryption) {
         operations = copyObject(operations);
         options = options || {};
-        if (!this.container._rid) {
-          const { resource: containerDefinition } = await this.container.read();
-          this.container._rid = containerDefinition._rid;
-        }
-        options.collectionRid = this.container._rid;
+        addContainerRid(this.container);
+        options.containerRid = this.container._rid;
         operations = await this.bulkBatchEncryptionHelper(operations);
       }
 
@@ -756,11 +748,8 @@ export class Items {
       if (this.clientContext.enableEncryption) {
         operations = copyObject(operations);
         options = options || {};
-        if (!this.container._rid) {
-          const { resource: containerDefinition } = await this.container.read();
-          this.container._rid = containerDefinition._rid;
-        }
-        options.collectionRid = this.container._rid;
+        addContainerRid(this.container);
+        options.containerRid = this.container._rid;
         if (partitionKey) {
           const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
           partitionKey =

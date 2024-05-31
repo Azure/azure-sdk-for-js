@@ -411,7 +411,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         const { resource: containerDefinition } = await this.container.read();
         this.container._rid = containerDefinition._rid;
       }
-      feedOptions.collectionRid = this.container._rid;
+      feedOptions.containerRid = this.container._rid;
     }
     try {
       // startEpk and endEpk are only valid in case we want to fetch result for a part of partition and not the entire partition.

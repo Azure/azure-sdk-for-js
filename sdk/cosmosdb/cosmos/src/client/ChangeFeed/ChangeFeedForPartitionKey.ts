@@ -155,7 +155,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
           const { resource: containerDefinition } = await this.container.read();
           this.container._rid = containerDefinition._rid;
         }
-        feedOptions.collectionRid = this.container._rid;
+        feedOptions.containerRid = this.container._rid;
       }
       this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
         convertToInternalPartitionKey(this.partitionKey),
