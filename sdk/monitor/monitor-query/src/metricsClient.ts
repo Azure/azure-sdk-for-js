@@ -28,10 +28,10 @@ export class MetricsClient {
   private _metricBatchClient: GeneratedMonitorMetricClient;
   private _baseUrl: string;
 
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(
     endpoint: string,
     tokenCredential: TokenCredential,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: MetricsQueryClientOptions,
   ) {
     const scope: string = options?.audience
