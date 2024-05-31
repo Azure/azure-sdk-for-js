@@ -8,4 +8,4 @@ To run:
 npm install && npm start
 ```
 
-3. Open http://127.0.0.1:3000/ in your browser
+3. Open 127.0.0.1:3000/ in your browser
