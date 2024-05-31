@@ -62,7 +62,6 @@ export class ClientEncryptionPolicy {
     // TODO: add check for checking encryption type
     if (includedPath.path[0] !== "/") {
       throw new ErrorResponse("Path in ClientEncryptionIncludedPath needs to start with '/'.");
-      console.log(policyFormatVersion);
     }
     // TODO: place further checks for path
   }

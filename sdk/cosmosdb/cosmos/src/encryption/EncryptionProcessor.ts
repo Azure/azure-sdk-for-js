@@ -4,13 +4,14 @@
 import { EncryptionSettings } from "./EncryptionSettings";
 import { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
 import { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm";
-import { ContainerDefinition, ItemDefinition } from "../client";
+import { ContainerDefinition, DatabaseDefinition, ItemDefinition } from "../client";
 import { PartitionKeyInternal } from "../documents";
 import { TypeMarker } from "./enums/TypeMarker";
 import { ClientContext } from "../ClientContext";
 import { ClientEncryptionKeyRequest, ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import {
+  Constants,
   ResourceType,
   StatusCodes,
   createDeserializer,
@@ -325,7 +326,7 @@ export class EncryptionProcessor {
         this.encryptionManager,
       );
     } catch (err) {
-      if (err.code !== StatusCodes.Forbidden) throw err;
+      if (err.statusCode !== StatusCodes.Forbidden) throw err;
       // if access to key is revoked, and in case there's stale value in cache
       clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(
         propertySetting.encryptionKeyId,
@@ -336,24 +337,20 @@ export class EncryptionProcessor {
         return await propertySetting.buildEncryptionAlgorithm(
           clientEncryptionKeyProperties,
           this.encryptionManager,
+          true,
         );
       } catch (retryErr) {
-        if (retryErr.code !== 403) throw retryErr;
+        if (retryErr.statusCode !== 403) throw retryErr;
+
         // in case there's stale value in gateway cache. get fresh value from backend
-        try {
-          clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(
-            propertySetting.encryptionKeyId,
-            clientEncryptionKeyProperties.etag,
-          );
-          return await propertySetting.buildEncryptionAlgorithm(
-            clientEncryptionKeyProperties,
-            this.encryptionManager,
-          );
-        } catch (finalErr) {
-          throw new ErrorResponse(
-            `The Client Encryption Key with key id: ${propertySetting.encryptionKeyId} on database: ${this.databaseId} needs to be rewrapped with a valid Key Encryption Key using rewrapClientEncryptionKey. The Key Encryption Key used to wrap the Client Encryption Key has been revoked`,
-          );
-        }
+        clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(
+          propertySetting.encryptionKeyId,
+          clientEncryptionKeyProperties.etag,
+        );
+        return propertySetting.buildEncryptionAlgorithm(
+          clientEncryptionKeyProperties,
+          this.encryptionManager,
+        );
       }
     }
   }
@@ -367,15 +364,32 @@ export class EncryptionProcessor {
       const id = `dbs/${this.databaseId}/clientencryptionkeys/${cekId}`;
       const options: RequestOptions = {};
       if (cekEtag) {
-        options.accessCondition = { type: "IfNoneMatch", condition: cekEtag };
+        options.accessCondition = {
+          type: Constants.HttpHeaders.IfNoneMatch,
+          condition: cekEtag,
+        };
       }
+      const dbResponse = await this.clientContext.read<DatabaseDefinition>({
+        path: `/dbs/${this.databaseId}`,
+        resourceType: ResourceType.database,
+        resourceId: `dbs/${this.databaseId}`,
+        options,
+        diagnosticNode,
+      });
+      const dbRid = dbResponse.result._rid;
+      options.databaseRid = dbRid;
       const response = await this.clientContext.read<ClientEncryptionKeyRequest>({
         path: path,
         resourceType: ResourceType.clientencryptionkey,
         resourceId: id,
-        options: {},
+        options: options,
         diagnosticNode,
       });
+      if (response.code === StatusCodes.NotModified) {
+        throw new ErrorResponse(
+          `The Client Encryption Key with key id: ${cekId} on database: ${this.databaseId} needs to be rewrapped with a valid Key Encryption Key using rewrapClientEncryptionKey. The Key Encryption Key used to wrap the Client Encryption Key has been revoked`,
+        );
+      }
       const clientEncryptionKeyProperties = new ClientEncryptionKeyProperties(
         response.result.id,
         response.result.encryptionAlgorithm,

@@ -596,7 +596,6 @@ export class Items {
           const { resource: containerDefinition } = await this.container.read();
           this.container._rid = containerDefinition._rid;
         }
-        console.log("container._rid", this.container._rid);
         options.collectionRid = this.container._rid;
         operations = await this.bulkBatchEncryptionHelper(operations);
       }
