@@ -4,7 +4,7 @@
 /// <reference lib="esnext.asynciterable" />
 import { ClientContext } from "./ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
-import { getPathFromLink, ResourceType, StatusCodes } from "./common";
+import { addContainerRid, getPathFromLink, ResourceType, StatusCodes } from "./common";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,
@@ -365,10 +365,7 @@ export class QueryIterator<T> {
   private async init(): Promise<void> {
     // add rid to options if encryption is enable for client
     if (this.container && this.clientContext.enableEncryption) {
-      if (!this.container._rid) {
-        const { resource: containerDefinition } = await this.container.read();
-        this.container._rid = containerDefinition._rid;
-      }
+      addContainerRid(this.container);
       this.options.containerRid = this.container._rid;
     }
     if (this.isInitialized === true) {
