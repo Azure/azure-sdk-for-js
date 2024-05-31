@@ -33,8 +33,6 @@ export class AzurePipelinesCredential implements TokenCredential {
     const clientId = options?.clientId || process.env.AZURESUBSCRIPTION_CLIENT_ID;
     const serviceConnectionId =
       options?.serviceConnectionId || process.env.AZURESUBSCRIPTION_SERVICE_CONNECTION_ID;
-    logger.info(`system access token = ${systemAccessToken}`);
-    logger.info(`the env system access token = ${process.env.SYSTEM_ACCESSTOKEN!.substring(0)}`);
     if (!clientId || !tenantId || !serviceConnectionId) {
       throw new CredentialUnavailableError(
         `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required either as options parameters OR environment variables, namely - AZURESUBSCRIPTION_TENANT_ID, AZURESUBSCRIPTION_CLIENT_ID and AZURESUBSCRIPTION_SERVICE_CONNECTION_ID`
@@ -48,17 +46,14 @@ export class AzurePipelinesCredential implements TokenCredential {
 
     if (clientId && tenantId && serviceConnectionId) {
       this.ensurePipelinesSystemVars();
-      const oidcRequestUrl2 = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=${OIDC_API_VERSION}&serviceConnectionId=${serviceConnectionId}`;
-      logger.info(`old oidc token url: ${oidcRequestUrl2}`);
       const oidcRequestUrl = `${process.env.SYSTEM_OIDCREQUESTURI}?api-version=${OIDC_API_VERSION}&serviceConnectionId=${serviceConnectionId}`;
-      logger.info(`new oidc token url: ${oidcRequestUrl}`);
       logger.info(
         `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
       );
       this.clientAssertionCredential = new ClientAssertionCredential(
         tenantId,
         clientId,
-        this.requestOidcToken.bind(this, oidcRequestUrl),
+        this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
         options
       );
     }
@@ -97,7 +92,10 @@ export class AzurePipelinesCredential implements TokenCredential {
    * @param systemAccessToken - system access token
    * @returns OIDC token from Azure Pipelines
    */
-  private async requestOidcToken(oidcRequestUrl: string): Promise<string> {
+  private async requestOidcToken(
+    oidcRequestUrl: string,
+    systemAccessToken: string
+  ): Promise<string> {
     logger.info("Requesting OIDC token from Azure Pipelines...");
     logger.info(oidcRequestUrl);
     const request = createPipelineRequest({
@@ -106,7 +104,7 @@ export class AzurePipelinesCredential implements TokenCredential {
       headers: createHttpHeaders({
         "Content-Type": "application/json",
         "Content-Length": 0,
-        Authorization: `Bearer ${process.env.SYSTEM_ACCESSTOKEN}`,
+        Authorization: `Bearer ${systemAccessToken}`,
       }),
     });
     const response = await this.identityClient.sendRequest(request);
@@ -125,14 +123,6 @@ export class AzurePipelinesCredential implements TokenCredential {
       );
     }
     try {
-      if (response.status === 302) {
-        const redirectUrl = response.headers.get("location");
-        if (redirectUrl) {
-          logger.info("Redirecting OIDC authentication to redirect uri .. ");
-          logger.info(redirectUrl);
-          return await this.requestOidcToken(redirectUrl);
-        }
-      }
       const result = JSON.parse(text);
       if (result?.oidcToken) {
         return result.oidcToken;
@@ -160,16 +150,6 @@ export class AzurePipelinesCredential implements TokenCredential {
         }
       }
     } catch (e) {
-      if (response.status === 302) {
-        const redirectUrl = response.headers.get("location");
-        logger.info(`header -> ${redirectUrl}`);
-        if (redirectUrl) {
-          logger.info("Redirecting OIDC authentication to redirect uri .. ");
-          logger.info(redirectUrl);
-          const token = await this.requestOidcToken(redirectUrl);
-          return token;
-        }
-      }
       throw new AuthenticationError(
         response.status,
         `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`
