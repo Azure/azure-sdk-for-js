@@ -1,15 +1,11 @@
 This is a simple browser page demonstrating the completions API using the OpenAI JS SDK.
 
 To run:
-1.
+1. Copy the sample.env file to .env and fill in your Azure OpenAI endpoint and deployment.
+
+2. Run the following commands:
 ```
-npm install
+npm install && npm start
 ```
 
-2.
-```
-webpack --mode=development
-```
-
-3.
-Open completions.html in your web browser
+3. Open http://127.0.0.1:3000/ in your browser
