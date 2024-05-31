@@ -18,6 +18,12 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
+  // Ref: https://github.com/Azure/azure-sdk-tools/blob/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy/Common/SanitizerDictionary.cs
+  removeCentralSanitizers: [
+    "AZSDK2030", // HeaderRegexSanitizer("operation-location", value: "https://example.com")
+    "AZSDK3430", // BodyKeySanitizer("$..id")
+    "AZSDK3496", // BodyKeySanitizer("$..resourceLocation")
+  ],
 };
 
 /**

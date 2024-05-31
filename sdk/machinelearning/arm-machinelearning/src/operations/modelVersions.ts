@@ -23,7 +23,7 @@ import {
   ModelVersionsGetResponse,
   ModelVersionsCreateOrUpdateOptionalParams,
   ModelVersionsCreateOrUpdateResponse,
-  ModelVersionsListNextResponse
+  ModelVersionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,13 +50,13 @@ export class ModelVersionsImpl implements ModelVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: ModelVersionsListOptionalParams
+    options?: ModelVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<ModelVersion> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       name,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class ModelVersionsImpl implements ModelVersions {
           workspaceName,
           name,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class ModelVersionsImpl implements ModelVersions {
     workspaceName: string,
     name: string,
     options?: ModelVersionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ModelVersion[]> {
     let result: ModelVersionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class ModelVersionsImpl implements ModelVersions {
         resourceGroupName,
         workspaceName,
         name,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +107,7 @@ export class ModelVersionsImpl implements ModelVersions {
         workspaceName,
         name,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,13 +120,13 @@ export class ModelVersionsImpl implements ModelVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: ModelVersionsListOptionalParams
+    options?: ModelVersionsListOptionalParams,
   ): AsyncIterableIterator<ModelVersion> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       name,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,11 +143,11 @@ export class ModelVersionsImpl implements ModelVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: ModelVersionsListOptionalParams
+    options?: ModelVersionsListOptionalParams,
   ): Promise<ModelVersionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -164,11 +164,11 @@ export class ModelVersionsImpl implements ModelVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: ModelVersionsDeleteOptionalParams
+    options?: ModelVersionsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, version, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -185,11 +185,11 @@ export class ModelVersionsImpl implements ModelVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: ModelVersionsGetOptionalParams
+    options?: ModelVersionsGetOptionalParams,
   ): Promise<ModelVersionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, version, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -208,11 +208,11 @@ export class ModelVersionsImpl implements ModelVersions {
     name: string,
     version: string,
     body: ModelVersion,
-    options?: ModelVersionsCreateOrUpdateOptionalParams
+    options?: ModelVersionsCreateOrUpdateOptionalParams,
   ): Promise<ModelVersionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, version, body, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -229,11 +229,11 @@ export class ModelVersionsImpl implements ModelVersions {
     workspaceName: string,
     name: string,
     nextLink: string,
-    options?: ModelVersionsListNextOptionalParams
+    options?: ModelVersionsListNextOptionalParams,
   ): Promise<ModelVersionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -241,16 +241,15 @@ export class ModelVersionsImpl implements ModelVersions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelVersionResourceArmPaginatedResult
+      bodyMapper: Mappers.ModelVersionResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
@@ -263,28 +262,27 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.offset,
     Parameters.tags1,
     Parameters.properties1,
-    Parameters.feed
+    Parameters.feed,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -293,22 +291,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.name,
-    Parameters.version
+    Parameters.version,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelVersion
+      bodyMapper: Mappers.ModelVersion,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -317,25 +314,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.name,
-    Parameters.version
+    Parameters.version,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelVersion
+      bodyMapper: Mappers.ModelVersion,
     },
     201: {
-      bodyMapper: Mappers.ModelVersion
+      bodyMapper: Mappers.ModelVersion,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body15,
   queryParameters: [Parameters.apiVersion],
@@ -345,44 +341,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.name1,
-    Parameters.version
+    Parameters.version,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelVersionResourceArmPaginatedResult
+      bodyMapper: Mappers.ModelVersionResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.orderBy,
-    Parameters.top,
-    Parameters.listViewType,
-    Parameters.version1,
-    Parameters.description,
-    Parameters.offset,
-    Parameters.tags1,
-    Parameters.properties1,
-    Parameters.feed
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

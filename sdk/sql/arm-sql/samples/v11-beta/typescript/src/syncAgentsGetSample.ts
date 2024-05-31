@@ -33,7 +33,7 @@ async function getASyncAgent() {
   const result = await client.syncAgents.get(
     resourceGroupName,
     serverName,
-    syncAgentName
+    syncAgentName,
   );
   console.log(result);
 }

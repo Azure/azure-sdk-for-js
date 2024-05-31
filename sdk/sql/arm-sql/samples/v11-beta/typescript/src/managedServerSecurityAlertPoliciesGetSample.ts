@@ -33,7 +33,7 @@ async function getAManagedServerThreatDetectionPolicy() {
   const result = await client.managedServerSecurityAlertPolicies.get(
     resourceGroupName,
     managedInstanceName,
-    securityAlertPolicyName
+    securityAlertPolicyName,
   );
   console.log(result);
 }

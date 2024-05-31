@@ -25,7 +25,7 @@ import {
   ServiceSubmitBatchOptionalParams,
   ServiceSubmitBatchResponse,
   ServiceFilterBlobsOptionalParams,
-  ServiceFilterBlobsResponse
+  ServiceFilterBlobsResponse,
 } from "../models";
 
 /** Interface representing a Service. */
@@ -38,7 +38,7 @@ export interface Service {
    */
   setProperties(
     blobServiceProperties: BlobServiceProperties,
-    options?: ServiceSetPropertiesOptionalParams
+    options?: ServiceSetPropertiesOptionalParams,
   ): Promise<ServiceSetPropertiesResponse>;
   /**
    * gets the properties of a storage account's Blob service, including properties for Storage Analytics
@@ -46,7 +46,7 @@ export interface Service {
    * @param options The options parameters.
    */
   getProperties(
-    options?: ServiceGetPropertiesOptionalParams
+    options?: ServiceGetPropertiesOptionalParams,
   ): Promise<ServiceGetPropertiesResponse>;
   /**
    * Retrieves statistics related to replication for the Blob service. It is only available on the
@@ -55,14 +55,14 @@ export interface Service {
    * @param options The options parameters.
    */
   getStatistics(
-    options?: ServiceGetStatisticsOptionalParams
+    options?: ServiceGetStatisticsOptionalParams,
   ): Promise<ServiceGetStatisticsResponse>;
   /**
    * The List Containers Segment operation returns a list of the containers under the specified account
    * @param options The options parameters.
    */
   listContainersSegment(
-    options?: ServiceListContainersSegmentOptionalParams
+    options?: ServiceListContainersSegmentOptionalParams,
   ): Promise<ServiceListContainersSegmentResponse>;
   /**
    * Retrieves a user delegation key for the Blob service. This is only a valid operation when using
@@ -72,14 +72,14 @@ export interface Service {
    */
   getUserDelegationKey(
     keyInfo: KeyInfo,
-    options?: ServiceGetUserDelegationKeyOptionalParams
+    options?: ServiceGetUserDelegationKeyOptionalParams,
   ): Promise<ServiceGetUserDelegationKeyResponse>;
   /**
    * Returns the sku name and account kind
    * @param options The options parameters.
    */
   getAccountInfo(
-    options?: ServiceGetAccountInfoOptionalParams
+    options?: ServiceGetAccountInfoOptionalParams,
   ): Promise<ServiceGetAccountInfoResponse>;
   /**
    * The Batch operation allows multiple API calls to be embedded into a single HTTP request.
@@ -93,7 +93,7 @@ export interface Service {
     contentLength: number,
     multipartContentType: string,
     body: coreRestPipeline.RequestBodyType,
-    options?: ServiceSubmitBatchOptionalParams
+    options?: ServiceSubmitBatchOptionalParams,
   ): Promise<ServiceSubmitBatchResponse>;
   /**
    * The Filter Blobs operation enables callers to list blobs across all containers whose tags match a
@@ -102,6 +102,6 @@ export interface Service {
    * @param options The options parameters.
    */
   filterBlobs(
-    options?: ServiceFilterBlobsOptionalParams
+    options?: ServiceFilterBlobsOptionalParams,
   ): Promise<ServiceFilterBlobsResponse>;
 }

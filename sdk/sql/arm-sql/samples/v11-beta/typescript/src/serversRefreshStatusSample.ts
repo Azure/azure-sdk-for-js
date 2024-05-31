@@ -31,7 +31,7 @@ async function refreshExternalGovernanceEnablementStatus() {
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.servers.beginRefreshStatusAndWait(
     resourceGroupName,
-    serverName
+    serverName,
   );
   console.log(result);
 }

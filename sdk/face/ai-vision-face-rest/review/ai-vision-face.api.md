@@ -6,6 +6,8 @@
 
 /// <reference types="node" />
 
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { CreateHttpPollerOptions } from '@azure/core-lro';
@@ -14,7 +16,6 @@ import { KeyCredential } from '@azure/core-auth';
 import { OperationState } from '@azure/core-lro';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
-import { SimplePollerLike } from '@azure/core-lro';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -896,15 +897,6 @@ export interface CreateLivenessSessionContent {
     sendResultsToClient?: boolean;
 }
 
-// @public
-export interface CreateLivenessSessionContentForMultipart {
-    authTokenTimeToLiveInSeconds?: number;
-    deviceCorrelationId?: string;
-    deviceCorrelationIdSetInClient?: boolean;
-    livenessOperationMode: LivenessOperationMode;
-    sendResultsToClient?: boolean;
-}
-
 // @public (undocumented)
 export interface CreateLivenessSessionDefaultHeaders {
     "x-ms-error-code"?: string;
@@ -949,7 +941,7 @@ export type CreateLivenessWithVerifySessionContent = FormData | Array<CreateLive
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentParametersPartDescriptor {
     // (undocumented)
-    body: CreateLivenessSessionContentForMultipart;
+    body: CreateLivenessSessionContent;
     // (undocumented)
     name: "Parameters";
 }
@@ -3528,6 +3520,39 @@ export function isUnexpected(response: VerifyFromPersonDirectory200Response | Ve
 export function isUnexpected(response: Group200Response | GroupDefaultResponse): response is GroupDefaultResponse;
 
 // @public (undocumented)
+export function isUnexpected(response: CreateLivenessSession200Response | CreateLivenessSessionDefaultResponse): response is CreateLivenessSessionDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetLivenessSessions200Response | GetLivenessSessionsDefaultResponse): response is GetLivenessSessionsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeleteLivenessSession200Response | DeleteLivenessSessionDefaultResponse): response is DeleteLivenessSessionDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetLivenessSessionResult200Response | GetLivenessSessionResultDefaultResponse): response is GetLivenessSessionResultDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetLivenessSessionAuditEntries200Response | GetLivenessSessionAuditEntriesDefaultResponse): response is GetLivenessSessionAuditEntriesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CreateLivenessWithVerifySessionWithVerifyImage200Response | CreateLivenessWithVerifySessionWithVerifyImageDefaultResponse): response is CreateLivenessWithVerifySessionWithVerifyImageDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CreateLivenessWithVerifySession200Response | CreateLivenessWithVerifySessionDefaultResponse): response is CreateLivenessWithVerifySessionDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetLivenessWithVerifySessions200Response | GetLivenessWithVerifySessionsDefaultResponse): response is GetLivenessWithVerifySessionsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeleteLivenessWithVerifySession200Response | DeleteLivenessWithVerifySessionDefaultResponse): response is DeleteLivenessWithVerifySessionDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetLivenessWithVerifySessionResult200Response | GetLivenessWithVerifySessionResultDefaultResponse): response is GetLivenessWithVerifySessionResultDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetLivenessWithVerifySessionAuditEntries200Response | GetLivenessWithVerifySessionAuditEntriesDefaultResponse): response is GetLivenessWithVerifySessionAuditEntriesDefaultResponse;
+
+// @public (undocumented)
 export function isUnexpected(response: CreateFaceList200Response | CreateFaceListDefaultResponse): response is CreateFaceListDefaultResponse;
 
 // @public (undocumented)
@@ -3589,6 +3614,66 @@ export function isUnexpected(response: GetLargeFaceListFace200Response | GetLarg
 
 // @public (undocumented)
 export function isUnexpected(response: UpdateLargeFaceListFace200Response | UpdateLargeFaceListFaceDefaultResponse): response is UpdateLargeFaceListFaceDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CreatePerson202Response | CreatePersonLogicalResponse | CreatePersonDefaultResponse): response is CreatePersonDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetPersons200Response | GetPersonsDefaultResponse): response is GetPersonsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeletePerson202Response | DeletePersonLogicalResponse | DeletePersonDefaultResponse): response is DeletePersonDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetPerson200Response | GetPersonDefaultResponse): response is GetPersonDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: UpdatePerson200Response | UpdatePersonDefaultResponse): response is UpdatePersonDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetDynamicPersonGroupReferences200Response | GetDynamicPersonGroupReferencesDefaultResponse): response is GetDynamicPersonGroupReferencesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: AddPersonFace202Response | AddPersonFaceLogicalResponse | AddPersonFaceDefaultResponse): response is AddPersonFaceDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: AddPersonFaceFromUrl202Response | AddPersonFaceFromUrlLogicalResponse | AddPersonFaceFromUrlDefaultResponse): response is AddPersonFaceFromUrlDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetPersonFaces200Response | GetPersonFacesDefaultResponse): response is GetPersonFacesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeletePersonFace202Response | DeletePersonFaceLogicalResponse | DeletePersonFaceDefaultResponse): response is DeletePersonFaceDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetPersonFace200Response | GetPersonFaceDefaultResponse): response is GetPersonFaceDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: UpdatePersonFace200Response | UpdatePersonFaceDefaultResponse): response is UpdatePersonFaceDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CreateDynamicPersonGroupWithPerson202Response | CreateDynamicPersonGroupWithPersonLogicalResponse | CreateDynamicPersonGroupWithPersonDefaultResponse): response is CreateDynamicPersonGroupWithPersonDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CreateDynamicPersonGroup200Response | CreateDynamicPersonGroupDefaultResponse): response is CreateDynamicPersonGroupDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeleteDynamicPersonGroup202Response | DeleteDynamicPersonGroupLogicalResponse | DeleteDynamicPersonGroupDefaultResponse): response is DeleteDynamicPersonGroupDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetDynamicPersonGroup200Response | GetDynamicPersonGroupDefaultResponse): response is GetDynamicPersonGroupDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: UpdateDynamicPersonGroupWithPersonChanges202Response | UpdateDynamicPersonGroupWithPersonChangesLogicalResponse | UpdateDynamicPersonGroupWithPersonChangesDefaultResponse): response is UpdateDynamicPersonGroupWithPersonChangesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: UpdateDynamicPersonGroup200Response | UpdateDynamicPersonGroupDefaultResponse): response is UpdateDynamicPersonGroupDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetDynamicPersonGroups200Response | GetDynamicPersonGroupsDefaultResponse): response is GetDynamicPersonGroupsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetDynamicPersonGroupPersons200Response | GetDynamicPersonGroupPersonsDefaultResponse): response is GetDynamicPersonGroupPersonsDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: CreatePersonGroup200Response | CreatePersonGroupDefaultResponse): response is CreatePersonGroupDefaultResponse;
@@ -3692,99 +3777,6 @@ export function isUnexpected(response: GetLargePersonGroupPersonFace200Response 
 // @public (undocumented)
 export function isUnexpected(response: UpdateLargePersonGroupPersonFace200Response | UpdateLargePersonGroupPersonFaceDefaultResponse): response is UpdateLargePersonGroupPersonFaceDefaultResponse;
 
-// @public (undocumented)
-export function isUnexpected(response: CreatePerson202Response | CreatePersonLogicalResponse | CreatePersonDefaultResponse): response is CreatePersonDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetPersons200Response | GetPersonsDefaultResponse): response is GetPersonsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: DeletePerson202Response | DeletePersonLogicalResponse | DeletePersonDefaultResponse): response is DeletePersonDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetPerson200Response | GetPersonDefaultResponse): response is GetPersonDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: UpdatePerson200Response | UpdatePersonDefaultResponse): response is UpdatePersonDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetDynamicPersonGroupReferences200Response | GetDynamicPersonGroupReferencesDefaultResponse): response is GetDynamicPersonGroupReferencesDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: AddPersonFace202Response | AddPersonFaceLogicalResponse | AddPersonFaceDefaultResponse): response is AddPersonFaceDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: AddPersonFaceFromUrl202Response | AddPersonFaceFromUrlLogicalResponse | AddPersonFaceFromUrlDefaultResponse): response is AddPersonFaceFromUrlDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetPersonFaces200Response | GetPersonFacesDefaultResponse): response is GetPersonFacesDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: DeletePersonFace202Response | DeletePersonFaceLogicalResponse | DeletePersonFaceDefaultResponse): response is DeletePersonFaceDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetPersonFace200Response | GetPersonFaceDefaultResponse): response is GetPersonFaceDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: UpdatePersonFace200Response | UpdatePersonFaceDefaultResponse): response is UpdatePersonFaceDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: CreateDynamicPersonGroupWithPerson202Response | CreateDynamicPersonGroupWithPersonLogicalResponse | CreateDynamicPersonGroupWithPersonDefaultResponse): response is CreateDynamicPersonGroupWithPersonDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: CreateDynamicPersonGroup200Response | CreateDynamicPersonGroupDefaultResponse): response is CreateDynamicPersonGroupDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: DeleteDynamicPersonGroup202Response | DeleteDynamicPersonGroupLogicalResponse | DeleteDynamicPersonGroupDefaultResponse): response is DeleteDynamicPersonGroupDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetDynamicPersonGroup200Response | GetDynamicPersonGroupDefaultResponse): response is GetDynamicPersonGroupDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: UpdateDynamicPersonGroupWithPersonChanges202Response | UpdateDynamicPersonGroupWithPersonChangesLogicalResponse | UpdateDynamicPersonGroupWithPersonChangesDefaultResponse): response is UpdateDynamicPersonGroupWithPersonChangesDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: UpdateDynamicPersonGroup200Response | UpdateDynamicPersonGroupDefaultResponse): response is UpdateDynamicPersonGroupDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetDynamicPersonGroups200Response | GetDynamicPersonGroupsDefaultResponse): response is GetDynamicPersonGroupsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetDynamicPersonGroupPersons200Response | GetDynamicPersonGroupPersonsDefaultResponse): response is GetDynamicPersonGroupPersonsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: CreateLivenessSession200Response | CreateLivenessSessionDefaultResponse): response is CreateLivenessSessionDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetLivenessSessions200Response | GetLivenessSessionsDefaultResponse): response is GetLivenessSessionsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: DeleteLivenessSession200Response | DeleteLivenessSessionDefaultResponse): response is DeleteLivenessSessionDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetLivenessSessionResult200Response | GetLivenessSessionResultDefaultResponse): response is GetLivenessSessionResultDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetLivenessSessionAuditEntries200Response | GetLivenessSessionAuditEntriesDefaultResponse): response is GetLivenessSessionAuditEntriesDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: CreateLivenessWithVerifySessionWithVerifyImage200Response | CreateLivenessWithVerifySessionWithVerifyImageDefaultResponse): response is CreateLivenessWithVerifySessionWithVerifyImageDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: CreateLivenessWithVerifySession200Response | CreateLivenessWithVerifySessionDefaultResponse): response is CreateLivenessWithVerifySessionDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetLivenessWithVerifySessions200Response | GetLivenessWithVerifySessionsDefaultResponse): response is GetLivenessWithVerifySessionsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: DeleteLivenessWithVerifySession200Response | DeleteLivenessWithVerifySessionDefaultResponse): response is DeleteLivenessWithVerifySessionDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetLivenessWithVerifySessionResult200Response | GetLivenessWithVerifySessionResultDefaultResponse): response is GetLivenessWithVerifySessionResultDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetLivenessWithVerifySessionAuditEntries200Response | GetLivenessWithVerifySessionAuditEntriesDefaultResponse): response is GetLivenessWithVerifySessionAuditEntriesDefaultResponse;
-
 // @public
 export interface LandmarkCoordinateOutput {
     x: number;
@@ -3850,7 +3842,7 @@ export type LivenessDecisionOutput = string | "uncertain" | "realface" | "spooff
 export type LivenessModelOutput = string | "2020-02-15-preview.01" | "2021-11-12-preview.03" | "2022-10-15-preview.04" | "2023-03-02-preview.05";
 
 // @public
-export type LivenessOperationMode = string | "Passive";
+export type LivenessOperationMode = string | "Passive" | "PassiveActive";
 
 // @public
 export interface LivenessOutputsTargetOutput {
@@ -4017,6 +4009,12 @@ export interface Routes {
     (path: "/identify"): IdentifyFromPersonGroup;
     (path: "/verify"): VerifyFaceToFace;
     (path: "/group"): Group;
+    (path: "/detectLiveness/singleModal/sessions"): CreateLivenessSession;
+    (path: "/detectLiveness/singleModal/sessions/{sessionId}", sessionId: string): DeleteLivenessSession;
+    (path: "/detectLiveness/singleModal/sessions/{sessionId}/audit", sessionId: string): GetLivenessSessionAuditEntries;
+    (path: "/detectLivenessWithVerify/singleModal/sessions"): CreateLivenessWithVerifySessionWithVerifyImage;
+    (path: "/detectLivenessWithVerify/singleModal/sessions/{sessionId}", sessionId: string): DeleteLivenessWithVerifySession;
+    (path: "/detectLivenessWithVerify/singleModal/sessions/{sessionId}/audit", sessionId: string): GetLivenessWithVerifySessionAuditEntries;
     (path: "/facelists/{faceListId}", faceListId: string): CreateFaceList;
     (path: "/facelists"): GetFaceLists;
     (path: "/facelists/{faceListId}/persistedfaces", faceListId: string): AddFaceListFaceFromUrl;
@@ -4027,6 +4025,14 @@ export interface Routes {
     (path: "/largefacelists/{largeFaceListId}/train", largeFaceListId: string): TrainLargeFaceList;
     (path: "/largefacelists/{largeFaceListId}/persistedfaces", largeFaceListId: string): AddLargeFaceListFaceFromUrl;
     (path: "/largefacelists/{largeFaceListId}/persistedfaces/{persistedFaceId}", largeFaceListId: string, persistedFaceId: string): DeleteLargeFaceListFace;
+    (path: "/persons"): CreatePerson;
+    (path: "/persons/{personId}", personId: string): DeletePerson;
+    (path: "/persons/{personId}/dynamicPersonGroupReferences", personId: string): GetDynamicPersonGroupReferences;
+    (path: "/persons/{personId}/recognitionModels/{recognitionModel}/persistedfaces", personId: string, recognitionModel: RecognitionModel): AddPersonFace;
+    (path: "/persons/{personId}/recognitionModels/{recognitionModel}/persistedfaces/{persistedFaceId}", personId: string, recognitionModel: RecognitionModel, persistedFaceId: string): DeletePersonFace;
+    (path: "/dynamicpersongroups/{dynamicPersonGroupId}", dynamicPersonGroupId: string): CreateDynamicPersonGroupWithPerson;
+    (path: "/dynamicpersongroups"): GetDynamicPersonGroups;
+    (path: "/dynamicpersongroups/{dynamicPersonGroupId}/persons", dynamicPersonGroupId: string): GetDynamicPersonGroupPersons;
     (path: "/persongroups/{personGroupId}", personGroupId: string): CreatePersonGroup;
     (path: "/persongroups"): GetPersonGroups;
     (path: "/persongroups/{personGroupId}/training", personGroupId: string): GetPersonGroupTrainingStatus;
@@ -4043,20 +4049,27 @@ export interface Routes {
     (path: "/largepersongroups/{largePersonGroupId}/persons/{personId}", largePersonGroupId: string, personId: string): DeleteLargePersonGroupPerson;
     (path: "/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces", largePersonGroupId: string, personId: string): AddLargePersonGroupPersonFaceFromUrl;
     (path: "/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces/{persistedFaceId}", largePersonGroupId: string, personId: string, persistedFaceId: string): DeleteLargePersonGroupPersonFace;
-    (path: "/persons"): CreatePerson;
-    (path: "/persons/{personId}", personId: string): DeletePerson;
-    (path: "/persons/{personId}/dynamicPersonGroupReferences", personId: string): GetDynamicPersonGroupReferences;
-    (path: "/persons/{personId}/recognitionModels/{recognitionModel}/persistedfaces", personId: string, recognitionModel: RecognitionModel): AddPersonFace;
-    (path: "/persons/{personId}/recognitionModels/{recognitionModel}/persistedfaces/{persistedFaceId}", personId: string, recognitionModel: RecognitionModel, persistedFaceId: string): DeletePersonFace;
-    (path: "/dynamicpersongroups/{dynamicPersonGroupId}", dynamicPersonGroupId: string): CreateDynamicPersonGroupWithPerson;
-    (path: "/dynamicpersongroups"): GetDynamicPersonGroups;
-    (path: "/dynamicpersongroups/{dynamicPersonGroupId}/persons", dynamicPersonGroupId: string): GetDynamicPersonGroupPersons;
-    (path: "/detectLiveness/singleModal/sessions"): CreateLivenessSession;
-    (path: "/detectLiveness/singleModal/sessions/{sessionId}", sessionId: string): DeleteLivenessSession;
-    (path: "/detectLiveness/singleModal/sessions/{sessionId}/audit", sessionId: string): GetLivenessSessionAuditEntries;
-    (path: "/detectLivenessWithVerify/singleModal/sessions"): CreateLivenessWithVerifySessionWithVerifyImage;
-    (path: "/detectLivenessWithVerify/singleModal/sessions/{sessionId}", sessionId: string): DeleteLivenessWithVerifySession;
-    (path: "/detectLivenessWithVerify/singleModal/sessions/{sessionId}/audit", sessionId: string): GetLivenessWithVerifySessionAuditEntries;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

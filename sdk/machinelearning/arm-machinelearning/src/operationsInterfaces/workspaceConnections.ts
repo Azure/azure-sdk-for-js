@@ -14,7 +14,7 @@ import {
   WorkspaceConnectionsCreateResponse,
   WorkspaceConnectionsGetOptionalParams,
   WorkspaceConnectionsGetResponse,
-  WorkspaceConnectionsDeleteOptionalParams
+  WorkspaceConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface WorkspaceConnections {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceConnectionsListOptionalParams
+    options?: WorkspaceConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkspaceConnectionPropertiesV2BasicResource>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -42,7 +42,7 @@ export interface WorkspaceConnections {
     workspaceName: string,
     connectionName: string,
     parameters: WorkspaceConnectionPropertiesV2BasicResource,
-    options?: WorkspaceConnectionsCreateOptionalParams
+    options?: WorkspaceConnectionsCreateOptionalParams,
   ): Promise<WorkspaceConnectionsCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -54,7 +54,7 @@ export interface WorkspaceConnections {
     resourceGroupName: string,
     workspaceName: string,
     connectionName: string,
-    options?: WorkspaceConnectionsGetOptionalParams
+    options?: WorkspaceConnectionsGetOptionalParams,
   ): Promise<WorkspaceConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -66,6 +66,6 @@ export interface WorkspaceConnections {
     resourceGroupName: string,
     workspaceName: string,
     connectionName: string,
-    options?: WorkspaceConnectionsDeleteOptionalParams
+    options?: WorkspaceConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

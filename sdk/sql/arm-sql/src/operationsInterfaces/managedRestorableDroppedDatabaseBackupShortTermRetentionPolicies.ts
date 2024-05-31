@@ -17,7 +17,7 @@ import {
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams,
-  ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
+  ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicie
     resourceGroupName: string,
     managedInstanceName: string,
     restorableDroppedDatabaseId: string,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ManagedBackupShortTermRetentionPolicy>;
   /**
    * Gets a dropped database's short term retention policy.
@@ -51,10 +51,8 @@ export interface ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicie
     managedInstanceName: string,
     restorableDroppedDatabaseId: string,
     policyName: ManagedShortTermRetentionPolicyName,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetOptionalParams
-  ): Promise<
-    ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse
-  >;
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetOptionalParams,
+  ): Promise<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse>;
   /**
    * Sets a database's short term retention policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -71,12 +69,10 @@ export interface ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicie
     restorableDroppedDatabaseId: string,
     policyName: ManagedShortTermRetentionPolicyName,
     parameters: ManagedBackupShortTermRetentionPolicy,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
-      >,
+      OperationState<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse>,
       ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
     >
   >;
@@ -96,10 +92,8 @@ export interface ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicie
     restorableDroppedDatabaseId: string,
     policyName: ManagedShortTermRetentionPolicyName,
     parameters: ManagedBackupShortTermRetentionPolicy,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams
-  ): Promise<
-    ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
-  >;
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams,
+  ): Promise<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse>;
   /**
    * Sets a database's short term retention policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -116,12 +110,10 @@ export interface ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicie
     restorableDroppedDatabaseId: string,
     policyName: ManagedShortTermRetentionPolicyName,
     parameters: ManagedBackupShortTermRetentionPolicy,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
-      >,
+      OperationState<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse>,
       ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
     >
   >;
@@ -141,8 +133,6 @@ export interface ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicie
     restorableDroppedDatabaseId: string,
     policyName: ManagedShortTermRetentionPolicyName,
     parameters: ManagedBackupShortTermRetentionPolicy,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams
-  ): Promise<
-    ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
-  >;
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams,
+  ): Promise<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse>;
 }
