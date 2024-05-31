@@ -33,7 +33,7 @@ export class AzurePipelinesCredential implements TokenCredential {
     const clientId = options?.clientId || process.env.AZURESUBSCRIPTION_CLIENT_ID;
     const serviceConnectionId =
       options?.serviceConnectionId || process.env.AZURESUBSCRIPTION_SERVICE_CONNECTION_ID;
-
+    logger.info(`system access token = ${systemAccessToken}`);
     if (!clientId || !tenantId || !serviceConnectionId) {
       throw new CredentialUnavailableError(
         `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required either as options parameters OR environment variables, namely - AZURESUBSCRIPTION_TENANT_ID, AZURESUBSCRIPTION_CLIENT_ID and AZURESUBSCRIPTION_SERVICE_CONNECTION_ID`
@@ -57,7 +57,7 @@ export class AzurePipelinesCredential implements TokenCredential {
       this.clientAssertionCredential = new ClientAssertionCredential(
         tenantId,
         clientId,
-        this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
+        this.requestOidcToken.bind(this, oidcRequestUrl),
         options
       );
     }
@@ -96,10 +96,7 @@ export class AzurePipelinesCredential implements TokenCredential {
    * @param systemAccessToken - system access token
    * @returns OIDC token from Azure Pipelines
    */
-  private async requestOidcToken(
-    oidcRequestUrl: string,
-    systemAccessToken: string
-  ): Promise<string> {
+  private async requestOidcToken(oidcRequestUrl: string): Promise<string> {
     logger.info("Requesting OIDC token from Azure Pipelines...");
     logger.info(oidcRequestUrl);
     const request = createPipelineRequest({
@@ -108,7 +105,7 @@ export class AzurePipelinesCredential implements TokenCredential {
       headers: createHttpHeaders({
         "Content-Type": "application/json",
         "Content-Length": 0,
-        Authorization: `Bearer ${systemAccessToken}`,
+        Authorization: `Bearer ${process.env.SYSTEM_ACCESSTOKEN}`,
       }),
     });
     const response = await this.identityClient.sendRequest(request);
@@ -164,6 +161,7 @@ export class AzurePipelinesCredential implements TokenCredential {
     } catch (e) {
       if (response.status === 302) {
         const redirectUrl = response.headers.get("location");
+        logger.info(`header -> ${redirectUrl}`);
         if (redirectUrl) {
           logger.info("Redirecting OIDC authentication to redirect uri .. ");
           logger.info(redirectUrl);
