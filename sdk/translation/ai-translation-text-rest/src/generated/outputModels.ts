@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /** Response for the languages API. */
-export interface GetLanguagesResultOutput {
+export interface GetSupportedLanguagesResultOutput {
   /** Languages that support translate API. */
   translation?: Record<string, TranslationLanguageOutput>;
   /** Languages that support transliteration API. */
@@ -21,7 +21,7 @@ export interface TranslationLanguageOutput {
   /** Display name of the language in the locale native for this language. */
   nativeName: string;
   /** Directionality, which is rtl for right-to-left languages or ltr for left-to-right languages. */
-  dir: string;
+  dir: LanguageDirectionalityOutput;
 }
 
 /**
@@ -39,13 +39,13 @@ export interface TransliterationLanguageOutput {
 }
 
 /** Script definition with list of script into which given script can be translitered. */
-export interface TransliterableScriptOutput extends CommonScriptModelOutput {
+export interface TransliterableScriptOutput extends LanguageScriptOutput {
   /** List of scripts available to convert text to. */
-  toScripts: Array<CommonScriptModelOutput>;
+  toScripts: Array<LanguageScriptOutput>;
 }
 
 /** Common properties of language script */
-export interface CommonScriptModelOutput {
+export interface LanguageScriptOutput {
   /** Code identifying the script. */
   code: string;
   /** Display name of the script in the locale requested via Accept-Language header. */
@@ -53,7 +53,7 @@ export interface CommonScriptModelOutput {
   /** Display name of the language in the locale native for the language. */
   nativeName: string;
   /** Directionality, which is rtl for right-to-left languages or ltr for left-to-right languages. */
-  dir: string;
+  dir: LanguageDirectionalityOutput;
 }
 
 /** Properties ot the source dictionary language */
@@ -63,7 +63,7 @@ export interface SourceDictionaryLanguageOutput {
   /** Display name of the language in the locale native for this language. */
   nativeName: string;
   /** Directionality, which is rtl for right-to-left languages or ltr for left-to-right languages. */
-  dir: string;
+  dir: LanguageDirectionalityOutput;
   /** List of languages with alterative translations and examples for the query expressed in the source language. */
   translations: Array<TargetDictionaryLanguageOutput>;
 }
@@ -75,7 +75,7 @@ export interface TargetDictionaryLanguageOutput {
   /** Display name of the language in the locale native for this language. */
   nativeName: string;
   /** Directionality, which is rtl for right-to-left languages or ltr for left-to-right languages. */
-  dir: string;
+  dir: LanguageDirectionalityOutput;
   /** Language code identifying the target language. */
   code: string;
 }
@@ -102,7 +102,7 @@ export interface TranslatedTextItemOutput {
    * An array of translation results. The size of the array matches the number of target
    * languages specified through the to query parameter.
    */
-  translations: Array<TranslationOutput>;
+  translations: Array<TranslationTextOutput>;
   /**
    * Input text in the default script of the source language. sourceText property is present only when
    * the input is expressed in a script that's not the usual script for the language. For example,
@@ -124,7 +124,7 @@ export interface DetectedLanguageOutput {
 }
 
 /** Translation result */
-export interface TranslationOutput {
+export interface TranslationTextOutput {
   /** A string representing the language code of the target language. */
   to: string;
   /** A string giving the translated text. */
@@ -134,7 +134,7 @@ export interface TranslationOutput {
   /** Alignment information. */
   alignment?: TranslatedTextAlignmentOutput;
   /** Sentence boundaries in the input and output texts. */
-  sentLen?: SentenceLengthOutput;
+  sentLen?: SentenceBoundariesOutput;
 }
 
 /** Transliterated text element. */
@@ -159,7 +159,7 @@ export interface TranslatedTextAlignmentOutput {
 }
 
 /** An object returning sentence boundaries in the input and output texts. */
-export interface SentenceLengthOutput {
+export interface SentenceBoundariesOutput {
   /**
    * An integer array representing the lengths of the sentences in the input text.
    * The length of the array is the number of sentences, and the values are the length of each sentence.
@@ -318,3 +318,6 @@ export interface DictionaryExampleOutput {
   /** A string similar to sourceSuffix but for the target. */
   targetSuffix: string;
 }
+
+/** Language Directionality */
+export type LanguageDirectionalityOutput = "ltr" | "rtl";

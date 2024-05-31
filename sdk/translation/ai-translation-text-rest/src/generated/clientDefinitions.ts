@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import {
-  GetLanguagesParameters,
+  GetSupportedLanguagesParameters,
   TranslateParameters,
   TransliterateParameters,
   FindSentenceBoundariesParameters,
   LookupDictionaryEntriesParameters,
   LookupDictionaryExamplesParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
-  GetLanguages200Response,
-  GetLanguagesDefaultResponse,
+  GetSupportedLanguages200Response,
+  GetSupportedLanguagesDefaultResponse,
   Translate200Response,
   TranslateDefaultResponse,
   Transliterate200Response,
@@ -22,14 +22,16 @@ import {
   LookupDictionaryEntriesDefaultResponse,
   LookupDictionaryExamples200Response,
   LookupDictionaryExamplesDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
-export interface GetLanguages {
+export interface GetSupportedLanguages {
   /** Gets the set of languages currently supported by other operations of the Translator. */
   get(
-    options?: GetLanguagesParameters,
-  ): StreamableMethod<GetLanguages200Response | GetLanguagesDefaultResponse>;
+    options?: GetSupportedLanguagesParameters,
+  ): StreamableMethod<
+    GetSupportedLanguages200Response | GetSupportedLanguagesDefaultResponse
+  >;
 }
 
 export interface Translate {
@@ -50,14 +52,18 @@ export interface FindSentenceBoundaries {
   /** Find Sentence Boundaries */
   post(
     options: FindSentenceBoundariesParameters,
-  ): StreamableMethod<FindSentenceBoundaries200Response | FindSentenceBoundariesDefaultResponse>;
+  ): StreamableMethod<
+    FindSentenceBoundaries200Response | FindSentenceBoundariesDefaultResponse
+  >;
 }
 
 export interface LookupDictionaryEntries {
   /** Lookup Dictionary Entries */
   post(
     options: LookupDictionaryEntriesParameters,
-  ): StreamableMethod<LookupDictionaryEntries200Response | LookupDictionaryEntriesDefaultResponse>;
+  ): StreamableMethod<
+    LookupDictionaryEntries200Response | LookupDictionaryEntriesDefaultResponse
+  >;
 }
 
 export interface LookupDictionaryExamples {
@@ -65,13 +71,14 @@ export interface LookupDictionaryExamples {
   post(
     options: LookupDictionaryExamplesParameters,
   ): StreamableMethod<
-    LookupDictionaryExamples200Response | LookupDictionaryExamplesDefaultResponse
+    | LookupDictionaryExamples200Response
+    | LookupDictionaryExamplesDefaultResponse
   >;
 }
 
 export interface Routes {
   /** Resource for '/languages' has methods for the following verbs: get */
-  (path: "/languages"): GetLanguages;
+  (path: "/languages"): GetSupportedLanguages;
   /** Resource for '/translate' has methods for the following verbs: post */
   (path: "/translate"): Translate;
   /** Resource for '/transliterate' has methods for the following verbs: post */

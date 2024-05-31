@@ -1,15 +1,9 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0 (2024-05-21)
 
 ### Features Added
 - Added support for AAD authentication.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.0.0-beta.1 (2023-04-18)
 Initial release
