@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -2203,8 +2203,18 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-devopsinfrastructure",
+      "projectFolder": "sdk/devopsinfrastructure/arm-devopsinfrastructure",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure-rest/ai-vision-face",
       "projectFolder": "sdk/face/ai-vision-face-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-informaticadatamanagement",
+      "projectFolder": "sdk/informatica/arm-informaticadatamanagement",
       "versionPolicyName": "client"
     },
     {
