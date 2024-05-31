@@ -1,14 +1,20 @@
 # Release History
 
-## 1.0.3 (Unreleased)
+## 2.0.0 (Unreleased)
 
 ### Features Added
 
+- Added `toSupportTracing` as a matcher for `expect` to check if a given object supports tracing.
+
 ### Breaking Changes
 
-### Bugs Fixed
+- Removed multi-version test support as it was tied to Mocha.
+- Removed chai based assertions in favor of vitest based assertions.
 
 ### Other Changes
+
+- Moved from Mocha to vitest for testing.
+- Moved core to ESM with builds for CommonJS, React-Native, Browser and ESM.
 
 ## 1.0.2 (2024-05-28)
 
