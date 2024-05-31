@@ -374,6 +374,9 @@ dependencies:
   '@rush-temp/arm-imagebuilder':
     specifier: file:./projects/arm-imagebuilder.tgz
     version: file:projects/arm-imagebuilder.tgz
+  '@rush-temp/arm-informaticadatamanagement':
+    specifier: file:./projects/arm-informaticadatamanagement.tgz
+    version: file:projects/arm-informaticadatamanagement.tgz
   '@rush-temp/arm-iotcentral':
     specifier: file:./projects/arm-iotcentral.tgz
     version: file:projects/arm-iotcentral.tgz
@@ -3334,7 +3337,7 @@ packages:
   /@types/bunyan@1.8.9:
     resolution: {integrity: sha512-ZqS9JGpBxVOvsawzmVt30sP++gSQMTejCkIAQ3VdadOcRE8izTyW66hufvwLeH+YEGP6Js2AW7Gz+RMyvrEbmw==}
     dependencies:
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
     dev: false
 
   /@types/chai-as-promised@7.1.8:
@@ -3366,7 +3369,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
     dev: false
 
   /@types/debug@4.1.12:
@@ -3535,13 +3538,13 @@ packages:
   /@types/mysql@2.15.22:
     resolution: {integrity: sha512-wK1pzsJVVAjYCSZWQoWHziQZbNggXFDUEIGf54g4ZM/ERuP86uGdWeKZWMYlqTPMZfHJJvLPyogXGvCOg87yLQ==}
     dependencies:
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
     dev: false
 
   /@types/node-fetch@2.6.11:
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
       form-data: 4.0.0
     dev: false
 
@@ -3570,7 +3573,7 @@ packages:
   /@types/pg@8.6.1:
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
       pg-protocol: 1.6.1
       pg-types: 2.2.0
     dev: false
@@ -3609,7 +3612,7 @@ packages:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
     dev: false
 
   /@types/serve-static@1.15.7:
@@ -3643,7 +3646,7 @@ packages:
   /@types/through@0.0.33:
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
     dependencies:
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
     dev: false
 
   /@types/triple-beam@1.3.5:
@@ -3657,7 +3660,7 @@ packages:
   /@types/tunnel@0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
     dev: false
 
   /@types/underscore@1.11.15:
@@ -3698,7 +3701,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
     dev: false
     optional: true
 
@@ -5446,7 +5449,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -14953,6 +14956,37 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-informaticadatamanagement.tgz:
+    resolution: {integrity: sha512-4ZoBX8l7MMUojMK0UPDFYD+WekFgLiDDH1gXAxCxbiQK7DsI6slk4e1jA92nZVKhcOeKjQlvxUazv3npWw/7aA==, tarball: file:projects/arm-informaticadatamanagement.tgz}
+    name: '@rush-temp/arm-informaticadatamanagement'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.1.0
+      '@azure-tools/test-recorder': 3.5.0
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.2.0
+      '@microsoft/api-extractor': 7.45.1(@types/node@18.19.33)
+      '@types/chai': 4.3.16
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.33
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      mkdirp: 3.0.1
+      mocha: 10.4.0
+      rimraf: 5.0.7
+      ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
+      tslib: 2.6.2
+      tsx: 4.11.0
+      typescript: 5.4.5
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/arm-iotcentral.tgz:
     resolution: {integrity: sha512-liQqudKElxS9BDABTXg+hbiIBssUx0hntlGZ2dXBaBT3gfaT1NMcKWyobXA3n4ASvEuRK1N+SfWmgMLYPFeYiA==, tarball: file:projects/arm-iotcentral.tgz}
     name: '@rush-temp/arm-iotcentral'
@@ -21697,7 +21731,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-RBEpLP5B1aAAf4iTK9r4N6g77n24F4zeaVZ0z9E6PFacbszFJ3h9I08r+w7KjSPKITOquC0+otdOJw2j/zsxvw==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-bez1TxrezRQsChge0JC8h1Yw+30+LfyTUCDwfZUEt5qSwigyIoAY+c1JP6ETGRZ0ZhWqPcKZEHchn8923jACug==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -21732,7 +21766,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-h+uhqPeVXpFWuwP2hECZ/VtNUBMda9US9itPi481shpCIS9lIXaTElGhR6+cdiasEfBgjOn5OW1jRks01yP2vw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-uHI/C3l3+w6e1PwyU3lcaw+ZIkkAnMVEwkS25/O1Bh/nJT5XWZWJeS5r6nK5bASCRJ9h/5VouPnwme45uiWOwA==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -21780,7 +21814,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-HbWJ6LVOP5aHHrp0Ve4YP6TJ1sbzFMenebQu2Uy1OlsxjjxfZr0FbSj20aHxliyVxMGhMN107PL9YeoLqExrYQ==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-+SUfKUZID+J5rONvscLV2mFT8ARnOiDhvDyiKtdBs8sauB/ht8rCY5Fvx2MTqwfIxeCxwNzVh9imhRTnFUPu/Q==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -21859,7 +21893,7 @@ packages:
     dev: false
 
   file:projects/openai-1.tgz:
-    resolution: {integrity: sha512-/hEWC93Y6dGctnxyu7/GluD2agiwmTNkPA3VqRdb59ocDjHt93+5RXdTWrVl3kFWgk1vzbf/4tgnG3M936ScvQ==, tarball: file:projects/openai-1.tgz}
+    resolution: {integrity: sha512-gFcXBdZe6oWK1h7f/03QoCi7ZodEgJWDRZvV3BfmkhSj0tioEwE3lrJPff0HyBN3aA5umO+ZyIonMD5DmmJQHg==, tarball: file:projects/openai-1.tgz}
     name: '@rush-temp/openai-1'
     version: 0.0.0
     dependencies:
@@ -21890,7 +21924,7 @@ packages:
       mocha: 10.4.0
       nyc: 15.1.0
       puppeteer: 22.10.0(typescript@5.4.5)
-      rimraf: 3.0.2
+      rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
       typescript: 5.4.5
@@ -21904,7 +21938,7 @@ packages:
     dev: false
 
   file:projects/openai-assistants.tgz:
-    resolution: {integrity: sha512-HHjJ5/7nk0PjHl396f+p6z0wjxj4uT7/y0fgFnDn+/zt7UYZ5SAgH3p+hpPBbCWvLdw1JwRoks29LsOtTjDxQA==, tarball: file:projects/openai-assistants.tgz}
+    resolution: {integrity: sha512-WsbOMkCS7dkBU+b0ERboF8zYs8x7Y4a3DskldgFoZau4AMjaqneie92hfNXJeorQMMWbC0vpVYDI3j825shy8Q==, tarball: file:projects/openai-assistants.tgz}
     name: '@rush-temp/openai-assistants'
     version: 0.0.0
     dependencies:
@@ -21932,7 +21966,7 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.4.0
       nyc: 15.1.0
-      rimraf: 3.0.2
+      rimraf: 5.0.7
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
@@ -21969,7 +22003,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-JZIZCjOmPbiKTkvQF7JtUNfbomWa6GE4a9ot6hvFA8PQmwN3WPb+0u7iEPt/rMIAASE+a6JkgHchQ+Q4PgOujA==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-odT/FVeffhudC/PGQIjGfFf83o5xvelcfY2GmfsffV6urdfJt+lEbd2ZpVa7iamWQQPeqBP1MDjTwrLXm1ygYQ==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -22306,7 +22340,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-CcTaHO08tDr9UWe44ob9/YIl4PpsYsQ7GczD6UAprlHR/Rcb3+XP2VKktNr4QcUZhsu6KHM8Dui6KbLmtmUtMg==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-L0p8dt8jdIoONSVU73sloWfrAU8M2Avaug9lVEM6kRdqwejCeQ6rwad78GIH0aGoxOOBH2/mRd0flReeo4Vrvw==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -23594,7 +23628,7 @@ packages:
     dev: false
 
   file:projects/template-dpg.tgz:
-    resolution: {integrity: sha512-era64OOVVbq7t8sO6CuyVXIMzWBhkJQuVHIYTqjH0jyQPkgbo8waOhwsfEz0sK7dGChhDniYlwP+vnFp/lu6lg==, tarball: file:projects/template-dpg.tgz}
+    resolution: {integrity: sha512-SGarOplEG6BfERUuKVFLmU2ff8N0sE8EsMAsrSmSk18S7hbnTqMlV1adgXZHuSM0AdmoI3PhYxnetwzNv06ZoA==, tarball: file:projects/template-dpg.tgz}
     name: '@rush-temp/template-dpg'
     version: 0.0.0
     dependencies:
@@ -23622,7 +23656,7 @@ packages:
       mocha: 10.4.0
       nyc: 15.1.0
       puppeteer: 22.10.0(typescript@5.4.5)
-      rimraf: 3.0.2
+      rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
       typescript: 5.4.5
@@ -23830,14 +23864,14 @@ packages:
     dev: false
 
   file:projects/vite-plugin-browser-test-map.tgz:
-    resolution: {integrity: sha512-qKZHdG8f3LTACHV3PdZsjAm8dC+A9GyANO24iYg7ATkihTPXf4nO8l7RR9Ur1bHkDyqqMq2AIosv0QhEH5pvnQ==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
+    resolution: {integrity: sha512-NZUMfq9YNwXA816jr0PKWPQ+B6f3yHCoNm4IEQVKnUwuZ0dvhYzr2mliEp6+7Ttz0oO2/SGg3d0rkr3RVOCZBA==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
     name: '@rush-temp/vite-plugin-browser-test-map'
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.33
       eslint: 8.57.0
       prettier: 3.2.5
-      rimraf: 3.0.2
+      rimraf: 5.0.7
       tslib: 2.6.2
       typescript: 5.4.5
     transitivePeerDependencies:
