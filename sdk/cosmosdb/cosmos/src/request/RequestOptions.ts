@@ -42,8 +42,13 @@ export interface RequestOptions extends SharedOptions {
    * by not sending the payload back over the network. Default value is true.
    */
   contentResponseOnWriteEnabled?: boolean;
-  /** database rid for setting DatabaseRidHeader */
+
+  /**
+   * @hidden
+   * database rid for setting DatabaseRidHeader */
   databaseRid?: string;
-  /** collection rid for setting CollectionRidHeader */
-  collectionRid?: string;
+  /**
+   * @hidden
+   *  collection rid for setting CollectionRidHeader */
+  containerRid?: string;
 }

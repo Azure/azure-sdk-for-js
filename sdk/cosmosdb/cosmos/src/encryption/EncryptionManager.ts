@@ -25,9 +25,8 @@ export class EncryptionManager {
     encryptionKeyResolverName: string,
     cacheTimeToLive?: number,
   ) {
-    this.cacheTimeToLive = cacheTimeToLive
-      ? cacheTimeToLive
-      : Constants.DefaultEncryptionCacheTimeToLive;
+    this.cacheTimeToLive =
+      cacheTimeToLive !== undefined ? cacheTimeToLive : Constants.DefaultEncryptionCacheTimeToLive;
     this.encryptionKeyStoreProvider = new EncryptionKeyStoreProvider(
       encryptionKeyResolver,
       encryptionKeyResolverName,

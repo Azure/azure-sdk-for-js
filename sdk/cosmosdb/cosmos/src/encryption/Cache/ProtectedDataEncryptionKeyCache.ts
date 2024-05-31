@@ -6,7 +6,7 @@ import { ProtectedDataEncryptionKey } from "../EncryptionKey/ProtectedDataEncryp
 import { KeyEncryptionKey } from "../KeyEncryptionKey";
 
 export class ProtectedDataEncryptionKeyCache {
-  // key is JSON.stringify([encryptionKeyId, keyEncryptionKey.name, encryptedValue.toString("hex")])
+  // key is JSON.stringify([encryptionKeyId, keyEncryptionKey.name, keyEncryptionKey.path, encryptedValue.toString("hex")])
   private protectedDataEncryptionKeyCache: Map<string, [Date, ProtectedDataEncryptionKey]>;
 
   constructor(private cacheTimeToLive: number) {
@@ -49,7 +49,6 @@ export class ProtectedDataEncryptionKeyCache {
   ): Promise<ProtectedDataEncryptionKey> {
     let rawKey: Buffer;
     let encryptedKey: Buffer;
-
     if (encryptedValue) {
       rawKey = await keyEncryptionKey.unwrapEncryptionKey(encryptedValue);
       encryptedKey = encryptedValue;
@@ -59,7 +58,12 @@ export class ProtectedDataEncryptionKeyCache {
     }
     const newKey = new ProtectedDataEncryptionKey(name, keyEncryptionKey, rawKey, encryptedKey);
     if (this.cacheTimeToLive !== 0) {
-      const key = JSON.stringify([name, keyEncryptionKey.name, encryptedKey.toString("hex")]);
+      const key = JSON.stringify([
+        name,
+        keyEncryptionKey.name,
+        keyEncryptionKey.path,
+        encryptedKey.toString("hex"),
+      ]);
       this.setProtectedDataEncryptionKey(key, newKey);
     }
     return newKey;
@@ -75,7 +79,12 @@ export class ProtectedDataEncryptionKeyCache {
       return this.createProtectedDataEncryptionKey(name, keyEncryptionKey, encryptedValue);
     }
     if (encryptedValue) {
-      const key = JSON.stringify([name, keyEncryptionKey.name, encryptedValue.toString("hex")]);
+      const key = JSON.stringify([
+        name,
+        keyEncryptionKey.name,
+        keyEncryptionKey.path,
+        encryptedValue.toString("hex"),
+      ]);
       const protectedDataEncryptionKey = this.getProtectedDataEncryptionKey(key);
       if (protectedDataEncryptionKey) {
         return protectedDataEncryptionKey;

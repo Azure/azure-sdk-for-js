@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import type { CosmosClientOptions } from "../CosmosClientOptions";
+// Licensed under the MIT license.
+import { CosmosClientOptions } from "../CosmosClientOptions";
+import { Container } from "../client";
 import {
   Serializer,
   NumberSerializer,
@@ -443,5 +444,12 @@ export function createSerializer(
       default:
         throw new Error("Invalid or Unsupported data type passed.");
     }
+  }
+}
+
+export async function addContainerRid(container: Container): Promise<void> {
+  if (!container._rid) {
+    const { resource: containerDefinition } = await this.container.read();
+    this.container._rid = containerDefinition._rid;
   }
 }
