@@ -122,13 +122,9 @@ export function parseResourceDetectorsFromEnvVar(): Array<DetectorSync> {
     ['process', processDetectorSync],
   ]);
 
-  // leaving out the process detector as that can add many resource attributes 
-  // with large values
-  const defaultDetectors = [envDetectorSync, hostDetectorSync, osDetectorSync];
-
   if (process.env.OTEL_NODE_RESOURCE_DETECTORS != null) {
     const resourceDetectorsFromEnv =
-      process.env.OTEL_NODE_RESOURCE_DETECTORS?.split(',') ?? defaultDetectors;
+      process.env.OTEL_NODE_RESOURCE_DETECTORS?.split(',') ?? ['env', 'host', 'os'];
 
     if (resourceDetectorsFromEnv.includes('all')) {
       return [...resourceDetectors.values()];
@@ -150,7 +146,9 @@ export function parseResourceDetectorsFromEnvVar(): Array<DetectorSync> {
     });
 
   } else {
-    return defaultDetectors;
+    // leaving out the process detector as that can add many resource attributes 
+    // with large values
+    return [envDetectorSync, hostDetectorSync, osDetectorSync];
   }
 
 }
