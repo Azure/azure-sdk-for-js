@@ -29,6 +29,13 @@ export const Durations: {
 };
 
 // @public
+export enum KnownMonitorAudience {
+    AzureChina = "https://monitor.azure.cn",
+    AzureGovernment = "https://monitor.azure.us",
+    AzurePublicCloud = "https://monitor.azure.com"
+}
+
+// @public
 export interface ListMetricDefinitionsOptions extends OperationOptions {
     metricNamespace?: string;
 }
@@ -69,6 +76,7 @@ export class LogsQueryClient {
 
 // @public
 export interface LogsQueryClientOptions extends CommonClientOptions {
+    audience?: string;
     endpoint?: string;
 }
 
@@ -175,12 +183,13 @@ export interface MetricNamespace {
 
 // @public
 export class MetricsClient {
-    constructor(endpoint: string, tokenCredential: TokenCredential, options?: CommonClientOptions);
+    constructor(endpoint: string, tokenCredential: TokenCredential, options?: MetricsClientOptions);
     queryResources(resourceIds: string[], metricNames: string[], metricNamespace: string, options?: MetricsQueryResourcesOptions): Promise<MetricsQueryResult[]>;
 }
 
 // @public
 export interface MetricsClientOptions extends CommonClientOptions {
+    audience?: string;
     endpoint?: string;
 }
 
