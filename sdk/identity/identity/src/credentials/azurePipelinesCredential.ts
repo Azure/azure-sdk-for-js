@@ -24,37 +24,41 @@ export class AzurePipelinesCredential implements TokenCredential {
 
   /**
    * AzurePipelinesCredential supports Federated Identity on Azure Pipelines through Service Connections.
-  
-   * @param systemAccessToken - system access token from the AzurePipelines
+   * @param tenantId - tenantId associated with the service connection
+   * @param clientId - clientId associated with the service connection
+   * @param serviceConnectionId - id for the service connection, as found in the querystring's resourceId key
+   * @param systemAccessToken - The Azure pipeline's <see href="https://learn.microsoft.com/azure/devops/pipelines/build/variables?view=azure-devops%26tabs=yaml#systemaccesstoken">System.AccessToken</see> value.
    * @param options - The identity client options to use for authentication.
    */
-  constructor(systemAccessToken: string, options?: AzurePipelinesCredentialOptions) {
-    const tenantId = options?.tenantId || process.env.AZURESUBSCRIPTION_TENANT_ID;
-    const clientId = options?.clientId || process.env.AZURESUBSCRIPTION_CLIENT_ID;
-    const serviceConnectionId =
-      options?.serviceConnectionId || process.env.AZURESUBSCRIPTION_SERVICE_CONNECTION_ID;
+  constructor(
+    tenantId: string,
+    clientId: string,
+    serviceConnectionId: string,
+    systemAccessToken: string,
+    options?: AzurePipelinesCredentialOptions,
+  ) {
     if (!clientId || !tenantId || !serviceConnectionId) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required either as options parameters OR environment variables, namely - AZURESUBSCRIPTION_TENANT_ID, AZURESUBSCRIPTION_CLIENT_ID and AZURESUBSCRIPTION_SERVICE_CONNECTION_ID`
+        `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required either as options parameters OR environment variables, namely - AZURESUBSCRIPTION_TENANT_ID, AZURESUBSCRIPTION_CLIENT_ID and AZURESUBSCRIPTION_SERVICE_CONNECTION_ID`,
       );
     }
     this.identityClient = new IdentityClient(options);
     checkTenantId(logger, tenantId);
     logger.info(
-      `Invoking AzurePipelinesCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
+      `Invoking AzurePipelinesCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`,
     );
 
     if (clientId && tenantId && serviceConnectionId) {
       this.ensurePipelinesSystemVars();
       const oidcRequestUrl = `${process.env.SYSTEM_OIDCREQUESTURI}?api-version=${OIDC_API_VERSION}&serviceConnectionId=${serviceConnectionId}`;
       logger.info(
-        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
+        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`,
       );
       this.clientAssertionCredential = new ClientAssertionCredential(
         tenantId,
         clientId,
         this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
-        options
+        options,
       );
     }
   }
@@ -69,15 +73,15 @@ export class AzurePipelinesCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions
+    options?: GetTokenOptions,
   ): Promise<AccessToken> {
     if (!this.clientAssertionCredential) {
-      const errorMessage = `${credentialName}: is unavailable. To use Federation Identity in Azure Pipelines, the "systemAccessToken" is required as input parameter and should be set as part of the devops task as the environment variable.Additionally, following should be provided either as optional parameters OR env variables - 
-      tenantId OR "AZURESUBSCRIPTION_TENANT_ID",
-      clientId OR "AZURESUBSCRIPTION_CLIENT_ID",
-      serviceConnectionId OR "AZURESUBSCRIPTION_SERVICE_CONNECTION_ID",
-      "SYSTEM_OIDCREQUESTURI",
-      "SYSTEM_ACCESSTOKEN"
+      const errorMessage = `${credentialName}: is unavailable. To use Federation Identity in Azure Pipelines, the following parameters are required - 
+      tenantId,
+      clientId,
+      serviceConnectionId,
+      systemAccessToken from Azure Pipelines,
+      "SYSTEM_OIDCREQUESTURI".      
       See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`;
       logger.error(errorMessage);
       throw new CredentialUnavailableError(errorMessage);
@@ -94,7 +98,7 @@ export class AzurePipelinesCredential implements TokenCredential {
    */
   private async requestOidcToken(
     oidcRequestUrl: string,
-    systemAccessToken: string
+    systemAccessToken: string,
   ): Promise<string> {
     logger.info("Requesting OIDC token from Azure Pipelines...");
     logger.info(oidcRequestUrl);
@@ -113,13 +117,13 @@ export class AzurePipelinesCredential implements TokenCredential {
       logger.error(
         `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
           response.status
-        }. Complete response - ${JSON.stringify(response)}`
+        }. Complete response - ${JSON.stringify(response)}`,
       );
       throw new AuthenticationError(
         response.status,
         `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
           response.status
-        }. Complete response - ${JSON.stringify(response)}`
+        }. Complete response - ${JSON.stringify(response)}`,
       );
     }
     try {
@@ -130,29 +134,29 @@ export class AzurePipelinesCredential implements TokenCredential {
         if (response.status !== 200) {
           logger.error(
             `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
-              result
-            )}`
+              result,
+            )}`,
           );
           throw new AuthenticationError(
             response.status,
             `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
-              result
-            )}`
+              result,
+            )}`,
           );
         } else {
           logger.error(
-            `${credentialName}: Authentication Failed. oidcToken field not detected in the response but response status is 200.`
+            `${credentialName}: Authentication Failed. oidcToken field not detected in the response but response status is 200.`,
           );
           throw new AuthenticationError(
             response.status,
-            `${credentialName}: Authentication Failed. oidcToken field not detected in the response but response status is 200.`
+            `${credentialName}: Authentication Failed. oidcToken field not detected in the response but response status is 200.`,
           );
         }
       }
     } catch (e) {
       throw new AuthenticationError(
         response.status,
-        `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`
+        `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`,
       );
     }
   }
@@ -163,24 +167,12 @@ export class AzurePipelinesCredential implements TokenCredential {
    * @throws CredentialUnavailableError
    */
   private ensurePipelinesSystemVars(): void {
-    if (process.env.SYSTEM_OIDCREQUESTURI && process.env.SYSTEM_ACCESSTOKEN) {
+    if (process.env.SYSTEM_OIDCREQUESTURI) {
       return;
     }
-    const missingEnvVars = [];
-    let errorMessage = "";
     if (!process.env.SYSTEM_OIDCREQUESTURI) {
-      missingEnvVars.push("SYSTEM_OIDCREQUESTURI");
-    }
-    if (!process.env.SYSTEM_ACCESSTOKEN) {
-      errorMessage +=
-        "\nPlease ensure that the system access token is available in the SYSTEM_ACCESSTOKEN value; this is often most easily achieved by adding a block to the end of your pipeline yaml for the task with:\n env: \n- SYSTEM_ACCESSTOKEN: $(System.AccessToken)";
-      missingEnvVars.push("SYSTEM_ACCESSTOKEN");
-    }
-    if (missingEnvVars.length > 0) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. Ensure that you're running this task in an Azure Pipeline, so that following missing system variable(s) can be defined- ${missingEnvVars.join(
-          ", "
-        )}.${errorMessage}`
+        `${credentialName}: is unavailable. Ensure that you're running this task in an Azure Pipeline, so that following missing system variable(s) can be defined- "SYSTEM_OIDCREQUESTURI"`,
       );
     }
   }
