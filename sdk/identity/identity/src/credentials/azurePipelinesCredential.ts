@@ -72,7 +72,7 @@ export class AzurePipelinesCredential implements TokenCredential {
     options?: GetTokenOptions
   ): Promise<AccessToken> {
     if (!this.clientAssertionCredential) {
-      const errorMessage = `${credentialName}: is unavailable. To use Federation Identity in Azure Pipelines, the "systemAccessToken" is required as input parameter and should be set as part of the devops task as the environment variable.Additionally, following should be provided either as optional parameters OR env variables - 
+      const errorMessage = `${credentialName}: is unavailable. To use Federation Identity in Azure Pipelines, the "systemAccessToken" is required as input parameter and should be set as part of the devops task as the environment variable. Additionally, following should be provided either as optional parameters OR env variables - 
       tenantId OR "AZURESUBSCRIPTION_TENANT_ID",
       clientId OR "AZURESUBSCRIPTION_CLIENT_ID",
       serviceConnectionId OR "AZURESUBSCRIPTION_SERVICE_CONNECTION_ID",
