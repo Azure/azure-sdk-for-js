@@ -55,13 +55,13 @@ matrix([[true, false]], async function (useAad) {
     it("can retrieve not empty routes", async () => {
       const expectedRoutes = [
         {
-          name: "Sanitized",
+          name: "myFirstRoute",
           description: "myFirstRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
         },
         {
-          name: "Sanitized",
+          name: "mySecondRoute",
           description: "mySecondRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],

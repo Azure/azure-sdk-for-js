@@ -176,13 +176,13 @@ matrix([[true, false]], async function (useAad) {
 
       const expectedRoutes = [
         {
-          name: "Sanitized",
+          name: "myFirstRoute",
           description: "myFirstRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [firstFqdn, secondFqdn],
         },
         {
-          name: "Sanitized",
+          name: "mySecondRoute",
           description: "mySecondRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [firstFqdn],
@@ -206,13 +206,13 @@ matrix([[true, false]], async function (useAad) {
     it("can set multiple new trunks without affecting routes via PATCH", async () => {
       const routes: SipTrunkRoute[] = [
         {
-          name: "Sanitized",
+          name: "myFirstRoute",
           description: "myFirstRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
         },
         {
-          name: "Sanitized",
+          name: "mySecondRoute",
           description: "mySecondRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
