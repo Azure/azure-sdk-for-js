@@ -61,7 +61,7 @@ const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(endPoint, 
 
 #### Configure client for Azure sovereign cloud
 
-By default, all clients are configured to use the Azure public cloud. To use a sovereign cloud, provide the correct endpoint and audience value while instantiating the clients. For example:
+By default, the library's clients are configured to use the Azure Public Cloud. To use a sovereign cloud instead, provide the correct endpoint and audience value when instantiating a client. For example:
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
