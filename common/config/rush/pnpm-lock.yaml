@@ -22643,7 +22643,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-8KBD9rNLXhW7FoU0LgG615jeq7LYO2BHefUWi7LOlTxAejj1cfky7Dl+ViRGC8d7AoO7zUbXDYy0i+8W0Bp2Pw==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-hpVMP6aQL1aSALUmN4nds9MmOTAH1HBgM1D4/nRdWRZc4+gfK0U1gTUd13ZCRb3N9rzaXfXz9CY0KlYErSphhg==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:
@@ -24278,7 +24278,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-express.tgz:
-    resolution: {integrity: sha512-JkCH8kWGJZffxvML9ilscmbLpAoEidWvxMaYI5na4tpbB/g/Zh1T6NnrGRgI3kQAu9O8XmCqd8I33ZreroQdJA==, tarball: file:projects/web-pubsub-express.tgz}
+    resolution: {integrity: sha512-9emrapaAXg4FOtsqaMOY3a5vwyZ3Vmx61AgJTKiJVYgTLBWearUhiqlEXWjqC3gYsvNQyASgDV+YOR9rn/O0hA==, tarball: file:projects/web-pubsub-express.tgz}
     name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
@@ -24290,6 +24290,8 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.32
       '@types/sinon': 17.0.3
+      '@vitest/browser': 1.6.0(playwright@1.43.1)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -24302,14 +24304,25 @@ packages:
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.32)(typescript@5.4.5)
+      tshy: 1.14.0
       tslib: 2.6.2
       typescript: 5.4.5
+      vitest: 1.6.0(@types/node@18.19.32)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - playwright
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/web-pubsub.tgz:
