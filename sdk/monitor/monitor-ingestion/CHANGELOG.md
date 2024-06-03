@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added `audience` support for the ingestion client  to specify the audience for the authentication token. This is useful when working  in sovereign clouds. Refer [#27280](https://github.com/Azure/azure-sdk-for-js/issues/27280) for further details.
+- Added `audience` support for the logs ingestion client to specify the audience for the authentication token. This feature is necessary to use a sovereign cloud. Refer to [#27280](https://github.com/Azure/azure-sdk-for-js/issues/27280) for further details.
 
 ### Bugs Fixed
 
