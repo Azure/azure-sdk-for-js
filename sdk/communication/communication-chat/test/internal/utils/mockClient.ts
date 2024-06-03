@@ -172,7 +172,7 @@ export const mockMessageWithAttachment: RestModel.ChatMessage = {
   metadata: { tags: "tag" },
 };
 
-export const mockMessageWithDLP: RestModel.ChatMessage = {
+export const mockMessageWithDLPContentBlocked: RestModel.ChatMessage = {
   id: "id",
   type: "text",
   version: "version",
@@ -187,7 +187,25 @@ export const mockMessageWithDLP: RestModel.ChatMessage = {
   senderCommunicationIdentifier: mockCommunicationIdentifier,
   deletedOn: new Date("2020-06-26T18:06:06Z"),
   metadata: { tags: "tag" },
-  policyViolation: { state: "contentBlocked"}
+  policyViolation: { state: "contentBlocked" },
+};
+
+export const mockMessageWithDLPWarning: RestModel.ChatMessage = {
+  id: "id",
+  type: "text",
+  version: "version",
+  sequenceId: "sequenceId",
+  content: {
+    message: "content",
+    topic: "topic",
+    attachments: [],
+  },
+  createdOn: new Date("2020-06-26T18:06:06Z"),
+  senderDisplayName: "senderDisplayName",
+  senderCommunicationIdentifier: mockCommunicationIdentifier,
+  deletedOn: new Date("2020-06-26T18:06:06Z"),
+  metadata: { tags: "tag" },
+  policyViolation: { state: "warning" },
 };
 
 export const mockImageAttachment: RestModel.ChatAttachment = {
@@ -224,7 +242,7 @@ export const createChatClient = (mockHttpClient: HttpClient): ChatClient => {
 
 export const createChatThreadClient = (
   threadId: string,
-  mockHttpClient: HttpClient,
+  mockHttpClient: HttpClient
 ): ChatThreadClient => {
   return new ChatThreadClient(
     baseUri,
@@ -232,6 +250,6 @@ export const createChatThreadClient = (
     new AzureCommunicationTokenCredential(generateToken()),
     {
       httpClient: mockHttpClient,
-    },
+    }
   );
 };
