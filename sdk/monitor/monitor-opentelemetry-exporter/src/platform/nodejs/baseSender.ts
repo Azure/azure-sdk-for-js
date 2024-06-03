@@ -27,6 +27,7 @@ export abstract class BaseSender {
   private statsbeatFailureCount: number = 0;
   private batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
   private isStatsbeatSender: boolean;
+  private disableOfflineStorage: boolean;
 
   constructor(options: {
     endpointUrl: string;
@@ -37,16 +38,19 @@ export abstract class BaseSender {
     isStatsbeatSender?: boolean;
   }) {
     this.numConsecutiveRedirects = 0;
+    this.disableOfflineStorage = options.exporterOptions.disableOfflineStorage || false;
     this.persister = new FileSystemPersist(options.instrumentationKey, options.exporterOptions);
     if (options.trackStatsbeat) {
       // Initialize statsbeatMetrics
       this.networkStatsbeatMetrics = new NetworkStatsbeatMetrics({
         instrumentationKey: options.instrumentationKey,
         endpointUrl: options.endpointUrl,
+        disableOfflineStorage: this.disableOfflineStorage,
       });
       this.longIntervalStatsbeatMetrics = getInstance({
         instrumentationKey: options.instrumentationKey,
         endpointUrl: options.endpointUrl,
+        disableOfflineStorage: this.disableOfflineStorage,
       });
     }
     this.retryTimer = null;
@@ -193,17 +197,21 @@ export abstract class BaseSender {
    * Persist envelopes to disk
    */
   private async persist(envelopes: unknown[]): Promise<ExportResult> {
-    try {
-      const success = await this.persister.push(envelopes);
-      return success
-        ? { code: ExportResultCode.SUCCESS }
-        : {
-            code: ExportResultCode.FAILED,
-            error: new Error("Failed to persist envelope in disk."),
-          };
-    } catch (ex: any) {
-      return { code: ExportResultCode.FAILED, error: ex };
+    if (!this.disableOfflineStorage) {
+      try {
+        const success = await this.persister.push(envelopes);
+        return success
+          ? { code: ExportResultCode.SUCCESS }
+          : {
+              code: ExportResultCode.FAILED,
+              error: new Error("Failed to persist envelope in disk."),
+            };
+      } catch (ex: any) {
+        return { code: ExportResultCode.FAILED, error: ex };
+      }
     }
+    // If offline storage is disabled, return success
+    return { code: ExportResultCode.SUCCESS };
   }
 
   /**
