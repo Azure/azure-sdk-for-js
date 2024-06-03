@@ -244,7 +244,7 @@ Logs uploaded using the Monitor Ingestion client library can be retrieved using 
 
 #### Configure client for Azure sovereign cloud
 
-By default, the clients is configured to use the Azure public cloud. To use a sovereign cloud, provide the correct endpoint and audience value while instantiating the client. For example:
+By default, the client is configured to use the Azure Public Cloud. To use a sovereign cloud instead, provide the correct endpoint and audience value when instantiating the client. For example:
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
