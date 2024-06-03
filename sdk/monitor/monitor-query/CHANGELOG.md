@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added `audience` support for all the clients  to specify the audience for the authentication token. This is useful when working  in sovereign clouds. Refer [#28821](https://github.com/Azure/azure-sdk-for-js/issues/28821) for further details.
+- Added `audience` support for all the clients to specify the audience for the authentication token. This is useful when working in sovereign clouds. Refer to [#28821](https://github.com/Azure/azure-sdk-for-js/issues/28821) for further details.
 
 ## 1.2.0 (2024-03-25)
 
