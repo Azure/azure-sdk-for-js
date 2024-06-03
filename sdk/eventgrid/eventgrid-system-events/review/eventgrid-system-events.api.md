@@ -525,10 +525,10 @@ export interface AcsRouterWorkerRegisteredEventData {
 export interface AcsRouterWorkerSelector {
     expirationTime: Date;
     key?: string;
+    labelOperator: AcsRouterLabelOperator;
     labelValue: unknown;
-    operator: AcsRouterLabelOperator;
-    selectorState: AcsRouterWorkerSelectorState;
-    ttlSeconds: string;
+    state: AcsRouterWorkerSelectorState;
+    ttlSeconds: number;
 }
 
 // @public
@@ -1852,7 +1852,7 @@ export interface MediaJobFinishedEventData extends MediaJobStateChangeEventData 
 
 // @public
 export interface MediaJobOutput {
-    "@odataType": string;
+    "@odata.type": string;
     error: MediaJobError;
     label?: string;
     progress: number;
@@ -1861,7 +1861,7 @@ export interface MediaJobOutput {
 
 // @public
 export interface MediaJobOutputAsset extends MediaJobOutput {
-    "@odataType": "#Microsoft.Media.JobOutputAsset";
+    "@odata.type": "#Microsoft.Media.JobOutputAsset";
     assetName?: string;
 }
 
@@ -2321,8 +2321,8 @@ export interface ResourceWriteSuccessEventData {
     tenantId?: string;
 }
 
-// @public (undocumented)
-export type ServiceApiVersions = "2024-01-01";
+// @public
+export type ServiceApiVersions = string;
 
 // @public
 export interface ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData {

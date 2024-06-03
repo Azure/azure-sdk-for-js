@@ -337,7 +337,7 @@ export interface CommunicationIdentifierModel {
   microsoftTeamsApp: MicrosoftTeamsAppIdentifierModel;
 }
 
-/** Type of CommunicationIdentifierModelKind */
+/** Communication model identifier kind */
 /** "unknown", "communicationUser", "phoneNumber", "microsoftTeamsUser" */
 export type CommunicationIdentifierModelKind = string;
 
@@ -673,11 +673,11 @@ export interface AcsRecordingFileStatusUpdatedEventData {
   /** The recording duration in milliseconds */
   recordingDurationMs?: number;
   /** The recording content type- AudioVideo, or Audio */
-  recordingContentType: RecordingContentType;
+  recordingContentType: recordingContentType;
   /** The recording  channel type - Mixed, Unmixed */
-  recordingChannelType: RecordingChannelType;
+  recordingChannelType: recordingChannelType;
   /** The recording format type - Mp4, Mp3, Wav */
-  recordingFormatType: RecordingFormatType;
+  recordingFormatType: recordingFormatType;
   /** The reason for ending recording session */
   sessionEndReason?: string;
 }
@@ -706,13 +706,13 @@ export interface AcsRecordingChunkInfo {
 
 /** Recording content type */
 /** "AudioVideo", "Audio" */
-export type RecordingContentType = string;
+export type recordingContentType = string;
 /** Recording channel type */
 /** "Mixed", "Unmixed" */
-export type RecordingChannelType = string;
+export type recordingChannelType = string;
 /** Recording format type */
 /** "Wav", "Mp3", "Mp4" */
-export type RecordingFormatType = string;
+export type recordingFormatType = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.EmailDeliveryReportReceived event. */
 export interface AcsEmailDeliveryReportReceivedEventData {
@@ -839,13 +839,13 @@ export interface AcsRouterWorkerSelector {
   /** Router Job Worker Selector Key */
   key?: string;
   /** Router Job Worker Selector Label Operator */
-  operator: AcsRouterLabelOperator;
+  labelOperator: AcsRouterLabelOperator;
   /** Router Job Worker Selector Value */
   labelValue: unknown;
   /** Router Job Worker Selector Time to Live in Seconds */
-  ttlSeconds: string;
+  ttlSeconds: number;
   /** Router Job Worker Selector State */
-  selectorState: AcsRouterWorkerSelectorState;
+  state: AcsRouterWorkerSelectorState;
   /** Router Job Worker Selector Expiration Time */
   expirationTime: Date;
 }
@@ -1085,7 +1085,7 @@ export interface AcsRouterWorkerUpdatedEventData {
   updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
 }
 
-/** Type of AcsRouterUpdatedWorkerProperty */
+/** Worker properties that can be updated */
 /** "AvailableForOffers", "TotalCapacity", "QueueAssignments", "Labels", "Tags", "ChannelConfigurations" */
 export type AcsRouterUpdatedWorkerProperty = string;
 
@@ -1119,10 +1119,10 @@ export interface AcsMessageDeliveryStatusUpdatedEventData extends AcsMessageEven
   channelKind: AcsMessageChannelKind;
 }
 
-/** Type of AcsMessageDeliveryStatus */
-/** "Read", "Delivered", "Failed", "Sent", "Warning", "Unknown" */
+/** Message delivery status */
+/** "read", "delivered", "failed", "sent", "warning", "unknown" */
 export type AcsMessageDeliveryStatus = string;
-/** Type of AcsMessageChannelKind */
+/** Message channel kind */
 /** "whatsapp" */
 export type AcsMessageChannelKind = string;
 
@@ -1180,7 +1180,7 @@ export interface AcsMessageInteractiveContent {
   listReply: AcsMessageInteractiveListReplyContent;
 }
 
-/** Type of AcsInteractiveReplyKind */
+/** Interactive reply kind */
 /** "buttonReply", "listReply", "unknown" */
 export type AcsInteractiveReplyKind = string;
 
@@ -1198,7 +1198,7 @@ export interface AcsMessageInteractiveListReplyContent {
   listItemId?: string;
   /** The title of the selected list item */
   title?: string;
-  /** The sescription of the selected row */
+  /** The description of the selected row */
   description?: string;
 }
 
@@ -1969,7 +1969,7 @@ export interface MediaJobErrorDetail {
 /** The event data for a Job output. */
 export interface MediaJobOutput {
   /** the discriminator possible values: #Microsoft.Media.JobOutputAsset */
-  "@odataType": string;
+  "@odata.type": string;
   /** Gets the Job output error. */
   error: MediaJobError;
   /** Gets the Job output label. */
@@ -1985,7 +1985,7 @@ export interface MediaJobOutputAsset extends MediaJobOutput {
   /** Gets the Job output asset name. */
   assetName?: string;
   /** The discriminator for derived types. */
-  "@odataType": "#Microsoft.Media.JobOutputAsset";
+  "@odata.type": "#Microsoft.Media.JobOutputAsset";
 }
 
 /**
@@ -3255,7 +3255,7 @@ export interface WebAppServicePlanUpdatedEventDataSku {
   capacity?: string;
 }
 
-/** Schema of the Data property of an EventGridEvent for a Microsoft.EventGrid.SystemEvents.SubscriptionValidationEvent event. */
+/** Schema of the Data property of an EventGridEvent for a Microsoft.EventGrid.SubscriptionValidationEvent event. */
 export interface SubscriptionValidationEventData {
   /**
    * The validation code sent by Azure Event Grid to validate an event subscription.
@@ -3284,7 +3284,7 @@ export interface SubscriptionValidationResponse {
 
 /**
  * Schema of the Data property of an EventGridEvent for a
- * Microsoft.EventGrid.SystemEvents.SubscriptionDeletedEvent event.
+ * Microsoft.EventGrid.SubscriptionDeletedEvent event.
  */
 export interface SubscriptionDeletedEventData {
   /** The Azure resource ID of the deleted event subscription. */
@@ -3305,7 +3305,7 @@ export interface EventGridMqttClientEventData {
   namespaceName?: string;
 }
 
-/** Event data for Microsoft.EventGrid.SystemEvents.MQTTClientCreatedOrUpdated event. */
+/** Event data for Microsoft.EventGrid.MQTTClientCreatedOrUpdated event. */
 export interface EventGridMqttClientCreatedOrUpdatedEventData extends EventGridMqttClientEventData {
   /** Configured state of the client. The value could be Enabled or Disabled */
   state: EventGridMqttClientState;
@@ -3325,10 +3325,10 @@ export interface EventGridMqttClientCreatedOrUpdatedEventData extends EventGridM
 /** "Enabled", "Disabled" */
 export type EventGridMqttClientState = string;
 
-/** Event data for Microsoft.EventGrid.SystemEvents.MQTTClientDeleted event. */
+/** Event data for Microsoft.EventGrid.MQTTClientDeleted event. */
 export interface EventGridMqttClientDeletedEventData extends EventGridMqttClientEventData {}
 
-/** Event data for Microsoft.EventGrid.SystemEvents.MQTTClientSessionConnected event. */
+/** Event data for Microsoft.EventGrid.MQTTClientSessionConnected event. */
 export interface EventGridMqttClientSessionConnectedEventData extends EventGridMqttClientEventData {
   /**
    * Unique identifier for the MQTT client's session. This case-sensitive string can
@@ -3343,7 +3343,7 @@ export interface EventGridMqttClientSessionConnectedEventData extends EventGridM
   sequenceNumber?: number;
 }
 
-/** Event data for Microsoft.EventGrid.SystemEvents.MQTTClientSessionDisconnected event. */
+/** Event data for Microsoft.EventGrid.MQTTClientSessionDisconnected event. */
 export interface EventGridMqttClientSessionDisconnectedEventData
   extends EventGridMqttClientEventData {
   /**
@@ -3456,7 +3456,7 @@ export interface ResourceNotificationsResourceDeletedDetails {
 export interface ResourceNotificationsResourceManagementDeletedEventData
   extends ResourceNotificationsResourceDeletedEventData {}
 
-/** */
-export type ServiceApiVersions = "2024-01-01";
+/** "2024-01-01" */
+export type ServiceApiVersions = string;
 /** Alias for MediaJobOutputUnion */
 export type MediaJobOutputUnion = MediaJobOutputAsset | MediaJobOutput;
