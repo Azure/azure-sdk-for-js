@@ -24033,7 +24033,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-express.tgz:
-    resolution: {integrity: sha512-F6zi+OEVdbjyA9WHbPYJ5IPxwqV4GftEL9ts0Un9XI69az7MRx4AzDqjBT2fMRRQqBev8nwSsFuaFjO/Ie5cDg==, tarball: file:projects/web-pubsub-express.tgz}
+    resolution: {integrity: sha512-ict/z75N78D5XK7o3CQg/Iqy1KENQJYBu00zeOV8T2uo7LUpewOptrvHbgHTwXGvzDWNNqFuWtar+wKlMThxjw==, tarball: file:projects/web-pubsub-express.tgz}
     name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
@@ -24045,6 +24045,8 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.33
       '@types/sinon': 17.0.3
+      '@vitest/browser': 1.6.0(playwright@1.44.1)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -24057,14 +24059,25 @@ packages:
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
+      tshy: 1.14.0
       tslib: 2.6.2
       typescript: 5.4.5
+      vitest: 1.6.0(@types/node@18.19.33)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - playwright
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/web-pubsub.tgz:
