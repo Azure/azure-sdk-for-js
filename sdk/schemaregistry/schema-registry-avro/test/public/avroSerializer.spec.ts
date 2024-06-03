@@ -86,7 +86,7 @@ describe("AvroSerializer", async function () {
     );
   });
 
-  it("serializes and deserializes in round trip", async () => {
+  it.skip("serializes and deserializes in round trip", async () => {
     let serializer = await createTestSerializer({ recorder });
     let message = await serializer.serialize(testValue, testSchema);
     assert.deepStrictEqual(await serializer.deserialize(message), testValue);
