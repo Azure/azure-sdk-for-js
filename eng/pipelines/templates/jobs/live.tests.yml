@@ -180,11 +180,12 @@ jobs:
           inputs:
             azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
             azurePowerShellVersion: LatestVersion
+            workingDirectory: $(PackagePath)
             pwsh: true
+            ScriptType: InlineScript
             Inline: |
               node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
           displayName: "Integration test libraries"
-          workingDirectory: $(PackagePath)
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"
@@ -195,10 +196,11 @@ jobs:
           inputs:
             azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
             azurePowerShellVersion: LatestVersion
+            workingDirectory: $(PackageTestPath)
+            ScriptType: InlineScript
             Inline: |
               node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
           displayName: "Integration test libraries"
-          workingDirectory: $(PackageTestPath)
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"
@@ -211,10 +213,11 @@ jobs:
           inputs:
             azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
             azurePowerShellVersion: LatestVersion
+            workingDirectory: $(PackagePath)
+            ScriptType: InlineScript
             Inline: |
               node ../../../common/scripts/install-run-rushx.js execute:samples
           displayName: "Execute Samples"
-          workingDirectory: $(PackagePath)
           env:
             TEST_MODE: "live"
             ${{ insert }}: ${{ parameters.EnvVars }}
