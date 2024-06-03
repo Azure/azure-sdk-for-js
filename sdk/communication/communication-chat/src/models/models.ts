@@ -162,7 +162,7 @@ export interface UploadChatImageResult {
 /** Type of Supported Attachments. */
 export type ChatAttachmentType = "image" | "file" | "unknown";
 
-/** State of Policy Violation message. */
+/** Result of Policy Violation message. */
 export type PolicyViolationMessageResult = "contentBlocked" | "warning";
 
 /** Policy violation of a message (if applicable). */
