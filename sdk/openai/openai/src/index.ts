@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// Disable eslint for declaration merging using namespace
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable @typescript-eslint/no-namespace */
+
 import {
   CompletionCreateParamsNonStreaming,
   CompletionCreateParamsStreaming,
@@ -60,8 +64,8 @@ declare module "openai/resources/index" {
     enhancements?: AzureChatEnhancementConfiguration;
   }
 
-  // TODO: choice
   interface ChatCompletion {
+    /* eslint-disable-line */
     /**
      * Content filtering results for zero or more prompts in the request. In a streaming request,
      * results for different prompts may arrive at different times or in different orders.
