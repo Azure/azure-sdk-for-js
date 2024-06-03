@@ -167,7 +167,7 @@ export type PolicyViolationMessageResult = "contentBlocked" | "warning";
 
 /** Policy violation of a message (if applicable). */
 export interface PolicyViolation {
-  /** State of Policy Violation message. */
+  /** Result of Policy Violation message. */
   result: PolicyViolationMessageResult;
 }
 
