@@ -86,6 +86,7 @@ describe("AvroSerializer", async function () {
     );
   });
 
+  // TODO: Fix the test. Content type value returned is different
   it.skip("serializes and deserializes in round trip", async () => {
     let serializer = await createTestSerializer({ recorder });
     let message = await serializer.serialize(testValue, testSchema);
