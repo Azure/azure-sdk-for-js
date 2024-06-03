@@ -261,9 +261,6 @@ const logsIngestionClient = new LogsIngestionClient(logsIngestionEndpoint, crede
 });
 ```
 
-**Note**: Currently, `MetricsQueryClient` uses the Azure Resource Manager (ARM) endpoint for querying metrics. You need the corresponding management endpoint for your cloud when using this client. This detail is subject to change in the future.
-
-
 ## Troubleshooting
 
 For details on diagnosing various failure scenarios, see our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/TROUBLESHOOTING.md).
