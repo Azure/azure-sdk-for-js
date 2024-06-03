@@ -692,7 +692,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     assert.isFalse(await sourceDirClient.exists(), "Source directory should not exist anymore");
   });
-  
+
   it("create share with invalid SAS should fail", async () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() - 1);
@@ -717,11 +717,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClientWithSAS.getShareClient(shareName);
-    try
-    {
+    try {
       await shareClient.create();
-    }
-    catch (err){
+    } catch (err) {
       assert.ok((err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"));
     }
   });

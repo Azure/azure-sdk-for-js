@@ -76,9 +76,6 @@ export interface SmbMultichannel {
 
 export interface StorageError {
   message?: string;
-  copySourceStatusCode?: number;
-  copySourceErrorCode?: string;
-  copySourceErrorMessage?: string;
   authenticationErrorDetail?: string;
   code?: string;
 }
@@ -1354,8 +1351,6 @@ export interface FileUploadRangeFromURLHeaders {
 /** Defines headers for File_uploadRangeFromURL operation. */
 export interface FileUploadRangeFromURLExceptionHeaders {
   errorCode?: string;
-  copySourceErrorCode?: string;
-  copySourceStatusCode?: number;
 }
 
 /** Defines headers for File_getRangeList operation. */
@@ -1404,8 +1399,6 @@ export interface FileStartCopyHeaders {
 /** Defines headers for File_startCopy operation. */
 export interface FileStartCopyExceptionHeaders {
   errorCode?: string;
-  copySourceErrorCode?: string;
-  copySourceStatusCode?: number;
 }
 
 /** Defines headers for File_abortCopy operation. */

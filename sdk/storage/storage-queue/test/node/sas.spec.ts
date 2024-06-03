@@ -441,4 +441,35 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await queueClientwithSAS.getProperties();
     await queueClient.delete();
   });
+
+  it("create queue with invalid SAS should fail", async () => {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() - 1);
+
+    const sharedKeyCredential = queueServiceClient["credential"];
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: AccountSASPermissions.parse("rwdlacup"),
+        protocol: SASProtocol.HttpsAndHttp,
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+      },
+      sharedKeyCredential as StorageSharedKeyCredential,
+    ).toString();
+
+    const sasURL = `${queueServiceClient.url}?${sas}`;
+    const serviceClientWithSAS = new QueueServiceClient(sasURL, newPipeline());
+    configureStorageClient(recorder, serviceClientWithSAS);
+
+    const queueName = recorder.variable("queue", getUniqueName("queue"));
+    const queueClient = serviceClientWithSAS.getQueueClient(queueName);
+    try {
+      await queueClient.create();
+    } catch (err) {
+      assert.ok((err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"));
+    }
+  });
 });

@@ -250,27 +250,6 @@ export const StorageError: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      copySourceStatusCode: {
-        serializedName: "CopySourceStatusCode",
-        xmlName: "CopySourceStatusCode",
-        type: {
-          name: "Number"
-        }
-      },
-      copySourceErrorCode: {
-        serializedName: "CopySourceErrorCode",
-        xmlName: "CopySourceErrorCode",
-        type: {
-          name: "String"
-        }
-      },
-      copySourceErrorMessage: {
-        serializedName: "CopySourceErrorMessage",
-        xmlName: "CopySourceErrorMessage",
-        type: {
-          name: "String"
-        }
-      },
       authenticationErrorDetail: {
         serializedName: "AuthenticationErrorDetail",
         xmlName: "AuthenticationErrorDetail",
@@ -4862,20 +4841,6 @@ export const FileUploadRangeFromURLExceptionHeaders: coreClient.CompositeMapper 
         type: {
           name: "String"
         }
-      },
-      copySourceErrorCode: {
-        serializedName: "x-ms-copy-source-error-code",
-        xmlName: "x-ms-copy-source-error-code",
-        type: {
-          name: "String"
-        }
-      },
-      copySourceStatusCode: {
-        serializedName: "x-ms-copy-source-status-code",
-        xmlName: "x-ms-copy-source-status-code",
-        type: {
-          name: "Number"
-        }
       }
     }
   }
@@ -5035,20 +5000,6 @@ export const FileStartCopyExceptionHeaders: coreClient.CompositeMapper = {
         xmlName: "x-ms-error-code",
         type: {
           name: "String"
-        }
-      },
-      copySourceErrorCode: {
-        serializedName: "x-ms-copy-source-error-code",
-        xmlName: "x-ms-copy-source-error-code",
-        type: {
-          name: "String"
-        }
-      },
-      copySourceStatusCode: {
-        serializedName: "x-ms-copy-source-status-code",
-        xmlName: "x-ms-copy-source-status-code",
-        type: {
-          name: "Number"
         }
       }
     }

@@ -394,7 +394,6 @@ describe("FileServiceClient", () => {
     assert.ok(result.requestId!.length > 0);
   });
 });
-  
 
 describe("FileServiceClient - soft delete", () => {
   let recorder: Recorder;
@@ -525,7 +524,7 @@ describe("FileServiceClient Premium", () => {
         nfsEnabled: true,
       },
       rootSquash,
-      enableSnapshotVirtualDirectoryAccess: true
+      enableSnapshotVirtualDirectoryAccess: true,
     });
 
     // get properties

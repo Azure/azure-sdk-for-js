@@ -1189,6 +1189,39 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileClientWithSAS.create();
     assert.ok(await fileClientWithSAS.exists());
   });
+
+  it("listPaths with invalid SAS should fail", async () => {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() - 1);
+
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const sharedKeyCredential = serviceClient["credential"];
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: AccountSASPermissions.parse("rwdlacup"),
+        protocol: SASProtocol.HttpsAndHttp,
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+      },
+      sharedKeyCredential as StorageSharedKeyCredential,
+    ).toString();
+
+    const sasURL = `${serviceClient.url}?${sas}`;
+    const serviceClientWithSAS = new DataLakeServiceClient(sasURL, newPipeline());
+    configureStorageClient(recorder, serviceClientWithSAS);
+
+    const fileSystemClientWithSAS = serviceClientWithSAS.getFileSystemClient(fileSystemName);
+    try {
+      await fileSystemClientWithSAS.listPaths();
+    } catch (err) {
+      assert.ok((err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"));
+    }
+  });
 });
 
 describe("SAS generation Node.js only for directory SAS", () => {

@@ -1491,7 +1491,6 @@ export interface ShareCreateIfNotExistsResponse extends ShareCreateResponse {
 export interface ShareCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessTier?: ShareAccessTier;
-    // (undocumented)
     enableSnapshotVirtualDirectoryAccess?: boolean;
     metadata?: {
         [propertyName: string]: string;

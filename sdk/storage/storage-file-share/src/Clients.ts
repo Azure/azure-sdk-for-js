@@ -207,6 +207,11 @@ export interface ShareCreateOptions extends CommonOptions {
    * 'NoRootSquash', 'RootSquash', 'AllSquash'.
    */
   rootSquash?: ShareRootSquash;
+
+  /**
+   * Specifies whether the snapshot virtual directory should be accessible at the root of share mount point when NFS is enabled.
+   * If not specified, the default is true.
+   */
   enableSnapshotVirtualDirectoryAccess?: boolean;
 }
 

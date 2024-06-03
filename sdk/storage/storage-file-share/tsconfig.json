@@ -17,6 +17,6 @@
     "../storage-blob/src/policies/*.ts",
     "../storage-blob/src/StorageBrowserPolicyFactory.ts",
     "../storage-blob/src/utils/cache.ts",
-    "../storage-blob/src/utils/SharedKeyComparator.ts",
+    "../storage-blob/src/utils/SharedKeyComparator.ts"
   ]
 }
