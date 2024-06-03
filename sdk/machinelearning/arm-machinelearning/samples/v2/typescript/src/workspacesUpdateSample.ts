@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   WorkspaceUpdateParameters,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates a machine learning workspace with the specified parameters.
@@ -21,22 +24,29 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Workspace/update.json
  */
 async function updateWorkspace() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "workspace-1234";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "workspace-1234";
   const workspaceName = "testworkspace";
   const parameters: WorkspaceUpdateParameters = {
     description: "new description",
     friendlyName: "New friendly name",
-    publicNetworkAccess: "Disabled"
+    publicNetworkAccess: "Disabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
   const result = await client.workspaces.beginUpdateAndWait(
     resourceGroupName,
     workspaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-updateWorkspace().catch(console.error);
+async function main() {
+  updateWorkspace();
+}
+
+main().catch(console.error);

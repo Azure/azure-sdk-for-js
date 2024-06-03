@@ -16,6 +16,7 @@ import { InternalAppConfigurationClientOptions } from "../../../src/appConfigura
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import nock from "nock";
+import { NoOpCredential } from "@azure-tools/test-credential";
 
 describe("http request related tests", function () {
   describe("unit tests", () => {
@@ -125,9 +126,11 @@ describe("http request related tests", function () {
 
       syncTokens = new SyncTokens();
 
+      // Use NoOpCredential for nock tests to avoid interception for credential request
       client =
         createAppConfigurationClientForTests({
           syncTokens: syncTokens,
+          testCredential: new NoOpCredential(),
         } as InternalAppConfigurationClientOptions) || this.skip();
 
       nock.recorder.clear();
@@ -136,7 +139,13 @@ describe("http request related tests", function () {
       if (!nock.isActive()) {
         nock.activate();
       }
-      scope = nock(/.*/);
+
+      // Add authorization request headers to match GET requests with NoOpCredential
+      scope = nock(/.*/, {
+        reqheaders: {
+          authorization: /.*/,
+        },
+      });
     });
 
     afterEach(function (this: Context) {

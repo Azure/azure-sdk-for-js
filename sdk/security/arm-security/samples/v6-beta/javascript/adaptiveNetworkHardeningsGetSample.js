@@ -33,7 +33,7 @@ async function getASingleAdaptiveNetworkHardeningResource() {
     resourceNamespace,
     resourceType,
     resourceName,
-    adaptiveNetworkHardeningResourceName
+    adaptiveNetworkHardeningResourceName,
   );
   console.log(result);
 }

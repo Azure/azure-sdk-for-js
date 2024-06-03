@@ -36,7 +36,7 @@ async function getAHubDatabaseSchema() {
     resourceGroupName,
     serverName,
     databaseName,
-    syncGroupName
+    syncGroupName,
   )) {
     resArray.push(item);
   }

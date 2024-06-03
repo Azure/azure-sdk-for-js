@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as utils from "./utils";
-import { IncomingMessage, ServerResponse } from "http";
-import { URL } from "url";
-import { logger } from "./logger";
+import * as utils from "./utils.js";
+import { IncomingMessage, ServerResponse } from "node:http";
+import { URL } from "node:url";
+import { logger } from "./logger.js";
 
-import {
+import type {
   ConnectRequest,
   ConnectResponse,
   ConnectedRequest,
@@ -16,7 +16,7 @@ import {
   UserEventRequest,
   UserEventResponseHandler,
   WebPubSubEventHandlerOptions,
-} from "./cloudEventsProtocols";
+} from "./cloudEventsProtocols.js";
 
 enum EventType {
   Connect,

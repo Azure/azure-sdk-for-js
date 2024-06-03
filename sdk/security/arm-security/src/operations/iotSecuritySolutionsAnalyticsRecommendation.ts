@@ -20,13 +20,14 @@ import {
   IotSecuritySolutionsAnalyticsRecommendationListResponse,
   IotSecuritySolutionsAnalyticsRecommendationGetOptionalParams,
   IotSecuritySolutionsAnalyticsRecommendationGetResponse,
-  IotSecuritySolutionsAnalyticsRecommendationListNextResponse
+  IotSecuritySolutionsAnalyticsRecommendationListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IotSecuritySolutionsAnalyticsRecommendation operations. */
 export class IotSecuritySolutionsAnalyticsRecommendationImpl
-  implements IotSecuritySolutionsAnalyticsRecommendation {
+  implements IotSecuritySolutionsAnalyticsRecommendation
+{
   private readonly client: SecurityCenter;
 
   /**
@@ -48,7 +49,7 @@ export class IotSecuritySolutionsAnalyticsRecommendationImpl
   public list(
     resourceGroupName: string,
     solutionName: string,
-    options?: IotSecuritySolutionsAnalyticsRecommendationListOptionalParams
+    options?: IotSecuritySolutionsAnalyticsRecommendationListOptionalParams,
   ): PagedAsyncIterableIterator<IoTSecurityAggregatedRecommendation> {
     const iter = this.listPagingAll(resourceGroupName, solutionName, options);
     return {
@@ -66,9 +67,9 @@ export class IotSecuritySolutionsAnalyticsRecommendationImpl
           resourceGroupName,
           solutionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +77,7 @@ export class IotSecuritySolutionsAnalyticsRecommendationImpl
     resourceGroupName: string,
     solutionName: string,
     options?: IotSecuritySolutionsAnalyticsRecommendationListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IoTSecurityAggregatedRecommendation[]> {
     let result: IotSecuritySolutionsAnalyticsRecommendationListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +93,7 @@ export class IotSecuritySolutionsAnalyticsRecommendationImpl
         resourceGroupName,
         solutionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -104,12 +105,12 @@ export class IotSecuritySolutionsAnalyticsRecommendationImpl
   private async *listPagingAll(
     resourceGroupName: string,
     solutionName: string,
-    options?: IotSecuritySolutionsAnalyticsRecommendationListOptionalParams
+    options?: IotSecuritySolutionsAnalyticsRecommendationListOptionalParams,
   ): AsyncIterableIterator<IoTSecurityAggregatedRecommendation> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       solutionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -128,16 +129,16 @@ export class IotSecuritySolutionsAnalyticsRecommendationImpl
     resourceGroupName: string,
     solutionName: string,
     aggregatedRecommendationName: string,
-    options?: IotSecuritySolutionsAnalyticsRecommendationGetOptionalParams
+    options?: IotSecuritySolutionsAnalyticsRecommendationGetOptionalParams,
   ): Promise<IotSecuritySolutionsAnalyticsRecommendationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         solutionName,
         aggregatedRecommendationName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -152,11 +153,11 @@ export class IotSecuritySolutionsAnalyticsRecommendationImpl
   private _list(
     resourceGroupName: string,
     solutionName: string,
-    options?: IotSecuritySolutionsAnalyticsRecommendationListOptionalParams
+    options?: IotSecuritySolutionsAnalyticsRecommendationListOptionalParams,
   ): Promise<IotSecuritySolutionsAnalyticsRecommendationListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, solutionName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -172,11 +173,11 @@ export class IotSecuritySolutionsAnalyticsRecommendationImpl
     resourceGroupName: string,
     solutionName: string,
     nextLink: string,
-    options?: IotSecuritySolutionsAnalyticsRecommendationListNextOptionalParams
+    options?: IotSecuritySolutionsAnalyticsRecommendationListNextOptionalParams,
   ): Promise<IotSecuritySolutionsAnalyticsRecommendationListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, solutionName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -184,68 +185,66 @@ export class IotSecuritySolutionsAnalyticsRecommendationImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedRecommendations/{aggregatedRecommendationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedRecommendations/{aggregatedRecommendationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IoTSecurityAggregatedRecommendation
+      bodyMapper: Mappers.IoTSecurityAggregatedRecommendation,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.solutionName,
-    Parameters.aggregatedRecommendationName
+    Parameters.aggregatedRecommendationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedRecommendations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedRecommendations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IoTSecurityAggregatedRecommendationList
+      bodyMapper: Mappers.IoTSecurityAggregatedRecommendationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion5, Parameters.top],
+  queryParameters: [Parameters.apiVersion19, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.solutionName
+    Parameters.solutionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IoTSecurityAggregatedRecommendationList
+      bodyMapper: Mappers.IoTSecurityAggregatedRecommendationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.solutionName
+    Parameters.resourceGroupName,
+    Parameters.solutionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

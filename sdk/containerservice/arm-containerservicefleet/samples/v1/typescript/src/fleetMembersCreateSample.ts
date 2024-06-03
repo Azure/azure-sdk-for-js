@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   FleetMember,
-  ContainerServiceFleetClient
+  ContainerServiceFleetClient,
 } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a FleetMember
  *
  * @summary Create a FleetMember
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2023-10-15/examples/FleetMembers_Create.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/FleetMembers_Create.json
  */
 async function createsAFleetMemberResourceWithALongRunningOperation() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function createsAFleetMemberResourceWithALongRunningOperation() {
   const fleetMemberName = "member-1";
   const resource: FleetMember = {
     clusterResourceId:
-      "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/cluster-1"
+      "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/cluster-1",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function createsAFleetMemberResourceWithALongRunningOperation() {
     resourceGroupName,
     fleetName,
     fleetMemberName,
-    resource
+    resource,
   );
   console.log(result);
 }

@@ -38,7 +38,7 @@ async function createANewSyncMember() {
     syncMemberAzureDatabaseResourceId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-65440/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328",
     usePrivateLinkConnection: true,
-    userName: "myUser"
+    userName: "myUser",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -48,7 +48,7 @@ async function createANewSyncMember() {
     databaseName,
     syncGroupName,
     syncMemberName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -77,7 +77,7 @@ async function updateASyncMember() {
     syncMemberAzureDatabaseResourceId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-65440/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328",
     usePrivateLinkConnection: true,
-    userName: "myUser"
+    userName: "myUser",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -87,7 +87,7 @@ async function updateASyncMember() {
     databaseName,
     syncGroupName,
     syncMemberName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

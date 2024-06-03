@@ -14,7 +14,7 @@ import {
   JobCredentialsGetResponse,
   JobCredentialsCreateOrUpdateOptionalParams,
   JobCredentialsCreateOrUpdateResponse,
-  JobCredentialsDeleteOptionalParams
+  JobCredentialsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface JobCredentials {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobCredentialsListByAgentOptionalParams
+    options?: JobCredentialsListByAgentOptionalParams,
   ): PagedAsyncIterableIterator<JobCredential>;
   /**
    * Gets a jobs credential.
@@ -48,7 +48,7 @@ export interface JobCredentials {
     serverName: string,
     jobAgentName: string,
     credentialName: string,
-    options?: JobCredentialsGetOptionalParams
+    options?: JobCredentialsGetOptionalParams,
   ): Promise<JobCredentialsGetResponse>;
   /**
    * Creates or updates a job credential.
@@ -66,7 +66,7 @@ export interface JobCredentials {
     jobAgentName: string,
     credentialName: string,
     parameters: JobCredential,
-    options?: JobCredentialsCreateOrUpdateOptionalParams
+    options?: JobCredentialsCreateOrUpdateOptionalParams,
   ): Promise<JobCredentialsCreateOrUpdateResponse>;
   /**
    * Deletes a job credential.
@@ -82,6 +82,6 @@ export interface JobCredentials {
     serverName: string,
     jobAgentName: string,
     credentialName: string,
-    options?: JobCredentialsDeleteOptionalParams
+    options?: JobCredentialsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   RegenerateEndpointKeysRequest,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Regenerate EndpointAuthKeys for an Endpoint using Key-based authentication (asynchronous).
@@ -21,13 +24,16 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineEndpoint/regenerateKeys.json
  */
 async function regenerateKeysOnlineEndpoint() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const body: RegenerateEndpointKeysRequest = {
     keyType: "Primary",
-    keyValue: "string"
+    keyValue: "string",
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -35,9 +41,13 @@ async function regenerateKeysOnlineEndpoint() {
     resourceGroupName,
     workspaceName,
     endpointName,
-    body
+    body,
   );
   console.log(result);
 }
 
-regenerateKeysOnlineEndpoint().catch(console.error);
+async function main() {
+  regenerateKeysOnlineEndpoint();
+}
+
+main().catch(console.error);

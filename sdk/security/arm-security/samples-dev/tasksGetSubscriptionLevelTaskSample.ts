@@ -30,7 +30,7 @@ async function getSecurityRecommendationTaskFromSecurityDataLocation() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.tasks.getSubscriptionLevelTask(
     ascLocation,
-    taskName
+    taskName,
   );
   console.log(result);
 }

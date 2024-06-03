@@ -19,7 +19,7 @@ import {
   DatabaseOperationsListByDatabaseOptionalParams,
   DatabaseOperationsListByDatabaseResponse,
   DatabaseOperationsCancelOptionalParams,
-  DatabaseOperationsListByDatabaseNextResponse
+  DatabaseOperationsListByDatabaseNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,13 +47,13 @@ export class DatabaseOperationsImpl implements DatabaseOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseOperationsListByDatabaseOptionalParams
+    options?: DatabaseOperationsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseOperation> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class DatabaseOperationsImpl implements DatabaseOperations {
           serverName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class DatabaseOperationsImpl implements DatabaseOperations {
     serverName: string,
     databaseName: string,
     options?: DatabaseOperationsListByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DatabaseOperation[]> {
     let result: DatabaseOperationsListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class DatabaseOperationsImpl implements DatabaseOperations {
         resourceGroupName,
         serverName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +104,7 @@ export class DatabaseOperationsImpl implements DatabaseOperations {
         serverName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,16 +117,36 @@ export class DatabaseOperationsImpl implements DatabaseOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseOperationsListByDatabaseOptionalParams
+    options?: DatabaseOperationsListByDatabaseOptionalParams,
   ): AsyncIterableIterator<DatabaseOperation> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Gets a list of operations performed on the database.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param options The options parameters.
+   */
+  private _listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: DatabaseOperationsListByDatabaseOptionalParams,
+  ): Promise<DatabaseOperationsListByDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, options },
+      listByDatabaseOperationSpec,
+    );
   }
 
   /**
@@ -143,31 +163,11 @@ export class DatabaseOperationsImpl implements DatabaseOperations {
     serverName: string,
     databaseName: string,
     operationId: string,
-    options?: DatabaseOperationsCancelOptionalParams
+    options?: DatabaseOperationsCancelOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, operationId, options },
-      cancelOperationSpec
-    );
-  }
-
-  /**
-   * Gets a list of operations performed on the database.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  private _listByDatabase(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: DatabaseOperationsListByDatabaseOptionalParams
-  ): Promise<DatabaseOperationsListByDatabaseResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
+      cancelOperationSpec,
     );
   }
 
@@ -185,62 +185,60 @@ export class DatabaseOperationsImpl implements DatabaseOperations {
     serverName: string,
     databaseName: string,
     nextLink: string,
-    options?: DatabaseOperationsListByDatabaseNextOptionalParams
+    options?: DatabaseOperationsListByDatabaseNextOptionalParams,
   ): Promise<DatabaseOperationsListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, nextLink, options },
-      listByDatabaseNextOperationSpec
+      listByDatabaseNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/operations/{operationId}/cancel",
-  httpMethod: "POST",
-  responses: { 200: {}, default: {} },
-  queryParameters: [Parameters.apiVersion6],
+const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/operations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseOperationListResult,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.operationId
   ],
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
 };
-const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/operations",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatabaseOperationListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion6],
+const cancelOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/operations/{operationId}/cancel",
+  httpMethod: "POST",
+  responses: { 200: {}, default: {} },
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.operationId,
   ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseOperationListResult
+      bodyMapper: Mappers.DatabaseOperationListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -248,8 +246,8 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

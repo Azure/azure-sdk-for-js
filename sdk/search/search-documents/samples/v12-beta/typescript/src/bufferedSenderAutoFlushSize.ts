@@ -7,10 +7,10 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import {
-    GeographyPoint,
-    SearchClient,
-    SearchIndexClient,
-    SearchIndexingBufferedSender
+  GeographyPoint,
+  SearchClient,
+  SearchIndexClient,
+  SearchIndexingBufferedSender,
 } from "@azure/search-documents";
 import { Hotel } from "./interfaces";
 import { createIndex, delay, documentKeyRetriever, WAIT_TIME } from "./setup";

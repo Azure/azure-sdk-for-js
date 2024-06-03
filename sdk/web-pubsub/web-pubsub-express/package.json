@@ -3,21 +3,18 @@
   "version": "1.0.6",
   "description": "Azure Web PubSub CloudEvents handlers",
   "sdk-type": "client",
-  "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "types": "types/web-pubsub-express.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "echo \"Browser is not supported.\" && exit 0",
-    "build:node": "tsc -p . && dev-tool run bundle --browser-test=false",
+    "build:node": "tshy",
     "build:samples": "echo Obsolete.",
-    "build:test": "tsc -p . && dev-tool run bundle --browser-test=false",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false && dev-tool run extract-api",
+    "build:test": "tshy",
+    "build": "npm run clean && tshy && dev-tool run bundle --browser-test=false && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "extract-api": "tshy && dev-tool run extract-api",
     "integration-test:browser": "echo \"Browser is not supported.\" && exit 0",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -28,14 +25,11 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo \"Browser is not supported.\" && exit 0",
-    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy",
+    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
     "dist/",
-    "dist-esm/",
-    "types/web-pubsub-express.d.ts",
-    "types/web-pubsub-express.d.ts.map",
     "README.md",
     "LICENSE"
   ],
@@ -55,38 +49,58 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-express/README.md",
   "sideEffects": false,
   "dependencies": {
-    "tslib": "^2.2.0",
-    "@azure/logger": "^1.0.0"
+    "@azure/logger": "^1.1.2",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "@types/chai": "^4.1.6",
     "@types/express": "^4.16.0",
     "@types/express-serve-static-core": "^4.17.19",
     "@types/jsonwebtoken": "^9.0.0",
-    "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^17.0.0",
-    "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
+    "@vitest/browser": "^1.6.0",
+    "@vitest/coverage-istanbul": "^1.6.0",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "express": "^4.16.3",
-    "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
-    "puppeteer": "^22.2.0",
     "rimraf": "^5.0.5",
-    "sinon": "^17.0.0",
-    "source-map-support": "^0.5.9",
+    "tshy": "^1.14.0",
     "typescript": "~5.4.5",
-    "ts-node": "^10.0.0"
+    "vitest": "^1.6.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub CloudEvents Handlers for Express",
     "productSlugs": [
       "azure"
     ]
-  }
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "main": "dist/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "type": "module"
 }

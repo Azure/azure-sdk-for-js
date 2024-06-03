@@ -25,7 +25,7 @@ import {
   DatastoresCreateOrUpdateResponse,
   DatastoresListSecretsOptionalParams,
   DatastoresListSecretsResponse,
-  DatastoresListNextResponse
+  DatastoresListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,7 +50,7 @@ export class DatastoresImpl implements Datastores {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DatastoresListOptionalParams
+    options?: DatastoresListOptionalParams,
   ): PagedAsyncIterableIterator<Datastore> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -68,9 +68,9 @@ export class DatastoresImpl implements Datastores {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,7 +78,7 @@ export class DatastoresImpl implements Datastores {
     resourceGroupName: string,
     workspaceName: string,
     options?: DatastoresListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Datastore[]> {
     let result: DatastoresListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class DatastoresImpl implements Datastores {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -106,12 +106,12 @@ export class DatastoresImpl implements Datastores {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DatastoresListOptionalParams
+    options?: DatastoresListOptionalParams,
   ): AsyncIterableIterator<Datastore> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,11 +126,11 @@ export class DatastoresImpl implements Datastores {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DatastoresListOptionalParams
+    options?: DatastoresListOptionalParams,
   ): Promise<DatastoresListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -145,11 +145,11 @@ export class DatastoresImpl implements Datastores {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DatastoresDeleteOptionalParams
+    options?: DatastoresDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -164,11 +164,11 @@ export class DatastoresImpl implements Datastores {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DatastoresGetOptionalParams
+    options?: DatastoresGetOptionalParams,
   ): Promise<DatastoresGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -185,11 +185,11 @@ export class DatastoresImpl implements Datastores {
     workspaceName: string,
     name: string,
     body: Datastore,
-    options?: DatastoresCreateOrUpdateOptionalParams
+    options?: DatastoresCreateOrUpdateOptionalParams,
   ): Promise<DatastoresCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, body, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -204,11 +204,11 @@ export class DatastoresImpl implements Datastores {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DatastoresListSecretsOptionalParams
+    options?: DatastoresListSecretsOptionalParams,
   ): Promise<DatastoresListSecretsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, options },
-      listSecretsOperationSpec
+      listSecretsOperationSpec,
     );
   }
 
@@ -223,11 +223,11 @@ export class DatastoresImpl implements Datastores {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: DatastoresListNextOptionalParams
+    options?: DatastoresListNextOptionalParams,
   ): Promise<DatastoresListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -235,16 +235,15 @@ export class DatastoresImpl implements Datastores {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatastoreResourceArmPaginatedResult
+      bodyMapper: Mappers.DatastoreResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
@@ -254,27 +253,26 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.names,
     Parameters.searchText,
     Parameters.orderBy1,
-    Parameters.orderByAsc
+    Parameters.orderByAsc,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -282,22 +280,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Datastore
+      bodyMapper: Mappers.Datastore,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -305,25 +302,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Datastore
+      bodyMapper: Mappers.Datastore,
     },
     201: {
-      bodyMapper: Mappers.Datastore
+      bodyMapper: Mappers.Datastore,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body10,
   queryParameters: [Parameters.apiVersion, Parameters.skipValidation],
@@ -332,23 +328,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name1
+    Parameters.name1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listSecretsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}/listSecrets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}/listSecrets",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DatastoreSecrets
+      bodyMapper: Mappers.DatastoreSecrets,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -356,39 +351,29 @@ const listSecretsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatastoreResourceArmPaginatedResult
+      bodyMapper: Mappers.DatastoreResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.count1,
-    Parameters.isDefault,
-    Parameters.names,
-    Parameters.searchText,
-    Parameters.orderBy1,
-    Parameters.orderByAsc
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -11,6 +11,7 @@
     - `FindReplaceSanitizers` that redact sensitive information based on provided regular expressions.
     - `HeaderSanitizers` that redact sensitive information in the headers of the requests.
 - Added support for the TestProxy/addSanitizers API, which improves the recording of tests by reducing flakiness and timeouts caused by concurrent requests. This helps to speed up the recording process and reduces the burden on the test proxy.
+- Adds `removeCentralSanitizers` option to the `RecorderStartOptions` to allow users pass in the central sanitizer ids to skip the specific santiizers at the test proxy level.
 
 ## 4.0.0 (2024-04-09)
 

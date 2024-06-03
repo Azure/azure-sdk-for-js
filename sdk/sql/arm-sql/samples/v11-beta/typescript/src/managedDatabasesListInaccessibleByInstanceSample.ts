@@ -31,7 +31,7 @@ async function listInaccessibleManagedDatabasesByManagedInstances() {
   const resArray = new Array();
   for await (let item of client.managedDatabases.listInaccessibleByInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

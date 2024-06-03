@@ -21,13 +21,14 @@ import {
   DataWarehouseUserActivityName,
   DataWarehouseUserActivitiesGetOptionalParams,
   DataWarehouseUserActivitiesGetResponse,
-  DataWarehouseUserActivitiesListByDatabaseNextResponse
+  DataWarehouseUserActivitiesListByDatabaseNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DataWarehouseUserActivitiesOperations operations. */
 export class DataWarehouseUserActivitiesOperationsImpl
-  implements DataWarehouseUserActivitiesOperations {
+  implements DataWarehouseUserActivitiesOperations
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -50,13 +51,13 @@ export class DataWarehouseUserActivitiesOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams
+    options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DataWarehouseUserActivities> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +75,9 @@ export class DataWarehouseUserActivitiesOperationsImpl
           serverName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +86,7 @@ export class DataWarehouseUserActivitiesOperationsImpl
     serverName: string,
     databaseName: string,
     options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataWarehouseUserActivities[]> {
     let result: DataWarehouseUserActivitiesListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +95,7 @@ export class DataWarehouseUserActivitiesOperationsImpl
         resourceGroupName,
         serverName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +108,7 @@ export class DataWarehouseUserActivitiesOperationsImpl
         serverName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,13 +121,13 @@ export class DataWarehouseUserActivitiesOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams
+    options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams,
   ): AsyncIterableIterator<DataWarehouseUserActivities> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -146,7 +147,7 @@ export class DataWarehouseUserActivitiesOperationsImpl
     serverName: string,
     databaseName: string,
     dataWarehouseUserActivityName: DataWarehouseUserActivityName,
-    options?: DataWarehouseUserActivitiesGetOptionalParams
+    options?: DataWarehouseUserActivitiesGetOptionalParams,
   ): Promise<DataWarehouseUserActivitiesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -154,9 +155,9 @@ export class DataWarehouseUserActivitiesOperationsImpl
         serverName,
         databaseName,
         dataWarehouseUserActivityName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -172,11 +173,11 @@ export class DataWarehouseUserActivitiesOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams
+    options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams,
   ): Promise<DataWarehouseUserActivitiesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
+      listByDatabaseOperationSpec,
     );
   }
 
@@ -194,11 +195,11 @@ export class DataWarehouseUserActivitiesOperationsImpl
     serverName: string,
     databaseName: string,
     nextLink: string,
-    options?: DataWarehouseUserActivitiesListByDatabaseNextOptionalParams
+    options?: DataWarehouseUserActivitiesListByDatabaseNextOptionalParams,
   ): Promise<DataWarehouseUserActivitiesListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, nextLink, options },
-      listByDatabaseNextOperationSpec
+      listByDatabaseNextOperationSpec,
     );
   }
 }
@@ -206,14 +207,13 @@ export class DataWarehouseUserActivitiesOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataWarehouseUserActivities/{dataWarehouseUserActivityName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataWarehouseUserActivities/{dataWarehouseUserActivityName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataWarehouseUserActivities
+      bodyMapper: Mappers.DataWarehouseUserActivities,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -222,20 +222,19 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.dataWarehouseUserActivityName
+    Parameters.dataWarehouseUserActivityName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataWarehouseUserActivities",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataWarehouseUserActivities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataWarehouseUserActivitiesListResult
+      bodyMapper: Mappers.DataWarehouseUserActivitiesListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -243,19 +242,19 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataWarehouseUserActivitiesListResult
+      bodyMapper: Mappers.DataWarehouseUserActivitiesListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -263,8 +262,8 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

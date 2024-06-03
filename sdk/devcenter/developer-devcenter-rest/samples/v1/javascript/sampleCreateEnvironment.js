@@ -8,8 +8,8 @@ require("dotenv").config();
  */
 async function createEnvironment() {
   // Build client and fetch required parameters
-  const devCenter = process.env.AZURE_DEVCENTER_ENDPOINT || "";
-  const client = createClient(devCenter, new DefaultAzureCredential());
+  const endpoint = process.env.DEVCENTER_ENDPOINT || "<devcenter name>";
+  const client = createClient(endpoint, new DefaultAzureCredential());
 
   const projectList = await client.path("/projects").get();
   if (isUnexpected(projectList)) {
@@ -18,36 +18,32 @@ async function createEnvironment() {
 
   let project = projectList.body.value[0];
   if (project === undefined || project.name === undefined) {
-    throw "No projects found.";
+    throw new Error("No projects found.");
   }
   const projectName = project.name;
 
   const catalogList = await client.path("/projects/{projectName}/catalogs", projectName).get();
   if (isUnexpected(catalogList)) {
-    throw catalogList.body.error;
+    throw new Error(catalogList.body.error);
   }
 
-  let catalog = catalogList.body.value[0];
-  if (catalog === undefined || catalog.name === undefined) {
-    throw "No catalogs found " + catalogList.body;
-  }
-
-  let catalogName = catalog.name;
+  const catalog = catalogList.body.value[0];
+  const catalogName = catalog.name;
 
   const environmentDefinitionsList = await client
-      .path(
-        "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions",
-        projectName,
-        catalogName
-      )
-      .get();
+    .path(
+      "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions",
+      projectName,
+      catalogName,
+    )
+    .get();
 
   if (isUnexpected(environmentDefinitionsList)) {
-    throw environmentDefinitionsList.body.error;
+    throw new Error(environmentDefinitionsList.body.error);
   }
 
-  let environmentDefinition = environmentDefinitionsList.body.value[0];
-  let environmentDefinitionName = environmentDefinition.name;
+  const environmentDefinition = environmentDefinitionsList.body.value[0];
+  const environmentDefinitionName = environmentDefinition.name;
 
   const environmentTypeList = await client
     .path("/projects/{projectName}/environmentTypes", projectName)
@@ -79,7 +75,7 @@ async function createEnvironment() {
       "/projects/{projectName}/users/{userId}/environments/{environmentName}",
       projectName,
       userId,
-      environmentName
+      environmentName,
     )
     .put(environmentsCreateParameters);
   if (isUnexpected(environmentCreateResponse)) {
@@ -89,7 +85,7 @@ async function createEnvironment() {
   const environmentCreatePoller = await getLongRunningPoller(client, environmentCreateResponse);
   const environmentCreateResult = await environmentCreatePoller.pollUntilDone();
   console.log(
-    `Provisioned environment with state ${environmentCreateResult.body.provisioningState}.`
+    `Provisioned environment with state ${environmentCreateResult.body.provisioningState}.`,
   );
 
   // Tear down the environment when finished
@@ -98,7 +94,7 @@ async function createEnvironment() {
       "/projects/{projectName}/users/{userId}/environments/{environmentName}",
       projectName,
       userId,
-      environmentName
+      environmentName,
     )
     .delete();
   if (isUnexpected(environmentDeleteResponse)) {
