@@ -89,10 +89,8 @@ export interface StaticWebsite {
 
 export interface StorageError {
   message?: string;
-  copySourceStatusCode?: number;
-  copySourceErrorCode?: string;
-  copySourceErrorMessage?: string;
   code?: string;
+  authenticationErrorDetail?: string;
 }
 
 /** Stats for the storage service. */
@@ -1528,8 +1526,6 @@ export interface BlobStartCopyFromURLHeaders {
 /** Defines headers for Blob_startCopyFromURL operation. */
 export interface BlobStartCopyFromURLExceptionHeaders {
   errorCode?: string;
-  copySourceErrorCode?: string;
-  copySourceStatusCode?: number;
 }
 
 /** Defines headers for Blob_copyFromURL operation. */
@@ -1565,8 +1561,6 @@ export interface BlobCopyFromURLHeaders {
 /** Defines headers for Blob_copyFromURL operation. */
 export interface BlobCopyFromURLExceptionHeaders {
   errorCode?: string;
-  copySourceErrorCode?: string;
-  copySourceStatusCode?: number;
 }
 
 /** Defines headers for Blob_abortCopyFromURL operation. */
@@ -1870,8 +1864,6 @@ export interface PageBlobUploadPagesFromURLHeaders {
 /** Defines headers for PageBlob_uploadPagesFromURL operation. */
 export interface PageBlobUploadPagesFromURLExceptionHeaders {
   errorCode?: string;
-  copySourceErrorCode?: string;
-  copySourceStatusCode?: number;
 }
 
 /** Defines headers for PageBlob_getPageRanges operation. */
@@ -2104,8 +2096,6 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
 /** Defines headers for AppendBlob_appendBlockFromUrl operation. */
 export interface AppendBlobAppendBlockFromUrlExceptionHeaders {
   errorCode?: string;
-  copySourceErrorCode?: string;
-  copySourceStatusCode?: number;
 }
 
 /** Defines headers for AppendBlob_seal operation. */
@@ -2195,8 +2185,6 @@ export interface BlockBlobPutBlobFromUrlHeaders {
 /** Defines headers for BlockBlob_putBlobFromUrl operation. */
 export interface BlockBlobPutBlobFromUrlExceptionHeaders {
   errorCode?: string;
-  copySourceErrorCode?: string;
-  copySourceStatusCode?: number;
 }
 
 /** Defines headers for BlockBlob_stageBlock operation. */
@@ -2255,8 +2243,6 @@ export interface BlockBlobStageBlockFromURLHeaders {
 /** Defines headers for BlockBlob_stageBlockFromURL operation. */
 export interface BlockBlobStageBlockFromURLExceptionHeaders {
   errorCode?: string;
-  copySourceErrorCode?: string;
-  copySourceStatusCode?: number;
 }
 
 /** Defines headers for BlockBlob_commitBlockList operation. */

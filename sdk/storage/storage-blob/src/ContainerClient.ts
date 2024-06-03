@@ -23,6 +23,7 @@ import {
   ContainerFilterBlobsResponse,
   ContainerGetAccessPolicyHeaders,
   ContainerGetAccessPolicyResponseModel,
+  ContainerGetAccountInfoResponse,
   ContainerGetPropertiesResponse,
   ContainerListBlobFlatSegmentHeaders,
   ContainerListBlobHierarchySegmentHeaders,
@@ -86,7 +87,6 @@ import {
   ListBlobsHierarchySegmentResponse as ListBlobsHierarchySegmentResponseInternal,
   ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
   ContainerGetAccountInfoHeaders,
-  ContainerGetAccountInfoResponse,
 } from "./generated/src";
 
 /**

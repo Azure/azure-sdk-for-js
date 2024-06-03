@@ -409,7 +409,6 @@ export class BlobClient extends StorageClient {
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
     generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string>;
-    // Warning: (ae-forgotten-export) The symbol "BlobGetAccountInfoResponse" needs to be exported by the entry point index.d.ts
     getAccountInfo(options?: BlobGetAccountInfoOptions): Promise<BlobGetAccountInfoResponse>;
     getAppendBlobClient(): AppendBlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
@@ -651,9 +650,23 @@ export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
 }
 
 // @public
+export interface BlobGetAccountInfoHeaders {
+    accountKind?: AccountKind;
+    clientRequestId?: string;
+    date?: Date;
+    isHierarchicalNamespaceEnabled?: boolean;
+    requestId?: string;
+    skuName?: SkuName;
+    version?: string;
+}
+
+// @public
 export interface BlobGetAccountInfoOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
+
+// @public
+export type BlobGetAccountInfoResponse = WithResponse<BlobGetAccountInfoHeaders, BlobGetAccountInfoHeaders>;
 
 // @public
 export interface BlobGetPropertiesHeaders {
@@ -1690,7 +1703,6 @@ export class ContainerClient extends StorageClient {
     findBlobsByTags(tagFilterSqlExpression: string, options?: ContainerFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ContainerFindBlobsByTagsSegmentResponse>;
     generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
-    // Warning: (ae-forgotten-export) The symbol "ContainerGetAccountInfoResponse" needs to be exported by the entry point index.d.ts
     getAccountInfo(options?: ContainerGetAccountInfoOptions): Promise<ContainerGetAccountInfoResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
     getBlobBatchClient(): BlobBatchClient;
@@ -1830,9 +1842,23 @@ export type ContainerGetAccessPolicyResponse = WithResponse<{
 export type ContainerGetAccessPolicyResponseModel = ContainerGetAccessPolicyHeaders & SignedIdentifierModel[];
 
 // @public
+export interface ContainerGetAccountInfoHeaders {
+    accountKind?: AccountKind;
+    clientRequestId?: string;
+    date?: Date;
+    isHierarchicalNamespaceEnabled?: boolean;
+    requestId?: string;
+    skuName?: SkuName;
+    version?: string;
+}
+
+// @public
 export interface ContainerGetAccountInfoOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
+
+// @public
+export type ContainerGetAccountInfoResponse = WithResponse<ContainerGetAccountInfoHeaders, ContainerGetAccountInfoHeaders>;
 
 // @public
 export interface ContainerGetPropertiesHeaders {

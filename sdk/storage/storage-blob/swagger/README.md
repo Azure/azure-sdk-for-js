@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/8b14ba4a3232adb8538d96832a47dfd695904341/specification/storage/data-plane/Microsoft.BlobStorage/stable/2024-08-04/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/f6f50c6388fd5836fa142384641b8353a99874ef/specification/storage/data-plane/Microsoft.BlobStorage/stable/2024-08-04/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -1462,6 +1462,16 @@ directive:
             "$ref": "#/parameters/MaxResults"
           }
         ];
+```
+
+### Add AuthenticationErrorDetail.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.StorageError
+    transform: >
+      $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)
