@@ -4,11 +4,7 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type CapacityType = string;
@@ -27,19 +23,6 @@ export interface ChatCompletions {
     id: string;
     model: string;
     usage: CompletionsUsage;
-}
-
-// @public (undocumented)
-export class ChatCompletionsClient {
-    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: ChatCompletionsClientOptions);
-    complete(messages: ChatRequestMessageUnion[], options?: CompleteOptionalParams): Promise<ChatCompletions>;
-    getModelInfo(options?: GetModelInfoOptionalParams): Promise<ModelInfo>;
-    readonly pipeline: Pipeline;
-}
-
-// @public (undocumented)
-export interface ChatCompletionsClientOptions extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public

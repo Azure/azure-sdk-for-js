@@ -111,9 +111,23 @@ export interface FunctionDefinition {
 }
 
 /** An abstract representation of an explicit, named tool selection to use for a chat completions request. */
-export interface ChatCompletionsNamedToolSelection {
-  /** The object type. */
+export interface ChatCompletionsNamedToolSelectionParent {
   type: string;
+}
+
+/** A tool selection of a specific, named function tool that will limit chat completions to using the named function. */
+export interface ChatCompletionsNamedFunctionToolSelection
+  extends ChatCompletionsNamedToolSelectionParent {
+  /** The object type, which is always 'function'. */
+  type: "function";
+  /** The function that should be called. */
+  function: ChatCompletionsFunctionToolSelection;
+}
+
+/** A tool selection of a specific, named function tool that will limit chat completions to using the named function. */
+export interface ChatCompletionsFunctionToolSelection {
+  /** The name of the function that should be called. */
+  name: string;
 }
 
 /** Represents an image with optional text. */
@@ -145,6 +159,10 @@ export type ChatCompletionsToolCall =
 export type ChatCompletionsToolDefinition =
   | ChatCompletionsToolDefinitionParent
   | ChatCompletionsFunctionToolDefinition;
+/** An abstract representation of an explicit, named tool selection to use for a chat completions request. */
+export type ChatCompletionsNamedToolSelection =
+  | ChatCompletionsNamedToolSelectionParent
+  | ChatCompletionsNamedFunctionToolSelection;
 /** Alias for UnknownParams */
 export type UnknownParams = string | "error" | "drop" | "pass_through";
 /** Alias for ChatRole */
@@ -152,7 +170,11 @@ export type ChatRole = string | "system" | "user" | "assistant" | "tool";
 /** Alias for ChatCompletionsResponseFormat */
 export type ChatCompletionsResponseFormat = string | "text" | "json_object";
 /** Alias for ChatCompletionsToolSelectionPreset */
-export type ChatCompletionsToolSelectionPreset = string | "auto" | "none";
+export type ChatCompletionsToolSelectionPreset =
+  | string
+  | "auto"
+  | "none"
+  | "required";
 /** Alias for EmbeddingEncodingFormat */
 export type EmbeddingEncodingFormat =
   | string
