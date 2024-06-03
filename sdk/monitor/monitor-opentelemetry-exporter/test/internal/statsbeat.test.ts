@@ -35,7 +35,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
   const disableOfflineStorageOptions = {
     connectionString: `InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333`,
     disableOfflineStorage: true,
-  }
+  };
 
   describe("Export/Statsbeat", () => {
     let scope: nock.Interceptor;
