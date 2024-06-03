@@ -18,7 +18,7 @@ export interface LogsIngestionClientOptions extends CommonClientOptions {
   apiVersion?: string;
 
   /**
-   * The Audience to use for authentication with Azure Active Directory (AAD). The
+   * The Audience to use for authentication with Microsoft Entra ID. The
    * audience is not considered when using a shared key.
    * {@link KnownMonitorAudience} can be used interchangeably with audience
    */
