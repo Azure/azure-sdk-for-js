@@ -14,7 +14,7 @@ import {
   ManagedDatabaseTransparentDataEncryptionGetOptionalParams,
   ManagedDatabaseTransparentDataEncryptionGetResponse,
   ManagedDatabaseTransparentDataEncryptionCreateOrUpdateOptionalParams,
-  ManagedDatabaseTransparentDataEncryptionCreateOrUpdateResponse
+  ManagedDatabaseTransparentDataEncryptionCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface ManagedDatabaseTransparentDataEncryption {
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseTransparentDataEncryptionListByDatabaseOptionalParams
+    options?: ManagedDatabaseTransparentDataEncryptionListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ManagedTransparentDataEncryption>;
   /**
    * Gets a managed database's transparent data encryption.
@@ -50,7 +50,7 @@ export interface ManagedDatabaseTransparentDataEncryption {
     managedInstanceName: string,
     databaseName: string,
     tdeName: TransparentDataEncryptionName,
-    options?: ManagedDatabaseTransparentDataEncryptionGetOptionalParams
+    options?: ManagedDatabaseTransparentDataEncryptionGetOptionalParams,
   ): Promise<ManagedDatabaseTransparentDataEncryptionGetResponse>;
   /**
    * Updates a database's transparent data encryption configuration.
@@ -68,6 +68,6 @@ export interface ManagedDatabaseTransparentDataEncryption {
     databaseName: string,
     tdeName: TransparentDataEncryptionName,
     parameters: ManagedTransparentDataEncryption,
-    options?: ManagedDatabaseTransparentDataEncryptionCreateOrUpdateOptionalParams
+    options?: ManagedDatabaseTransparentDataEncryptionCreateOrUpdateOptionalParams,
   ): Promise<ManagedDatabaseTransparentDataEncryptionCreateOrUpdateResponse>;
 }

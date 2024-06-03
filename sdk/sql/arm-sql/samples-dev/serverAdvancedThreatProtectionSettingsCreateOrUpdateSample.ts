@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ServerAdvancedThreatProtection,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,12 +34,13 @@ async function updateAServerAdvancedThreatProtectionSettingsWithAllParameters() 
   const parameters: ServerAdvancedThreatProtection = { state: "Enabled" };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverAdvancedThreatProtectionSettings.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    advancedThreatProtectionName,
-    parameters
-  );
+  const result =
+    await client.serverAdvancedThreatProtectionSettings.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      advancedThreatProtectionName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -60,12 +61,13 @@ async function updateAServerAdvancedThreatProtectionSettingsWithMinimalParameter
   const parameters: ServerAdvancedThreatProtection = { state: "Disabled" };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverAdvancedThreatProtectionSettings.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    advancedThreatProtectionName,
-    parameters
-  );
+  const result =
+    await client.serverAdvancedThreatProtectionSettings.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      advancedThreatProtectionName,
+      parameters,
+    );
   console.log(result);
 }
 

@@ -32,7 +32,7 @@ async function uploadATdeCertificate() {
   const result = await client.managedInstanceTdeCertificates.beginCreateAndWait(
     resourceGroupName,
     managedInstanceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

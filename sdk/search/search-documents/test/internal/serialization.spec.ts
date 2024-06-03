@@ -32,13 +32,16 @@ describe("serialization.serialize", function () {
 
   it("recursive 2", function () {
     const child = { hello: Infinity, world: -Infinity, universe: NaN };
+    const expectChild = { hello: "INF", world: "-INF", universe: "NaN" };
     const documents = [
       { id: "1", children: [child] },
       { id: "2", children: [child] },
       { id: "3", children: [child] },
     ];
+    const expect = documents.map((doc) => ({ ...doc, children: [expectChild] }));
+
     const result = serialize(documents);
-    assert.deepEqual(documents, result);
+    assert.deepEqual(result, expect);
   });
 
   it("NaN", function () {
@@ -54,6 +57,20 @@ describe("serialization.serialize", function () {
   it("Negative Infinity", function () {
     const result = serialize({ a: -Infinity });
     assert.deepEqual(result, { a: "-INF" });
+  });
+
+  it("GeographyPoint", function () {
+    const result = serialize({
+      location: new GeographyPoint({ latitude: 37.989769, longitude: -84.527771 }),
+    });
+    const expect = {
+      location: {
+        type: "Point",
+        coordinates: [-84.527771, 37.989769],
+        crs: { type: "name", properties: { name: "EPSG:4326" } },
+      },
+    };
+    assert.deepEqual(result, expect);
   });
 
   afterEach(function () {
@@ -87,13 +104,16 @@ describe("serialization.deserialize", function () {
 
   it("recursive 2", function () {
     const child = { hello: "INF", world: "-INF", universe: "NaN" };
+    const expectChild = { hello: Infinity, world: -Infinity, universe: NaN };
     const documents = [
       { id: "1", children: [child] },
       { id: "2", children: [child] },
       { id: "3", children: [child] },
     ];
+    const expect = documents.map((doc) => ({ ...doc, children: [expectChild] }));
+
     const result = deserialize(documents);
-    assert.deepEqual(documents, result);
+    assert.deepEqual(result, expect);
   });
 
   it("NaN", function () {

@@ -14,7 +14,7 @@ import {
   GovernanceAssignmentsGetResponse,
   GovernanceAssignmentsCreateOrUpdateOptionalParams,
   GovernanceAssignmentsCreateOrUpdateResponse,
-  GovernanceAssignmentsDeleteOptionalParams
+  GovernanceAssignmentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface GovernanceAssignments {
   list(
     scope: string,
     assessmentName: string,
-    options?: GovernanceAssignmentsListOptionalParams
+    options?: GovernanceAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<GovernanceAssignment>;
   /**
    * Get a specific governanceAssignment for the requested scope by AssignmentKey
@@ -47,7 +47,7 @@ export interface GovernanceAssignments {
     scope: string,
     assessmentName: string,
     assignmentKey: string,
-    options?: GovernanceAssignmentsGetOptionalParams
+    options?: GovernanceAssignmentsGetOptionalParams,
   ): Promise<GovernanceAssignmentsGetResponse>;
   /**
    * Creates or updates a governance assignment on the given subscription.
@@ -65,7 +65,7 @@ export interface GovernanceAssignments {
     assessmentName: string,
     assignmentKey: string,
     governanceAssignment: GovernanceAssignment,
-    options?: GovernanceAssignmentsCreateOrUpdateOptionalParams
+    options?: GovernanceAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<GovernanceAssignmentsCreateOrUpdateResponse>;
   /**
    * Delete a GovernanceAssignment over a given scope
@@ -81,6 +81,6 @@ export interface GovernanceAssignments {
     scope: string,
     assessmentName: string,
     assignmentKey: string,
-    options?: GovernanceAssignmentsDeleteOptionalParams
+    options?: GovernanceAssignmentsDeleteOptionalParams,
   ): Promise<void>;
 }

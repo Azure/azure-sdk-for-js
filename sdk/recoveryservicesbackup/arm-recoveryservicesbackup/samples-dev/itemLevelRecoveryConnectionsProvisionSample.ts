@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ILRRequestResource,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ provisioning, call GetProtectedItemOperationResult API.
  * @summary Provisions a script which invokes an iSCSI connection to the backup data. Executing this script opens a file
 explorer displaying all the recoverable files and folders. This is an asynchronous operation. To know the status of
 provisioning, call GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/Provision_Ilr.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/Provision_Ilr.json
  */
 async function provisionInstantItemLevelRecoveryForAzureVM() {
   const subscriptionId =
@@ -47,8 +47,8 @@ async function provisionInstantItemLevelRecoveryForAzureVM() {
       recoveryPointId: "38823086363464",
       renewExistingRegistration: true,
       virtualMachineId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/pysdktestrg/providers/Microsoft.Compute/virtualMachines/pysdktestv2vm1"
-    }
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/pysdktestrg/providers/Microsoft.Compute/virtualMachines/pysdktestv2vm1",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -59,7 +59,7 @@ async function provisionInstantItemLevelRecoveryForAzureVM() {
     containerName,
     protectedItemName,
     recoveryPointId,
-    parameters
+    parameters,
   );
   console.log(result);
 }

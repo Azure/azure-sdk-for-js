@@ -28,13 +28,14 @@ import {
   CustomEntityStoreAssignmentsCreateResponse,
   CustomEntityStoreAssignmentsDeleteOptionalParams,
   CustomEntityStoreAssignmentsListByResourceGroupNextResponse,
-  CustomEntityStoreAssignmentsListBySubscriptionNextResponse
+  CustomEntityStoreAssignmentsListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CustomEntityStoreAssignments operations. */
 export class CustomEntityStoreAssignmentsImpl
-  implements CustomEntityStoreAssignments {
+  implements CustomEntityStoreAssignments
+{
   private readonly client: SecurityCenter;
 
   /**
@@ -53,7 +54,7 @@ export class CustomEntityStoreAssignmentsImpl
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: CustomEntityStoreAssignmentsListByResourceGroupOptionalParams
+    options?: CustomEntityStoreAssignmentsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<CustomEntityStoreAssignment> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -70,16 +71,16 @@ export class CustomEntityStoreAssignmentsImpl
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: CustomEntityStoreAssignmentsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CustomEntityStoreAssignment[]> {
     let result: CustomEntityStoreAssignmentsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +95,7 @@ export class CustomEntityStoreAssignmentsImpl
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -105,11 +106,11 @@ export class CustomEntityStoreAssignmentsImpl
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: CustomEntityStoreAssignmentsListByResourceGroupOptionalParams
+    options?: CustomEntityStoreAssignmentsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<CustomEntityStoreAssignment> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -120,7 +121,7 @@ export class CustomEntityStoreAssignmentsImpl
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: CustomEntityStoreAssignmentsListBySubscriptionOptionalParams
+    options?: CustomEntityStoreAssignmentsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<CustomEntityStoreAssignment> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -135,13 +136,13 @@ export class CustomEntityStoreAssignmentsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: CustomEntityStoreAssignmentsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CustomEntityStoreAssignment[]> {
     let result: CustomEntityStoreAssignmentsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -162,7 +163,7 @@ export class CustomEntityStoreAssignmentsImpl
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: CustomEntityStoreAssignmentsListBySubscriptionOptionalParams
+    options?: CustomEntityStoreAssignmentsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<CustomEntityStoreAssignment> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -181,11 +182,11 @@ export class CustomEntityStoreAssignmentsImpl
   get(
     resourceGroupName: string,
     customEntityStoreAssignmentName: string,
-    options?: CustomEntityStoreAssignmentsGetOptionalParams
+    options?: CustomEntityStoreAssignmentsGetOptionalParams,
   ): Promise<CustomEntityStoreAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, customEntityStoreAssignmentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -202,16 +203,16 @@ export class CustomEntityStoreAssignmentsImpl
     resourceGroupName: string,
     customEntityStoreAssignmentName: string,
     customEntityStoreAssignmentRequestBody: CustomEntityStoreAssignmentRequest,
-    options?: CustomEntityStoreAssignmentsCreateOptionalParams
+    options?: CustomEntityStoreAssignmentsCreateOptionalParams,
   ): Promise<CustomEntityStoreAssignmentsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         customEntityStoreAssignmentName,
         customEntityStoreAssignmentRequestBody,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -226,11 +227,11 @@ export class CustomEntityStoreAssignmentsImpl
   delete(
     resourceGroupName: string,
     customEntityStoreAssignmentName: string,
-    options?: CustomEntityStoreAssignmentsDeleteOptionalParams
+    options?: CustomEntityStoreAssignmentsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, customEntityStoreAssignmentName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -242,11 +243,11 @@ export class CustomEntityStoreAssignmentsImpl
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: CustomEntityStoreAssignmentsListByResourceGroupOptionalParams
+    options?: CustomEntityStoreAssignmentsListByResourceGroupOptionalParams,
   ): Promise<CustomEntityStoreAssignmentsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -255,11 +256,11 @@ export class CustomEntityStoreAssignmentsImpl
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: CustomEntityStoreAssignmentsListBySubscriptionOptionalParams
+    options?: CustomEntityStoreAssignmentsListBySubscriptionOptionalParams,
   ): Promise<CustomEntityStoreAssignmentsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -273,11 +274,11 @@ export class CustomEntityStoreAssignmentsImpl
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: CustomEntityStoreAssignmentsListByResourceGroupNextOptionalParams
+    options?: CustomEntityStoreAssignmentsListByResourceGroupNextOptionalParams,
   ): Promise<CustomEntityStoreAssignmentsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -288,11 +289,11 @@ export class CustomEntityStoreAssignmentsImpl
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: CustomEntityStoreAssignmentsListBySubscriptionNextOptionalParams
+    options?: CustomEntityStoreAssignmentsListBySubscriptionNextOptionalParams,
   ): Promise<CustomEntityStoreAssignmentsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -300,149 +301,144 @@ export class CustomEntityStoreAssignmentsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customEntityStoreAssignments/{customEntityStoreAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customEntityStoreAssignments/{customEntityStoreAssignmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomEntityStoreAssignment
+      bodyMapper: Mappers.CustomEntityStoreAssignment,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.customEntityStoreAssignmentName
+    Parameters.customEntityStoreAssignmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customEntityStoreAssignments/{customEntityStoreAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customEntityStoreAssignments/{customEntityStoreAssignmentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomEntityStoreAssignment
+      bodyMapper: Mappers.CustomEntityStoreAssignment,
     },
     201: {
-      bodyMapper: Mappers.CustomEntityStoreAssignment
+      bodyMapper: Mappers.CustomEntityStoreAssignment,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.customEntityStoreAssignmentRequestBody,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.customEntityStoreAssignmentName
+    Parameters.customEntityStoreAssignmentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customEntityStoreAssignments/{customEntityStoreAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customEntityStoreAssignments/{customEntityStoreAssignmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.customEntityStoreAssignmentName
+    Parameters.customEntityStoreAssignmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customEntityStoreAssignments",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Security/customEntityStoreAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomEntityStoreAssignmentsListResult
+      bodyMapper: Mappers.CustomEntityStoreAssignmentsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/customEntityStoreAssignments",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/customEntityStoreAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomEntityStoreAssignmentsListResult
+      bodyMapper: Mappers.CustomEntityStoreAssignmentsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomEntityStoreAssignmentsListResult
+      bodyMapper: Mappers.CustomEntityStoreAssignmentsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomEntityStoreAssignmentsListResult
+      bodyMapper: Mappers.CustomEntityStoreAssignmentsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
