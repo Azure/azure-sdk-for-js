@@ -65,7 +65,7 @@ By default, the library's clients are configured to use the Azure Public Cloud. 
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, MetricsQueryClient, metricsClient } from "@azure/monitor-query";
+import { LogsQueryClient, MetricsQueryClient, MetricsClient } from "@azure/monitor-query";
 
 const credential = new DefaultAzureCredential();
 
