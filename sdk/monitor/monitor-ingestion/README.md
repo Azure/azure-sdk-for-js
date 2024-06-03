@@ -47,6 +47,25 @@ const credential = new DefaultAzureCredential();
 const logsIngestionClient = new LogsIngestionClient(logsIngestionEndpoint, credential);
 ```
 
+#### Configure client for Azure sovereign cloud
+
+By default, the client is configured to use the Azure Public Cloud. To use a sovereign cloud instead, provide the correct endpoint and audience value when instantiating the client. For example:
+
+```ts
+import { DefaultAzureCredential } from "@azure/identity";
+import { LogsIngestionClient } from "@azure/monitor-ingestion";
+
+import * as dotenv from "dotenv";
+dotenv.config();
+
+const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
+
+const credential = new DefaultAzureCredential();
+const logsIngestionClient = new LogsIngestionClient(logsIngestionEndpoint, credential, {
+  audience: "https://api.loganalytics.azure.cn/.default",
+});
+```
+
 ## Key concepts
 
 ### Data Collection Endpoint
@@ -241,25 +260,6 @@ module.exports = { main };
 ### Retrieve logs
 
 Logs uploaded using the Monitor Ingestion client library can be retrieved using the [Monitor Query client library][monitor_query].
-
-#### Configure client for Azure sovereign cloud
-
-By default, the client is configured to use the Azure Public Cloud. To use a sovereign cloud instead, provide the correct endpoint and audience value when instantiating the client. For example:
-
-```ts
-import { DefaultAzureCredential } from "@azure/identity";
-import { LogsIngestionClient } from "@azure/monitor-ingestion";
-
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
-
-const credential = new DefaultAzureCredential();
-const logsIngestionClient = new LogsIngestionClient(logsIngestionEndpoint, credential, {
-  audience: "https://api.loganalytics.azure.cn/.default",
-});
-```
 
 ## Troubleshooting
 
