@@ -19,5 +19,5 @@ steps:
       scriptType: bash
       scriptLocation: "inlineScript"
       inlineScript: |
-        node - 
-        console.log("Hello World");
+        node $(Pipeline.Workspace)/sdk/identity/identity/samples/sample.js
+        
