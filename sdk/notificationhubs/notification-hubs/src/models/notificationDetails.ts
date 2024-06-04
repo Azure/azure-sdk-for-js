@@ -99,6 +99,11 @@ export interface NotificationDetails {
   fcmOutcomeCounts?: NotificationOutcome[];
 
   /**
+   * FCM V1 outcome counts per state.
+   */
+  fcmV1OutcomeCounts?: NotificationOutcome[];
+
+  /**
    * ADM outcome counts per state.
    */
   admOutcomeCounts?: NotificationOutcome[];

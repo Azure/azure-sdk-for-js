@@ -17,7 +17,7 @@ import {
   MaintenanceConfigurationsDeleteOptionalParams,
   MaintenanceConfigurationsDeleteResponse,
   MaintenanceConfigurationsUpdateOptionalParams,
-  MaintenanceConfigurationsUpdateResponse
+  MaintenanceConfigurationsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface MaintenanceConfigurations {
    * @param options The options parameters.
    */
   list(
-    options?: MaintenanceConfigurationsListOptionalParams
+    options?: MaintenanceConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<MaintenanceConfiguration>;
   /**
    * Get Configuration record
@@ -39,7 +39,7 @@ export interface MaintenanceConfigurations {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsGetOptionalParams
+    options?: MaintenanceConfigurationsGetOptionalParams,
   ): Promise<MaintenanceConfigurationsGetResponse>;
   /**
    * Create or Update configuration record
@@ -52,7 +52,7 @@ export interface MaintenanceConfigurations {
     resourceGroupName: string,
     resourceName: string,
     configuration: MaintenanceConfiguration,
-    options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams
+    options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<MaintenanceConfigurationsCreateOrUpdateResponse>;
   /**
    * Delete Configuration record
@@ -63,7 +63,7 @@ export interface MaintenanceConfigurations {
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsDeleteOptionalParams
+    options?: MaintenanceConfigurationsDeleteOptionalParams,
   ): Promise<MaintenanceConfigurationsDeleteResponse>;
   /**
    * Patch configuration record
@@ -76,6 +76,6 @@ export interface MaintenanceConfigurations {
     resourceGroupName: string,
     resourceName: string,
     configuration: MaintenanceConfiguration,
-    options?: MaintenanceConfigurationsUpdateOptionalParams
+    options?: MaintenanceConfigurationsUpdateOptionalParams,
   ): Promise<MaintenanceConfigurationsUpdateResponse>;
 }

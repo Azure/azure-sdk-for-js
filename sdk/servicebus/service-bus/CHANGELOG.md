@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+- upgrade dependency `@azure/abort-controller` version to `^2.1.2`.
+
 ## 7.9.4 (2024-02-06)
 
 ### Bugs Fixed

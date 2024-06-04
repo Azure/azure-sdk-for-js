@@ -13,7 +13,6 @@ import {
   EventGridDeserializer,
 } from "../../src";
 import { createRecordedClient } from "./utils/recordedClient";
-import { expect } from "chai";
 import { Buffer } from "buffer";
 
 /* eslint no-constant-condition: "off" */
@@ -94,12 +93,12 @@ describe("Event Grid Namespace Client", function (this: Suite) {
 
       // The Received Cloud Event ID must be equal to the ID of the Event that was published.
       for (const event of result) {
-        assert.equal(event.data.resourceUri, "https://dummyurl.com");
+        assert.equal(event.data?.resourceUri, "https://dummyurl.com");
       }
     });
 
     it("publishes multiple cloud events", async () => {
-      const eventIds: string[] = [`MultipleEventId110002`, `MultipleEventId210003`];
+      const eventIds: string[] = ["https://dummyurl.com", "https://dummyurl.com"];
 
       const cloudEvents: CloudEvent<any>[] = [
         {
@@ -133,11 +132,15 @@ describe("Event Grid Namespace Client", function (this: Suite) {
 
       assert.equal(2, receiveResult.details.length);
 
-      const receivedEventData: string[] = [
-        receiveResult.details[0].event.data.resourceUri,
-        receiveResult.details[1].event.data.resourceUri,
-      ];
-      expect(receivedEventData).to.have.members(["https://dummyurl.com", "https://dummyurl.com"]);
+      const deserializer: EventGridDeserializer = new EventGridDeserializer();
+      for (const value of receiveResult.details) {
+        const result: CloudEvent<any>[] = await deserializer.deserializeCloudEvents(
+          JSON.stringify(value.event),
+        );
+        for (const event of result) {
+          assert.equal(event.data?.resourceUri, "https://dummyurl.com");
+        }
+      }
     });
 
     it("releases a cloud event", async () => {
@@ -300,6 +303,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
       );
 
       for (const event of result) {
+        // The Received Cloud Event ID must be equal to the ID of the Event that was published.
         assert.equal(
           JSON.stringify(data),
           JSON.stringify(JSON.parse(Buffer.from(event.data).toString())),

@@ -1,23 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * @file Linting rules for the JavaScript/TypeScript Azure SDK
- */
-
-//------------------------------------------------------------------------------
-// Requirements
-//------------------------------------------------------------------------------
-
-import configs from "./configs";
 import processors from "./processors";
 import rules from "./rules";
+import { name, version } from "../package.json";
 
-//------------------------------------------------------------------------------
-// Plugin Definition
-//------------------------------------------------------------------------------
+import azsdkConfigs from "./configs/index";
+import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
 
-/**
- * The elements making up the plugin
- */
-export = { configs, processors, rules };
+const plugin: Omit<FlatConfig.Plugin, "configs"> = {
+  meta: {
+    name,
+    version,
+  },
+  processors,
+  rules,
+};
+
+// assign configs here so we can reference `plugin`
+const configs = azsdkConfigs(plugin);
+
+export = {
+  ...plugin,
+  configs,
+};

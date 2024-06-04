@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   JobPrivateEndpointsCreateOrUpdateOptionalParams,
   JobPrivateEndpointsCreateOrUpdateResponse,
   JobPrivateEndpointsDeleteOptionalParams,
-  JobPrivateEndpointsListByAgentNextResponse
+  JobPrivateEndpointsListByAgentNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,13 +57,13 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobPrivateEndpointsListByAgentOptionalParams
+    options?: JobPrivateEndpointsListByAgentOptionalParams,
   ): PagedAsyncIterableIterator<JobPrivateEndpoint> {
     const iter = this.listByAgentPagingAll(
       resourceGroupName,
       serverName,
       jobAgentName,
-      options
+      options,
     );
     return {
       next() {
@@ -81,9 +81,9 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
           serverName,
           jobAgentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,7 +92,7 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
     serverName: string,
     jobAgentName: string,
     options?: JobPrivateEndpointsListByAgentOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<JobPrivateEndpoint[]> {
     let result: JobPrivateEndpointsListByAgentResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
         resourceGroupName,
         serverName,
         jobAgentName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -114,7 +114,7 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
         serverName,
         jobAgentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -127,13 +127,13 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobPrivateEndpointsListByAgentOptionalParams
+    options?: JobPrivateEndpointsListByAgentOptionalParams,
   ): AsyncIterableIterator<JobPrivateEndpoint> {
     for await (const page of this.listByAgentPagingPage(
       resourceGroupName,
       serverName,
       jobAgentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -151,11 +151,11 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobPrivateEndpointsListByAgentOptionalParams
+    options?: JobPrivateEndpointsListByAgentOptionalParams,
   ): Promise<JobPrivateEndpointsListByAgentResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, options },
-      listByAgentOperationSpec
+      listByAgentOperationSpec,
     );
   }
 
@@ -173,7 +173,7 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
     serverName: string,
     jobAgentName: string,
     privateEndpointName: string,
-    options?: JobPrivateEndpointsGetOptionalParams
+    options?: JobPrivateEndpointsGetOptionalParams,
   ): Promise<JobPrivateEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -181,9 +181,9 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
         serverName,
         jobAgentName,
         privateEndpointName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -203,7 +203,7 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
     jobAgentName: string,
     privateEndpointName: string,
     parameters: JobPrivateEndpoint,
-    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams
+    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<JobPrivateEndpointsCreateOrUpdateResponse>,
@@ -212,21 +212,20 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<JobPrivateEndpointsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -235,8 +234,8 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -244,8 +243,8 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -257,9 +256,9 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
         jobAgentName,
         privateEndpointName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       JobPrivateEndpointsCreateOrUpdateResponse,
@@ -267,7 +266,7 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -289,7 +288,7 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
     jobAgentName: string,
     privateEndpointName: string,
     parameters: JobPrivateEndpoint,
-    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams
+    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams,
   ): Promise<JobPrivateEndpointsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -297,7 +296,7 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
       jobAgentName,
       privateEndpointName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -316,25 +315,24 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
     serverName: string,
     jobAgentName: string,
     privateEndpointName: string,
-    options?: JobPrivateEndpointsDeleteOptionalParams
+    options?: JobPrivateEndpointsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -343,8 +341,8 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -352,8 +350,8 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -364,14 +362,14 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
         serverName,
         jobAgentName,
         privateEndpointName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -391,14 +389,14 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
     serverName: string,
     jobAgentName: string,
     privateEndpointName: string,
-    options?: JobPrivateEndpointsDeleteOptionalParams
+    options?: JobPrivateEndpointsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serverName,
       jobAgentName,
       privateEndpointName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -417,11 +415,11 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
     serverName: string,
     jobAgentName: string,
     nextLink: string,
-    options?: JobPrivateEndpointsListByAgentNextOptionalParams
+    options?: JobPrivateEndpointsListByAgentNextOptionalParams,
   ): Promise<JobPrivateEndpointsListByAgentNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, nextLink, options },
-      listByAgentNextOperationSpec
+      listByAgentNextOperationSpec,
     );
   }
 }
@@ -429,35 +427,13 @@ export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAgentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobPrivateEndpointListResult
+      bodyMapper: Mappers.JobPrivateEndpointListResult,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.jobAgentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobPrivateEndpoint
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
@@ -466,29 +442,48 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.jobAgentName,
-    Parameters.privateEndpointName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobPrivateEndpoint,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion4],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.jobAgentName,
+    Parameters.privateEndpointName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.JobPrivateEndpoint
+      bodyMapper: Mappers.JobPrivateEndpoint,
     },
     201: {
-      bodyMapper: Mappers.JobPrivateEndpoint
+      bodyMapper: Mappers.JobPrivateEndpoint,
     },
     202: {
-      bodyMapper: Mappers.JobPrivateEndpoint
+      bodyMapper: Mappers.JobPrivateEndpoint,
     },
     204: {
-      bodyMapper: Mappers.JobPrivateEndpoint
+      bodyMapper: Mappers.JobPrivateEndpoint,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters23,
   queryParameters: [Parameters.apiVersion4],
@@ -498,15 +493,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.jobAgentName,
-    Parameters.privateEndpointName
+    Parameters.privateEndpointName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion4],
@@ -516,18 +510,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.jobAgentName,
-    Parameters.privateEndpointName
+    Parameters.privateEndpointName,
   ],
-  serializer
+  serializer,
 };
 const listByAgentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobPrivateEndpointListResult
+      bodyMapper: Mappers.JobPrivateEndpointListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -535,8 +529,8 @@ const listByAgentNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.nextLink,
-    Parameters.jobAgentName
+    Parameters.jobAgentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

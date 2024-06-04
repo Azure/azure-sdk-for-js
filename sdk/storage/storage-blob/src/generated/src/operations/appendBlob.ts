@@ -20,7 +20,7 @@ import {
   AppendBlobAppendBlockFromUrlOptionalParams,
   AppendBlobAppendBlockFromUrlResponse,
   AppendBlobSealOptionalParams,
-  AppendBlobSealResponse
+  AppendBlobSealResponse,
 } from "../models";
 
 /** Class containing AppendBlob operations. */
@@ -42,11 +42,11 @@ export class AppendBlobImpl implements AppendBlob {
    */
   create(
     contentLength: number,
-    options?: AppendBlobCreateOptionalParams
+    options?: AppendBlobCreateOptionalParams,
   ): Promise<AppendBlobCreateResponse> {
     return this.client.sendOperationRequest(
       { contentLength, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -61,11 +61,11 @@ export class AppendBlobImpl implements AppendBlob {
   appendBlock(
     contentLength: number,
     body: coreRestPipeline.RequestBodyType,
-    options?: AppendBlobAppendBlockOptionalParams
+    options?: AppendBlobAppendBlockOptionalParams,
   ): Promise<AppendBlobAppendBlockResponse> {
     return this.client.sendOperationRequest(
       { contentLength, body, options },
-      appendBlockOperationSpec
+      appendBlockOperationSpec,
     );
   }
 
@@ -81,11 +81,11 @@ export class AppendBlobImpl implements AppendBlob {
   appendBlockFromUrl(
     sourceUrl: string,
     contentLength: number,
-    options?: AppendBlobAppendBlockFromUrlOptionalParams
+    options?: AppendBlobAppendBlockFromUrlOptionalParams,
   ): Promise<AppendBlobAppendBlockFromUrlResponse> {
     return this.client.sendOperationRequest(
       { sourceUrl, contentLength, options },
-      appendBlockFromUrlOperationSpec
+      appendBlockFromUrlOperationSpec,
     );
   }
 
@@ -95,7 +95,7 @@ export class AppendBlobImpl implements AppendBlob {
    * @param options The options parameters.
    */
   seal(
-    options?: AppendBlobSealOptionalParams
+    options?: AppendBlobSealOptionalParams,
   ): Promise<AppendBlobSealResponse> {
     return this.client.sendOperationRequest({ options }, sealOperationSpec);
   }
@@ -108,12 +108,12 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     201: {
-      headersMapper: Mappers.AppendBlobCreateHeaders
+      headersMapper: Mappers.AppendBlobCreateHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.AppendBlobCreateExceptionHeaders
-    }
+      headersMapper: Mappers.AppendBlobCreateExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeoutInSeconds],
   urlParameters: [Parameters.url],
@@ -143,22 +143,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.encryptionScope,
     Parameters.blobTagsString,
     Parameters.legalHold1,
-    Parameters.blobType1
+    Parameters.blobType1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const appendBlockOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
     201: {
-      headersMapper: Mappers.AppendBlobAppendBlockHeaders
+      headersMapper: Mappers.AppendBlobAppendBlockHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.AppendBlobAppendBlockExceptionHeaders
-    }
+      headersMapper: Mappers.AppendBlobAppendBlockExceptionHeaders,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.timeoutInSeconds, Parameters.comp22],
@@ -182,24 +182,24 @@ const appendBlockOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType1,
     Parameters.accept2,
     Parameters.maxSize,
-    Parameters.appendPosition
+    Parameters.appendPosition,
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "binary",
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const appendBlockFromUrlOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
     201: {
-      headersMapper: Mappers.AppendBlobAppendBlockFromUrlHeaders
+      headersMapper: Mappers.AppendBlobAppendBlockFromUrlHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.AppendBlobAppendBlockFromUrlExceptionHeaders
-    }
+      headersMapper: Mappers.AppendBlobAppendBlockFromUrlExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeoutInSeconds, Parameters.comp22],
   urlParameters: [Parameters.url],
@@ -229,22 +229,22 @@ const appendBlockFromUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.sourceContentCrc64,
     Parameters.maxSize,
     Parameters.appendPosition,
-    Parameters.sourceRange1
+    Parameters.sourceRange1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const sealOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.AppendBlobSealHeaders
+      headersMapper: Mappers.AppendBlobSealHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.AppendBlobSealExceptionHeaders
-    }
+      headersMapper: Mappers.AppendBlobSealExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeoutInSeconds, Parameters.comp23],
   urlParameters: [Parameters.url],
@@ -257,8 +257,8 @@ const sealOperationSpec: coreClient.OperationSpec = {
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
-    Parameters.appendPosition
+    Parameters.appendPosition,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };

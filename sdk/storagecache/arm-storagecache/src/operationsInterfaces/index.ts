@@ -7,6 +7,7 @@
  */
 
 export * from "./amlFilesystems";
+export * from "./importJobs";
 export * from "./operations";
 export * from "./skus";
 export * from "./usageModels";

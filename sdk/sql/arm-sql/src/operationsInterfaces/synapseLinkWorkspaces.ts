@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SynapseLinkWorkspace,
-  SynapseLinkWorkspacesListByDatabaseOptionalParams
+  SynapseLinkWorkspacesListByDatabaseOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,6 +27,6 @@ export interface SynapseLinkWorkspaces {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: SynapseLinkWorkspacesListByDatabaseOptionalParams
+    options?: SynapseLinkWorkspacesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<SynapseLinkWorkspace>;
 }

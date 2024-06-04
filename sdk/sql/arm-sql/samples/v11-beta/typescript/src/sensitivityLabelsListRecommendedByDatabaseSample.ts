@@ -33,7 +33,7 @@ async function getsTheRecommendedSensitivityLabelsOfAGivenDatabase() {
   for await (let item of client.sensitivityLabels.listRecommendedByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

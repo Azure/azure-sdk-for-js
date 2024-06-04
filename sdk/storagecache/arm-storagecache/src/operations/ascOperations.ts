@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { StorageCacheManagementClient } from "../storageCacheManagementClient";
 import {
   AscOperationsGetOptionalParams,
-  AscOperationsGetResponse
+  AscOperationsGetResponse,
 } from "../models";
 
 /** Class containing AscOperations operations. */
@@ -37,11 +37,11 @@ export class AscOperationsImpl implements AscOperations {
   get(
     location: string,
     operationId: string,
-    options?: AscOperationsGetOptionalParams
+    options?: AscOperationsGetOptionalParams,
   ): Promise<AscOperationsGetResponse> {
     return this.client.sendOperationRequest(
       { location, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class AscOperationsImpl implements AscOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/locations/{location}/ascOperations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/locations/{location}/ascOperations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AscOperation
+      bodyMapper: Mappers.AscOperation,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

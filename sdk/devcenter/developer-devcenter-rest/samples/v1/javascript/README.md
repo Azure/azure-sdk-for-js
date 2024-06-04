@@ -1,3 +1,12 @@
+---
+page_type: sample
+languages:
+  - javascript
+products:
+  - azure
+urlFragment: developer-devcenter-javascript
+---
+
 # Azure DevCenter client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure DevCenter in some common scenarios.
@@ -38,7 +47,7 @@ node sampleCreateDevBox.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURE_DEVCENTER_ENDPOINT="<azure devcenter endpoint>" node sampleCreateDevBox.js
+npx cross-env DEVCENTER_ENDPOINT="<devcenter endpoint>" node sampleCreateDevBox.js
 ```
 
 ## Next Steps
@@ -47,6 +56,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [samplecreatedevbox]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devcenter/developer-devcenter-rest/samples/v1/javascript/sampleCreateDevBox.js
 [samplecreateenvironment]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devcenter/developer-devcenter-rest/samples/v1/javascript/sampleCreateEnvironment.js
-[apiref]: https://learn.microsoft.com/azure/dev-box/
+[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/developer-devcenter
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devcenter/developer-devcenter-rest/README.md
