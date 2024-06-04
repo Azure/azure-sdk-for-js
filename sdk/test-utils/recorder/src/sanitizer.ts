@@ -73,6 +73,12 @@ function makeBatchSanitizerBody(sanitizers: SanitizerOptions): SanitizerRequestB
     uriSubscriptionIdSanitizer,
     resetSanitizer,
   } = sanitizers;
+  let connectionStringSanitizersBodies: SanitizerRequestBody[] = [];
+  for (const sanitizer of connectionStringSanitizers ?? []) {
+    connectionStringSanitizersBodies = connectionStringSanitizersBodies.concat(
+      makeConnectionStringSanitizerBody(sanitizer),
+    );
+  }
 
   return (<SanitizerRequestBody[]>[]).concat(
     getSanitizerBodies(
@@ -88,7 +94,7 @@ function makeBatchSanitizerBody(sanitizers: SanitizerOptions): SanitizerRequestB
       uriSanitizers,
       makeFindReplaceSanitizerBody("UriRegexSanitizer", "UriStringSanitizer"),
     ),
-    getSanitizerBodies(connectionStringSanitizers, makeConnectionStringSanitizerBody),
+    connectionStringSanitizersBodies,
     getSanitizerBodies(bodyKeySanitizers, makeBodyKeySanitizerBody),
     getSanitizerBodies(continuationSanitizers, makeContinuationSanitizerBody),
     removeHeaderSanitizer
@@ -250,7 +256,7 @@ function makeHeaderSanitizerBody(sanitizer: HeaderSanitizer): SanitizerRequestBo
  */
 function makeConnectionStringSanitizerBody(
   sanitizer: ConnectionStringSanitizer,
-): SanitizerRequestBody {
+): SanitizerRequestBody[] {
   if (!sanitizer.actualConnString) {
     throw new RecorderError(
       `Attempted to add an invalid sanitizer - ${JSON.stringify({
@@ -260,12 +266,9 @@ function makeConnectionStringSanitizerBody(
     );
   }
   const pairsMatched = getRealAndFakePairs(sanitizer.actualConnString, sanitizer.fakeConnString);
-  return {
-    Name: "GeneralStringSanitizer",
-    Body: {
-      ...pairsMatched,
-    },
-  };
+  return Object.entries(pairsMatched).map(([key, value]) => {
+    return { Name: "GeneralStringSanitizer", Body: { value, target: key } };
+  });
 }
 
 /**

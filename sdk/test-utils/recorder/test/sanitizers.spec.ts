@@ -128,6 +128,38 @@ import { randomUUID } from "@azure/core-util";
         );
       });
 
+      it("Connection string sanitizer - singular", async () => {
+        await recorder.start({
+          envSetupForPlayback: {},
+          sanitizerOptions: {
+            connectionStringSanitizers: [
+              {
+                fakeConnString: "endpoint=https://endpoint/;accesskey=banana",
+                actualConnString: "endpoint=https://realEndpoint/;accessKey=realBanana",
+              },
+            ],
+          },
+        });
+      });
+
+      it("Connection string sanitizer - multiple", async () => {
+        await recorder.start({
+          envSetupForPlayback: {},
+          sanitizerOptions: {
+            connectionStringSanitizers: [
+              {
+                fakeConnString: "endpoint=https://endpoint/;accessKey=banana",
+                actualConnString: "endpoint=https://realEndpoint/;accessKey=realBanana",
+              },
+              {
+                fakeConnString: "endpoint2=https://randomEndpoint/;Key3=banana",
+                actualConnString: "endpoint2=https://finalEndpoint/;Key3=realBanana",
+              },
+            ],
+          },
+        });
+      });
+
       it("BodyKeySanitizer", async () => {
         const secretValue = "ab12cd34ef";
         await recorder.start({
