@@ -550,6 +550,9 @@ export const enum KnownAcsMessageDeliveryStatus {
   Unknown = "unknown",
 }
 
+/**
+ * Cloud Event Schema.
+ */
 export interface CloudEvent<T> {
   /**
    * Type of event related to the originating occurrence.

@@ -857,6 +857,20 @@ export interface AvsScriptExecutionStartedEventData extends AvsScriptExecutionEv
 }
 
 // @public
+export interface CloudEvent<T> {
+    data?: T;
+    datacontenttype?: string;
+    dataschema?: string;
+    extensionAttributes?: Record<string, unknown>;
+    id: string;
+    source: string;
+    specversion?: string | "1.0";
+    subject?: string;
+    time?: Date;
+    type: string;
+}
+
+// @public
 export type CommunicationCloudEnvironmentModel = string;
 
 // @public
@@ -1091,6 +1105,17 @@ export interface DeviceTwinMetadata {
 }
 
 // @public
+export interface EventGridEvent<T> {
+    data: T;
+    dataVersion: string;
+    eventTime: Date;
+    eventType: string;
+    id: string;
+    subject: string;
+    topic?: string;
+}
+
+// @public
 export interface EventGridMqttClientCreatedOrUpdatedEventData extends EventGridMqttClientEventData {
     attributes: Record<string, string>;
     createdOn: Date;
@@ -1217,6 +1242,12 @@ export interface IotHubDeviceDisconnectedEventData extends DeviceConnectionState
 // @public
 export interface IotHubDeviceTelemetryEventData extends DeviceTelemetryEvent {
 }
+
+// @public
+export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, event: EventGridEvent<unknown>): event is EventGridEvent<SystemEventNameToEventData[T]>;
+
+// @public
+export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, event: CloudEvent<unknown>): event is CloudEvent<SystemEventNameToEventData[T]>;
 
 // @public
 export interface KeyVaultAccessPolicyChangedEventData {
@@ -1729,6 +1760,9 @@ export const enum KnownStorageTaskCompletedStatus {
     // (undocumented)
     Succeeded = "Succeeded"
 }
+
+// @public
+export type KnownSystemEventTypes = keyof SystemEventNameToEventData;
 
 // @public
 export interface MachineLearningServicesDatasetDriftDetectedEventData {
@@ -2565,6 +2599,217 @@ export interface SubscriptionValidationEventData {
 // @public
 export interface SubscriptionValidationResponse {
     validationResponse?: string;
+}
+
+// @public
+export interface SystemEventNameToEventData {
+    "Microsoft.ApiCenter.ApiDefinitionAdded": ApiCenterApiDefinitionAddedEventData;
+    "Microsoft.ApiCenter.ApiDefinitionUpdated": ApiCenterApiDefinitionUpdatedEventData;
+    "Microsoft.ApiManagement.APICreated": ApiManagementApiCreatedEventData;
+    "Microsoft.ApiManagement.APIDeleted": ApiManagementApiDeletedEventData;
+    "Microsoft.ApiManagement.APIReleaseCreated": ApiManagementApiReleaseCreatedEventData;
+    "Microsoft.ApiManagement.APIReleaseDeleted": ApiManagementApiReleaseDeletedEventData;
+    "Microsoft.ApiManagement.APIReleaseUpdated": ApiManagementApiReleaseUpdatedEventData;
+    "Microsoft.ApiManagement.APIUpdated": ApiManagementApiUpdatedEventData;
+    "Microsoft.ApiManagement.GatewayAPIAdded": ApiManagementGatewayApiAddedEventData;
+    "Microsoft.ApiManagement.GatewayAPIRemoved": ApiManagementGatewayApiRemovedEventData;
+    "Microsoft.ApiManagement.GatewayCertificateAuthorityCreated": ApiManagementGatewayCertificateAuthorityCreatedEventData;
+    "Microsoft.ApiManagement.GatewayCertificateAuthorityDeleted": ApiManagementGatewayCertificateAuthorityDeletedEventData;
+    "Microsoft.ApiManagement.GatewayCertificateAuthorityUpdated": ApiManagementGatewayCertificateAuthorityUpdatedEventData;
+    "Microsoft.ApiManagement.GatewayCreated": ApiManagementGatewayCreatedEventData;
+    "Microsoft.ApiManagement.GatewayDeleted": ApiManagementGatewayDeletedEventData;
+    "Microsoft.ApiManagement.GatewayHostnameConfigurationCreated": ApiManagementGatewayHostnameConfigurationCreatedEventData;
+    "Microsoft.ApiManagement.GatewayHostnameConfigurationDeleted": ApiManagementGatewayHostnameConfigurationDeletedEventData;
+    "Microsoft.ApiManagement.GatewayHostnameConfigurationUpdated": ApiManagementGatewayHostnameConfigurationUpdatedEventData;
+    "Microsoft.ApiManagement.GatewayUpdated": ApiManagementGatewayUpdatedEventData;
+    "Microsoft.ApiManagement.ProductCreated": ApiManagementProductCreatedEventData;
+    "Microsoft.ApiManagement.ProductDeleted": ApiManagementProductDeletedEventData;
+    "Microsoft.ApiManagement.ProductUpdated": ApiManagementProductUpdatedEventData;
+    "Microsoft.ApiManagement.SubscriptionCreated": ApiManagementSubscriptionCreatedEventData;
+    "Microsoft.ApiManagement.SubscriptionDeleted": ApiManagementSubscriptionDeletedEventData;
+    "Microsoft.ApiManagement.SubscriptionUpdated": ApiManagementSubscriptionUpdatedEventData;
+    "Microsoft.ApiManagement.UserCreated": ApiManagementUserCreatedEventData;
+    "Microsoft.ApiManagement.UserDeleted": ApiManagementUserDeletedEventData;
+    "Microsoft.ApiManagement.UserUpdated": ApiManagementUserUpdatedEventData;
+    "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
+    "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
+    "Microsoft.AppConfiguration.SnapshotCreated": AppConfigurationSnapshotCreatedEventData;
+    "Microsoft.AppConfiguration.SnapshotModified": AppConfigurationSnapshotModifiedEventData;
+    "Microsoft.AVS.ClusterCreated": AvsClusterCreatedEventData;
+    "Microsoft.AVS.ClusterDeleted": AvsClusterDeletedEventData;
+    "Microsoft.AVS.ClusterFailed": AvsClusterFailedEventData;
+    "Microsoft.AVS.ClusterUpdated": AvsClusterUpdatedEventData;
+    "Microsoft.AVS.ClusterUpdating": AvsClusterUpdatingEventData;
+    "Microsoft.AVS.PrivateCloudFailed": AvsPrivateCloudFailedEventData;
+    "Microsoft.AVS.PrivateCloudUpdated": AvsPrivateCloudUpdatedEventData;
+    "Microsoft.AVS.PrivateCloudUpdating": AvsPrivateCloudUpdatingEventData;
+    "Microsoft.AVS.ScriptExecutionCancelled": AvsScriptExecutionCancelledEventData;
+    "Microsoft.AVS.ScriptExecutionFailed": AvsScriptExecutionFailedEventData;
+    "Microsoft.AVS.ScriptExecutionFinished": AvsScriptExecutionFinishedEventData;
+    "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
+    "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsMessageDeliveryStatusUpdatedEventData;
+    "Microsoft.Communication.AdvancedMessageReceived": AcsMessageReceivedEventData;
+    "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
+    "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
+    "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
+    "Microsoft.Communication.ChatMessageEditedInThread": AcsChatMessageEditedInThreadEventData;
+    "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
+    "Microsoft.Communication.ChatMessageReceivedInThread": AcsChatMessageReceivedInThreadEventData;
+    "Microsoft.Communication.ChatParticipantAddedToThreadWithUser": AcsChatParticipantAddedToThreadWithUserEventData;
+    "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser": AcsChatParticipantRemovedFromThreadWithUserEventData;
+    "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
+    "Microsoft.Communication.ChatThreadParticipantAdded": AcsChatParticipantAddedToThreadEventData;
+    "Microsoft.Communication.ChatThreadParticipantRemoved": AcsChatParticipantRemovedFromThreadEventData;
+    "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
+    "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
+    "Microsoft.Communication.EmailDeliveryReportReceived": AcsEmailDeliveryReportReceivedEventData;
+    "Microsoft.Communication.EmailEngagementTrackingReportReceived": AcsEmailEngagementTrackingReportReceivedEventData;
+    "Microsoft.Communication.IncomingCall": AcsIncomingCallEventData;
+    "Microsoft.Communication.RecordingFileStatusUpdated": AcsRecordingFileStatusUpdatedEventData;
+    "Microsoft.Communication.RouterJobCancelled": AcsRouterJobCancelledEventData;
+    "Microsoft.Communication.RouterJobClassificationFailed": AcsRouterJobClassificationFailedEventData;
+    "Microsoft.Communication.RouterJobClassified": AcsRouterJobClassifiedEventData;
+    "Microsoft.Communication.RouterJobClosed": AcsRouterJobClosedEventData;
+    "Microsoft.Communication.RouterJobCompleted": AcsRouterJobCompletedEventData;
+    "Microsoft.Communication.RouterJobDeleted": AcsRouterJobDeletedEventData;
+    "Microsoft.Communication.RouterJobExceptionTriggered": AcsRouterJobExceptionTriggeredEventData;
+    "Microsoft.Communication.RouterJobQueued": AcsRouterJobQueuedEventData;
+    "Microsoft.Communication.RouterJobReceived": AcsRouterJobReceivedEventData;
+    "Microsoft.Communication.RouterJobSchedulingFailed": AcsRouterJobSchedulingFailedEventData;
+    "Microsoft.Communication.RouterJobUnassigned": AcsRouterJobUnassignedEventData;
+    "Microsoft.Communication.RouterJobWaitingForActivation": AcsRouterJobWaitingForActivationEventData;
+    "Microsoft.Communication.RouterJobWorkerSelectorsExpire": AcsRouterJobWorkerSelectorsExpiredEventData;
+    "Microsoft.Communication.RouterWorkerDeleted": AcsRouterWorkerDeletedEventData;
+    "Microsoft.Communication.RouterWorkerDeregistered": AcsRouterWorkerDeregisteredEventData;
+    "Microsoft.Communication.RouterWorkerOfferAccepted": AcsRouterWorkerOfferAcceptedEventData;
+    "Microsoft.Communication.RouterWorkerOfferDeclined": AcsRouterWorkerOfferDeclinedEventData;
+    "Microsoft.Communication.RouterWorkerOfferExpired": AcsRouterWorkerOfferExpiredEventData;
+    "Microsoft.Communication.RouterWorkerOfferIssued": AcsRouterWorkerOfferIssuedEventData;
+    "Microsoft.Communication.RouterWorkerOfferRevoked": AcsRouterWorkerOfferRevokedEventData;
+    "Microsoft.Communication.RouterWorkerRegistered": AcsRouterWorkerRegisteredEventData;
+    "Microsoft.Communication.RouterWorkerUpdated": AcsRouterWorkerUpdatedEventData;
+    "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
+    "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
+    "Microsoft.Communication.UserDisconnected": AcsUserDisconnectedEventData;
+    "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;
+    "Microsoft.ContainerRegistry.ChartPushed": ContainerRegistryChartPushedEventData;
+    "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
+    "Microsoft.ContainerRegistry.ImagePushed": ContainerRegistryImagePushedEventData;
+    "Microsoft.ContainerService.ClusterSupportEnded": ContainerServiceClusterSupportEndedEventData;
+    "Microsoft.ContainerService.ClusterSupportEnding": ContainerServiceClusterSupportEndingEventData;
+    "Microsoft.ContainerService.NewKubernetesVersionAvailable": ContainerServiceNewKubernetesVersionAvailableEventData;
+    "Microsoft.ContainerService.NodePoolRollingFailed": ContainerServiceNodePoolRollingFailedEventData;
+    "Microsoft.ContainerService.NodePoolRollingStarted": ContainerServiceNodePoolRollingStartedEventData;
+    "Microsoft.ContainerService.NodePoolRollingSucceeded": ContainerServiceNodePoolRollingSucceededEventData;
+    "Microsoft.DataBox.CopyCompleted": DataBoxCopyCompletedEventData;
+    "Microsoft.DataBox.CopyStarted": DataBoxCopyStartedEventData;
+    "Microsoft.DataBox.OrderCompleted": DataBoxOrderCompletedEventData;
+    "Microsoft.Devices.DeviceConnected": IotHubDeviceConnectedEventData;
+    "Microsoft.Devices.DeviceCreated": IotHubDeviceCreatedEventData;
+    "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;
+    "Microsoft.Devices.DeviceDisconnected": IotHubDeviceDisconnectedEventData;
+    "Microsoft.Devices.DeviceTelemetry": IotHubDeviceTelemetryEventData;
+    "Microsoft.EventGrid.MQTTClientCreatedOrUpdated": EventGridMqttClientCreatedOrUpdatedEventData;
+    "Microsoft.EventGrid.MQTTClientDeleted": EventGridMqttClientDeletedEventData;
+    "Microsoft.EventGrid.MQTTClientSessionConnected": EventGridMqttClientSessionConnectedEventData;
+    "Microsoft.EventGrid.MQTTClientSessionDisconnected": EventGridMqttClientSessionDisconnectedEventData;
+    "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
+    "Microsoft.EventGrid.SubscriptionValidationEvent": SubscriptionValidationEventData;
+    "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
+    "Microsoft.HealthcareApis.DicomImageCreated": HealthcareDicomImageCreatedEventData;
+    "Microsoft.HealthcareApis.DicomImageDeleted": HealthcareDicomImageDeletedEventData;
+    "Microsoft.HealthcareApis.DicomImageUpdated": HealthcareDicomImageUpdatedEventData;
+    "Microsoft.HealthcareApis.FhirDeletedCreated": HealthcareFhirResourceDeletedEventData;
+    "Microsoft.HealthcareApis.FhirResourceCreated": HealthcareFhirResourceCreatedEventData;
+    "Microsoft.HealthcareApis.FhirUpdatedCreated": HealthcareFhirResourceUpdatedEventData;
+    "Microsoft.KeyVault.CertificateExpired": KeyVaultCertificateExpiredEventData;
+    "Microsoft.KeyVault.CertificateNearExpiry": KeyVaultCertificateNearExpiryEventData;
+    "Microsoft.KeyVault.CertificateNewVersionCreated": KeyVaultCertificateNewVersionCreatedEventData;
+    "Microsoft.KeyVault.KeyExpired": KeyVaultKeyExpiredEventData;
+    "Microsoft.KeyVault.KeyNearExpiry": KeyVaultKeyNearExpiryEventData;
+    "Microsoft.KeyVault.KeyNewVersionCreated": KeyVaultKeyNewVersionCreatedEventData;
+    "Microsoft.KeyVault.SecretExpired": KeyVaultSecretExpiredEventData;
+    "Microsoft.KeyVault.SecretNearExpiry": KeyVaultSecretNearExpiryEventData;
+    "Microsoft.KeyVault.SecretNewVersionCreated": KeyVaultSecretNewVersionCreatedEventData;
+    "Microsoft.KeyVault.VaultAccessPolicyChanged": KeyVaultAccessPolicyChangedEventData;
+    "Microsoft.MachineLearningServices.DatasetDriftDetected": MachineLearningServicesDatasetDriftDetectedEventData;
+    "Microsoft.MachineLearningServices.ModelDeployed": MachineLearningServicesModelDeployedEventData;
+    "Microsoft.MachineLearningServices.ModelRegistered": MachineLearningServicesModelRegisteredEventData;
+    "Microsoft.MachineLearningServices.RunCompleted": MachineLearningServicesRunCompletedEventData;
+    "Microsoft.MachineLearningServices.RunStatusChanged": MachineLearningServicesRunStatusChangedEventData;
+    "Microsoft.Maps.GeofenceEntered": MapsGeofenceEnteredEventData;
+    "Microsoft.Maps.GeofenceExited": MapsGeofenceExitedEventData;
+    "Microsoft.Maps.GeofenceResult": MapsGeofenceResultEventData;
+    "Microsoft.Media.JobCanceled": MediaJobCanceledEventData;
+    "Microsoft.Media.JobCanceling": MediaJobCancelingEventData;
+    "Microsoft.Media.JobErrored": MediaJobErroredEventData;
+    "Microsoft.Media.JobFinished": MediaJobFinishedEventData;
+    "Microsoft.Media.JobOutputCanceled": MediaJobOutputCanceledEventData;
+    "Microsoft.Media.JobOutputCanceling": MediaJobOutputCancelingEventData;
+    "Microsoft.Media.JobOutputErrored": MediaJobOutputErroredEventData;
+    "Microsoft.Media.JobOutputFinished": MediaJobOutputFinishedEventData;
+    "Microsoft.Media.JobOutputProcessing": MediaJobOutputProcessingEventData;
+    "Microsoft.Media.JobOutputProgress": MediaJobOutputProgressEventData;
+    "Microsoft.Media.JobOutputScheduled": MediaJobOutputScheduledEventData;
+    "Microsoft.Media.JobOutputStateChange": MediaJobOutputStateChangeEventData;
+    "Microsoft.Media.JobProcessing": MediaJobProcessingEventData;
+    "Microsoft.Media.JobScheduled": MediaJobScheduledEventData;
+    "Microsoft.Media.JobStateChange": MediaJobStateChangeEventData;
+    "Microsoft.Media.LiveEventChannelArchiveHeartbeat": MediaLiveEventChannelArchiveHeartbeatEventData;
+    "Microsoft.Media.LiveEventConnectionRejected": MediaLiveEventConnectionRejectedEventData;
+    "Microsoft.Media.LiveEventEncoderConnected": MediaLiveEventEncoderConnectedEventData;
+    "Microsoft.Media.LiveEventEncoderDisconnected": MediaLiveEventEncoderDisconnectedEventData;
+    "Microsoft.Media.LiveEventIncomingDataChunkDropped": MediaLiveEventIncomingDataChunkDroppedEventData;
+    "Microsoft.Media.LiveEventIncomingStreamReceived": MediaLiveEventIncomingStreamReceivedEventData;
+    "Microsoft.Media.LiveEventIncomingStreamsOutOfSync": MediaLiveEventIncomingStreamsOutOfSyncEventData;
+    "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync": MediaLiveEventIncomingVideoStreamsOutOfSyncEventData;
+    "Microsoft.Media.LiveEventIngestHeartbeat": MediaLiveEventIngestHeartbeatEventData;
+    "Microsoft.Media.LiveEventTrackDiscontinuityDetected": MediaLiveEventTrackDiscontinuityDetectedEventData;
+    "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
+    "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
+    "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
+    "Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged": ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData;
+    "Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated": ResourceNotificationsHealthResourcesAnnotatedEventData;
+    "Microsoft.ResourceNotifications.Resources.CreatedOrUpdated": ResourceNotificationsResourceManagementCreatedOrUpdatedEventData;
+    "Microsoft.ResourceNotifications.Resources.Deleted": ResourceNotificationsResourceManagementDeletedEventData;
+    "Microsoft.Resources.ResourceActionCancel": ResourceActionCancelEventData;
+    "Microsoft.Resources.ResourceActionFailure": ResourceActionFailureEventData;
+    "Microsoft.Resources.ResourceActionSuccess": ResourceActionSuccessEventData;
+    "Microsoft.Resources.ResourceDeleteCancel": ResourceDeleteCancelEventData;
+    "Microsoft.Resources.ResourceDeleteFailure": ResourceDeleteFailureEventData;
+    "Microsoft.Resources.ResourceDeleteSuccess": ResourceDeleteSuccessEventData;
+    "Microsoft.Resources.ResourceWriteCancel": ResourceWriteCancelEventData;
+    "Microsoft.Resources.ResourceWriteFailure": ResourceWriteFailureEventData;
+    "Microsoft.Resources.ResourceWriteSuccess": ResourceWriteSuccessEventData;
+    "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners": ServiceBusActiveMessagesAvailableWithNoListenersEventData;
+    "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
+    "Microsoft.Storage.AsyncOperationInitiated": StorageAsyncOperationInitiatedEventData;
+    "Microsoft.Storage.BlobCreated": StorageBlobCreatedEventData;
+    "Microsoft.Storage.BlobDeleted": StorageBlobDeletedEventData;
+    "Microsoft.Storage.BlobInventoryPolicyCompleted": StorageBlobInventoryPolicyCompletedEventData;
+    "Microsoft.Storage.BlobRenamed": StorageBlobRenamedEventData;
+    "Microsoft.Storage.BlobTierChanged": StorageBlobTierChangedEventData;
+    "Microsoft.Storage.DirectoryCreated": StorageDirectoryCreatedEventData;
+    "Microsoft.Storage.DirectoryDeleted": StorageDirectoryDeletedEventData;
+    "Microsoft.Storage.DirectoryRenamed": StorageDirectoryRenamedEventData;
+    "Microsoft.Storage.LifecyclePolicyCompleted": StorageLifecyclePolicyCompletedEventData;
+    "Microsoft.Storage.StorageTaskAssignmentCompleted": StorageTaskAssignmentCompletedEventData;
+    "Microsoft.Storage.StorageTaskAssignmentQueued": StorageTaskAssignmentQueuedEventData;
+    "Microsoft.Storage.StorageTaskCompleted": StorageTaskCompletedEventData;
+    "Microsoft.Storage.StorageTaskQueued": StorageTaskQueuedEventData;
+    "Microsoft.Web.AppServicePlanUpdated": WebAppServicePlanUpdatedEventData;
+    "Microsoft.Web.AppUpdated": WebAppUpdatedEventData;
+    "Microsoft.Web.BackupOperationCompleted": WebBackupOperationCompletedEventData;
+    "Microsoft.Web.BackupOperationFailed": WebBackupOperationFailedEventData;
+    "Microsoft.Web.BackupOperationStarted": WebBackupOperationStartedEventData;
+    "Microsoft.Web.RestoreOperationCompleted": WebRestoreOperationCompletedEventData;
+    "Microsoft.Web.RestoreOperationFailed": WebRestoreOperationFailedEventData;
+    "Microsoft.Web.RestoreOperationStarted": WebRestoreOperationStartedEventData;
+    "Microsoft.Web.SlotSwapCompleted": WebSlotSwapCompletedEventData;
+    "Microsoft.Web.SlotSwapFailed": WebSlotSwapFailedEventData;
+    "Microsoft.Web.SlotSwapStarted": WebSlotSwapStartedEventData;
+    "Microsoft.Web.SlotSwapWithPreviewCancelled": WebSlotSwapWithPreviewCancelledEventData;
+    "Microsoft.Web.SlotSwapWithPreviewStarted": WebSlotSwapWithPreviewStartedEventData;
 }
 
 // @public

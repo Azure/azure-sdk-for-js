@@ -353,4 +353,8 @@ export {
   KnownAcsMessageChannelKind,
   KnownAcsInteractiveReplyKind,
   KnownAcsMessageDeliveryStatus,
+  CloudEvent,
+  EventGridEvent,
 } from "./models";
+
+export { isSystemEvent, KnownSystemEventTypes, SystemEventNameToEventData } from "./predicates";
