@@ -177,7 +177,7 @@ export interface ManagedServiceIdentity {
   /** The type of managed identity assigned to this resource. */
   type: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+  userAssignedIdentities?: UserAssignedIdentities;
 }
 
 /** The kind of managed identity assigned to this resource. */
@@ -191,6 +191,10 @@ export interface UserAssignedIdentity {
   /** The active directory identifier for this principal. */
   principalId?: string;
 }
+
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests.", */
+export interface UserAssignedIdentities
+  extends Record<string, UserAssignedIdentity> {}
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
 export interface ErrorResponse {

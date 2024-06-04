@@ -25,6 +25,7 @@ export {
   ManagedServiceIdentity,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
+  UserAssignedIdentities,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,

@@ -32,7 +32,7 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["user_impersonation"],
+      scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`],
     },
   };
 

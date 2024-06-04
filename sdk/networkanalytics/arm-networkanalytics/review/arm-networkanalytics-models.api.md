@@ -345,7 +345,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+    userAssignedIdentities?: UserAssignedIdentities;
 }
 
 // @public
@@ -452,6 +452,10 @@ export interface SystemData {
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface UserAssignedIdentities extends Record<string, UserAssignedIdentity> {
 }
 
 // @public
