@@ -10,8 +10,6 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { randomUUID } from "@azure/core-util";
-import { AzureKeyCredential, KeyCredential } from "@azure/core-auth";
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { createTestCredential } from "@azure-tools/test-credential";
 import {
@@ -26,12 +24,14 @@ import {
   EnvironmentVariableNamesForCompletions,
   EnvironmentVariableNamesForDalle,
   EnvironmentVariableNamesForWhisper,
-  EnvironmentVariableNamesOpenAI,
 } from "./envVars.js";
 
 export type AuthMethod = "AAD" | "DummyAPIKey";
 export type DeploymentType = "dalle" | "whisper" | "completions";
+export type APIVersion = "2024-05-01-preview" | "2024-02-01";
 
+export const APIMatrix = ["2024-05-01-preview", "2024-02-01"] as APIVersion[];
+export const authTypes = ["AAD"] as AuthMethod[];
 function toString(error: any): string {
   return error instanceof Error ? error.toString() + "\n" + error.stack : JSON.stringify(error);
 }
@@ -91,27 +91,6 @@ export async function sendRequestWithRecorder(
     }
   }
   return pipeline.sendRequest(client, request);
-}
-
-async function listOpenAIModels(cred: KeyCredential, recorder: Recorder): Promise<string[]> {
-  const request = createPipelineRequest({
-    url: "https://api.openai.com/v1/models",
-    headers: createHttpHeaders({
-      Authorization: `Bearer ${cred.key}`,
-    }),
-    method: "GET",
-    timeout: 0,
-    withCredentials: false,
-    requestId: randomUUID(),
-  });
-  const response = await sendRequestWithRecorder(request, recorder);
-  const body = JSON.parse(response.bodyAsText as string);
-  type Model = { id: string; owned_by: string };
-  const models = (body.data as Model[])
-    .filter(({ owned_by }) => ["system", "openai"].includes(owned_by))
-    .map(({ id }) => id);
-  console.log(`Available models (${models.length}): ${models.join(", ")}`);
-  return models;
 }
 
 async function listDeployments(
@@ -174,13 +153,6 @@ export async function getDeployments(
   );
 }
 
-export async function getModels(recorder: Recorder): Promise<string[]> {
-  return listOpenAIModels(
-    new AzureKeyCredential(assertEnvironmentVariable(EnvironmentVariableNamesOpenAI.OPENAI_KEY)),
-    recorder,
-  );
-}
-
 export async function bufferAsyncIterable<T>(iter: AsyncIterable<T>): Promise<T[]> {
   const result: T[] = [];
   for await (const item of iter) {
@@ -205,7 +177,7 @@ export function createAzureSearchExtension(): {
   parameters: {
     endpoint: string;
     index_name: string;
-    authentication: { type: string; key: string };
+    authentication: { type: string };
   };
 } {
   return {
@@ -218,8 +190,7 @@ export function createAzureSearchExtension(): {
         EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_INDEX,
       ),
       authentication: {
-        type: "api_key",
-        key: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_KEY),
+        type: "system_assigned_managed_identity",
       },
     },
   };

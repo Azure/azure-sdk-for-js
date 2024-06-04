@@ -51,18 +51,13 @@ module.exports = function (config) {
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "TEST_MODE",
-      "ENDPOINT_DALLE",
-      "AZURE_API_KEY_DALLE",
+      "AZURE_OPENAI_ENDPOINT",
+      "AZURE_OPENAI_SWEDENCENTRAL_ENDPOINT",
+      "AZURE_OPENAI_NORTHCENTRALUS_ENDPOINT",
       "ACCOUNT_NAME_DALLE",
-      "ENDPOINT_WHISPER",
-      "AZURE_API_KEY_WHISPER",
       "ACCOUNT_NAME_WHISPER",
-      "ENDPOINT_COMPLETIONS",
-      "AZURE_API_KEY_COMPLETIONS",
       "ACCOUNT_NAME_COMPLETIONS",
-      "OPENAI_API_KEY",
       "AZURE_CLIENT_ID",
-      "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
       "RECORDINGS_RELATIVE_PATH",
       "SUBSCRIPTION_ID",
@@ -70,6 +65,7 @@ module.exports = function (config) {
       "ENDPOINT_SEARCH",
       "AZURE_API_KEY_SEARCH",
       "AZURE_SEARCH_INDEX",
+      
     ],
     // test results reporter to use
     // possible values: 'dots', 'progress'

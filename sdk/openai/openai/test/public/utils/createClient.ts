@@ -7,23 +7,20 @@ import {
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
-import OpenAI, { AzureClientOptions, AzureOpenAI } from "openai";
-import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
+import { AzureClientOptions, AzureOpenAI } from "openai";
+import { getBearerTokenProvider } from "@azure/identity";
 import {
   EnvironmentVariableNames,
   EnvironmentVariableNamesForCompletions,
   EnvironmentVariableNamesForDalle,
   EnvironmentVariableNamesForWhisper,
 } from "./envVars.js";
-import { AuthMethod, DeploymentType } from "./utils.js";
+import { APIVersion, AuthMethod, DeploymentType } from "./utils.js";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 const scope = "https://cognitiveservices.azure.com/.default";
 
 const envSetupForPlayback: { [k: string]: string } = {
-  [EnvironmentVariableNames.OPENAI_KEY]: "openai_api_key",
-  [EnvironmentVariableNames.AZURE_API_KEY_DALLE]: "azure_api_key",
-  [EnvironmentVariableNames.AZURE_API_KEY_WHISPER]: "azure_api_key",
-  [EnvironmentVariableNames.AZURE_API_KEY_COMPLETIONS]: "azure_api_key",
   [EnvironmentVariableNames.ENDPOINT_DALLE]: "https://endpoint/",
   [EnvironmentVariableNames.ENDPOINT_WHISPER]: "https://endpoint/",
   [EnvironmentVariableNames.ENDPOINT_COMPLETIONS]: "https://endpoint/",
@@ -33,7 +30,6 @@ const envSetupForPlayback: { [k: string]: string } = {
   [EnvironmentVariableNames.ACCOUNT_NAME_COMPLETIONS]: "account_name",
   [EnvironmentVariableNames.SUBSCRIPTION_ID]: "subscription_id",
   [EnvironmentVariableNames.AZURE_SEARCH_ENDPOINT]: "azure_search_endpoint",
-  [EnvironmentVariableNames.AZURE_SEARCH_KEY]: "azure_search_key",
   [EnvironmentVariableNames.AZURE_SEARCH_INDEX]: "azure_search_index",
 };
 
@@ -56,18 +52,16 @@ const environmentVariableNamesForResourceType = {
   completions: EnvironmentVariableNamesForCompletions,
 };
 
-// TODO: move apiVersion to the matrix, potentially test latest preview & stable versions
-const apiVersion = "2024-02-15-preview";
-
 export function createClient(
   authMethod: AuthMethod,
+  apiVersion: APIVersion,
   resourceType: DeploymentType,
   clientOptions?: AzureClientOptions,
-): AzureOpenAI | OpenAI {
+): AzureOpenAI {
   const { endpoint } = getEndpointFromResourceType(resourceType);
   switch (authMethod) {
     case "AAD": {
-      const credential = new DefaultAzureCredential();
+      const credential = createTestCredential();
       return new AzureOpenAI({
         azureADTokenProvider: getBearerTokenProvider(credential, scope),
         apiVersion,
