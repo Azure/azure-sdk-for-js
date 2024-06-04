@@ -19,5 +19,5 @@ steps:
       scriptType: bash
       scriptLocation: "inlineScript"
       inlineScript: |
-        node $(Pipeline.Workspace)/sdk/identity/identity/samples/sample.js
+        node $(Pipeline.Workspace)/azure-sdk-for-js/sdk/identity/identity/samples/sample.js
         
