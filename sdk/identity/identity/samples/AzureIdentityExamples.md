@@ -630,6 +630,10 @@ For using the `AzurePipelinesCredential` you need to configure these values in t
    ![ResourceId as found in the querystring of the Azure Resource Manager service connection created in the Azure Devops](image.png)
 4. `systemAccessToken`: [See how to configure the System Predefined variable $System.AccessToken for the Azure Pipelines task](https://learn.microsoft.com/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#systemaccesstoken). This is the field you will pass into the constructor of the credential.
 
+#### Example of using the Azure Pipelines Task
+
+The following yaml script is an example of running the `AzureCLI@2` task for using service connections federated identity with @azure/identity. See the list of [recommended Azure Devops task](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks).
+
 ```yml
 trigger:
   - main
@@ -648,33 +652,37 @@ steps:
     env:
       SYSTEM_ACCESSTOKEN: $(System.AccessToken)
     inputs:
-      azureSubscription: "ManagedIdentityUser"
+      azureSubscription: "Azure SDK Test Resources (2cd617ea-1866-46b1-90e3-fffb087ebf9b)"
       scriptType: bash
       scriptLocation: "inlineScript"
       inlineScript: |
-        typescript -
-        import { AzurePipelinesCredential } from "@azure/identity"
-        import { SecretClient } from "@azure/keyvault-secrets"
+        node - 
+        const { AzurePipelinesCredential } = await import("@azure/identity");
+        const { SecretClient } = await import("@azure/keyvault-secrets");
+        const {dotenv } = await import("dotenv");
 
-        function withAzurePipelinesCredential() {
-            const clientId = "<YOUR_CLIENT_ID>";
-            const tenantId = "<YOUR_TENANT_ID>";
-            const serviceConnectionId = "<YOUR_SERVICE_CONNECTION_ID>";
-            const systemAccessToken = "<SYSTEM_ACCESSTOKEN>";
+        dotenv.config();
+        async function main(){
+            const clientId = "<your_client_id>";
+            const tenantId = "<your_tenant_id>";
+            const serviceConnectionId = "<your_service_connection_id>";
+            const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN;
             const credential = new AzurePipelinesCredential(
               tenantId,
               clientId,
               serviceConnectionId,
               systemAccessToken
             );  
-          const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
-          const secretValue = client.getSecret("secretKey");
+          const client = new SecretClient("https://<keyvault-name>.vault.azure.net/", credential);
+          const secretValue = await client.getSecret("secretKey");
           console.log("the value of secret is", secretValue);
         }
-        async function main(){
-          withAzurePipelinesCredential();
-        }
+        main().catch((err) => {
+          console.error("The sample encountered an error:", err);
+        });
 ```
+
+**Note: The env vars `AZURESUBSCRIPTION_CLIENT_ID`, `AZURESUBSCRIPTION_TENANT_ID` and `AZURESUBSCRIPTION_SERVICE_CONNECTION_ID` are configured by Azure Pipelines only in the tasks `AzureCLI@2` and `AzurePowershell@5` and values from these env vars should be passed into the constructor of `AzurePipelinesCredential` by the user.**
 
 #### Sample code for using AzurePipelinesCredential
 
@@ -700,7 +708,7 @@ function withAzurePipelinesCredential() {
 }
 ```
 
-This credential is NOT part of `DefaultAzureCredential`.
+**Note: This credential is NOT part of `DefaultAzureCredential`.**
 
 ## Chaining credentials
 
