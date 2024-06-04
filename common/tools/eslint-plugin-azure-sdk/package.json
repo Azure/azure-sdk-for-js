@@ -90,14 +90,14 @@
     "@typescript-eslint/utils": "~7.10.0",
     "@typescript-eslint/parser": "~7.10.0",
     "@typescript-eslint/rule-tester": "~7.10.0",
-    "@vitest/coverage-istanbul": "^1.4.0",
+    "@vitest/coverage-istanbul": "^1.6.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.50.0",
     "eslint-plugin-markdown": "^5.0.0",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
-    "vitest": "^1.4.0",
+    "vitest": "^1.6.0",
     "@types/eslint": "~8.56.10"
   }
 }
