@@ -19,5 +19,5 @@ steps:
       scriptType: bash
       scriptLocation: "inlineScript"
       inlineScript: |
-        node ./sample.js
+      ls
         
