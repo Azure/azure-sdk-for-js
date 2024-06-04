@@ -1,0 +1,43 @@
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - script: |
+      npm install @azure/identity@4.3.0
+      npm install @azure/keyvault-secrets
+    displayName: "Install the test version of Azure Identity"
+
+  - task: AzureCLI@2
+    displayName: "Azure CLI Task"
+    env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+    inputs:
+      azureSubscription: "ManagedIdentityUser"
+      scriptType: bash
+      scriptLocation: "inlineScript"
+      inlineScript: |
+        typescript -
+        import { AzurePipelinesCredential } from "@azure/identity"
+        import { SecretClient } from "@azure/keyvault-secrets"
+
+        function withAzurePipelinesCredential() {
+            const clientId = "<YOUR_CLIENT_ID>";
+            const tenantId = "<YOUR_TENANT_ID>";
+            const serviceConnectionId = "<YOUR_SERVICE_CONNECTION_ID>";
+            const systemAccessToken = "<SYSTEM_ACCESSTOKEN>";
+            const credential = new AzurePipelinesCredential(
+              tenantId,
+              clientId,
+              serviceConnectionId,
+              systemAccessToken
+            );  
+          const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
+          const secretValue = client.getSecret("secretKey");
+          console.log("the value of secret is", secretValue);
+        }
+        async function main(){
+          withAzurePipelinesCredential();
+        }

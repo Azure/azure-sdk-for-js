@@ -616,6 +616,68 @@ function withUserManagedIdentityCredential() {
 
 #### Authenticating in Azure Pipelines with service-connections
 
+##### Set up Federated Identity Credential in Azure Pipelines
+
+In order to set up FIC in Azure Pipelines, you can set up the Azure Resource Manager service connection as an [automatic recommended approach](https://learn.microsoft.com/azure/devops/pipelines/library/connect-to-azure?view=azure-devops#create-an-azure-resource-manager-service-connection-that-uses-workload-identity-federation). You can also create it manually either using a [user-assigned Managed Identity as FIC](https://learn.microsoft.com/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops#set-a-workload-identity-service-connection-to-use-managed-identity-authentication) or using an [App Registration as FIC](https://learn.microsoft.com/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops#set-a-workload-identity-service-connection-to-use-service-principal-authentication).
+
+Make sure you use one of the [recommended Azure Devops task](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks) for FIC to be available in Azure Pipelines.
+
+For using the `AzurePipelinesCredential` you need to configure these values in the constructor:
+
+1. `clientId`: Client ID from your user-assigned managed identity OR Application (client) ID from your app registration.
+2. `tenantId`: Tenant ID from your user-assigned managed identity OR Directory (tenant) ID from your app registration.
+3. `serviceConnectionId`: The service connection ID is the **GUID representing your service connection** and can be obtained by looking at the URL bar in your browser when you navigate to a service connection in the Azure Devops. It is the ResourceId as found in the querystring of the URL.
+   ![ResourceId as found in the querystring of the Azure Resource Manager service connection created in the Azure Devops](image.png)
+4. `systemAccessToken`: [See how to configure the System Predefined variable $System.AccessToken for the Azure Pipelines task](https://learn.microsoft.com/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#systemaccesstoken). This is the field you will pass into the constructor of the credential.
+
+```yml
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - script: |
+      npm install @azure/identity@4.3.0
+      npm install @azure/keyvault-secrets
+    displayName: "Install the test version of Azure Identity"
+
+  - task: AzureCLI@2
+    displayName: "Azure CLI Task"
+    env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+    inputs:
+      azureSubscription: "ManagedIdentityUser"
+      scriptType: bash
+      scriptLocation: "inlineScript"
+      inlineScript: |
+        typescript -
+        import { AzurePipelinesCredential } from "@azure/identity"
+        import { SecretClient } from "@azure/keyvault-secrets"
+
+        function withAzurePipelinesCredential() {
+            const clientId = "<YOUR_CLIENT_ID>";
+            const tenantId = "<YOUR_TENANT_ID>";
+            const serviceConnectionId = "<YOUR_SERVICE_CONNECTION_ID>";
+            const systemAccessToken = "<SYSTEM_ACCESSTOKEN>";
+            const credential = new AzurePipelinesCredential(
+              tenantId,
+              clientId,
+              serviceConnectionId,
+              systemAccessToken
+            );  
+          const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
+          const secretValue = client.getSecret("secretKey");
+          console.log("the value of secret is", secretValue);
+        }
+        async function main(){
+          withAzurePipelinesCredential();
+        }
+```
+
+#### Sample code for using AzurePipelinesCredential
+
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `AzurePipelinesCredential` in an Azure Pipelines environment with service connections.
 
 ```ts

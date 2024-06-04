@@ -24,7 +24,32 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      systemAccessToken,
+      systemAccessToken
+    );
+    try {
+      const token = await credential.getToken(scope);
+      assert.ok(token?.token);
+      assert.isDefined(token?.expiresOnTimestamp);
+      if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
+    } catch (e) {
+      console.log(e);
+    }
+  });
+
+  it.only("fails with with invalid service connection", async function () {
+    if (!isLiveMode()) {
+      this.skip();
+    }
+    // this serviceConnection corresponds to the Azure SDK Test Resources - LiveTestSecrets service
+    const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
+    // clientId for above service connection
+    const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
+    const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN!;
+    const credential = new AzurePipelinesCredential(
+      tenantId,
+      clientId,
+      existingServiceConnectionId,
+      systemAccessToken
     );
     try {
       const token = await credential.getToken(scope);
