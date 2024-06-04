@@ -6,7 +6,7 @@ pool:
 
 steps:
   - script: |
-      npm install @azure/identity@4.3.0
+      npm install @azure/identity@4.3.0-beta.1
       npm install @azure/keyvault-secrets
     displayName: "Install the test version of Azure Identity"
 
