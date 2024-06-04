@@ -47,20 +47,22 @@ export class AzurePipelinesCredential implements TokenCredential {
     logger.info(
       `Invoking AzurePipelinesCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
     );
-
-    if (clientId && tenantId && serviceConnectionId && systemAccessToken) {
-      this.ensurePipelinesSystemVars();
-      const oidcRequestUrl = `${process.env.SYSTEM_OIDCREQUESTURI}?api-version=${OIDC_API_VERSION}&serviceConnectionId=${serviceConnectionId}`;
-      logger.info(
-        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
-      );
-      this.clientAssertionCredential = new ClientAssertionCredential(
-        tenantId,
-        clientId,
-        this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
-        options
+    if (!process.env.SYSTEM_OIDCREQUESTURI) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable. Ensure that you're running this task in an Azure Pipeline, so that following missing system variable(s) can be defined- "SYSTEM_OIDCREQUESTURI"`
       );
     }
+
+    const oidcRequestUrl = `${process.env.SYSTEM_OIDCREQUESTURI}?api-version=${OIDC_API_VERSION}&serviceConnectionId=${serviceConnectionId}`;
+    logger.info(
+      `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
+    );
+    this.clientAssertionCredential = new ClientAssertionCredential(
+      tenantId,
+      clientId,
+      this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
+      options
+    );
   }
 
   /**
@@ -138,25 +140,11 @@ export class AzurePipelinesCredential implements TokenCredential {
         throw new AuthenticationError(response.status, errorMessage);       
         } 
     } catch (e) {
+      logger.error((e as Error).message);
+      logger.error( `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`)
       throw new AuthenticationError(
         response.status,
         `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`
-      );
-    }
-  }
-
-  /**
-   * Ensures all system env vars are there to form the request uri for OIDC token
-   * @returns void
-   * @throws CredentialUnavailableError
-   */
-  private ensurePipelinesSystemVars(): void {
-    if (process.env.SYSTEM_OIDCREQUESTURI) {
-      return;
-    }
-    if (!process.env.SYSTEM_OIDCREQUESTURI) {
-      throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. Ensure that you're running this task in an Azure Pipeline, so that following missing system variable(s) can be defined- "SYSTEM_OIDCREQUESTURI"`
       );
     }
   }

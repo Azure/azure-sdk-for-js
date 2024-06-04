@@ -12,7 +12,7 @@ describe("AzurePipelinesCredential", function () {
   const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!;
 
   it.only("authenticates with a valid service connection", async function () {
-    if (!isLiveMode()) {
+    if (!isLiveMode() || !process.env.AZURE_SERVICE_CONNECTION_ID) {
       this.skip();
     }
     // this serviceConnection corresponds to the Azure SDK Test Resources - LiveTestSecrets service
