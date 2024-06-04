@@ -42,6 +42,9 @@ parameters:
   default: false
 - name: OSName
   type: string
+- name: UseFederatedAuth
+  type: boolean
+  default: false
 
 jobs:
   - job:
@@ -90,6 +93,9 @@ jobs:
                 ServiceDirectory: '${{ directory }}'
                 SubscriptionConfiguration: $(SubscriptionConfiguration)
                 ArmTemplateParameters: $(ArmTemplateParameters)
+                UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+                ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
+                SubscriptionConfigurationFilePath: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePath }}
         - ${{ if not(parameters.TestResourceDirectories) }}:
           - template: /eng/common/TestResources/deploy-test-resources.yml
             parameters:
@@ -98,6 +104,9 @@ jobs:
               ServiceDirectory: '${{ parameters.ServiceDirectory }}'
               SubscriptionConfiguration: $(SubscriptionConfiguration)
               ArmTemplateParameters: $(ArmTemplateParameters)
+              UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+              ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
+              SubscriptionConfigurationFilePath: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePath }}
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -164,36 +173,89 @@ jobs:
 
       - template: ../steps/use-node-test-version.yml
 
-      - script: |
-          node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
-        displayName: "Integration test libraries"
-        workingDirectory: $(PackagePath)
-        condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
-        env:
-          TEST_MODE: "live"
-          SERVICE_VERSION: $(ServiceVersion)
-          ${{ insert }}: ${{ parameters.EnvVars }}
+      # ===== BEGIN LIVE TEST RUNS =====
 
-      - script: |
-          node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
-        displayName: "Integration test libraries"
-        workingDirectory: $(PackageTestPath)
-        condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
-        env:
-          TEST_MODE: "live"
-          SERVICE_VERSION: $(ServiceVersion)
-          ${{ insert }}: ${{ parameters.EnvVars }}
+      - ${{ if eq('true', parameters.UseFederatedAuth) }}:
+        - task: AzurePowerShell@5
+          inputs:
+            azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
+            azurePowerShellVersion: LatestVersion
+            workingDirectory: $(PackagePath)
+            pwsh: true
+            ScriptType: InlineScript
+            Inline: |
+              node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+          displayName: "Integration test libraries"
+          condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
+          env:
+            TEST_MODE: "live"
+            SERVICE_VERSION: $(ServiceVersion)
+            ${{ insert }}: ${{ parameters.EnvVars }}
 
-      - ${{ parameters.PostSteps }}
+        - task: AzurePowerShell@5
+          inputs:
+            azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
+            azurePowerShellVersion: LatestVersion
+            workingDirectory: $(PackageTestPath)
+            ScriptType: InlineScript
+            Inline: |
+              node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
+          displayName: "Integration test libraries"
+          condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
+          env:
+            TEST_MODE: "live"
+            SERVICE_VERSION: $(ServiceVersion)
+            ${{ insert }}: ${{ parameters.EnvVars }}
 
-      - script: |
-          node ../../../common/scripts/install-run-rushx.js execute:samples
-        displayName: "Execute Samples"
-        workingDirectory: $(PackagePath)
-        env:
-          TEST_MODE: "live"
-          ${{ insert }}: ${{ parameters.EnvVars }}
-        condition: and(succeeded(),eq(variables['TestType'],'sample'))
+        - ${{ parameters.PostSteps }}
+
+        - task: AzurePowerShell@5
+          inputs:
+            azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
+            azurePowerShellVersion: LatestVersion
+            workingDirectory: $(PackagePath)
+            ScriptType: InlineScript
+            Inline: |
+              node ../../../common/scripts/install-run-rushx.js execute:samples
+          displayName: "Execute Samples"
+          env:
+            TEST_MODE: "live"
+            ${{ insert }}: ${{ parameters.EnvVars }}
+          condition: and(succeeded(),eq(variables['TestType'],'sample'))
+
+      - ${{ else }}:
+        - script: |
+            node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+          displayName: "Integration test libraries"
+          workingDirectory: $(PackagePath)
+          condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
+          env:
+            TEST_MODE: "live"
+            SERVICE_VERSION: $(ServiceVersion)
+            ${{ insert }}: ${{ parameters.EnvVars }}
+
+        - script: |
+            node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
+          displayName: "Integration test libraries"
+          workingDirectory: $(PackageTestPath)
+          condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
+          env:
+            TEST_MODE: "live"
+            SERVICE_VERSION: $(ServiceVersion)
+            ${{ insert }}: ${{ parameters.EnvVars }}
+
+        - ${{ parameters.PostSteps }}
+
+        - script: |
+            node ../../../common/scripts/install-run-rushx.js execute:samples
+          displayName: "Execute Samples"
+          workingDirectory: $(PackagePath)
+          env:
+            TEST_MODE: "live"
+            ${{ insert }}: ${{ parameters.EnvVars }}
+          condition: and(succeeded(),eq(variables['TestType'],'sample'))
+
+      # ===== END LIVE TEST RUNS =====
 
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
         - ${{ if parameters.TestResourceDirectories }}:
