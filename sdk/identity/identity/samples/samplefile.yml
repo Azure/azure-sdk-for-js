@@ -15,7 +15,7 @@ steps:
     env:
       SYSTEM_ACCESSTOKEN: $(System.AccessToken)
     inputs:
-      azureSubscription: "ManagedIdentityUser"
+      azureSubscription: "Azure SDK Test Resources (2cd617ea-1866-46b1-90e3-fffb087ebf9b)"
       scriptType: bash
       scriptLocation: "inlineScript"
       inlineScript: |
