@@ -202,7 +202,7 @@ describe("Complete Order Discrepancy Inference Test", () => {
 
   it("complete order discrepancy inference test", async function () {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138794703803")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138794703804")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();

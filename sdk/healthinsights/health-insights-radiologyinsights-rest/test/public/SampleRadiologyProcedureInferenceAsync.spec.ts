@@ -229,7 +229,7 @@ describe("Radiology Procedure Inference Test", () => {
 
   it("radiology procedure inference test", async function () {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138795206167")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138795206163")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();

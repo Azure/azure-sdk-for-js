@@ -193,7 +193,7 @@ describe("Sex Mismatch Inference Test", () => {
 
   it("sex mismatch inference test", async function () {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138795260266")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138795260264")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();

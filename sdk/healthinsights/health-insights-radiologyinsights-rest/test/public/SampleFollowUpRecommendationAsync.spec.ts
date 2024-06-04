@@ -250,7 +250,7 @@ describe("Follow Up Recommendation Inference Test", () => {
 
   it("follow up recommendation inference test", async function () {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138794993578")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138794993579")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();

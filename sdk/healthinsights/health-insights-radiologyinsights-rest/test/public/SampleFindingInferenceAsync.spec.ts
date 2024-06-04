@@ -211,7 +211,7 @@ describe("Finding Inference Test", () => {
 
   it("finding inference test", async function () {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138794807335")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138794807336")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();

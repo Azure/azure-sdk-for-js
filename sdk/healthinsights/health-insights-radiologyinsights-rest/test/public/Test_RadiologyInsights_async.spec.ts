@@ -154,7 +154,7 @@ describe("Radiology Insights Test", () => {
 
   it("radiology Insights test", async function () {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138795314338")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138795314335")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();

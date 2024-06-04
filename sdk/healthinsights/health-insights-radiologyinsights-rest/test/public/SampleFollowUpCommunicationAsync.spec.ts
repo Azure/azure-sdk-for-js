@@ -192,7 +192,7 @@ describe("Follow Up Communication Inference Test", () => {
 
   it("follow up communication inference test", async function () {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138794923686")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138794923687")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
