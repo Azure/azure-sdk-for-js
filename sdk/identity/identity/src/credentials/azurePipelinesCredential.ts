@@ -37,9 +37,9 @@ export class AzurePipelinesCredential implements TokenCredential {
     systemAccessToken: string,
     options?: AzurePipelinesCredentialOptions
   ) {
-    if (!clientId || !tenantId || !serviceConnectionId) {
+    if (!clientId || !tenantId || !serviceConnectionId || !systemAccessToken) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required either as options parameters OR environment variables, namely - AZURESUBSCRIPTION_TENANT_ID, AZURESUBSCRIPTION_CLIENT_ID and AZURESUBSCRIPTION_SERVICE_CONNECTION_ID`
+        `${credentialName}: is unavailable. tenantId, clientId, serviceConnectionId and systemAccessToken are required parameters.`
       );
     }
     this.identityClient = new IdentityClient(options);
@@ -48,7 +48,7 @@ export class AzurePipelinesCredential implements TokenCredential {
       `Invoking AzurePipelinesCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
     );
 
-    if (clientId && tenantId && serviceConnectionId) {
+    if (clientId && tenantId && serviceConnectionId && systemAccessToken) {
       this.ensurePipelinesSystemVars();
       const oidcRequestUrl = `${process.env.SYSTEM_OIDCREQUESTURI}?api-version=${OIDC_API_VERSION}&serviceConnectionId=${serviceConnectionId}`;
       logger.info(
@@ -80,7 +80,7 @@ export class AzurePipelinesCredential implements TokenCredential {
       tenantId,
       clientId,
       serviceConnectionId,
-      systemAccessToken from Azure Pipelines,
+      systemAccessToken,
       "SYSTEM_OIDCREQUESTURI".      
       See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`;
       logger.error(errorMessage);
