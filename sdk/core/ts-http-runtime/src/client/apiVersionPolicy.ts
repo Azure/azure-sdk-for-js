@@ -8,6 +8,7 @@ export const apiVersionPolicyName = "ApiVersionPolicy";
 
 /**
  * Creates a policy that sets the apiVersion as a query parameter on every request
+ * @deprecated - This policy will be removed in a future version.
  * @param options - Client options
  * @returns Pipeline policy that sets the apiVersion as a query parameter on every request
  */

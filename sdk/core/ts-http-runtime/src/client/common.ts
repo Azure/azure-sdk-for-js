@@ -326,6 +326,7 @@ export type ClientOptions = PipelineOptions & {
   endpoint?: string;
   /**
    * Options for setting a custom apiVersion.
+   * @deprecated - This should be handled by the client instead.
    */
   apiVersion?: string;
   /**
