@@ -24,35 +24,35 @@
     - Retired 'RepeatabilityResultOutput'
 
 - Response changes:
-for RadiologyInsightsJobOutput
+  - for RadiologyInsightsJobOutput
     - Renamed 'createdDateTime' into 'createdAt'
     - Renamed 'expirationDateTime' into 'expiresAt'
     - Renamed 'lastUpdateDateTime' into 'updatedAt'
 
-for ElementOutput
+  - for ElementOutput
     - added field 'kind' as a string
 
-for ContactPointOutput
+  - for ContactPointOutput
     - 'system' field is now a 'ContactPointSystemOutput' and no longer a string
     - 'use' field is now a 'ContactPointUseOutput' and no longer a string
 
-for DomainResourceOutputParent
+  - for DomainResourceOutputParent
     - 'status' field is now a 'ObservationStatusCodeTypeOutput' and no longer a string, limited to 4 options (registered | preliminary | final | amended)
 
-for ConditionOutput
+  - for ConditionOutput
     - 'status' field is now a 'ResearchStudyStatusCodeTypeOutput' and no longer a string
 
-for FollowupRecommendationInferenceOutput
+  - for FollowupRecommendationInferenceOutput
     - Renamed 'effectiveDateTime' field into 'effectiveAt'
 
-for RecommendationFindingOutput
+  - for RecommendationFindingOutput
     - 'recommendationFindingStatus' field is now a RecommendationFindingStatusTypeOutput and no longer a string
     - 'extension' field added
 
-for ProcedureRecommendationOutputParent
+  - for ProcedureRecommendationOutputParent
     - 'extension' field added
 
-for FollowupCommunication
+  - for FollowupCommunication
     - Renamed 'dateTime' field into 'communicatedAt'
     - 'recipient' field is now a 'MedicalProfessionalTypeOutput' and no longer a string[]
 
