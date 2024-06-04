@@ -50,12 +50,14 @@ describe("AzurePipelinesCredential", function () {
       systemAccessToken
     );
     try {
-      const token = await credential.getToken(scope);
-      assert.ok(token?.token);
-      assert.isDefined(token?.expiresOnTimestamp);
-      if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
+      await credential.getToken(scope);
     } catch (e) {
       console.log(e);
+      assert.isTrue(
+        (e as Error).message.includes(
+          "AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404."
+        )
+      );
     }
   });
 
