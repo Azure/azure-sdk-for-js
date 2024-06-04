@@ -15,6 +15,7 @@ import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { SimplePollerLike } from '@azure/core-lro';
 import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AgeMismatchInference extends RadiologyInsightsInferenceParent {
@@ -205,7 +206,7 @@ export type ContactPointUse = string | "home" | "work" | "temp" | "old" | "mobil
 export type ContactPointUseOutput = string | "home" | "work" | "temp" | "old" | "mobile";
 
 // @public
-function createClient(endpoint: string, credentials: KeyCredential, options?: ClientOptions): AzureHealthInsightsClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): AzureHealthInsightsClient;
 export default createClient;
 
 // @public (undocumented)
@@ -398,10 +399,6 @@ export type EncounterClass = string | "inpatient" | "ambulatory" | "observation"
 
 // @public
 export type EncounterClassOutput = string | "inpatient" | "ambulatory" | "observation" | "emergency" | "virtual" | "healthHome";
-
-// @public
-export interface ExpandQueryParameterOutput {
-}
 
 // @public
 export interface Extension extends Element {
@@ -1301,10 +1298,6 @@ export interface ResourceOutput extends Record<string, any> {
     language?: string;
     meta?: MetaOutput;
     resourceType: string;
-}
-
-// @public
-export interface RetryAfterHeaderOutput {
 }
 
 // @public (undocumented)

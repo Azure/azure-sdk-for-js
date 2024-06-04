@@ -3,15 +3,6 @@
 
 import { ErrorModel } from "@azure-rest/core-client";
 
-/** The retry-after envelope. */
-export interface RetryAfterHeaderOutput {}
-
-/** Provides the 'x-ms-request-id' header to enable request correlation in responses. */
-export interface RequestIdResponseHeaderOutput {}
-
-/** Provides the standard 'expand' query parameter for list operations. */
-export interface ExpandQueryParameterOutput {}
-
 /** Response for the Radiology Insights request. */
 export interface RadiologyInsightsJobOutput {
   /** The request data for the operation. */
@@ -927,6 +918,9 @@ export interface HealthInsightsErrorResponseOutput {
   /** An opaque, globally-unique, server-generated string identifier for the request. */
   requestId: { response: RequestIdResponseHeaderOutput };
 }
+
+/** Provides the 'x-ms-request-id' header to enable request correlation in responses. */
+export interface RequestIdResponseHeaderOutput {}
 
 /**
  * A resource with narrative, extensions, and contained resources
