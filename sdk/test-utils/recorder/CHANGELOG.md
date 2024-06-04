@@ -15,7 +15,7 @@
 
 ### Bugs Fixed
 
-- Fixes connectionStringSanitizer regression stemmed from batch sanitizers migration, where the request bodies are formatted incorrectly.
+- Fixes connectionStringSanitizer regression stemmed from batch sanitizers migration, where the request bodies are incorrect.
 
 ## 4.0.0 (2024-04-09)
 
