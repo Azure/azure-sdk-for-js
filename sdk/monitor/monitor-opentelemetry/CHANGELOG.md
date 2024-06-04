@@ -2,6 +2,10 @@
 
 ## Unreleased ()
 
+### Features Added
+
+- Support Undici/Fetch API instrumentation.
+
 ### Bugs Fixed
 
 - Setting the sampling ratio to 0 now correctly applies the value instead of defaulting to 1.
