@@ -15,6 +15,7 @@ import { MySQLInstrumentation } from "@opentelemetry/instrumentation-mysql";
 import { PgInstrumentation } from "@opentelemetry/instrumentation-pg";
 import { RedisInstrumentation } from "@opentelemetry/instrumentation-redis";
 import { RedisInstrumentation as Redis4Instrumentation } from "@opentelemetry/instrumentation-redis-4";
+import { UndiciInstrumentation as FetchInstrumentation } from "@opentelemetry/instrumentation-undici";
 
 import { InternalConfig } from "../shared/config";
 import { MetricHandler } from "../metrics/handler";
@@ -139,6 +140,9 @@ export class TraceHandler {
       this._instrumentations.push(
         new Redis4Instrumentation(this._config.instrumentationOptions.redis4),
       );
+    }
+    if (this._config.instrumentationOptions.fetch?.enabled) {
+      this._instrumentations.push(new FetchInstrumentation());
     }
   }
 }

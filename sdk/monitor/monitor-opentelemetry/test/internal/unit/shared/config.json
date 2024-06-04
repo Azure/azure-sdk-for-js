@@ -23,6 +23,9 @@
     },
     "redis4": {
       "enabled": true
+    },
+    "fetch": {
+      "enabled": true
     }
   }
 }

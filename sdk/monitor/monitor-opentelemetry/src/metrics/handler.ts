@@ -56,6 +56,9 @@ export class MetricHandler {
     if (config.instrumentationOptions.redis?.enabled) {
       this._views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-redis" }));
     }
+    if (config.instrumentationOptions.fetch?.enabled) {
+      this._views.push(new View({ meterName: "@opentelemetry/instrumentation-undici" }));
+    }
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
     let metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,

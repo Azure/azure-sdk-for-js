@@ -25,7 +25,7 @@ export interface AzureMonitorOpenTelemetryOptions {
   enableStandardMetrics?: boolean;
   /** Enable log sampling based on trace (Default true) */
   enableTraceBasedSamplingForLogs?: boolean;
-  /** OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4) */
+  /** OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4, fetch) */
   instrumentationOptions?: InstrumentationOptions;
   /** Application Insights Web Instrumentation options (enabled, connectionString, src, config)*/
   browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
@@ -57,6 +57,8 @@ export interface InstrumentationOptions {
   bunyan?: InstrumentationConfig;
   /** Winston Instrumentation Config */
   winston?: InstrumentationConfig;
+  /** Fetch Instrumentation Config */
+  fetch?: InstrumentationConfig;
 }
 
 /**
@@ -72,6 +74,7 @@ export interface StatsbeatOptions {
   redis?: boolean;
   bunyan?: boolean;
   winston?: boolean;
+  fetch?: boolean;
   /** Features */
   liveMetrics?: boolean;
   browserSdkLoader?: boolean;
@@ -135,4 +138,5 @@ export enum StatsbeatInstrumentation {
   POSTGRES = 16,
   BUNYAN = 32,
   WINSTON = 64,
+  FETCH = 128,
 }

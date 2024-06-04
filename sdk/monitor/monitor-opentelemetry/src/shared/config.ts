@@ -30,7 +30,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   /** Azure Monitor Exporter Configuration */
   public azureMonitorExporterOptions: AzureMonitorExporterOptions;
   /**
-   * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
+   * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4, fetch)
    */
   public instrumentationOptions: InstrumentationOptions;
   /** Enable Live Metrics feature */
@@ -73,6 +73,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       postgreSql: { enabled: false },
       redis: { enabled: false },
       redis4: { enabled: false },
+      fetch: { enabled: false },
     };
     this._setDefaultResource();
     this.browserSdkLoaderOptions = {

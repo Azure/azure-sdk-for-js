@@ -45,6 +45,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
     redis: config.instrumentationOptions?.redis?.enabled,
     bunyan: config.instrumentationOptions?.bunyan?.enabled,
     winston: config.instrumentationOptions?.winston?.enabled,
+    fetch: config.instrumentationOptions?.fetch?.enabled,
     // Features
     browserSdkLoader: config.browserSdkLoaderOptions.enabled,
     aadHandling: !!config.azureMonitorExporterOptions?.credential,

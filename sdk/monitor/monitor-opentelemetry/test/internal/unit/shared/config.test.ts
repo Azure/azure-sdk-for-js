@@ -67,6 +67,7 @@ describe("Library/Config", () => {
       );
       assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, true, "Wrong redis");
       assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, true, "Wrong redis4");
+      assert.deepStrictEqual(config.instrumentationOptions.fetch?.enabled, true, "Wrong fetch");
     });
 
     it("JSON config values take precedence over others", () => {
@@ -87,6 +88,7 @@ describe("Library/Config", () => {
           postgreSql: { enabled: true },
           redis: { enabled: true },
           redis4: { enabled: true },
+          fetch: { enabled: true },
         },
       };
       env["APPLICATIONINSIGHTS_CONFIGURATION_CONTENT"] = JSON.stringify(jsonOptions);
@@ -107,6 +109,7 @@ describe("Library/Config", () => {
           postgreSql: { enabled: false },
           redis: { enabled: false },
           redis4: { enabled: false },
+          fetch: { enabled: false },
         },
       };
 
@@ -139,6 +142,10 @@ describe("Library/Config", () => {
       assert.strictEqual(
         config.instrumentationOptions?.redis4?.enabled,
         jsonOptions.instrumentationOptions.redis4.enabled,
+      );
+      assert.strictEqual(
+        config.instrumentationOptions?.fetch?.enabled,
+        jsonOptions.instrumentationOptions.fetch.enabled,
       );
       assert.strictEqual(
         config.azureMonitorExporterOptions?.connectionString,
@@ -175,6 +182,7 @@ describe("Library/Config", () => {
       );
       assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, false, "Wrong redis");
       assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, false, "Wrong redis4");
+      assert.deepStrictEqual(config.instrumentationOptions.fetch?.enabled, false, "Wrong fetch");
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.disableOfflineStorage,
         undefined,
@@ -225,6 +233,7 @@ describe("Library/Config", () => {
       );
       assert.deepStrictEqual(config.instrumentationOptions.http?.enabled, false, "Wrong http");
       assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, true, "Wrong redis4");
+      assert.deepStrictEqual(config.instrumentationOptions.fetch?.enabled, false, "Wrong fetch");
 
       // Default values
       assert.deepStrictEqual(
