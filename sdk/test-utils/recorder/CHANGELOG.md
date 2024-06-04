@@ -1,5 +1,11 @@
 # Release History
 
+## 3.5.1 (2024-06-04)
+
+### Bugs Fixed
+
+- Fixes connectionStringSanitizer regression stemmed from batch sanitizers migration, where the request bodies are incorrect. Ported from [#29897](https://github.com/Azure/azure-sdk-for-js/pull/29897)
+
 ## 3.5.0 (2024-05-13)
 
 ### Breaking Changes
