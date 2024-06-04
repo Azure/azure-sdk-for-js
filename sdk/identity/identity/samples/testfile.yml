@@ -19,5 +19,11 @@ steps:
       scriptType: bash
       scriptLocation: "inlineScript"
       inlineScript: |
+<<<<<<< HEAD
       ls
+=======
+        ls
+        node
+        console.log("Hello world")
+>>>>>>> 8e23e6b51e0698aa41a98f358e8a4d53f67f1047
         
