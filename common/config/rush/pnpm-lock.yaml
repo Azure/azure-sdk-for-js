@@ -2645,6 +2645,19 @@ packages:
       - supports-color
     dev: false
 
+  /@opentelemetry/instrumentation-undici@0.2.0(@opentelemetry/api@1.8.0):
+    resolution: {integrity: sha512-RH9WdVRtpnyp8kvya2RYqKsJouPxvHl7jKPsIfrbL8u2QCKloAGi0uEqDHoOS15ZRYPQTDXZ7d8jSpUgSQmvpA==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.7.0
+    dependencies:
+      '@opentelemetry/api': 1.8.0
+      '@opentelemetry/core': 1.24.1(@opentelemetry/api@1.8.0)
+      '@opentelemetry/instrumentation': 0.51.1(@opentelemetry/api@1.8.0)
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@opentelemetry/instrumentation-winston@0.37.0(@opentelemetry/api@1.8.0):
     resolution: {integrity: sha512-vOx55fxdNjo2XojJf8JN4jP7VVvQCh7UQzzQ2Q2FpGJpt8Z3EErKaY8xOBkOuJH0TtL/Q72rmIn9c+mRG46BxA==}
     engines: {node: '>=14'}
@@ -21807,7 +21820,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-uHI/C3l3+w6e1PwyU3lcaw+ZIkkAnMVEwkS25/O1Bh/nJT5XWZWJeS5r6nK5bASCRJ9h/5VouPnwme45uiWOwA==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-c/hk72wF608QaLPBMYGA+P54G3NHOD6aIb0tc7JF09ME6P0M8KnUJqw/djBHmjFtB5uRJZsS/F7vlxqmTqOkZA==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -21825,6 +21838,7 @@ packages:
       '@opentelemetry/instrumentation-pg': 0.41.0(@opentelemetry/api@1.8.0)
       '@opentelemetry/instrumentation-redis': 0.39.1(@opentelemetry/api@1.8.0)
       '@opentelemetry/instrumentation-redis-4': 0.39.0(@opentelemetry/api@1.8.0)
+      '@opentelemetry/instrumentation-undici': 0.2.0(@opentelemetry/api@1.8.0)
       '@opentelemetry/instrumentation-winston': 0.37.0(@opentelemetry/api@1.8.0)
       '@opentelemetry/resource-detector-azure': 0.2.7(@opentelemetry/api@1.8.0)
       '@opentelemetry/resources': 1.24.1(@opentelemetry/api@1.8.0)
@@ -22399,7 +22413,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-NNujDSiATIKn6j+HuDYdmKbkRzYrmq/o49zE5cWlmRjDip3Q5hSdY8fu7SMZ0C6Ru9ef2bfoNnj94DJBEnVfeA==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-aFqcl7lQvMs96q3VgjKhCtppbTHXSh9LFmk59v0ZBVA+3gLmdUMR49SdPHIF1G6z7RGAWVO+oTzq2IIsDvoGbw==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:
