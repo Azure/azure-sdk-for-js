@@ -643,7 +643,7 @@ pool:
 
 steps:
   - script: |
-      npm install @azure/identity@4.3.0
+      npm install @azure/identity
       npm install @azure/keyvault-secrets
     displayName: "Install the test version of Azure Identity"
 
@@ -652,34 +652,11 @@ steps:
     env:
       SYSTEM_ACCESSTOKEN: $(System.AccessToken)
     inputs:
-      azureSubscription: "<Name of Azure Subscription>"
+      azureSubscription: "<Name_of_AZURE_SERVICE_CONNECTION>"
       scriptType: bash
       scriptLocation: "inlineScript"
       inlineScript: |
-        node - 
-        const { AzurePipelinesCredential } = await import("@azure/identity");
-        const { SecretClient } = await import("@azure/keyvault-secrets");
-        const {dotenv } = await import("dotenv");
-
-        dotenv.config();
-        async function main(){
-            const clientId = "<your_client_id>";
-            const tenantId = "<your_tenant_id>";
-            const serviceConnectionId = "<your_service_connection_id>";
-            const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN;
-            const credential = new AzurePipelinesCredential(
-              tenantId,
-              clientId,
-              serviceConnectionId,
-              systemAccessToken
-            );  
-          const client = new SecretClient("https://<keyvault-name>.vault.azure.net/", credential);
-          const secretValue = await client.getSecret("secretKey");
-          console.log("the value of secret is", secretValue);
-        }
-        main().catch((err) => {
-          console.error("The sample encountered an error:", err);
-        });
+        node <path-to-the-javascript-code>
 ```
 
 **Note: The env vars `AZURESUBSCRIPTION_CLIENT_ID`, `AZURESUBSCRIPTION_TENANT_ID` and `AZURESUBSCRIPTION_SERVICE_CONNECTION_ID` are configured by Azure Pipelines only in the tasks `AzureCLI@2` and `AzurePowershell@5` and values from these env vars should be passed into the constructor of `AzurePipelinesCredential` by the user.**
