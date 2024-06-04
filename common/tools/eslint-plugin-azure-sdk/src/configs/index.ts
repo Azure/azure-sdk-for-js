@@ -17,7 +17,15 @@ import rootConfig from "./azure-sdk-base";
 function recommended(plugin: FlatConfig.Plugin) {
   return typescriptEslint.config(
     {
-      ignores: ["**/generated/**"],
+      ignores: ["**/generated/**","**/*.config.{js,cjs,mjs}"],
+    },
+    {
+      languageOptions: {
+        parser: typescriptEslint.parser,
+        parserOptions: {
+          project: ["./tsconfig.json"],
+        },
+      },
     },
     eslint.configs.recommended,
     ...typescriptEslint.configs.recommended,
