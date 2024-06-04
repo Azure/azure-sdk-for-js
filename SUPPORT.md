@@ -35,6 +35,12 @@ Further information, including the MSRC PGP key, can be found in the [Security T
 
 The Azure SDK libraries for JavaScript will not be guaranteed to work on Node.js versions that have reached their end of life. Dropping support for such Node.js versions may be done without increasing the major version of the Azure SDK libraries.
 
+We will announce Node.js engine support changes 3 to 6 months beforehand via:
+
+- The [Azure SDK Blog](https://devblogs.microsoft.com/azure-sdk/).
+- A pinned issue in the Azure SDK for JS github repo [issues page](https://github.com/Azure/azure-sdk-for-js/issues).
+- As the official end-of-support date approaches, the Azure SDK may begin emitting warnings when run on prior Node.js versions.
+
 We strongly recommend migration to [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule) to be eligible for technical support. In terms of browsers, we support latest versions of Safari, Chrome, Edge and Firefox.
 
 Please refer to [Azure SDK Support and Lifecycle information](https://azure.github.io/azure-sdk/policies_support.html) for more on our support policy.
