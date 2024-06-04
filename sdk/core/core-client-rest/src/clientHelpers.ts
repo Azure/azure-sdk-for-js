@@ -12,6 +12,7 @@ import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-a
 
 import { ClientOptions } from "./common.js";
 import { apiVersionPolicy } from "./apiVersionPolicy.js";
+import { logger } from "./log.js";
 import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
 
 let cachedHttpClient: HttpClient | undefined;
@@ -71,7 +72,12 @@ export function createDefaultPipeline(
 ): Pipeline {
   const pipeline = createPipelineFromOptions(options);
 
-  pipeline.addPolicy(apiVersionPolicy(options));
+  if (options.apiVersion) {
+    logger.warning(
+      "The apiVersion option for SDK REST Clients has been deprecated and should be handled in the client package.",
+    );
+    pipeline.addPolicy(apiVersionPolicy(options));
+  }
 
   addCredentialPipelinePolicy(pipeline, endpoint, { credential, clientOptions: options });
   return pipeline;
