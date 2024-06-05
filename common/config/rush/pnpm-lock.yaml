@@ -11775,7 +11775,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-fRrbQBQLd8yZNoZLM2bVchzax18ri041vIt9m42eFaLioP1KZesMVobBkEqf6qVhFOn47TMju9SFMfSMmQ3Idw==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-qDrUsMelBYLGjRkTdZOdpdIGyCUaJiSniJke0UE/MUWfa/+xCd0sXyJT/c7fzly7vzAKUQVXHqs/UY+06ERM7Q==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
@@ -11797,7 +11797,6 @@ packages:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
-      - encoding
       - happy-dom
       - jsdom
       - less
@@ -14821,7 +14820,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-ZfqlB0Yw4fWwm9BUOA5rrdHuumwmYzx4yROMTBAizwlUJFsVVLr4p6S6A4f4GIiFxbSRmo4IsWSdRvkJxv2jsQ==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-piHmNUXYyLYB3zYcjPVPoB2JlkIrf60nv+aGdOG/Uo5lqXDa4vjd2MY2yFITHVKZGDudVNZQPEWgi+27vwKzLg==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
@@ -14837,11 +14836,12 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      mkdirp: 2.1.6
+      mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.11.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -20599,7 +20599,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-gYOpBSzMBs/wUWGwU9ze5PTN+2Iz66I1Cplmz4PZ1tPyEx6QZRVc3gZabi2vfiGY8EEJM/zsOtmcxdTY57WejA==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-SZmahpN5GYLFw025FG5HNq/yyf4N7djDvrVjww5zLDFLJ2QSkgJUzVYXARCNU8kqhwYUGIHU5B9GSipDLwGU5g==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -20642,7 +20642,6 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - bufferutil
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -22399,7 +22398,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-NNujDSiATIKn6j+HuDYdmKbkRzYrmq/o49zE5cWlmRjDip3Q5hSdY8fu7SMZ0C6Ru9ef2bfoNnj94DJBEnVfeA==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-aFqcl7lQvMs96q3VgjKhCtppbTHXSh9LFmk59v0ZBVA+3gLmdUMR49SdPHIF1G6z7RGAWVO+oTzq2IIsDvoGbw==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:
@@ -22495,7 +22494,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-IqNMSbO7Zr0HoLvLmtadH8jS8exN3/o/yV+wmm82TAfGWzvo+H/AAHsbDQwE9KOUnfGzeprtrXw/cAW2+m75DA==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-geRsVuhsTRf+GXo5R3Yj48oZNP60syLkzHV9FZIgEwQWNRsJewvVjK+3tC0+g6ERAAJoEQ+bBZ/9wl7k3MM4sA==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -22510,12 +22509,11 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-R//6vCw8iYaZIH9hz0Cdc+eL42f8/wFyQPERFgqX1m5pjAOs67OLZsURMisUTvRa3GfDLxf34WD0G5CAVVhNgA==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-3Ky21ZldXc114WKpbFdvLNM/MD2gt7OXjndWFmshPn5GH9DWjXLU0Be/pBaruDs/V6jb3P4MSIWnMOPuGVDY9Q==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
@@ -22530,7 +22528,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
@@ -22825,7 +22822,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-RtmI/ZJbREK0zj0aS3BtL1vnG39a0w/+fXI3EnN00gmltxPE9OXYYG6+SOIwaHFdEwBUbOfDTg/w/uo6YoGhRA==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-0FUfIE6E0HZgj6zlKvd0VYyZ5Dh/FKwZkWYNSBzw6TH4xODWzI94P2A6H83KKYp0CWM2/e953RxaiteA9VUREg==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -22866,7 +22863,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -23211,7 +23207,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-WeNUGjFP2mKZNTfNvaV7ugigkCp50dX6sJ8lC2JoV8vL08H9/6w/wXzJOO3E5+PpRrqIjcQi/D8O8NWRTYMgpw==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-OazKzrkOlEhqENzWySRtkqAqi+b4p/59GLsYEs0UtpwzVqrbpm8oWAElv4C1HqCGInn2vwTOQ6dRIH8UrcxMRw==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -23262,7 +23258,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-MW+5yYNjh6VHSAnniJUV9p5BGYQXhl93jwFf4T5ubHNSDH2MpYFFyj2Z3hK5q8WW3m/Pq0muMBY6BZW0rqYEnA==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-U8xDsTWXBVQAGtbuxJ4QhnK+EQnF4E3N9FWRdD9sAN+l9/TuoaA4eQYHlmMtlukQKE2f+g3yfuU55O5DCmXIGQ==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -23354,7 +23350,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-B5IbHm6p/UCAFTjIgwrQHKYtEHGiA+rxBYrmADRP3XGQyNxiaiEKPHbhWzTNJteXSH/QmkdcCTW0QlttynFdFg==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-yTxOQcKWhyzk4lQTFbdtkpGCBvbaT3+NTmpALS5Yg/nY4njMEE1v3V2CtrvZ11/spxac5tmspJ24JCtGR92zvA==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:

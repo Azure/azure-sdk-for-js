@@ -560,7 +560,7 @@ const installPatchesOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName1,
     Parameters.name,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
