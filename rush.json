@@ -325,6 +325,11 @@
       "projectFolder": "sdk/translation/ai-translation-text-rest",
       "versionPolicyName": "client"
     },
+	{
+      "packageName": "@azure-rest/ai-translation-document",
+      "projectFolder": "sdk/translation/ai-translation-document-rest",
+      "versionPolicyName": "client"
+    },
     {
       "packageName": "@azure-rest/defender-easm",
       "projectFolder": "sdk/easm/defender-easm-rest",

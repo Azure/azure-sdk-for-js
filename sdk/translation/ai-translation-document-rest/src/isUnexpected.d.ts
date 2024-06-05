@@ -1,0 +1,10 @@
+import { DocumentTranslate200Response, DocumentTranslateDefaultResponse, StartTranslation202Response, StartTranslationLogicalResponse, StartTranslationDefaultResponse, GetTranslationsStatus200Response, GetTranslationsStatusDefaultResponse, GetDocumentStatus200Response, GetDocumentStatusDefaultResponse, GetTranslationStatus200Response, GetTranslationStatusDefaultResponse, CancelTranslation200Response, CancelTranslationDefaultResponse, GetDocumentsStatus200Response, GetDocumentsStatusDefaultResponse, GetSupportedFormats200Response, GetSupportedFormatsDefaultResponse } from "./responses.js";
+export declare function isUnexpected(response: DocumentTranslate200Response | DocumentTranslateDefaultResponse): response is DocumentTranslateDefaultResponse;
+export declare function isUnexpected(response: StartTranslation202Response | StartTranslationLogicalResponse | StartTranslationDefaultResponse): response is StartTranslationDefaultResponse;
+export declare function isUnexpected(response: GetTranslationsStatus200Response | GetTranslationsStatusDefaultResponse): response is GetTranslationsStatusDefaultResponse;
+export declare function isUnexpected(response: GetDocumentStatus200Response | GetDocumentStatusDefaultResponse): response is GetDocumentStatusDefaultResponse;
+export declare function isUnexpected(response: GetTranslationStatus200Response | GetTranslationStatusDefaultResponse): response is GetTranslationStatusDefaultResponse;
+export declare function isUnexpected(response: CancelTranslation200Response | CancelTranslationDefaultResponse): response is CancelTranslationDefaultResponse;
+export declare function isUnexpected(response: GetDocumentsStatus200Response | GetDocumentsStatusDefaultResponse): response is GetDocumentsStatusDefaultResponse;
+export declare function isUnexpected(response: GetSupportedFormats200Response | GetSupportedFormatsDefaultResponse): response is GetSupportedFormatsDefaultResponse;
+//# sourceMappingURL=isUnexpected.d.ts.map

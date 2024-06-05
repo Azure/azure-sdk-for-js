@@ -1,0 +1,305 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/formats?api-version=2024-05-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "Sanitized",
+        "User-Agent": "azsdk-js-ai-translation-document-rest/1.0.0-beta.1 core-rest-pipeline/1.16.0 Node/20.12.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "7d02462b-e971-46ab-ae87-4bc20517ed90",
+        "Cache-Control": "public, max-age=1",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 05 Jun 2024 23:40:50 GMT",
+        "ETag": "\"EEEE3A26B38268716AD1AFA8F7AD92849C2393F7B6741AD8068539D5DA154507\"",
+        "Retry-After": "1",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-region": "West US",
+        "X-RequestId": "7d02462b-e971-46ab-ae87-4bc20517ed90"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "format": "PlainText",
+            "fileExtensions": [
+              ".txt"
+            ],
+            "contentTypes": [
+              "text/plain"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "RichTextFormat",
+            "fileExtensions": [
+              ".rtf"
+            ],
+            "contentTypes": [
+              "application/rtf"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "OpenXmlWord",
+            "fileExtensions": [
+              ".docx"
+            ],
+            "contentTypes": [
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "OpenXmlPresentation",
+            "fileExtensions": [
+              ".pptx"
+            ],
+            "contentTypes": [
+              "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "OpenXmlSpreadsheet",
+            "fileExtensions": [
+              ".xlsx"
+            ],
+            "contentTypes": [
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "WordDocument",
+            "fileExtensions": [
+              ".doc"
+            ],
+            "contentTypes": [
+              "application/msword"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "PowerpointPresentation",
+            "fileExtensions": [
+              ".ppt"
+            ],
+            "contentTypes": [
+              "application/vnd.ms-powerpoint"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "ExcelSpreadsheet",
+            "fileExtensions": [
+              ".xls"
+            ],
+            "contentTypes": [
+              "application/vnd.ms-excel"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "OpenDocumentText",
+            "fileExtensions": [
+              ".odt"
+            ],
+            "contentTypes": [
+              "application/vnd.oasis.opendocument.text"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "OpenDocumentPresentation",
+            "fileExtensions": [
+              ".odp"
+            ],
+            "contentTypes": [
+              "application/vnd.oasis.opendocument.presentation"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "OpenDocumentSpreadsheet",
+            "fileExtensions": [
+              ".ods"
+            ],
+            "contentTypes": [
+              "application/vnd.oasis.opendocument.spreadsheet"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "OutlookMailMessage",
+            "fileExtensions": [
+              ".msg"
+            ],
+            "contentTypes": [
+              "application/vnd.ms-outlook"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "OfficeOpenXml",
+            "fileExtensions": [
+              ".xml",
+              ".ooxml"
+            ],
+            "contentTypes": [
+              "application/vnd.openxmlformats-officedocument"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "HtmlFile",
+            "fileExtensions": [
+              ".html",
+              ".htm"
+            ],
+            "contentTypes": [
+              "text/html"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "Markdown",
+            "fileExtensions": [
+              ".markdown",
+              ".mdown",
+              ".mkdn",
+              ".md",
+              ".mkd",
+              ".mdwn",
+              ".mdtxt",
+              ".mdtext",
+              ".rmd"
+            ],
+            "contentTypes": [
+              "text/markdown",
+              "text/x-markdown",
+              "text/plain"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "Mhtml",
+            "fileExtensions": [
+              ".mhtml",
+              ".mht"
+            ],
+            "contentTypes": [
+              "message/rfc822",
+              "application/x-mimearchive",
+              "multipart/related"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "XLIFF",
+            "fileExtensions": [
+              ".xlf"
+            ],
+            "contentTypes": [
+              "application/xliff+xml"
+            ],
+            "defaultVersion": "1.2",
+            "versions": [
+              "1.0",
+              "1.1",
+              "1.2"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "TSV",
+            "fileExtensions": [
+              ".tsv",
+              ".tab"
+            ],
+            "contentTypes": [
+              "text/tab-separated-values"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "CSV",
+            "fileExtensions": [
+              ".csv"
+            ],
+            "contentTypes": [
+              "text/csv"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "PortableDocumentFormat",
+            "fileExtensions": [
+              ".pdf"
+            ],
+            "contentTypes": [
+              "application/pdf"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "StreamJSONFile",
+            "fileExtensions": [
+              ".json"
+            ],
+            "contentTypes": [
+              "application/json"
+            ],
+            "type": "Document"
+          },
+          {
+            "format": "XLIFF",
+            "fileExtensions": [
+              ".xlf"
+            ],
+            "contentTypes": [
+              "application/xliff+xml"
+            ],
+            "defaultVersion": "1.2",
+            "versions": [
+              "1.0",
+              "1.1",
+              "1.2"
+            ],
+            "type": "Glossary"
+          },
+          {
+            "format": "TSV",
+            "fileExtensions": [
+              ".tsv",
+              ".tab"
+            ],
+            "contentTypes": [
+              "text/tab-separated-values"
+            ],
+            "type": "Glossary"
+          },
+          {
+            "format": "CSV",
+            "fileExtensions": [
+              ".csv"
+            ],
+            "contentTypes": [
+              "text/csv"
+            ],
+            "type": "Glossary"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

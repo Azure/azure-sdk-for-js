@@ -41,6 +41,9 @@ dependencies:
   '@rush-temp/ai-text-analytics':
     specifier: file:./projects/ai-text-analytics.tgz
     version: file:projects/ai-text-analytics.tgz
+  '@rush-temp/ai-translation-document':
+    specifier: file:./projects/ai-translation-document.tgz
+    version: file:projects/ai-translation-document.tgz
   '@rush-temp/ai-translation-text':
     specifier: file:./projects/ai-translation-text.tgz
     version: file:projects/ai-translation-text.tgz
@@ -3344,7 +3347,7 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
     dev: false
 
   /@types/bunyan@1.8.9:
@@ -3372,7 +3375,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
     dev: false
 
   /@types/cookie@0.4.1:
@@ -3421,7 +3424,7 @@ packages:
   /@types/express-serve-static-core@4.19.0:
     resolution: {integrity: sha512-bGyep3JqPCRry1wq+O5n7oiBgGWmeIJXPjXXCo8EK0u8duZGSYar7cGqd3ML2JUsLGeB7fmc06KYo9fLGWqPvQ==}
     dependencies:
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3449,7 +3452,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3492,7 +3495,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
     dev: false
 
   /@types/jsonwebtoken@9.0.6:
@@ -3606,7 +3609,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
     dev: false
 
   /@types/resolve@1.20.2:
@@ -3632,7 +3635,7 @@ packages:
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.33
+      '@types/node': 20.10.8
       '@types/send': 0.17.4
     dev: false
 
@@ -3862,6 +3865,17 @@ packages:
     dependencies:
       '@typescript-eslint/types': 7.10.0
       eslint-visitor-keys: 3.4.3
+    dev: false
+
+  /@typespec/ts-http-runtime@1.0.0-alpha.20240314.2:
+    resolution: {integrity: sha512-Rc/bFkKLbrEo9KKXiSdRYNSmosZ1W6ycQKEKScpXvK4jaXFNyCvmS0tLv7rEN4EzEEds2fPzEHNtX4e8gMu/lA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      http-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.4
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@ungap/structured-clone@1.2.0:
@@ -10247,6 +10261,23 @@ packages:
       strip-bom: 3.0.0
     dev: false
 
+  /tshy@1.11.1:
+    resolution: {integrity: sha512-AzATR8weBaUW46Nh4B1k5cfxVuADKJTXe95xHh7BzcI1RjQQy6HeUXQDY+erGEGTLpiv6N6xMFmtEsMMc7x40Q==}
+    engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
+    hasBin: true
+    dependencies:
+      chalk: 5.3.0
+      chokidar: 3.6.0
+      foreground-child: 3.1.1
+      mkdirp: 3.0.1
+      polite-json: 4.0.1
+      resolve-import: 1.4.5
+      rimraf: 5.0.7
+      sync-content: 1.0.2
+      typescript: 5.3.3
+      walk-up-path: 3.0.1
+    dev: false
+
   /tshy@1.14.0:
     resolution: {integrity: sha512-YiUujgi4Jb+t2I48LwSRzHkBpniH9WjjktNozn+nlsGmVemKSjDNY7EwBRPvPCr5zAC/3ITAYWH9Z7kUinGSrw==}
     engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
@@ -11604,6 +11635,55 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/ai-translation-document.tgz:
+    resolution: {integrity: sha512-xtwnyFqTdJjPT9eIg9b3qthkP0Y2uok+zS7L1FB07aS1pgkNZHdjAgw4icHhZEDCvvgtLUvhMS/0wtmiXZOKiA==, tarball: file:projects/ai-translation-document.tgz}
+    name: '@rush-temp/ai-translation-document'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.4.0
+      '@azure-tools/test-credential': 1.1.0
+      '@azure-tools/test-recorder': 3.5.0
+      '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.2.0
+      '@microsoft/api-extractor': 7.46.2(@types/node@18.19.33)
+      '@types/chai': 4.3.16
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.33
+      '@typespec/ts-http-runtime': 1.0.0-alpha.20240314.2
+      autorest: 3.7.1
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      karma: 6.4.3(debug@4.3.5)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1(karma@6.4.3)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.3)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 3.0.1
+      mocha: 10.4.0
+      nyc: 15.1.0
+      prettier: 3.3.0
+      rimraf: 5.0.7
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
+      tshy: 1.11.1
+      tslib: 2.6.2
+      typescript: 5.4.5
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/ai-translation-text.tgz:
     resolution: {integrity: sha512-TwO9ZrOIhwXstbhTsU9mTvzm6Cr7Gaa+HDt/4CkUsyRXyltW97WSQ0czdMoZS3+icSErRJYRprBS2IyO04KoZA==, tarball: file:projects/ai-translation-text.tgz}
     name: '@rush-temp/ai-translation-text'
@@ -11775,7 +11855,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-fRrbQBQLd8yZNoZLM2bVchzax18ri041vIt9m42eFaLioP1KZesMVobBkEqf6qVhFOn47TMju9SFMfSMmQ3Idw==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-qDrUsMelBYLGjRkTdZOdpdIGyCUaJiSniJke0UE/MUWfa/+xCd0sXyJT/c7fzly7vzAKUQVXHqs/UY+06ERM7Q==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
@@ -11797,7 +11877,6 @@ packages:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
-      - encoding
       - happy-dom
       - jsdom
       - less
@@ -20599,7 +20678,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-gYOpBSzMBs/wUWGwU9ze5PTN+2Iz66I1Cplmz4PZ1tPyEx6QZRVc3gZabi2vfiGY8EEJM/zsOtmcxdTY57WejA==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-SZmahpN5GYLFw025FG5HNq/yyf4N7djDvrVjww5zLDFLJ2QSkgJUzVYXARCNU8kqhwYUGIHU5B9GSipDLwGU5g==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -20642,7 +20721,6 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - bufferutil
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -22399,7 +22477,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-NNujDSiATIKn6j+HuDYdmKbkRzYrmq/o49zE5cWlmRjDip3Q5hSdY8fu7SMZ0C6Ru9ef2bfoNnj94DJBEnVfeA==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-aFqcl7lQvMs96q3VgjKhCtppbTHXSh9LFmk59v0ZBVA+3gLmdUMR49SdPHIF1G6z7RGAWVO+oTzq2IIsDvoGbw==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:
@@ -22495,7 +22573,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-IqNMSbO7Zr0HoLvLmtadH8jS8exN3/o/yV+wmm82TAfGWzvo+H/AAHsbDQwE9KOUnfGzeprtrXw/cAW2+m75DA==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-geRsVuhsTRf+GXo5R3Yj48oZNP60syLkzHV9FZIgEwQWNRsJewvVjK+3tC0+g6ERAAJoEQ+bBZ/9wl7k3MM4sA==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -22510,12 +22588,11 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-R//6vCw8iYaZIH9hz0Cdc+eL42f8/wFyQPERFgqX1m5pjAOs67OLZsURMisUTvRa3GfDLxf34WD0G5CAVVhNgA==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-3Ky21ZldXc114WKpbFdvLNM/MD2gt7OXjndWFmshPn5GH9DWjXLU0Be/pBaruDs/V6jb3P4MSIWnMOPuGVDY9Q==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
@@ -22530,7 +22607,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
@@ -22825,7 +22901,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-RtmI/ZJbREK0zj0aS3BtL1vnG39a0w/+fXI3EnN00gmltxPE9OXYYG6+SOIwaHFdEwBUbOfDTg/w/uo6YoGhRA==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-0FUfIE6E0HZgj6zlKvd0VYyZ5Dh/FKwZkWYNSBzw6TH4xODWzI94P2A6H83KKYp0CWM2/e953RxaiteA9VUREg==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -22866,7 +22942,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -23211,7 +23286,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-WeNUGjFP2mKZNTfNvaV7ugigkCp50dX6sJ8lC2JoV8vL08H9/6w/wXzJOO3E5+PpRrqIjcQi/D8O8NWRTYMgpw==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-OazKzrkOlEhqENzWySRtkqAqi+b4p/59GLsYEs0UtpwzVqrbpm8oWAElv4C1HqCGInn2vwTOQ6dRIH8UrcxMRw==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -23262,7 +23337,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-MW+5yYNjh6VHSAnniJUV9p5BGYQXhl93jwFf4T5ubHNSDH2MpYFFyj2Z3hK5q8WW3m/Pq0muMBY6BZW0rqYEnA==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-U8xDsTWXBVQAGtbuxJ4QhnK+EQnF4E3N9FWRdD9sAN+l9/TuoaA4eQYHlmMtlukQKE2f+g3yfuU55O5DCmXIGQ==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -23354,7 +23429,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-B5IbHm6p/UCAFTjIgwrQHKYtEHGiA+rxBYrmADRP3XGQyNxiaiEKPHbhWzTNJteXSH/QmkdcCTW0QlttynFdFg==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-yTxOQcKWhyzk4lQTFbdtkpGCBvbaT3+NTmpALS5Yg/nY4njMEE1v3V2CtrvZ11/spxac5tmspJ24JCtGR92zvA==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:

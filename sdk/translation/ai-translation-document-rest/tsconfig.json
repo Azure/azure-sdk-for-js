@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./src/**/*.cts",
+    "test/**/*.ts"
+  ]
+}
