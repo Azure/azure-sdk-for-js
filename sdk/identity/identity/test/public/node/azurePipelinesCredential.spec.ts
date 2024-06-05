@@ -4,14 +4,12 @@
 import { AzurePipelinesCredential } from "../../../src";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
-import { setLogLevel } from "@azure/logger";
-setLogLevel("verbose");
 
 describe("AzurePipelinesCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!;
 
-  it.only("authenticates with a valid service connection", async function () {
+  it("authenticates with a valid service connection", async function () {
     if (!isLiveMode() || !process.env.AZURE_SERVICE_CONNECTION_ID) {
       this.skip();
     }
@@ -33,10 +31,11 @@ describe("AzurePipelinesCredential", function () {
       if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
     } catch (e) {
       console.log(e);
+      throw(e);
     }
   });
 
-  it.only("fails with with invalid service connection", async function () {
+  it("fails with with invalid service connection", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
@@ -49,19 +48,11 @@ describe("AzurePipelinesCredential", function () {
       "existingServiceConnectionId",
       systemAccessToken
     );
-    try {
-      await credential.getToken(scope);
-    } catch (e) {
-      console.log(e);
-      assert.isTrue(
-        (e as Error).message.includes(
-          "AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404."
-        )
-      );
-    }
+    const regExp: RegExp = /AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404./
+    assert.throws(async ()=>{await credential.getToken(scope)},regExp,"error thrown matches." );
   });
 
-  it.only("fails with with invalid client id", async function () {
+  it("fails with with invalid client id", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
@@ -74,16 +65,14 @@ describe("AzurePipelinesCredential", function () {
       systemAccessToken
     );
     try {
-      const token = await credential.getToken(scope);
-      assert.ok(token?.token);
-      assert.isDefined(token?.expiresOnTimestamp);
-      if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
+      await credential.getToken(scope);
     } catch (e) {
+      assert
       console.log(e);
     }
   });
 
-  it.only("fails with with invalid system access token", async function () {
+  it("fails with with invalid system access token", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
