@@ -6,7 +6,14 @@
  *
  */
 import { TSESTree } from "@typescript-eslint/utils";
-import { VerifierMessages, arrayToString, createRule, getVerifiers, stripPath, usesTshy } from "../utils";
+import {
+  VerifierMessages,
+  arrayToString,
+  createRule,
+  getVerifiers,
+  stripPath,
+  usesTshy,
+} from "../utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition

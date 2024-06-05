@@ -44,7 +44,7 @@ export type VerifierMessageIds = keyof typeof VerifierMessages;
 export const stripPath = (pathOrFileName: string): string =>
   pathOrFileName.replace(/^.*[\\\/]/, "");
 
-export function usesTshy(packageJsonPath: string) : boolean {
+export function usesTshy(packageJsonPath: string): boolean {
   const dotTshy = path.join(path.dirname(packageJsonPath), ".tshy");
   try {
     statSync(dotTshy);
