@@ -88,6 +88,7 @@ function createMigrationResult(): MigrationResult {
 }
 
 function setMigrationResult(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   packageJson: any,
   project: RushJsonProject,
   results: MigrationResult,
