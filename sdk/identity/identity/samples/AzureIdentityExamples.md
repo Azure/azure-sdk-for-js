@@ -632,7 +632,7 @@ For using the `AzurePipelinesCredential` you need to configure these values in t
 
 #### Example of using the Azure Pipelines Task
 
-The following yaml script is an example of running the `AzureCLI@2` task for using service connections federated identity with @azure/identity. See the list of [recommended Azure Devops task](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks).
+The following task yml is an example of configuring the `AzureCLI@2` task for using service connections federated identity with @azure/identity. See the list of [recommended Azure DevOps tasks](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks).
 
 ```yml
 trigger:
