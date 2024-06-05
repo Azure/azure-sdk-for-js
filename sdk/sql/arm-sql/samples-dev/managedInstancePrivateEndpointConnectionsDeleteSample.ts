@@ -29,11 +29,12 @@ async function deletesAPrivateEndpointConnectionWithAGivenName() {
   const privateEndpointConnectionName = "private-endpoint-connection-name";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstancePrivateEndpointConnections.beginDeleteAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    privateEndpointConnectionName
-  );
+  const result =
+    await client.managedInstancePrivateEndpointConnections.beginDeleteAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      privateEndpointConnectionName,
+    );
   console.log(result);
 }
 

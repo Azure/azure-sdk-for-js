@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Apply maintenance updates to resource with parent
  *
  * @summary Apply maintenance updates to resource with parent
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/ApplyUpdates_CreateOrUpdateParent.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ApplyUpdates_CreateOrUpdateParent.json
  */
 async function applyUpdatesCreateOrUpdateParent() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function applyUpdatesCreateOrUpdateParent() {
     resourceParentType,
     resourceParentName,
     resourceType,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-export { WebPubSubEventHandler } from "./webPubSubEventHandler";
+export { WebPubSubEventHandler } from "./webPubSubEventHandler.js";
 
-export * from "./cloudEventsProtocols";
+export * from "./cloudEventsProtocols.js";

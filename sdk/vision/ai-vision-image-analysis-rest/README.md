@@ -80,7 +80,7 @@ Here's an example of how to create an `ImageAnalysisClient` instance using a key
 
 
 ```javascript Snippet:ImageAnalysisAuthKey
-const { ImageAnalysisClient, KeyCredential } = require("@azure-rest/ai-image-analysis");
+const { ImageAnalysisClient, KeyCredential } = require("@azure-rest/ai-vision-image-analysis");
 
 const endpoint = "<your_endpoint>";
 const key = "<your_key>";

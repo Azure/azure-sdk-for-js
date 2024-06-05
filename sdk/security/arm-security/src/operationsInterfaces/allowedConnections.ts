@@ -13,7 +13,7 @@ import {
   AllowedConnectionsListByHomeRegionOptionalParams,
   ConnectionType,
   AllowedConnectionsGetOptionalParams,
-  AllowedConnectionsGetResponse
+  AllowedConnectionsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface AllowedConnections {
    * @param options The options parameters.
    */
   list(
-    options?: AllowedConnectionsListOptionalParams
+    options?: AllowedConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<AllowedConnectionsResource>;
   /**
    * Gets the list of all possible traffic between resources for the subscription and location.
@@ -34,7 +34,7 @@ export interface AllowedConnections {
    */
   listByHomeRegion(
     ascLocation: string,
-    options?: AllowedConnectionsListByHomeRegionOptionalParams
+    options?: AllowedConnectionsListByHomeRegionOptionalParams,
   ): PagedAsyncIterableIterator<AllowedConnectionsResource>;
   /**
    * Gets the list of all possible traffic between resources for the subscription and location, based on
@@ -50,6 +50,6 @@ export interface AllowedConnections {
     resourceGroupName: string,
     ascLocation: string,
     connectionType: ConnectionType,
-    options?: AllowedConnectionsGetOptionalParams
+    options?: AllowedConnectionsGetOptionalParams,
   ): Promise<AllowedConnectionsGetResponse>;
 }

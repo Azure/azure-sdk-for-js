@@ -507,7 +507,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.machineName,
     Parameters.extensionName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -540,7 +540,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.machineName,
     Parameters.extensionName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -625,8 +625,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName,
     Parameters.nextLink,
+    Parameters.machineName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

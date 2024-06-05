@@ -10,7 +10,7 @@ import {
   MaintenanceWindowsGetOptionalParams,
   MaintenanceWindowsGetResponse,
   MaintenanceWindows,
-  MaintenanceWindowsCreateOrUpdateOptionalParams
+  MaintenanceWindowsCreateOrUpdateOptionalParams,
 } from "../models";
 
 /** Interface representing a MaintenanceWindowsOperations. */
@@ -29,7 +29,7 @@ export interface MaintenanceWindowsOperations {
     serverName: string,
     databaseName: string,
     maintenanceWindowName: string,
-    options?: MaintenanceWindowsGetOptionalParams
+    options?: MaintenanceWindowsGetOptionalParams,
   ): Promise<MaintenanceWindowsGetResponse>;
   /**
    * Sets maintenance windows settings for a database.
@@ -47,6 +47,6 @@ export interface MaintenanceWindowsOperations {
     databaseName: string,
     maintenanceWindowName: string,
     parameters: MaintenanceWindows,
-    options?: MaintenanceWindowsCreateOrUpdateOptionalParams
+    options?: MaintenanceWindowsCreateOrUpdateOptionalParams,
   ): Promise<void>;
 }

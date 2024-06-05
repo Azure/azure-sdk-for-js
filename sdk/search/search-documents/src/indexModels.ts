@@ -6,6 +6,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AutocompleteMode,
   FacetResult,
+  HybridSearch,
   IndexActionType,
   QueryAnswerResult,
   QueryCaptionResult,
@@ -188,11 +189,19 @@ export type SearchIterator<
 /** The query parameters for vector and hybrid search queries. */
 export type VectorQuery<TModel extends object> =
   | VectorizedQuery<TModel>
-  | VectorizableTextQuery<TModel>;
+  | VectorizableTextQuery<TModel>
+  | VectorizableImageUrlQuery<TModel>
+  | VectorizableImageBinaryQuery<TModel>;
 
 /** The query parameters for vector and hybrid search queries. */
 export interface BaseVectorQuery<TModel extends object> {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
+  /**
+   * ### Known values supported by the service
+   * **vector**: Vector query where a raw vector value is provided.
+   * **text**: Vector query where a text value that needs to be vectorized is provided.
+   * **imageUrl**: Vector query where an url that represents an image value that needs to be vectorized is provided.
+   * **imageBinary**: Vector query where a base 64 encoded binary of an image that needs to be vectorized is provided.
+   */
   kind: VectorQueryKind;
   /** Number of nearest neighbors to return as top hits. */
   kNearestNeighborsCount?: number;
@@ -211,6 +220,10 @@ export interface BaseVectorQuery<TModel extends object> {
    * vector field.
    */
   oversampling?: number;
+  /** Relative weight of the vector query when compared to other vector query and/or the text query within the same search request. This value is used when combining the results of multiple ranking lists produced by the different vector queries and/or the results retrieved through the text query. The higher the weight, the higher the documents that matched that query will be in the final ranking. Default is 1.0 and the value needs to be a positive number larger than zero. */
+  weight?: number;
+  /** The threshold used for vector queries. Note this can only be set if all 'fields' use the same similarity metric. */
+  threshold?: VectorThreshold;
 }
 
 /** The query parameters to use for vector search when a raw vector value is provided. */
@@ -226,7 +239,24 @@ export interface VectorizableTextQuery<TModel extends object> extends BaseVector
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "text";
   /** The text to be vectorized to perform a vector search query. */
-  text?: string;
+  text: string;
+}
+
+/** The query parameters to use for vector search when an url that represents an image value that needs to be vectorized is provided. */
+export interface VectorizableImageUrlQuery<TModel extends object> extends BaseVectorQuery<TModel> {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "imageUrl";
+  /** The URL of an image to be vectorized to perform a vector search query. */
+  url: string;
+}
+
+/** The query parameters to use for vector search when a base 64 encoded binary of an image that needs to be vectorized is provided. */
+export interface VectorizableImageBinaryQuery<TModel extends object>
+  extends BaseVectorQuery<TModel> {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "imageBinary";
+  /** The base64 encoded binary of an image to be vectorized to perform a vector search query. */
+  binaryImage: string;
 }
 
 /**
@@ -353,6 +383,9 @@ export interface BaseSearchRequestOptions<
    * Defines options for vector search queries
    */
   vectorSearchOptions?: VectorSearchOptions<TModel>;
+
+  /** The query parameters to configure hybrid search behaviors. */
+  hybridSearch?: HybridSearch;
 }
 
 /**
@@ -994,3 +1027,27 @@ export interface VectorSearchOptions<TModel extends object> {
    */
   filterMode?: VectorFilterMode;
 }
+/** The threshold used for vector queries. */
+export interface BaseVectorThreshold {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "vectorSimilarity" | "searchScore";
+}
+
+/** The results of the vector query will be filtered based on the vector similarity metric. Note this is the canonical definition of similarity metric, not the 'distance' version. The threshold direction (larger or smaller) will be chosen automatically according to the metric used by the field. */
+export interface VectorSimilarityThreshold extends BaseVectorThreshold {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "vectorSimilarity";
+  /** The threshold will filter based on the similarity metric value. Note this is the canonical definition of similarity metric, not the 'distance' version. The threshold direction (larger or smaller) will be chosen automatically according to the metric used by the field. */
+  value: number;
+}
+
+/** The results of the vector query will filter based on the '\@search.score' value. Note this is the \@search.score returned as part of the search response. The threshold direction will be chosen for higher \@search.score. */
+export interface SearchScoreThreshold extends BaseVectorThreshold {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "searchScore";
+  /** The threshold will filter based on the '\@search.score' value. Note this is the \@search.score returned as part of the search response. The threshold direction will be chosen for higher \@search.score. */
+  value: number;
+}
+
+/** The threshold used for vector queries. */
+export type VectorThreshold = VectorSimilarityThreshold | SearchScoreThreshold;

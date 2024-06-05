@@ -21,7 +21,7 @@ core-http-compat-mode: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0"
-package-version: 12.22.0-beta.2
+package-version: 12.22.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -348,11 +348,11 @@ directive:
       ];
 ```
 
-### Update service version from "2023-05-03" to "2023-08-03"
+### Update service version from "2023-05-03" to "2024-05-04"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2023-08-03" ];
+    transform: $.enum = [ "2024-05-04" ];
 ```
