@@ -6,6 +6,9 @@ import {
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
 } from "./generated/data/models";
 import {
+  AIServicesVisionVectorizer as GeneratedAIServicesVisionVectorizer,
+  AMLParameters as GeneratedAMLParameters,
+  AMLVectorizer as GeneratedAMLVectorizer,
   AzureMachineLearningSkill,
   AzureOpenAIVectorizer as GeneratedAzureOpenAIVectorizer,
   BM25Similarity,
@@ -66,7 +69,11 @@ import {
   VectorSearchAlgorithmMetric,
 } from "./generatedStringLiteralUnions";
 import { SearchResult, SelectFields, SuggestDocumentsResult, SuggestResult } from "./indexModels";
+import { logger } from "./logger";
 import {
+  AIServicesVisionVectorizer,
+  AzureMachineLearningVectorizer,
+  AzureMachineLearningVectorizerParameters,
   AzureOpenAIVectorizer,
   CharFilter,
   CognitiveServicesAccount,
@@ -80,10 +87,12 @@ import {
   IndexingParameters,
   IndexingParametersConfiguration,
   isComplexField,
+  KeyAuthAzureMachineLearningVectorizerParameters,
   KeyPhraseExtractionSkill,
   LexicalAnalyzer,
   LexicalNormalizer,
   LexicalTokenizer,
+  NoAuthAzureMachineLearningVectorizerParameters,
   OcrSkill,
   PatternAnalyzer,
   PIIDetectionSkill,
@@ -106,12 +115,15 @@ import {
   SplitSkill,
   SynonymMap,
   TextTranslationSkill,
+  TokenAuthAzureMachineLearningVectorizerParameters,
   TokenFilter,
   VectorSearch,
   VectorSearchAlgorithmConfiguration,
   VectorSearchVectorizer,
   WebApiSkill,
 } from "./serviceModels";
+
+export const defaultServiceVersion = "2024-05-01-Preview";
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
   if (!skills) {
@@ -519,9 +531,74 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
       };
       return vectorizer;
     }
-    default:
-      throw Error("Unsupported vectorizer");
+    case "aiServicesVision": {
+      const generatedVisionVectorizer = generatedVectorizer as GeneratedAIServicesVisionVectorizer;
+      const { aIServicesVisionParameters: generatedParameters } = generatedVisionVectorizer;
+      const aIServicesVisionParameters = generatedParameters
+        ? {
+            ...generatedParameters,
+            modelVersion: generatedParameters.modelVersion ?? undefined,
+            resourceUri: generatedParameters.resourceUri,
+            authIdentity: convertSearchIndexerDataIdentityToPublic(
+              generatedParameters.authIdentity,
+            ),
+          }
+        : undefined;
+      const vectorizer: AIServicesVisionVectorizer = {
+        ...generatedVisionVectorizer,
+        aIServicesVisionParameters,
+      };
+      return vectorizer;
+    }
+    case "aml": {
+      const generatedAMLVectorizer = generatedVectorizer as GeneratedAMLVectorizer;
+
+      const vectorizer: AzureMachineLearningVectorizer = {
+        ...generatedAMLVectorizer,
+        amlParameters:
+          generatedAzureMachineLearningVectorizerParametersToPublicAzureMachineLearningVectorizerParameters(
+            generatedAMLVectorizer.aMLParameters,
+          ),
+      };
+
+      return vectorizer;
+    }
   }
+  logger.warning(`Unsupported vectorizer kind: ${(generatedVectorizer as any).kind}`);
+  return generatedVectorizer as any;
+}
+
+function generatedAzureMachineLearningVectorizerParametersToPublicAzureMachineLearningVectorizerParameters(
+  aMLParameters?: GeneratedAMLParameters,
+): AzureMachineLearningVectorizerParameters | undefined {
+  if (!aMLParameters) {
+    return aMLParameters;
+  }
+
+  const { resourceId, authenticationKey, scoringUri } = aMLParameters;
+  // Sensitive to case order
+  switch (true) {
+    case resourceId !== undefined && resourceId !== null: {
+      return {
+        ...aMLParameters,
+        authKind: "token",
+      } as TokenAuthAzureMachineLearningVectorizerParameters;
+    }
+    case authenticationKey !== undefined && authenticationKey !== null: {
+      return {
+        ...aMLParameters,
+        authKind: "key",
+      } as KeyAuthAzureMachineLearningVectorizerParameters;
+    }
+    case scoringUri !== undefined && scoringUri !== null: {
+      return {
+        ...aMLParameters,
+        authKind: "none",
+      } as NoAuthAzureMachineLearningVectorizerParameters;
+    }
+  }
+  logger.warning("Unknown AML parameter kind");
+  return aMLParameters as any;
 }
 
 export function generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration(): undefined;
@@ -831,19 +908,6 @@ export function getRandomIntegerInclusive(min: number, max: number): number {
   const offset = Math.floor(Math.random() * (max - min + 1));
   return offset + min;
 }
-
-/**
- * A wrapper for setTimeout that resolves a promise after timeInMs milliseconds.
- * @param timeInMs - The number of milliseconds to be delayed.
- * @returns Promise that is resolved after timeInMs
- */
-export function delay(timeInMs: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
-}
-
-export const serviceVersions = ["2023-11-01", "2024-03-01-Preview"];
-
-export const defaultServiceVersion = "2024-03-01-Preview";
 
 function convertKnowledgeStoreToPublic(
   knowledgeStore: BaseSearchIndexerKnowledgeStore | undefined,

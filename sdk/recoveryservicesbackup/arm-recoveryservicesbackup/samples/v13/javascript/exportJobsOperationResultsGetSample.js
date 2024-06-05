@@ -18,7 +18,7 @@ contains URL of a Blob and a SAS key to access the same. The blob contains expor
  *
  * @summary Gets the operation result of operation triggered by Export Jobs API. If the operation is successful, then it also
 contains URL of a Blob and a SAS key to access the same. The blob contains exported jobs in JSON serialized format.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/Common/ExportJobsOperationResult.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/ExportJobsOperationResult.json
  */
 async function exportJobsOperationResults() {
   const subscriptionId =

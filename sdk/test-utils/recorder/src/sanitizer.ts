@@ -73,6 +73,12 @@ function makeBatchSanitizerBody(sanitizers: SanitizerOptions): SanitizerRequestB
     uriSubscriptionIdSanitizer,
     resetSanitizer,
   } = sanitizers;
+  let connectionStringSanitizersBodies: SanitizerRequestBody[] = [];
+  for (const sanitizer of connectionStringSanitizers ?? []) {
+    connectionStringSanitizersBodies = connectionStringSanitizersBodies.concat(
+      makeConnectionStringSanitizerBody(sanitizer),
+    );
+  }
 
   return (<SanitizerRequestBody[]>[]).concat(
     getSanitizerBodies(
@@ -88,7 +94,7 @@ function makeBatchSanitizerBody(sanitizers: SanitizerOptions): SanitizerRequestB
       uriSanitizers,
       makeFindReplaceSanitizerBody("UriRegexSanitizer", "UriStringSanitizer"),
     ),
-    getSanitizerBodies(connectionStringSanitizers, makeConnectionStringSanitizerBody),
+    connectionStringSanitizersBodies,
     getSanitizerBodies(bodyKeySanitizers, makeBodyKeySanitizerBody),
     getSanitizerBodies(continuationSanitizers, makeContinuationSanitizerBody),
     removeHeaderSanitizer
@@ -107,6 +113,36 @@ function makeBatchSanitizerBody(sanitizers: SanitizerOptions): SanitizerRequestB
       : [],
     resetSanitizer ? [{ Name: "Reset", Body: undefined }] : [],
   );
+}
+
+/**
+ * Makes a /removeSanitizers request to the test proxy
+ * This API is meant to remove the central sanitizers that were added by the proxy-tool
+ * You'd need to pass the sanitizer ids that you want the test-proxy to remove for your recording
+ *
+ * Read more at https://github.com/Azure/azure-sdk-tools/pull/8142/files
+ */
+export async function removeCentralSanitizers(
+  httpClient: HttpClient,
+  url: string,
+  recordingId: string | undefined,
+  removalList: string[],
+): Promise<void> {
+  const uri = `${url}${paths.admin}${paths.removeSanitizers}`;
+  const req = createRecordingRequest(uri, undefined, recordingId);
+  req.headers.set("Content-Type", "application/json");
+  req.body = JSON.stringify({
+    Sanitizers: removalList,
+  });
+  logger.info("[removeSanitizers] Removing sanitizers", removalList);
+  const rsp = await httpClient.sendRequest({
+    ...req,
+    allowInsecureConnection: true,
+  });
+  if (rsp.status !== 200) {
+    logger.error("[removeSanitizers] removeSanitizers request failed", rsp);
+    throw new RecorderError("removeSanitizers request failed.");
+  }
 }
 
 /**
@@ -220,7 +256,7 @@ function makeHeaderSanitizerBody(sanitizer: HeaderSanitizer): SanitizerRequestBo
  */
 function makeConnectionStringSanitizerBody(
   sanitizer: ConnectionStringSanitizer,
-): SanitizerRequestBody {
+): SanitizerRequestBody[] {
   if (!sanitizer.actualConnString) {
     throw new RecorderError(
       `Attempted to add an invalid sanitizer - ${JSON.stringify({
@@ -230,12 +266,9 @@ function makeConnectionStringSanitizerBody(
     );
   }
   const pairsMatched = getRealAndFakePairs(sanitizer.actualConnString, sanitizer.fakeConnString);
-  return {
-    Name: "GeneralStringSanitizer",
-    Body: {
-      ...pairsMatched,
-    },
-  };
+  return Object.entries(pairsMatched).map(([key, value]) => {
+    return { Name: "GeneralStringSanitizer", Body: { value, target: key } };
+  });
 }
 
 /**

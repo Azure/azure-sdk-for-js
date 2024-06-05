@@ -16,7 +16,7 @@ import {
   EncryptionProtectorsGetResponse,
   EncryptionProtectorsCreateOrUpdateOptionalParams,
   EncryptionProtectorsCreateOrUpdateResponse,
-  EncryptionProtectorsRevalidateOptionalParams
+  EncryptionProtectorsRevalidateOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface EncryptionProtectors {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: EncryptionProtectorsListByServerOptionalParams
+    options?: EncryptionProtectorsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<EncryptionProtector>;
   /**
    * Gets a server encryption protector.
@@ -46,7 +46,7 @@ export interface EncryptionProtectors {
     resourceGroupName: string,
     serverName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: EncryptionProtectorsGetOptionalParams
+    options?: EncryptionProtectorsGetOptionalParams,
   ): Promise<EncryptionProtectorsGetResponse>;
   /**
    * Updates an existing encryption protector.
@@ -62,7 +62,7 @@ export interface EncryptionProtectors {
     serverName: string,
     encryptionProtectorName: EncryptionProtectorName,
     parameters: EncryptionProtector,
-    options?: EncryptionProtectorsCreateOrUpdateOptionalParams
+    options?: EncryptionProtectorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<EncryptionProtectorsCreateOrUpdateResponse>,
@@ -83,7 +83,7 @@ export interface EncryptionProtectors {
     serverName: string,
     encryptionProtectorName: EncryptionProtectorName,
     parameters: EncryptionProtector,
-    options?: EncryptionProtectorsCreateOrUpdateOptionalParams
+    options?: EncryptionProtectorsCreateOrUpdateOptionalParams,
   ): Promise<EncryptionProtectorsCreateOrUpdateResponse>;
   /**
    * Revalidates an existing encryption protector.
@@ -97,7 +97,7 @@ export interface EncryptionProtectors {
     resourceGroupName: string,
     serverName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: EncryptionProtectorsRevalidateOptionalParams
+    options?: EncryptionProtectorsRevalidateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revalidates an existing encryption protector.
@@ -111,6 +111,6 @@ export interface EncryptionProtectors {
     resourceGroupName: string,
     serverName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: EncryptionProtectorsRevalidateOptionalParams
+    options?: EncryptionProtectorsRevalidateOptionalParams,
   ): Promise<void>;
 }

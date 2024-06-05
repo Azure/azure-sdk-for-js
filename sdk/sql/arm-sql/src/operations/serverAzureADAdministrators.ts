@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,13 +30,14 @@ import {
   ServerAzureADAdministratorsCreateOrUpdateOptionalParams,
   ServerAzureADAdministratorsCreateOrUpdateResponse,
   ServerAzureADAdministratorsDeleteOptionalParams,
-  ServerAzureADAdministratorsListByServerNextResponse
+  ServerAzureADAdministratorsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServerAzureADAdministrators operations. */
 export class ServerAzureADAdministratorsImpl
-  implements ServerAzureADAdministrators {
+  implements ServerAzureADAdministrators
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -57,12 +58,12 @@ export class ServerAzureADAdministratorsImpl
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAzureADAdministratorsListByServerOptionalParams
+    options?: ServerAzureADAdministratorsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerAzureADAdministrator> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +80,9 @@ export class ServerAzureADAdministratorsImpl
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +90,7 @@ export class ServerAzureADAdministratorsImpl
     resourceGroupName: string,
     serverName: string,
     options?: ServerAzureADAdministratorsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServerAzureADAdministrator[]> {
     let result: ServerAzureADAdministratorsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -105,7 +106,7 @@ export class ServerAzureADAdministratorsImpl
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +118,12 @@ export class ServerAzureADAdministratorsImpl
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAzureADAdministratorsListByServerOptionalParams
+    options?: ServerAzureADAdministratorsListByServerOptionalParams,
   ): AsyncIterableIterator<ServerAzureADAdministrator> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +141,11 @@ export class ServerAzureADAdministratorsImpl
     resourceGroupName: string,
     serverName: string,
     administratorName: AdministratorName,
-    options?: ServerAzureADAdministratorsGetOptionalParams
+    options?: ServerAzureADAdministratorsGetOptionalParams,
   ): Promise<ServerAzureADAdministratorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, administratorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -162,7 +163,7 @@ export class ServerAzureADAdministratorsImpl
     serverName: string,
     administratorName: AdministratorName,
     parameters: ServerAzureADAdministrator,
-    options?: ServerAzureADAdministratorsCreateOrUpdateOptionalParams
+    options?: ServerAzureADAdministratorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerAzureADAdministratorsCreateOrUpdateResponse>,
@@ -171,21 +172,20 @@ export class ServerAzureADAdministratorsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServerAzureADAdministratorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -194,8 +194,8 @@ export class ServerAzureADAdministratorsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -203,8 +203,8 @@ export class ServerAzureADAdministratorsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -215,16 +215,16 @@ export class ServerAzureADAdministratorsImpl
         serverName,
         administratorName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ServerAzureADAdministratorsCreateOrUpdateResponse,
       OperationState<ServerAzureADAdministratorsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -244,14 +244,14 @@ export class ServerAzureADAdministratorsImpl
     serverName: string,
     administratorName: AdministratorName,
     parameters: ServerAzureADAdministrator,
-    options?: ServerAzureADAdministratorsCreateOrUpdateOptionalParams
+    options?: ServerAzureADAdministratorsCreateOrUpdateOptionalParams,
   ): Promise<ServerAzureADAdministratorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
       administratorName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -268,25 +268,24 @@ export class ServerAzureADAdministratorsImpl
     resourceGroupName: string,
     serverName: string,
     administratorName: AdministratorName,
-    options?: ServerAzureADAdministratorsDeleteOptionalParams
+    options?: ServerAzureADAdministratorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -295,8 +294,8 @@ export class ServerAzureADAdministratorsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -304,19 +303,19 @@ export class ServerAzureADAdministratorsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serverName, administratorName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -334,13 +333,13 @@ export class ServerAzureADAdministratorsImpl
     resourceGroupName: string,
     serverName: string,
     administratorName: AdministratorName,
-    options?: ServerAzureADAdministratorsDeleteOptionalParams
+    options?: ServerAzureADAdministratorsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serverName,
       administratorName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -355,11 +354,11 @@ export class ServerAzureADAdministratorsImpl
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAzureADAdministratorsListByServerOptionalParams
+    options?: ServerAzureADAdministratorsListByServerOptionalParams,
   ): Promise<ServerAzureADAdministratorsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -375,11 +374,11 @@ export class ServerAzureADAdministratorsImpl
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: ServerAzureADAdministratorsListByServerNextOptionalParams
+    options?: ServerAzureADAdministratorsListByServerNextOptionalParams,
   ): Promise<ServerAzureADAdministratorsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -387,14 +386,13 @@ export class ServerAzureADAdministratorsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerAzureADAdministrator
+      bodyMapper: Mappers.ServerAzureADAdministrator,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -402,29 +400,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.administratorName
+    Parameters.administratorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerAzureADAdministrator
+      bodyMapper: Mappers.ServerAzureADAdministrator,
     },
     201: {
-      bodyMapper: Mappers.ServerAzureADAdministrator
+      bodyMapper: Mappers.ServerAzureADAdministrator,
     },
     202: {
-      bodyMapper: Mappers.ServerAzureADAdministrator
+      bodyMapper: Mappers.ServerAzureADAdministrator,
     },
     204: {
-      bodyMapper: Mappers.ServerAzureADAdministrator
+      bodyMapper: Mappers.ServerAzureADAdministrator,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters43,
   queryParameters: [Parameters.apiVersion3],
@@ -433,15 +430,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.administratorName
+    Parameters.administratorName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion3],
@@ -450,46 +446,45 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.administratorName
+    Parameters.administratorName,
   ],
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdministratorListResult
+      bodyMapper: Mappers.AdministratorListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdministratorListResult
+      bodyMapper: Mappers.AdministratorListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

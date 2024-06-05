@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   RecommendedSensitivityLabelUpdateList,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,8 +34,8 @@ async function updateRecommendedSensitivityLabelsOfAGivenDatabaseUsingAnOperatio
     operations: [
       { schema: "dbo", column: "column1", op: "enable", table: "table1" },
       { schema: "dbo", column: "column2", op: "enable", table: "table2" },
-      { schema: "dbo", column: "column3", op: "disable", table: "table1" }
-    ]
+      { schema: "dbo", column: "column3", op: "disable", table: "table1" },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function updateRecommendedSensitivityLabelsOfAGivenDatabaseUsingAnOperatio
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

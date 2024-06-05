@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   EnvironmentVersionsListOptionalParams,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List versions.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/EnvironmentVersion/list.json
  */
 async function listEnvironmentVersion() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const orderBy = "string";
@@ -35,11 +41,15 @@ async function listEnvironmentVersion() {
     resourceGroupName,
     workspaceName,
     name,
-    options
+    options,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-listEnvironmentVersion().catch(console.error);
+async function main() {
+  listEnvironmentVersion();
+}
+
+main().catch(console.error);

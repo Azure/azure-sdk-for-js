@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   Schedule,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update schedule.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Schedule/createOrUpdate.json
  */
 async function createOrUpdateSchedule() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const body: Schedule = {
@@ -31,8 +37,8 @@ async function createOrUpdateSchedule() {
       action: {
         actionType: "InvokeBatchEndpoint",
         endpointInvocationDefinition: {
-          "9965593e-526f-4b89-bb36-761138cf2794": null
-        }
+          "9965593e-526f-4b89-bb36-761138cf2794": null,
+        },
       },
       displayName: "string",
       isEnabled: false,
@@ -43,9 +49,9 @@ async function createOrUpdateSchedule() {
         expression: "string",
         startTime: "string",
         timeZone: "string",
-        triggerType: "Cron"
-      }
-    }
+        triggerType: "Cron",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -53,9 +59,13 @@ async function createOrUpdateSchedule() {
     resourceGroupName,
     workspaceName,
     name,
-    body
+    body,
   );
   console.log(result);
 }
 
-createOrUpdateSchedule().catch(console.error);
+async function main() {
+  createOrUpdateSchedule();
+}
+
+main().catch(console.error);

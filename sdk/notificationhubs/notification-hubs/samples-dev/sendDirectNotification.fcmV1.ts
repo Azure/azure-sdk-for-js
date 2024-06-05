@@ -51,7 +51,7 @@ async function main(): Promise<void> {
       },
       "data":{
         "property1":"value1",
-        "property2":42
+        "property2":"42"
       }
     }
 }`;

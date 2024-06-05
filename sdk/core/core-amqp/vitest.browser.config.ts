@@ -2,25 +2,10 @@
 // Licensed under the MIT license.
 
 import { defineConfig } from "vitest/config";
-import { polyfillNode } from "esbuild-plugin-polyfill-node";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 export default defineConfig({
-  optimizeDeps: {
-    esbuildOptions: {
-      // Node.js global to browser globalThis
-      define: {
-        global: "globalThis",
-      },
-      // Enable esbuild polyfill plugins
-      plugins: [
-        polyfillNode({
-          polyfills: {
-            buffer: true,
-            process: true,
-        }}),
-      ],
-    },
-  },
+  plugins: [nodePolyfills()],
   test: {
     testTimeout: 20000,
     reporters: ["basic", "junit"],

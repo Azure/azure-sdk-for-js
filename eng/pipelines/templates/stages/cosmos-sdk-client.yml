@@ -42,7 +42,6 @@ extends:
             - TestType=node
             - DependencyVersion=^$
             - NodeTestVersion=18.x
-            - Pool=.*mms-win-2022.*
           PreSteps:
             - template: /eng/pipelines/templates/steps/cosmos-integration-public.yml@self
           PostSteps:

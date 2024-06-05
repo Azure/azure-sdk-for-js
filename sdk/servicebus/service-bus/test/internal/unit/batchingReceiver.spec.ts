@@ -16,7 +16,6 @@ import {
 } from "../../../src/core/batchingReceiver";
 import { defer, createConnectionContextForTests } from "./unittestUtils";
 import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils";
-import { AbortController } from "@azure/abort-controller";
 import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
 import {
   Receiver as RheaPromiseReceiver,
