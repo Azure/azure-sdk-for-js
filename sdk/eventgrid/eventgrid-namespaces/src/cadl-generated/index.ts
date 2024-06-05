@@ -13,7 +13,7 @@ export {
   ReleaseDelay,
   ReleaseResult,
   RejectResult,
-  RenewCloudEventLocksResult,
+  RenewLocksResult,
   ServiceApiVersions,
   ErrorResponse,
   PublishCloudEventOptionalParams,

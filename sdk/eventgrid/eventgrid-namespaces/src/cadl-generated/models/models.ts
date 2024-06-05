@@ -33,7 +33,7 @@ export interface PublishResult {}
 /** Details of the Receive operation response. */
 export interface ReceiveResult {
   /** Array of receive responses, one per cloud event. */
-  value: ReceiveDetails[];
+  details: ReceiveDetails[];
 }
 
 /** Receive operation details per Cloud Event. */
@@ -89,7 +89,7 @@ export interface RejectResult {
 }
 
 /** The result of the RenewLock operation. */
-export interface RenewCloudEventLocksResult {
+export interface RenewLocksResult {
   /** Array of FailedLockToken for failed cloud events. Each FailedLockToken includes the lock token along with the related error information (namely, the error code and description). */
   failedLockTokens: FailedLockToken[];
   /** Array of lock tokens for the successfully renewed locks. */

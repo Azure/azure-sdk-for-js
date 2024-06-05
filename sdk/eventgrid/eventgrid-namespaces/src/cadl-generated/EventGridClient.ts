@@ -10,7 +10,7 @@ import {
   AcknowledgeResult,
   ReleaseResult,
   RejectResult,
-  RenewCloudEventLocksResult,
+  RenewLocksResult,
 } from "./models/models";
 import {
   PublishCloudEventOptionalParams,
@@ -124,7 +124,7 @@ export class EventGridClient {
     eventSubscriptionName: string,
     lockTokens: string[],
     options: RenewCloudEventLocksOptionalParams = { requestOptions: {} },
-  ): Promise<RenewCloudEventLocksResult> {
+  ): Promise<RenewLocksResult> {
     return renewCloudEventLocks(
       this._client,
       topicName,

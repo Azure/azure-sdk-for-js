@@ -8,7 +8,7 @@ import {
   AcknowledgeResult,
   ReleaseResult,
   RejectResult,
-  RenewCloudEventLocksResult,
+  RenewLocksResult,
 } from "../models/models";
 import {
   isUnexpected,
@@ -170,7 +170,7 @@ export async function _receiveCloudEventsDeserialize(
   }
 
   return {
-    value: result.body["value"].map((p) => ({
+    details: result.body["value"].map((p) => ({
       brokerProperties: {
         lockToken: p.brokerProperties["lockToken"],
         deliveryCount: p.brokerProperties["deliveryCount"],
@@ -388,7 +388,7 @@ export function _renewCloudEventLocksSend(
 
 export async function _renewCloudEventLocksDeserialize(
   result: RenewCloudEventLocks200Response | RenewCloudEventLocksDefaultResponse,
-): Promise<RenewCloudEventLocksResult> {
+): Promise<RenewLocksResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
   }
@@ -409,7 +409,7 @@ export async function renewCloudEventLocks(
   eventSubscriptionName: string,
   lockTokens: string[],
   options: RenewCloudEventLocksOptionalParams = { requestOptions: {} },
-): Promise<RenewCloudEventLocksResult> {
+): Promise<RenewLocksResult> {
   const result = await _renewCloudEventLocksSend(
     context,
     topicName,

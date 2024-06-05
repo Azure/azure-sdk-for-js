@@ -10,7 +10,7 @@ export {
   ReleaseResult,
   RejectResult,
   ReleaseDelay,
-  RenewCloudEventLocksResult as RenewEventLocksResult,
+  RenewLocksResult,
   AcknowledgeCloudEventsOptionalParams as AcknowledgeEventsOptionalParams,
   ReceiveCloudEventsOptionalParams as ReceiveEventsOptionalParams,
   RejectCloudEventsOptionalParams as RejectEventsOptionalParams,

@@ -9,11 +9,10 @@ import {
   CloudEvent,
   ReceiveResult,
   RejectResult,
-  RenewEventLocksResult,
+  RenewLocksResult,
   EventGridDeserializer,
 } from "../../src";
 import { createRecordedClient } from "./utils/recordedClient";
-import { Buffer } from "buffer";
 
 /* eslint no-constant-condition: "off" */
 async function clearMessages(
@@ -237,78 +236,12 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         eventSubscriptionName,
       });
       const lockToken = receiveResult.details[0].brokerProperties.lockToken;
-      const renewResult: RenewEventLocksResult = await receiverClient.renewEventLocks([lockToken], {
+      const renewResult: RenewLocksResult = await receiverClient.renewEventLocks([lockToken], {
         topicName,
         eventSubscriptionName,
       });
       assert.equal(renewResult.succeededLockTokens.length, 1);
       assert.equal(renewResult.succeededLockTokens[0], lockToken);
-    });
-  });
-
-  describe("Binary Mode Publishing", function () {
-    it("errors a single cloud event - Non Binary Data", async () => {
-      const eventId: string = `singleEventIdV210006`;
-      const data = {
-        resourceUri: "https://dummyurl.com",
-      };
-      const cloudEvent: CloudEvent<any> = {
-        type: "example",
-        source: "https://example.com",
-        id: recorder.variable("singleEventId", eventId),
-        time: new Date(recorder.variable("singleEventDate", new Date().toString())),
-        data,
-        specversion: "1.0",
-      };
-
-      try {
-        await senderClient.sendEvent(cloudEvent, {
-          binaryMode: true,
-          topicName,
-        });
-        assert.fail("Code must error out for non binary data in binary mode.");
-      } catch (ex: any) {
-        assert.equal(ex.message, "CloudEvent data must be binary when in binary mode.");
-      }
-    });
-
-    it("publishes a single cloud event - Binary Data", async () => {
-      const eventId: string = `singleEventIdV210007`;
-      const data = {
-        resourceUri: "https://dummyurl.com",
-      };
-      const cloudEvent: CloudEvent<any> = {
-        type: "example",
-        source: "https://example.com",
-        id: recorder.variable("singleEventId", eventId),
-        time: new Date(recorder.variable("singleEventDate", new Date().toString())),
-        data: Buffer.from(JSON.stringify(data)),
-        datacontenttype: "application/cloudevents+json; charset=utf-8",
-        specversion: "1.0",
-      };
-      // Publish the Cloud Event
-      await senderClient.sendEvent(cloudEvent, {
-        binaryMode: true,
-        topicName,
-      });
-      // Receive the Published Cloud Event
-      const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
-        topicName,
-        eventSubscriptionName,
-      });
-
-      const deserializer: EventGridDeserializer = new EventGridDeserializer();
-      const result: CloudEvent<any>[] = await deserializer.deserializeCloudEvents(
-        JSON.stringify(receiveResult.details[0].event),
-      );
-
-      for (const event of result) {
-        // The Received Cloud Event ID must be equal to the ID of the Event that was published.
-        assert.equal(
-          JSON.stringify(data),
-          JSON.stringify(JSON.parse(Buffer.from(event.data).toString())),
-        );
-      }
     });
   });
 });

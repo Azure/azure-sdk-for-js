@@ -52,8 +52,7 @@ export interface AcknowledgeCloudEventsBodyParam {
 export type AcknowledgeCloudEventsParameters = AcknowledgeCloudEventsBodyParam & RequestParameters;
 
 export interface ReleaseCloudEventsBodyParam {
-  /** ReleaseOptions */
-  body: { lockTokens: string[] };
+  body?: { lockTokens: string[] };
 }
 
 export interface ReleaseCloudEventsQueryParamProperties {

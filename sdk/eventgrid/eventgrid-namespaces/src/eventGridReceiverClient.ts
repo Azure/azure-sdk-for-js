@@ -6,7 +6,7 @@ import {
   AcknowledgeResult,
   ReleaseResult,
   RejectResult,
-  RenewCloudEventLocksResult,
+  RenewLocksResult,
   CloudEvent as CloudEventWireModel,
 } from "./cadl-generated/models";
 import { randomUUID } from "@azure/core-util";
@@ -67,7 +67,7 @@ export class EventGridReceiverClient {
     const result = await this._client.receiveCloudEvents(topicName, eventSubscriptionName, options);
 
     const modifiedResult: ReceiveResult<T> = {
-      details: result.value.map((receiveDetails) => {
+      details: result.details.map((receiveDetails) => {
         const cloudEvent: CloudEvent<T> = {
           type: receiveDetails.event.type,
           source: receiveDetails.event.source,
@@ -75,7 +75,11 @@ export class EventGridReceiverClient {
           time: receiveDetails.event.time,
           dataschema: receiveDetails.event.dataschema,
           datacontenttype: receiveDetails.event.datacontenttype,
-          data: receiveDetails.event.data as T,
+          data: receiveDetails.event.data
+            ? (receiveDetails.event.data as T)
+            : receiveDetails.event.dataBase64
+              ? (receiveDetails.event.dataBase64 as any)
+              : undefined,
           subject: receiveDetails.event.subject,
           specversion: receiveDetails.event.specversion,
         };
@@ -189,7 +193,7 @@ export class EventGridReceiverClient {
   renewEventLocks(
     lockTokens: string[],
     options: RenewEventLocksOptions = { requestOptions: {} },
-  ): Promise<RenewCloudEventLocksResult> {
+  ): Promise<RenewLocksResult> {
     const topicName = options?.topicName ?? this._topicName;
 
     if (!topicName) {

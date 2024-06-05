@@ -12,7 +12,7 @@ export {
   ReleaseDelay,
   ReleaseResult,
   RejectResult,
-  RenewCloudEventLocksResult,
+  RenewLocksResult,
   ServiceApiVersions,
   ErrorResponse,
 } from "./models";

@@ -12,7 +12,6 @@ import {
   cloudEventReservedPropertyNames,
   EventGridSenderClientOptions,
 } from "./models";
-import { publishCloudEventInBinaryMode } from "./eventGridNamespacesPublishBinaryMode";
 
 /**
  * Event Grid Namespaces Client
@@ -54,19 +53,7 @@ export class EventGridSenderClient {
       throw new Error("Topic name is required");
     }
 
-    if (!options.binaryMode) {
-      await this._client.publishCloudEvent(topicName, cloudEventWireModel, options);
-    } else {
-      await publishCloudEventInBinaryMode(
-        this._client.getClient(),
-        topicName,
-        cloudEventWireModel,
-        {
-          contentType: options.contentType,
-          ...options,
-        },
-      );
-    }
+    await this._client.publishCloudEvent(topicName, cloudEventWireModel, options);
   }
 
   /**

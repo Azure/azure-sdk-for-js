@@ -56,7 +56,7 @@ export interface AcknowledgeCloudEvents {
 export interface ReleaseCloudEvents {
   /** Release a batch of Cloud Events. The response will include the set of successfully released lock tokens, along with other failed lock tokens with their corresponding error information. Successfully released events can be received by consumers. */
   post(
-    options: ReleaseCloudEventsParameters,
+    options?: ReleaseCloudEventsParameters,
   ): StreamableMethod<ReleaseCloudEvents200Response | ReleaseCloudEventsDefaultResponse>;
 }
 

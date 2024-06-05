@@ -63,7 +63,7 @@ export class EventGridReceiverClient {
     receiveEvents<T>(options?: ReceiveEventsOptions): Promise<ReceiveResult<T>>;
     rejectEvents(lockTokens: string[], options?: RejectEventsOptions): Promise<RejectResult>;
     releaseEvents(lockTokens: string[], options?: ReleaseEventsOptions): Promise<ReleaseResult>;
-    renewEventLocks(lockTokens: string[], options?: RenewEventLocksOptions): Promise<RenewEventLocksResult>;
+    renewEventLocks(lockTokens: string[], options?: RenewEventLocksOptions): Promise<RenewLocksResult>;
 }
 
 // @public
@@ -167,7 +167,7 @@ export interface RenewEventLocksOptions extends RenewEventLocksOptionalParams {
 }
 
 // @public
-export interface RenewEventLocksResult {
+export interface RenewLocksResult {
     failedLockTokens: FailedLockToken[];
     succeededLockTokens: string[];
 }
@@ -179,7 +179,6 @@ export interface SendEventOptionalParams extends OperationOptions {
 
 // @public
 export interface SendEventOptions extends OperationOptions {
-    binaryMode?: boolean;
     contentType?: string;
     topicName?: string;
 }

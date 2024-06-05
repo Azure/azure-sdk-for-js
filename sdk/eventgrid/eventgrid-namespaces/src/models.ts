@@ -15,9 +15,6 @@ import {
 
 /** Send Event Options */
 export interface SendEventOptions extends OperationOptions {
-  /** Binary mode */
-  binaryMode?: boolean;
-
   /** Content type */
   contentType?: string;
 
