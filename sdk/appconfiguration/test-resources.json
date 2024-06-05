@@ -81,13 +81,5 @@
       "type": "string",
       "value": "[variables('endpointValue')]"
     },
-    "AZURE_TENANT_ID": {
-      "type": "string",
-      "value": "[parameters('tenantId')]"
-    },
-    "AZURE_CLIENT_ID": {
-      "type": "string",
-      "value": "[parameters('testApplicationId')]"
-    }
   }
 }
