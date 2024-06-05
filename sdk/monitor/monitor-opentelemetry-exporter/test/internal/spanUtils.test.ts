@@ -15,8 +15,8 @@ import {
 
 import { Tags, Properties, Measurements } from "../../src/types";
 import { Context, getInstance } from "../../src/platform";
-import { readableSpanToEnvelope } from "../../src/utils/spanUtils";
-import { RemoteDependencyData, RequestData, KnownContextTagKeys } from "../../src/generated";
+import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../../src/utils/spanUtils";
+import { RemoteDependencyData, RequestData, KnownContextTagKeys, TelemetryExceptionData } from "../../src/generated";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { DependencyTypes } from "../../src/utils/constants/applicationinsights";
 import { hrTimeToDate } from "../../src/utils/common";
@@ -1092,6 +1092,50 @@ describe("spanUtils.ts", () => {
           expectedBaseData,
         );
       });
+    });
+  });
+  describe("#spanEventsToEnvelopes", () => {
+    it("should create exception envelope for exception events", () => {
+      const span = new Span(
+        tracer,
+        ROOT_CONTEXT,
+        "parent span",
+        { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+        SpanKind.SERVER,
+        "parentSpanId",
+      );
+      span.recordException(new Error("test error"));
+      span.end();
+      const envelope = spanEventsToEnvelopes(span, "ikey");
+
+      const expectedTags: Tags = {};
+      expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+      expectedTags[KnownContextTagKeys.AiOperationParentId] = "spanId";
+      const expectedProperties = {};
+      const testErrorStack = new Error("test error").stack;
+      const expectedBaseData: Partial<TelemetryExceptionData> = {
+        exceptions: [
+          {
+            hasFullStack: true,
+            message: "test error",
+            stack: testErrorStack,
+            typeName: "Error",
+          }
+        ],
+        version: 2,
+        properties: {},
+      };
+
+      assertEnvelope(
+        envelope[0],
+        "Microsoft.ApplicationInsights.Exception",
+        100,
+        "ExceptionData",
+        expectedTags,
+        expectedProperties,
+        undefined,
+        expectedBaseData,
+      );
     });
   });
 });
