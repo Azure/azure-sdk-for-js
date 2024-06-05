@@ -11,6 +11,10 @@
       "types": "./types/src/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist-esm/src/index.js"
+    },
+    "./models": {
+      "types": "./types/src/models/index.d.ts",
+      "import": "./dist-esm/src/models/index.js"
     }
   },
   "types": "openai.d.ts",
