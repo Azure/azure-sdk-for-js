@@ -1,15 +1,28 @@
 
-export function sendTextViaAzureSpeechSDK(sendTextFunc, promptInput, azureADTokenProvider, speechRegion) {
-    const speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(azureADTokenProvider(), speechRegion);
+const SpeechSDK = require("microsoft-cognitiveservices-speech-sdk");
+
+async function azureADTokenProvider() {
+  const response = await fetch("/api/auth", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.json();
+}
+
+export async function sendTextViaAzureSpeechSDK(input) {
+    const { sendTextFunc, promptInput, statusDiv } = input;
+    const { token, region } = await azureADTokenProvider();
+    const speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(token, region);
     const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
     const recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
 
-    recognizer.recognized = (s, e) => {
+    recognizer.recognized = async (s, e) => {
       if (!!e && !!e.result && !!e.result.text) {
         statusDiv.innerHTML = "Sending input prompt to ChatGPT";
         promptInput.innerHTML = e.result.text;
-        
-        sendTextFunc(e.result.text);
+        await sendTextFunc(e.result.text);
       }
     };
 
@@ -47,9 +60,10 @@ export function sendTextViaAzureSpeechSDK(sendTextFunc, promptInput, azureADToke
     return stopChatViaAzureSpeechSDK;
 }
 
-export function speakTextViaAzureSpeechSDK(text, azureADTokenProvider, speechRegion) {
-
-  const speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(azureADTokenProvider(), speechRegion);
+export async function speakTextViaAzureSpeechSDK(input) {
+  const { text, statusDiv } = input;
+  const { token, region } = await azureADTokenProvider();
+  const speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(token, region);
   const audioConfig = SpeechSDK.AudioConfig.fromDefaultSpeakerOutput();
   let synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
   synthesizer.speakTextAsync(

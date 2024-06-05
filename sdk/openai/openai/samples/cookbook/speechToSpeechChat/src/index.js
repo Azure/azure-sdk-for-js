@@ -1,52 +1,65 @@
-const { AzureOpenAI } = require("openai");
-const { getBearerTokenProvider, InteractiveBrowserCredential } = require("@azure/identity");
 import { sendTextViaAzureSpeechSDK, speakTextViaAzureSpeechSDK } from "./azureSpeech.js";
 import { sendTextViaWebSpeechAPI, speakTextViaWebSpeechAPI } from "./webSpeech.js";
 
-let SpeechSDK, client, statusDiv, stopRecognitionFunc, cred, azureADTokenProvider;
-let useAzureSpeechSDK = true;
-const azureSpeechCheckbox = document.getElementById('useAzureSpeechSDK');
-const speechRegionElement = document.getElementById("speechRegion");
-const clientId = document.getElementById("clientId");
-const tenantId = document.getElementById("tenantId");
-const scope = "https://cognitiveservices.azure.com/.default";
+let stopRecognitionFunc;
 
-azureSpeechCheckbox.addEventListener('change', function() {
-  useAzureSpeechSDK = this.checked;
-  speechRegionElement.disabled = !useAzureSpeechSDK;
+window.addEventListener("DOMContentLoaded", function () {
+  const startChatBtn = document.getElementById("startChat");
+  const stopChatBtn = document.getElementById("stopChat");
+
+  startChatBtn.addEventListener("click", async function () {
+    await startChatFromSpeech();
+    startChatBtn.disabled = true;
+    stopChatBtn.disabled = false;
+  });
+
+  stopChatBtn.addEventListener("click", function () {
+    if (!!stopRecognitionFunc) {
+      stopRecognitionFunc();
+      stopRecognitionFunc = null;
+      startChatBtn.disabled = false;
+      stopChatBtn.disabled = true;
+    }
+  });
 });
 
-function startChatFromSpeech() {
-  statusDiv = document.getElementById("statusDiv");
+async function getCompletions(prompt) {
+  const response = await fetch("/api/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ prompt }),
+  });
+  const { completions } = await response.json();
+  return completions;
+}
+
+async function startChatFromSpeech() {
+  const statusDiv = document.getElementById("statusDiv");
   const promptInput = document.getElementById("promptInput");
   statusDiv.innerHTML = "";
   promptInput.innerHTML = "";
-  cred = new InteractiveBrowserCredential({ clientId: clientId.value, tenantId: tenantId.value });
-  azureADTokenProvider = getBearerTokenProvider(cred, scope);
 
-  stopRecognitionFunc = useAzureSpeechSDK ? 
-    sendTextViaAzureSpeechSDK(sendTextToChatGPT, promptInput, azureADTokenProvider, speechRegionElement.value) :
+  stopRecognitionFunc = document.getElementById("useAzureSpeechSDK").checked ? 
+    await sendTextViaAzureSpeechSDK({ 
+      sendTextFunc:sendTextToChatGPT,
+      promptInput,
+      statusDiv
+    }) :
     sendTextViaWebSpeechAPI(sendTextToChatGPT, promptInput);
 }
 
-function sendTextToChatGPT(text) {
-  if (!client) {
-    const endpoint = document.getElementById("endpoint");
-    const deploymentId = document.getElementById("deploymentId");
-
-    client = new AzureOpenAI({
-      endpoint: endpoint.value,
-      azureADTokenProvider,
-      deployment: deploymentId.value,
-      apiVersion: "2024-04-01-preview",
-    });  }
-
-  async function showResponseChoices() {
+async function sendTextToChatGPT(text) {
+  const statusDiv = document.getElementById("statusDiv");
     try {
-      const { choices } = await client.completions.create({ model: '', prompt: [text]});
+      const { choices } = await getCompletions([text]);
       const gptResponseText = choices[0]?.text;
-      useAzureSpeechSDK ?
-        speakTextViaAzureSpeechSDK(gptResponseText, azureADTokenProvider, speechRegionElement.value) : 
+      document.getElementById("useAzureSpeechSDK").checked ?
+        await speakTextViaAzureSpeechSDK({
+          gptResponseText,
+          statusDiv
+        }) : 
         speakTextViaWebSpeechAPI(gptResponseText);
       const resultDiv = document.getElementById("resultDiv");
       resultDiv.innerHTML = gptResponseText;
@@ -54,30 +67,4 @@ function sendTextToChatGPT(text) {
       console.log(e);
       statusDiv.innerHTML += `(Error calling showResponseChoices): ${e}`;
     }
-  }
-  showResponseChoices();
 }
-
-window.addEventListener("DOMContentLoaded", function () {
-  if (!!window.SpeechSDK) {
-    SpeechSDK = window.SpeechSDK;
-  }
-
-  const startChat = document.getElementById("startChat");
-  const stopChat = document.getElementById("stopChat");
-
-  startChat.addEventListener("click", function () {
-    startChatFromSpeech();
-    startChat.disabled = true;
-    stopChat.disabled = false;
-  });
-
-  stopChat.addEventListener("click", function () {
-    if (!!stopRecognitionFunc) {
-      stopRecognitionFunc();
-      stopRecognitionFunc = null;
-      startChat.disabled = false;
-      stopChat.disabled = true;
-    }
-  });
-});
