@@ -1,50 +1,50 @@
 parameters:
-- name: PackageName
-  type: string
-  default: ""
-- name: ServiceDirectory
-  type: string
-  default: ""
-- name: TestResourceDirectories
-  type: object
-  default:
-- name: EnvVars
-  type: object
-  default: {}
-- name: MaxParallel
-  type: number
-  default: 0
-- name: TimeoutInMinutes
-  type: number
-  default: 60
-- name: PublishCodeCoverage
-  type: boolean
-  default: false
-- name: PreSteps
-  type: object
-  default: []
-- name: PostSteps
-  type: object
-  default: []
-- name: Location
-  type: string
-  default: ''
-- name: CloudConfig
-  type: object
-  default: {}
-- name: Matrix
-  type: string
-- name: DependsOn
-  type: string
-  default: ''
-- name: UsePlatformContainer
-  type: boolean
-  default: false
-- name: OSName
-  type: string
-- name: UseFederatedAuth
-  type: boolean
-  default: false
+  - name: PackageName
+    type: string
+    default: ""
+  - name: ServiceDirectory
+    type: string
+    default: ""
+  - name: TestResourceDirectories
+    type: object
+    default:
+  - name: EnvVars
+    type: object
+    default: {}
+  - name: MaxParallel
+    type: number
+    default: 0
+  - name: TimeoutInMinutes
+    type: number
+    default: 60
+  - name: PublishCodeCoverage
+    type: boolean
+    default: false
+  - name: PreSteps
+    type: object
+    default: []
+  - name: PostSteps
+    type: object
+    default: []
+  - name: Location
+    type: string
+    default: ""
+  - name: CloudConfig
+    type: object
+    default: {}
+  - name: Matrix
+    type: string
+  - name: DependsOn
+    type: string
+    default: ""
+  - name: UsePlatformContainer
+    type: boolean
+    default: false
+  - name: OSName
+    type: string
+  - name: UseFederatedAuth
+    type: boolean
+    default: false
 
 jobs:
   - job:
@@ -57,7 +57,7 @@ jobs:
     variables:
       - template: ../variables/globals.yml
       - name: ArmTemplateParameters
-        value: '@{}'
+        value: "@{}"
 
     pool:
       name: $(Pool)
@@ -78,35 +78,35 @@ jobs:
       - template: ../steps/common.yml
 
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
-        - template: /eng/common/TestResources/build-test-resource-config.yml
-          parameters:
-            SubscriptionConfiguration: ${{ parameters.CloudConfig.SubscriptionConfiguration }}
-            SubscriptionConfigurations: ${{ parameters.CloudConfig.SubscriptionConfigurations }}
-            EnvVars: ${{ parameters.EnvVars }}
-
-        - ${{ if parameters.TestResourceDirectories }}:
-          - ${{ each directory in parameters.TestResourceDirectories }}:
-            - template: /eng/common/TestResources/deploy-test-resources.yml
-              parameters:
-                ${{ if or(parameters.Location, parameters.CloudConfig.Location) }}:
-                  Location: ${{ coalesce(parameters.Location, parameters.CloudConfig.Location) }}
-                ServiceDirectory: '${{ directory }}'
-                SubscriptionConfiguration: $(SubscriptionConfiguration)
-                ArmTemplateParameters: $(ArmTemplateParameters)
-                UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
-                ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
-                SubscriptionConfigurationFilePath: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePath }}
-        - ${{ if not(parameters.TestResourceDirectories) }}:
-          - template: /eng/common/TestResources/deploy-test-resources.yml
+          - template: /eng/common/TestResources/build-test-resource-config.yml
             parameters:
-              ${{ if or(parameters.Location, parameters.CloudConfig.Location) }}:
-                Location: ${{ coalesce(parameters.Location, parameters.CloudConfig.Location) }}
-              ServiceDirectory: '${{ parameters.ServiceDirectory }}'
-              SubscriptionConfiguration: $(SubscriptionConfiguration)
-              ArmTemplateParameters: $(ArmTemplateParameters)
-              UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
-              ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
-              SubscriptionConfigurationFilePath: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePath }}
+              SubscriptionConfiguration: ${{ parameters.CloudConfig.SubscriptionConfiguration }}
+              SubscriptionConfigurations: ${{ parameters.CloudConfig.SubscriptionConfigurations }}
+              EnvVars: ${{ parameters.EnvVars }}
+
+          - ${{ if parameters.TestResourceDirectories }}:
+              - ${{ each directory in parameters.TestResourceDirectories }}:
+                  - template: /eng/common/TestResources/deploy-test-resources.yml
+                    parameters:
+                      ? ${{ if or(parameters.Location, parameters.CloudConfig.Location) }}
+                      : Location: ${{ coalesce(parameters.Location, parameters.CloudConfig.Location) }}
+                      ServiceDirectory: "${{ directory }}"
+                      SubscriptionConfiguration: $(SubscriptionConfiguration)
+                      ArmTemplateParameters: $(ArmTemplateParameters)
+                      UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+                      ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
+                      SubscriptionConfigurationFilePath: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePath }}
+          - ${{ if not(parameters.TestResourceDirectories) }}:
+              - template: /eng/common/TestResources/deploy-test-resources.yml
+                parameters:
+                  ? ${{ if or(parameters.Location, parameters.CloudConfig.Location) }}
+                  : Location: ${{ coalesce(parameters.Location, parameters.CloudConfig.Location) }}
+                  ServiceDirectory: "${{ parameters.ServiceDirectory }}"
+                  SubscriptionConfiguration: $(SubscriptionConfiguration)
+                  ArmTemplateParameters: $(ArmTemplateParameters)
+                  UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+                  ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
+                  SubscriptionConfigurationFilePath: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePath }}
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -176,99 +176,99 @@ jobs:
       # ===== BEGIN LIVE TEST RUNS =====
 
       - ${{ if eq('true', parameters.UseFederatedAuth) }}:
-        - task: AzurePowerShell@5
-          inputs:
-            azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
-            azurePowerShellVersion: LatestVersion
-            workingDirectory: $(PackagePath)
-            pwsh: true
-            ScriptType: InlineScript
-            Inline: |
-              node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
-          displayName: "Integration test libraries"
-          condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
-          env:
-            TEST_MODE: "live"
-            SERVICE_VERSION: $(ServiceVersion)
-            ${{ insert }}: ${{ parameters.EnvVars }}
+          - task: AzurePowerShell@5
+            inputs:
+              azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
+              azurePowerShellVersion: LatestVersion
+              workingDirectory: $(PackagePath)
+              pwsh: true
+              ScriptType: InlineScript
+              Inline: |
+                node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+            displayName: "Integration test libraries"
+            condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
+            env:
+              TEST_MODE: "live"
+              SERVICE_VERSION: $(ServiceVersion)
+              ${{ insert }}: ${{ parameters.EnvVars }}
 
-        - task: AzurePowerShell@5
-          inputs:
-            azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
-            azurePowerShellVersion: LatestVersion
-            workingDirectory: $(PackageTestPath)
-            ScriptType: InlineScript
-            Inline: |
-              node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
-          displayName: "Integration test libraries"
-          condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
-          env:
-            TEST_MODE: "live"
-            SERVICE_VERSION: $(ServiceVersion)
-            ${{ insert }}: ${{ parameters.EnvVars }}
+          - task: AzurePowerShell@5
+            inputs:
+              azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
+              azurePowerShellVersion: LatestVersion
+              workingDirectory: $(PackageTestPath)
+              ScriptType: InlineScript
+              Inline: |
+                node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
+            displayName: "Integration test libraries"
+            condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
+            env:
+              TEST_MODE: "live"
+              SERVICE_VERSION: $(ServiceVersion)
+              ${{ insert }}: ${{ parameters.EnvVars }}
 
-        - ${{ parameters.PostSteps }}
+          - ${{ parameters.PostSteps }}
 
-        - task: AzurePowerShell@5
-          inputs:
-            azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
-            azurePowerShellVersion: LatestVersion
-            workingDirectory: $(PackagePath)
-            ScriptType: InlineScript
-            Inline: |
-              node ../../../common/scripts/install-run-rushx.js execute:samples
-          displayName: "Execute Samples"
-          env:
-            TEST_MODE: "live"
-            ${{ insert }}: ${{ parameters.EnvVars }}
-          condition: and(succeeded(),eq(variables['TestType'],'sample'))
+          - task: AzurePowerShell@5
+            inputs:
+              azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
+              azurePowerShellVersion: LatestVersion
+              workingDirectory: $(PackagePath)
+              ScriptType: InlineScript
+              Inline: |
+                node ../../../common/scripts/install-run-rushx.js execute:samples
+            displayName: "Execute Samples"
+            env:
+              TEST_MODE: "live"
+              ${{ insert }}: ${{ parameters.EnvVars }}
+            condition: and(succeeded(),eq(variables['TestType'],'sample'))
 
       - ${{ else }}:
-        - script: |
-            node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
-          displayName: "Integration test libraries"
-          workingDirectory: $(PackagePath)
-          condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
-          env:
-            TEST_MODE: "live"
-            SERVICE_VERSION: $(ServiceVersion)
-            ${{ insert }}: ${{ parameters.EnvVars }}
+          - script: |
+              node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+            displayName: "Integration test libraries"
+            workingDirectory: $(PackagePath)
+            condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
+            env:
+              TEST_MODE: "live"
+              SERVICE_VERSION: $(ServiceVersion)
+              ${{ insert }}: ${{ parameters.EnvVars }}
 
-        - script: |
-            node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
-          displayName: "Integration test libraries"
-          workingDirectory: $(PackageTestPath)
-          condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
-          env:
-            TEST_MODE: "live"
-            SERVICE_VERSION: $(ServiceVersion)
-            ${{ insert }}: ${{ parameters.EnvVars }}
+          - script: |
+              node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
+            displayName: "Integration test libraries"
+            workingDirectory: $(PackageTestPath)
+            condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
+            env:
+              TEST_MODE: "live"
+              SERVICE_VERSION: $(ServiceVersion)
+              ${{ insert }}: ${{ parameters.EnvVars }}
 
-        - ${{ parameters.PostSteps }}
+          - ${{ parameters.PostSteps }}
 
-        - script: |
-            node ../../../common/scripts/install-run-rushx.js execute:samples
-          displayName: "Execute Samples"
-          workingDirectory: $(PackagePath)
-          env:
-            TEST_MODE: "live"
-            ${{ insert }}: ${{ parameters.EnvVars }}
-          condition: and(succeeded(),eq(variables['TestType'],'sample'))
+          - script: |
+              node ../../../common/scripts/install-run-rushx.js execute:samples
+            displayName: "Execute Samples"
+            workingDirectory: $(PackagePath)
+            env:
+              TEST_MODE: "live"
+              ${{ insert }}: ${{ parameters.EnvVars }}
+            condition: and(succeeded(),eq(variables['TestType'],'sample'))
 
       # ===== END LIVE TEST RUNS =====
 
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
-        - ${{ if parameters.TestResourceDirectories }}:
-          - ${{ each directory in parameters.TestResourceDirectories }}:
-            - template: /eng/common/TestResources/remove-test-resources.yml
-              parameters:
-                ServiceDirectory: "${{ directory }}"
-                SubscriptionConfiguration: $(SubscriptionConfiguration)
-        - ${{ if not(parameters.TestResourceDirectories) }}:
-          - template: /eng/common/TestResources/remove-test-resources.yml
-            parameters:
-              ServiceDirectory: "${{ parameters.ServiceDirectory }}"
-              SubscriptionConfiguration: $(SubscriptionConfiguration)
+          - ${{ if parameters.TestResourceDirectories }}:
+              - ${{ each directory in parameters.TestResourceDirectories }}:
+                  - template: /eng/common/TestResources/remove-test-resources.yml
+                    parameters:
+                      ServiceDirectory: "${{ directory }}"
+                      SubscriptionConfiguration: $(SubscriptionConfiguration)
+          - ${{ if not(parameters.TestResourceDirectories) }}:
+              - template: /eng/common/TestResources/remove-test-resources.yml
+                parameters:
+                  ServiceDirectory: "${{ parameters.ServiceDirectory }}"
+                  SubscriptionConfiguration: $(SubscriptionConfiguration)
 
       - task: PublishCodeCoverageResults@1
         displayName: "Publish NodeJs Code Coverage to DevOps"
