@@ -16,7 +16,13 @@ import {
 import { Tags, Properties, Measurements } from "../../src/types";
 import { Context, getInstance } from "../../src/platform";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../../src/utils/spanUtils";
-import { RemoteDependencyData, RequestData, KnownContextTagKeys, TelemetryExceptionData } from "../../src/generated";
+import {
+  RemoteDependencyData,
+  RequestData,
+  KnownContextTagKeys,
+  TelemetryExceptionData,
+  MessageData,
+} from "../../src/generated";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { DependencyTypes } from "../../src/utils/constants/applicationinsights";
 import { hrTimeToDate } from "../../src/utils/common";
@@ -1095,7 +1101,8 @@ describe("spanUtils.ts", () => {
     });
   });
   describe("#spanEventsToEnvelopes", () => {
-    it("should create exception envelope for exception events", () => {
+    it("should create exception envelope for server exception events", () => {
+      const testError = new Error("test error");
       const span = new Span(
         tracer,
         ROOT_CONTEXT,
@@ -1104,15 +1111,15 @@ describe("spanUtils.ts", () => {
         SpanKind.SERVER,
         "parentSpanId",
       );
-      span.recordException(new Error("test error"));
+      span.recordException(testError);
       span.end();
-      const envelope = spanEventsToEnvelopes(span, "ikey");
+      const envelopes = spanEventsToEnvelopes(span, "ikey");
 
       const expectedTags: Tags = {};
       expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
       expectedTags[KnownContextTagKeys.AiOperationParentId] = "spanId";
       const expectedProperties = {};
-      const testErrorStack = new Error("test error").stack;
+      const testErrorStack = testError.stack;
       const expectedBaseData: Partial<TelemetryExceptionData> = {
         exceptions: [
           {
@@ -1120,14 +1127,14 @@ describe("spanUtils.ts", () => {
             message: "test error",
             stack: testErrorStack,
             typeName: "Error",
-          }
+          },
         ],
         version: 2,
         properties: {},
       };
 
       assertEnvelope(
-        envelope[0],
+        envelopes[0],
         "Microsoft.ApplicationInsights.Exception",
         100,
         "ExceptionData",
@@ -1137,5 +1144,58 @@ describe("spanUtils.ts", () => {
         expectedBaseData,
       );
     });
+    it("should not create an envelope for client exception span events", () => {
+      const testError = new Error("test error");
+      const span = new Span(
+        tracer,
+        ROOT_CONTEXT,
+        "parent span",
+        { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+        SpanKind.CLIENT,
+        "parentSpanId",
+      );
+      span.recordException(testError);
+      span.end();
+      const envelopes = spanEventsToEnvelopes(span, "ikey");
+
+      const expectedTags: Tags = {};
+      expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+      expectedTags[KnownContextTagKeys.AiOperationParentId] = "spanId";
+      assert.ok(envelopes.length === 0);
+    });
+  });
+  it("should create message envelope for span events", () => {
+    const span = new Span(
+      tracer,
+      ROOT_CONTEXT,
+      "parent span",
+      { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+      SpanKind.SERVER,
+      "parentSpanId",
+    );
+    span.addEvent("test event");
+    span.end();
+    const envelopes = spanEventsToEnvelopes(span, "ikey");
+
+    const expectedTags: Tags = {};
+    expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+    expectedTags[KnownContextTagKeys.AiOperationParentId] = "spanId";
+    const expectedProperties = {};
+    const expectedBaseData: Partial<MessageData> = {
+      message: "test event",
+      properties: expectedProperties,
+      version: 2,
+    };
+
+    assertEnvelope(
+      envelopes[0],
+      "Microsoft.ApplicationInsights.Message",
+      100,
+      "MessageData",
+      expectedTags,
+      expectedProperties,
+      undefined,
+      expectedBaseData,
+    );
   });
 });
