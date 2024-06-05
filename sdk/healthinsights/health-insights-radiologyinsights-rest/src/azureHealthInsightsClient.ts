@@ -8,7 +8,7 @@ import { logger } from "./logger";
 
 /**
  * Initialize a new instance of `AzureHealthInsightsClient`
- * @param endpointParam - Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).
+ * @param endpointParam - Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.cognitiveservices.azure.com).
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
