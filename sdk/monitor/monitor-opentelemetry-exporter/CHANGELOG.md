@@ -4,7 +4,7 @@
 
 ### Other Changes
 
-- Span event exceptions no longer generate trace telemetry.
+- Client generated Span event exceptions no longer generate trace telemetry.
 
 ## 1.0.0-beta.23 (2024-05-10)
 
