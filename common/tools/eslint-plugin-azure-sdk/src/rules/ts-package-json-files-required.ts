@@ -6,7 +6,7 @@
  *
  */
 import { TSESTree } from "@typescript-eslint/utils";
-import { VerifierMessages, arrayToString, createRule, getVerifiers, stripPath } from "../utils";
+import { VerifierMessages, arrayToString, createRule, getVerifiers, stripPath, usesTshy } from "../utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -73,6 +73,9 @@ export default createRule({
       outer: "files",
     });
     if (stripPath(context.filename) !== "package.json") {
+      return {};
+    }
+    if (usesTshy(context.filename)) {
       return {};
     }
     return {
