@@ -136,7 +136,7 @@ export default function createClient(
 
   const baseUrl = options.baseUrl ?? `${serviceEndpoint}`;
 
-  const userAgentInfo = `azsdk-js-ai-translation-text-rest/1.0.0`;
+  const userAgentInfo = `azsdk-js-ai-translation-text-rest/1.0.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
