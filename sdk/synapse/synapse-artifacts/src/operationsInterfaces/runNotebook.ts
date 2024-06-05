@@ -16,7 +16,7 @@ import {
   RunNotebookCancelRunOptionalParams,
   RunNotebookCancelRunResponse,
   RunNotebookGetSnapshotOptionalParams,
-  RunNotebookGetSnapshotResponse
+  RunNotebookGetSnapshotResponse,
 } from "../models";
 
 /** Interface representing a RunNotebook. */
@@ -30,7 +30,7 @@ export interface RunNotebook {
   beginCreateRun(
     runId: string,
     runNotebookRequest: RunNotebookRequest,
-    options?: RunNotebookCreateRunOptionalParams
+    options?: RunNotebookCreateRunOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RunNotebookCreateRunResponse>,
@@ -46,7 +46,7 @@ export interface RunNotebook {
   beginCreateRunAndWait(
     runId: string,
     runNotebookRequest: RunNotebookRequest,
-    options?: RunNotebookCreateRunOptionalParams
+    options?: RunNotebookCreateRunOptionalParams,
   ): Promise<RunNotebookCreateRunResponse>;
   /**
    * Get RunNotebook Status for run id.
@@ -55,7 +55,7 @@ export interface RunNotebook {
    */
   getStatus(
     runId: string,
-    options?: RunNotebookGetStatusOptionalParams
+    options?: RunNotebookGetStatusOptionalParams,
   ): Promise<RunNotebookGetStatusResponse>;
   /**
    * Cancel notebook run.
@@ -64,7 +64,7 @@ export interface RunNotebook {
    */
   cancelRun(
     runId: string,
-    options?: RunNotebookCancelRunOptionalParams
+    options?: RunNotebookCancelRunOptionalParams,
   ): Promise<RunNotebookCancelRunResponse>;
   /**
    * Get RunNotebook Snapshot for run id.
@@ -73,6 +73,6 @@ export interface RunNotebook {
    */
   getSnapshot(
     runId: string,
-    options?: RunNotebookGetSnapshotOptionalParams
+    options?: RunNotebookGetSnapshotOptionalParams,
   ): Promise<RunNotebookGetSnapshotResponse>;
 }
