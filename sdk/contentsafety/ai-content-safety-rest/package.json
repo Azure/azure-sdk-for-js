@@ -119,6 +119,12 @@
     "productSlugs": [
       "azure"
     ],
+    "extraFiles": {
+      "./samples-dev/example-data": [
+        "javascript/example-data",
+        "typescript/src/example-data"
+      ]
+    },
     "disableDocsMs": true,
     "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview"
   }

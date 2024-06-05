@@ -20,7 +20,7 @@ import {
   ComplianceResultsListResponse,
   ComplianceResultsGetOptionalParams,
   ComplianceResultsGetResponse,
-  ComplianceResultsListNextResponse
+  ComplianceResultsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export class ComplianceResultsImpl implements ComplianceResults {
    */
   public list(
     scope: string,
-    options?: ComplianceResultsListOptionalParams
+    options?: ComplianceResultsListOptionalParams,
   ): PagedAsyncIterableIterator<ComplianceResult> {
     const iter = this.listPagingAll(scope, options);
     return {
@@ -60,14 +60,14 @@ export class ComplianceResultsImpl implements ComplianceResults {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     scope: string,
     options?: ComplianceResultsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ComplianceResult[]> {
     let result: ComplianceResultsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class ComplianceResultsImpl implements ComplianceResults {
 
   private async *listPagingAll(
     scope: string,
-    options?: ComplianceResultsListOptionalParams
+    options?: ComplianceResultsListOptionalParams,
   ): AsyncIterableIterator<ComplianceResult> {
     for await (const page of this.listPagingPage(scope, options)) {
       yield* page;
@@ -105,11 +105,11 @@ export class ComplianceResultsImpl implements ComplianceResults {
    */
   private _list(
     scope: string,
-    options?: ComplianceResultsListOptionalParams
+    options?: ComplianceResultsListOptionalParams,
   ): Promise<ComplianceResultsListResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -122,11 +122,11 @@ export class ComplianceResultsImpl implements ComplianceResults {
   get(
     resourceId: string,
     complianceResultName: string,
-    options?: ComplianceResultsGetOptionalParams
+    options?: ComplianceResultsGetOptionalParams,
   ): Promise<ComplianceResultsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceId, complianceResultName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -141,11 +141,11 @@ export class ComplianceResultsImpl implements ComplianceResults {
   private _listNext(
     scope: string,
     nextLink: string,
-    options?: ComplianceResultsListNextOptionalParams
+    options?: ComplianceResultsListNextOptionalParams,
   ): Promise<ComplianceResultsListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -157,50 +157,49 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComplianceResultList
+      bodyMapper: Mappers.ComplianceResultList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion17],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.Security/complianceResults/{complianceResultName}",
+  path: "/{resourceId}/providers/Microsoft.Security/complianceResults/{complianceResultName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComplianceResult
+      bodyMapper: Mappers.ComplianceResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion17],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.complianceResultName
+    Parameters.complianceResultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComplianceResultList
+      bodyMapper: Mappers.ComplianceResultList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

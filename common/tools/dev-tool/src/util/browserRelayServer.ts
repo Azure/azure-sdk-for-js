@@ -35,6 +35,7 @@ function buildServer(app: Express) {
   app.use((_req, res, next) => {
     res.set("Access-Control-Allow-Methods", "GET, PUT");
     res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Headers", "*");
     next();
   });
 

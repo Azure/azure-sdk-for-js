@@ -13,7 +13,7 @@ parameters:
 stages:
   - ${{if and(in(variables['Build.Reason'], 'Manual', ''), eq(variables['System.TeamProject'], 'internal'))}}:
       - ${{ each artifact in parameters.Artifacts }}:
-          - stage: 
+          - stage:
             variables:
               - template: /eng/pipelines/templates/variables/globals.yml
             displayName: 'Release: ${{artifact.name}}'
@@ -171,7 +171,6 @@ stages:
                             - template: /eng/common/pipelines/templates/steps/publish-blobs.yml
                               parameters:
                                 FolderForUpload: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                                BlobSASKey: $(azure-sdk-docs-prod-sas)
                                 BlobName: $(azure-sdk-docs-prod-blob-name)
                                 TargetLanguage: javascript
                                 ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
@@ -265,7 +264,7 @@ stages:
                       Registry: ${{parameters.Registry}}
                       PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
                       Tag: "dev"
-                    
+
       - job: PublishDocsToNightlyBranch
         condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true')))
         dependsOn: PublishPackages

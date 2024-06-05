@@ -1033,6 +1033,14 @@ export const HandleItem: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      clientName: {
+        serializedName: "ClientName",
+        required: true,
+        xmlName: "ClientName",
+        type: {
+          name: "String"
+        }
+      },
       openTime: {
         serializedName: "OpenTime",
         required: true,

@@ -19,8 +19,6 @@ require("dotenv").config();
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2017-08-01-preview/examples/InformationProtectionPolicies/CreateOrUpdateInformationProtectionPolicy_example.json
  */
 async function createOrUpdateAnInformationProtectionPolicyForAManagementGroup() {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Management/managementGroups/148059f7-faf3-49a6-ba35-85122112291e";
   const informationProtectionPolicyName = "custom";
@@ -62,11 +60,11 @@ async function createOrUpdateAnInformationProtectionPolicyForAManagementGroup() 
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential);
   const result = await client.informationProtectionPolicies.createOrUpdate(
     scope,
     informationProtectionPolicyName,
-    informationProtectionPolicy
+    informationProtectionPolicy,
   );
   console.log(result);
 }

@@ -9,7 +9,6 @@
 // import { defaultLock } from "@azure/core-amqp";
 // import { TestClientType } from "./utils/testUtils";
 // import { ServiceBusSenderImpl } from "../src/sender";
-// import { AbortController } from "@azure/abort-controller";
 
 // chai.use(chaiAsPromised);
 

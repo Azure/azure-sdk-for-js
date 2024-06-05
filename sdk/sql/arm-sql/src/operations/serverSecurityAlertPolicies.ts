@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,13 +29,14 @@ import {
   ServerSecurityAlertPoliciesGetResponse,
   ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ServerSecurityAlertPoliciesCreateOrUpdateResponse,
-  ServerSecurityAlertPoliciesListByServerNextResponse
+  ServerSecurityAlertPoliciesListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServerSecurityAlertPolicies operations. */
 export class ServerSecurityAlertPoliciesImpl
-  implements ServerSecurityAlertPolicies {
+  implements ServerSecurityAlertPolicies
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -56,12 +57,12 @@ export class ServerSecurityAlertPoliciesImpl
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerSecurityAlertPoliciesListByServerOptionalParams
+    options?: ServerSecurityAlertPoliciesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerSecurityAlertPolicy> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +79,9 @@ export class ServerSecurityAlertPoliciesImpl
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +89,7 @@ export class ServerSecurityAlertPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     options?: ServerSecurityAlertPoliciesListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServerSecurityAlertPolicy[]> {
     let result: ServerSecurityAlertPoliciesListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +105,7 @@ export class ServerSecurityAlertPoliciesImpl
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,12 +117,12 @@ export class ServerSecurityAlertPoliciesImpl
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerSecurityAlertPoliciesListByServerOptionalParams
+    options?: ServerSecurityAlertPoliciesListByServerOptionalParams,
   ): AsyncIterableIterator<ServerSecurityAlertPolicy> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -139,11 +140,11 @@ export class ServerSecurityAlertPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
-    options?: ServerSecurityAlertPoliciesGetOptionalParams
+    options?: ServerSecurityAlertPoliciesGetOptionalParams,
   ): Promise<ServerSecurityAlertPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, securityAlertPolicyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -161,7 +162,7 @@ export class ServerSecurityAlertPoliciesImpl
     serverName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
     parameters: ServerSecurityAlertPolicy,
-    options?: ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams
+    options?: ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerSecurityAlertPoliciesCreateOrUpdateResponse>,
@@ -170,21 +171,20 @@ export class ServerSecurityAlertPoliciesImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServerSecurityAlertPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -193,8 +193,8 @@ export class ServerSecurityAlertPoliciesImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -202,8 +202,8 @@ export class ServerSecurityAlertPoliciesImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -214,16 +214,16 @@ export class ServerSecurityAlertPoliciesImpl
         serverName,
         securityAlertPolicyName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ServerSecurityAlertPoliciesCreateOrUpdateResponse,
       OperationState<ServerSecurityAlertPoliciesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -243,14 +243,14 @@ export class ServerSecurityAlertPoliciesImpl
     serverName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
     parameters: ServerSecurityAlertPolicy,
-    options?: ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams
+    options?: ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ServerSecurityAlertPoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
       securityAlertPolicyName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -265,11 +265,11 @@ export class ServerSecurityAlertPoliciesImpl
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerSecurityAlertPoliciesListByServerOptionalParams
+    options?: ServerSecurityAlertPoliciesListByServerOptionalParams,
   ): Promise<ServerSecurityAlertPoliciesListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -285,11 +285,11 @@ export class ServerSecurityAlertPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: ServerSecurityAlertPoliciesListByServerNextOptionalParams
+    options?: ServerSecurityAlertPoliciesListByServerNextOptionalParams,
   ): Promise<ServerSecurityAlertPoliciesListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -297,14 +297,13 @@ export class ServerSecurityAlertPoliciesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/securityAlertPolicies/{securityAlertPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/securityAlertPolicies/{securityAlertPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerSecurityAlertPolicy
+      bodyMapper: Mappers.ServerSecurityAlertPolicy,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -312,29 +311,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.securityAlertPolicyName
+    Parameters.securityAlertPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/securityAlertPolicies/{securityAlertPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/securityAlertPolicies/{securityAlertPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerSecurityAlertPolicy
+      bodyMapper: Mappers.ServerSecurityAlertPolicy,
     },
     201: {
-      bodyMapper: Mappers.ServerSecurityAlertPolicy
+      bodyMapper: Mappers.ServerSecurityAlertPolicy,
     },
     202: {
-      bodyMapper: Mappers.ServerSecurityAlertPolicy
+      bodyMapper: Mappers.ServerSecurityAlertPolicy,
     },
     204: {
-      bodyMapper: Mappers.ServerSecurityAlertPolicy
+      bodyMapper: Mappers.ServerSecurityAlertPolicy,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters48,
   queryParameters: [Parameters.apiVersion3],
@@ -343,48 +341,47 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.securityAlertPolicyName
+    Parameters.securityAlertPolicyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/securityAlertPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/securityAlertPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogicalServerSecurityAlertPolicyListResult
+      bodyMapper: Mappers.LogicalServerSecurityAlertPolicyListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogicalServerSecurityAlertPolicyListResult
+      bodyMapper: Mappers.LogicalServerSecurityAlertPolicyListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

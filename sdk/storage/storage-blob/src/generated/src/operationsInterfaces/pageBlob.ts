@@ -26,7 +26,7 @@ import {
   PageBlobUpdateSequenceNumberOptionalParams,
   PageBlobUpdateSequenceNumberResponse,
   PageBlobCopyIncrementalOptionalParams,
-  PageBlobCopyIncrementalResponse
+  PageBlobCopyIncrementalResponse,
 } from "../models";
 
 /** Interface representing a PageBlob. */
@@ -41,7 +41,7 @@ export interface PageBlob {
   create(
     contentLength: number,
     blobContentLength: number,
-    options?: PageBlobCreateOptionalParams
+    options?: PageBlobCreateOptionalParams,
   ): Promise<PageBlobCreateResponse>;
   /**
    * The Upload Pages operation writes a range of pages to a page blob
@@ -52,7 +52,7 @@ export interface PageBlob {
   uploadPages(
     contentLength: number,
     body: coreRestPipeline.RequestBodyType,
-    options?: PageBlobUploadPagesOptionalParams
+    options?: PageBlobUploadPagesOptionalParams,
   ): Promise<PageBlobUploadPagesResponse>;
   /**
    * The Clear Pages operation clears a set of pages from a page blob
@@ -61,7 +61,7 @@ export interface PageBlob {
    */
   clearPages(
     contentLength: number,
-    options?: PageBlobClearPagesOptionalParams
+    options?: PageBlobClearPagesOptionalParams,
   ): Promise<PageBlobClearPagesResponse>;
   /**
    * The Upload Pages operation writes a range of pages to a page blob where the contents are read from a
@@ -79,7 +79,7 @@ export interface PageBlob {
     sourceRange: string,
     contentLength: number,
     range: string,
-    options?: PageBlobUploadPagesFromURLOptionalParams
+    options?: PageBlobUploadPagesFromURLOptionalParams,
   ): Promise<PageBlobUploadPagesFromURLResponse>;
   /**
    * The Get Page Ranges operation returns the list of valid page ranges for a page blob or snapshot of a
@@ -87,7 +87,7 @@ export interface PageBlob {
    * @param options The options parameters.
    */
   getPageRanges(
-    options?: PageBlobGetPageRangesOptionalParams
+    options?: PageBlobGetPageRangesOptionalParams,
   ): Promise<PageBlobGetPageRangesResponse>;
   /**
    * The Get Page Ranges Diff operation returns the list of valid page ranges for a page blob that were
@@ -95,7 +95,7 @@ export interface PageBlob {
    * @param options The options parameters.
    */
   getPageRangesDiff(
-    options?: PageBlobGetPageRangesDiffOptionalParams
+    options?: PageBlobGetPageRangesDiffOptionalParams,
   ): Promise<PageBlobGetPageRangesDiffResponse>;
   /**
    * Resize the Blob
@@ -105,7 +105,7 @@ export interface PageBlob {
    */
   resize(
     blobContentLength: number,
-    options?: PageBlobResizeOptionalParams
+    options?: PageBlobResizeOptionalParams,
   ): Promise<PageBlobResizeResponse>;
   /**
    * Update the sequence number of the blob
@@ -116,7 +116,7 @@ export interface PageBlob {
    */
   updateSequenceNumber(
     sequenceNumberAction: SequenceNumberActionType,
-    options?: PageBlobUpdateSequenceNumberOptionalParams
+    options?: PageBlobUpdateSequenceNumberOptionalParams,
   ): Promise<PageBlobUpdateSequenceNumberResponse>;
   /**
    * The Copy Incremental operation copies a snapshot of the source page blob to a destination page blob.
@@ -132,6 +132,6 @@ export interface PageBlob {
    */
   copyIncremental(
     copySource: string,
-    options?: PageBlobCopyIncrementalOptionalParams
+    options?: PageBlobCopyIncrementalOptionalParams,
   ): Promise<PageBlobCopyIncrementalResponse>;
 }
