@@ -32,6 +32,12 @@
 - Updated to @azure/communication-signaling@1.0.0-beta.26 with file sharing support
 - Updated `@azure/communication-common` with support for `MicrosoftTeamsAppIdentifierModel`
 
+## 1.5.0-beta.2 (2024-04-05)
+
+### Features Added
+
+- Updated to use gateway version 2024-03-01-preview for teams anonymous visitor ID support.
+
 ## 1.5.0-beta.1 (2023-12-07)
 
 ### Breaking Changes
