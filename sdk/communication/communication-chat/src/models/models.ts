@@ -173,5 +173,6 @@ export interface PolicyViolation {
 
 /** Messaging policy of a chat thread. */
 export interface MessagingPolicy {
+  /** Boolean to track whether or not messages is restricted to only text. */
   textOnlyChat?: boolean;
 }
