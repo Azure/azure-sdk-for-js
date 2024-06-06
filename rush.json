@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -2220,6 +2220,11 @@
     {
       "packageName": "@azure/arm-oracledatabase",
       "projectFolder": "sdk/oracledatabase/arm-oracledatabase",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mongocluster",
+      "projectFolder": "sdk/mongocluster/arm-mongocluster",
       "versionPolicyName": "management"
     }
   ]
