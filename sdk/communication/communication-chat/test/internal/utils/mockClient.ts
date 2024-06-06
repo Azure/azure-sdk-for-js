@@ -49,6 +49,16 @@ export const mockThread: RestModel.ChatThreadProperties = {
   createdOn: new Date("2020-06-26T18:06:06Z"),
 };
 
+export const mockThreadWithTextOnlyChat: RestModel.ChatThreadProperties = {
+  id: "threadid",
+  topic: "topic",
+  metadata: { threadType: "primary", secondaryThread: "test-id" },
+  retentionPolicy: { kind: "none" },
+  createdByCommunicationIdentifier: mockCommunicationIdentifier,
+  createdOn: new Date("2020-06-26T18:06:06Z"),
+  messagingPolicy: { textOnlyChat: true },
+};
+
 export const mockCreateThreadResult: RestModel.CreateChatThreadResult = {
   chatThread: mockThread,
   invalidParticipants: undefined,
@@ -162,6 +172,42 @@ export const mockMessageWithAttachment: RestModel.ChatMessage = {
   metadata: { tags: "tag" },
 };
 
+export const mockMessageWithDLPContentBlocked: RestModel.ChatMessage = {
+  id: "id",
+  type: "text",
+  version: "version",
+  sequenceId: "sequenceId",
+  content: {
+    message: "content",
+    topic: "topic",
+    attachments: [],
+  },
+  createdOn: new Date("2020-06-26T18:06:06Z"),
+  senderDisplayName: "senderDisplayName",
+  senderCommunicationIdentifier: mockCommunicationIdentifier,
+  deletedOn: new Date("2020-06-26T18:06:06Z"),
+  metadata: { tags: "tag" },
+  policyViolation: { state: "contentBlocked" },
+};
+
+export const mockMessageWithDLPWarning: RestModel.ChatMessage = {
+  id: "id",
+  type: "text",
+  version: "version",
+  sequenceId: "sequenceId",
+  content: {
+    message: "content",
+    topic: "topic",
+    attachments: [],
+  },
+  createdOn: new Date("2020-06-26T18:06:06Z"),
+  senderDisplayName: "senderDisplayName",
+  senderCommunicationIdentifier: mockCommunicationIdentifier,
+  deletedOn: new Date("2020-06-26T18:06:06Z"),
+  metadata: { tags: "tag" },
+  policyViolation: { state: "warning" },
+};
+
 export const mockImageAttachment: RestModel.ChatAttachment = {
   id: "id1",
   attachmentType: "image",
@@ -196,7 +242,7 @@ export const createChatClient = (mockHttpClient: HttpClient): ChatClient => {
 
 export const createChatThreadClient = (
   threadId: string,
-  mockHttpClient: HttpClient,
+  mockHttpClient: HttpClient
 ): ChatThreadClient => {
   return new ChatThreadClient(
     baseUri,
@@ -204,6 +250,6 @@ export const createChatThreadClient = (
     new AzureCommunicationTokenCredential(generateToken()),
     {
       httpClient: mockHttpClient,
-    },
+    }
   );
 };

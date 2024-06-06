@@ -10,13 +10,13 @@ title: ChatApiClient
 description: Chat Client
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2024-03-15-preview
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/3fb73ef5a3af2c138b53e3cced182095b671a679/specification/communication/data-plane/Chat/readme.md
+tag: package-2024-06-05-preview
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e704ce4d6ed7b5f6225446e373d2eda376fc5580/specification/communication/data-plane/Chat/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 add-credentials: false
 disable-async-iterators: true
-package-version: 1.6.0-beta.1
+package-version: 1.6.0-beta.2
 use-extension:
   "@autorest/typescript": "latest"
 tracing-info:
@@ -64,6 +64,16 @@ directive:
 directive:
   from: swagger-document
   where: "$.definitions.ChatRetentionPolicy.properties.kind"
+  transform: >
+    $["x-ms-enum"].modelAsString = false;
+```
+
+### Set PolicyViolationMessageState Model as string false
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.PolicyViolationMessageState"
   transform: >
     $["x-ms-enum"].modelAsString = false;
 ```

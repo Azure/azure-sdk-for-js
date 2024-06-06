@@ -507,6 +507,13 @@ export const ChatMessage: coreClient.CompositeMapper = {
           value: { type: { name: "String" } },
         },
       },
+      policyViolation: {
+        serializedName: "policyViolation",
+        type: {
+          name: "Composite",
+          className: "PolicyViolation",
+        },
+      },
     },
   },
 };
@@ -592,6 +599,23 @@ export const ChatParticipant: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const PolicyViolation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyViolation",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["contentBlocked", "warning"],
         },
       },
     },
@@ -849,6 +873,28 @@ export const ChatThreadProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ChatRetentionPolicy",
+        },
+      },
+      messagingPolicy: {
+        serializedName: "messagingPolicy",
+        type: {
+          name: "Composite",
+          className: "MessagingPolicy",
+        },
+      },
+    },
+  },
+};
+
+export const MessagingPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MessagingPolicy",
+    modelProperties: {
+      textOnlyChat: {
+        serializedName: "textOnlyChat",
+        type: {
+          name: "Boolean",
         },
       },
     },

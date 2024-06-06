@@ -184,6 +184,8 @@ export interface ChatMessage {
   editedOn?: Date;
   /** Message metadata. */
   metadata?: { [propertyName: string]: string };
+  /** Policy violation of a message. */
+  policyViolation?: PolicyViolation;
 }
 
 /** Content of a chat message. */
@@ -210,6 +212,12 @@ export interface ChatParticipant {
   shareHistoryTime?: Date;
   /** Contextual metadata for the chat participant. The metadata consists of name/value pairs. The total size of all metadata pairs can be up to 1KB in size. */
   metadata?: { [propertyName: string]: string };
+}
+
+/** Policy violation of a message. */
+export interface PolicyViolation {
+  /** The policy violation state. */
+  state: PolicyViolationMessageState;
 }
 
 /** Request payload for updating a chat message. */
@@ -293,6 +301,14 @@ export interface ChatThreadProperties {
   metadata?: { [propertyName: string]: string };
   /** Data retention policy for auto deletion. */
   retentionPolicy?: ChatRetentionPolicyUnion;
+  /** Messaging policy for a chat thread. */
+  messagingPolicy?: MessagingPolicy;
+}
+
+/** Messaging policy for a chat thread. */
+export interface MessagingPolicy {
+  /** Allow text only chat with no message with attachment, if `textOnlyChat` is undefined assumed `false`. */
+  textOnlyChat?: boolean;
 }
 
 /** Collection of chat threads. */
@@ -459,6 +475,8 @@ export type ChatMessageType =
   | "participantRemoved";
 /** Defines values for ChatAttachmentType. */
 export type ChatAttachmentType = "image" | "file";
+/** Defines values for PolicyViolationMessageState. */
+export type PolicyViolationMessageState = "contentBlocked" | "warning";
 /** Defines values for RetentionPolicyKind. */
 export type RetentionPolicyKind = "threadCreationDate" | "none";
 
