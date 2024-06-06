@@ -35,19 +35,7 @@ export class EventGridSenderClient {
   }
 
   /**
-   * Publish Single Cloud Event to namespace topic. In case of success, the server responds with an HTTP 200
-   * status code with an empty JSON object in response. Otherwise, the server can return various error codes.
-   * For example, 401: which indicates authorization failure, 403: which indicates quota exceeded or message
-   * is too large, 410: which indicates that specific topic is not found, 400: for bad request, and 500: for
-   * internal server error.
-   *
-   * @param event - Event to publish
-   * @param options - Options to publish
-   *
-   */
-
-  /**
-   * Publish Batch Cloud Event to namespace topic. In case of success, the server responds with an HTTP 200
+   * Publish Cloud Events to namespace topic. In case of success, the server responds with an HTTP 200
    * status code with an empty JSON object in response. Otherwise, the server can return various error codes.
    * For example, 401: which indicates authorization failure, 403: which indicates quota exceeded or message
    * is too large, 410: which indicates that specific topic is not found, 400: for bad request, and 500: for
@@ -96,28 +84,29 @@ export function convertCloudEventToModelType<T>(event: CloudEvent<T>): CloudEven
   }
 
   const converted: CloudEventWireModel = {
-    specversion: event.specversion ?? "1.0",
+    specversion: event.specVersion ?? "1.0",
     type: event.type,
     source: event.source,
     id: event.id ?? randomUUID(),
     time: event.time ?? new Date(),
     subject: event.subject,
-    dataschema: event.dataschema,
+    dataschema: event.dataSchema,
+    datacontenttype: event.dataContentType,
     ...(event.extensionAttributes ?? []),
   };
 
   if (event.data instanceof Uint8Array) {
-    if (!event.datacontenttype) {
+    if (!event.dataContentType) {
       throw new Error(
         "a data content type must be provided when sending an event with binary data",
       );
     }
 
-    converted.datacontenttype = event.datacontenttype;
+    converted.datacontenttype = event.dataContentType;
     converted.dataBase64 = event.data;
   } else {
     converted.datacontenttype =
-      event.datacontenttype ?? "application/cloudevents+json; charset=utf-8";
+      event.dataContentType ?? "application/cloudevents+json; charset=utf-8";
     converted.data = event.data;
   }
 

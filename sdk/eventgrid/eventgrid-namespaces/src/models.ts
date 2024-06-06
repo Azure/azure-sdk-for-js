@@ -140,19 +140,15 @@ export interface CloudEvent<T> {
   /**
    * Identifies the schema that data adheres to.
    */
-  dataschema?: string;
+  dataSchema?: string;
   /**
    * Content type of data value.
    */
-  datacontenttype?: string;
+  dataContentType?: string;
   /**
    * Event data specific to the event type.
    */
   data?: T;
-  /**
-   * Event data specific to the event type, encoded as a base64 string.
-   */
-  dataBase64?: Uint8Array;
   /**
    * This describes the subject of the event in the context of the event producer (identified by source).
    */
@@ -164,7 +160,7 @@ export interface CloudEvent<T> {
   /**
    * The version of the CloudEvents specification which the event uses.
    */
-  specversion?: string | "1.0";
+  specVersion?: string | "1.0";
 }
 
 /** Details of the Receive operation response. */
@@ -174,12 +170,12 @@ export interface ReceiveResult<T> {
 }
 
 export const cloudEventReservedPropertyNames = [
-  "specversion",
+  "specVersion",
   "id",
   "source",
   "type",
-  "datacontenttype",
-  "dataschema",
+  "dataContentType",
+  "dataSchema",
   "subject",
   "time",
   "data",

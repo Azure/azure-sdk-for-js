@@ -7,7 +7,6 @@
 import { AzureKeyCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
-import { EventGridDeserializer } from '@azure/eventgrid';
 import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -38,13 +37,12 @@ export interface BrokerProperties {
 // @public
 export interface CloudEvent<T> {
     data?: T;
-    dataBase64?: Uint8Array;
-    datacontenttype?: string;
-    dataschema?: string;
+    dataContentType?: string;
+    dataSchema?: string;
     extensionAttributes?: Record<string, unknown>;
     id: string;
     source: string;
-    specversion?: string | "1.0";
+    specVersion?: string | "1.0";
     subject?: string;
     time?: Date;
     type: string;
@@ -55,7 +53,11 @@ export interface EventGridClientOptions extends ClientOptions {
     apiVersion?: string;
 }
 
-export { EventGridDeserializer }
+// @public
+export class EventGridDeserializer {
+    deserializeCloudEvents(encodedEvents: string): Promise<CloudEvent<unknown>[]>;
+    deserializeCloudEvents(encodedEvents: Record<string, unknown>): Promise<CloudEvent<unknown>[]>;
+}
 
 // @public
 export class EventGridReceiverClient {

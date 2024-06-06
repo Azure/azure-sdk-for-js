@@ -20,12 +20,18 @@ export interface RecordedV2Client {
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
-  EVENT_GRID_NAMESPACES_ENDPOINT: "https://endpoint",
+  EVENT_GRID_NAMESPACES_ENDPOINT: "https://Sanitized",
   EVENT_GRID_NAMESPACES_KEY: "api_key",
+  EVENT_SUBSCRIPTION_NAME: "testsubscription1",
+  TOPIC_NAME: "testtopic1",
+  MAX_DELIVERY_COUNT: "10",
 };
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK4001", // url should not be over-sanitized, fake env setup handles it already
+  ],
 };
 
 export async function createRecordedClient(

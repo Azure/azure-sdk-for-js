@@ -39,7 +39,7 @@ export async function main(): Promise<void> {
     data: {
       resourceUri: "https://dummyurl.com",
     },
-    specversion: "1.0",
+    specVersion: "1.0",
   };
   // Publish the Cloud Event
   await senderClient.sendEvents(cloudEvent, { topicName });

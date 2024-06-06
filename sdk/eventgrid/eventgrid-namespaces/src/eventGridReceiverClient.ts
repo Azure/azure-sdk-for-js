@@ -7,13 +7,10 @@ import {
   ReleaseResult,
   RejectResult,
   RenewLocksResult,
-  CloudEvent as CloudEventWireModel,
 } from "./cadl-generated/models";
-import { randomUUID } from "@azure/core-util";
 import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient";
 import {
   CloudEvent,
-  cloudEventReservedPropertyNames,
   ReceiveResult,
   ReceiveEventsOptions,
   AcknowledgeEventsOptions,
@@ -24,6 +21,7 @@ import {
 } from "./models";
 import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
 import { tracingPolicyName } from "@azure/core-rest-pipeline";
+import { uint8ArrayToString } from "@azure/core-util";
 
 /**
  * Event Grid Namespaces Client
@@ -39,7 +37,6 @@ export class EventGridReceiverClient {
     credential: AzureKeyCredential | TokenCredential,
     options: EventGridReceiverClientOptions = {},
   ) {
-    // credential.update(`SharedAccessKey ${credential.key}`);
     this._client = new EventGridClientGenerated(endpoint, credential, options);
     this._topicName = options?.topicName ?? undefined;
     this._eventSubscriptionName = options?.eventSubscriptionName ?? undefined;
@@ -78,17 +75,16 @@ export class EventGridReceiverClient {
           source: receiveDetails.event.source,
           id: receiveDetails.event.id,
           time: receiveDetails.event.time,
-          dataschema: receiveDetails.event.dataschema,
-          datacontenttype: receiveDetails.event.datacontenttype,
+          dataSchema: receiveDetails.event.dataschema,
+          dataContentType: receiveDetails.event.datacontenttype,
           subject: receiveDetails.event.subject,
-          specversion: receiveDetails.event.specversion,
+          specVersion: receiveDetails.event.specversion,
+          data: receiveDetails.event.data
+            ? (receiveDetails.event.data as T)
+            : receiveDetails.event.dataBase64
+              ? (uint8ArrayToString(receiveDetails.event.dataBase64, "base64") as T)
+              : undefined,
         };
-        if (receiveDetails.event.data) {
-          cloudEvent.data = receiveDetails.event.data as T;
-        }
-        if (receiveDetails.event.dataBase64) {
-          cloudEvent.dataBase64 = receiveDetails.event.dataBase64;
-        }
         return {
           brokerProperties: receiveDetails.brokerProperties,
           event: cloudEvent,
@@ -214,48 +210,4 @@ export class EventGridReceiverClient {
 
     return this._client.renewCloudEventLocks(topicName, eventSubscriptionName, lockTokens, options);
   }
-}
-
-export function convertCloudEventToModelType<T>(event: CloudEvent<T>): CloudEventWireModel {
-  if (event.extensionAttributes) {
-    for (const propName in event.extensionAttributes) {
-      // Per the cloud events spec: "CloudEvents attribute names MUST consist of lower-case letters ('a' to 'z') or digits ('0' to '9') from the ASCII character set"
-      // they also can not match an existing defined property name.
-
-      if (
-        !/^[a-z0-9]*$/.test(propName) ||
-        cloudEventReservedPropertyNames.indexOf(propName) !== -1
-      ) {
-        throw new Error(`invalid extension attribute name: ${propName}`);
-      }
-    }
-  }
-
-  const converted: CloudEventWireModel = {
-    specversion: event.specversion ?? "1.0",
-    type: event.type,
-    source: event.source,
-    id: event.id ?? randomUUID(),
-    time: event.time ?? new Date(),
-    subject: event.subject,
-    dataschema: event.dataschema,
-    ...(event.extensionAttributes ?? []),
-  };
-
-  if (event.data instanceof Uint8Array) {
-    if (!event.datacontenttype) {
-      throw new Error(
-        "a data content type must be provided when sending an event with binary data",
-      );
-    }
-
-    converted.datacontenttype = event.datacontenttype;
-    converted.dataBase64 = event.data;
-  } else {
-    converted.datacontenttype =
-      event.datacontenttype ?? "application/cloudevents+json; charset=utf-8";
-    converted.data = event.data;
-  }
-
-  return converted;
 }

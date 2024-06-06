@@ -75,7 +75,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         data: {
           resourceUri: "https://dummyurl.com",
         },
-        specversion: "1.0",
+        specVersion: "1.0",
       };
       // Publish the Cloud Event
       await senderClient.sendEvents(cloudEvent, { topicName });
@@ -108,7 +108,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
           data: {
             resourceUri: "https://dummyurl.com",
           },
-          specversion: "1.0",
+          specVersion: "1.0",
         },
         {
           type: "example",
@@ -118,7 +118,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
           data: {
             resourceUri: "https://dummyurl.com",
           },
-          specversion: "1.0",
+          specVersion: "1.0",
         },
       ];
       await senderClient.sendEvents(cloudEvents, { topicName });
@@ -152,7 +152,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         data: {
           resourceUri: "https://dummyurl.com",
         },
-        specversion: "1.0",
+        specVersion: "1.0",
       };
       // Publish the Cloud Event
       await senderClient.sendEvents(cloudEvent, { topicName });
@@ -192,7 +192,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         data: {
           resourceUri: "https://dummyurl.com",
         },
-        specversion: "1.0",
+        specVersion: "1.0",
       };
       // Publish the Cloud Event
       await senderClient.sendEvents(cloudEvent, { topicName });
@@ -226,7 +226,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         data: {
           resourceUri: "https://dummyurl.com",
         },
-        specversion: "1.0",
+        specVersion: "1.0",
       };
       // Publish the Cloud Event
       await senderClient.sendEvents(cloudEvent, { topicName });
@@ -256,9 +256,9 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         source: "https://example.com",
         id: recorder.variable("singleEventId", eventId),
         time: new Date(recorder.variable("singleEventDate", new Date().toString())),
-        data: Buffer.from(JSON.stringify(data)),
-        datacontenttype: "application/cloudevents+json; charset=utf-8",
-        specversion: "1.0",
+        data: Buffer.from(JSON.stringify(data), "base64"),
+        dataContentType: "application/cloudevents+json; charset=utf-8",
+        specVersion: "1.0",
       };
       // Publish the Cloud Event
       await senderClient.sendEvents(cloudEvent, {
@@ -272,10 +272,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
 
       for (const detail of receiveResult.details) {
         const event = detail.event;
-        assert.equal(
-          JSON.stringify(data),
-          JSON.stringify(JSON.parse(Buffer.from(event.dataBase64!).toString())),
-        );
+        assert.equal(event.data, Buffer.from(cloudEvent.data).toString("base64"));
       }
     });
   });

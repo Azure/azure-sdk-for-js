@@ -42,4 +42,4 @@ export {
   KnownReleaseDelay,
 } from "./models";
 
-export { EventGridDeserializer } from "@azure/eventgrid";
+export { EventGridDeserializer } from "./consumer";
