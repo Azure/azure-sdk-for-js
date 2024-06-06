@@ -88,12 +88,14 @@ export type CmkIdentityType = string;
 export interface Database extends ProxyResource {
     clientProtocol?: Protocol;
     clusteringPolicy?: ClusteringPolicy;
+    deferUpgrade?: DeferUpgradeSetting;
     evictionPolicy?: EvictionPolicy;
     geoReplication?: DatabasePropertiesGeoReplication;
     modules?: Module[];
     persistence?: Persistence;
     port?: number;
     readonly provisioningState?: ProvisioningState;
+    readonly redisVersion?: string;
     readonly resourceState?: ResourceState;
 }
 
@@ -119,6 +121,8 @@ export interface Databases {
     beginExportAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ExportClusterParameters, options?: DatabasesExportOptionalParams): Promise<void>;
     beginFlush(resourceGroupName: string, clusterName: string, databaseName: string, parameters: FlushParameters, options?: DatabasesFlushOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginFlushAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: FlushParameters, options?: DatabasesFlushOptionalParams): Promise<void>;
+    beginForceLinkToReplicationGroup(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceLinkParameters, options?: DatabasesForceLinkToReplicationGroupOptionalParams): Promise<SimplePollerLike<OperationState<DatabasesForceLinkToReplicationGroupResponse>, DatabasesForceLinkToReplicationGroupResponse>>;
+    beginForceLinkToReplicationGroupAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceLinkParameters, options?: DatabasesForceLinkToReplicationGroupOptionalParams): Promise<DatabasesForceLinkToReplicationGroupResponse>;
     beginForceUnlink(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginForceUnlinkAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams): Promise<void>;
     beginImport(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ImportClusterParameters, options?: DatabasesImportOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -127,6 +131,8 @@ export interface Databases {
     beginRegenerateKeyAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: RegenerateKeyParameters, options?: DatabasesRegenerateKeyOptionalParams): Promise<DatabasesRegenerateKeyResponse>;
     beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUpdate, options?: DatabasesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUpdate, options?: DatabasesUpdateOptionalParams): Promise<DatabasesUpdateResponse>;
+    beginUpgradeDBRedisVersion(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesUpgradeDBRedisVersionOptionalParams): Promise<SimplePollerLike<OperationState<DatabasesUpgradeDBRedisVersionResponse>, DatabasesUpgradeDBRedisVersionResponse>>;
+    beginUpgradeDBRedisVersionAndWait(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesUpgradeDBRedisVersionOptionalParams): Promise<DatabasesUpgradeDBRedisVersionResponse>;
     get(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesGetOptionalParams): Promise<DatabasesGetResponse>;
     listByCluster(resourceGroupName: string, clusterName: string, options?: DatabasesListByClusterOptionalParams): PagedAsyncIterableIterator<Database>;
     listKeys(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesListKeysOptionalParams): Promise<DatabasesListKeysResponse>;
@@ -164,6 +170,21 @@ export interface DatabasesFlushOptionalParams extends coreClient.OperationOption
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface DatabasesForceLinkToReplicationGroupHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface DatabasesForceLinkToReplicationGroupOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DatabasesForceLinkToReplicationGroupResponse = DatabasesForceLinkToReplicationGroupHeaders;
 
 // @public
 export interface DatabasesForceUnlinkOptionalParams extends coreClient.OperationOptions {
@@ -224,17 +245,37 @@ export interface DatabasesUpdateOptionalParams extends coreClient.OperationOptio
 export type DatabasesUpdateResponse = Database;
 
 // @public
+export interface DatabasesUpgradeDBRedisVersionHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface DatabasesUpgradeDBRedisVersionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DatabasesUpgradeDBRedisVersionResponse = DatabasesUpgradeDBRedisVersionHeaders;
+
+// @public
 export interface DatabaseUpdate {
     clientProtocol?: Protocol;
     clusteringPolicy?: ClusteringPolicy;
+    deferUpgrade?: DeferUpgradeSetting;
     evictionPolicy?: EvictionPolicy;
     geoReplication?: DatabasePropertiesGeoReplication;
     modules?: Module[];
     persistence?: Persistence;
     port?: number;
     readonly provisioningState?: ProvisioningState;
+    readonly redisVersion?: string;
     readonly resourceState?: ResourceState;
 }
+
+// @public
+export type DeferUpgradeSetting = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -267,6 +308,12 @@ export interface ExportClusterParameters {
 // @public
 export interface FlushParameters {
     ids?: string[];
+}
+
+// @public
+export interface ForceLinkParameters {
+    groupNickname: string;
+    linkedDatabases: LinkedDatabase[];
 }
 
 // @public
@@ -303,6 +350,12 @@ export enum KnownClusteringPolicy {
 export enum KnownCmkIdentityType {
     SystemAssignedIdentity = "systemAssignedIdentity",
     UserAssignedIdentity = "userAssignedIdentity"
+}
+
+// @public
+export enum KnownDeferUpgradeSetting {
+    Deferred = "Deferred",
+    NotDeferred = "NotDeferred"
 }
 
 // @public
@@ -402,6 +455,7 @@ export enum KnownSkuName {
     EnterpriseE10 = "Enterprise_E10",
     EnterpriseE100 = "Enterprise_E100",
     EnterpriseE20 = "Enterprise_E20",
+    EnterpriseE5 = "Enterprise_E5",
     EnterpriseE50 = "Enterprise_E50",
     EnterpriseFlashF1500 = "EnterpriseFlash_F1500",
     EnterpriseFlashF300 = "EnterpriseFlash_F300",
