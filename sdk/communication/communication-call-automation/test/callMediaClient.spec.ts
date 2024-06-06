@@ -21,6 +21,7 @@ import {
   RecognitionChoice,
   DtmfTone,
   MediaStreamingOptions,
+  TranscriptionOptions,
 } from "../src/models/models";
 import {
   CallMediaRecognizeDtmfOptions,
@@ -1074,6 +1075,121 @@ describe("Call Media Client Live Tests", function () {
       8000,
     );
     assert.isDefined(mediaStreamingStopped);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("Creates a call, start transcription, and hangs up.", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "create_call_start_transcription_and_hang_up";
+    await loadPersistedEvents(testName);
+    const phoneNumbers = await getPhoneNumbers(recorder);
+    assert.isAtLeast(
+      phoneNumbers.length,
+      2,
+      "Invalid PSTN setup, test needs at least 2 phone numbers",
+    );
+    callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+    receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+
+    const callInvite: CallInvite = {
+      targetParticipant: receiverPhoneUser,
+      sourceCallIdNumber: callerPhoneUser,
+    };
+    const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+    const transcriptionOptions: TranscriptionOptions = {
+      transportUrl: "wss://localhost",
+      transportType: "websocket",
+      locale: "en-US",
+      startTranscription: false,
+      enableIntermediateResults: false,
+    };
+
+    const creatCallOptions: CreateCallOptions = {
+      transcriptionOptions: transcriptionOptions,
+    };
+
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      creatCallOptions,
+    );
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    await callConnection.getCallMedia().startTranscription();
+    const transcriptionStarted = await waitForEvent("TranscriptionStarted", callConnectionId, 8000);
+    assert.isDefined(transcriptionStarted);
+
+    await callConnection.getCallMedia().stopTranscription();
+    const transcriptionStopped = waitForEvent("TranscriptionStopped", callConnectionId, 8000);
+    assert.isDefined(transcriptionStopped);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("Answers a call, start transcription, and hangs up", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "answer_call_start_transcription_and_hang_up";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      const transcriptionOptions: TranscriptionOptions = {
+        transportUrl: "wss://localhost",
+        transportType: "websocket",
+        locale: "en-US",
+        startTranscription: false,
+        enableIntermediateResults: false,
+      };
+      const answerCallOptions: AnswerCallOptions = {
+        transcriptionOptions: transcriptionOptions,
+      };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOptions,
+      );
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    await callConnection.getCallMedia().startTranscription();
+    const transcriptionStarted = await waitForEvent("TranscriptionStarted", callConnectionId, 8000);
+    assert.isDefined(transcriptionStarted);
+
+    await callConnection.getCallMedia().stopTranscription();
+    const transcriptionStopped = waitForEvent("TranscriptionStopped", callConnectionId, 8000);
+    assert.isDefined(transcriptionStopped);
 
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
