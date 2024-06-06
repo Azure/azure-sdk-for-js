@@ -2,6 +2,21 @@
 
 ## 12.1.0 (2024-07-24)
 
+### Features Added
+
+- Added support for text queries against vector fields [#30494](https://github.com/Azure/azure-sdk-for-js/pull/29597) 
+  - Create text queries against vector fields with the `VectorizedTextQuery` variant of `VectorQuery`. Such queries are supported by configuring the corresponding index field with a `VectorSearchVectorizer`. This configuration describes a delegate, which the service uses to generate vector embeddings for the query text. 
+- Added `AzureOpenAIEmbeddingSkill` to allow for `SearchIndexer`s to populate embedding fields at index-time.
+- Added index configuration for vector quantization through `VectorSearchCompression`
+
+### Bugs Fixed
+
+- Improved serialization performance on large payloads [#29597](https://github.com/Azure/azure-sdk-for-js/pull/29597)
+
+### Note
+
+- This GA release introduces bug fixes, convenience improvements, and select features from prior beta releases. Except for the features listed in these release notes, no preview features are being pulled into this release.
+
 ## 12.1.0-beta.2 (2024-05-20)
 
 ### Breaking Changes

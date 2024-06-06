@@ -69,6 +69,7 @@ describe("SearchClient", function (this: Suite) {
     let indexClient: SearchIndexClient;
     let openAIClient: OpenAIClient;
     let TEST_INDEX_NAME: string;
+    let indexDefinition: SearchIndex;
 
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
@@ -79,7 +80,7 @@ describe("SearchClient", function (this: Suite) {
         indexName: TEST_INDEX_NAME,
         openAIClient,
       } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
-      await createIndex(indexClient, TEST_INDEX_NAME);
+      indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
       await delay(WAIT_TIME);
       await populateIndex(searchClient, openAIClient);
     });
@@ -412,44 +413,6 @@ describe("SearchClient", function (this: Suite) {
       const documentCount = await searchClient.getDocumentsCount();
       assert.equal(documentCount, 11);
     });
-  });
-
-  describe("preview", function () {
-    let recorder: Recorder;
-    let searchClient: SearchClient<Hotel>;
-    let indexClient: SearchIndexClient;
-    let openAIClient: OpenAIClient;
-    let TEST_INDEX_NAME: string;
-    let indexDefinition: SearchIndex;
-
-    beforeEach(async function (this: Context) {
-      recorder = new Recorder(this.currentTest);
-      TEST_INDEX_NAME = createRandomIndexName();
-      ({
-        searchClient,
-        indexClient,
-        indexName: TEST_INDEX_NAME,
-        openAIClient,
-      } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
-      indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME);
-      await delay(WAIT_TIME);
-      await populateIndex(searchClient, openAIClient);
-    });
-
-    afterEach(async function () {
-      await indexClient.deleteIndex(TEST_INDEX_NAME);
-      await delay(WAIT_TIME);
-      await recorder?.stop();
-    });
-
-    it("search with speller", async function () {
-      const searchResults = await searchClient.search("budjet", {
-        skip: 0,
-        top: 5,
-        includeTotalCount: true,
-      });
-      assert.equal(searchResults.count, 6);
-    });
 
     it("search with semantic ranking", async function () {
       const searchResults = await searchClient.search("luxury", {
@@ -599,6 +562,7 @@ describe("SearchClient", function (this: Suite) {
               vector: embedding,
               kNearestNeighborsCount: 3,
               fields: ["compressedVectorDescription"],
+              oversampling: 2,
             },
           ],
         },

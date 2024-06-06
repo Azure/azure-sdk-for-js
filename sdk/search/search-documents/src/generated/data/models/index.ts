@@ -9,25 +9,58 @@
 import * as coreClient from "@azure/core-client";
 import * as coreHttpCompat from "@azure/core-http-compat";
 
-export type VectorQueryUnion = VectorQuery | VectorizedQuery;
+export type VectorQueryUnion =
+  | VectorQuery
+  | VectorizedQuery
+  | VectorizableTextQuery;
 
-/** Describes an error condition for the API. */
-export interface SearchError {
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
   /**
-   * One of a server-defined set of error codes.
+   * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly code?: string;
   /**
-   * A human-readable representation of the error.
+   * The error message.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly message: string;
+  readonly message?: string;
   /**
-   * An array of details about specific errors that led to this reported error.
+   * The error target.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: SearchError[];
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** Response containing search results from an index. */
@@ -162,6 +195,8 @@ export interface SearchRequest {
   semanticErrorHandling?: SemanticErrorMode;
   /** Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish processing before the request fails. */
   semanticMaxWaitInMilliseconds?: number;
+  /** Allows setting a separate search query that will be solely used for semantic reranking, semantic captions and semantic answers. Is useful for scenarios where there is a need to use different queries between the base retrieval and ranking phase, and the L2 semantic phase. */
+  semanticQuery?: string;
   /** A value that specifies whether answers should be returned as part of the search response. */
   answers?: QueryAnswerType;
   /** A value that specifies whether captions should be returned as part of the search response. */
@@ -175,13 +210,17 @@ export interface SearchRequest {
 /** The query parameters for vector and hybrid search queries. */
 export interface VectorQuery {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "vector";
+  kind: "vector" | "text";
   /** Number of nearest neighbors to return as top hits. */
   kNearestNeighborsCount?: number;
   /** Vector Fields of type Collection(Edm.Single) to be included in the vector searched. */
   fields?: string;
   /** When true, triggers an exhaustive k-nearest neighbor search across all vectors within the vector index. Useful for scenarios where exact matches are critical, such as determining ground truth values. */
   exhaustive?: boolean;
+  /** Oversampling factor. Minimum value is 1. It overrides the 'defaultOversampling' parameter configured in the index definition. It can be set only when 'rerankWithOriginalVectors' is true. This parameter is only permitted when a compression method is used on the underlying vector field. */
+  oversampling?: number;
+  /** Relative weight of the vector query when compared to other vector query and/or the text query within the same search request. This value is used when combining the results of multiple ranking lists produced by the different vector queries and/or the results retrieved through the text query. The higher the weight, the higher the documents that matched that query will be in the final ranking. Default is 1.0 and the value needs to be a positive number larger than zero. */
+  weight?: number;
 }
 
 /** Contains a document found by a search query, plus associated metadata. */
@@ -194,7 +233,7 @@ export interface SearchResult {
    */
   readonly _score: number;
   /**
-   * The relevance score computed by the semantic ranker for the top search results. Search results are sorted by the RerankerScore first and then by the Score. RerankerScore is only returned for queries of type `semantic`.
+   * The relevance score computed by the semantic ranker for the top search results. Search results are sorted by the RerankerScore first and then by the Score. RerankerScore is only returned for queries of type 'semantic'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly _rerankerScore?: number;
@@ -204,7 +243,7 @@ export interface SearchResult {
    */
   readonly _highlights?: { [propertyName: string]: string[] };
   /**
-   * Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type `semantic`.
+   * Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly _captions?: QueryCaptionResult[];
@@ -384,6 +423,14 @@ export interface VectorizedQuery extends VectorQuery {
   vector: number[];
 }
 
+/** The query parameters to use for vector search when a text value that needs to be vectorized is provided. */
+export interface VectorizableTextQuery extends VectorQuery {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "text";
+  /** The text to be vectorized to perform a vector search query. */
+  text: string;
+}
+
 /** Parameter group */
 export interface SearchOptions {
   /** A value that specifies whether to fetch the total count of results. Default is false. Setting this value to true may have a performance impact. Note that the count returned is an approximation. */
@@ -424,7 +471,7 @@ export interface SearchOptions {
   top?: number;
   /** The name of the semantic configuration that lists which fields should be used for semantic ranking, captions, highlights, and answers */
   semanticConfiguration?: string;
-  /** Allows the user to choose whether a semantic call should fail completely, or to return partial results. */
+  /** Allows the user to choose whether a semantic call should fail completely, or to return partial results (default). */
   semanticErrorHandling?: SemanticErrorMode;
   /** Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish processing before the request fails. */
   semanticMaxWaitInMilliseconds?: number;
@@ -432,6 +479,8 @@ export interface SearchOptions {
   answers?: QueryAnswerType;
   /** This parameter is only valid if the query type is `semantic`. If set, the query returns captions extracted from key passages in the highest ranked documents. When Captions is set to `extractive`, highlighting is enabled by default, and can be configured by appending the pipe character `|` followed by the `highlight-<true/false>` option, such as `extractive|highlight-true`. Defaults to `None`. */
   captions?: QueryCaptionType;
+  /** Allows setting a separate search query that will be solely used for semantic reranking, semantic captions and semantic answers. Is useful for scenarios where there is a need to use different queries between the base retrieval and ranking phase, and the L2 semantic phase. */
+  semanticQuery?: string;
 }
 
 /** Parameter group */
@@ -476,20 +525,20 @@ export interface AutocompleteOptions {
   top?: number;
 }
 
-/** Known values of {@link ApiVersion20231101} that the service accepts. */
-export enum KnownApiVersion20231101 {
-  /** Api Version '2023-11-01' */
-  TwoThousandTwentyThree1101 = "2023-11-01",
+/** Known values of {@link ApiVersion20240701} that the service accepts. */
+export enum KnownApiVersion20240701 {
+  /** Api Version '2024-07-01' */
+  TwoThousandTwentyFour0701 = "2024-07-01",
 }
 
 /**
- * Defines values for ApiVersion20231101. \
- * {@link KnownApiVersion20231101} can be used interchangeably with ApiVersion20231101,
+ * Defines values for ApiVersion20240701. \
+ * {@link KnownApiVersion20240701} can be used interchangeably with ApiVersion20240701,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2023-11-01**: Api Version '2023-11-01'
+ * **2024-07-01**: Api Version '2024-07-01'
  */
-export type ApiVersion20231101 = string;
+export type ApiVersion20240701 = string;
 
 /** Known values of {@link SemanticErrorMode} that the service accepts. */
 export enum KnownSemanticErrorMode {
@@ -549,6 +598,8 @@ export type QueryCaptionType = string;
 export enum KnownVectorQueryKind {
   /** Vector query where a raw vector value is provided. */
   Vector = "vector",
+  /** Vector query where a text value that needs to be vectorized is provided. */
+  Text = "text",
 }
 
 /**
@@ -556,7 +607,8 @@ export enum KnownVectorQueryKind {
  * {@link KnownVectorQueryKind} can be used interchangeably with VectorQueryKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **vector**: Vector query where a raw vector value is provided.
+ * **vector**: Vector query where a raw vector value is provided. \
+ * **text**: Vector query where a text value that needs to be vectorized is provided.
  */
 export type VectorQueryKind = string;
 

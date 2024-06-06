@@ -179,7 +179,9 @@ export type SearchIterator<
 >;
 
 /** The query parameters for vector and hybrid search queries. */
-export type VectorQuery<TModel extends object> = VectorizedQuery<TModel>;
+export type VectorQuery<TModel extends object> =
+  | VectorizedQuery<TModel>
+  | VectorizableTextQuery<TModel>;
 
 /** The query parameters for vector and hybrid search queries. */
 export interface BaseVectorQuery<TModel extends object> {
@@ -199,6 +201,15 @@ export interface BaseVectorQuery<TModel extends object> {
    * truth values.
    */
   exhaustive?: boolean;
+  /**
+   * Oversampling factor. Minimum value is 1. It overrides the 'defaultOversampling' parameter
+   * configured in the index definition. It can be set only when 'rerankWithOriginalVectors' is
+   * true. This parameter is only permitted when a compression method is used on the underlying
+   * vector field.
+   */
+  oversampling?: number;
+  /** Relative weight of the vector query when compared to other vector query and/or the text query within the same search request. This value is used when combining the results of multiple ranking lists produced by the different vector queries and/or the results retrieved through the text query. The higher the weight, the higher the documents that matched that query will be in the final ranking. Default is 1.0 and the value needs to be a positive number larger than zero. */
+  weight?: number;
 }
 
 /** The query parameters to use for vector search when a raw vector value is provided. */
@@ -207,6 +218,14 @@ export interface VectorizedQuery<TModel extends object> extends BaseVectorQuery<
   kind: "vector";
   /** The vector representation of a search query. */
   vector: number[];
+}
+
+/** The query parameters to use for vector search when a text value that needs to be vectorized is provided. */
+export interface VectorizableTextQuery<TModel extends object> extends BaseVectorQuery<TModel> {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "text";
+  /** The text to be vectorized to perform a vector search query. */
+  text: string;
 }
 
 /**
@@ -824,15 +843,6 @@ export interface QueryResultDocumentSemanticField {
   readonly name?: string;
 }
 
-/** Contains debugging information that can be used to further explore your search results. */
-export interface DocumentDebugInfo {
-  /**
-   * Contains debugging information specific to semantic search queries.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly semantic?: SemanticDebugInfo;
-}
-
 /**
  * Debug options for semantic search queries.
  */
@@ -920,6 +930,12 @@ export interface SemanticSearchOptions {
    * to 'None'.
    */
   captions?: QueryCaption;
+  /**
+   * Allows setting a separate search query that will be solely used for semantic reranking,
+   * semantic captions and semantic answers. Is useful for scenarios where there is a need to use
+   * different queries between the base retrieval and ranking phase, and the L2 semantic phase.
+   */
+  semanticQuery?: string;
 }
 
 /**

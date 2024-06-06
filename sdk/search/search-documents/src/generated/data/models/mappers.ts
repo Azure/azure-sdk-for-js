@@ -8,10 +8,26 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const SearchError: coreClient.CompositeMapper = {
+export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SearchError",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -22,7 +38,13 @@ export const SearchError: coreClient.CompositeMapper = {
       },
       message: {
         serializedName: "message",
-        required: true,
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      target: {
+        serializedName: "target",
         readOnly: true,
         type: {
           name: "String",
@@ -36,9 +58,46 @@ export const SearchError: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SearchError",
+              className: "ErrorDetail",
             },
           },
+        },
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
         },
       },
     },
@@ -352,6 +411,12 @@ export const SearchRequest: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      semanticQuery: {
+        serializedName: "semanticQuery",
+        type: {
+          name: "String",
+        },
+      },
       answers: {
         serializedName: "answers",
         type: {
@@ -419,6 +484,18 @@ export const VectorQuery: coreClient.CompositeMapper = {
         serializedName: "exhaustive",
         type: {
           name: "Boolean",
+        },
+      },
+      oversampling: {
+        serializedName: "oversampling",
+        type: {
+          name: "Number",
+        },
+      },
+      weight: {
+        serializedName: "weight",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -880,7 +957,28 @@ export const VectorizedQuery: coreClient.CompositeMapper = {
   },
 };
 
+export const VectorizableTextQuery: coreClient.CompositeMapper = {
+  serializedName: "text",
+  type: {
+    name: "Composite",
+    className: "VectorizableTextQuery",
+    uberParent: "VectorQuery",
+    polymorphicDiscriminator: VectorQuery.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...VectorQuery.type.modelProperties,
+      text: {
+        serializedName: "text",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export let discriminators = {
   VectorQuery: VectorQuery,
   "VectorQuery.vector": VectorizedQuery,
+  "VectorQuery.text": VectorizableTextQuery,
 };

@@ -14,13 +14,13 @@ import {
 } from "@azure/core-rest-pipeline";
 import { DocumentsImpl } from "./operations";
 import { Documents } from "./operationsInterfaces";
-import { ApiVersion20231101, SearchClientOptionalParams } from "./models";
+import { ApiVersion20240701, SearchClientOptionalParams } from "./models";
 
 /** @internal */
 export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
   indexName: string;
-  apiVersion: ApiVersion20231101;
+  apiVersion: ApiVersion20240701;
 
   /**
    * Initializes a new instance of the SearchClient class.
@@ -32,7 +32,7 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
   constructor(
     endpoint: string,
     indexName: string,
-    apiVersion: ApiVersion20231101,
+    apiVersion: ApiVersion20240701,
     options?: SearchClientOptionalParams,
   ) {
     if (endpoint === undefined) {

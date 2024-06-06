@@ -10068,6 +10068,14 @@ packages:
       streamx: 2.18.0
     dev: false
 
+  /tersify@3.12.1:
+    resolution: {integrity: sha512-VwzXGHZSOB4T27s4uvh9v8FYrNXyfVz0nBQi28TDwrZoQwT8ZJUp1W2Ff73ekN07stJSb0D+pr6iXeNeFqTI6Q==}
+    dependencies:
+      acorn: 8.12.1
+      is-buffer: 2.0.5
+      unpartial: 1.0.5
+    dev: false
+
   /test-exclude@6.0.0:
     resolution: {integrity: sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==}
     engines: {node: '>=8'}
@@ -10442,6 +10450,13 @@ packages:
       mime-types: 2.1.35
     dev: false
 
+  /type-plus@7.6.2:
+    resolution: {integrity: sha512-qUlXv9Y0/W56pg38m275IMD3WA03QbVoqNY16S3kmwtuA4gOT2iheyUdOp8NWrmXWpf7om98hzr7AZD/eW2jLA==}
+    dependencies:
+      tersify: 3.12.1
+      unpartial: 1.0.5
+    dev: false
+
   /typed-array-buffer@1.0.2:
     resolution: {integrity: sha512-gEymJYKZtKXzzBzM4jqa9w6Q1Jjm7x2d+sh19AdsD4wqnMPDYyvwpsIc2Q/835kHuo3BEQ7CjelGhfTsoBb2MQ==}
     engines: {node: '>= 0.4'}
@@ -10541,6 +10556,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript@5.5.4:
+    resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
   /ua-parser-js@0.7.38:
     resolution: {integrity: sha512-fYmIy7fKTSFAhG3fuPlubeGaMoAd6r0rSnfEsO5nEY55i26KSLt9EH7PLQiiqPUhNqYIJvSkTy1oArIcXAbPbA==}
     dev: false
@@ -10614,6 +10635,11 @@ packages:
   /universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
     engines: {node: '>= 10.0.0'}
+    dev: false
+
+  /unpartial@1.0.5:
+    resolution: {integrity: sha512-yAqaXcachjgZUnM2yIkf+4KJhmyuoj7stBvlnlZpB15OYVbKnLhgJfmLW7qkpzLHCdsm1bEFvhyN9hCmlZ3uuw==}
+    engines: {node: '>=6'}
     dev: false
 
   /unpipe@1.0.0:
@@ -11500,7 +11526,7 @@ packages:
     dev: false
 
   file:projects/ai-inference.tgz:
-    resolution: {integrity: sha512-BvQNtblG5Ekhs4ZmiHUKiLU49L8op9tVOwJSCaZP52jhMBqNAmZFWQ4QTz6uAdbd8nqlTdtL932Xer59Dap9PA==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-RZajZdzu6j7X9C4dVf2rYkuHno03Yvc/IQ/LP5vklugnFc74kluhXdEY6F2aoWK+b0Vh4K9YP0E9IG/yryJMOw==, tarball: file:projects/ai-inference.tgz}
     name: '@rush-temp/ai-inference'
     version: 0.0.0
     dependencies:
@@ -11712,7 +11738,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-lE4wXAnj0Mor6PbzOzScLSTW5+5SDmHqwKt0JS9rHHZhPe8d51icfxYeWVu+lZ/MlnkeML+JpKbFAOkEZ0guvw==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-KhEaRw6EXf2LMmw6rbuaep9/G4kKWATXsA5czScbTOkJ3bQKOACslWN3zynn+puHpuyIeANMVovQaNH8oRd1xg==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -20474,7 +20500,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.5.3
+      '@_ts/max': /typescript@5.5.4
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.4.0
       '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
@@ -22114,7 +22140,7 @@ packages:
       '@azure/functions': 4.5.0
       '@azure/functions-old': /@azure/functions@3.5.1
       '@azure/functions3': /@azure/functions@3.2.0
-      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
+      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
       '@microsoft/applicationinsights-web-snippet': 1.2.1
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.52.1
@@ -23310,7 +23336,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-QwCqI/QWOkgjhu7u6gjKdT5bzrmcjYRvPbXwCJKSf9X+ixHviiE6SU2TevqsXRgr15OcmgRuCRq92eJA/A2VnQ==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-7YkpVK3YHsZb4KJfViyS4sbqdpWQPpebcwUp1kOIHANn8Q97ipVuDAcZGxgVgADNhgWpBrFIf/E5BZ0ORfbsMQ==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -23344,6 +23370,7 @@ packages:
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.3.3)
       tslib: 2.6.3
+      type-plus: 7.6.2
       typescript: 5.3.3
       util: 0.12.5
     transitivePeerDependencies:

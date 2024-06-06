@@ -2,8 +2,11 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AsciiFoldingTokenFilter,
+  AzureOpenAIModelName,
+  BinaryQuantizationCompression,
   BM25Similarity,
   CharFilterName,
   CjkBigramTokenFilter,
@@ -27,6 +30,7 @@ import {
   FreshnessScoringFunction,
   HighWaterMarkChangeDetectionPolicy,
   IndexingSchedule,
+  IndexProjectionMode,
   KeepTokenFilter,
   KeywordMarkerTokenFilter,
   KnownBlobIndexerDataToExtract,
@@ -73,8 +77,12 @@ import {
   PatternReplaceCharFilter,
   PatternReplaceTokenFilter,
   PhoneticTokenFilter,
+  ScalarQuantizationCompression,
   ScoringFunctionAggregation,
   SearchIndexerDataContainer,
+  SearchIndexerDataNoneIdentity,
+  SearchIndexerDataUserAssignedIdentity,
+  SearchIndexerIndexProjectionSelector,
   SearchIndexerKnowledgeStoreProjection,
   SearchIndexerSkill as BaseSearchIndexerSkill,
   SemanticSearch,
@@ -98,12 +106,11 @@ import {
   TruncateTokenFilter,
   UaxUrlEmailTokenizer,
   UniqueTokenFilter,
+  VectorEncodingFormat,
   VectorSearchProfile,
+  VectorSearchVectorizerKind,
   WordDelimiterTokenFilter,
 } from "./generated/service/models";
-
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { KnownVectorFilterMode } from "./generated/data";
 
 /**
  * Options for a list skillsets operation.
@@ -561,12 +568,29 @@ export interface WebApiSkill extends BaseSearchIndexerSkill {
    * If set, the number of parallel calls that can be made to the Web API.
    */
   degreeOfParallelism?: number;
+  /**
+   * Applies to custom skills that connect to external code in an Azure function or some other
+   * application that provides the transformations. This value should be the application ID
+   * created for the function or app when it was registered with Azure Active Directory. When
+   * specified, the custom skill connects to the function or app using a managed ID (either system
+   * or user-assigned) of the search service and the access token of the function or app, using
+   * this value as the resource id for creating the scope of the access token.
+   */
+  authResourceId?: string;
+  /**
+   * The user-assigned managed identity used for outbound connections. If an authResourceId is
+   * provided and it's not specified, the system-assigned managed identity is used. On updates to
+   * the indexer, if the identity is unspecified, the value remains unchanged. If undefined, the
+   * value of this property is cleared.
+   */
+  authIdentity?: SearchIndexerDataIdentity;
 }
 
 /**
  * Contains the possible cases for Skill.
  */
 export type SearchIndexerSkill =
+  | AzureOpenAIEmbeddingSkill
   | ConditionalSkill
   | CustomEntityLookupSkill
   | DocumentExtractionSkill
@@ -731,6 +755,14 @@ export interface SearchIndexerKnowledgeStore {
    * A list of additional projections to perform during indexing.
    */
   projections: SearchIndexerKnowledgeStoreProjection[];
+  /**
+   * The user-assigned managed identity used for connections to Azure Storage when writing
+   * knowledge store projections. If the connection string indicates an identity (ResourceId) and
+   * it's not specified, the system-assigned managed identity is used. On updates to the indexer,
+   * if the identity is unspecified, the value remains unchanged. If set to "none", the value of
+   * this property is cleared.
+   */
+  identity?: SearchIndexerDataIdentity;
 }
 
 /**
@@ -851,6 +883,16 @@ export interface SimpleField {
    */
   hidden?: boolean;
   /**
+   * An immutable value indicating whether the field will be persisted separately on disk to be
+   * returned in a search result. You can disable this option if you don't plan to return the field
+   * contents in a search response to save on storage overhead. This can only be set during index
+   * creation and only for vector fields. This property cannot be changed for existing fields or set
+   * as false for new fields. If this property is set as false, the property 'hidden' must be set to
+   * 'true'. This property must be false or unset for key fields, for new fields, and for non-vector
+   * fields. Disabling this property will reduce index storage requirements.
+   */
+  stored?: boolean;
+  /**
    * A value indicating whether the field is full-text searchable. This means it will undergo
    * analysis such as word-breaking during indexing. If you set a searchable field to a value like
    * "sunny day", internally it will be split into the individual tokens "sunny" and "day". This
@@ -927,6 +969,10 @@ export interface SimpleField {
    * searching the vector field.
    */
   vectorSearchProfileName?: string;
+  /**
+   * The encoding format to interpret the field contents.
+   */
+  vectorEncodingFormat?: VectorEncodingFormat;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {
@@ -949,9 +995,9 @@ export interface ComplexField {
    */
   type: ComplexDataType;
   /**
-   * The list of sub-fields or collection elements.
+   * A list of sub-fields.
    */
-  fields: SearchField[];
+  fields?: SearchField[];
 }
 
 /**
@@ -1086,6 +1132,13 @@ export interface SearchIndexerCache {
    * Specifies whether incremental reprocessing is enabled.
    */
   enableReprocessing?: boolean;
+  /** The user-assigned managed identity used for connections to the enrichment cache.  If the
+   * connection string indicates an identity (ResourceId) and it's not specified, the
+   * system-assigned managed identity is used. On updates to the indexer, if the identity is
+   * unspecified, the value remains unchanged. If set to "none", the value of this property is
+   * cleared.
+   */
+  identity?: SearchIndexerDataIdentity;
 }
 
 /**
@@ -1181,6 +1234,13 @@ export interface SearchResourceEncryptionKey {
    * The authentication key of the specified AAD application.
    */
   applicationSecret?: string;
+  /**
+   * An explicit managed identity to use for this encryption key. If not specified and the access
+   * credentials property is null, the system-assigned managed identity is used. On update to the
+   * resource, if the explicit identity is unspecified, it remains unchanged. If "none" is specified,
+   * the value of this property is cleared.
+   */
+  identity?: SearchIndexerDataIdentity;
 }
 
 /**
@@ -1207,6 +1267,10 @@ export interface SearchIndexerSkillset {
    * Definition of additional projections to azure blob, table, or files, of enriched data.
    */
   knowledgeStore?: SearchIndexerKnowledgeStore;
+  /**
+   *  Definition of additional projections to secondary search index(es).
+   */
+  indexProjection?: SearchIndexerIndexProjection;
   /**
    * The ETag of the skillset.
    */
@@ -1903,6 +1967,13 @@ export type DataChangeDetectionPolicy =
   | SqlIntegratedChangeTrackingPolicy;
 
 /**
+ * Contains the possible cases for SearchIndexerDataIdentity.
+ */
+export type SearchIndexerDataIdentity =
+  | SearchIndexerDataNoneIdentity
+  | SearchIndexerDataUserAssignedIdentity;
+
+/**
  * Contains the possible cases for DataDeletionDetectionPolicy.
  */
 export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolicy;
@@ -1932,6 +2003,12 @@ export interface SearchIndexerDataSourceConnection {
    * The data container for the datasource.
    */
   container: SearchIndexerDataContainer;
+  /**
+   * An explicit managed identity to use for this datasource. If not specified and the connection
+   * string is a managed identity, the system-assigned managed identity is used. If not specified,
+   * the value remains unchanged. If "none" is specified, the value of this property is cleared.
+   */
+  identity?: SearchIndexerDataIdentity;
   /**
    * The data change detection policy for the datasource.
    */
@@ -1964,6 +2041,10 @@ export interface VectorSearch {
   profiles?: VectorSearchProfile[];
   /** Contains configuration options specific to the algorithm used during indexing or querying. */
   algorithms?: VectorSearchAlgorithmConfiguration[];
+  /** Contains configuration options on how to vectorize text vector queries. */
+  vectorizers?: VectorSearchVectorizer[];
+  /** Contains configuration options specific to the compression method used during indexing or querying. */
+  compressions?: VectorSearchCompression[];
 }
 
 /** Contains configuration options specific to the algorithm used during indexing and/or querying. */
@@ -2039,21 +2120,27 @@ export interface ExhaustiveKnnParameters {
 }
 
 /** A dictionary of index projection-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
-export interface SearchIndexerIndexProjectionsParameters {
+export interface SearchIndexerIndexProjectionParameters {
   /** Describes unknown properties.*/
   [property: string]: unknown;
+  /** Defines behavior of the index projections in relation to the rest of the indexer. */
+  projectionMode?: IndexProjectionMode;
 }
 
 /** Definition of additional projections to secondary search indexes. */
-export interface SearchIndexerIndexProjections {
+export interface SearchIndexerIndexProjection {
+  /** A list of projections to be performed to secondary search indexes. */
+  selectors: SearchIndexerIndexProjectionSelector[];
   /** A dictionary of index projection-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
-  parameters?: SearchIndexerIndexProjectionsParameters;
+  parameters?: SearchIndexerIndexProjectionParameters;
 }
 
 /** Contains specific details for a vectorization method to be used during query time. */
 export interface BaseVectorSearchVectorizer {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: VectorSearchVectorizerKind;
   /** The name to associate with this particular vectorization method. */
-  name: string;
+  vectorizerName: string;
 }
 
 /** Contains the parameters specific to using an Azure Open AI service for vectorization at query time. */
@@ -2061,7 +2148,7 @@ export interface AzureOpenAIVectorizer extends BaseVectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "azureOpenAI";
   /** Contains the parameters specific to Azure Open AI embedding vectorization. */
-  azureOpenAIParameters?: AzureOpenAIParameters;
+  parameters?: AzureOpenAIParameters;
 }
 
 /** Specifies a user-defined vectorizer for generating the vector embedding of a query string. Integration of an external vectorizer is achieved using the custom Web API interface of a skillset. */
@@ -2069,7 +2156,7 @@ export interface WebApiVectorizer extends BaseVectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "customWebApi";
   /** Specifies the properties of the user-defined vectorizer. */
-  webAPIParameters?: WebApiParameters;
+  parameters?: WebApiParameters;
 }
 
 /** Specifies the properties for connecting to a user-defined vectorizer. */
@@ -2084,16 +2171,33 @@ export interface WebApiParameters {
   timeout?: string;
   /** Applies to custom endpoints that connect to external code in an Azure function or some other application that provides the transformations. This value should be the application ID created for the function or app when it was registered with Azure Active Directory. When specified, the vectorization connects to the function or app using a managed ID (either system or user-assigned) of the search service and the access token of the function or app, using this value as the resource id for creating the scope of the access token. */
   authResourceId?: string;
+  /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
+  authIdentity?: SearchIndexerDataIdentity;
 }
+
+/** Contains configuration options on how to vectorize text vector queries. */
+export type VectorSearchVectorizer = AzureOpenAIVectorizer | WebApiVectorizer;
 
 /** Contains the parameters specific to using an Azure Open AI service for vectorization at query time. */
 export interface AzureOpenAIParameters {
   /** The resource uri for your Azure Open AI resource. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** ID of your Azure Open AI model deployment on the designated resource. */
   deploymentId?: string;
   /** API key for the designated Azure Open AI resource. */
   apiKey?: string;
+  /** The user-assigned managed identity used for outbound connections. */
+  authIdentity?: SearchIndexerDataIdentity;
+  /** The name of the embedding model that is deployed at the provided deploymentId path. */
+  modelName?: AzureOpenAIModelName;
+}
+
+/** Allows you to generate a vector embedding for a given text input using the Azure OpenAI resource. */
+export interface AzureOpenAIEmbeddingSkill extends BaseSearchIndexerSkill, AzureOpenAIParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
+  /** The number of dimensions the resulting output embeddings should have. Only supported in text-embedding-3 and later models. */
+  dimensions?: number;
 }
 
 /** A dictionary of knowledge store-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
@@ -2292,6 +2396,9 @@ export interface ImageAnalysisSkill extends BaseSearchIndexerSkill {
   details?: ImageDetail[];
 }
 
+/** Contains configuration options specific to the compression method used during indexing or querying. */
+export type VectorSearchCompression = BinaryQuantizationCompression | ScalarQuantizationCompression;
+
 export type AnalyzerNames = `${KnownLexicalAnalyzerName}`;
 export type BlobIndexerDataToExtract = `${KnownBlobIndexerDataToExtract}`;
 export type BlobIndexerImageAction = `${KnownBlobIndexerImageAction}`;
@@ -2358,7 +2465,6 @@ export type TextSplitMode = `${KnownTextSplitMode}`;
 export type TextTranslationSkillLanguage = `${KnownTextTranslationSkillLanguage}`;
 export type TokenFilterNames = `${KnownTokenFilterName}`;
 export type TokenizerNames = `${KnownLexicalTokenizerName}`;
-export type VectorFilterMode = `${KnownVectorFilterMode}`;
 export type VectorSearchAlgorithmKind = `${KnownVectorSearchAlgorithmKind}`;
 export type VectorSearchAlgorithmMetric = `${KnownVectorSearchAlgorithmMetric}`;
 export type VisualFeature = `${KnownVisualFeature}`;

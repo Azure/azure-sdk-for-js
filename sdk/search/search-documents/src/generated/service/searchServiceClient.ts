@@ -30,7 +30,7 @@ import {
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion20231101,
+  ApiVersion20240701,
   SearchServiceClientOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetServiceStatisticsResponse,
@@ -39,7 +39,7 @@ import {
 /** @internal */
 export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
-  apiVersion: ApiVersion20231101;
+  apiVersion: ApiVersion20240701;
 
   /**
    * Initializes a new instance of the SearchServiceClient class.
@@ -49,7 +49,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20231101,
+    apiVersion: ApiVersion20240701,
     options?: SearchServiceClientOptionalParams,
   ) {
     if (endpoint === undefined) {
@@ -151,7 +151,7 @@ const getServiceStatisticsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ServiceStatistics,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],

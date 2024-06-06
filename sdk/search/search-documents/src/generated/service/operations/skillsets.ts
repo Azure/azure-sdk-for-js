@@ -120,7 +120,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SearchIndexerSkillset,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.skillset,
@@ -143,7 +143,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     204: {},
     404: {},
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -163,7 +163,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SearchIndexerSkillset,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -179,7 +179,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListSkillsetsResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.select],
@@ -195,7 +195,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SearchIndexerSkillset,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.skillset,

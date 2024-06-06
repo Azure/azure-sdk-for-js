@@ -122,7 +122,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SynonymMap,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.synonymMap,
@@ -145,7 +145,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     204: {},
     404: {},
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -165,7 +165,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SynonymMap,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -181,7 +181,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListSynonymMapsResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.select],
@@ -197,7 +197,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SynonymMap,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.synonymMap,

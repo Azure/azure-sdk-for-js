@@ -10,7 +10,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/service
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/58e92dd03733bc175e6a9540f4bc53703b57fcc9/specification/search/data-plane/Azure.Search/stable/2023-11-01/searchservice.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/dc27f9b32787533cd4d07fe0de5245f2f8354dbe/specification/search/data-plane/Azure.Search/stable/2024-07-01/searchservice.json
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.23"
@@ -364,7 +364,112 @@ directive:
 directive:
   - from: swagger-document
     where: $.definitions.VectorSearchCompressionConfiguration
-    transform: $["x-ms-client-name"] = "BaseVectorSearchCompressionConfiguration";
+    transform: $["x-ms-client-name"] = "VectorSearchCompression";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.ScalarQuantizationVectorSearchCompressionConfiguration
+    transform: $["x-ms-client-name"] = "ScalarQuantizationCompression"
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.BinaryQuantizationVectorSearchCompressionConfiguration
+    transform: $["x-ms-client-name"] = "BinaryQuantizationCompression"
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.VectorSearchVectorizer.properties.name
+    transform: $["x-ms-client-name"] = "vectorizerName"
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.VectorSearchCompressionConfiguration.properties.name
+    transform: $["x-ms-client-name"] = "compressionName";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.OcrSkillLineEnding
+    transform: $["x-ms-enum"].name = "OcrLineEnding";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchIndexerDataUserAssignedIdentity.properties.userAssignedIdentity
+    transform: $["x-ms-client-name"] = "resourceId";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchIndexerIndexProjections
+    transform: $["x-ms-client-name"] = "SearchIndexerIndexProjection";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchIndexerIndexProjectionsParameters
+    transform: $["x-ms-client-name"] = "SearchIndexerIndexProjectionParameters";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchIndexerSkillset.properties.indexProjections
+    transform: $["x-ms-client-name"] = "indexProjection";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.VectorSearchCompressionTargetDataType
+    transform: $["x-ms-enum"].name = "VectorSearchCompressionTarget";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.VectorSearchProfile.properties.compression
+    transform: $["x-ms-client-name"] = "compressionName";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.WebApiVectorizer.properties.customWebApiParameters
+    transform: $["x-ms-client-name"] = "parameters";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AzureOpenAIVectorizer.properties.azureOpenAIParameters
+    transform: $["x-ms-client-name"] = "parameters";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AzureOpenAIParameters.properties.resourceUri
+    transform: $["x-ms-client-name"] = "resourceUrl";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AzureOpenAIParameters.properties.deploymentId
+    transform: $["x-ms-client-name"] = "deploymentId";
 ```
 
 ### Deprecations

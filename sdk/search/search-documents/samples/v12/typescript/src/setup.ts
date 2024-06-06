@@ -6,6 +6,7 @@
  */
 
 import { KnownAnalyzerNames, SearchIndex, SearchIndexClient } from "@azure/search-documents";
+import { env } from "process";
 import { Hotel } from "./interfaces";
 
 export const WAIT_TIME = 4000;
@@ -248,10 +249,21 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
     },
     vectorSearch: {
       algorithms: [{ name: "vector-search-algorithm", kind: "hnsw" }],
+      vectorizers: [
+        {
+          vectorizerName: "vector-search-vectorizer",
+          kind: "azureOpenAI",
+          parameters: {
+            resourceUrl: env.AZURE_OPENAI_ENDPOINT,
+            deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
+          },
+        },
+      ],
       profiles: [
         {
           name: "vector-search-profile",
           algorithmConfigurationName: "vector-search-algorithm",
+          vectorizerName: "vector-search-vectorizer",
         },
       ],
     },

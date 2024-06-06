@@ -54,7 +54,7 @@ type ExpectPIIDetectionSkillMaskingMode = `${KnownPIIDetectionSkillMaskingMode}`
 type ExpectRegexFlags = `${KnownRegexFlags}`;
 type ExpectSearchFieldDataType = Exclude<
   `${KnownSearchFieldDataType}` | `Collection(${KnownSearchFieldDataType})`,
-  "Edm.ComplexType" | "Edm.Single"
+  "Edm.ComplexType" | "Edm.Byte" | "Edm.Half" | "Edm.Int16" | "Edm.SByte" | "Edm.Single"
 >;
 type ExpectSearchIndexerDataSourceType = `${KnownSearchIndexerDataSourceType}`;
 type ExpectSemanticErrorMode = `${KnownSemanticErrorMode}`;
@@ -371,12 +371,16 @@ type RegexFlags =
   | "UNIX_LINES";
 type SearchFieldDataType =
   | "Collection(Edm.Boolean)"
+  | "Collection(Edm.Byte)"
   | "Collection(Edm.ComplexType)"
   | "Collection(Edm.DateTimeOffset)"
   | "Collection(Edm.Double)"
   | "Collection(Edm.GeographyPoint)"
+  | "Collection(Edm.Half)"
+  | "Collection(Edm.Int16)"
   | "Collection(Edm.Int32)"
   | "Collection(Edm.Int64)"
+  | "Collection(Edm.SByte)"
   | "Collection(Edm.Single)"
   | "Collection(Edm.String)"
   | "Edm.Boolean"
@@ -467,6 +471,7 @@ type TextTranslationSkillLanguage =
   | "fil"
   | "fj"
   | "fr"
+  | "ga"
   | "he"
   | "hi"
   | "hr"
@@ -476,17 +481,23 @@ type TextTranslationSkillLanguage =
   | "is"
   | "it"
   | "ja"
+  | "kn"
   | "ko"
   | "lt"
   | "lv"
   | "mg"
+  | "mi"
+  | "ml"
   | "ms"
   | "mt"
   | "mww"
   | "nb"
   | "nl"
   | "otq"
+  | "pa"
   | "pl"
+  | "pt-br"
+  | "pt-PT"
   | "pt"
   | "ro"
   | "ru"
@@ -500,6 +511,8 @@ type TextTranslationSkillLanguage =
   | "ta"
   | "te"
   | "th"
+  | "tlh-Latn"
+  | "tlh-Piqd"
   | "tlh"
   | "to"
   | "tr"
@@ -512,9 +525,9 @@ type TextTranslationSkillLanguage =
   | "zh-Hans"
   | "zh-Hant";
 type VectorFilterMode = "postFilter" | "preFilter";
-type VectorQueryKind = "vector";
+type VectorQueryKind = "text" | "vector";
 type VectorSearchAlgorithmKind = "exhaustiveKnn" | "hnsw";
-type VectorSearchAlgorithmMetric = "cosine" | "dotProduct" | "euclidean";
+type VectorSearchAlgorithmMetric = "cosine" | "dotProduct" | "euclidean" | "hamming";
 type VisualFeature =
   | "adult"
   | "brands"
@@ -617,8 +630,9 @@ const foo: [
     "VectorSearchAlgorithmMetric",
     never
   >,
-  IsEqual<ExpectVisualFeature, VisualFeature, "VisualFeature", never>
+  IsEqual<ExpectVisualFeature, VisualFeature, "VisualFeature", never>,
 ] = [
+  // List of custom string literal unions. Update with any new authored string literal unions.
   "BlobIndexerDataToExtract",
   "BlobIndexerImageAction",
   "BlobIndexerParsingMode",

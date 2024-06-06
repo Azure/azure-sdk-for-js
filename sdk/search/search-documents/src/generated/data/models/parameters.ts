@@ -346,6 +346,16 @@ export const captions: OperationQueryParameter = {
   },
 };
 
+export const semanticQuery: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticQuery"],
+  mapper: {
+    serializedName: "semanticQuery",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {

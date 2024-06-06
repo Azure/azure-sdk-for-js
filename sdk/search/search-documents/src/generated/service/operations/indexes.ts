@@ -156,7 +156,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SearchIndex,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.index,
@@ -174,7 +174,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListIndexesResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.select],
@@ -193,7 +193,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SearchIndex,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.index,
@@ -216,7 +216,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     204: {},
     404: {},
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -236,7 +236,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SearchIndex,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -252,7 +252,7 @@ const getStatisticsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GetIndexStatisticsResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -268,7 +268,7 @@ const analyzeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AnalyzeResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.request,
