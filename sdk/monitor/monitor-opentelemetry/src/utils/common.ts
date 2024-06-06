@@ -7,7 +7,7 @@ import {
   hostDetectorSync,
   osDetectorSync,
   processDetectorSync,
-  serviceInstanceIdDetectorSync,
+  serviceInstanceIdDetectorSync
 } from '@opentelemetry/resources';
 import { diag } from "@opentelemetry/api";
 
@@ -112,6 +112,9 @@ export function msToTimeSpan(ms: number): string {
   return `${daysText + hour}:${min}:${sec}`;
 }
 
+// This function is a slight modification of an upstream otel util function -
+// mainly for prioritizing the resource detectors customer may specify over 
+// env var & not enabling process detector by default.  
 export function parseResourceDetectorsFromEnvVar(): Array<DetectorSync> {
 
   const resourceDetectors = new Map<string, DetectorSync>([
