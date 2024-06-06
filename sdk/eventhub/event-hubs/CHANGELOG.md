@@ -10,10 +10,6 @@
 
 - The `offet` property of event data is now typed as a string instead of as a number.
 
-### Bugs Fixed
-
-### Other Changes
-
 ## 5.12.0 (2024-05-20)
 
 ### Features Added
