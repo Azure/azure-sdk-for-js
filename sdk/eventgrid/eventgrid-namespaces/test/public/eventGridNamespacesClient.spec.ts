@@ -78,7 +78,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         specversion: "1.0",
       };
       // Publish the Cloud Event
-      await senderClient.sendEvent(cloudEvent, { topicName });
+      await senderClient.sendEvents(cloudEvent, { topicName });
       // Receive the Published Cloud Event
       const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
         topicName,
@@ -155,7 +155,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         specversion: "1.0",
       };
       // Publish the Cloud Event
-      await senderClient.sendEvent(cloudEvent, { topicName });
+      await senderClient.sendEvents(cloudEvent, { topicName });
 
       let counter: number = 0;
       while (true) {
@@ -195,7 +195,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         specversion: "1.0",
       };
       // Publish the Cloud Event
-      await senderClient.sendEvent(cloudEvent, { topicName });
+      await senderClient.sendEvents(cloudEvent, { topicName });
       // Receive the Published Cloud Event
       let receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
         topicName,
@@ -229,7 +229,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         specversion: "1.0",
       };
       // Publish the Cloud Event
-      await senderClient.sendEvent(cloudEvent, { topicName });
+      await senderClient.sendEvents(cloudEvent, { topicName });
       // Receive the Published Cloud Event
       const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
         topicName,
@@ -261,7 +261,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         specversion: "1.0",
       };
       // Publish the Cloud Event
-      await senderClient.sendEvent(cloudEvent, {
+      await senderClient.sendEvents(cloudEvent, {
         topicName,
       });
       // Receive the Published Cloud Event

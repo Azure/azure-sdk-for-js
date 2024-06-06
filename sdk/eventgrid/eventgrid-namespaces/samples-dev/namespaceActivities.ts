@@ -42,7 +42,7 @@ export async function main(): Promise<void> {
     specversion: "1.0",
   };
   // Publish the Cloud Event
-  await senderClient.sendEvent(cloudEvent, { topicName });
+  await senderClient.sendEvents(cloudEvent, { topicName });
   // Receive the Published Cloud Event
   const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
     topicName,

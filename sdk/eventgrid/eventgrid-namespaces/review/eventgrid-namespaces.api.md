@@ -38,6 +38,7 @@ export interface BrokerProperties {
 // @public
 export interface CloudEvent<T> {
     data?: T;
+    dataBase64?: Uint8Array;
     datacontenttype?: string;
     dataschema?: string;
     extensionAttributes?: Record<string, unknown>;
@@ -75,8 +76,7 @@ export interface EventGridReceiverClientOptions extends EventGridClientOptions {
 // @public
 export class EventGridSenderClient {
     constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: EventGridSenderClientOptions);
-    sendEvent<T>(event: CloudEvent<T>, options?: SendEventOptions): Promise<void>;
-    sendEvents<T>(events: CloudEvent<T>[], options?: SendEventsOptions): Promise<void>;
+    sendEvents<T>(events: CloudEvent<T>[] | CloudEvent<T>, options?: SendEventsOptions): Promise<void>;
 }
 
 // @public

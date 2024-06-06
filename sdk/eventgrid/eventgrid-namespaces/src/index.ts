@@ -29,7 +29,6 @@ export { OperationOptions } from "@azure-rest/core-client";
 
 export {
   CloudEvent,
-  SendEventOptions,
   SendEventsOptions,
   ReceiveResult,
   ReceiveDetails,

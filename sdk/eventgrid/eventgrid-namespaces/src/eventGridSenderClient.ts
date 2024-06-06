@@ -6,7 +6,6 @@ import { CloudEvent as CloudEventWireModel } from "./cadl-generated/models";
 import { randomUUID } from "@azure/core-util";
 import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient";
 import {
-  SendEventOptions,
   SendEventsOptions,
   CloudEvent,
   cloudEventReservedPropertyNames,
@@ -42,19 +41,6 @@ export class EventGridSenderClient {
    * @param options - Options to publish
    *
    */
-  async sendEvent<T>(
-    event: CloudEvent<T>,
-    options: SendEventOptions = { requestOptions: {} },
-  ): Promise<void> {
-    const cloudEventWireModel: CloudEventWireModel = convertCloudEventToModelType(event);
-    const topicName = options?.topicName ?? this._topicName;
-
-    if (!topicName) {
-      throw new Error("Topic name is required");
-    }
-
-    await this._client.publishCloudEvent(topicName, cloudEventWireModel, options);
-  }
 
   /**
    * Publish Batch Cloud Event to namespace topic. In case of success, the server responds with an HTTP 200
@@ -68,7 +54,7 @@ export class EventGridSenderClient {
    *
    */
   async sendEvents<T>(
-    events: CloudEvent<T>[],
+    events: CloudEvent<T>[] | CloudEvent<T>,
     options: SendEventsOptions = { requestOptions: {} },
   ): Promise<void> {
     const topicName = options?.topicName ?? this._topicName;
@@ -77,11 +63,16 @@ export class EventGridSenderClient {
       throw new Error("Topic name is required");
     }
 
-    const eventsWireModel: Array<CloudEventWireModel> = [];
-    for (const individualevent of events) {
-      eventsWireModel.push(convertCloudEventToModelType(individualevent));
+    if (Array.isArray(events)) {
+      const eventsWireModel: Array<CloudEventWireModel> = [];
+      for (const individualevent of events) {
+        eventsWireModel.push(convertCloudEventToModelType(individualevent));
+      }
+      await this._client.publishCloudEvents(topicName, eventsWireModel, options);
+    } else {
+      const cloudEventWireModel: CloudEventWireModel = convertCloudEventToModelType(events);
+      await this._client.publishCloudEvent(topicName, cloudEventWireModel, options);
     }
-    await this._client.publishCloudEvents(topicName, eventsWireModel, options);
   }
 }
 
