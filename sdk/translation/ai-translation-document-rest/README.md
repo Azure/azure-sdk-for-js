@@ -5,7 +5,7 @@ Document translation service
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-document-rest)
-- [Package (NPM)](https://www.npmjs.com/package/AzureAiDocumentTranslation)
+- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-translation-document)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-document-rest/samples)
 
 ## Getting started
@@ -14,10 +14,10 @@ Key links:
 
 - LTS versions of Node.js
 
-### Install the `AzureAiDocumentTranslation` package
+### Install the `@azure-rest/ai-translation-document` package
 
-Install the DocumentTranslation REST client REST client library for JavaScript with `npm`:
+Install the Document Translation REST client library for JavaScript with `npm`:
 
 ```bash
-npm install AzureAiDocumentTranslation
+npm install @azure-rest/ai-translation-document
 ```
