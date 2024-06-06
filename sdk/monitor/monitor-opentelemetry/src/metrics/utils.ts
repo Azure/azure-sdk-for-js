@@ -4,8 +4,17 @@
 import { Attributes } from "@opentelemetry/api";
 import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import {
-  SemanticAttributes,
-  SemanticResourceAttributes,
+  SEMRESATTRS_SERVICE_NAME,
+  SEMRESATTRS_SERVICE_NAMESPACE,
+  SEMRESATTRS_SERVICE_INSTANCE_ID,
+  SEMATTRS_PEER_SERVICE,
+  SEMATTRS_HTTP_HOST,
+  SEMATTRS_HTTP_URL,
+  SEMATTRS_NET_PEER_NAME,
+  SEMATTRS_NET_PEER_IP,
+  SEMATTRS_EXCEPTION_MESSAGE,
+  SEMATTRS_EXCEPTION_TYPE,
+  SEMATTRS_HTTP_USER_AGENT,
 } from "@opentelemetry/semantic-conventions";
 import {
   MetricDependencyDimensions,
@@ -61,8 +70,8 @@ export function getBaseDimensions(resource: Resource): StandardMetricBaseDimensi
   dimensions.IsAutocollected = "True";
   if (resource) {
     const spanResourceAttributes = resource.attributes;
-    const serviceName = spanResourceAttributes[SemanticResourceAttributes.SERVICE_NAME];
-    const serviceNamespace = spanResourceAttributes[SemanticResourceAttributes.SERVICE_NAMESPACE];
+    const serviceName = spanResourceAttributes[SEMRESATTRS_SERVICE_NAME];
+    const serviceNamespace = spanResourceAttributes[SEMRESATTRS_SERVICE_NAMESPACE];
     if (serviceName) {
       if (serviceNamespace) {
         dimensions.cloudRoleName = `${serviceNamespace}.${serviceName}`;
@@ -70,8 +79,7 @@ export function getBaseDimensions(resource: Resource): StandardMetricBaseDimensi
         dimensions.cloudRoleName = String(serviceName);
       }
     }
-    const serviceInstanceId =
-      spanResourceAttributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID];
+    const serviceInstanceId = spanResourceAttributes[SEMRESATTRS_SERVICE_INSTANCE_ID];
     dimensions.cloudRoleInstance = String(serviceInstanceId);
   }
   return dimensions;
@@ -81,11 +89,11 @@ export function getDependencyTarget(attributes: Attributes): string {
   if (!attributes) {
     return "";
   }
-  const peerService = attributes[SemanticAttributes.PEER_SERVICE];
-  const httpHost = attributes[SemanticAttributes.HTTP_HOST];
-  const httpUrl = attributes[SemanticAttributes.HTTP_URL];
-  const netPeerName = attributes[SemanticAttributes.NET_PEER_NAME];
-  const netPeerIp = attributes[SemanticAttributes.NET_PEER_IP];
+  const peerService = attributes[SEMATTRS_PEER_SERVICE];
+  const httpHost = attributes[SEMATTRS_HTTP_HOST];
+  const httpUrl = attributes[SEMATTRS_HTTP_URL];
+  const netPeerName = attributes[SEMATTRS_NET_PEER_NAME];
+  const netPeerIp = attributes[SEMATTRS_NET_PEER_IP];
   if (peerService) {
     return String(peerService);
   } else if (httpHost) {
@@ -106,8 +114,8 @@ export function isExceptionTelemetry(logRecord: LogRecord) {
   if (baseType && baseType === "ExceptionData") {
     return true;
   } else if (
-    logRecord.attributes[SemanticAttributes.EXCEPTION_MESSAGE] ||
-    logRecord.attributes[SemanticAttributes.EXCEPTION_TYPE]
+    logRecord.attributes[SEMATTRS_EXCEPTION_MESSAGE] ||
+    logRecord.attributes[SEMATTRS_EXCEPTION_TYPE]
   ) {
     return true;
   }
@@ -120,8 +128,8 @@ export function isTraceTelemetry(logRecord: LogRecord) {
   if (baseType && baseType === "MessageData") {
     return true;
   } else if (
-    !logRecord.attributes[SemanticAttributes.EXCEPTION_MESSAGE] &&
-    !logRecord.attributes[SemanticAttributes.EXCEPTION_TYPE]
+    !logRecord.attributes[SEMATTRS_EXCEPTION_MESSAGE] &&
+    !logRecord.attributes[SEMATTRS_EXCEPTION_TYPE]
   ) {
     return true;
   }
@@ -129,7 +137,7 @@ export function isTraceTelemetry(logRecord: LogRecord) {
 }
 
 export function isSyntheticLoad(record: LogRecord | ReadableSpan): boolean {
-  const userAgent = String(record.attributes[SemanticAttributes.HTTP_USER_AGENT]);
+  const userAgent = String(record.attributes[SEMATTRS_HTTP_USER_AGENT]);
   return userAgent !== null && userAgent.includes("AlwaysOn") ? true : false;
 }
 
