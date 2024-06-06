@@ -197,21 +197,17 @@ export abstract class BaseSender {
    * Persist envelopes to disk
    */
   private async persist(envelopes: unknown[]): Promise<ExportResult> {
-    if (!this.disableOfflineStorage) {
-      try {
-        const success = await this.persister.push(envelopes);
-        return success
-          ? { code: ExportResultCode.SUCCESS }
-          : {
-              code: ExportResultCode.FAILED,
-              error: new Error("Failed to persist envelope in disk."),
-            };
-      } catch (ex: any) {
-        return { code: ExportResultCode.FAILED, error: ex };
-      }
+    try {
+      const success = await this.persister.push(envelopes);
+      return success
+        ? { code: ExportResultCode.SUCCESS }
+        : {
+            code: ExportResultCode.FAILED,
+            error: new Error("Failed to persist envelope in disk."),
+          };
+    } catch (ex: any) {
+      return { code: ExportResultCode.FAILED, error: ex };
     }
-    // If offline storage is disabled, return success
-    return { code: ExportResultCode.SUCCESS };
   }
 
   /**
