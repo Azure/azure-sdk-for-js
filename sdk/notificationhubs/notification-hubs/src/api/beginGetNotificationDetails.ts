@@ -2,62 +2,81 @@
 // Licensed under the MIT license.
 
 import { delay } from "@azure/core-util";
-import { getNotificationHubJob } from "./getNotificationHubJob.js";
-import { submitNotificationHubJob } from "./submitNotificationHubJob.js";
+import { getNotificationOutcomeDetails } from "./getNotificationOutcomeDetails.js";
+import { isRestError } from "@azure/core-rest-pipeline";
+import { logger } from "../utils/log.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { CancelOnProgress, OperationState, PollerLike } from "@azure/core-lro";
-import type { NotificationHubJob, NotificationHubJobPoller } from "../models/notificationHubJob.js";
+import type {
+  NotificationDetails,
+  NotificationDetailsPoller,
+  NotificationOutcomeState,
+} from "../models/notificationDetails.js";
 import type { NotificationHubsClientContext } from "./index.js";
 import type { PolledOperationOptions } from "../models/options.js";
 
 /**
- * Submits a Notification Hub job and creates a poller to poll for results.
+ * Gets the details of a notification outcome as a long running operation.
  * @param context - The Notification Hubs client.
- * @param notificationHubJob - The Notification Hub import/export job to start.
- * @param options - The operation options.
- * @returns A poller which can be called to poll until completion of the job.
+ * @param notificationId - The Notification ID used to get the notification details.
+ * @param polledOperationOptions - The operation options.
+ * @returns A poller which can be called to poll until completion of the getting the notification details.
  */
-export async function beginSubmitNotificationHubJob(
+export async function beginGetNotificationDetails(
   context: NotificationHubsClientContext,
-  notificationHubJob: NotificationHubJob,
+  notificationId: string,
   polledOperationOptions: PolledOperationOptions = {},
-): Promise<NotificationHubJobPoller> {
-  let submittedJob = await submitNotificationHubJob(
-    context,
-    notificationHubJob,
-    polledOperationOptions,
-  );
+): Promise<NotificationDetailsPoller> {
+  let outcomeState: NotificationOutcomeState = "Enqueued";
+  let result: NotificationDetails | undefined;
+  let outcomeError: unknown | undefined;
+  type Handler = (state: OperationState<NotificationDetails>) => void;
 
-  type Handler = (state: OperationState<NotificationHubJob>) => void;
-
-  const state: OperationState<NotificationHubJob> = {
+  const state: OperationState<NotificationDetails> = {
     status: "notStarted",
   };
 
   const progressCallbacks = new Map<symbol, Handler>();
   const processProgressCallbacks = async (): Promise<void> =>
     progressCallbacks.forEach((h) => h(state));
-  let resultPromise: Promise<NotificationHubJob> | undefined;
+  let resultPromise: Promise<NotificationDetails> | undefined;
   const abortController = new AbortController();
   const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 2000;
 
-  const poller: PollerLike<OperationState<NotificationHubJob>, NotificationHubJob> = {
+  const poller: PollerLike<OperationState<NotificationDetails>, NotificationDetails> = {
     async poll(options?: {
       abortSignal?: AbortSignalLike;
-    }): Promise<OperationState<NotificationHubJob>> {
-      submittedJob = await getNotificationHubJob(context, submittedJob.jobId!, options);
-      if (submittedJob.status === "Running" || submittedJob.status === "Started") {
+    }): Promise<OperationState<NotificationDetails>> {
+      try {
+        result = await getNotificationOutcomeDetails(context, notificationId, options);
+        outcomeState = result.state!;
+      } catch (e: unknown) {
+        // Possible to get 404 for when it doesn't exist yet.
+        if (isRestError(e) && e.statusCode === 404) {
+          logger.info(
+            `Notification outcome details not found yet for notificationId: ${notificationId}`,
+          );
+        } else {
+          outcomeError = e;
+        }
+      }
+
+      if (outcomeState === "Enqueued" || outcomeState === "Processing") {
         state.status = "running";
       }
 
-      if (submittedJob.status === "Completed") {
+      if (outcomeState === "Completed" || outcomeState === "DetailedStateAvailable") {
         state.status = "succeeded";
-        state.result = submittedJob;
+        state.result = result;
       }
 
-      if (submittedJob.status === "Failed") {
+      if (outcomeState === "Cancelled") {
+        state.status = "canceled";
+      }
+
+      if (outcomeState === "Abandoned") {
         state.status = "failed";
-        state.error = new Error(submittedJob.failure);
+        state.error = new Error(`Notification outcome failed with state: ${outcomeState}`);
       }
 
       await processProgressCallbacks();
@@ -65,14 +84,19 @@ export async function beginSubmitNotificationHubJob(
       if (state.status === "canceled") {
         throw new Error("Operation was canceled");
       }
+
       if (state.status === "failed") {
         throw state.error;
+      }
+
+      if (outcomeError) {
+        throw outcomeError;
       }
 
       return state;
     },
 
-    pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<NotificationHubJob> {
+    pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<NotificationDetails> {
       return (resultPromise ??= (async () => {
         const { abortSignal: inputAbortSignal } = pollOptions || {};
         // In the future we can use AbortSignal.any() instead
@@ -99,7 +123,7 @@ export async function beginSubmitNotificationHubJob(
         }
         switch (state.status) {
           case "succeeded":
-            return poller.result as NotificationHubJob;
+            return poller.result as NotificationDetails;
           case "canceled":
             throw new Error("Operation was canceled");
           case "failed":
@@ -113,7 +137,7 @@ export async function beginSubmitNotificationHubJob(
       }));
     },
 
-    onProgress(callback: (state: OperationState<NotificationHubJob>) => void): CancelOnProgress {
+    onProgress(callback: (state: OperationState<NotificationDetails>) => void): CancelOnProgress {
       const s = Symbol();
       progressCallbacks.set(s, callback);
 
@@ -124,11 +148,11 @@ export async function beginSubmitNotificationHubJob(
       return ["succeeded", "failed", "canceled"].includes(state.status);
     },
 
-    get operationState(): OperationState<NotificationHubJob> | undefined {
+    get operationState(): OperationState<NotificationDetails> | undefined {
       return state;
     },
 
-    get result(): NotificationHubJob | undefined {
+    get result(): NotificationDetails | undefined {
       return state.result;
     },
 
@@ -141,9 +165,9 @@ export async function beginSubmitNotificationHubJob(
       return;
     },
 
-    then<TResult1 = NotificationHubJob, TResult2 = never>(
+    then<TResult1 = NotificationDetails, TResult2 = never>(
       onfulfilled?:
-        | ((value: NotificationHubJob) => TResult1 | PromiseLike<TResult1>)
+        | ((value: NotificationDetails) => TResult1 | PromiseLike<TResult1>)
         | undefined
         | null,
       onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
@@ -152,10 +176,10 @@ export async function beginSubmitNotificationHubJob(
     },
     catch<TResult2 = never>(
       onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
-    ): Promise<NotificationHubJob | TResult2> {
+    ): Promise<NotificationDetails | TResult2> {
       return poller.pollUntilDone().catch(onrejected);
     },
-    finally(onfinally?: (() => void) | undefined | null): Promise<NotificationHubJob> {
+    finally(onfinally?: (() => void) | undefined | null): Promise<NotificationDetails> {
       return poller.pollUntilDone().finally(onfinally);
     },
     [Symbol.toStringTag]: "Poller",

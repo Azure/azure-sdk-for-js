@@ -816,6 +816,9 @@ export interface NotificationDetails {
 }
 
 // @public
+export type NotificationDetailsPoller = PollerLike<OperationState<NotificationDetails>, NotificationDetails>;
+
+// @public
 export interface NotificationHubJob {
     createdAt?: Date;
     failure?: string;

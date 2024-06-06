@@ -7,7 +7,7 @@
 import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
@@ -817,6 +817,9 @@ export interface NotificationDetails {
 }
 
 // @public
+export type NotificationDetailsPoller = PollerLike<OperationState<NotificationDetails>, NotificationDetails>;
+
+// @public
 export interface NotificationHubJob {
     createdAt?: Date;
     failure?: string;
@@ -883,6 +886,7 @@ export type NotificationHubJobType =
 // @public
 export class NotificationHubsClient {
     constructor(connectionString: string, hubName: string, options?: NotificationHubsClientOptions);
+    beginGetNotificationDetails(notificationId: string, polledOperationOptions?: PolledOperationOptions): Promise<NotificationDetailsPoller>;
     beginSubmitNotificationHubJob(notificationHubJob: NotificationHubJob, options?: PolledOperationOptions): Promise<NotificationHubJobPoller>;
     cancelScheduledNotification(notificationId: string, options?: OperationOptions): Promise<NotificationHubsResponse>;
     createOrUpdateInstallation(installation: Installation, options?: OperationOptions): Promise<NotificationHubsResponse>;

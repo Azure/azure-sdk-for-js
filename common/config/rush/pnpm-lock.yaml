@@ -1455,6 +1455,16 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@azure/core-lro@3.0.0-beta.2:
+    resolution: {integrity: sha512-8WwZaYHwgp04oA4bnJcjgoHg9Aty4k/fu1EUhaC+r7OhiPwLNKchaY7NH4Z6KqSS8MpFOjmdUjCPcgyAvtweJQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      tslib: 2.6.2
+    dev: false
+
   /@azure/core-paging@1.6.2:
     resolution: {integrity: sha512-YKWi9YuCU04B55h25cnOYZHxXYtEvQEbKST5vqRga7hWY9ydd3FZHdeQF8pyh+acWZvppw13M/LMGx0LABUVMA==}
     engines: {node: '>=18.0.0'}
@@ -21899,11 +21909,11 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-VNk6zld7/oXfKhhFjUhDzBuspNUuYcbRRgewl8i/i/8UPWGgjvlqo9PLlm4/HvOKfdCFpSeYM/iAkxZosIC1Dg==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-+rs3pmptxeU6UhpxRmV2CJ8BljARBz23x30JeZyseJpoGHJnb4hmorjw9u3EbOAk5CiHl4WD5QftjT3MskiK1Q==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
-      '@azure/core-lro': 2.7.2
+      '@azure/core-lro': 3.0.0-beta.2
       '@microsoft/api-extractor': 7.46.2(@types/node@18.19.33)
       '@types/node': 18.19.33
       '@vitest/browser': 1.6.0(playwright@1.44.1)(vitest@1.6.0)
