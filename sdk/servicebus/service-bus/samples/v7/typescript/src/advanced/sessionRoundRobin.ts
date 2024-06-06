@@ -95,6 +95,7 @@ async function receiveFromNextSession(): Promise<void> {
       (err.code === "SessionCannotBeLocked" || err.code === "ServiceTimeout")
     ) {
       console.log(`INFO: no available sessions, sleeping for ${delayOnErrorMs}`);
+      await serviceBusClient.close();
       serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
     } else {
       await processError(err, undefined);
