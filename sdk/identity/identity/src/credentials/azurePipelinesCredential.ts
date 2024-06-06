@@ -39,7 +39,7 @@ export class AzurePipelinesCredential implements TokenCredential {
   ) {
     if (!clientId || !tenantId || !serviceConnectionId || !systemAccessToken) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. tenantId, clientId, serviceConnectionId and systemAccessToken are required parameters.`
+        `${credentialName}: is unavailable. tenantId, clientId, serviceConnectionId, and systemAccessToken are required parameters.`
       );
     }
     this.identityClient = new IdentityClient(options);
