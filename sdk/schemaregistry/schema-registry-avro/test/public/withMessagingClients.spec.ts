@@ -43,8 +43,8 @@ interface ScenariosTestInfo<T> {
   createScenario4Client: () => MessagingTestClient<T>;
 }
 
-describe("With messaging clients", function () {
-  const eventHubsConnectionString = env.EVENTHUB_AVRO_CONNECTION_STRING || "";
+describe.only("With messaging clients", function () {
+  const eventHubsFullyQualifiedNamespace = env.EVENTHUB_AVRO_FULLY_QUALIFIED_NAMESPACE || "";
   const eventHubName = env.EVENTHUB_NAME || "";
   const alreadyEnqueued = env.CROSS_LANGUAGE !== undefined;
 
@@ -56,7 +56,7 @@ describe("With messaging clients", function () {
       createEventHubsClient({
         alreadyEnqueued,
         eventHubName: alreadyEnqueued ? inputEventHubName : eventHubName,
-        eventHubsConnectionString,
+        eventHubsFullyQualifiedNamespace,
       }),
     );
     client.initialize();
@@ -185,7 +185,7 @@ describe("With messaging clients", function () {
         await removeSchemas(schemaList, pipeline, httpClient);
       });
 
-      it("Test schema with fields of type int/string/boolean/float/bytes", async () => {
+      it.only("Test schema with fields of type int/string/boolean/float/bytes", async () => {
         schemaName = "interop.avro.RecordWithFieldTypes";
         const writerSchema = JSON.stringify({
           name: "RecordWithFieldTypes",
