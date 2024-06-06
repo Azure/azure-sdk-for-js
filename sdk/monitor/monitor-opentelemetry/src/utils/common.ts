@@ -7,6 +7,7 @@ import {
   hostDetectorSync,
   osDetectorSync,
   processDetectorSync,
+  serviceInstanceIdDetectorSync,
 } from '@opentelemetry/resources';
 import { diag } from "@opentelemetry/api";
 
@@ -113,13 +114,12 @@ export function msToTimeSpan(ms: number): string {
 
 export function parseResourceDetectorsFromEnvVar(): Array<DetectorSync> {
 
-  // didn't include serviceInstanceIdDetectorSync, that seems to be an experimental 
-  // capability
   const resourceDetectors = new Map<string, DetectorSync>([
     ['env', envDetectorSync],
     ['host', hostDetectorSync],
     ['os', osDetectorSync],
     ['process', processDetectorSync],
+    ['serviceinstance', serviceInstanceIdDetectorSync]
   ]);
 
   if (process.env.OTEL_NODE_RESOURCE_DETECTORS != null) {
@@ -147,7 +147,8 @@ export function parseResourceDetectorsFromEnvVar(): Array<DetectorSync> {
 
   } else {
     // leaving out the process detector as that can add many resource attributes 
-    // with large values
+    // with large values. Also not enabling service instance attributes by default
+    // as this is still experimental. 
     return [envDetectorSync, hostDetectorSync, osDetectorSync];
   }
 
