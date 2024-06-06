@@ -8,7 +8,7 @@
 
 ### Breaking Changes
 
-- The `offet` property of event data is now typed as a string instead of as a number.
+- The `offset` property of event data is now typed as a string instead of as a number.
 
 ## 5.12.0 (2024-05-20)
 
