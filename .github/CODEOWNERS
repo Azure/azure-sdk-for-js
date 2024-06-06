@@ -81,7 +81,7 @@
 
 # PRLabel: %Communication - Alpha IDs
 # ServiceLabel: %Communication - Alpha IDs
-/sdk/communication/communication-alpha-ids/ @danielav7
+/sdk/communication/communication-alpha-ids/ @miguhern
 
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
@@ -113,7 +113,7 @@
 
 # PRLabel: %Communication - Short Codes
 # ServiceLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @danielav7
+/sdk/communication/communication-short-codes/ @miguhern
 
 # PRLabel: %Communication - Common
 # ServiceLabel: %Communication - Common
@@ -278,7 +278,7 @@
 /common/smoke-test/ @xirzec @jeremymeng
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng @mpodwysocki
+/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng @mpodwysocki @maorleger
 
 
 # Management Plane
@@ -451,6 +451,9 @@
 /sdk/deviceupdate/arm-deviceupdate/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/devopsinfrastructure/arm-devopsinfrastructure/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/devspaces/arm-devspaces/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -533,6 +536,9 @@
 
 # PRLabel: %Mgmt
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/informatica/arm-informaticadatamanagement @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/iotcentral/arm-iotcentral/ @qiaozha @MaryGao
@@ -890,8 +896,8 @@
 
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
-/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber
-/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber
+/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber @harsimar
+/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber @harsimar
 /sdk/monitor/monitor-query/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
 /sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
@@ -1139,9 +1145,6 @@
 # ServiceLabel: %Digital Twins %Service Attention
 #/<NotInRepo>/          @sourabhguha @inesk-vt
 
-# ServiceLabel: %Event Grid %Service Attention
-#/<NotInRepo>/          @jfggdl
-
 # ServiceLabel: %Event Hubs %Service Attention
 #/<NotInRepo>/          @kasun04
 
@@ -1215,9 +1218,6 @@
 #/<NotInRepo>/          @SameergMS @dadunl @AzMonEssential @AzmonAlerts @AzmonActionG @AzmonLogA
 
 # ServiceLabel: %Monitor - ApplicationInsights %Service Attention
-#/<NotInRepo>/          @azmonapplicationinsights
-
-# ServiceLabel: %Monitor - Exporter %Service Attention
 #/<NotInRepo>/          @JacksonWeber @hectorhdzg @ramthi
 
 # ServiceLabel: %MySQL %Service Attention
@@ -1285,9 +1285,6 @@
 
 # ServiceLabel: %Redis Cache %Service Attention
 #/<NotInRepo>/          @yegu-ms
-
-# ServiceLabel: %Relay %Service Attention
-#/<NotInRepo>/          @jfggdl
 
 # ServiceLabel: %Reservations %Service Attention
 #/<NotInRepo>/          @Rkapso
@@ -1489,6 +1486,7 @@
 # Eng Sys
 ###########
 /eng/           @ckairen @mikeharder @weshaggard @benbp
+/eng/common/    @Azure/azure-sdk-eng
 
 ###########
 # Config
@@ -1506,6 +1504,7 @@
 
 # Add owners for notifications for specific pipelines
 /eng/pipelines/aggregate-reports.yml         @xirzec @jeremymeng
+/eng/common/pipelines/codeowners-linter.yml  @xirzec @jeremymeng
 
 # PRLabel: %Mgmt
 /**/ci.mgmt.yml   @qiaozha @MaryGao

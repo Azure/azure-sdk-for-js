@@ -381,10 +381,10 @@ export function createFcmV1RegistrationDescription(description: FcmV1Registratio
 export function createFcmV1TemplateRegistrationDescription(description: FcmV1TemplateRegistrationDescriptionCommon): FcmV1TemplateRegistrationDescription;
 
 // @public
-export function createFirebaseLegacyNotificationBody(nativeMessage: FirebaseV1NativeMessageEnvelope): string;
+export function createFirebaseLegacyNotificationBody(nativeMessage: FirebaseLegacyNativeMessage): string;
 
 // @public
-export function createFirebaseV1NotificationBody(nativeMessage: FirebaseV1NativeMessage): string;
+export function createFirebaseV1NotificationBody(nativeMessage: FirebaseV1NativeMessageEnvelope): string;
 
 // @public
 export function createTagExpression(tags: string[]): string;
@@ -802,6 +802,7 @@ export interface NotificationDetails {
     endTime?: Date;
     enqueueTime?: Date;
     fcmOutcomeCounts?: NotificationOutcome[];
+    fcmV1OutcomeCounts?: NotificationOutcome[];
     location?: string;
     notificationBody?: string;
     notificationId?: string;

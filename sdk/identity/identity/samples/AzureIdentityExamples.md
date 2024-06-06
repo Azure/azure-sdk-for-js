@@ -107,13 +107,14 @@ To learn more, read [Application and service principal objects in Microsoft Entr
 - [Application registration][quickstart-register-app]
 - [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell][service_principal_azure_powershell]
 
-| Credential with example                                                                      | Usage                                                                                                                                                                                                                                                                                                                                           |
-| -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ClientSecretCredential](#authenticating-a-service-principal-with-a-client-secret)           | Authenticates a service principal using a secret.                                                                                                                                                                                                                                                                                               |
-| [ClientCertificateCredential](#authenticating-a-service-principal-with-a-client-certificate) | Authenticates a service principal using a certificate.                                                                                                                                                                                                                                                                                          |
-| [ClientAssertionCredential](#authenticating-a-service-principal-with-a-client-assertion)     | Authenticating a service principal with a client assertion.                                                                                                                                                                                                                                                                                     |
-| [EnvironmentCredential](#authenticating-a-service-principal-with-environment-credentials)    | Authenticates a service principal or user via credential information specified in environment variables.                                                                                                                                                                                                                                        |
-| [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                        | Tries `EnvironmentCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals, or managed identity based on what's available in the current environment without changing your code. |
+| Credential with example                                                                                   | Usage                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [AzurePipelinesCredential](#authenticating-in-azure-pipelines-with-service-connections) | Authenticate in Azure Pipelines environment with [Microsoft Entra Workload ID](https://learn.microsoft.com/entra/workload-id/workload-identities-overview), which [uses Azure Resource Manager service connections](https://learn.microsoft.com/azure/devops/pipelines/library/connect-to-azure?view=azure-devops#create-an-azure-resource-manager-service-connection-that-uses-workload-identity-federation) to federate with any external identity providers. |
+| [ClientSecretCredential](#authenticating-a-service-principal-with-a-client-secret)                        | Authenticates a service principal using a secret.                                                                                                                                                                                                                                                                                                                                                                                                               |
+| [ClientCertificateCredential](#authenticating-a-service-principal-with-a-client-certificate)              | Authenticates a service principal using a certificate.                                                                                                                                                                                                                                                                                                                                                                                                          |
+| [ClientAssertionCredential](#authenticating-a-service-principal-with-a-client-assertion)                  | Authenticating a service principal with a client assertion.                                                                                                                                                                                                                                                                                                                                                                                                     |
+| [EnvironmentCredential](#authenticating-a-service-principal-with-environment-credentials)                 | Authenticates a service principal or user via credential information specified in environment variables.                                                                                                                                                                                                                                                                                                                                                        |
+| [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                                     | Tries `EnvironmentCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals, or managed identity based on what's available in the current environment without changing your code.                                                                                                                 |
 
 ### Authenticating Azure Hosted Applications
 
@@ -617,19 +618,20 @@ function withUserManagedIdentityCredential() {
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `AzurePipelinesServiceConnectionCredential` in an Azure Pipelines environment with service connections.
 
-````ts
+```ts
 /**
  * Authenticate with AzurePipelinesServiceConnection identity.
  */
 function withAzurePipelinesServiceConnectionCredential() {
-  const clientId = "<YOUR_CLIENT_ID>"
-  const tenantId = "<YOUR_TENANT_ID>"
-  const serviceConnectionId = "<YOUR_SERVICE_CONNECTION_ID>"
+  const clientId = "<YOUR_CLIENT_ID>";
+  const tenantId = "<YOUR_TENANT_ID>";
+  const serviceConnectionId = "<YOUR_SERVICE_CONNECTION_ID>";
   const credential = new AzurePipelinesServiceConnection(tenantId, clientId, serviceConnectionId);
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
 ```
+
 This credential is NOT part of `DefaultAzureCredential`.
 
 ## Chaining credentials
@@ -644,7 +646,7 @@ function withChainedTokenCredential() {
   );
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
-````
+```
 
 ## Authenticating With Azure Stack using Azure Identity
 

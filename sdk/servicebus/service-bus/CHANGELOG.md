@@ -1,14 +1,18 @@
 # Release History
 
-## 7.9.5 (Unreleased)
+## 7.10.0 (Unreleased)
 
 ### Features Added
+
+- Adds `deleteMessages` which deletes messages from the queue.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- upgrade dependency `@azure/abort-controller` version to `^2.1.2`.
 
 ## 7.9.4 (2024-02-06)
 

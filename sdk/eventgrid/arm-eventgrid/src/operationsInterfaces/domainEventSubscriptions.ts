@@ -22,7 +22,7 @@ import {
   DomainEventSubscriptionsUpdateOptionalParams,
   DomainEventSubscriptionsUpdateResponse,
   DomainEventSubscriptionsGetFullUrlOptionalParams,
-  DomainEventSubscriptionsGetFullUrlResponse
+  DomainEventSubscriptionsGetFullUrlResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface DomainEventSubscriptions {
   list(
     resourceGroupName: string,
     domainName: string,
-    options?: DomainEventSubscriptionsListOptionalParams
+    options?: DomainEventSubscriptionsListOptionalParams,
   ): PagedAsyncIterableIterator<EventSubscription>;
   /**
    * Get all delivery attributes for an event subscription for domain.
@@ -50,28 +50,27 @@ export interface DomainEventSubscriptions {
     resourceGroupName: string,
     domainName: string,
     eventSubscriptionName: string,
-    options?: DomainEventSubscriptionsGetDeliveryAttributesOptionalParams
+    options?: DomainEventSubscriptionsGetDeliveryAttributesOptionalParams,
   ): Promise<DomainEventSubscriptionsGetDeliveryAttributesResponse>;
   /**
    * Get properties of an event subscription of a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param domainName Name of the domain.
-   * @param eventSubscriptionName Name of the event subscription to be found. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be found.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     domainName: string,
     eventSubscriptionName: string,
-    options?: DomainEventSubscriptionsGetOptionalParams
+    options?: DomainEventSubscriptionsGetOptionalParams,
   ): Promise<DomainEventSubscriptionsGetResponse>;
   /**
    * Asynchronously creates a new event subscription or updates an existing event subscription.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param domainName Name of the domain topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   *                              must be between 3 and 64 characters in length and use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the destination and filter
    *                              information.
    * @param options The options parameters.
@@ -81,7 +80,7 @@ export interface DomainEventSubscriptions {
     domainName: string,
     eventSubscriptionName: string,
     eventSubscriptionInfo: EventSubscription,
-    options?: DomainEventSubscriptionsCreateOrUpdateOptionalParams
+    options?: DomainEventSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DomainEventSubscriptionsCreateOrUpdateResponse>,
@@ -93,7 +92,7 @@ export interface DomainEventSubscriptions {
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param domainName Name of the domain topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   *                              must be between 3 and 64 characters in length and use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the destination and filter
    *                              information.
    * @param options The options parameters.
@@ -103,35 +102,33 @@ export interface DomainEventSubscriptions {
     domainName: string,
     eventSubscriptionName: string,
     eventSubscriptionInfo: EventSubscription,
-    options?: DomainEventSubscriptionsCreateOrUpdateOptionalParams
+    options?: DomainEventSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<DomainEventSubscriptionsCreateOrUpdateResponse>;
   /**
    * Delete an existing event subscription for a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param domainName Name of the domain.
-   * @param eventSubscriptionName Name of the event subscription to be deleted. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be deleted.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     domainName: string,
     eventSubscriptionName: string,
-    options?: DomainEventSubscriptionsDeleteOptionalParams
+    options?: DomainEventSubscriptionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an existing event subscription for a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param domainName Name of the domain.
-   * @param eventSubscriptionName Name of the event subscription to be deleted. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be deleted.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     domainName: string,
     eventSubscriptionName: string,
-    options?: DomainEventSubscriptionsDeleteOptionalParams
+    options?: DomainEventSubscriptionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update an existing event subscription for a topic.
@@ -146,7 +143,7 @@ export interface DomainEventSubscriptions {
     domainName: string,
     eventSubscriptionName: string,
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
-    options?: DomainEventSubscriptionsUpdateOptionalParams
+    options?: DomainEventSubscriptionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DomainEventSubscriptionsUpdateResponse>,
@@ -166,7 +163,7 @@ export interface DomainEventSubscriptions {
     domainName: string,
     eventSubscriptionName: string,
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
-    options?: DomainEventSubscriptionsUpdateOptionalParams
+    options?: DomainEventSubscriptionsUpdateOptionalParams,
   ): Promise<DomainEventSubscriptionsUpdateResponse>;
   /**
    * Get the full endpoint URL for an event subscription for domain.
@@ -179,6 +176,6 @@ export interface DomainEventSubscriptions {
     resourceGroupName: string,
     domainName: string,
     eventSubscriptionName: string,
-    options?: DomainEventSubscriptionsGetFullUrlOptionalParams
+    options?: DomainEventSubscriptionsGetFullUrlOptionalParams,
   ): Promise<DomainEventSubscriptionsGetFullUrlResponse>;
 }

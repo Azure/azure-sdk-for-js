@@ -15,7 +15,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devcenter/developer-devcenter-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/developer-devcenter)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/developer-devcenter?view=azure-node-preview)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/developer-devcenter)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devcenter/developer-devcenter-rest/samples)
 
 ## Getting started

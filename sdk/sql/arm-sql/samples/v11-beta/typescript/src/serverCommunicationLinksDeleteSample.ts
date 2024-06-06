@@ -33,7 +33,7 @@ async function deleteAServerCommunicationLink() {
   const result = await client.serverCommunicationLinks.delete(
     resourceGroupName,
     serverName,
-    communicationLinkName
+    communicationLinkName,
   );
   console.log(result);
 }

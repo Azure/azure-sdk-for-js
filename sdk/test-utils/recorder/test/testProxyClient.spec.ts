@@ -151,7 +151,8 @@ describe("TestProxyClient functions", () => {
         try {
           await client.start({ envSetupForPlayback: {} });
           throw new Error("should not have reached here, start() call should have failed");
-        } catch (error: any) {
+        } catch (error: unknown) {
+          expect(error instanceof RecorderError).to.equal(true);
           expect((error as RecorderError).name).to.equal("RecorderError");
           expect((error as RecorderError).message).to.equal("Start request failed.");
         }
@@ -169,7 +170,8 @@ describe("TestProxyClient functions", () => {
         try {
           await client.start({ envSetupForPlayback: {} });
           throw new Error("should not have reached here, start() call should have failed");
-        } catch (error: any) {
+        } catch (error: unknown) {
+          expect(error instanceof RecorderError).to.equal(true);
           expect((error as RecorderError).name).to.equal("RecorderError");
           expect((error as RecorderError).message).to.equal(
             "No recording ID returned for a successful start request.",
@@ -204,7 +206,8 @@ describe("TestProxyClient functions", () => {
           try {
             await client.stop();
             throw new Error("should not have reached here, stop() call should have failed");
-          } catch (error: any) {
+          } catch (error: unknown) {
+            expect(error instanceof RecorderError).to.equal(true);
             expect((error as RecorderError).name).to.equal("RecorderError");
             expect((error as RecorderError).message).to.equal(
               "Bad state, recordingId is not defined when called stop.",
@@ -227,7 +230,8 @@ describe("TestProxyClient functions", () => {
         try {
           await client.stop();
           throw new Error("should not have reached here, stop() call should have failed");
-        } catch (error: any) {
+        } catch (error: unknown) {
+          expect(error instanceof RecorderError).to.equal(true);
           expect((error as RecorderError).name).to.equal("RecorderError");
           expect((error as RecorderError).message).to.equal("Stop request failed.");
         }

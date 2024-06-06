@@ -108,6 +108,7 @@
     "eastus",
     "entra",
     "etags",
+    "findsimilars",
     "hnsw",
     "kusto",
     "lcov",
@@ -345,6 +346,7 @@
         "rerank",
         "reranker",
         "sorani",
+        "vectorize",
         "vectorizer",
         "vectorizers"
       ]

@@ -3,27 +3,17 @@
 
 /**
  * @file Testing the ts-no-window rule.
- * @author Maor Leger
+ *
  */
 
-import { RuleTester } from "../ruleTester";
+import { createRuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-no-window";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-    sourceType: "module",
-  },
-  settings: {
-    main: "test.ts",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-no-window", rule, {
   valid: [

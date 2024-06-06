@@ -9,7 +9,7 @@
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ValidateOperationRequestResource,
-  ValidateOperationTriggerOptionalParams
+  ValidateOperationTriggerOptionalParams,
 } from "../models";
 
 /** Interface representing a ValidateOperation. */
@@ -27,7 +27,7 @@ export interface ValidateOperation {
     vaultName: string,
     resourceGroupName: string,
     parameters: ValidateOperationRequestResource,
-    options?: ValidateOperationTriggerOptionalParams
+    options?: ValidateOperationTriggerOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Validate operation for specified backed up item in the form of an asynchronous operation. Returns
@@ -42,6 +42,6 @@ export interface ValidateOperation {
     vaultName: string,
     resourceGroupName: string,
     parameters: ValidateOperationRequestResource,
-    options?: ValidateOperationTriggerOptionalParams
+    options?: ValidateOperationTriggerOptionalParams,
   ): Promise<void>;
 }

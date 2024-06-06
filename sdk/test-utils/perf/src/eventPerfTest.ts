@@ -43,7 +43,7 @@ export abstract class EventPerfTest<
     this.abortController = abortController;
     try {
       await delay(this.testDuration, this.abortController.signal);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.warn(error);
     }
   }

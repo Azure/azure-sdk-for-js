@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Event Grid service.",
-  "version": "5.4.1",
+  "version": "5.5.0",
   "keywords": [
     "node",
     "azure",
@@ -104,7 +104,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/service-bus": "^7.0.0",
     "@azure/core-util": "^1.9.0",
-    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",

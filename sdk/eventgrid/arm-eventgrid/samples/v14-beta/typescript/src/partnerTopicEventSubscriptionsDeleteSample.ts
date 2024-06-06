@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete an existing event subscription of a partner topic.
  *
  * @summary Delete an existing event subscription of a partner topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerTopicEventSubscriptions_Delete.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerTopicEventSubscriptions_Delete.json
  */
 async function partnerTopicEventSubscriptionsDelete() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function partnerTopicEventSubscriptionsDelete() {
   const result = await client.partnerTopicEventSubscriptions.beginDeleteAndWait(
     resourceGroupName,
     partnerTopicName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

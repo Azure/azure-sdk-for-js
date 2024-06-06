@@ -34,7 +34,7 @@ async function getAPrivateEndpoint() {
     resourceGroupName,
     serverName,
     jobAgentName,
-    privateEndpointName
+    privateEndpointName,
   );
   console.log(result);
 }

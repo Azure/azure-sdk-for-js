@@ -49,7 +49,7 @@ import {
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
 import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { ReceiveMode } from "../models";
 import { translateServiceBusError } from "../serviceBusError";
 import { defaultDataTransformer, tryToJsonDecode } from "../dataTransformer";
@@ -265,23 +265,35 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             `${this.logPrefix} new replyTo address: ${this.replyTo} generated`,
           );
         }
-        const { abortSignal } = options ?? {};
+        const { abortSignal } = options;
         const aborter = new AbortController();
-        const { signal } = new AbortController([
-          aborter.signal,
-          ...(abortSignal ? [abortSignal] : []),
-        ]);
+
+        const abortListener = () => {
+          aborter.abort();
+        };
+        abortSignal?.addEventListener("abort", abortListener);
 
         if (!this.isOpen()) {
           await Promise.race([
-            this._init(signal),
-            delay(retryTimeoutInMs, { abortSignal: aborter.signal }).then(() => {
-              throw {
-                name: "OperationTimeoutError",
-                message: "The management request timed out. Please try again later.",
-              };
-            }),
-          ]).finally(() => aborter.abort());
+            this._init(aborter.signal),
+            delay(retryTimeoutInMs, { abortSignal: aborter.signal }).then(
+              function onfulfilled() {
+                throw {
+                  name: "OperationTimeoutError",
+                  message:
+                    "The initialization of management client timed out. Please try again later.",
+                };
+              },
+              function onrejected(_) {
+                managementClientLogger.verbose(
+                  `The management client initialization has either completed or been cancelled.`,
+                );
+              },
+            ),
+          ]).finally(() => {
+            aborter.abort();
+            abortSignal?.removeEventListener("abort", abortListener);
+          });
         }
 
         // time taken by the init operation
@@ -923,6 +935,88 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
       throw error;
     }
+  }
+
+  private async _deleteMessages(
+    messageCount: number,
+    enqueueTimeUtcOlderThan: Date,
+    sessionId?: string,
+    options?: OperationOptionsBase & SendManagementRequestOptions,
+  ): Promise<number> {
+    try {
+      const messageBody: any = {};
+      messageBody[Constants.messageCount] = types.wrap_int(messageCount);
+      messageBody[Constants.enqueuedTimeUtc] = enqueueTimeUtcOlderThan;
+      if (isDefined(sessionId)) {
+        messageBody[Constants.sessionIdMapKey] = sessionId;
+      }
+
+      const updatedOptions = await this.initWithUniqueReplyTo(options);
+      const request: RheaMessage = {
+        body: messageBody,
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.operations.deleteMessages,
+        },
+      };
+      if (updatedOptions?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
+      }
+      request.application_properties![Constants.trackingId] = generate_uuid();
+      receiverLogger.verbose("%s delete messages request body: %O.", this.logPrefix, request.body);
+
+      const result = await this._makeManagementRequest(request, receiverLogger, updatedOptions);
+      if (result.application_properties!.statusCode === 200) {
+        return result.body["message-count"];
+      } else if (
+        result.application_properties!.statusCode === 204 &&
+        result.application_properties!.errorCondition === "com.microsoft:message-not-found"
+      ) {
+        return 0;
+      } else {
+        throw new Error(
+          `Unexpected response with status code of ${result.application_properties!.statusCode}`,
+        );
+      }
+    } catch (err: any) {
+      const error = translateServiceBusError(err) as MessagingError;
+      receiverLogger.logError(
+        error,
+        `${this.logPrefix} An error occurred while sending the request to delete messages to $management endpoint`,
+      );
+      throw error;
+    }
+  }
+
+  /**
+   * Delete messages. If no option is specified, all messages will be deleted.
+   *
+   * @param messageCount - number of messages to delete in a batch.
+   * @param enqueueTimeUtcOlderThan - Delete messages whose enqueue time (UTC) are older than this.
+   * @returns number of messages deleted.
+   */
+  async deleteMessages(
+    messageCount: number,
+    enqueueTimeUtcOlderThan?: Date,
+    sessionId?: string,
+    options: OperationOptionsBase & SendManagementRequestOptions = {},
+  ): Promise<number> {
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "messageCount", messageCount);
+    throwTypeErrorIfParameterTypeMismatch(
+      this._context.connectionId,
+      "messageCount",
+      messageCount,
+      "number",
+    );
+
+    if (isNaN(messageCount) || messageCount < 1) {
+      throw new TypeError("'messageCount' must be a number greater than 0.");
+    }
+
+    enqueueTimeUtcOlderThan ??= new Date();
+
+    return this._deleteMessages(messageCount, enqueueTimeUtcOlderThan, sessionId, options);
   }
 
   /**

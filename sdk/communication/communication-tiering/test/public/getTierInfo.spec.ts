@@ -26,5 +26,5 @@ describe(`TieringClient - Get Tier Info`, function () {
     const resourceId = env.RESOURCE_ID!;
     const tierInfo = await client.getTierByResourceId(resourceId);
     assert.isNotNull(tierInfo);
-  }).timeout(10000);
+  }).timeout(30000);
 });

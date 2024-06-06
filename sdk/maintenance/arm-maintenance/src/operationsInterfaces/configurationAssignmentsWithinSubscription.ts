@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ConfigurationAssignment,
-  ConfigurationAssignmentsWithinSubscriptionListOptionalParams
+  ConfigurationAssignmentsWithinSubscriptionListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -20,6 +20,6 @@ export interface ConfigurationAssignmentsWithinSubscription {
    * @param options The options parameters.
    */
   list(
-    options?: ConfigurationAssignmentsWithinSubscriptionListOptionalParams
+    options?: ConfigurationAssignmentsWithinSubscriptionListOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationAssignment>;
 }

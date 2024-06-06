@@ -32,7 +32,7 @@ import {
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion20240301Preview,
+  ApiVersion20240501Preview,
   SearchServiceClientOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetServiceStatisticsResponse,
@@ -41,7 +41,7 @@ import {
 /** @internal */
 export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
-  apiVersion: ApiVersion20240301Preview;
+  apiVersion: ApiVersion20240501Preview;
 
   /**
    * Initializes a new instance of the SearchServiceClient class.
@@ -51,7 +51,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20240301Preview,
+    apiVersion: ApiVersion20240501Preview,
     options?: SearchServiceClientOptionalParams,
   ) {
     if (endpoint === undefined) {
@@ -69,7 +69,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-search-documents/12.1.0-beta.1`;
+    const packageDetails = `azsdk-js-search-documents/12.1.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

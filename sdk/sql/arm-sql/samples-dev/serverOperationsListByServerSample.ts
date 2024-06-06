@@ -32,7 +32,7 @@ async function listTheServerManagementOperations() {
   const resArray = new Array();
   for await (let item of client.serverOperations.listByServer(
     resourceGroupName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

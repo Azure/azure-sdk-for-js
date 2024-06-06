@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import sinon from "sinon";
 import { trace, context, isValidTraceId, isValidSpanId } from "@opentelemetry/api";
-import { LogRecord as APILogRecord, logs } from "@opentelemetry/api-logs";
+import { LogRecord as APILogRecord, SeverityNumber, logs } from "@opentelemetry/api-logs";
 import { ExportResultCode } from "@opentelemetry/core";
 import { LoggerProvider } from "@opentelemetry/sdk-logs";
 import { LogHandler } from "../../../../src/logs";
@@ -12,12 +12,15 @@ import { MetricHandler } from "../../../../src/metrics";
 import { InternalConfig } from "../../../../src/shared";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
+import { BunyanInstrumentationConfig } from "@opentelemetry/instrumentation-bunyan";
+import { WinstonInstrumentationConfig } from "@opentelemetry/instrumentation-winston";
 
 describe("LogHandler", () => {
   let sandbox: sinon.SinonSandbox;
   let handler: LogHandler;
   let exportStub: sinon.SinonStub;
   let metricHandler: MetricHandler;
+  let originalEnv: NodeJS.ProcessEnv;
   const _config = new InternalConfig();
   if (_config.azureMonitorExporterOptions) {
     _config.azureMonitorExporterOptions.connectionString =
@@ -46,7 +49,12 @@ describe("LogHandler", () => {
     tracerProvider.register();
   });
 
+  beforeEach(() => {
+    originalEnv = process.env;
+  });
+
   afterEach(() => {
+    process.env = originalEnv;
     sandbox.restore();
     exportStub.resetHistory();
   });
@@ -207,6 +215,38 @@ describe("LogHandler", () => {
         logHandler.getInstrumentations()[0].instrumentationName,
         "@opentelemetry/instrumentation-winston",
         "Winston instrumentation not added",
+      );
+    });
+
+    it("should set bunyan log level with the APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL env var", () => {
+      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "DEBUG";
+      let config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.bunyan = {
+        enabled: true,
+      };
+      let logHandler = new LogHandler(config, metricHandler);
+      assert.strictEqual(
+        (logHandler.getInstrumentations()[0].getConfig() as BunyanInstrumentationConfig)
+          .logSeverity,
+        SeverityNumber.DEBUG,
+      );
+    });
+
+    it("should set winston log level with the APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL env var", () => {
+      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "ERROR";
+      let config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.winston = {
+        enabled: true,
+      };
+      let logHandler = new LogHandler(config, metricHandler);
+      assert.strictEqual(
+        (logHandler.getInstrumentations()[0].getConfig() as WinstonInstrumentationConfig)
+          .logSeverity,
+        SeverityNumber.ERROR,
       );
     });
   });

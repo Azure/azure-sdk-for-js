@@ -29,7 +29,7 @@ async function getJitNetworkAccessPoliciesOnAResourceGroup() {
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.jitNetworkAccessPolicies.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

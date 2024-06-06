@@ -20,7 +20,9 @@ import {
   NamespaceTopicEventSubscriptionsUpdateOptionalParams,
   NamespaceTopicEventSubscriptionsUpdateResponse,
   NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse
+  NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse,
+  NamespaceTopicEventSubscriptionsGetFullUrlOptionalParams,
+  NamespaceTopicEventSubscriptionsGetFullUrlResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,15 +39,14 @@ export interface NamespaceTopicEventSubscriptions {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalParams
+    options?: NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalParams,
   ): PagedAsyncIterableIterator<Subscription>;
   /**
    * Get properties of an event subscription of a namespace topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param namespaceName Name of the namespace.
    * @param topicName Name of the namespace topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be found.
    * @param options The options parameters.
    */
   get(
@@ -53,7 +54,7 @@ export interface NamespaceTopicEventSubscriptions {
     namespaceName: string,
     topicName: string,
     eventSubscriptionName: string,
-    options?: NamespaceTopicEventSubscriptionsGetOptionalParams
+    options?: NamespaceTopicEventSubscriptionsGetOptionalParams,
   ): Promise<NamespaceTopicEventSubscriptionsGetResponse>;
   /**
    * Asynchronously creates or updates an event subscription of a namespace topic with the specified
@@ -62,7 +63,7 @@ export interface NamespaceTopicEventSubscriptions {
    * @param namespaceName Name of the namespace.
    * @param topicName Name of the namespace topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   *                              must be between 3 and 50 characters in length and use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the delivery mode, filter
    *                              information, and others.
    * @param options The options parameters.
@@ -73,7 +74,7 @@ export interface NamespaceTopicEventSubscriptions {
     topicName: string,
     eventSubscriptionName: string,
     eventSubscriptionInfo: Subscription,
-    options?: NamespaceTopicEventSubscriptionsCreateOrUpdateOptionalParams
+    options?: NamespaceTopicEventSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NamespaceTopicEventSubscriptionsCreateOrUpdateResponse>,
@@ -87,7 +88,7 @@ export interface NamespaceTopicEventSubscriptions {
    * @param namespaceName Name of the namespace.
    * @param topicName Name of the namespace topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   *                              must be between 3 and 50 characters in length and use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the delivery mode, filter
    *                              information, and others.
    * @param options The options parameters.
@@ -98,15 +99,14 @@ export interface NamespaceTopicEventSubscriptions {
     topicName: string,
     eventSubscriptionName: string,
     eventSubscriptionInfo: Subscription,
-    options?: NamespaceTopicEventSubscriptionsCreateOrUpdateOptionalParams
+    options?: NamespaceTopicEventSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<NamespaceTopicEventSubscriptionsCreateOrUpdateResponse>;
   /**
    * Delete an existing event subscription of a namespace topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param namespaceName Name of the namespace.
    * @param topicName Name of the namespace topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be deleted.
    * @param options The options parameters.
    */
   beginDelete(
@@ -114,15 +114,14 @@ export interface NamespaceTopicEventSubscriptions {
     namespaceName: string,
     topicName: string,
     eventSubscriptionName: string,
-    options?: NamespaceTopicEventSubscriptionsDeleteOptionalParams
+    options?: NamespaceTopicEventSubscriptionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an existing event subscription of a namespace topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param namespaceName Name of the namespace.
    * @param topicName Name of the namespace topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be deleted.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -130,15 +129,14 @@ export interface NamespaceTopicEventSubscriptions {
     namespaceName: string,
     topicName: string,
     eventSubscriptionName: string,
-    options?: NamespaceTopicEventSubscriptionsDeleteOptionalParams
+    options?: NamespaceTopicEventSubscriptionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update an existing event subscription of a namespace topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param namespaceName Name of the namespace.
    * @param topicName Name of the namespace topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be updated.
    * @param eventSubscriptionUpdateParameters Updated event subscription information.
    * @param options The options parameters.
    */
@@ -148,7 +146,7 @@ export interface NamespaceTopicEventSubscriptions {
     topicName: string,
     eventSubscriptionName: string,
     eventSubscriptionUpdateParameters: SubscriptionUpdateParameters,
-    options?: NamespaceTopicEventSubscriptionsUpdateOptionalParams
+    options?: NamespaceTopicEventSubscriptionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NamespaceTopicEventSubscriptionsUpdateResponse>,
@@ -160,8 +158,7 @@ export interface NamespaceTopicEventSubscriptions {
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param namespaceName Name of the namespace.
    * @param topicName Name of the namespace topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be updated.
    * @param eventSubscriptionUpdateParameters Updated event subscription information.
    * @param options The options parameters.
    */
@@ -171,15 +168,14 @@ export interface NamespaceTopicEventSubscriptions {
     topicName: string,
     eventSubscriptionName: string,
     eventSubscriptionUpdateParameters: SubscriptionUpdateParameters,
-    options?: NamespaceTopicEventSubscriptionsUpdateOptionalParams
+    options?: NamespaceTopicEventSubscriptionsUpdateOptionalParams,
   ): Promise<NamespaceTopicEventSubscriptionsUpdateResponse>;
   /**
    * Get all delivery attributes for an event subscription of a namespace topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param namespaceName Name of the namespace.
    * @param topicName Name of the namespace topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription.
    * @param options The options parameters.
    */
   getDeliveryAttributes(
@@ -187,6 +183,21 @@ export interface NamespaceTopicEventSubscriptions {
     namespaceName: string,
     topicName: string,
     eventSubscriptionName: string,
-    options?: NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
+    options?: NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
   ): Promise<NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse>;
+  /**
+   * Get the full endpoint URL for an event subscription of a namespace topic.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param namespaceName Name of the namespace.
+   * @param topicName Name of the namespace topic.
+   * @param eventSubscriptionName Name of the event subscription.
+   * @param options The options parameters.
+   */
+  getFullUrl(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    eventSubscriptionName: string,
+    options?: NamespaceTopicEventSubscriptionsGetFullUrlOptionalParams,
+  ): Promise<NamespaceTopicEventSubscriptionsGetFullUrlResponse>;
 }

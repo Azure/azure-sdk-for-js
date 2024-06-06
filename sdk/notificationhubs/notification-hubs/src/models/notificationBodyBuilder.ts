@@ -427,7 +427,7 @@ export interface FirebaseLegacyWebNativePayload {
  * @returns The JSON body to send to Notification Hubs.
  */
 export function createFirebaseLegacyNotificationBody(
-  nativeMessage: FirebaseV1NativeMessageEnvelope,
+  nativeMessage: FirebaseLegacyNativeMessage,
 ): string {
   return JSON.stringify(nativeMessage);
 }
@@ -874,7 +874,9 @@ export interface FirebaseV1FcmOptions {
  * @param nativeMessage - The native message payload to send to Notification Hubs.
  * @returns The JSON body to send to Notification Hubs.
  */
-export function createFirebaseV1NotificationBody(nativeMessage: FirebaseV1NativeMessage): string {
+export function createFirebaseV1NotificationBody(
+  nativeMessage: FirebaseV1NativeMessageEnvelope,
+): string {
   return JSON.stringify(nativeMessage);
 }
 

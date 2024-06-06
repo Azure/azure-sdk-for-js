@@ -168,7 +168,7 @@ async function run() {
     label: "optional-label"
   });
 
-  let retrievedSetting = await client.getConfigurationSetting({
+  const retrievedSetting = await client.getConfigurationSetting({
     key: "testkey",
     label: "optional-label"
   });
@@ -231,7 +231,7 @@ console.log("Retrieved snapshot:", retrievedSnapshot);
 
 ### List the `ConfigurationSetting` in the snapshot
 ```javascript
-let retrievedSnapshotSettings = await client.listConfigurationSettingsForSnapshot("testsnapshot");
+const retrievedSnapshotSettings = await client.listConfigurationSettingsForSnapshot("testsnapshot");
 
 for await (const setting of retrievedSnapshotSettings) {
   console.log(`Found key: ${setting.key}, label: ${setting.label}`);
@@ -240,7 +240,7 @@ for await (const setting of retrievedSnapshotSettings) {
 
 ### List all snapshots from the service
 ```javascript
-let snapshots = await client.listSnapshots();
+const snapshots = await client.listSnapshots();
 
 for await (const snapshot of snapshots) {
   console.log(`Found snapshot: ${snapshot.name}`);
@@ -250,11 +250,11 @@ for await (const snapshot of snapshots) {
 ### Recover and archive the snapshot
 ```javascript
 // Snapshot is in ready status
-let archivedSnapshot = await client.archiveSnapshot("testsnapshot");
+const archivedSnapshot = await client.archiveSnapshot("testsnapshot");
 console.log("Snapshot updated status is:", archivedSnapshot.status);
 
 // Snapshot is in archive status
-let recoverSnapshot = await client.recoverSnapshot("testsnapshot");
+const recoverSnapshot = await client.recoverSnapshot("testsnapshot");
 console.log("Snapshot updated status is:", recoverSnapshot.status);
 ```
 

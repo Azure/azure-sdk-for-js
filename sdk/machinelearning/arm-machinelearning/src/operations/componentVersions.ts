@@ -23,7 +23,7 @@ import {
   ComponentVersionsGetResponse,
   ComponentVersionsCreateOrUpdateOptionalParams,
   ComponentVersionsCreateOrUpdateResponse,
-  ComponentVersionsListNextResponse
+  ComponentVersionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,13 +50,13 @@ export class ComponentVersionsImpl implements ComponentVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: ComponentVersionsListOptionalParams
+    options?: ComponentVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<ComponentVersion> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       name,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class ComponentVersionsImpl implements ComponentVersions {
           workspaceName,
           name,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class ComponentVersionsImpl implements ComponentVersions {
     workspaceName: string,
     name: string,
     options?: ComponentVersionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ComponentVersion[]> {
     let result: ComponentVersionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class ComponentVersionsImpl implements ComponentVersions {
         resourceGroupName,
         workspaceName,
         name,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +107,7 @@ export class ComponentVersionsImpl implements ComponentVersions {
         workspaceName,
         name,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,13 +120,13 @@ export class ComponentVersionsImpl implements ComponentVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: ComponentVersionsListOptionalParams
+    options?: ComponentVersionsListOptionalParams,
   ): AsyncIterableIterator<ComponentVersion> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       name,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,11 +143,11 @@ export class ComponentVersionsImpl implements ComponentVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: ComponentVersionsListOptionalParams
+    options?: ComponentVersionsListOptionalParams,
   ): Promise<ComponentVersionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -164,11 +164,11 @@ export class ComponentVersionsImpl implements ComponentVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: ComponentVersionsDeleteOptionalParams
+    options?: ComponentVersionsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, version, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -185,11 +185,11 @@ export class ComponentVersionsImpl implements ComponentVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: ComponentVersionsGetOptionalParams
+    options?: ComponentVersionsGetOptionalParams,
   ): Promise<ComponentVersionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, version, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -208,11 +208,11 @@ export class ComponentVersionsImpl implements ComponentVersions {
     name: string,
     version: string,
     body: ComponentVersion,
-    options?: ComponentVersionsCreateOrUpdateOptionalParams
+    options?: ComponentVersionsCreateOrUpdateOptionalParams,
   ): Promise<ComponentVersionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, version, body, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -229,11 +229,11 @@ export class ComponentVersionsImpl implements ComponentVersions {
     workspaceName: string,
     name: string,
     nextLink: string,
-    options?: ComponentVersionsListNextOptionalParams
+    options?: ComponentVersionsListNextOptionalParams,
   ): Promise<ComponentVersionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -241,44 +241,42 @@ export class ComponentVersionsImpl implements ComponentVersions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComponentVersionResourceArmPaginatedResult
+      bodyMapper: Mappers.ComponentVersionResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skip,
     Parameters.orderBy,
     Parameters.top,
-    Parameters.listViewType
+    Parameters.listViewType,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions/{version}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions/{version}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -287,22 +285,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.name,
-    Parameters.version
+    Parameters.version,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions/{version}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions/{version}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComponentVersion
+      bodyMapper: Mappers.ComponentVersion,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -311,25 +308,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.name,
-    Parameters.version
+    Parameters.version,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions/{version}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions/{version}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ComponentVersion
+      bodyMapper: Mappers.ComponentVersion,
     },
     201: {
-      bodyMapper: Mappers.ComponentVersion
+      bodyMapper: Mappers.ComponentVersion,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
@@ -339,38 +335,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.name1,
-    Parameters.version
+    Parameters.version,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComponentVersionResourceArmPaginatedResult
+      bodyMapper: Mappers.ComponentVersionResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.orderBy,
-    Parameters.top,
-    Parameters.listViewType
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
