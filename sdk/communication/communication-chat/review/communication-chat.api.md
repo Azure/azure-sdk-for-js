@@ -107,6 +107,7 @@ export interface ChatMessage {
     editedOn?: Date;
     id: string;
     metadata?: Record<string, string>;
+    policyViolation?: PolicyViolation;
     sender?: CommunicationIdentifierKind;
     senderDisplayName?: string;
     sequenceId: string;
@@ -195,6 +196,7 @@ export interface ChatThreadProperties {
     createdOn: Date;
     deletedOn?: Date;
     id: string;
+    messagingPolicy?: MessagingPolicy;
     metadata?: Record<string, string>;
     retentionPolicy?: ChatRetentionPolicy;
     topic: string;
@@ -254,6 +256,12 @@ export type ListParticipantsOptions = RestListParticipantsOptions;
 export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
 
 // @public
+export interface MessagingPolicy {
+    // (undocumented)
+    textOnlyChat?: boolean;
+}
+
+// @public
 export interface NoneRetentionPolicy {
     kind: "none";
 }
@@ -261,6 +269,14 @@ export interface NoneRetentionPolicy {
 export { ParticipantsAddedEvent }
 
 export { ParticipantsRemovedEvent }
+
+// @public
+export interface PolicyViolation {
+    result: PolicyViolationMessageResult;
+}
+
+// @public
+export type PolicyViolationMessageResult = "contentBlocked" | "warning";
 
 export { ReadReceiptReceivedEvent }
 
