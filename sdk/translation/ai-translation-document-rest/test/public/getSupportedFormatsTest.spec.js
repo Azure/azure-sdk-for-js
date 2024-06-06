@@ -28,5 +28,51 @@ describe("GetSupportedFormats tests", () => {
             chai_1.assert.isTrue(fileFormatType.fileExtensions !== null);
         });
     });
+    it("document formats", async () => {
+        // Define the query parameters with the specified type
+        const options = {
+            queryParameters: {
+                type: "document"
+            }
+        };
+        const response = await client.path("/document/formats").get(options);
+        chai_1.assert.equal(response.status, "200");
+        if ((0, src_1.isUnexpected)(response)) {
+            throw response.body;
+        }
+        const fileFormatTypes = response.body;
+        fileFormatTypes.value.forEach(fileFormatType => {
+            chai_1.assert.isTrue(fileFormatType.format !== null);
+            chai_1.assert.isTrue(fileFormatType.contentTypes !== null);
+            chai_1.assert.isTrue(fileFormatType.fileExtensions !== null);
+            chai_1.assert.isTrue(fileFormatType.type == "Document");
+            if (fileFormatType.format == "XLIFF") {
+                chai_1.assert.isTrue(fileFormatType.defaultVersion !== null);
+            }
+        });
+    });
+    it("glossary formats", async () => {
+        // Define the query parameters with the specified type
+        const options = {
+            queryParameters: {
+                type: "glossary"
+            }
+        };
+        const response = await client.path("/document/formats").get(options);
+        chai_1.assert.equal(response.status, "200");
+        if ((0, src_1.isUnexpected)(response)) {
+            throw response.body;
+        }
+        const fileFormatTypes = response.body;
+        fileFormatTypes.value.forEach(fileFormatType => {
+            chai_1.assert.isTrue(fileFormatType.format !== null);
+            chai_1.assert.isTrue(fileFormatType.contentTypes !== null);
+            chai_1.assert.isTrue(fileFormatType.fileExtensions !== null);
+            chai_1.assert.isTrue(fileFormatType.type == "Glossary");
+            if (fileFormatType.format == "XLIFF") {
+                chai_1.assert.isTrue(fileFormatType.defaultVersion !== null);
+            }
+        });
+    });
 });
 //# sourceMappingURL=getSupportedFormatsTest.spec.js.map

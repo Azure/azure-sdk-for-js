@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/formats?api-version=2024-05-01",
+      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/formats?type=document&api-version=2024-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -14,17 +14,17 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "8d87ac4b-6fc4-4f5d-ae9f-e590ab7bcbb6",
+        "apim-request-id": "6b95e5f6-81aa-45c5-9bc6-2f9d3c768843",
         "Cache-Control": "public, max-age=1",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 06 Jun 2024 16:05:41 GMT",
-        "ETag": "\"EEEE3A26B38268716AD1AFA8F7AD92849C2393F7B6741AD8068539D5DA154507\"",
+        "Date": "Thu, 06 Jun 2024 16:05:42 GMT",
+        "ETag": "\"566B154BFD9A58A0545DF885E0C82D43F4AEC1D18306E9FD7CF0FCF9FAD0F651\"",
         "Retry-After": "1",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "x-ms-region": "West US",
-        "X-RequestId": "8d87ac4b-6fc4-4f5d-ae9f-e590ab7bcbb6"
+        "X-RequestId": "6b95e5f6-81aa-45c5-9bc6-2f9d3c768843"
       },
       "ResponseBody": {
         "value": [
@@ -259,43 +259,6 @@
               "application/json"
             ],
             "type": "Document"
-          },
-          {
-            "format": "XLIFF",
-            "fileExtensions": [
-              ".xlf"
-            ],
-            "contentTypes": [
-              "application/xliff+xml"
-            ],
-            "defaultVersion": "1.2",
-            "versions": [
-              "1.0",
-              "1.1",
-              "1.2"
-            ],
-            "type": "Glossary"
-          },
-          {
-            "format": "TSV",
-            "fileExtensions": [
-              ".tsv",
-              ".tab"
-            ],
-            "contentTypes": [
-              "text/tab-separated-values"
-            ],
-            "type": "Glossary"
-          },
-          {
-            "format": "CSV",
-            "fileExtensions": [
-              ".csv"
-            ],
-            "contentTypes": [
-              "text/csv"
-            ],
-            "type": "Glossary"
           }
         ]
       }
