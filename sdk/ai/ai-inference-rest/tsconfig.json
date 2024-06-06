@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": { "@azure-rest/ai-inference": ["./src/index.js"] },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["esnext", "dom"],
+    "rootDir": "."
+  },
+  "ts-node": { "esm": true },
+  "include": ["src/**/*.ts", "samples-dev/**/*.ts"]
+}

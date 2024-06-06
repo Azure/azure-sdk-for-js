@@ -24,5 +24,5 @@ extends:
   parameters:
     ServiceDirectory: ai
     Artifacts:
-      - name: azure-ai-inference
-        safeName: azureaiinference
+      - name: azure-ai-inference-rest
+        safeName: azureaiinferencerest

@@ -1,0 +1,90 @@
+{
+  "name": "@azure-rest/ai-inference",
+  "version": "1.0.0-beta.1",
+  "description": "Inference API for Azure-supported AI models",
+  "main": "dist/index.cjs",
+  "module": "dist-esm/src/index.js",
+  "types": "./types/ai-inference-rest.d.ts",
+  "files": [
+    "dist/",
+    "dist-esm/src",
+    "types/ai-inference-rest.d.ts",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "review/*"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "sideEffects": false,
+  "autoPublish": false,
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "sdk-type": "client",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/modelClientClient.ts",
+        "prefix": "package-version"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure-rest/core-client": "^2.0.0",
+    "@azure/core-auth": "^1.6.0",
+    "@azure/core-rest-pipeline": "^1.14.0",
+    "@azure/logger": "^1.0.0",
+    "tslib": "^2.6.2",
+    "@azure/core-lro": "^2.6.0",
+    "@azure/abort-controller": "^1.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0",
+    "@microsoft/api-extractor": "^7.40.3",
+    "@types/node": "^18.0.0",
+    "autorest": "latest",
+    "rimraf": "^5.0.5",
+    "cross-env": "7.0.3",
+    "mkdirp": "^3.0.1",
+    "typescript": "~5.4.5",
+    "source-map-support": "^0.5.9",
+    "@azure/core-util": "^1.0.0",
+    "@azure-tools/test-credential": "^1.1.0",
+    "@azure/identity": "^4.0.1",
+    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure/dev-tool": "^1.0.0"
+  },
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:samples": "echo Obsolete",
+    "generate": "tsp-client update",
+    "bundle": "tsc -p . && dev-tool run bundle",
+    "build": "npm run clean && npm run bundle && dev-tool run extract-api",
+    "build:test": "npm run bundle",
+    "check-format": "echo skipped",
+    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "format": "echo skipped",
+    "integration-test:browser": "npm run unit-test:browser",
+    "integration-test:node": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "echo skipped",
+    "lint": "echo skipped",
+    "pack": "npm pack 2>&1",
+    "test:browser": "npm run clean && npm run build && npm run integration-test:browser",
+    "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
+    "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  }
+}

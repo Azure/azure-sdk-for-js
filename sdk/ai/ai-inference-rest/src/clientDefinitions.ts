@@ -23,7 +23,8 @@ export interface GetChatCompletions {
   /**
    * Gets chat completions for the provided chat messages.
    * Completions support a wide variety of tasks and generate text that continues from or "completes"
-   * provided prompt data.
+   * provided prompt data. The method makes a REST API call to the `/chat/completions` route
+   * on the given endpoint.
    */
   post(
     options?: GetChatCompletionsParameters,
@@ -33,21 +34,30 @@ export interface GetChatCompletions {
 }
 
 export interface GetModelInfo {
-  /** Returns information about the AI model. */
+  /**
+   * Returns information about the AI model.
+   * The method makes a REST API call to the `/info` route on the given endpoint.
+   */
   get(
     options?: GetModelInfoParameters,
   ): StreamableMethod<GetModelInfo200Response | GetModelInfoDefaultResponse>;
 }
 
 export interface GetEmbeddings {
-  /** Return the embeddings for a given text prompt. */
+  /**
+   * Return the embedding vectors for given text prompts.
+   * The method makes a REST API call to the `/embeddings` route on the given endpoint.
+   */
   post(
     options?: GetEmbeddingsParameters,
   ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse>;
 }
 
 export interface GetImageEmbeddings {
-  /** Return the embeddings for given images. */
+  /**
+   * Return the embedding vectors for given images.
+   * The method makes a REST API call to the `/images/embeddings` route on the given endpoint.
+   */
   post(
     options?: GetImageEmbeddingsParameters,
   ): StreamableMethod<

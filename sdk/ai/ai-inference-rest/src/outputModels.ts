@@ -67,8 +67,6 @@ export interface ChatCompletionsOutput {
  * other consumers.
  */
 export interface CompletionsUsageOutput {
-  /** Indicates whether your capacity has been affected by the usage amount (token count) reported here. */
-  capacity_type: CapacityTypeOutput;
   /** The number of tokens generated across all completions emissions. */
   completion_tokens: number;
   /** The number of tokens in the provided prompts for the completions request. */
@@ -143,8 +141,6 @@ export interface EmbeddingItemOutput {
 
 /** Measurement of the amount of tokens used in this request and response. */
 export interface EmbeddingsUsageOutput {
-  /** Indicates whether your capacity has been affected by the usage amount (token count) reported here. */
-  capacity_type: CapacityTypeOutput;
   /** Number of tokens in the request prompt. */
   input_tokens: number;
   /**
@@ -166,8 +162,6 @@ export type ChatCompletionsToolCallOutput =
   | ChatCompletionsFunctionToolCallOutput;
 /** Alias for ChatRoleOutput */
 export type ChatRoleOutput = string | "system" | "user" | "assistant" | "tool";
-/** Alias for CapacityTypeOutput */
-export type CapacityTypeOutput = string | "usage" | "fixed";
 /** Alias for CompletionsFinishReasonOutput */
 export type CompletionsFinishReasonOutput =
   | string

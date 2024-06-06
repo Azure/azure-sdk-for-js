@@ -6,8 +6,10 @@ Inference API for Azure-supported AI models
 
 Key links:
 
-- [Package (NPM)](https://www.npmjs.com/package/@azure/ai-inference)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-inference?view=azure-node-preview)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest)
+- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-inference)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/ai-inference?view=azure-node-preview)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest/samples)
 
 ## Getting started
 
@@ -19,12 +21,12 @@ Key links:
 
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
 
-### Install the `@azure/ai-inference` package
+### Install the `@azure-rest/ai-inference` package
 
 Install the Azure ModelClient REST client REST client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/ai-inference
+npm install @azure-rest/ai-inference
 ```
 
 ### Create and authenticate a `ModelClientClient`
