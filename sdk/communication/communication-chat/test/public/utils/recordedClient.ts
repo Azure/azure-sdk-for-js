@@ -13,13 +13,12 @@ import {
 import { ChatClient } from "../../../src";
 import {
   AzureCommunicationTokenCredential,
-  CommunicationTokenCredential,
   CommunicationUserIdentifier,
   parseClientArguments,
 } from "@azure/communication-common";
 import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
 import { generateToken } from "./connectionUtils";
-import { AccessToken } from "@azure/core-auth";
+import { NoOpCredential } from "@azure-tools/test-credential";
 
 export interface RecordedClient {
   chatClient: ChatClient;
@@ -94,13 +93,7 @@ export function createChatClient(userToken: string, recorder: Recorder): ChatCli
  *
  * Using this NoOpAzureCommunicationTokenCredential as your credential in playback mode would help you bypass the AAD traffic.
  */
-export class NoOpAzureCommunicationTokenCredential implements CommunicationTokenCredential {
-  getToken(): Promise<AccessToken> {
-    return Promise.resolve({
-      token: "SecretPlaceholder",
-      expiresOnTimestamp: Date.now() + 86400 * 1000,
-    });
-  }
+export class NoOpAzureCommunicationTokenCredential extends NoOpCredential {
   public dispose(): void {
     /* intentionally empty */
   }
