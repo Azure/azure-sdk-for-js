@@ -65,7 +65,7 @@ const patientDocumentData = {
   specialtyType: "radiology",
   administrativeMetadata: administrativeMetadata,
   content: content,
-  createdAt: new Date("2021-05-31T20:00:00.000"),
+  createdAt: new Date("2021-05-31T100:00.000"),
   orderedProceduresAsCsv: "US BREAST - LEFT LIMITED",
 };
 
@@ -151,13 +151,13 @@ function findLateralityDiscrepancy(res: any): void {
       if ("code" in coding && "display" in coding && "system" in coding) {
         console.log(
           "   Coding: " +
-            coding.code +
-            ", " +
-            coding.display +
-            " (" +
-            coding.system +
-            "), type: " +
-            coding.type,
+          coding.code +
+          ", " +
+          coding.display +
+          " (" +
+          coding.system +
+          "), type: " +
+          coding.type,
         );
       }
     });

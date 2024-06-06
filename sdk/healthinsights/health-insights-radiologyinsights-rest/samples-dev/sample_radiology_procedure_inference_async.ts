@@ -161,7 +161,7 @@ function createRequestBody(): CreateJobParameters {
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdAt: new Date("2021-05-31T20:00:00.000"),
+    createdAt: new Date("2021-05-31T100:00.000"),
     orderedProceduresAsCsv: "CT HEAD W CONTRAST IV"
   };
 
