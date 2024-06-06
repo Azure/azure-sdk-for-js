@@ -191,7 +191,7 @@ testWithServiceTypes((serviceVersion) => {
           );
 
           const eventPosition = await processor["_getStartingPosition"]("0");
-          eventPosition!.offset!.should.equal(1009);
+          eventPosition!.offset!.should.equal("1009");
           should.not.exist(eventPosition!.sequenceNumber);
         });
 
@@ -210,7 +210,7 @@ testWithServiceTypes((serviceVersion) => {
           const processor = createEventProcessor(checkpointStore);
 
           const eventPosition = await processor["_getStartingPosition"]("0");
-          eventPosition!.offset!.should.equal(0);
+          eventPosition!.offset!.should.equal("0");
           should.not.exist(eventPosition!.sequenceNumber);
         });
 
@@ -218,7 +218,7 @@ testWithServiceTypes((serviceVersion) => {
           const processor = createEventProcessor(emptyCheckpointStore, { offset: "1009" });
 
           const eventPosition = await processor["_getStartingPosition"]("0");
-          eventPosition!.offset!.should.equal(1009);
+          eventPosition!.offset!.should.equal("1009");
           should.not.exist(eventPosition!.sequenceNumber);
         });
 
@@ -229,7 +229,7 @@ testWithServiceTypes((serviceVersion) => {
           const processor = createEventProcessor(emptyCheckpointStore, fallbackPositions);
 
           const eventPositionForPartitionZero = await processor["_getStartingPosition"]("0");
-          eventPositionForPartitionZero!.offset!.should.equal(2001);
+          eventPositionForPartitionZero!.offset!.should.equal("2001");
           should.not.exist(eventPositionForPartitionZero!.sequenceNumber);
 
           const eventPositionForPartitionOne = await processor["_getStartingPosition"]("1");
