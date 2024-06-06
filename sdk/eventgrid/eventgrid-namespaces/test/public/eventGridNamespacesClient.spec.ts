@@ -13,7 +13,7 @@ import {
   EventGridDeserializer,
 } from "../../src";
 import { createRecordedClient } from "./utils/recordedClient";
-
+import { Buffer } from "buffer";
 /* eslint no-constant-condition: "off" */
 async function clearMessages(
   receiverClient: EventGridReceiverClient,
@@ -242,6 +242,41 @@ describe("Event Grid Namespace Client", function (this: Suite) {
       });
       assert.equal(renewResult.succeededLockTokens.length, 1);
       assert.equal(renewResult.succeededLockTokens[0], lockToken);
+    });
+  });
+
+  describe("Binary Mode Publishing", function () {
+    it("publishes a single cloud event - Binary Data", async () => {
+      const eventId: string = `singleEventIdV210007`;
+      const data = {
+        resourceUri: "https://dummyurl.com",
+      };
+      const cloudEvent: CloudEvent<any> = {
+        type: "example",
+        source: "https://example.com",
+        id: recorder.variable("singleEventId", eventId),
+        time: new Date(recorder.variable("singleEventDate", new Date().toString())),
+        data: Buffer.from(JSON.stringify(data)),
+        datacontenttype: "application/cloudevents+json; charset=utf-8",
+        specversion: "1.0",
+      };
+      // Publish the Cloud Event
+      await senderClient.sendEvent(cloudEvent, {
+        topicName,
+      });
+      // Receive the Published Cloud Event
+      const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
+        topicName,
+        eventSubscriptionName,
+      });
+
+      for (const detail of receiveResult.details) {
+        const event = detail.event;
+        assert.equal(
+          JSON.stringify(data),
+          JSON.stringify(JSON.parse(Buffer.from(event.dataBase64!).toString())),
+        );
+      }
     });
   });
 });

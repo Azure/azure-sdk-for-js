@@ -75,14 +75,15 @@ export class EventGridReceiverClient {
           time: receiveDetails.event.time,
           dataschema: receiveDetails.event.dataschema,
           datacontenttype: receiveDetails.event.datacontenttype,
-          data: receiveDetails.event.data
-            ? (receiveDetails.event.data as T)
-            : receiveDetails.event.dataBase64
-              ? (receiveDetails.event.dataBase64 as any)
-              : undefined,
           subject: receiveDetails.event.subject,
           specversion: receiveDetails.event.specversion,
         };
+        if (receiveDetails.event.data) {
+          cloudEvent.data = receiveDetails.event.data as T;
+        }
+        if (receiveDetails.event.dataBase64) {
+          cloudEvent.dataBase64 = receiveDetails.event.dataBase64;
+        }
         return {
           brokerProperties: receiveDetails.brokerProperties,
           event: cloudEvent,

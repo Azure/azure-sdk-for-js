@@ -150,6 +150,10 @@ export interface CloudEvent<T> {
    */
   data?: T;
   /**
+   * Event data specific to the event type, encoded as a base64 string.
+   */
+  dataBase64?: Uint8Array;
+  /**
    * This describes the subject of the event in the context of the event producer (identified by source).
    */
   subject?: string;
