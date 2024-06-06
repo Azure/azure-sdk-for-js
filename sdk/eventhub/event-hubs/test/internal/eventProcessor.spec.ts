@@ -163,6 +163,7 @@ testWithServiceTypes((serviceVersion) => {
               name: "boo",
               createdOn: new Date(),
               partitionIds: ["0", "1"],
+              isGeoDrEnabled: true,
             });
           };
         });
@@ -177,7 +178,7 @@ testWithServiceTypes((serviceVersion) => {
         it("has a checkpoint", async () => {
           const checkpointStore = createCheckpointStore([
             {
-              offset: 1009,
+              offset: "1009",
               sequenceNumber: 1010,
               partitionId: "0",
             },
@@ -200,7 +201,7 @@ testWithServiceTypes((serviceVersion) => {
           // sequence number before but the concept is the same)
           const checkpointStore = createCheckpointStore([
             {
-              offset: 0,
+              offset: "0",
               sequenceNumber: 0,
               partitionId: "0",
             },
@@ -214,7 +215,7 @@ testWithServiceTypes((serviceVersion) => {
         });
 
         it("using a single default event position for any partition", async () => {
-          const processor = createEventProcessor(emptyCheckpointStore, { offset: 1009 });
+          const processor = createEventProcessor(emptyCheckpointStore, { offset: "1009" });
 
           const eventPosition = await processor["_getStartingPosition"]("0");
           eventPosition!.offset!.should.equal(1009);
@@ -222,7 +223,7 @@ testWithServiceTypes((serviceVersion) => {
         });
 
         it("using a fallback map", async () => {
-          const fallbackPositions = { "0": { offset: 2001 } };
+          const fallbackPositions = { "0": { offset: "2001" } };
           // we'll purposefully omit "1" which should act as "fallback to the fallback" which is earliest()
 
           const processor = createEventProcessor(emptyCheckpointStore, fallbackPositions);
@@ -883,7 +884,7 @@ testWithServiceTypes((serviceVersion) => {
           consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
           partitionId: "0",
           sequenceNumber: 10,
-          offset: 50,
+          offset: "50",
         };
 
         await inMemoryCheckpointStore.updateCheckpoint(checkpoint);
@@ -1100,7 +1101,7 @@ testWithServiceTypes((serviceVersion) => {
           ...basicProperties,
           sequenceNumber: 1,
           partitionId: "1",
-          offset: 101,
+          offset: "101",
         };
 
         const copyOfOriginalCheckpoint = {
