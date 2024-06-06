@@ -180,8 +180,8 @@ export const mapToChatPolicyViolationSdkModel = (
   policyVolation: RestModel.PolicyViolation,
 ): PolicyViolation => {
   const { state } = policyVolation;
-  const result: PolicyViolation = { 
-    result: state
+  const result: PolicyViolation = {
+    result: state,
   };
   return result;
 };
@@ -191,7 +191,8 @@ export const mapToChatPolicyViolationSdkModel = (
  * Mapping chat message REST model to chat message SDK model
  */
 export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): ChatMessage => {
-  const { content, senderCommunicationIdentifier, policyViolation, ...otherChatMessage } = chatMessage;
+  const { content, senderCommunicationIdentifier, policyViolation, ...otherChatMessage } =
+    chatMessage;
   let result: ChatMessage = { ...otherChatMessage };
   if (content) {
     result = {
