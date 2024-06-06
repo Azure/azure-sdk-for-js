@@ -29,7 +29,8 @@ const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
 };
 
-const fakeToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc2MzQ4MDguMTd9.Rx6RqlnKsM09viqebSbPDKRcUp3EIKDEHNVXq3Wb0ms";
+const fakeToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc2MzQ4MDguMTd9.Rx6RqlnKsM09viqebSbPDKRcUp3EIKDEHNVXq3Wb0ms";
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   sanitizerOptions: {
@@ -81,7 +82,9 @@ export function createChatClient(userToken: string, recorder: Recorder): ChatCli
 
   return new ChatClient(
     url,
-    isPlaybackMode() ? new NoOpAzureCommunicationTokenCredential() : new AzureCommunicationTokenCredential(userToken),
+    isPlaybackMode()
+      ? new NoOpAzureCommunicationTokenCredential()
+      : new AzureCommunicationTokenCredential(userToken),
     recorder.configureClientOptions({}),
   );
 }
