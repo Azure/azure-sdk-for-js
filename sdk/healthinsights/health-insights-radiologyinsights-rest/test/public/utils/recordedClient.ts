@@ -12,7 +12,7 @@ import AHIClient, { AzureHealthInsightsClient } from "../../../src";
 import "./env";
 
 const envSetupForPlayback: Record<string, string> = {
-  HEALTH_INSIGHTS_ENDPOINT: "https://Sanitized.cognitiveservices.azure.com/",
+  HEALTH_INSIGHTS_ENDPOINT: "https://Sanitized",
   HEALTH_INSIGHTS_KEY: "fake_key",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
