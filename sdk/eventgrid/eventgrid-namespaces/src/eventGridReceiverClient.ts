@@ -22,6 +22,8 @@ import {
   RenewEventLocksOptions,
   EventGridReceiverClientOptions,
 } from "./models";
+import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
+import { tracingPolicyName } from "@azure/core-rest-pipeline";
 
 /**
  * Event Grid Namespaces Client
@@ -41,6 +43,9 @@ export class EventGridReceiverClient {
     this._client = new EventGridClientGenerated(endpoint, credential, options);
     this._topicName = options?.topicName ?? undefined;
     this._eventSubscriptionName = options?.eventSubscriptionName ?? undefined;
+    this._client.pipeline.addPolicy(cloudEventDistributedTracingEnricherPolicy(), {
+      afterPolicies: [tracingPolicyName],
+    });
   }
 
   /**
