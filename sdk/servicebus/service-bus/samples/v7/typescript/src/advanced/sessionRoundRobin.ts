@@ -27,9 +27,9 @@ const serviceBusConnectionString =
 // NOTE: this sample uses a session enabled queue but would also work a session enabled subscription.
 const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 
-const maxSessionsToProcessSimultaneously = 8;
+const maxSessionsToProcessSimultaneously = Number.parseInt(process.env.MAX_SESSIONS || "1000");
 const sessionIdleTimeoutMs = 3 * 1000;
-const delayOnErrorMs = 5 * 1000;
+const delayOnErrorMs = 15 * 1000;
 
 // This can be used control when the round-robin processing will terminate
 // by calling abortController.abort().
@@ -79,8 +79,10 @@ function createRefreshableTimer(timeoutMs: number, resolve: Function): () => voi
   };
 }
 
+let serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
+
 // Queries Service Bus for the next available session and processes it.
-async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promise<void> {
+async function receiveFromNextSession(): Promise<void> {
   let sessionReceiver: ServiceBusSessionReceiver;
 
   try {
@@ -93,6 +95,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
       (err.code === "SessionCannotBeLocked" || err.code === "ServiceTimeout")
     ) {
       console.log(`INFO: no available sessions, sleeping for ${delayOnErrorMs}`);
+      serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
     } else {
       await processError(err, undefined);
     }
@@ -119,7 +122,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
       },
       {
         abortSignal: abortController.signal,
-      },
+      }
     );
   });
 
@@ -135,17 +138,15 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
 }
 
 async function roundRobinThroughAvailableSessions(): Promise<void> {
-  const serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
-
   const receiverPromises: Promise<void>[] = [];
 
   for (let i = 0; i < maxSessionsToProcessSimultaneously; ++i) {
     receiverPromises.push(
       (async () => {
         while (!abortController.signal.aborted) {
-          await receiveFromNextSession(serviceBusClient);
+          await receiveFromNextSession();
         }
-      })(),
+      })()
     );
   }
 
@@ -158,5 +159,5 @@ async function roundRobinThroughAvailableSessions(): Promise<void> {
 
 // To stop the round-robin processing you can just call abortController.abort()
 roundRobinThroughAvailableSessions().catch((err) =>
-  console.log(`Session RoundRobin - Fatal error: ${err}`),
+  console.log(`Session RoundRobin - Fatal error: ${err}`)
 );
