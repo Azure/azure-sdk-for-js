@@ -637,6 +637,9 @@
 /sdk/monitor/arm-monitor/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/mongocluster/arm-mongocluster/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/monitor/arm-monitor-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
