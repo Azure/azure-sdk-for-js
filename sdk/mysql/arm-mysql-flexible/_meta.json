@@ -1,8 +1,8 @@
 {
-  "commit": "b8691fbfca8fcdc5a241a0b501c32fd4a76bb0cd",
+  "commit": "3b4d92c1a4a57aeec9c13f32d5211bff484302b6",
   "readme": "specification/mysql/resource-manager/readme.md",
-  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\mysql\\resource-manager\\readme.md --use=@autorest/typescript@6.0.21 --generate-sample=true --tag=package-flexibleserver-2023-12-30 --typescript",
+  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\mysql\\resource-manager\\readme.md --use=@autorest/typescript@6.0.23 --generate-sample=true --tag=package-flexibleserver-2023-12-30",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.6",
-  "use": "@autorest/typescript@6.0.21"
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.9",
+  "use": "@autorest/typescript@6.0.23"
 }

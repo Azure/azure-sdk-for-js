@@ -1213,6 +1213,19 @@ packages:
       - supports-color
     dev: false
 
+  /@azure-tools/test-credential@1.1.0:
+    resolution: {integrity: sha512-KFICQ9ke2OIQms3ZCoidKmH/opUsP9rHub4pdH8JTHh4atiYq2AKviMIgMyBC3ZYdOfsFfnMrm5PcH+0VDRafw==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure-tools/test-recorder': 3.1.2
+      '@azure/core-auth': 1.7.2
+      '@azure/core-util': 1.9.0
+      '@azure/identity': 4.1.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure-tools/test-recorder@3.1.2:
     resolution: {integrity: sha512-116XdbMzedsUcVQa7yCm1p/yCNuiq5XHc2vn0Q0P6c7/Tzrjgjo19eq2Lrea2gIo8+n1mDtQcm3zPzLb9C4CoQ==}
     engines: {node: '>=18.0.0'}
@@ -15800,11 +15813,11 @@ packages:
     dev: false
 
   file:projects/arm-mysql-flexible.tgz:
-    resolution: {integrity: sha512-y+OuxketY2cUdcR9O6o3Hv6bJ/YaBAPjmB1MF6+8/wT49gA9QiWdFlyhzrSt7OWMgHvtXhb5obPhJcUSar//iQ==, tarball: file:projects/arm-mysql-flexible.tgz}
+    resolution: {integrity: sha512-2YlaWmdZwfMEu/xv+ZndKqhG3BuwhkZmg8tVg8Cm+45rqdGJj3c4Sp6LjckalB8ShKILlyCHjg/mpU8K0imKMg==, tarball: file:projects/arm-mysql-flexible.tgz}
     name: '@rush-temp/arm-mysql-flexible'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.4
+      '@azure-tools/test-credential': 1.1.0
       '@azure-tools/test-recorder': 3.1.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
@@ -15822,6 +15835,7 @@ packages:
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.7.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
