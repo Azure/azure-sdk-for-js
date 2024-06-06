@@ -257,7 +257,6 @@ export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
 
 // @public
 export interface MessagingPolicy {
-    // (undocumented)
     textOnlyChat?: boolean;
 }
 
