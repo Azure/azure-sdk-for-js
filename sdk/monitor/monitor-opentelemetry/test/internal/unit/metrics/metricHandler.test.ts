@@ -80,10 +80,11 @@ describe("MetricHandler", () => {
       postgreSql: { enabled: true },
       redis4: { enabled: true },
       redis: { enabled: true },
+      fetch: { enabled: true },
     };
     createHandler();
     const meterProvider = MetricsApi.getMeterProvider() as MeterProvider;
-    assert.strictEqual(meterProvider["_sharedState"]["viewRegistry"]["_registeredViews"].length, 6);
+    assert.strictEqual(meterProvider["_sharedState"]["viewRegistry"]["_registeredViews"].length, 7);
   });
 
   describe("#autoCollect", () => {

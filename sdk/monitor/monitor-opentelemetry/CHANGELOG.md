@@ -1,6 +1,10 @@
 # Release History
 
-## Unreleased ()
+## 1.6.0 Unreleased
+
+### Features Added
+
+- Support Undici/Fetch API instrumentation.
 
 ### Bugs Fixed
 

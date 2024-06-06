@@ -111,7 +111,8 @@
     "@opentelemetry/sdk-trace-node": "^1.24.1",
     "@opentelemetry/semantic-conventions": "^1.24.1",
     "@opentelemetry/winston-transport": "^0.3.0",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "@opentelemetry/instrumentation-undici": "^0.2.0"
   },
   "sideEffects": false,
   "keywords": [
