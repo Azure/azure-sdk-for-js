@@ -3,13 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import {
-  BreakSentenceItemOutput,
-  FindSentenceBoundariesQueryParamProperties,
-  InputTextItem,
-  TextTranslationClient,
-  isUnexpected,
-} from "../../src";
+import { TextTranslationClient, isUnexpected } from "../../src";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
@@ -27,7 +21,7 @@ describe("BreakSentence tests", () => {
   });
 
   it("auto detect", async () => {
-    const inputText: InputTextItem[] = [{ text: "hello world" }];
+    const inputText = [{ text: "hello world" }];
     const response = await client.path("/breaksentence").post({
       body: inputText,
     });
@@ -37,19 +31,19 @@ describe("BreakSentence tests", () => {
       throw response.body;
     }
 
-    const breakSentences = response.body as BreakSentenceItemOutput[];
+    const breakSentences = response.body;
     assert.isTrue(breakSentences[0].detectedLanguage?.language === "en");
     assert.isTrue(breakSentences[0].detectedLanguage?.score === 0.98);
     assert.isTrue(breakSentences[0].sentLen[0] === 11);
   });
 
   it("with language", async () => {
-    const inputText: InputTextItem[] = [
+    const inputText = [
       {
         text: "รวบรวมแผ่นคำตอบ ระยะเวลาของโครงการ วิธีเลือกชายในฝัน หมายเลขซีเรียลของระเบียน วันที่สิ้นสุดของโครงการเมื่อเสร็จสมบูรณ์ ปีที่มีการรวบรวม ทุกคนมีวัฒนธรรมและวิธีคิดเหมือนกัน ได้รับโทษจำคุกตลอดชีวิตใน ฉันลดได้ถึง 55 ปอนด์ได้อย่างไร  ฉันคิดว่าใครๆ ก็ต้องการกำหนดเมนูอาหารส่วนบุคคล",
       },
     ];
-    const parameters: FindSentenceBoundariesQueryParamProperties & Record<string, unknown> = {
+    const parameters = {
       language: "th",
     };
     const response = await client.path("/breaksentence").post({
@@ -62,7 +56,7 @@ describe("BreakSentence tests", () => {
       throw response.body;
     }
 
-    const breakSentences = response.body as BreakSentenceItemOutput[];
+    const breakSentences = response.body;
 
     const expectedLengths = [78, 41, 110, 46];
     for (let i = 0; i < expectedLengths.length; i++) {
@@ -71,8 +65,8 @@ describe("BreakSentence tests", () => {
   });
 
   it("with language and script", async () => {
-    const inputText: InputTextItem[] = [{ text: "zhè shì gè cè shì。" }];
-    const parameters: FindSentenceBoundariesQueryParamProperties & Record<string, unknown> = {
+    const inputText = [{ text: "zhè shì gè cè shì。" }];
+    const parameters = {
       language: "zh-Hans",
       script: "Latn",
     };
@@ -86,15 +80,12 @@ describe("BreakSentence tests", () => {
       throw response.body;
     }
 
-    const breakSentences = response.body as BreakSentenceItemOutput[];
+    const breakSentences = response.body;
     assert.equal(breakSentences[0].sentLen[0], 18);
   });
 
   it("with multiple languages", async () => {
-    const inputText: InputTextItem[] = [
-      { text: "hello world" },
-      { text: "العالم هو مكان مثير جدا للاهتمام" },
-    ];
+    const inputText = [{ text: "hello world" }, { text: "العالم هو مكان مثير جدا للاهتمام" }];
     const response = await client.path("/breaksentence").post({
       body: inputText,
     });
@@ -104,7 +95,7 @@ describe("BreakSentence tests", () => {
       throw response.body;
     }
 
-    const breakSentences = response.body as BreakSentenceItemOutput[];
+    const breakSentences = response.body;
     assert.equal(breakSentences[0].detectedLanguage?.language, "en");
     assert.equal(breakSentences[1].detectedLanguage?.language, "ar");
     assert.equal(breakSentences[0].sentLen[0], 11);

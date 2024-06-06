@@ -18,12 +18,6 @@ const envSetupForPlayback: { [k: string]: string } = {
 };
 
 const sanitizerOptions: SanitizerOptions = {
-  connectionStringSanitizers: [
-    {
-      actualConnString: env.COMMUNICATION_CONNECTION_STRING_EMAIL,
-      fakeConnString: envSetupForPlayback["COMMUNICATION_CONNECTION_STRING_EMAIL"],
-    },
-  ],
   headerSanitizers: [
     { key: "x-ms-content-sha256", value: "Sanitized" },
     {
