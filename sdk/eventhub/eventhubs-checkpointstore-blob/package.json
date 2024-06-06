@@ -60,7 +60,7 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-paging": "^1.2.0",
-    "@azure/event-hubs": "^5.8.0-beta.1",
+    "@azure/event-hubs": "5.13.0-beta.1",
     "@azure/logger": "^1.0.0",
     "@azure/storage-blob": "^12.9.0",
     "events": "^3.0.0",

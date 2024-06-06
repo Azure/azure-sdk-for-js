@@ -1,14 +1,14 @@
 # Release History
 
-## 5.12.1 (Unreleased)
+## 5.13.0-beta.1 (2024-06-06)
 
 ### Features Added
 
+- Support Geographic replication to enable recovery in case of geographic disasters.
+
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- The `offset` property of event data is now typed as a string instead of as a number.
 
 ## 5.12.0 (2024-05-20)
 

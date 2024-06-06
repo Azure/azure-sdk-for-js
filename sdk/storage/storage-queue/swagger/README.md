@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4a93ab078fba7f087116283c8ed169f9b8e30397/specification/storage/data-plane/Microsoft.QueueStorage/preview/2018-03-28/queue.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/aa4b90db8da0aa8017c6b80a6a68ab79cc09266b/specification/storage/data-plane/Microsoft.QueueStorage/preview/2018-03-28/queue.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "6.0.3"
-package-version: 12.22.0-beta.2
+package-version: 12.22.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -227,13 +227,13 @@ directive:
       $["x-ms-client-name"] = "queueAnalyticsLogging"
 ```
 
-### Update service version from "2018-03-28" to "2023-11-03"
+### Update service version from "2018-03-28" to "2024-05-04"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2023-11-03" ];
+    transform: $.enum = [ "2024-05-04" ];
 ```
 
 ### Rename AccessPolicy start -> startsOn

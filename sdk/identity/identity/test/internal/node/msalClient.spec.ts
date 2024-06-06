@@ -37,6 +37,10 @@ describe("MsalClient", function () {
     });
 
     it("supports getTokenByClientSecret", async function () {
+      if (isLiveMode()) {
+        // https://github.com/Azure/azure-sdk-for-js/issues/29929
+        this.skip();
+      }
       const scopes = ["https://vault.azure.net/.default"];
       const clientSecret = env.IDENTITY_SP_CLIENT_SECRET || env.AZURE_CLIENT_SECRET!;
       const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
