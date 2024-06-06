@@ -45,7 +45,7 @@ export class AzurePipelinesCredential implements TokenCredential {
     this.identityClient = new IdentityClient(options);
     checkTenantId(logger, tenantId);
     logger.info(
-      `Invoking AzurePipelinesCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
+      `Invoking AzurePipelinesCredential with tenant ID: ${tenantId}, client ID: ${clientId}, and service connection ID: ${serviceConnectionId}`
     );
     if (!process.env.SYSTEM_OIDCREQUESTURI) {
       throw new CredentialUnavailableError(
