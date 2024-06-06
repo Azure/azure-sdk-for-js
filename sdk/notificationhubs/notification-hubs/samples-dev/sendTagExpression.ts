@@ -15,19 +15,12 @@
  */
 
 import * as dotenv from "dotenv";
+import { createAppleNotification } from "@azure/notification-hubs/models";
 import {
-  NotificationDetails,
-  NotificationOutcomeState,
-  createAppleNotification,
-} from "@azure/notification-hubs/models";
-import {
-  NotificationHubsClientContext,
+  beginGetNotificationDetails,
   createClientContext,
-  getNotificationOutcomeDetails,
   sendNotification,
 } from "@azure/notification-hubs/api";
-import { delay } from "@azure/core-util";
-import { isRestError } from "@azure/core-rest-pipeline";
 
 // Load the .env file if it exists
 dotenv.config();
@@ -63,37 +56,12 @@ async function main(): Promise<void> {
   if (result.notificationId) {
     console.log(`Tag Expression send Notification ID: ${result.notificationId}`);
 
-    const results = await getNotificationDetails(context, result.notificationId);
+    const poller = await beginGetNotificationDetails(context, result.notificationId);
+    const results = await poller.pollUntilDone();
     if (results) {
       console.log(JSON.stringify(results, null, 2));
     }
   }
-}
-
-async function getNotificationDetails(
-  context: NotificationHubsClientContext,
-  notificationId: string,
-): Promise<NotificationDetails | undefined> {
-  let state: NotificationOutcomeState = "Enqueued";
-  let count = 0;
-  let result: NotificationDetails | undefined;
-  while ((state === "Enqueued" || state === "Processing") && count++ < 10) {
-    try {
-      result = await getNotificationOutcomeDetails(context, notificationId);
-      state = result.state!;
-    } catch (e) {
-      // Possible to get 404 for when it doesn't exist yet.
-      if (isRestError(e) && e.statusCode === 404) {
-        continue;
-      } else {
-        throw e;
-      }
-    }
-
-    await delay(1000);
-  }
-
-  return result;
 }
 
 main().catch((err) => {

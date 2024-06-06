@@ -16,7 +16,7 @@ import type { NotificationHubsClientContext } from "./index.js";
 import type { PolledOperationOptions } from "../models/options.js";
 
 /**
- * Gets the details of a notification outcome as a long running operation.
+ * Gets the details of a notification outcome as a long running operation.  This API can only be called for Standard SKU and above.
  * @param context - The Notification Hubs client.
  * @param notificationId - The Notification ID used to get the notification details.
  * @param polledOperationOptions - The operation options.
