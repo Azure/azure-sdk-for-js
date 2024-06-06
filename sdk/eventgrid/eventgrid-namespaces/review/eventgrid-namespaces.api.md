@@ -177,12 +177,6 @@ export interface SendEventOptionalParams extends OperationOptions {
     contentType?: string;
 }
 
-// @public
-export interface SendEventOptions extends OperationOptions {
-    contentType?: string;
-    topicName?: string;
-}
-
 // @public (undocumented)
 export interface SendEventsOptionalParams extends OperationOptions {
     contentType?: string;
