@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
-  TranslationsStatusOutput,
   DocumentStatusOutput,
-  TranslationStatusOutput,
   DocumentsStatusOutput,
   SupportedFileFormatsOutput,
-} from "./outputModels.js";
+  TranslationStatusOutput,
+  TranslationsStatusOutput,
+} from "./outputModels";
+import { ErrorResponse, HttpResponse } from "@azure-rest/core-client";
+
+import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 
 export interface DocumentTranslate200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */

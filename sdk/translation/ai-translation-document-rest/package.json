@@ -15,8 +15,8 @@
     "translation"
   ],
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./src/index.js",
+  "main": "dist/index.js",
+  "module": "./dist-esm/src/index.js",
   "types": "./types/ai-translation-document.d.ts",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-document-rest/README.md",
   "repository": "github:Azure/azure-sdk-for-js",

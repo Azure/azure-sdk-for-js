@@ -1,14 +1,11 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": {
+      "@azure-rest/ai-translation-document": ["./src/index"]
+    }
   },
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./src/**/*.cts",
-    "test/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "test/**/*.ts"]
 }
