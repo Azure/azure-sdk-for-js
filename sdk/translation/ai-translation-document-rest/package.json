@@ -15,9 +15,9 @@
     "translation"
   ],
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./src/index.js",
-  "types": "./types/ai-translation-document.d.ts",
+  "main": "dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "types": "./types/ai-translation-text.d.ts",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-document-rest/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
@@ -118,5 +118,5 @@
     "build": "npm run clean && tsc -p . && dev-tool run bundle && mkdirp ./review && dev-tool run extract-api"
   },
   "sideEffects": false,
-  "autoPublish": false     
+  "autoPublish": false
 }

@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
-  "mainEntryPointFilePath": "./src/index.d.ts",
+  "mainEntryPointFilePath": "./types/src/index.d.ts",
   "docModel": {
     "enabled": true
   },
@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./ai-translation-document.d.ts"
+    "publicTrimmedFilePath": "./types/ai-translation-document.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {
