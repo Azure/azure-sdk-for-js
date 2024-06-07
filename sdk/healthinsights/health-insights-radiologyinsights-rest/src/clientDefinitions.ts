@@ -22,7 +22,7 @@ export interface GetJob {
 
 export interface Routes {
   /** Resource for '/radiology-insights/jobs/\{id\}' has methods for the following verbs: get, put */
-  (path: ".cognitiveservices.azure.com/radiology-insights/jobs/{id}", id: string): GetJob;
+  (path: "/radiology-insights/jobs/{id}", id: string): GetJob;
 }
 
 export type AzureHealthInsightsClient = Client & {
