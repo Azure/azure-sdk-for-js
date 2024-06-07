@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified packet core data plane.
  *
  * @summary Deletes the specified packet core data plane.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/PacketCoreDataPlaneDelete.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/PacketCoreDataPlaneDelete.json
  */
 async function deletePacketCoreDataPlane() {
   const subscriptionId =

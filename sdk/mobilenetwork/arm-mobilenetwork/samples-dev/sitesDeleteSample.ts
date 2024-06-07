@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified mobile network site. This will also delete any network functions that are a part of this site.
  *
  * @summary Deletes the specified mobile network site. This will also delete any network functions that are a part of this site.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SiteDelete.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SiteDelete.json
  */
 async function deleteMobileNetworkSite() {
   const subscriptionId =

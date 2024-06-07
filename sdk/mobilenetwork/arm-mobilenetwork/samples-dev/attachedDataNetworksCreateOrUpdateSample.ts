@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an attached data network. Must be created in the same location as its parent packet core data plane.
  *
  * @summary Creates or updates an attached data network. Must be created in the same location as its parent packet core data plane.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/AttachedDataNetworkCreate.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/AttachedDataNetworkCreate.json
  */
 async function createAttachedDataNetwork() {
   const subscriptionId =

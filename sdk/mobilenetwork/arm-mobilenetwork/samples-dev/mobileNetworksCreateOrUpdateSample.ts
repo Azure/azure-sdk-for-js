@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a mobile network.
  *
  * @summary Creates or updates a mobile network.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/MobileNetworkCreate.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/MobileNetworkCreate.json
  */
 async function createMobileNetwork() {
   const subscriptionId =

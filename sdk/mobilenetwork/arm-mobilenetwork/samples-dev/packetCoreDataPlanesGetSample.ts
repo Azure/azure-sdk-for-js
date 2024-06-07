@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about the specified packet core data plane.
  *
  * @summary Gets information about the specified packet core data plane.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/PacketCoreDataPlaneGet.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/PacketCoreDataPlaneGet.json
  */
 async function getPacketCoreDataPlane() {
   const subscriptionId =

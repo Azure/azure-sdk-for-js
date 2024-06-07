@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a diagnostics package.
  *
  * @summary Creates or updates a diagnostics package.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/DiagnosticsPackageCreate.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/DiagnosticsPackageCreate.json
  */
 async function createDiagnosticsPackage() {
   const subscriptionId =

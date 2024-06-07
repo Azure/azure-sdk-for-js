@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a packet core under the specified mobile network site.
  *
  * @summary Deletes a packet core under the specified mobile network site.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SiteDeletePacketCore.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SiteDeletePacketCore.json
  */
 async function deletePacketCoreInMobileNetworkSite() {
   const subscriptionId =

@@ -8,39 +8,46 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
+import {
+  SimMove,
+  MobileNetworkManagementClient,
+} from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets all the SIM policies in a mobile network.
+ * This sample demonstrates how to Move SIMs to another SIM Group
  *
- * @summary Gets all the SIM policies in a mobile network.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SimPolicyListByMobileNetwork.json
+ * @summary Move SIMs to another SIM Group
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SimMove.json
  */
-async function listSimPoliciesInAMobileNetwork() {
+async function moveListOfSiMSToTargetSimGroup() {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["MOBILENETWORK_RESOURCE_GROUP"] || "testResourceGroupName";
-  const mobileNetworkName = "testMobileNetwork";
+  const simGroupName = "testSimGroup";
+  const parameters: SimMove = {
+    sims: ["testSim", "testSim2"],
+    targetSimGroupId: {
+      id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg2/providers/Microsoft.MobileNetwork/simGroups/testSimGroup1",
+    },
+  };
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.simPolicies.listByMobileNetwork(
+  const result = await client.sims.beginMoveAndWait(
     resourceGroupName,
-    mobileNetworkName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+    simGroupName,
+    parameters,
+  );
+  console.log(result);
 }
 
 async function main() {
-  listSimPoliciesInAMobileNetwork();
+  moveListOfSiMSToTargetSimGroup();
 }
 
 main().catch(console.error);

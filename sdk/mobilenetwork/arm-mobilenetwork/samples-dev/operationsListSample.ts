@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of the operations.
  *
  * @summary Gets a list of the operations.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/OperationList.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/OperationList.json
  */
 async function getRegistrationOperations() {
   const subscriptionId =

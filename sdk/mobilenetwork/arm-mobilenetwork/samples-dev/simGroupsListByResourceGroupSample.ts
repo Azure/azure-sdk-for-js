@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all the SIM groups in a resource group.
  *
  * @summary Gets all the SIM groups in a resource group.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SimGroupListByResourceGroup.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SimGroupListByResourceGroup.json
  */
 async function listSimGroupsInAResourceGroup() {
   const subscriptionId =

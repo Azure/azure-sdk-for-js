@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates data network tags.
  *
  * @summary Updates data network tags.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/DataNetworkUpdateTags.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/DataNetworkUpdateTags.json
  */
 async function updateDataNetworkTags() {
   const subscriptionId =

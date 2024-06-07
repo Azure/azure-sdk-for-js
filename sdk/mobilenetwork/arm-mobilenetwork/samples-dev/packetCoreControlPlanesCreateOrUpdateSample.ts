@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a packet core control plane.
  *
  * @summary Creates or updates a packet core control plane.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/PacketCoreControlPlaneCreate.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/PacketCoreControlPlaneCreate.json
  */
 async function createPacketCoreControlPlane() {
   const subscriptionId =
@@ -58,7 +58,10 @@ async function createPacketCoreControlPlane() {
         id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ExtendedLocation/customLocations/TestCustomLocation",
       },
     },
-    signaling: { nasReroute: { macroMmeGroupId: 1024 } },
+    signaling: {
+      nasEncryption: ["NEA2/EEA2", "NEA1/EEA1", "NEA0/EEA0"],
+      nasReroute: { macroMmeGroupId: 1024 },
+    },
     sites: [
       {
         id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/sites/testSite",

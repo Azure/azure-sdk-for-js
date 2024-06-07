@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified service.
  *
  * @summary Deletes the specified service.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/ServiceDelete.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/ServiceDelete.json
  */
 async function deleteService() {
   const subscriptionId =

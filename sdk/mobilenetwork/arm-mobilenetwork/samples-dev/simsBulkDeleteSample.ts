@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Bulk delete SIMs from a SIM group.
  *
  * @summary Bulk delete SIMs from a SIM group.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SimBulkDelete.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SimBulkDelete.json
  */
 async function bulkDeleteSiMSFromASimGroup() {
   const subscriptionId =

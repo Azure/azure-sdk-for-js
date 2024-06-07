@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about the specified attached data network.
  *
  * @summary Gets information about the specified attached data network.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/AttachedDataNetworkGet.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/AttachedDataNetworkGet.json
  */
 async function getAttachedDataNetwork() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about the specified network slice.
  *
  * @summary Gets information about the specified network slice.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SliceGet.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SliceGet.json
  */
 async function getNetworkSlice() {
   const subscriptionId =

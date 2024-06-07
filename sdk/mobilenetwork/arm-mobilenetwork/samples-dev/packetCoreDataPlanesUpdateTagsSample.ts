@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates packet core data planes tags.
  *
  * @summary Updates packet core data planes tags.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/PacketCoreDataPlaneUpdateTags.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/PacketCoreDataPlaneUpdateTags.json
  */
 async function updatePacketCoreDataPlaneTags() {
   const subscriptionId =

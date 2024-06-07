@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Bulk upload SIMs in encrypted form to a SIM group. The SIM credentials must be encrypted.
  *
  * @summary Bulk upload SIMs in encrypted form to a SIM group. The SIM credentials must be encrypted.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SimBulkUploadEncrypted.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SimBulkUploadEncrypted.json
  */
 async function bulkUploadEncryptedSiMSToASimGroup() {
   const subscriptionId =

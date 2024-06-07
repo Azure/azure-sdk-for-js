@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a mobile network site. Must be created in the same location as its parent mobile network.
  *
  * @summary Creates or updates a mobile network site. Must be created in the same location as its parent mobile network.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SiteCreate.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SiteCreate.json
  */
 async function createMobileNetworkSite() {
   const subscriptionId =

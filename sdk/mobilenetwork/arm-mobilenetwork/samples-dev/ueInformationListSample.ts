@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all UEs and their state in a packet core.
  *
  * @summary List all UEs and their state in a packet core.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/UeInfoList.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/UeInfoList.json
  */
 async function getUeInformation() {
   const subscriptionId =

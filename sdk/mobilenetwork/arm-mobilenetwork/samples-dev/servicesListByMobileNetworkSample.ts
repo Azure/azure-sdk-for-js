@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all the services in a mobile network.
  *
  * @summary Gets all the services in a mobile network.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/ServiceListByMobileNetwork.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/ServiceListByMobileNetwork.json
  */
 async function listServicesInAMobileNetwork() {
   const subscriptionId =

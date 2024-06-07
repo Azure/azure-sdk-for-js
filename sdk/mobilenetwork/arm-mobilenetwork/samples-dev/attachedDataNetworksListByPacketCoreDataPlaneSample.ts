@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all the attached data networks associated with a packet core data plane.
  *
  * @summary Gets all the attached data networks associated with a packet core data plane.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/AttachedDataNetworkListByPacketCoreDataPlane.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/AttachedDataNetworkListByPacketCoreDataPlane.json
  */
 async function listAttachedDataNetworksInADataPlane() {
   const subscriptionId =

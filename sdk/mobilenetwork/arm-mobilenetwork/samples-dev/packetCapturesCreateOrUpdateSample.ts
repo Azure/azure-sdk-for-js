@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a packet capture.
  *
  * @summary Creates or updates a packet capture.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/PacketCaptureCreate.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/PacketCaptureCreate.json
  */
 async function createPacketCapture() {
   const subscriptionId =

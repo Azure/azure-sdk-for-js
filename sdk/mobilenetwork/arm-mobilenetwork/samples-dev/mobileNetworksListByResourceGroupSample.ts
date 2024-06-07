@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the mobile networks in a resource group.
  *
  * @summary Lists all the mobile networks in a resource group.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/MobileNetworkListByResourceGroup.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/MobileNetworkListByResourceGroup.json
  */
 async function listMobileNetworksInResourceGroup() {
   const subscriptionId =

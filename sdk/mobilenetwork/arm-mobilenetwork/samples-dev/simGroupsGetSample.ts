@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about the specified SIM group.
  *
  * @summary Gets information about the specified SIM group.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SimGroupGet.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SimGroupGet.json
  */
 async function getSimGroup() {
   const subscriptionId =

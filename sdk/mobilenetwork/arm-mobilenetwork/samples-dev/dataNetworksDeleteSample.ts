@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified data network.
  *
  * @summary Deletes the specified data network.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/DataNetworkDelete.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/DataNetworkDelete.json
  */
 async function deleteDataNetwork() {
   const subscriptionId =

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates mobile network tags and managed identity.
  *
  * @summary Updates mobile network tags and managed identity.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/MobileNetworkUpdateTags.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/MobileNetworkUpdateTags.json
  */
 async function updateMobileNetworkTags() {
   const subscriptionId =

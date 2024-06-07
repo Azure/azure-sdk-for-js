@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets extended information about the specified UE from the packet core.
  *
  * @summary Gets extended information about the specified UE from the packet core.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/ExtendedUeInfo4GGet.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/ExtendedUeInfo4GGet.json
  */
 async function getUeInformation4G() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function getUeInformation4G() {
  * This sample demonstrates how to Gets extended information about the specified UE from the packet core.
  *
  * @summary Gets extended information about the specified UE from the packet core.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/ExtendedUeInfo5GGet.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/ExtendedUeInfo5GGet.json
  */
 async function getUeInformation5G() {
   const subscriptionId =

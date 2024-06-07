@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified diagnostics package.
  *
  * @summary Deletes the specified diagnostics package.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/DiagnosticsPackageDelete.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/DiagnosticsPackageDelete.json
  */
 async function deleteDiagnosticsPackage() {
   const subscriptionId =

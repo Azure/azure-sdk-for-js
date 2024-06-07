@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Collect a diagnostics package for the specified packet core control plane. This action will upload the diagnostics to a storage account.
  *
  * @summary Collect a diagnostics package for the specified packet core control plane. This action will upload the diagnostics to a storage account.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/PacketCoreControlPlaneCollectDiagnosticsPackage.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/PacketCoreControlPlaneCollectDiagnosticsPackage.json
  */
 async function collectDiagnosticsPackageFromPacketCoreControlPlane() {
   const subscriptionId =

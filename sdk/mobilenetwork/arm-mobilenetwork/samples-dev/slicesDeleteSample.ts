@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified network slice.
  *
  * @summary Deletes the specified network slice.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SliceDelete.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SliceDelete.json
  */
 async function deleteNetworkSlice() {
   const subscriptionId =

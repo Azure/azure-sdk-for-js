@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all slices in the mobile network.
  *
  * @summary Lists all slices in the mobile network.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SliceListByMobileNetwork.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SliceListByMobileNetwork.json
  */
 async function listNetworkSlicesInAMobileNetwork() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified SIM.
  *
  * @summary Deletes the specified SIM.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SimDelete.json
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SimDelete.json
  */
 async function deleteSim() {
   const subscriptionId =
