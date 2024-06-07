@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-namespaces/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid-namespaces)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid/)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid-namespaces/)
 - [Product documentation](https://docs.microsoft.com/azure/event-grid/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces/samples)
 
@@ -48,9 +48,9 @@ Install the Azure Event Grid Namespaces client library for JavaScript with `npm`
 npm install @azure/eventgrid-namespaces
 ```
 
-### Create and authenticate a `EventGridNamespacesClient`
+### Create and authenticate Namespace clients
 
-To create a client object to access the Event Grid Namespaces API, you will need the `endpoint` of your Event Grid topic and a `credential`. The Event Grid client can use an Access Key.
+To create a client object to access the Event Grid Namespaces API, you will need the `endpoint` of your Event Grid topic and a `credential`. The Event Grid Namespaces clients can use an Access Key.
 
 You can find the endpoint for your Event Grid topic either in the [Azure Portal][azure_portal] or by using the [Azure CLI][azure_cli] snippet below:
 
@@ -69,9 +69,14 @@ az eventgrid topic key list --resource-group <your-resource-group-name> --name <
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
 ```js
-const { EventGridClient, AzureKeyCredential } = require("@azure/eventgrid-namespaces");
+const { EventGridSenderClient, EventGridReceiverClient, AzureKeyCredential } = require("@azure/eventgrid-namespaces");
 
-const client = new EventGridClient(
+const eventGridSenderClient = new EventGridSenderClient(
+  "<endpoint>",
+  new AzureKeyCredential("<Access Key>")
+);
+
+const eventGridReceiverClient = new EventGridReceiverClient(
   "<endpoint>",
   new AzureKeyCredential("<Access Key>")
 );
@@ -86,10 +91,15 @@ With the `@azure/identity` package, you can seamlessly authorize requests in bot
 For example, use can use `DefaultAzureCredential` to construct a client which will authenticate using Azure Active Directory:
 
 ```js
-const { EventGridClient } = require("@azure/eventgrid-namespaces");
+const { EventGridSenderClient, EventGridReceiverClient } = require("@azure/eventgrid-namespaces");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-const client = new EventGridClient(
+const eventGridSenderClient = new EventGridSenderClient(
+  "<endpoint>",
+  new DefaultAzureCredential()
+);
+
+const eventGridReceiverClient = new EventGridReceiverClient(
   "<endpoint>",
   new DefaultAzureCredential()
 );
@@ -97,12 +107,21 @@ const client = new EventGridClient(
 
 ## Key concepts
 
-### EventGridNamespacesClient
+### Sending and Receiving Events
 
-`EventGridNamespacesClient` is used sending events to an Event Grid. You can initialize it as:
+`EventGridSenderClient` can be used for sending events to an Event Grid. You can initialize it as:
 
 ```js
-const client = new EventGridClient(
+const eventGridSenderClient = new EventGridSenderClient(
+  "<endpoint>",
+  new AzureKeyCredential("<API Key>")
+);
+```
+
+`EventGridReceiverClient` can be used for receiving events from an Event Grid. You can initialize it as:
+
+```js
+const eventGridReceiverClient = new EventGridReceiverClient(
   "<endpoint>",
   new AzureKeyCredential("<API Key>")
 );
@@ -121,9 +140,9 @@ This library has been tested and validated on [Kubernetes using Azure Arc][event
 ### Publish an Event to an Event Grid Topic
 
 ```js
-const { EventGridClient, AzureKeyCredential } = require("@azure/eventgrid-namespaces");
+const { EventGridSenderClient, AzureKeyCredential } = require("@azure/eventgrid-namespaces");
 
-const client = new EventGridClient(
+const client = new EventGridSenderClient(
   "<endpoint>",
   new AzureKeyCredential("<API key>")
 );
@@ -139,7 +158,7 @@ const cloudEvent: CloudEvent = {
   specversion: "1.0",
 };
 // Publish the Cloud Event
-await client.publishCloudEvent(cloudEvent, topicName);
+await client.sendEvents(cloudEvent, topicName);
 ```
 
 ## Troubleshooting
