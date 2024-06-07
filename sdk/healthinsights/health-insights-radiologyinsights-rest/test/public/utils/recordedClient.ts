@@ -24,7 +24,6 @@ const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
   removeCentralSanitizers: [
     "AZSDK3447", // .key is not a secret
-    "AZSDK2030", // operation-location header is not a secret since the URI is fake, being done by the fake endpoint
   ],
 };
 
