@@ -22,9 +22,6 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
-  removeCentralSanitizers: [
-    "AZSDK3447", // .key is not a secret
-  ],
 };
 
 /**
