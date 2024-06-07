@@ -1,15 +1,82 @@
 # Release History
+    
+## 33.2.0 (2024-06-07)
+    
+**Features**
 
-## 33.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group FirewallPolicyDeployments
+  - Added operation group FirewallPolicyDrafts
+  - Added operation group FirewallPolicyRuleCollectionGroupDrafts
+  - Added operation NetworkVirtualAppliances.beginRestart
+  - Added operation NetworkVirtualAppliances.beginRestartAndWait
+  - Added Interface ConnectionMonitorEndpointLocationDetails
+  - Added Interface FirewallPolicyDeploymentsDeployHeaders
+  - Added Interface FirewallPolicyDeploymentsDeployOptionalParams
+  - Added Interface FirewallPolicyDraft
+  - Added Interface FirewallPolicyDraftsCreateOrUpdateOptionalParams
+  - Added Interface FirewallPolicyDraftsDeleteOptionalParams
+  - Added Interface FirewallPolicyDraftsGetOptionalParams
+  - Added Interface FirewallPolicyRuleCollectionGroupDraft
+  - Added Interface FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateOptionalParams
+  - Added Interface FirewallPolicyRuleCollectionGroupDraftsDeleteOptionalParams
+  - Added Interface FirewallPolicyRuleCollectionGroupDraftsGetOptionalParams
+  - Added Interface HeaderValueMatcher
+  - Added Interface NetworkVirtualApplianceInstanceIds
+  - Added Interface NetworkVirtualAppliancePropertiesFormatNetworkProfile
+  - Added Interface NetworkVirtualAppliancesRestartHeaders
+  - Added Interface NetworkVirtualAppliancesRestartOptionalParams
+  - Added Interface PacketCaptureSettings
+  - Added Interface VirtualApplianceIPConfiguration
+  - Added Interface VirtualApplianceIPConfigurationProperties
+  - Added Interface VirtualApplianceNetworkInterfaceConfiguration
+  - Added Interface VirtualApplianceNetworkInterfaceConfigurationProperties
+  - Added Type Alias ApplicationGatewaySkuFamily
+  - Added Type Alias FirewallPolicyDeploymentsDeployResponse
+  - Added Type Alias FirewallPolicyDraftsCreateOrUpdateResponse
+  - Added Type Alias FirewallPolicyDraftsGetResponse
+  - Added Type Alias FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateResponse
+  - Added Type Alias FirewallPolicyRuleCollectionGroupDraftsGetResponse
+  - Added Type Alias InboundSecurityRuleType
+  - Added Type Alias NetworkVirtualAppliancesRestartResponse
+  - Added Type Alias NicTypeInRequest
+  - Added Type Alias NicTypeInResponse
+  - Added Type Alias SharingScope
+  - Interface ApplicationGatewayHeaderConfiguration has a new optional parameter headerValueMatcher
+  - Interface ApplicationGatewaySku has a new optional parameter family
+  - Interface ConnectionMonitorEndpoint has a new optional parameter locationDetails
+  - Interface ConnectionMonitorEndpoint has a new optional parameter subscriptionId
+  - Interface ExpressRouteCircuit has a new optional parameter enableDirectPortRateLimit
+  - Interface InboundSecurityRule has a new optional parameter ruleType
+  - Interface InboundSecurityRules has a new optional parameter appliesOn
+  - Interface InboundSecurityRules has a new optional parameter destinationPortRanges
+  - Interface InboundSecurityRules has a new optional parameter name
+  - Interface NetworkInterfaceIPConfiguration has a new optional parameter privateIPAddressPrefixLength
+  - Interface NetworkVirtualAppliance has a new optional parameter networkProfile
+  - Interface PacketCapture has a new optional parameter captureSettings
+  - Interface PacketCapture has a new optional parameter continuousCapture
+  - Interface PacketCaptureParameters has a new optional parameter captureSettings
+  - Interface PacketCaptureParameters has a new optional parameter continuousCapture
+  - Interface PacketCaptureResult has a new optional parameter captureSettings
+  - Interface PacketCaptureResult has a new optional parameter continuousCapture
+  - Interface PacketCaptureStorageLocation has a new optional parameter localPath
+  - Interface PolicySettings has a new optional parameter jsChallengeCookieExpirationInMins
+  - Interface Subnet has a new optional parameter sharingScope
+  - Interface VirtualApplianceNicProperties has a new optional parameter nicType
+  - Interface VirtualNetworkPeering has a new optional parameter enableOnlyIPv6Peering
+  - Interface VirtualNetworkPeering has a new optional parameter localAddressSpace
+  - Interface VirtualNetworkPeering has a new optional parameter localSubnetNames
+  - Interface VirtualNetworkPeering has a new optional parameter localVirtualNetworkAddressSpace
+  - Interface VirtualNetworkPeering has a new optional parameter peerCompleteVnets
+  - Interface VirtualNetworkPeering has a new optional parameter remoteSubnetNames
+  - Interface VpnSiteLinkConnection has a new optional parameter dpdTimeoutSeconds
+  - Added Enum KnownApplicationGatewaySkuFamily
+  - Added Enum KnownInboundSecurityRuleType
+  - Added Enum KnownNicTypeInRequest
+  - Added Enum KnownNicTypeInResponse
+  - Added Enum KnownSharingScope
+  - Enum KnownEndpointType has a new value AzureArcNetwork
+    
+    
 ## 33.1.0 (2024-02-02)
     
 **Features**
