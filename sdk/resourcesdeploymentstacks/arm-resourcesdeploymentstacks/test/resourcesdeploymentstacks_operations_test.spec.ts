@@ -71,7 +71,7 @@ describe("DeploymentStacks test", () => {
             applyToChildScopes: false,
             excludedActions: ["action"],
             excludedPrincipals: ["principal"],
-            mode: "denyDelete"
+            mode: "none"
           },
           template: {
             "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
@@ -121,7 +121,7 @@ describe("DeploymentStacks test", () => {
     assert.equal(res.name, resourcename);
   });
 
-  it.only("deploymentStacks list test", async function () {
+  it("deploymentStacks list test", async function () {
     const resArray = new Array();
     for await (let item of client.deploymentStacks.listAtResourceGroup(resourceGroup)) {
       resArray.push(item);
