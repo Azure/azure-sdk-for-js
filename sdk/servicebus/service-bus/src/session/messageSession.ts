@@ -279,7 +279,8 @@ export class MessageSession extends LinkEntity<Receiver> {
       ) {
         await delay(1); // yield to eventloop
         if (this._lastSBError) {
-          await link.close();
+          await link.close({ closeSession: true });
+          link.remove();
           throw this._lastSBError;
         }
       }
@@ -298,7 +299,8 @@ export class MessageSession extends LinkEntity<Receiver> {
         condition: ErrorNameConditionMapper.SessionCannotBeLockedError,
       });
       logger.logError(error, this.logPrefix);
-      await link.close();
+      await link.close({ closeSession: true });
+      link.remove();
       throw error;
     }
 
