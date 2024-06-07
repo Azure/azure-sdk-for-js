@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0 (2024-06-11)
+
+### Features Added
+
+- Released V1.0 GA Version. Refer [PR #29764](https://github.com/Azure/azure-sdk-for-js/pull/29764/) for further details.
+
 ## 1.0.0-beta.2 (2024-04-19)
 
 ### Features Added
