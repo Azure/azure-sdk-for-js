@@ -266,9 +266,9 @@ describe("Main functions", () => {
     let span = trace.getTracer("testTracer").startSpan("testSpan");
     span.end();
 
-    // @ts-ignore Need to access resource attributes of a span to verify the correct resource detectors are enabled.
+    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
     // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = span["resource"].attributes;
+    const resource = (span as any)["resource"]["_attributes"];
     console.log(resource);
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
@@ -290,9 +290,9 @@ describe("Main functions", () => {
     let span = trace.getTracer("testTracer").startSpan("testSpan");
     span.end();
 
-    // @ts-ignore Need to access resource attributes of a span to verify the correct resource detectors are enabled.
+    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
     // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = span["resource"].attributes;
+    const resource = (span as any)["resource"]["_attributes"];
     console.log(resource);
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
@@ -310,9 +310,9 @@ describe("Main functions", () => {
     let span = trace.getTracer("testTracer").startSpan("testSpan");
     span.end();
 
-    // @ts-ignore Need to access resource attributes of a span to verify the correct resource detectors are enabled.
+    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
     // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = span["resource"].attributes;
+    const resource = (span as any)["resource"]["_attributes"];
     console.log(resource);
     Object.keys(resource).forEach((attr) => {
       assert.ok(!attr.includes("process"));
