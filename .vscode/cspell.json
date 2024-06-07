@@ -259,6 +259,10 @@
       "words": ["Dicom", "Gcch", "gcch"]
     },
     {
+      "filename": "sdk/eventgrid/eventgrid-system-events/review/**/*.md",
+      "words": ["Dicom", "Gcch", "gcch"]
+    },
+    {
       "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
       "words": ["iddocument"]
     },
