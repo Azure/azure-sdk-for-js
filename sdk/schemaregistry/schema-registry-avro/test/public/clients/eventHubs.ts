@@ -15,14 +15,15 @@ import {
 import { MessagingTestClient } from "./models";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { DefaultAzureCredential } from "@azure/identity";
 
 export function createEventHubsClient(settings: {
-  eventHubsFullyQualifiedNamespace: string;
+  eventHubAvroHostName: string;
   eventHubName: string;
   alreadyEnqueued: boolean;
   recorder?: Recorder;
 }): MessagingTestClient<EventData> {
-  const { alreadyEnqueued, eventHubName, eventHubsFullyQualifiedNamespace, recorder } = settings;
+  const { alreadyEnqueued, eventHubName, eventHubAvroHostName, recorder } = settings;
   let producer: EventHubBufferedProducerClient;
   let consumer: EventHubConsumerClient;
   let subscription: Subscription;
@@ -40,15 +41,16 @@ export function createEventHubsClient(settings: {
           throw ctx.error;
         },
       };
+      DefaultAzureCredential
       producer = new EventHubBufferedProducerClient(
-        eventHubsFullyQualifiedNamespace,
+        eventHubAvroHostName,
         eventHubName,
         credential,
         recorder?.configureClientOptions(clientOptions) ?? clientOptions,
       );
       consumer = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
-        eventHubsFullyQualifiedNamespace,
+        eventHubAvroHostName,
         eventHubName,
         credential,
         recorder?.configureClientOptions<EventHubConsumerClientOptions>({}) ?? undefined,
