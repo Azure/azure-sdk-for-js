@@ -1,16 +1,13 @@
 # Azure Event Grid Namespaces client library for JavaScript
 
-[Azure Event Grid](https://azure.microsoft.com/services/event-grid/) is a cloud-based service that provides reliable event delivery at massive scale.
-
-Use this client library (@azure/eventgrid-system-events) to Send events to Event Grid Namespaces.
+Azure Event Grid system events are published by Azure services to system topics. The models in this package map to events sent by various Azure services.
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-namespaces/)
-- [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid-namespaces)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid/)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-system-events/)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid-system-events)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid-system-events/)
 - [Product documentation](https://docs.microsoft.com/azure/event-grid/)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces/samples)
 
 ## Getting started
 

@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-namespaces/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid-namespaces)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid/)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid-namespaces/)
 - [Product documentation](https://docs.microsoft.com/azure/event-grid/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces/samples)
 
