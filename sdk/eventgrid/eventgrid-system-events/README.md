@@ -6,7 +6,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-system-events/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid-system-events)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid-system-events/)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid-namespaces/)
 - [Product documentation](https://docs.microsoft.com/azure/event-grid/)
 
 ## Getting started
