@@ -253,7 +253,8 @@ describe("Main functions", () => {
   });
 
   it("should prioritize resource detectors in env var OTEL_NODE_RESOURCE_DETECTORS", () => {
-    const expectedResourceAttributeNamespaces = new Set(["os", "service", "telemetry"]);
+    const expectedResourceAttributeNamespaces =
+      new Set(["os", "service", "telemetry"]);
     const env = <{ [id: string]: string }>{};
     env.OTEL_NODE_RESOURCE_DETECTORS = "os";
     process.env = env;
@@ -265,17 +266,20 @@ describe("Main functions", () => {
     useAzureMonitor(config);
     let span = trace.getTracer("testTracer").startSpan("testSpan");
     span.end();
-    //@ts-ignore
-    const resource = span["resource"]["_attributes"];
+
+    // @ts-ignore Need to access resource attributes of a span to verify the correct resource detectors are enabled. 
+    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource. 
+    const resource = span["resource"].attributes;
     console.log(resource);
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
       assert.ok(expectedResourceAttributeNamespaces.has(parts[0]));
-    });
+    })
   });
 
   it("should skip unknown resource detectors", () => {
-    const expectedResourceAttributeNamespaces = new Set(["host", "service", "telemetry"]);
+    const expectedResourceAttributeNamespaces =
+      new Set(["host", "service", "telemetry"]);
     const env = <{ [id: string]: string }>{};
     env.OTEL_NODE_RESOURCE_DETECTORS = "blah,host";
     process.env = env;
@@ -288,8 +292,9 @@ describe("Main functions", () => {
     let span = trace.getTracer("testTracer").startSpan("testSpan");
     span.end();
 
-    //@ts-ignore
-    const resource = span["resource"]["_attributes"];
+    // @ts-ignore Need to access resource attributes of a span to verify the correct resource detectors are enabled. 
+    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource. 
+    const resource = span["resource"].attributes;
     console.log(resource);
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
@@ -307,8 +312,9 @@ describe("Main functions", () => {
     let span = trace.getTracer("testTracer").startSpan("testSpan");
     span.end();
 
-    //@ts-ignore
-    const resource = span["resource"]["_attributes"];
+    // @ts-ignore Need to access resource attributes of a span to verify the correct resource detectors are enabled. 
+    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource. 
+    const resource = span["resource"].attributes;
     console.log(resource);
     Object.keys(resource).forEach((attr) => {
       assert.ok(!attr.includes("process"));
