@@ -151,11 +151,9 @@ describe("AMQP message encoding", () => {
 
       const rheaMessage = toRheaMessage(serviceBusReceivedMessage, defaultDataTransformer);
 
-      if (!isRheaAmqpSection(rheaMessage.body)) {
-        throw new Error("rheaMessage.body was not a rhea section");
-      }
-
-      assert.equal(rheaMessage.body.typecode, dataSectionTypeCode);
+      console.dir(rheaMessage.body);
+      assert.equal(rheaMessage.body.typecode, 117);
+      assert.deepEqual(rheaMessage.body.content, Buffer.alloc(0));
     });
 
     it("ServiceBusReceivedMessage (but was decoded from 'value')", () => {

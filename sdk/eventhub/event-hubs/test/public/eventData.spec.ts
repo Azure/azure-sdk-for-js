@@ -151,6 +151,15 @@ testWithServiceTypes((serviceVersion) => {
         const event = await receiveEvent(startingPositions);
         should.equal(event.body, testEvent.body, "Unexpected body on the received event.");
       });
+
+      it(`undefined body is coerced to null`, async () => {
+        const startingPositions = await getStartingPositionsForTests(consumerClient);
+        const testEvent: EventData = { body: undefined };
+        await producerClient.sendBatch([testEvent]);
+
+        const event = await receiveEvent(startingPositions);
+        should.equal(event.body, null, "Unexpected body on the received event.");
+      });
     });
   });
 });
