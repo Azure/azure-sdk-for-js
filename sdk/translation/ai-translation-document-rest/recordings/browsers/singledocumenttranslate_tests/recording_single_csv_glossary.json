@@ -7,7 +7,7 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
         "Connection": "keep-alive",
-        "Content-Length": "194",
+        "Content-Length": "345",
         "Content-Type": "multipart/form-data; boundary=--RecordedTestMultipartBoundary",
         "ocp-apim-subscription-key": "Sanitized",
         "Referer": "http://localhost:9876/",
@@ -21,11 +21,11 @@
         "x-ms-client-request-id": "Sanitized",
         "x-ms-useragent": "azsdk-js-ai-translation-document-rest/1.0.0-beta.1 core-rest-pipeline/1.16.0 OS/Windows"
       },
-      "RequestBody": "LS0tLVJlY29yZGVkVGVzdE11bHRpcGFydEJvdW5kYXJ5DQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9ImRvY3VtZW50IjsgZmlsZW5hbWU9InRlc3QtaW5wdXQudHh0Ig0KQ29udGVudC1UeXBlOiB0ZXh0L2h0bWwNCg0KVGhpcyBpcyBhIHRlc3QuDQotLS0tUmVjb3JkZWRUZXN0TXVsdGlwYXJ0Qm91bmRhcnktLQ0KDQo=",
+      "RequestBody": "LS0tLVJlY29yZGVkVGVzdE11bHRpcGFydEJvdW5kYXJ5DQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9ImRvY3VtZW50IjsgZmlsZW5hbWU9InRlc3QtaW5wdXQudHh0Ig0KQ29udGVudC1UeXBlOiB0ZXh0L2h0bWwNCg0KVGhpcyBpcyBhIHRlc3QuDQotLS0tUmVjb3JkZWRUZXN0TXVsdGlwYXJ0Qm91bmRhcnkNCkNvbnRlbnQtRGlzcG9zaXRpb246IGZvcm0tZGF0YTsgbmFtZT0iZ2xvc3NhcnkiOyBmaWxlbmFtZT0idGVzdC1nbG9zc2FyeS5jc3YiDQpDb250ZW50LVR5cGU6IHRleHQvY3N2DQoNCnRlc3QsdGVzdA0KLS0tLVJlY29yZGVkVGVzdE11bHRpcGFydEJvdW5kYXJ5LS0NCg0K",
       "StatusCode": 200,
       "ResponseHeaders": {
         "Access-Control-Expose-Headers": "X-RequestId,x-ms-request-id,X-RequestId-Forwarded,X-Metered-Usage",
-        "apim-request-id": "b297deb8-00d1-4e71-8ed1-f1d51c274f6c",
+        "apim-request-id": "d91ad4f6-b524-4406-a284-cffacbeea687",
         "Content-Type": "application/octet-stream",
         "Date": "Fri, 07 Jun 2024 22:43:47 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
@@ -34,9 +34,9 @@
         "X-Metered-Usage": "15",
         "x-ms-region": "West US",
         "x-ms-request-id": "Sanitized",
-        "X-RequestId": "b297deb8-00d1-4e71-8ed1-f1d51c274f6c"
+        "X-RequestId": "d91ad4f6-b524-4406-a284-cffacbeea687"
       },
-      "ResponseBody": "4KSv4KS5IOCkj+CklSDgpJXgpLjgpYzgpJ/gpYAg4KS54KWI4KWkCg=="
+      "ResponseBody": "4KSv4KS5IOCkj+CklSB0ZXN0IOCkueCliOClpAo="
     }
   ],
   "Variables": {}

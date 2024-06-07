@@ -5,28 +5,36 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
         "Connection": "keep-alive",
         "Content-Length": "496",
         "Content-Type": "multipart/form-data; boundary=--RecordedTestMultipartBoundary",
-        "Ocp-Apim-Subscription-Key": "Sanitized",
-        "User-Agent": "azsdk-js-ai-translation-document-rest/1.0.0-beta.1 core-rest-pipeline/1.16.0 Node/20.12.1 OS/(x64-Windows_NT-10.0.22631)",
-        "x-ms-client-request-id": "Sanitized"
+        "ocp-apim-subscription-key": "Sanitized",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/125.0.6422.78 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-useragent": "azsdk-js-ai-translation-document-rest/1.0.0-beta.1 core-rest-pipeline/1.16.0 OS/Windows"
       },
       "RequestBody": "LS0tLVJlY29yZGVkVGVzdE11bHRpcGFydEJvdW5kYXJ5DQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9ImRvY3VtZW50IjsgZmlsZW5hbWU9InRlc3QtaW5wdXQudHh0Ig0KQ29udGVudC1UeXBlOiB0ZXh0L2h0bWwNCg0KVGhpcyBpcyBhIHRlc3QuDQotLS0tUmVjb3JkZWRUZXN0TXVsdGlwYXJ0Qm91bmRhcnkNCkNvbnRlbnQtRGlzcG9zaXRpb246IGZvcm0tZGF0YTsgbmFtZT0iZ2xvc3NhcnkiOyBmaWxlbmFtZT0idGVzdC1nbG9zc2FyeS5jc3YiDQpDb250ZW50LVR5cGU6IHRleHQvY3N2DQoNCnRlc3QsdGVzdA0KLS0tLVJlY29yZGVkVGVzdE11bHRpcGFydEJvdW5kYXJ5DQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9Imdsb3NzYXJ5IjsgZmlsZW5hbWU9InRlc3QtZ2xvc3NhcnkuY3N2Ig0KQ29udGVudC1UeXBlOiB0ZXh0L2Nzdg0KDQp0ZXN0LHRlc3QNCi0tLS1SZWNvcmRlZFRlc3RNdWx0aXBhcnRCb3VuZGFyeS0tDQoNCg==",
       "StatusCode": 400,
       "ResponseHeaders": {
         "Access-Control-Expose-Headers": "X-RequestId,x-ms-request-id,X-RequestId-Forwarded,X-Metered-Usage",
-        "apim-request-id": "c812835f-3e7e-42d1-b4b9-3c6c062fba47",
+        "apim-request-id": "40ef422c-f6a3-4afa-92fd-436079aa4d13",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 07 Jun 2024 22:43:42 GMT",
+        "Date": "Fri, 07 Jun 2024 22:43:47 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "x-ms-error-code": "InvalidRequest",
         "x-ms-region": "West US",
         "x-ms-request-id": "Sanitized",
-        "X-RequestId": "c812835f-3e7e-42d1-b4b9-3c6c062fba47"
+        "X-RequestId": "40ef422c-f6a3-4afa-92fd-436079aa4d13"
       },
       "ResponseBody": {
         "error": {
