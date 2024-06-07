@@ -3,8 +3,8 @@
 
 import express from "express-serve-static-core";
 
-import { CloudEventsDispatcher } from "./cloudEventsDispatcher";
-import { WebPubSubEventHandlerOptions } from "./cloudEventsProtocols";
+import { CloudEventsDispatcher } from "./cloudEventsDispatcher.js";
+import { WebPubSubEventHandlerOptions } from "./cloudEventsProtocols.js";
 
 /**
  * The handler to handle incoming CloudEvents messages
