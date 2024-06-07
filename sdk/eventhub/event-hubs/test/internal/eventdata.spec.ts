@@ -271,7 +271,7 @@ testWithServiceTypes(() => {
       it("ReceivedEventData (sequence)", () => {
         const event: ReceivedEventData = {
           enqueuedTimeUtc: new Date(),
-          offset: 100,
+          offset: "100",
           partitionKey: null,
           sequenceNumber: 1,
           body: ["foo", "bar"],
@@ -291,7 +291,7 @@ testWithServiceTypes(() => {
       it("ReceivedEventData (data)", () => {
         const event: ReceivedEventData = {
           enqueuedTimeUtc: new Date(),
-          offset: 100,
+          offset: "100",
           partitionKey: null,
           sequenceNumber: 1,
           body: ["foo", "bar"],
@@ -311,7 +311,7 @@ testWithServiceTypes(() => {
       it("ReceivedEventData (value)", () => {
         const event: ReceivedEventData = {
           enqueuedTimeUtc: new Date(),
-          offset: 100,
+          offset: "100",
           partitionKey: null,
           sequenceNumber: 1,
           body: ["foo", "bar"],

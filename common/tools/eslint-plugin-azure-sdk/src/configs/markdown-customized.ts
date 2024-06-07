@@ -12,6 +12,13 @@ const markdownConfigs: FlatConfig.ConfigArray = [
   {
     name: "markdown-js-azsdk-customized",
     files: ["*.md/*.js"],
+    languageOptions: {
+      parserOptions: {
+        project: true,
+        programs: null,
+      },
+    },
+    ...typescriptEslint.configs.disableTypeChecked,
     rules: {
       "no-unused-vars": "off",
       "no-undef": "off",
@@ -27,6 +34,8 @@ const markdownConfigs: FlatConfig.ConfigArray = [
           ],
         },
       ],
+      "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/no-unused-vars": "off",
     },
   },
   {

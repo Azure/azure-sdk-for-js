@@ -37,6 +37,10 @@ describe("MsalClient", function () {
     });
 
     it("supports getTokenByClientSecret", async function () {
+      if (isLiveMode()) {
+        // https://github.com/Azure/azure-sdk-for-js/issues/29929
+        this.skip();
+      }
       const scopes = ["https://vault.azure.net/.default"];
       const clientSecret = env.IDENTITY_SP_CLIENT_SECRET || env.AZURE_CLIENT_SECRET!;
       const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
@@ -160,18 +164,13 @@ describe("MsalClient", function () {
   });
 
   describe("CAE support", function () {
-    let sandbox: sinon.SinonSandbox;
     let subject: msalClient.MsalClient;
 
     const clientId = "client-id";
     const tenantId = "tenant-id";
 
     afterEach(async function () {
-      sandbox.restore();
-    });
-
-    beforeEach(async function () {
-      sandbox = sinon.createSandbox();
+      sinon.restore();
     });
 
     describe("when CAE is enabled", function () {
@@ -187,7 +186,7 @@ describe("MsalClient", function () {
           beforeCacheAccess: sinon.stub(),
         };
 
-        sandbox.stub(msalPlugins, "generatePluginConfiguration").returns({
+        sinon.stub(msalPlugins, "generatePluginConfiguration").returns({
           broker: {
             isEnabled: false,
             enableMsaPassthrough: false,
@@ -231,7 +230,7 @@ describe("MsalClient", function () {
           beforeCacheAccess: sinon.stub(),
         };
 
-        sandbox.stub(msalPlugins, "generatePluginConfiguration").returns({
+        sinon.stub(msalPlugins, "generatePluginConfiguration").returns({
           broker: {
             isEnabled: false,
             enableMsaPassthrough: false,
@@ -264,9 +263,71 @@ describe("MsalClient", function () {
     });
   });
 
-  describe("#getTokenByDeviceCode", function () {
-    let sandbox: sinon.SinonSandbox;
+  describe("#getTokenByAuthorizationCode", function () {
+    const clientId = "client-id";
+    const tenantId = "tenant-id";
+    const fakeTokenResponse = {
+      accessToken: "token",
+      expiresOn: new Date(Date.now() + 3600 * 1000),
+      account: {
+        environment: "environment",
+        homeAccountId: "homeAccountId",
+        localAccountId: "localAccountId",
+        tenantId: "tenantId",
+        username: "username",
+      },
+    };
+    const scopes = ["https://vault.azure.net/.default"];
 
+    afterEach(async function () {
+      sinon.restore();
+    });
+
+    describe("with clientSecret", function () {
+      it("uses a confidentialClientApplication", async function () {
+        const client = msalClient.createMsalClient(clientId, tenantId);
+
+        const publicClientStub = sinon.stub(
+          PublicClientApplication.prototype,
+          "acquireTokenByCode",
+        );
+        const confidentialClientStub = sinon
+          .stub(ConfidentialClientApplication.prototype, "acquireTokenByCode")
+          .resolves(fakeTokenResponse as AuthenticationResult);
+
+        await client.getTokenByAuthorizationCode(scopes, "code", "redirectUri", "clientSecret");
+
+        assert.equal(publicClientStub.callCount, 0);
+        assert.equal(confidentialClientStub.callCount, 1);
+      });
+    });
+
+    describe("without clientSecret", function () {
+      it("uses a publicClientApplication", async function () {
+        const client = msalClient.createMsalClient(clientId, tenantId);
+
+        const publicClientStub = sinon
+          .stub(PublicClientApplication.prototype, "acquireTokenByCode")
+          .resolves(fakeTokenResponse as AuthenticationResult);
+        const confidentialClientStub = sinon.stub(
+          ConfidentialClientApplication.prototype,
+          "acquireTokenByCode",
+        );
+
+        await client.getTokenByAuthorizationCode(
+          scopes,
+          "code",
+          "redirectUri",
+          undefined /* clientSecret */,
+        );
+
+        assert.equal(publicClientStub.callCount, 1);
+        assert.equal(confidentialClientStub.callCount, 0);
+      });
+    });
+  });
+
+  describe("#getTokenByDeviceCode", function () {
     const clientId = "client-id";
     const tenantId = "tenant-id";
     const deviceCodeCallback: () => void = () => {
@@ -274,11 +335,7 @@ describe("MsalClient", function () {
     };
 
     afterEach(async function () {
-      sandbox.restore();
-    });
-
-    beforeEach(async function () {
-      sandbox = sinon.createSandbox();
+      sinon.restore();
     });
 
     describe("with silent authentication", function () {
@@ -295,7 +352,7 @@ describe("MsalClient", function () {
           authenticationRecord,
         });
 
-        const silentAuthSpy = sandbox
+        const silentAuthSpy = sinon
           .stub(ClientApplication.prototype, "acquireTokenSilent")
           .resolves({
             accessToken: "token",
@@ -315,14 +372,14 @@ describe("MsalClient", function () {
       });
 
       it("attempts silent authentication without AuthenticationRecord", async function () {
-        const silentAuthStub = sandbox
+        const silentAuthStub = sinon
           .stub(ClientApplication.prototype, "acquireTokenSilent")
           .resolves({
             accessToken: "token",
             expiresOn: new Date(),
           } as AuthenticationResult);
 
-        const clientCredentialAuthStub = sandbox
+        const clientCredentialAuthStub = sinon
           .stub(PublicClientApplication.prototype, "acquireTokenByDeviceCode")
           .resolves({
             accessToken: "token",
@@ -367,7 +424,7 @@ describe("MsalClient", function () {
           },
         });
 
-        sandbox
+        sinon
           .stub(ClientApplication.prototype, "acquireTokenSilent")
           .rejects(new AbortError("operation has been aborted")); // AbortErrors should get re-thrown
 
@@ -381,7 +438,7 @@ describe("MsalClient", function () {
 
       it("throws when silentAuthentication fails and disableAutomaticAuthentication is true", async function () {
         const scopes = ["https://vault.azure.net/.default"];
-        sandbox
+        sinon
           .stub(ClientApplication.prototype, "acquireTokenSilent")
           .rejects(new AuthenticationRequiredError({ scopes }));
 
