@@ -109,7 +109,7 @@ const eventGridReceiverClient = new EventGridReceiverClient(
 
 ### EventGridSenderClient & EventGridReceiverClient
 
-`EventGridSenderClient` is used sending events to an Event Grid. You can initialize it as:
+`EventGridSenderClient` can be used for sending events to an Event Grid. You can initialize it as:
 
 ```js
 const eventGridSenderClient = new EventGridSenderClient(
