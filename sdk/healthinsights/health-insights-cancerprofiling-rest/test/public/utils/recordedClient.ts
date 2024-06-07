@@ -12,7 +12,7 @@ import CancerProfiling, { CancerProfilingRestClient } from "../../../src";
 import "./env";
 
 const envSetupForPlayback: Record<string, string> = {
-  HEALTH_INSIGHTS_ENDPOINT: "https://endpoint/",
+  HEALTH_INSIGHTS_ENDPOINT: "https://Sanitized.cognitiveservices.azure.com/",
   HEALTH_INSIGHTS_KEY: "fake_key",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
@@ -21,6 +21,11 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK3447", // .key is not a secret
+    "AZSDK4001", // URI need not be over sanitized since we have the fake endpoint set already
+    "AZSDK2030", // operation-location header is not a secret since the URI is fake, being done by the fake endpoint
+  ],
 };
 
 /**
