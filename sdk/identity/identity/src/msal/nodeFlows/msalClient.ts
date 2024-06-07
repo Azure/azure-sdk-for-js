@@ -117,6 +117,26 @@ export interface MsalClient {
   ): Promise<AccessToken>;
 
   /**
+   * Retrieves an access token by using an authorization code flow.
+   *
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param authorizationCode - An authorization code that was received from following the
+                              authorization code flow.  This authorization code must not
+                              have already been used to obtain an access token.
+   * @param redirectUri - The redirect URI that was used to request the authorization code.
+                        Must be the same URI that is configured for the App Registration.
+   * @param clientSecret - An optional client secret that was generated for the App Registration.
+   * @param options - Additional options that may be provided to the method.
+   */
+  getTokenByAuthorizationCode(
+    scopes: string[],
+    redirectUri: string,
+    authorizationCode: string,
+    clientSecret?: string,
+    options?: GetTokenWithSilentAuthOptions,
+  ): Promise<AccessToken>;
+
+  /**
    * Retrieves the last authenticated account. This method expects an authentication record to have been previously loaded.
    *
    * An authentication record could be loaded by calling the `getToken` method, or by providing an `authenticationRecord` when creating a credential.
@@ -548,6 +568,36 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     return msalToPublic(clientId, state.cachedAccount);
   }
 
+  async function getTokenByAuthorizationCode(
+    scopes: string[],
+    redirectUri: string,
+    authorizationCode: string,
+    clientSecret?: string,
+    options: GetTokenWithSilentAuthOptions = {},
+  ): Promise<AccessToken> {
+    msalLogger.getToken.info(`Attempting to acquire token using authorization code`);
+
+    let msalApp: msal.ConfidentialClientApplication | msal.PublicClientApplication;
+    if (clientSecret) {
+      // If a client secret is provided, we need to use a confidential client application
+      // See https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow#request-an-access-token-with-a-client_secret
+      state.msalConfig.auth.clientSecret = clientSecret;
+      msalApp = await getConfidentialApp(options);
+    } else {
+      msalApp = await getPublicApp(options);
+    }
+
+    return withSilentAuthentication(msalApp, scopes, options, () => {
+      return msalApp.acquireTokenByCode({
+        scopes,
+        redirectUri,
+        code: authorizationCode,
+        authority: state.msalConfig.auth.authority,
+        claims: options?.claims,
+      });
+    });
+  }
+
   return {
     getActiveAccount,
     getTokenByClientSecret,
@@ -555,5 +605,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     getTokenByClientCertificate,
     getTokenByDeviceCode,
     getTokenByUsernamePassword,
+    getTokenByAuthorizationCode,
   };
 }
