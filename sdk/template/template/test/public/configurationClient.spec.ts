@@ -4,8 +4,8 @@
 import { assert } from "@azure-tools/test-utils";
 import { ConfigurationClient } from "../../src/index.js";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, beforeEach, afterEach } from "vitest";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -30,7 +30,9 @@ function createConfigurationClient(recorder: Recorder): ConfigurationClient {
   // to AAD.
   const client = new ConfigurationClient(
     endpoint,
-    createTestCredential(),
+    new DefaultAzureCredential({
+      managedIdentityClientId: null as unknown as string,
+    }),
     // recorder.configureClientOptions() updates the client options by adding the test proxy policy to
     // redirect the requests to reach the proxy tool in record/playback modes instead of
     // hitting the live service.
