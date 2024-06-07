@@ -48,7 +48,7 @@ Install the Azure Event Grid Namespaces client library for JavaScript with `npm`
 npm install @azure/eventgrid-namespaces
 ```
 
-### Create and authenticate a clients
+### Create and authenticate Namespace clients
 
 To create a client object to access the Event Grid Namespaces API, you will need the `endpoint` of your Event Grid topic and a `credential`. The Event Grid Namespaces clients can use an Access Key.
 
@@ -107,7 +107,7 @@ const eventGridReceiverClient = new EventGridReceiverClient(
 
 ## Key concepts
 
-### EventGridSenderClient & EventGridReceiverClient
+### Sending and Receiving Events
 
 `EventGridSenderClient` can be used for sending events to an Event Grid. You can initialize it as:
 
