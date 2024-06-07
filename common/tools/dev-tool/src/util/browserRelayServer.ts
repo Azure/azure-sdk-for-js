@@ -3,7 +3,7 @@
 
 import express from "express";
 import type { Express } from "express-serve-static-core";
-import { DefaultAzureCredential, type TokenCredential } from "@azure/identity";
+import { AzureCliCredential, AzureDeveloperCliCredential, AzurePowerShellCredential, ChainedTokenCredential, EnvironmentCredential, WorkloadIdentityCredential, type TokenCredential } from "@azure/identity";
 import { randomUUID } from "node:crypto";
 import { createPrinter } from "./printer";
 
@@ -47,7 +47,13 @@ function buildServer(app: Express) {
   app.put("/credential", (req, res) => {
     const id = randomUUID();
     try {
-      const cred = new DefaultAzureCredential(req.body);
+      const cred = new ChainedTokenCredential(
+        new EnvironmentCredential(req.body),
+        new WorkloadIdentityCredential(req.body),
+        new AzureCliCredential(req.body),
+        new AzurePowerShellCredential(req.body),
+        new AzureDeveloperCliCredential(req.body)
+      );
       credentials[id] = cred;
       res.status(201).send({ id });
     } catch (error: unknown) {
