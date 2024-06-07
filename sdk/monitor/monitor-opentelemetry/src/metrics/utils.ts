@@ -32,7 +32,7 @@ export function getRequestDimensions(span: ReadableSpan): Attributes {
   dimensions.metricId = StandardMetricIds.REQUEST_DURATION;
   const statusCode = String(span.attributes["http.status_code"]);
   dimensions.requestResultCode = statusCode;
-  dimensions.requestSuccess = statusCode === "200" ? "True" : "False";
+  dimensions.requestSuccess = Number(statusCode) < 500 ? "True" : "False";
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
@@ -46,7 +46,7 @@ export function getDependencyDimensions(span: ReadableSpan): Attributes {
   dimensions.dependencyTarget = getDependencyTarget(span.attributes);
   dimensions.dependencyResultCode = statusCode;
   dimensions.dependencyType = "http";
-  dimensions.dependencySuccess = statusCode === "200" ? "True" : "False";
+  dimensions.dependencySuccess = Number(statusCode) < 400 ? "True" : "False";
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
