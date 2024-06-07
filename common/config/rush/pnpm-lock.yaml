@@ -1376,6 +1376,24 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/core-amqp@4.4.0-beta.1:
+    resolution: {integrity: sha512-KX63knLZurpWwvbX4dthEx3VzLaDisjbE8mXOI9lgk+HRZv4WQONOHAa1jFXqOpPqVCSteQCIbr5veujCK86oA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.7.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      buffer: 6.0.3
+      events: 3.3.0
+      process: 0.11.10
+      rhea: 3.0.2
+      rhea-promise: 3.0.2
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/core-auth@1.7.2:
     resolution: {integrity: sha512-Igm/S3fDYmnMq1uKS38Ae1/m37B3zigdlZw+kocwEhh5GjyKjPrXKO2J6rzpC1wAxrNil/jX9BJRqBshyjnF3g==}
     engines: {node: '>=18.0.0'}
@@ -1528,6 +1546,26 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-amqp': 4.3.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      buffer: 6.0.3
+      is-buffer: 2.0.5
+      jssha: 3.3.1
+      process: 0.11.10
+      rhea-promise: 3.0.2
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/event-hubs@5.13.0-beta.1:
+    resolution: {integrity: sha512-8/o8fnP99Yvaiq/nu42/l813Z6u0Fzg80J+PmdfdZHLehD0w2RjLsFs1fRMas784MavtDpNkKk9LHW5152f0Lg==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-amqp': 4.4.0-beta.1
       '@azure/core-auth': 1.7.2
       '@azure/core-tracing': 1.1.2
       '@azure/core-util': 1.9.0
@@ -20496,7 +20534,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-HOn2lenS436bZjX50GxIZ2KXrBHMB9QlGkB1jVyrD+wA32j/yHPpnifF8ILq5DWOGbsJnBAPSyZsWnW3QxG4aA==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-OpepdIWR/6TcPzER4P29PzCLCD/l0Re9YELq+7vK3fGku2C9uKrueJbRZqvCIgWibTK58BJYmWOpPUwe7vCZ8A==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -20694,11 +20732,12 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-XeH5d6o8dPdX8haCXDQQTqJbJFFLSWjdv9sUwBGoIme1eyXfsHFh4XCQm40qYRA2mBMqtiVgFMIR7Vjq7SJcLg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-2kpPEpzfk/Jh39biFrniTDgV2dvKGLekMKijMta8cz9sJonIPL2DdnlgrN4faDdPQDw83qrSWWh6kmGHIjeqZA==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/event-hubs': 5.13.0-beta.1
       '@azure/storage-blob': 12.18.0
       '@microsoft/api-extractor': 7.46.2(@types/node@18.19.33)
       '@types/chai': 4.3.16
@@ -21074,7 +21113,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-hByUR/HYHlfBSNb+6QYjcOuIxsu1J1jbdR7YRiSdbXIZfjQ9ovVR5MaEwYVI5no6azfCiiBcEHdnVtn/rVx8Aw==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-uFtveuc+VjWG0nsTRkgX5ctwMt7tCe5LPG3rYI/mTT40qaNCXw5farFHMttpETceM8DaG1R0Z5YLicyKdsMdaQ==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -23894,7 +23933,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-qfNIYuEB3D4HDHkMw51pBk0eN5HDsimcSbFBgI+UQtAn9RByPq+Ho52w6O3NwBmn/fSKvKh/4JR18PLTzCeRoQ==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-PGIQwpydrdrYNDq2AVGh9YGo8pj/DObnqpUihTY+BMiBZ+22LG7tPR8bHnPOdTmORfdC20U26wLbmQdOi1YYNg==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
