@@ -859,12 +859,12 @@ export interface AvsScriptExecutionStartedEventData extends AvsScriptExecutionEv
 // @public
 export interface CloudEvent<T> {
     data?: T;
-    datacontenttype?: string;
-    dataschema?: string;
+    dataContentType?: string;
+    dataSchema?: string;
     extensionAttributes?: Record<string, unknown>;
     id: string;
     source: string;
-    specversion?: string | "1.0";
+    specVersion?: string | "1.0";
     subject?: string;
     time?: Date;
     type: string;
