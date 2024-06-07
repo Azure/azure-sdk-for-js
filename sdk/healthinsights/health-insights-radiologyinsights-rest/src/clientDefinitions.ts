@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GetJobParameters, CreateJobParameters } from "./parameters";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
+import { CreateJobParameters, GetJobParameters } from "./parameters";
 import {
-  GetJob200Response,
-  GetJobDefaultResponse,
   CreateJob200Response,
   CreateJob201Response,
   CreateJobDefaultResponse,
+  GetJob200Response,
+  GetJobDefaultResponse,
 } from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetJob {
   /** Gets the status and details of the Radiology Insights job. */
@@ -22,7 +22,7 @@ export interface GetJob {
 
 export interface Routes {
   /** Resource for '/radiology-insights/jobs/\{id\}' has methods for the following verbs: get, put */
-  (path: "/radiology-insights/jobs/{id}", id: string): GetJob;
+  (path: ".cognitiveservices.azure.com/radiology-insights/jobs/{id}", id: string): GetJob;
 }
 
 export type AzureHealthInsightsClient = Client & {
