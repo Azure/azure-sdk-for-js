@@ -253,8 +253,7 @@ describe("Main functions", () => {
   });
 
   it("should prioritize resource detectors in env var OTEL_NODE_RESOURCE_DETECTORS", () => {
-    const expectedResourceAttributeNamespaces =
-      new Set(["os", "service", "telemetry"]);
+    const expectedResourceAttributeNamespaces = new Set(["os", "service", "telemetry"]);
     const env = <{ [id: string]: string }>{};
     env.OTEL_NODE_RESOURCE_DETECTORS = "os";
     process.env = env;
@@ -273,12 +272,10 @@ describe("Main functions", () => {
       const parts = attr.split(".");
       assert.ok(expectedResourceAttributeNamespaces.has(parts[0]));
     });
-
   });
 
   it("should skip unknown resource detectors", () => {
-    const expectedResourceAttributeNamespaces =
-      new Set(["host", "service", "telemetry"]);
+    const expectedResourceAttributeNamespaces = new Set(["host", "service", "telemetry"]);
     const env = <{ [id: string]: string }>{};
     env.OTEL_NODE_RESOURCE_DETECTORS = "blah,host";
     process.env = env;

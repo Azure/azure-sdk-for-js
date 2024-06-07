@@ -7,8 +7,8 @@ import {
   hostDetectorSync,
   osDetectorSync,
   processDetectorSync,
-  serviceInstanceIdDetectorSync
-} from '@opentelemetry/resources';
+  serviceInstanceIdDetectorSync,
+} from "@opentelemetry/resources";
 import { diag } from "@opentelemetry/api";
 
 export function ignoreOutgoingRequestHook(request: http.RequestOptions): boolean {
@@ -113,46 +113,46 @@ export function msToTimeSpan(ms: number): string {
 }
 
 // This function is a slight modification of an upstream otel util function -
-// mainly for prioritizing the resource detectors customer may specify over 
-// env var & not enabling process detector by default.  
+// mainly for prioritizing the resource detectors customer may specify over
+// env var & not enabling process detector by default.
 export function parseResourceDetectorsFromEnvVar(): Array<DetectorSync> {
-
   const resourceDetectors = new Map<string, DetectorSync>([
-    ['env', envDetectorSync],
-    ['host', hostDetectorSync],
-    ['os', osDetectorSync],
-    ['process', processDetectorSync],
-    ['serviceinstance', serviceInstanceIdDetectorSync]
+    ["env", envDetectorSync],
+    ["host", hostDetectorSync],
+    ["os", osDetectorSync],
+    ["process", processDetectorSync],
+    ["serviceinstance", serviceInstanceIdDetectorSync],
   ]);
 
   if (process.env.OTEL_NODE_RESOURCE_DETECTORS != null) {
-    const resourceDetectorsFromEnv =
-      process.env.OTEL_NODE_RESOURCE_DETECTORS?.split(',') ?? ['env', 'host', 'os'];
+    const resourceDetectorsFromEnv = process.env.OTEL_NODE_RESOURCE_DETECTORS?.split(",") ?? [
+      "env",
+      "host",
+      "os",
+    ];
 
-    if (resourceDetectorsFromEnv.includes('all')) {
+    if (resourceDetectorsFromEnv.includes("all")) {
       return [...resourceDetectors.values()];
     }
 
-    if (resourceDetectorsFromEnv.includes('none')) {
+    if (resourceDetectorsFromEnv.includes("none")) {
       return [];
     }
 
-    return resourceDetectorsFromEnv.flatMap(detector => {
+    return resourceDetectorsFromEnv.flatMap((detector) => {
       const resourceDetector = resourceDetectors.get(detector);
       if (!resourceDetector) {
         diag.error(
-          `Invalid resource detector "${detector}" specified in the environment variable OTEL_NODE_RESOURCE_DETECTORS`
+          `Invalid resource detector "${detector}" specified in the environment variable OTEL_NODE_RESOURCE_DETECTORS`,
         );
         return [];
       }
       return [resourceDetector];
     });
-
   } else {
-    // leaving out the process detector as that can add many resource attributes 
+    // leaving out the process detector as that can add many resource attributes
     // with large values. Also not enabling service instance attributes by default
-    // as this is still experimental. 
+    // as this is still experimental.
     return [envDetectorSync, hostDetectorSync, osDetectorSync];
   }
-
 }

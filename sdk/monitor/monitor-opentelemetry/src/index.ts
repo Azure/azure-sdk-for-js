@@ -22,7 +22,7 @@ import { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { getInstance } from "./utils/statsbeat";
-import { parseResourceDetectorsFromEnvVar } from "./utils/common"
+import { parseResourceDetectorsFromEnvVar } from "./utils/common";
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
 
