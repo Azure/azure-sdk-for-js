@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.24 Unreleased
+
+### Other Changes
+
+- Client generated Span event exceptions no longer generate trace telemetry.
+
 ## 1.0.0-beta.23 (2024-05-10)
 
 ### Features Added
