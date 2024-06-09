@@ -11,7 +11,7 @@ import {
   DatabaseAutomaticTuningGetResponse,
   DatabaseAutomaticTuning,
   DatabaseAutomaticTuningUpdateOptionalParams,
-  DatabaseAutomaticTuningUpdateResponse
+  DatabaseAutomaticTuningUpdateResponse,
 } from "../models";
 
 /** Interface representing a DatabaseAutomaticTuningOperations. */
@@ -28,7 +28,7 @@ export interface DatabaseAutomaticTuningOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseAutomaticTuningGetOptionalParams
+    options?: DatabaseAutomaticTuningGetOptionalParams,
   ): Promise<DatabaseAutomaticTuningGetResponse>;
   /**
    * Update automatic tuning properties for target database.
@@ -44,6 +44,6 @@ export interface DatabaseAutomaticTuningOperations {
     serverName: string,
     databaseName: string,
     parameters: DatabaseAutomaticTuning,
-    options?: DatabaseAutomaticTuningUpdateOptionalParams
+    options?: DatabaseAutomaticTuningUpdateOptionalParams,
   ): Promise<DatabaseAutomaticTuningUpdateResponse>;
 }

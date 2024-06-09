@@ -15,7 +15,7 @@ import {
   ManagedInstanceAdvancedThreatProtectionSettingsGetOptionalParams,
   ManagedInstanceAdvancedThreatProtectionSettingsGetResponse,
   ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
-  ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateResponse
+  ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ManagedInstanceAdvancedThreatProtectionSettings {
   listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceOptionalParams
+    options?: ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceAdvancedThreatProtection>;
   /**
    * Get a managed instance's Advanced Threat Protection state.
@@ -45,7 +45,7 @@ export interface ManagedInstanceAdvancedThreatProtectionSettings {
     resourceGroupName: string,
     managedInstanceName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
-    options?: ManagedInstanceAdvancedThreatProtectionSettingsGetOptionalParams
+    options?: ManagedInstanceAdvancedThreatProtectionSettingsGetOptionalParams,
   ): Promise<ManagedInstanceAdvancedThreatProtectionSettingsGetResponse>;
   /**
    * Creates or updates Advanced Threat Protection settings.
@@ -61,12 +61,10 @@ export interface ManagedInstanceAdvancedThreatProtectionSettings {
     managedInstanceName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
     parameters: ManagedInstanceAdvancedThreatProtection,
-    options?: ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateResponse
-      >,
+      OperationState<ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateResponse>,
       ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateResponse
     >
   >;
@@ -84,8 +82,6 @@ export interface ManagedInstanceAdvancedThreatProtectionSettings {
     managedInstanceName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
     parameters: ManagedInstanceAdvancedThreatProtection,
-    options?: ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
-  ): Promise<
-    ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateResponse
-  >;
+    options?: ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
+  ): Promise<ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateResponse>;
 }

@@ -29,7 +29,7 @@ async function listInstancePoolsByResourceGroup() {
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.instancePools.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

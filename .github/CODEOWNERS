@@ -451,6 +451,9 @@
 /sdk/deviceupdate/arm-deviceupdate/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/devopsinfrastructure/arm-devopsinfrastructure/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/devspaces/arm-devspaces/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -533,6 +536,9 @@
 
 # PRLabel: %Mgmt
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/informatica/arm-informaticadatamanagement @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/iotcentral/arm-iotcentral/ @qiaozha @MaryGao
@@ -890,8 +896,8 @@
 
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
-/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber
-/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber
+/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber @harsimar
+/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber @harsimar
 /sdk/monitor/monitor-query/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
 /sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
@@ -1212,9 +1218,6 @@
 #/<NotInRepo>/          @SameergMS @dadunl @AzMonEssential @AzmonAlerts @AzmonActionG @AzmonLogA
 
 # ServiceLabel: %Monitor - ApplicationInsights %Service Attention
-#/<NotInRepo>/          @azmonapplicationinsights
-
-# ServiceLabel: %Monitor - Exporter %Service Attention
 #/<NotInRepo>/          @JacksonWeber @hectorhdzg @ramthi
 
 # ServiceLabel: %MySQL %Service Attention
@@ -1483,6 +1486,7 @@
 # Eng Sys
 ###########
 /eng/           @ckairen @mikeharder @weshaggard @benbp
+/eng/common/    @Azure/azure-sdk-eng
 
 ###########
 # Config

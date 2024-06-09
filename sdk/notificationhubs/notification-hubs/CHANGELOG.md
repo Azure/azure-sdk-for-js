@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.3 (Unreleased)
+## 1.2.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,13 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.2.3 (2024-05-21)
+
+### Bugs Fixed
+
+- Added outcome counts to the `NotificationOutcomeDetails` response for browser and FCMV1 notifications.
+  - [#29404](https://github.com/Azure/azure-sdk-for-js/issues/29777)
 
 ## 1.2.2 (2024-04-29)
 

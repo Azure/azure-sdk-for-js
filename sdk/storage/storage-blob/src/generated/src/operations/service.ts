@@ -30,7 +30,7 @@ import {
   ServiceSubmitBatchOptionalParams,
   ServiceSubmitBatchResponse,
   ServiceFilterBlobsOptionalParams,
-  ServiceFilterBlobsResponse
+  ServiceFilterBlobsResponse,
 } from "../models";
 
 /** Class containing Service operations. */
@@ -53,11 +53,11 @@ export class ServiceImpl implements Service {
    */
   setProperties(
     blobServiceProperties: BlobServiceProperties,
-    options?: ServiceSetPropertiesOptionalParams
+    options?: ServiceSetPropertiesOptionalParams,
   ): Promise<ServiceSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { blobServiceProperties, options },
-      setPropertiesOperationSpec
+      setPropertiesOperationSpec,
     );
   }
 
@@ -67,11 +67,11 @@ export class ServiceImpl implements Service {
    * @param options The options parameters.
    */
   getProperties(
-    options?: ServiceGetPropertiesOptionalParams
+    options?: ServiceGetPropertiesOptionalParams,
   ): Promise<ServiceGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getPropertiesOperationSpec
+      getPropertiesOperationSpec,
     );
   }
 
@@ -82,11 +82,11 @@ export class ServiceImpl implements Service {
    * @param options The options parameters.
    */
   getStatistics(
-    options?: ServiceGetStatisticsOptionalParams
+    options?: ServiceGetStatisticsOptionalParams,
   ): Promise<ServiceGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getStatisticsOperationSpec
+      getStatisticsOperationSpec,
     );
   }
 
@@ -95,11 +95,11 @@ export class ServiceImpl implements Service {
    * @param options The options parameters.
    */
   listContainersSegment(
-    options?: ServiceListContainersSegmentOptionalParams
+    options?: ServiceListContainersSegmentOptionalParams,
   ): Promise<ServiceListContainersSegmentResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listContainersSegmentOperationSpec
+      listContainersSegmentOperationSpec,
     );
   }
 
@@ -111,11 +111,11 @@ export class ServiceImpl implements Service {
    */
   getUserDelegationKey(
     keyInfo: KeyInfo,
-    options?: ServiceGetUserDelegationKeyOptionalParams
+    options?: ServiceGetUserDelegationKeyOptionalParams,
   ): Promise<ServiceGetUserDelegationKeyResponse> {
     return this.client.sendOperationRequest(
       { keyInfo, options },
-      getUserDelegationKeyOperationSpec
+      getUserDelegationKeyOperationSpec,
     );
   }
 
@@ -124,11 +124,11 @@ export class ServiceImpl implements Service {
    * @param options The options parameters.
    */
   getAccountInfo(
-    options?: ServiceGetAccountInfoOptionalParams
+    options?: ServiceGetAccountInfoOptionalParams,
   ): Promise<ServiceGetAccountInfoResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getAccountInfoOperationSpec
+      getAccountInfoOperationSpec,
     );
   }
 
@@ -144,11 +144,11 @@ export class ServiceImpl implements Service {
     contentLength: number,
     multipartContentType: string,
     body: coreRestPipeline.RequestBodyType,
-    options?: ServiceSubmitBatchOptionalParams
+    options?: ServiceSubmitBatchOptionalParams,
   ): Promise<ServiceSubmitBatchResponse> {
     return this.client.sendOperationRequest(
       { contentLength, multipartContentType, body, options },
-      submitBatchOperationSpec
+      submitBatchOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class ServiceImpl implements Service {
    * @param options The options parameters.
    */
   filterBlobs(
-    options?: ServiceFilterBlobsOptionalParams
+    options?: ServiceFilterBlobsOptionalParams,
   ): Promise<ServiceFilterBlobsResponse> {
     return this.client.sendOperationRequest(
       { options },
-      filterBlobsOperationSpec
+      filterBlobsOperationSpec,
     );
   }
 }
@@ -175,30 +175,30 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     202: {
-      headersMapper: Mappers.ServiceSetPropertiesHeaders
+      headersMapper: Mappers.ServiceSetPropertiesHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceSetPropertiesExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceSetPropertiesExceptionHeaders,
+    },
   },
   requestBody: Parameters.blobServiceProperties,
   queryParameters: [
     Parameters.restype,
     Parameters.comp,
-    Parameters.timeoutInSeconds
+    Parameters.timeoutInSeconds,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
     Parameters.version,
-    Parameters.requestId
+    Parameters.requestId,
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/",
@@ -206,26 +206,26 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.BlobServiceProperties,
-      headersMapper: Mappers.ServiceGetPropertiesHeaders
+      headersMapper: Mappers.ServiceGetPropertiesHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceGetPropertiesExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceGetPropertiesExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.restype,
     Parameters.comp,
-    Parameters.timeoutInSeconds
+    Parameters.timeoutInSeconds,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const getStatisticsOperationSpec: coreClient.OperationSpec = {
   path: "/",
@@ -233,26 +233,26 @@ const getStatisticsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.BlobServiceStatistics,
-      headersMapper: Mappers.ServiceGetStatisticsHeaders
+      headersMapper: Mappers.ServiceGetStatisticsHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceGetStatisticsExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceGetStatisticsExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.restype,
     Parameters.timeoutInSeconds,
-    Parameters.comp1
+    Parameters.comp1,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const listContainersSegmentOperationSpec: coreClient.OperationSpec = {
   path: "/",
@@ -260,12 +260,12 @@ const listContainersSegmentOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ListContainersSegmentResponse,
-      headersMapper: Mappers.ServiceListContainersSegmentHeaders
+      headersMapper: Mappers.ServiceListContainersSegmentHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceListContainersSegmentExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceListContainersSegmentExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
@@ -273,16 +273,16 @@ const listContainersSegmentOperationSpec: coreClient.OperationSpec = {
     Parameters.prefix,
     Parameters.marker,
     Parameters.maxPageSize,
-    Parameters.include
+    Parameters.include,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const getUserDelegationKeyOperationSpec: coreClient.OperationSpec = {
   path: "/",
@@ -290,48 +290,48 @@ const getUserDelegationKeyOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.UserDelegationKey,
-      headersMapper: Mappers.ServiceGetUserDelegationKeyHeaders
+      headersMapper: Mappers.ServiceGetUserDelegationKeyHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceGetUserDelegationKeyExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceGetUserDelegationKeyExceptionHeaders,
+    },
   },
   requestBody: Parameters.keyInfo,
   queryParameters: [
     Parameters.restype,
     Parameters.timeoutInSeconds,
-    Parameters.comp3
+    Parameters.comp3,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
     Parameters.version,
-    Parameters.requestId
+    Parameters.requestId,
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const getAccountInfoOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "GET",
   responses: {
     200: {
-      headersMapper: Mappers.ServiceGetAccountInfoHeaders
+      headersMapper: Mappers.ServiceGetAccountInfoHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceGetAccountInfoExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceGetAccountInfoExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.comp, Parameters.restype1],
   urlParameters: [Parameters.url],
   headerParameters: [Parameters.version, Parameters.accept1],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const submitBatchOperationSpec: coreClient.OperationSpec = {
   path: "/",
@@ -340,14 +340,14 @@ const submitBatchOperationSpec: coreClient.OperationSpec = {
     202: {
       bodyMapper: {
         type: { name: "Stream" },
-        serializedName: "parsedResponse"
+        serializedName: "parsedResponse",
       },
-      headersMapper: Mappers.ServiceSubmitBatchHeaders
+      headersMapper: Mappers.ServiceSubmitBatchHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceSubmitBatchExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceSubmitBatchExceptionHeaders,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.timeoutInSeconds, Parameters.comp4],
@@ -357,12 +357,12 @@ const submitBatchOperationSpec: coreClient.OperationSpec = {
     Parameters.version,
     Parameters.requestId,
     Parameters.contentLength,
-    Parameters.multipartContentType
+    Parameters.multipartContentType,
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const filterBlobsOperationSpec: coreClient.OperationSpec = {
   path: "/",
@@ -370,26 +370,26 @@ const filterBlobsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FilterBlobSegment,
-      headersMapper: Mappers.ServiceFilterBlobsHeaders
+      headersMapper: Mappers.ServiceFilterBlobsHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceFilterBlobsExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceFilterBlobsExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.marker,
     Parameters.maxPageSize,
     Parameters.comp5,
-    Parameters.where
+    Parameters.where,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };

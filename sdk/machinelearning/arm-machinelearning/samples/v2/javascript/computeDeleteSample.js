@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureMachineLearningWorkspaces } = require("@azure/arm-machinelearning");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes specified Machine Learning compute.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/delete.json
  */
 async function deleteCompute() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const underlyingResourceAction = "Delete";
@@ -29,9 +31,13 @@ async function deleteCompute() {
     resourceGroupName,
     workspaceName,
     computeName,
-    underlyingResourceAction
+    underlyingResourceAction,
   );
   console.log(result);
 }
 
-deleteCompute().catch(console.error);
+async function main() {
+  deleteCompute();
+}
+
+main().catch(console.error);

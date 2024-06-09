@@ -803,6 +803,7 @@ export interface NotificationDetails {
     endTime?: Date;
     enqueueTime?: Date;
     fcmOutcomeCounts?: NotificationOutcome[];
+    fcmV1OutcomeCounts?: NotificationOutcome[];
     location?: string;
     notificationBody?: string;
     notificationId?: string;

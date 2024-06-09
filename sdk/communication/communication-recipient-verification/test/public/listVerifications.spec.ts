@@ -26,5 +26,5 @@ describe(`RecipientVerificationClient - List all verifications`, function () {
     for (const verification of await client.getVerifications()) {
       assert.isNotNull(verification.immutableId);
     }
-  }).timeout(10000);
+  }).timeout(30000);
 });

@@ -2,13 +2,119 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure-rest/core-client";
+import {
+  BrokerProperties,
+  PublishCloudEventOptionalParams,
+  ReceiveCloudEventsOptionalParams,
+  AcknowledgeCloudEventsOptionalParams,
+  RejectCloudEventsOptionalParams,
+  RenewCloudEventLocksOptionalParams,
+  EventGridClientOptions as EventGridOptions,
+  ReleaseDelay,
+} from "./cadl-generated";
 
-export interface PublishCloudEventOptions extends OperationOptions {
-  /** binary mode */
-  binaryMode?: boolean;
-
-  /** content type */
+/** Send Event Options */
+export interface SendEventOptions extends OperationOptions {
+  /** Content type */
   contentType?: string;
+
+  /** Topic name */
+  topicName?: string;
+}
+
+/** Event Grid Sender Client Options */
+export interface EventGridSenderClientOptions extends EventGridOptions {
+  /** Topic name */
+  topicName?: string;
+}
+
+/** Event Grid Receiver Client Options */
+export interface EventGridReceiverClientOptions extends EventGridOptions {
+  /** Topic name */
+  topicName?: string;
+
+  /** Event Subscription name */
+  eventSubscriptionName?: string;
+}
+
+/** Send Events Options */
+export interface SendEventsOptions extends PublishCloudEventOptionalParams {
+  /** Topic name */
+  topicName?: string;
+}
+
+/** Receive Events Options */
+export interface ReceiveEventsOptions extends ReceiveCloudEventsOptionalParams {
+  /** Topic name */
+  topicName?: string;
+
+  /** Event Subscription name */
+  eventSubscriptionName?: string;
+}
+
+/** Acknowledge Events Options */
+export interface AcknowledgeEventsOptions extends AcknowledgeCloudEventsOptionalParams {
+  /** Topic name */
+  topicName?: string;
+
+  /** Event Subscription name */
+  eventSubscriptionName?: string;
+}
+
+/** Release Events Options */
+export interface ReleaseEventsOptions extends OperationOptions {
+  /** Topic name */
+  topicName?: string;
+
+  /** Event Subscription name */
+  eventSubscriptionName?: string;
+
+  /** Release events with the specified delay in seconds. */
+  releaseDelay?: ReleaseDelay;
+}
+
+/** Reject Events Options */
+export interface RejectEventsOptions extends RejectCloudEventsOptionalParams {
+  /** Topic name */
+  topicName?: string;
+
+  /** Event Subscription name */
+  eventSubscriptionName?: string;
+}
+
+/** Renew Event Locks Options */
+export interface RenewEventLocksOptions extends RenewCloudEventLocksOptionalParams {
+  /** Topic name */
+  topicName?: string;
+
+  /** Event Subscription name */
+  eventSubscriptionName?: string;
+}
+
+/** Known values of {@link ReleaseDelay} that the service accepts. */
+export const enum KnownReleaseDelay {
+  /** Ten Minutes */
+  TenMinutes = "600",
+
+  /** One Minute */
+  OneMinute = "60",
+
+  /** Ten Seconds */
+  TenSeconds = "10",
+
+  /** One Hour */
+  OneHour = "3600",
+
+  /** No Delay */
+  NoDelay = "0",
+}
+
+/** Receive operation details per Cloud Event. */
+export interface ReceiveDetails<T> {
+  /** The Event Broker details. */
+  brokerProperties: BrokerProperties;
+  /** Cloud Event details. */
+  event: CloudEvent<T>;
 }
 
 /**
@@ -34,11 +140,11 @@ export interface CloudEvent<T> {
   /**
    * Identifies the schema that data adheres to.
    */
-  dataschema?: string;
+  dataSchema?: string;
   /**
    * Content type of data value.
    */
-  datacontenttype?: string;
+  dataContentType?: string;
   /**
    * Event data specific to the event type.
    */
@@ -54,16 +160,22 @@ export interface CloudEvent<T> {
   /**
    * The version of the CloudEvents specification which the event uses.
    */
-  specversion?: string | "1.0";
+  specVersion?: string | "1.0";
+}
+
+/** Details of the Receive operation response. */
+export interface ReceiveResult<T> {
+  /** Array of receive responses, one per cloud event. */
+  details: ReceiveDetails<T>[];
 }
 
 export const cloudEventReservedPropertyNames = [
-  "specversion",
+  "specVersion",
   "id",
   "source",
   "type",
-  "datacontenttype",
-  "dataschema",
+  "dataContentType",
+  "dataSchema",
   "subject",
   "time",
   "data",

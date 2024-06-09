@@ -34,6 +34,7 @@ const mockAccountKey = "aaaaa";
 const mockTenantId = "00000000-0000-0000-0000-000000000000&";
 const mockSas =
   "?sv=2015-04-05&ss=bfqt&srt=sco&sp=rwdlacup&se=2023-01-31T18%3A51%3A40.0000000Z&sig=foobar";
+
 const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
 if (isBrowser()) {
   sasParams.push("_");
@@ -64,8 +65,8 @@ export const recorderEnvSetup: RecorderStartOptions = {
     uriSanitizers,
   },
   removeCentralSanitizers: [
-    "AZSDK3493"  // .name in the body is not a secret and is created as part of tests
-  ]
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 /**

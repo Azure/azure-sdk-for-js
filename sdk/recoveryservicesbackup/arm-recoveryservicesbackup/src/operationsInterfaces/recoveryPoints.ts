@@ -11,7 +11,7 @@ import {
   RecoveryPointResource,
   RecoveryPointsListOptionalParams,
   RecoveryPointsGetOptionalParams,
-  RecoveryPointsGetResponse
+  RecoveryPointsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface RecoveryPoints {
     fabricName: string,
     containerName: string,
     protectedItemName: string,
-    options?: RecoveryPointsListOptionalParams
+    options?: RecoveryPointsListOptionalParams,
   ): PagedAsyncIterableIterator<RecoveryPointResource>;
   /**
    * Provides the information of the backed up data identified using RecoveryPointID. This is an
@@ -55,6 +55,6 @@ export interface RecoveryPoints {
     containerName: string,
     protectedItemName: string,
     recoveryPointId: string,
-    options?: RecoveryPointsGetOptionalParams
+    options?: RecoveryPointsGetOptionalParams,
   ): Promise<RecoveryPointsGetResponse>;
 }

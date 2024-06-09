@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to delete a run command.
  *
  * @summary The operation to delete a run command.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/runCommand/RunCommands_Delete.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/runCommand/RunCommands_Delete.json
  */
 async function deleteAMachineRunCommand() {
   const subscriptionId =

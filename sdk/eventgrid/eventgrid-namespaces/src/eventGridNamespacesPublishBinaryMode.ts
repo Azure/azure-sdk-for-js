@@ -8,7 +8,7 @@ import {
   PublishCloudEventDefaultResponse,
 } from "./cadl-generated/rest/index";
 import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import { PublishCloudEventOptions } from "./cadl-generated/models/options";
+import { PublishCloudEventOptionalParams } from "./cadl-generated/models/options";
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { Buffer } from "buffer";
 import { CloudEvent } from "./cadl-generated";
@@ -17,7 +17,7 @@ export async function publishCloudEventInBinaryMode(
   context: Client,
   topicName: string,
   event: CloudEvent,
-  options: PublishCloudEventOptions = { requestOptions: {} },
+  options: PublishCloudEventOptionalParams = { requestOptions: {} },
 ): Promise<Record<string, any>> {
   const result = await _publishCloudEventSendBinaryMode(context, topicName, event, options);
   return _publishCloudEventDeserialize(result);
@@ -37,7 +37,7 @@ export function _publishCloudEventSendBinaryMode(
   context: Client,
   topicName: string,
   event: CloudEvent,
-  options: PublishCloudEventOptions = { requestOptions: {} },
+  options: PublishCloudEventOptionalParams = { requestOptions: {} },
 ): StreamableMethod<PublishCloudEvent200Response | PublishCloudEventDefaultResponse> {
   const headers: RawHttpHeadersInput = {
     "ce-id": event.id,
