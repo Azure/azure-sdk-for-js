@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import ModelClientClient from "./modelClientClient.js";
+import InferenceClient from "./modelClientClient.js";
 
 export * from "./modelClientClient.js";
 export * from "./parameters.js";
@@ -11,4 +11,4 @@ export * from "./isUnexpected.js";
 export * from "./models.js";
 export * from "./outputModels.js";
 
-export default ModelClientClient;
+export default InferenceClient;

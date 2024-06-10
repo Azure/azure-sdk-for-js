@@ -1,10 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  RecorderStartOptions,
+  VitestTestContext,
+  assertEnvironmentVariable,
+} from "@azure-tools/test-recorder";
+import { AzureKeyCredential } from "@azure/core-auth";
+import { ClientOptions } from "@azure-rest/core-client";
+import createClient, { InferenceClient } from "../../../src/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
-  ENDPOINT: "https://endpoint",
+  AZURE_ENDPOINT: "https://endpoint",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
@@ -24,4 +32,14 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
   const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;
+}
+
+export async function createInferenceClient(
+  recorder?: Recorder,
+  options?: ClientOptions,
+): Promise<InferenceClient> {
+  const endpoint = assertEnvironmentVariable("AZURE_ENDPOINT");
+  const apikey = assertEnvironmentVariable("AZURE_CLIENT_SECRET");
+  const credential = new AzureKeyCredential(apikey);
+  return createClient(endpoint, credential, recorder?.configureClientOptions(options ?? {}));
 }

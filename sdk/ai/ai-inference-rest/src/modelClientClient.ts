@@ -8,10 +8,10 @@ import {
   KeyCredential,
   isKeyCredential,
 } from "@azure/core-auth";
-import { ModelClientContext } from "./clientDefinitions.js";
+import { InferenceClient } from "./clientDefinitions.js";
 
 /**
- * Initialize a new instance of `ModelClientContext`
+ * Initialize a new instance of `InferenceClient`
  * @param endpointParam - The parameter endpointParam
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
@@ -20,7 +20,7 @@ export default function createClient(
   endpointParam: string,
   credentials: TokenCredential | KeyCredential,
   options: ClientOptions = {},
-): ModelClientContext {
+): InferenceClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
   options.apiVersion = options.apiVersion ?? "2024-05-01-preview";
   const userAgentInfo = `azsdk-js-ai-inference-rest/1.0.0-beta.1`;
@@ -46,7 +46,7 @@ export default function createClient(
     endpointUrl,
     credentials,
     options,
-  ) as ModelClientContext;
+  ) as InferenceClient;
 
   if (isKeyCredential(credentials)) {
     client.pipeline.addPolicy({
