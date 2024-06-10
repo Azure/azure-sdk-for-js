@@ -236,7 +236,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   ): Promise<void> {
     const checkAborted = (): void => {
       if (abortSignal?.aborted) {
-        this._link?.close()
+        this._link?.close();
         throw new AbortError(StandardAbortMessage);
       }
     };
