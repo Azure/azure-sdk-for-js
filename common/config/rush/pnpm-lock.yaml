@@ -1690,6 +1690,11 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: false
 
+  /@azure/msal-common@14.12.0:
+    resolution: {integrity: sha512-IDDXmzfdwmDkv4SSmMEyAniJf6fDu3FJ7ncOjlxkDuT85uSnLEhZi3fGZpoR7T4XZpOMx9teM9GXBgrfJgyeBw==}
+    engines: {node: '>=0.8.0'}
+    dev: false
+
   /@azure/msal-node-extensions@1.0.17:
     resolution: {integrity: sha512-6K7FkpzHiQvWnxlSMfjok+Ir91RXVX96hgWymhyfeu7juHBQdND1eXGvfXPh1UTpNZho1td8owm3QgsK36aRjA==}
     engines: {node: '>=16'}
@@ -1710,6 +1715,15 @@ packages:
     engines: {node: '>=16'}
     dependencies:
       '@azure/msal-common': 14.10.0
+      jsonwebtoken: 9.0.2
+      uuid: 8.3.2
+    dev: false
+
+  /@azure/msal-node@2.9.2:
+    resolution: {integrity: sha512-8tvi6Cos3m+0KmRbPjgkySXi+UQU/QiuVRFnrxIwt5xZlEEFa69O04RTaNESGgImyBBlYbo2mfE8/U8Bbdk1WQ==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@azure/msal-common': 14.12.0
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
     dev: false
@@ -19191,7 +19205,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-4uqritVAYrFiioxH1rcq++mNWQawH3Ya+tY9B2qnrQutVUoXDZbOraOzGFb2sLlGhnzMrbtbShIrT28f4urQ2w==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-Ygovb+LC7mjs7U3cK+yRqarmoLSLXdFX1Bbx0d5Ohm6T6XRnSFnGsCYIdrTXqqLxuBbNwOmAGWbbuuMMc2diEQ==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -19200,7 +19214,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
-      '@azure/msal-node': 2.9.0
+      '@azure/msal-node': 2.9.2
       '@microsoft/api-extractor': 7.46.2(@types/node@18.19.33)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
@@ -21007,14 +21021,14 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-57sXv2WiScpT3AbpWmzAzUjdtGy63ukxyB0m4iS8K6R21n8o0+KXZU7siFFV7hRldzj2xUxYMMpgdedI0yrCXg==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-5liqLpDJEKUKbh5HL67Eo4C4YbR8DNAvBQ840j3WX3p1V2QgVKQfgQyVm+XmA8lI1Hg26EY5IZmzhjEF748+YQ==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.0
-      '@azure/msal-node': 2.9.0
+      '@azure/msal-node': 2.9.2
       '@azure/msal-node-extensions': 1.0.17
       '@microsoft/api-extractor': 7.46.2(@types/node@18.19.33)
       '@types/mocha': 10.0.6
@@ -21035,13 +21049,13 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-4d18eroBNxUQK0rIm4Hr+jf72gFG/Z2qtApwp+a0wqxR0GANOHZzm2W59mZg7bDIXqFTXYboB1jJ8lSc8tIOQw==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-tWyfMs4gUIbQ06lASh94UYOvJBMTJ56RyBTv9LswaIB7Gl3TPPl3TAApWSack1xdWsYl7p/JAplbcsN2quo7PQ==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
-      '@azure/msal-node': 2.9.0
+      '@azure/msal-node': 2.9.2
       '@azure/msal-node-extensions': 1.0.17
       '@microsoft/api-extractor': 7.46.2(@types/node@18.19.33)
       '@types/jws': 3.2.10
@@ -21106,7 +21120,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-eBfrAHyyWRvYTyY2Fyrj0Q5kae5Yr1PgMai6KoYpY0WoUOTyvw+nv6Ql2baHgaHftd8KUDh150cQ+Qs3rwIhXQ==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-QPAkrLan7YVdCq5wbTKSrSHHspfir1LHb9cfCpSBRZis07uqUjhyyJb9XFuur0VM9d8riplpWiLYQl0gkBz6wQ==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -21114,7 +21128,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/keyvault-keys': 4.8.0
       '@azure/msal-browser': 3.15.0
-      '@azure/msal-node': 2.9.0
+      '@azure/msal-node': 2.9.2
       '@microsoft/api-extractor': 7.46.2(@types/node@18.19.33)
       '@types/chai': 4.3.16
       '@types/jsonwebtoken': 9.0.6
