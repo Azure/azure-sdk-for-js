@@ -105,6 +105,36 @@ export interface ChatCompletionsToolDefinitionParent {
 export type ChatCompletionsToolSelectionPreset = string | "auto" | "none" | "required";
 
 // @public
+export type ChatMessageContentItem = ChatMessageContentItemParent | ChatMessageTextContentItem | ChatMessageImageContentItem;
+
+// @public
+export interface ChatMessageContentItemParent {
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface ChatMessageImageContentItem extends ChatMessageContentItemParent {
+    image_url: ChatMessageImageUrl;
+    type: "image_url";
+}
+
+// @public
+export type ChatMessageImageDetailLevel = string | "auto" | "low" | "high";
+
+// @public
+export interface ChatMessageImageUrl {
+    detail?: ChatMessageImageDetailLevel;
+    url: string;
+}
+
+// @public
+export interface ChatMessageTextContentItem extends ChatMessageContentItemParent {
+    text: string;
+    type: "text";
+}
+
+// @public
 export interface ChatRequestAssistantMessage extends ChatRequestMessageParent {
     content?: string | null;
     role: "assistant";
@@ -135,7 +165,7 @@ export interface ChatRequestToolMessage extends ChatRequestMessageParent {
 
 // @public
 export interface ChatRequestUserMessage extends ChatRequestMessageParent {
-    content: string;
+    content: string | Array<ChatMessageContentItem>;
     role: "user";
 }
 

@@ -22,7 +22,41 @@ export interface ChatRequestUserMessage extends ChatRequestMessageParent {
   /** The chat role associated with this message, which is always 'user' for user messages. */
   role: "user";
   /** The contents of the user message, with available input types varying by selected model. */
-  content: string;
+  content: string | Array<ChatMessageContentItem>;
+}
+
+/** An abstract representation of a structured content item within a chat message. */
+export interface ChatMessageContentItemParent {
+  type: string;
+}
+
+/** A structured chat content item containing plain text. */
+export interface ChatMessageTextContentItem
+  extends ChatMessageContentItemParent {
+  /** The discriminated object type: always 'text' for this type. */
+  type: "text";
+  /** The content of the message. */
+  text: string;
+}
+
+/** A structured chat content item containing an image reference. */
+export interface ChatMessageImageContentItem
+  extends ChatMessageContentItemParent {
+  /** The discriminated object type: always 'image_url' for this type. */
+  type: "image_url";
+  /** An internet location, which must be accessible to the model,from which the image may be retrieved. */
+  image_url: ChatMessageImageUrl;
+}
+
+/** An internet location from which the model may retrieve an image. */
+export interface ChatMessageImageUrl {
+  /** The URL of the image. */
+  url: string;
+  /**
+   * The evaluation quality setting to use, which controls relative prioritization of speed, token consumption, and
+   * accuracy.
+   */
+  detail?: ChatMessageImageDetailLevel;
 }
 
 /** A request chat message representing response or action from the assistant. */
@@ -148,6 +182,11 @@ export type ChatRequestMessage =
   | ChatRequestUserMessage
   | ChatRequestAssistantMessage
   | ChatRequestToolMessage;
+/** An abstract representation of a structured content item within a chat message. */
+export type ChatMessageContentItem =
+  | ChatMessageContentItemParent
+  | ChatMessageTextContentItem
+  | ChatMessageImageContentItem;
 /**
  * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
  * chat completion.
@@ -167,6 +206,8 @@ export type ChatCompletionsNamedToolSelection =
 export type UnknownParams = string | "error" | "drop" | "pass_through";
 /** Alias for ChatRole */
 export type ChatRole = string | "system" | "user" | "assistant" | "tool";
+/** Alias for ChatMessageImageDetailLevel */
+export type ChatMessageImageDetailLevel = string | "auto" | "low" | "high";
 /** Alias for ChatCompletionsResponseFormat */
 export type ChatCompletionsResponseFormat = string | "text" | "json_object";
 /** Alias for ChatCompletionsToolSelectionPreset */
