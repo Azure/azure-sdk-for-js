@@ -627,7 +627,7 @@ For using the `AzurePipelinesCredential` you need to configure these values in t
 1. `clientId`: Client ID from your user-assigned managed identity OR Application (client) ID from your app registration.
 2. `tenantId`: Tenant ID from your user-assigned managed identity OR Directory (tenant) ID from your app registration.
 3. `serviceConnectionId`: The service connection ID is the **GUID representing your service connection** and can be obtained by looking at the URL bar in your browser when you navigate to a service connection in the Azure Devops. It is the ResourceId as found in the querystring of the URL.
-   ![resourceId value, as found in the querystring of the Azure Resource Manager service connection created in Azure Pipelines](exampleServiceConnectionUrl.png)
+   ![resourceId value, as found in the query string of the Azure Resource Manager service connection created in Azure Pipelines](exampleServiceConnectionUrl.png)
 4. `systemAccessToken`: [See how to configure the predefined system variable System.AccessToken for the Azure Pipelines task](https://learn.microsoft.com/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#systemaccesstoken). This is the field you'll pass into the credential's constructor.
 
 #### Example of using the Azure Pipelines Task
@@ -673,7 +673,7 @@ function withAzurePipelinesCredential() {
   const clientId = "<YOUR_CLIENT_ID>";
   const tenantId = "<YOUR_TENANT_ID>";
   const serviceConnectionId = "<YOUR_SERVICE_CONNECTION_ID>";
-  const systemAccessToken = "<SYSTEM_ACCESSTOKEN>";
+  const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN;
   const credential = new AzurePipelinesCredential(
     tenantId,
     clientId,
