@@ -47,7 +47,6 @@ export class TestTracerProvider implements TracerProvider {
     trace.disable();
   }
 
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   setTracer(tracer: TestTracer): void {
     this.tracerCache.set(TRACER_NAME, tracer);
   }
