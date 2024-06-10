@@ -667,7 +667,7 @@ This example demonstrates authenticating the `SecretClient` from the [@azure/key
 
 ```ts
 /**
- * Authenticate with AzurePipelines federated identity.
+ * Authenticate with Azure Pipelines federated identity.
  */
 function withAzurePipelinesCredential() {
   const clientId = "<YOUR_CLIENT_ID>";
