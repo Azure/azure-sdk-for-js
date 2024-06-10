@@ -616,21 +616,21 @@ function withUserManagedIdentityCredential() {
 
 #### Authenticating in Azure Pipelines with service-connections
 
-##### Set up Federated Identity Credential in Azure Pipelines
+##### Set up a federated identity credential in Azure Pipelines
 
-In order to set up FIC in Azure Pipelines, you can set up the Azure Resource Manager service connection as an [automatic recommended approach](https://learn.microsoft.com/azure/devops/pipelines/library/connect-to-azure?view=azure-devops#create-an-azure-resource-manager-service-connection-that-uses-workload-identity-federation). You can also create it manually either using a [user-assigned Managed Identity as FIC](https://learn.microsoft.com/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops#set-a-workload-identity-service-connection-to-use-managed-identity-authentication) or using an [App Registration as FIC](https://learn.microsoft.com/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops#set-a-workload-identity-service-connection-to-use-service-principal-authentication).
+To set up a federated identity credential (FIC) in Azure Pipelines, you can set up the Azure Resource Manager service connection as an [automatic recommended approach](https://learn.microsoft.com/azure/devops/pipelines/library/connect-to-azure?view=azure-devops#create-an-azure-resource-manager-service-connection-that-uses-workload-identity-federation). You can also create it manually either using a [user-assigned Managed Identity as FIC](https://learn.microsoft.com/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops#set-a-workload-identity-service-connection-to-use-managed-identity-authentication) or using an [App Registration as FIC](https://learn.microsoft.com/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops#set-a-workload-identity-service-connection-to-use-service-principal-authentication).
 
-Make sure you use one of the [recommended Azure Devops task](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks) for FIC to be available in Azure Pipelines.
+Make sure you use one of the [recommended Azure Pipelines tasks](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks) so that FIC is available in Azure Pipelines.
 
-For using the `AzurePipelinesCredential` you need to configure these values in the constructor:
+To use `AzurePipelinesCredential`, configure the following values in the constructor:
 
 1. `clientId`: Client ID from your user-assigned managed identity OR Application (client) ID from your app registration.
 2. `tenantId`: Tenant ID from your user-assigned managed identity OR Directory (tenant) ID from your app registration.
-3. `serviceConnectionId`: The service connection ID is the **GUID representing your service connection** and can be obtained by looking at the URL bar in your browser when you navigate to a service connection in the Azure Devops. It is the ResourceId as found in the querystring of the URL.
+3. `serviceConnectionId`: The service connection ID is the **GUID representing your service connection** and can be obtained by looking at the URL bar in your browser when you navigate to a service connection in the Azure Devops. It is the ResourceId as found in the query string of the URL.
    ![resourceId value, as found in the query string of the Azure Resource Manager service connection created in Azure Pipelines](exampleServiceConnectionUrl.png)
 4. `systemAccessToken`: [See how to configure the predefined system variable System.AccessToken for the Azure Pipelines task](https://learn.microsoft.com/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#systemaccesstoken). This is the field you'll pass into the credential's constructor.
 
-#### Example of using the Azure Pipelines Task
+#### Example of using an Azure Pipelines task
 
 The following task yml is an example of configuring the `AzureCLI@2` task for using service connections federated identity with @azure/identity. See the list of [recommended Azure DevOps tasks](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks).
 
@@ -659,7 +659,7 @@ steps:
         node <path-to-the-javascript-code>
 ```
 
-**Note: The env vars `AZURESUBSCRIPTION_CLIENT_ID`, `AZURESUBSCRIPTION_TENANT_ID` and `AZURESUBSCRIPTION_SERVICE_CONNECTION_ID` are configured by Azure Pipelines only in the tasks `AzureCLI@2` and `AzurePowershell@5` and values from these env vars should be passed into the constructor of `AzurePipelinesCredential` by the user.**
+**Note: The environment variables `AZURESUBSCRIPTION_CLIENT_ID`, `AZURESUBSCRIPTION_TENANT_ID`, and `AZURESUBSCRIPTION_SERVICE_CONNECTION_ID` are configured by Azure Pipelines only in the tasks `AzureCLI@2` and `AzurePowershell@5`. Values from these environment variables should be passed into the constructor of `AzurePipelinesCredential` by the user.**
 
 #### Sample code for using AzurePipelinesCredential
 
@@ -667,7 +667,7 @@ This example demonstrates authenticating the `SecretClient` from the [@azure/key
 
 ```ts
 /**
- * Authenticate with AzurePipelines federated identity.
+ * Authenticate with Azure Pipelines federated identity.
  */
 function withAzurePipelinesCredential() {
   const clientId = "<YOUR_CLIENT_ID>";
