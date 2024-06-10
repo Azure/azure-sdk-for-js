@@ -90,7 +90,7 @@ export interface EventDataInternal {
   /**
    * The offset of the event.
    */
-  offset?: number;
+  offset?: string;
   /**
    * The sequence number of the event.
    */
@@ -405,7 +405,7 @@ export interface ReceivedEventData {
   /**
    * The offset of the event.
    */
-  offset: number;
+  offset: string;
   /**
    * The sequence number of the event.
    */

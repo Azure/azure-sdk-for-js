@@ -21,6 +21,13 @@ export const AggregateLogsUploadErrorName = "AggregateLogsUploadError";
 export function isAggregateLogsUploadError(e: unknown): e is AggregateLogsUploadError;
 
 // @public
+export enum KnownMonitorAudience {
+    AzureChina = "https://monitor.azure.cn",
+    AzureGovernment = "https://monitor.azure.us",
+    AzurePublicCloud = "https://monitor.azure.com"
+}
+
+// @public
 export class LogsIngestionClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
     upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: LogsUploadOptions): Promise<void>;
@@ -29,6 +36,7 @@ export class LogsIngestionClient {
 // @public
 export interface LogsIngestionClientOptions extends CommonClientOptions {
     apiVersion?: string;
+    audience?: string;
 }
 
 // @public

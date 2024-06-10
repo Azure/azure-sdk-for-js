@@ -1,0 +1,36 @@
+{
+  "name": "@azure-samples/special-characters-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Template client library samples for TypeScript",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "common/tools/dev-tool/test/samples/files/expectations/special-characters"
+  },
+  "keywords": [
+    "special-characters"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/test/samples/files/expectations/special-characters",
+  "dependencies": {
+    "special-characters": "latest",
+    "dotenv": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "typescript": "~5.4.5",
+    "rimraf": "latest"
+  }
+}

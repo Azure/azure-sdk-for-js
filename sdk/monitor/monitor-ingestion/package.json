@@ -1,6 +1,6 @@
 {
   "name": "@azure/monitor-ingestion",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Azure Monitor Ingestion library",
   "sdk-type": "client",
   "main": "dist/index.js",

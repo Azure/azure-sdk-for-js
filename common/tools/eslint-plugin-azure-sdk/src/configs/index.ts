@@ -17,8 +17,7 @@ import rootConfig from "./azure-sdk-base";
 function recommended(plugin: FlatConfig.Plugin) {
   return typescriptEslint.config(
     {
-      name: "azsdk-skip-generated",
-      ignores: ["**/generated/**"],
+      ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs}"],
     },
     {
       languageOptions: {
