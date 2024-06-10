@@ -630,7 +630,7 @@ To use `AzurePipelinesCredential`, configure the following values in the constru
    ![resourceId value, as found in the querystring of the Azure Resource Manager service connection created in Azure Pipelines](exampleServiceConnectionUrl.png)
 4. `systemAccessToken`: [See how to configure the System Predefined variable $System.AccessToken for the Azure Pipelines task](https://learn.microsoft.com/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#systemaccesstoken). This is the value you will pass to the constructor of the credential.
 
-#### Example of using the Azure Pipelines Task
+#### Example of using an Azure Pipelines task
 
 The following task yml is an example of configuring the `AzureCLI@2` task for using service connections federated identity with @azure/identity. See the list of [recommended Azure DevOps tasks](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks).
 
