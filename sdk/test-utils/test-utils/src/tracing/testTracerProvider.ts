@@ -1,4 +1,7 @@
-import { TracerProvider, trace } from "@opentelemetry/api";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { TracerOptions, TracerProvider, trace } from "@opentelemetry/api";
 import { TestTracer } from "./testTracer";
 
 // This must be the same as the default tracer name supplied from @azure/core-tracing.
@@ -7,8 +10,8 @@ const TRACER_NAME = "azure/core-tracing";
 /**
  * Implementation for TracerProvider from opentelemetry/api package.
  * It is a registry for creating named tracers.
- * This is exported only so that we can support packages using @azure/core-tracing <= 1.0.0-preview.13
- * while transitioning to @azure/core-tracing >= 1.0.0-preview.14
+ * This is exported only so that we can support packages using \@azure/core-tracing \<= 1.0.0-preview.13
+ * while transitioning to \@azure/core-tracing \>= 1.0.0-preview.14
  */
 export class TestTracerProvider implements TracerProvider {
   private tracerCache: Map<string, TestTracer> = new Map();
@@ -19,11 +22,11 @@ export class TestTracerProvider implements TracerProvider {
    * This function may return different Tracer types (e.g.
    * NoopTracerProvider vs. a functional tracer).
    *
-   * @param name The name of the tracer or instrumentation library.
-   * @param version The version of the tracer or instrumentation library.
+   * @param name - The name of the tracer or instrumentation library.
+   * @param version - The version of the tracer or instrumentation library.
    * @returns Tracer A Tracer with the given name and version
    */
-  getTracer(name: string, _version?: string): TestTracer {
+  getTracer(name: string, _version?: string, _options?: TracerOptions): TestTracer {
     if (!this.tracerCache.has(name)) {
       this.tracerCache.set(name, new TestTracer(name, name));
     }
@@ -44,6 +47,7 @@ export class TestTracerProvider implements TracerProvider {
     trace.disable();
   }
 
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   setTracer(tracer: TestTracer): void {
     this.tracerCache.set(TRACER_NAME, tracer);
   }
@@ -58,7 +62,7 @@ export function setTracer(tracer?: TestTracer): TestTracer {
   if (tracer) {
     tracerProvider.setTracer(tracer);
   }
-  return tracerProvider.getTracer(TRACER_NAME);
+  return tracerProvider.getTracer(TRACER_NAME) as TestTracer;
 }
 
 export function resetTracer(): void {
