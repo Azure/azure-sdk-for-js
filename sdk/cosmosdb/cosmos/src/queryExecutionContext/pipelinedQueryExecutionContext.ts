@@ -4,8 +4,7 @@ import { ClientContext } from "../ClientContext";
 import { Response, FeedOptions } from "../request";
 import {
   PartitionedQueryExecutionInfo,
-  QueryInfo,
-  // nonStreamingEndpointEmptyResult,
+  QueryInfo
 } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
@@ -237,13 +236,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           return { result: temp, headers: this.fetchMoreRespHeaders };
         }
       } else {
-        // // append the result
-        // const ruConsumed = await ruConsumedManager.getRUConsumed();
-        // // TODO:
-        // const maxRUAllowed =
-        //   operationOptions && operationOptions.ruCapPerOperation
-        //     ? operationOptions.ruCapPerOperation
-        //     : Constants.NonStreamingQueryDefaultRUThreshold;
+        // append the result
         if (typeof item !== "object") {
           this.fetchBuffer.push(item);
         } else if (Object.keys(item).length !== 0) {
@@ -255,16 +248,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           this.fetchBuffer = this.fetchBuffer.splice(this.pageSize);
           return { result: temp, headers: this.fetchMoreRespHeaders };
         } 
-        // else if (ruConsumed * 2 < maxRUAllowed) {
-        //   // recursively fetch more only if we have more than 50% RUs left.
-        //   return this._nonStreamingFetchMoreImplementation(
-        //     diagnosticNode,
-        //     operationOptions,
-        //     ruConsumedManager,
-        //   );
-        // } 
         else {
-          return { result: [], headers: this.fetchMoreRespHeaders };
+          return this._nonStreamingFetchMoreImplementation(diagnosticNode);
         }
       }
     } catch (err: any) {

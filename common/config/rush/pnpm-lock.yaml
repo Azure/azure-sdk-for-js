@@ -1611,12 +1611,26 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: false
 
+  /@azure/msal-common@14.5.0:
+    resolution: {integrity: sha512-Gx5rZbiZV/HiZ2nEKfjfAF/qDdZ4/QWxMvMo2jhIFVz528dVKtaZyFAOtsX2Ak8+TQvRsGCaEfuwJFuXB6tu1A==}
+    engines: {node: '>=0.8.0'}
+    dev: false
+
   /@azure/msal-node-extensions@1.0.17:
     resolution: {integrity: sha512-6K7FkpzHiQvWnxlSMfjok+Ir91RXVX96hgWymhyfeu7juHBQdND1eXGvfXPh1UTpNZho1td8owm3QgsK36aRjA==}
     engines: {node: '>=16'}
     requiresBuild: true
     dependencies:
       '@azure/msal-common': 14.10.0
+      '@azure/msal-node-runtime': 0.13.6-alpha.0
+      keytar: 7.9.0
+    dev: false
+
+  /@azure/msal-node-extensions@1.0.8:
+    resolution: {integrity: sha512-h7YxOroWRY/Y5B5NEvLhiwhG2tmOiqiDC91EC4CmtNpkMgH/pbr6Ln0iOJXVhDhz9dzBRCKLUL1Afj5MzHHg1g==}
+    engines: {node: 16 || 18 || 20}
+    dependencies:
+      '@azure/msal-common': 14.5.0
       '@azure/msal-node-runtime': 0.13.6-alpha.0
       keytar: 7.9.0
     dev: false
@@ -20907,14 +20921,14 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-4d18eroBNxUQK0rIm4Hr+jf72gFG/Z2qtApwp+a0wqxR0GANOHZzm2W59mZg7bDIXqFTXYboB1jJ8lSc8tIOQw==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-2g6V+ESJE9yUcrLG9sxeJBBEQzPfXTIkBXCFJXLN79/PXADWfaa1Qt42q5ls8mk+IsciaIIiSwmXoiW4+svNgQ==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 3.5.0
       '@azure/identity': 4.2.0
       '@azure/msal-node': 2.9.0
-      '@azure/msal-node-extensions': 1.0.17
+      '@azure/msal-node-extensions': 1.0.8
       '@microsoft/api-extractor': 7.46.2(@types/node@18.19.33)
       '@types/jws': 3.2.10
       '@types/mocha': 10.0.6

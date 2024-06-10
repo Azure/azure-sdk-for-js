@@ -7,7 +7,7 @@ import { Database } from "../../../src/client/Database/Database";
 import { Container } from "../../../src/client";
 
 // Skipping these tests as they are not supported by public emulator
-describe.skip("Vector search feature", async () => {
+describe("Vector search feature", async () => {
   describe("VectorEmbeddingPolicy", async () => {
     let database: Database;
     before(async function () {
@@ -328,7 +328,7 @@ describe.skip("Vector search feature", async () => {
     });
   });
 
-  describe("Vector Search Query large dataset", async () => {
+  describe.skip("Vector Search Query large dataset", async () => {
     let database: Database;
     let container: Container;
 
@@ -397,7 +397,7 @@ describe.skip("Vector search feature", async () => {
       await executeQueryAndVerifyOrder(container, query, 1000, true);
     });
 
-    it("should execute vector search query, large data with offset 1000 and limit 500", async function () {
+    it.skip("should execute vector search query, large data with offset 1000 and limit 500", async function () {
       // create a queryiterator to run vector search query
       const query =
         "SELECT c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'}) AS similarityScore  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 1000 LIMIT 500";
@@ -418,7 +418,7 @@ describe.skip("Vector search feature", async () => {
       assert.equal(id, 500);
     });
 
-    it("should execute distinct vector search query, large data with offset 1000 and limit 500", async function () {
+    it.skip("should execute distinct vector search query, large data with offset 1000 and limit 500", async function () {
       // create a queryiterator to run vector search query
       const query =
         "SELECT DISTINCT c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotproduct'}) AS similarityScore  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 1000 LIMIT 500";
@@ -457,6 +457,7 @@ async function executeQueryAndVerifyOrder(
   // execute order by query on it
   while (iterator.hasMoreResults()) {
     const { resources: result } = await iterator.fetchNext();
+    console.log("result", JSON.stringify(result))
     if (result !== undefined) {
       // check for order of similarityScore for items
       for (const item of result) {

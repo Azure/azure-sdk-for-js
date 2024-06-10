@@ -589,7 +589,8 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
-    NonStreamingQueryDefaultRUThreshold: number;
+    AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
+    ChangeFeedIfNoneMatchStartFromNowHeader: string;
 };
 
 // @public

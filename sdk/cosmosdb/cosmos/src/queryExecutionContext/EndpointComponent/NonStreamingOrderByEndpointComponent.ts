@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { RUConsumedManager } from "../../common/RUConsumedManager";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { QueryOperationOptions, Response } from "../../request";
+import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { OrderByComparator } from "../orderByComparator";
 import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
 import { NonStreamingOrderByPriorityQueue } from "../../utils/nonStreamingOrderByPriorityQueue";
 import { getInitialHeader } from "../headerUtils";
-import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
 export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
   private nonStreamingOrderByPQ: NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>;
   private isCompleted: boolean = false;
@@ -35,9 +33,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
   }
 
   public async nextItem(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    diagnosticNode: DiagnosticNodeInternal
   ): Promise<Response<any>> {
     if (
       this.priorityQueueBufferSize <= 0 ||
@@ -56,12 +52,9 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         headers: getInitialHeader(),
       };
     }
-    try {
       if (this.executionContext.hasMoreResults()) {
         const { result: item, headers } = await this.executionContext.nextItem(
           diagnosticNode,
-          operationOptions,
-          ruConsumedManager,
         );
         if (item !== undefined) {
           this.nonStreamingOrderByPQ.enqueue(item);
@@ -94,12 +87,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
           };
         }
       }
-    } catch (err) {
-      if (err.code === RUCapPerOperationExceededErrorCode) {
-        err.fetchedResults = undefined;
-      }
-      throw err;
-    }
+     
   }
 
   /**

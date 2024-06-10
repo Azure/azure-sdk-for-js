@@ -38,11 +38,8 @@ export class QueryIterator<T> {
   private queryExecutionContext: ExecutionContext;
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
-<<<<<<< HEAD
   private correlatedActivityId: string;
-=======
   private nonStreamingOrderBy: boolean = false;
->>>>>>> 947f19749c ([Cosmos] Vector Search  (#29621))
   /**
    * @hidden
    */
@@ -250,13 +247,11 @@ export class QueryIterator<T> {
       // concatenate the results and fetch more
       mergeHeaders(this.fetchAllLastResHeaders, headers);
       if (result !== undefined) {
-        if (
-          this.nonStreamingOrderBy &&
-          typeof result === "object" &&
-          Object.keys(result).length === 0
-        ) {
+        if (this.nonStreamingOrderBy && typeof result === "object" && Object.keys(result).length === 0) {
           // ignore empty results from NonStreamingOrderBy Endpoint components.
-        } else this.fetchAllTempResources.push(result);
+        } else {
+          this.fetchAllTempResources.push(result);
+        }
       }
     }
     return new FeedResponse(

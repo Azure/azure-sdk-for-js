@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { QueryInfo, QueryOperationOptions, Response } from "../../request";
+import { QueryInfo, Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { getInitialHeader } from "../headerUtils";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { hashObject } from "../../utils/hashObject";
-import { RUConsumedManager } from "../../common";
 import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
 import { NonStreamingOrderByResponse } from "../nonStreamingOrderByResponse";
 import { NonStreamingOrderByPriorityQueue } from "../../utils/nonStreamingOrderByPriorityQueue";
@@ -41,9 +40,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
   }
 
   public async nextItem(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    diagnosticNode: DiagnosticNodeInternal
   ): Promise<Response<any>> {
     // if size is 0, just return undefined. Valid if query is TOP 0 or LIMIT 0
     if (this.priorityQueueBufferSize === 0) {
@@ -56,11 +53,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     let resHeaders = getInitialHeader();
     if (!this.isCompleted && this.executionContext.hasMoreResults()) {
       // Grab the next result
-      const { result, headers } = (await this.executionContext.nextItem(
-        diagnosticNode,
-        operationOptions,
-        ruConsumedManager,
-      )) as NonStreamingOrderByResponse;
+      const { result, headers } = (await this.executionContext.nextItem(diagnosticNode)) as NonStreamingOrderByResponse;
       resHeaders = headers;
       if (result) {
         // make hash of result object and update the map if required.
