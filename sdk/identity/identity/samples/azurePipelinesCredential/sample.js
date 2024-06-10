@@ -2,7 +2,6 @@ const { AzurePipelinesCredential } = require("@azure/identity");
 const { SecretClient } = require("@azure/keyvault-secrets");
 
 async function main(systemAccessToken: string){
-  console.log("systemaccesstoken =",systemAccessToken)
     const clientId = "CLIENT_ID";
     const tenantId = "TENANT_ID";
     const serviceConnectionId = "SERVICE_CONNECTION_ID";
