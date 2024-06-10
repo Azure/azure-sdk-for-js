@@ -620,7 +620,7 @@ function withUserManagedIdentityCredential() {
 
 To set up a federated identity credential (FIC) in Azure Pipelines, you can set up the Azure Resource Manager service connection as an [automatic recommended approach](https://learn.microsoft.com/azure/devops/pipelines/library/connect-to-azure?view=azure-devops#create-an-azure-resource-manager-service-connection-that-uses-workload-identity-federation). You can also create it manually either using a [user-assigned Managed Identity as FIC](https://learn.microsoft.com/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops#set-a-workload-identity-service-connection-to-use-managed-identity-authentication) or using an [App Registration as FIC](https://learn.microsoft.com/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops#set-a-workload-identity-service-connection-to-use-service-principal-authentication).
 
-Make sure you use one of the [recommended Azure Devops task](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks) for FIC to be available in Azure Pipelines.
+Make sure you use one of the [recommended Azure Pipelines tasks](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks) so that FIC is available in Azure Pipelines.
 
 For using the `AzurePipelinesCredential` you need to configure these values in the constructor:
 
