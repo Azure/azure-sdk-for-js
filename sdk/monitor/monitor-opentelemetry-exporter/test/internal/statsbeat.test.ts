@@ -32,6 +32,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     connectionString: `InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333`,
   };
 
+  const disableOfflineStorageOptions = {
+    connectionString: `InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333`,
+    disableOfflineStorage: true,
+  };
+
   describe("Export/Statsbeat", () => {
     let scope: nock.Interceptor;
     let sandbox: any;
@@ -152,6 +157,16 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         await exporter["sender"]["exportEnvelopes"]([envelope]);
         assert.ok(!mockExport.called);
       });
+    });
+
+    it("should mark statsbeat exporters as disableOfflineStorage when in the config", async () => {
+      const exporter = new AzureMonitorTraceExporter(disableOfflineStorageOptions);
+      const response = failedBreezeResponse(1, 502);
+      scope.reply(200, JSON.stringify(response));
+      exporter["sender"]["disableOfflineStorage"] = true;
+
+      const result = await exporter["sender"]["exportEnvelopes"]([envelope]);
+      assert.strictEqual(result.code, ExportResultCode.SUCCESS);
     });
 
     describe("Resource provider function", () => {

@@ -2,6 +2,11 @@
 
 ## 1.0.0-beta.24 Unreleased
 
+### Bugs Fixed
+
+- Fix issue with `disableOfflineStorage` being set sending error messages to customer apps.
+- Fix issue with `disableOfflineStorage` not applying to Statsbeat senders.
+
 ### Other Changes
 
 - Client generated Span event exceptions no longer generate trace telemetry.
