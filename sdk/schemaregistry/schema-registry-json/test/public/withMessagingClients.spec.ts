@@ -14,7 +14,7 @@
  *    to read from corresponding event hubs
  */
 
-import { JsonSerializer } from "../../src";
+import { JsonSchemaSerializer } from "../../src";
 import { EventData, createEventDataAdapter } from "@azure/event-hubs";
 import { MessagingTestClient } from "./clients/models";
 import { assert, matrix } from "@azure-tools/test-utils";
@@ -52,7 +52,7 @@ matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
 
   describe(`Event Hub Test With Messaging Client with skipParsingBodyAsJson=${skipParsingJson}`, async function () {
     let recorder: Recorder;
-    let serializer: JsonSerializer<any>;
+    let serializer: JsonSchemaSerializer<any>;
 
     async function roundtrip(settings: {
       client: MessagingTestClient<any>;
@@ -106,7 +106,7 @@ matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
       if (errors.length > 0) {
         throw new Error(
           "The following error(s) occurred:\n" +
-            errors.map(({ error, language }) => `${language}:\t${error.message}`).join("\n"),
+          errors.map(({ error, language }) => `${language}:\t${error.message}`).join("\n"),
         );
       }
     }

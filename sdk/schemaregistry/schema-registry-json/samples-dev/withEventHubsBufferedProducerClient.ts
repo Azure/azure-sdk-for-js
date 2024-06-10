@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of JsonSerializer to create messages with json-serialized payload using schema from Schema Registry and send them to an Event Hub using the EventHub Buffered Producer Client.
+ * @summary Demonstrates the use of JsonSchemaSerializer to create messages with json-serialized payload using schema from Schema Registry and send them to an Event Hub using the EventHub Buffered Producer Client.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
-import { JsonSerializer } from "@azure/schema-registry-json";
+import { JsonSchemaSerializer } from "@azure/schema-registry-json";
 import { EventHubBufferedProducerClient, createEventDataAdapter } from "@azure/event-hubs";
 
 // Load the .env file if it exists
@@ -74,7 +74,7 @@ export async function main() {
   await schemaRegistryClient.registerSchema(schemaDescription);
 
   // Create a new serializer backed by the client
-  const serializer = new JsonSerializer(schemaRegistryClient, {
+  const serializer = new JsonSchemaSerializer(schemaRegistryClient, {
     groupName,
     messageAdapter: createEventDataAdapter(),
   });

@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of JsonSerializer to create messages with json-serialized payload using schema from Schema Registry and send them to an Event Hub using the EventHub Producer Client.
+ * @summary Demonstrates the use of JsonSchemaSerializer to create messages with json-serialized payload using schema from Schema Registry and send them to an Event Hub using the EventHub Producer Client.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
-const { JsonSerializer } = require("@azure/schema-registry-json");
+const { JsonSchemaSerializer } = require("@azure/schema-registry-json");
 const { EventHubProducerClient, createEventDataAdapter } = require("@azure/event-hubs");
 
 // Load the .env file if it exists
@@ -56,21 +56,21 @@ async function main() {
   // Create a new client
   const schemaRegistryClient = new SchemaRegistryClient(
     schemaRegistryFullyQualifiedNamespace,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   // Register the schema. This would generally have been done somewhere else.
   await schemaRegistryClient.registerSchema(schemaDescription);
 
   // Create a new serializer backed by the client
-  const serializer = new JsonSerializer(schemaRegistryClient, {
+  const serializer = new JsonSchemaSerializer(schemaRegistryClient, {
     groupName,
     messageAdapter: createEventDataAdapter(),
   });
 
   const eventHubsProducerClient = new EventHubProducerClient(
     eventHubsConnectionString,
-    eventHubName
+    eventHubName,
   );
 
   // serialize an object that matches the schema

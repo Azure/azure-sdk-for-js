@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of JsonSerializer to deserialize messages with json-serialized payload received from the Event Hub Consumer Client.
+ * @summary Demonstrates the use of JsonSchemaSerializer to deserialize messages with json-serialized payload received from the Event Hub Consumer Client.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
-import { JsonSerializer } from "@azure/schema-registry-json";
+import { JsonSchemaSerializer } from "@azure/schema-registry-json";
 import {
   EventHubConsumerClient,
   earliestEventPosition,
@@ -71,7 +71,7 @@ export async function main() {
   await schemaRegistryClient.registerSchema(schemaDescription);
 
   // Create a new serializer backed by the client
-  const serializer = new JsonSerializer(schemaRegistryClient, {
+  const serializer = new JsonSchemaSerializer(schemaRegistryClient, {
     groupName,
     messageAdapter: createEventDataAdapter(),
   });
@@ -88,8 +88,7 @@ export async function main() {
       processEvents: async (events, context) => {
         for (const event of events) {
           console.log(
-            `Received event: '${JSON.stringify(event)}' from partition: '${
-              context.partitionId
+            `Received event: '${JSON.stringify(event)}' from partition: '${context.partitionId
             }' and consumer group: '${context.consumerGroup}'`,
           );
           if (event.contentType !== undefined && event.body) {

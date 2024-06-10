@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of JsonSerializer to deserialize messages with json-serialized payload received from the Event Hub Consumer Client.
+ * @summary Demonstrates the use of JsonSchemaSerializer to deserialize messages with json-serialized payload received from the Event Hub Consumer Client.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
-const { JsonSerializer } = require("@azure/schema-registry-json");
+const { JsonSchemaSerializer } = require("@azure/schema-registry-json");
 const {
   EventHubConsumerClient,
   earliestEventPosition,
@@ -63,14 +63,14 @@ async function main() {
   // Create a new client
   const schemaRegistryClient = new SchemaRegistryClient(
     schemaRegistryFullyQualifiedNamespace,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   // Register the schema. This would generally have been done somewhere else.
   await schemaRegistryClient.registerSchema(schemaDescription);
 
   // Create a new serializer backed by the client
-  const serializer = new JsonSerializer(schemaRegistryClient, {
+  const serializer = new JsonSchemaSerializer(schemaRegistryClient, {
     groupName,
     messageAdapter: createEventDataAdapter(),
   });
@@ -78,7 +78,7 @@ async function main() {
   const eventHubConsumerClient = new EventHubConsumerClient(
     consumerGroup,
     eventHubsConnectionString,
-    eventHubName
+    eventHubName,
   );
 
   const subscription = eventHubConsumerClient.subscribe(
@@ -87,9 +87,7 @@ async function main() {
       processEvents: async (events, context) => {
         for (const event of events) {
           console.log(
-            `Received event: '${JSON.stringify(event)}' from partition: '${
-              context.partitionId
-            }' and consumer group: '${context.consumerGroup}'`
+            `Received event: '${JSON.stringify(event)}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`,
           );
           if (event.contentType !== undefined && event.body) {
             const contentTypeParts = event.contentType.split("+");
@@ -105,7 +103,7 @@ async function main() {
       },
     },
     // Set the skipParsingBodyAsJson option to disable automatic JSON parsing of the message so we can deserialize it with the JSON serializer instead.
-    { startPosition: earliestEventPosition, skipParsingBodyAsJson: true }
+    { startPosition: earliestEventPosition, skipParsingBodyAsJson: true },
   );
 
   // Wait for a bit before cleaning up the sample
