@@ -2,6 +2,10 @@
 
 ## 1.3.0 (2024-07-09)
 
+### Other Changes
+
+- This is the general availability release of the schema registry package with `Json` and `Custom` schema formats supported. The API version defaults to 2022-10.
+
 ## 1.3.0-beta.1 (2023-01-12)
 
 ### Features Added
