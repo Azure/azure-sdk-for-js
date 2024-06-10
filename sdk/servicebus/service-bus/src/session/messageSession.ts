@@ -301,7 +301,10 @@ export class MessageSession extends LinkEntity<Receiver> {
         condition: ErrorNameConditionMapper.SessionCannotBeLockedError,
       });
       logger.logError(error, this.logPrefix);
-      logger.verbose("%s cleaning up resources held by intermediate link (SessionCannotBeLockedError)", this.logPrefix);
+      logger.verbose(
+        "%s cleaning up resources held by intermediate link (SessionCannotBeLockedError)",
+        this.logPrefix,
+      );
       await link.close({ closeSession: true });
       link.remove();
       throw error;
