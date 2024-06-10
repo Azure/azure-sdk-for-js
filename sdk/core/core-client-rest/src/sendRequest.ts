@@ -12,6 +12,7 @@ import {
   RestError,
   createHttpHeaders,
   createPipelineRequest,
+  isRestError,
 } from "@azure/core-rest-pipeline";
 import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
 import { isReadableStream } from "./helpers/isReadableStream.js";
@@ -36,23 +37,34 @@ export async function sendRequest(
 ): Promise<HttpResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
-  const response = await pipeline.sendRequest(httpClient, request);
-  const headers = response.headers.toJSON();
-  const stream = response.readableStreamBody ?? response.browserStreamBody;
-  const parsedBody =
-    options.responseAsStream || stream !== undefined ? undefined : getResponseBody(response);
-  const body = stream ?? parsedBody;
 
-  if (options?.onResponse) {
-    options.onResponse({ ...response, request, rawHeaders: headers, parsedBody });
+  try {
+    const response = await pipeline.sendRequest(httpClient, request);
+    const headers = response.headers.toJSON();
+    const stream = response.readableStreamBody ?? response.browserStreamBody;
+    const parsedBody =
+      options.responseAsStream || stream !== undefined ? undefined : getResponseBody(response);
+    const body = stream ?? parsedBody;
+
+    if (options?.onResponse) {
+      options.onResponse({ ...response, request, rawHeaders: headers, parsedBody });
+    }
+
+    return {
+      request,
+      headers,
+      status: `${response.status}`,
+      body,
+    };
+  } catch (e: unknown) {
+    if (isRestError(e) && e.response && options.onResponse) {
+      const { response } = e;
+      const rawHeaders = response.headers.toJSON();
+      options?.onResponse({ ...response, request, rawHeaders }, e, e);
+    }
+
+    throw e;
   }
-
-  return {
-    request,
-    headers,
-    status: `${response.status}`,
-    body,
-  };
 }
 
 /**
@@ -110,8 +122,8 @@ function buildPipelineRequest(
     accept: options.accept ?? options.headers?.accept ?? "application/json",
     ...(hasContent &&
       requestContentType && {
-        "content-type": requestContentType,
-      }),
+      "content-type": requestContentType,
+    }),
   });
 
   return createPipelineRequest({
