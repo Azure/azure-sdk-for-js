@@ -56,6 +56,7 @@
     "@azure/core-lro": "^2.5.4"
   },
   "devDependencies": {
+    "@azure/storage-blob": "^12.23.0",
     "@microsoft/api-extractor": "^7.40.3",
     "rimraf": "^5.0.5",
     "autorest": "latest",

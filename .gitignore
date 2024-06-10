@@ -191,4 +191,3 @@ sdk/template/template-dpg/src/src
 # sshkey
 sdk/**/sshKey
 sdk/**/sshKey.pub
-/sdk/translation/ai-translation-document-rest/nbproject/private/
