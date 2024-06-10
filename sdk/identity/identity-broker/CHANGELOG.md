@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.1 (2024-06-10)
 
 ### Other Changes
+
+- Upgraded @azure/msal-node to the latest version
 
 ## 1.0.0 (2023-11-07)
 
