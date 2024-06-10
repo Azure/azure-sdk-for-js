@@ -1904,7 +1904,7 @@ export interface SearchIndexerKnowledgeStoreFileProjectionSelector
 /** Known values of {@link ApiVersion20231101} that the service accepts. */
 export enum KnownApiVersion20231101 {
   /** Api Version '2023-11-01' */
-  TwoThousandTwentyThree1101 = "2023-11-01"
+  TwoThousandTwentyThree1101 = "2023-11-01",
 }
 
 /**
@@ -1929,7 +1929,7 @@ export enum KnownSearchIndexerDataSourceType {
   /** Indicates a MySql datasource. */
   MySql = "mysql",
   /** Indicates an ADLS Gen2 datasource. */
-  AdlsGen2 = "adlsgen2"
+  AdlsGen2 = "adlsgen2",
 }
 
 /**
@@ -1959,7 +1959,7 @@ export enum KnownBlobIndexerParsingMode {
   /** Set to jsonArray to extract individual elements of a JSON array as separate documents. */
   JsonArray = "jsonArray",
   /** Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. */
-  JsonLines = "jsonLines"
+  JsonLines = "jsonLines",
 }
 
 /**
@@ -1983,7 +1983,7 @@ export enum KnownBlobIndexerDataToExtract {
   /** Extracts metadata provided by the Azure blob storage subsystem and the content-type specific metadata (for example, metadata unique to just .png files are indexed). */
   AllMetadata = "allMetadata",
   /** Extracts all metadata and textual content from each blob. */
-  ContentAndMetadata = "contentAndMetadata"
+  ContentAndMetadata = "contentAndMetadata",
 }
 
 /**
@@ -2004,7 +2004,7 @@ export enum KnownBlobIndexerImageAction {
   /** Extracts text from images (for example, the word "STOP" from a traffic stop sign), and embeds it into the content field.  This action requires that "dataToExtract" is set to "contentAndMetadata".  A normalized image refers to additional processing resulting in uniform image output, sized and rotated to promote consistent rendering when you include images in visual search results. This information is generated for each image when you use this option. */
   GenerateNormalizedImages = "generateNormalizedImages",
   /** Extracts text from images (for example, the word "STOP" from a traffic stop sign), and embeds it into the content field, but treats PDF files differently in that each page will be rendered as an image and normalized accordingly, instead of extracting embedded images.  Non-PDF file types will be treated the same as if "generateNormalizedImages" was set. */
-  GenerateNormalizedImagePerPage = "generateNormalizedImagePerPage"
+  GenerateNormalizedImagePerPage = "generateNormalizedImagePerPage",
 }
 
 /**
@@ -2023,7 +2023,7 @@ export enum KnownBlobIndexerPDFTextRotationAlgorithm {
   /** Leverages normal text extraction.  This is the default. */
   None = "none",
   /** May produce better and more readable text extraction from PDF files that have rotated text within them.  Note that there may be a small performance speed impact when this parameter is used.  This parameter only applies to PDF files, and only to PDFs with embedded text.  If the rotated text appears within an embedded image in the PDF, this parameter does not apply. */
-  DetectAngles = "detectAngles"
+  DetectAngles = "detectAngles",
 }
 
 /**
@@ -2041,7 +2041,7 @@ export enum KnownIndexerExecutionEnvironment {
   /** Indicates that the search service can determine where the indexer should execute. This is the default environment when nothing is specified and is the recommended value. */
   Standard = "standard",
   /** Indicates that the indexer should run with the environment provisioned specifically for the search service. This should only be specified as the execution environment if the indexer needs to access resources securely over shared private link resources. */
-  Private = "private"
+  Private = "private",
 }
 
 /**
@@ -2073,7 +2073,7 @@ export enum KnownSearchFieldDataType {
   /** Indicates that a field contains one or more complex objects that in turn have sub-fields of other types. */
   Complex = "Edm.ComplexType",
   /** Indicates that a field contains a single-precision floating point number. This is only valid when used with Collection(Edm.Single). */
-  Single = "Edm.Single"
+  Single = "Edm.Single",
 }
 
 /**
@@ -2280,7 +2280,7 @@ export enum KnownLexicalAnalyzerName {
   /** Divides text at non-letters; Applies the lowercase and stopword token filters. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/StopAnalyzer.html */
   Stop = "stop",
   /** An analyzer that uses the whitespace tokenizer. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/WhitespaceAnalyzer.html */
-  Whitespace = "whitespace"
+  Whitespace = "whitespace",
 }
 
 /**
@@ -2389,7 +2389,7 @@ export enum KnownVectorSearchAlgorithmKind {
   /** HNSW (Hierarchical Navigable Small World), a type of approximate nearest neighbors algorithm. */
   Hnsw = "hnsw",
   /** Exhaustive KNN algorithm which will perform brute-force search. */
-  ExhaustiveKnn = "exhaustiveKnn"
+  ExhaustiveKnn = "exhaustiveKnn",
 }
 
 /**
@@ -2409,7 +2409,7 @@ export enum KnownVectorSearchAlgorithmMetric {
   /** Euclidean */
   Euclidean = "euclidean",
   /** DotProduct */
-  DotProduct = "dotProduct"
+  DotProduct = "dotProduct",
 }
 
 /**
@@ -2456,7 +2456,7 @@ export enum KnownKeyPhraseExtractionSkillLanguage {
   /** Spanish */
   Es = "es",
   /** Swedish */
-  Sv = "sv"
+  Sv = "sv",
 }
 
 /**
@@ -2824,7 +2824,7 @@ export enum KnownOcrSkillLanguage {
   /** Zulu */
   Zu = "zu",
   /** Unknown (All) */
-  Unk = "unk"
+  Unk = "unk",
 }
 
 /**
@@ -3110,7 +3110,7 @@ export enum KnownImageAnalysisSkillLanguage {
   /** Chinese Simplified */
   ZhHans = "zh-Hans",
   /** Chinese Traditional */
-  ZhHant = "zh-Hant"
+  ZhHant = "zh-Hant",
 }
 
 /**
@@ -3188,7 +3188,7 @@ export enum KnownVisualFeature {
   /** Visual features recognized as objects. */
   Objects = "objects",
   /** Tags. */
-  Tags = "tags"
+  Tags = "tags",
 }
 
 /**
@@ -3211,7 +3211,7 @@ export enum KnownImageDetail {
   /** Details recognized as celebrities. */
   Celebrities = "celebrities",
   /** Details recognized as landmarks. */
-  Landmarks = "landmarks"
+  Landmarks = "landmarks",
 }
 
 /**
@@ -3239,7 +3239,7 @@ export enum KnownEntityCategory {
   /** Entities describing a URL. */
   Url = "url",
   /** Entities describing an email address. */
-  Email = "email"
+  Email = "email",
 }
 
 /**
@@ -3304,7 +3304,7 @@ export enum KnownEntityRecognitionSkillLanguage {
   /** Swedish */
   Sv = "sv",
   /** Turkish */
-  Tr = "tr"
+  Tr = "tr",
 }
 
 /**
@@ -3369,7 +3369,7 @@ export enum KnownSentimentSkillLanguage {
   /** Swedish */
   Sv = "sv",
   /** Turkish */
-  Tr = "tr"
+  Tr = "tr",
 }
 
 /**
@@ -3400,7 +3400,7 @@ export enum KnownPIIDetectionSkillMaskingMode {
   /** No masking occurs and the maskedText output will not be returned. */
   None = "none",
   /** Replaces the detected entities with the character given in the maskingCharacter parameter. The character will be repeated to the length of the detected entity so that the offsets will correctly correspond to both the input text as well as the output maskedText. */
-  Replace = "replace"
+  Replace = "replace",
 }
 
 /**
@@ -3480,7 +3480,7 @@ export enum KnownSplitSkillLanguage {
   /** Urdu */
   Ur = "ur",
   /** Chinese (Simplified) */
-  Zh = "zh"
+  Zh = "zh",
 }
 
 /**
@@ -3529,7 +3529,7 @@ export enum KnownTextSplitMode {
   /** Split the text into individual pages. */
   Pages = "pages",
   /** Split the text into individual sentences. */
-  Sentences = "sentences"
+  Sentences = "sentences",
 }
 
 /**
@@ -3561,7 +3561,7 @@ export enum KnownCustomEntityLookupSkillLanguage {
   /** Korean */
   Ko = "ko",
   /** Portuguese */
-  Pt = "pt"
+  Pt = "pt",
 }
 
 /**
@@ -3708,7 +3708,7 @@ export enum KnownTextTranslationSkillLanguage {
   /** Welsh */
   Cy = "cy",
   /** Yucatec Maya */
-  Yua = "yua"
+  Yua = "yua",
 }
 
 /**
@@ -3809,7 +3809,7 @@ export enum KnownLexicalTokenizerName {
   /** Tokenizes urls and emails as one token. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/standard\/UAX29URLEmailTokenizer.html */
   UaxUrlEmail = "uax_url_email",
   /** Divides text at whitespace. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/WhitespaceTokenizer.html */
-  Whitespace = "whitespace"
+  Whitespace = "whitespace",
 }
 
 /**
@@ -3902,7 +3902,7 @@ export enum KnownTokenFilterName {
   /** Normalizes token text to upper case. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/UpperCaseFilter.html */
   Uppercase = "uppercase",
   /** Splits words into subwords and performs optional transformations on subword groups. */
-  WordDelimiter = "word_delimiter"
+  WordDelimiter = "word_delimiter",
 }
 
 /**
@@ -3950,7 +3950,7 @@ export type TokenFilterName = string;
 /** Known values of {@link CharFilterName} that the service accepts. */
 export enum KnownCharFilterName {
   /** A character filter that attempts to strip out HTML constructs. See https:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/charfilter\/HTMLStripCharFilter.html */
-  HtmlStrip = "html_strip"
+  HtmlStrip = "html_strip",
 }
 
 /**
@@ -3979,7 +3979,7 @@ export enum KnownRegexFlags {
   /** Enables Unicode-aware case folding. */
   UnicodeCase = "UNICODE_CASE",
   /** Enables Unix lines mode. */
-  UnixLines = "UNIX_LINES"
+  UnixLines = "UNIX_LINES",
 }
 
 /**

@@ -479,7 +479,7 @@ export interface AutocompleteOptions {
 /** Known values of {@link ApiVersion20231101} that the service accepts. */
 export enum KnownApiVersion20231101 {
   /** Api Version '2023-11-01' */
-  TwoThousandTwentyThree1101 = "2023-11-01"
+  TwoThousandTwentyThree1101 = "2023-11-01",
 }
 
 /**
@@ -496,7 +496,7 @@ export enum KnownSemanticErrorMode {
   /** If the semantic processing fails, partial results still return. The definition of partial results depends on what semantic step failed and what was the reason for failure. */
   Partial = "partial",
   /** If there is an exception during the semantic processing step, the query will fail and return the appropriate HTTP code depending on the error. */
-  Fail = "fail"
+  Fail = "fail",
 }
 
 /**
@@ -514,7 +514,7 @@ export enum KnownQueryAnswerType {
   /** Do not return answers for the query. */
   None = "none",
   /** Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language. */
-  Extractive = "extractive"
+  Extractive = "extractive",
 }
 
 /**
@@ -532,7 +532,7 @@ export enum KnownQueryCaptionType {
   /** Do not return captions for the query. */
   None = "none",
   /** Extracts captions from the matching documents that contain passages relevant to the search query. */
-  Extractive = "extractive"
+  Extractive = "extractive",
 }
 
 /**
@@ -548,7 +548,7 @@ export type QueryCaptionType = string;
 /** Known values of {@link VectorQueryKind} that the service accepts. */
 export enum KnownVectorQueryKind {
   /** Vector query where a raw vector value is provided. */
-  Vector = "vector"
+  Vector = "vector",
 }
 
 /**
@@ -565,7 +565,7 @@ export enum KnownVectorFilterMode {
   /** The filter will be applied after the candidate set of vector results is returned. Depending on the filter selectivity, this can result in fewer results than requested by the parameter 'k'. */
   PostFilter = "postFilter",
   /** The filter will be applied before the search query. */
-  PreFilter = "preFilter"
+  PreFilter = "preFilter",
 }
 
 /**
@@ -585,7 +585,7 @@ export enum KnownSemanticErrorReason {
   /** The request was throttled. Only the base results were returned. */
   CapacityOverloaded = "capacityOverloaded",
   /** At least one step of the semantic process failed. */
-  Transient = "transient"
+  Transient = "transient",
 }
 
 /**
@@ -604,7 +604,7 @@ export enum KnownSemanticSearchResultsType {
   /** Results without any semantic enrichment or reranking. */
   BaseResults = "baseResults",
   /** Results have been reranked with the reranker model and will include semantic captions. They will not include any answers, answers highlights or caption highlights. */
-  RerankedResults = "rerankedResults"
+  RerankedResults = "rerankedResults",
 }
 
 /**

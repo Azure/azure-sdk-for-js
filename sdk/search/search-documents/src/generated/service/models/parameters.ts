@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   SearchIndexerDataSource as SearchIndexerDataSourceMapper,
@@ -17,7 +17,7 @@ import {
   SearchIndexerSkillset as SearchIndexerSkillsetMapper,
   SynonymMap as SynonymMapMapper,
   SearchIndex as SearchIndexMapper,
-  AnalyzeRequest as AnalyzeRequestMapper
+  AnalyzeRequest as AnalyzeRequestMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -27,14 +27,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const dataSource: OperationParameter = {
   parameterPath: "dataSource",
-  mapper: SearchIndexerDataSourceMapper
+  mapper: SearchIndexerDataSourceMapper,
 };
 
 export const accept: OperationParameter = {
@@ -44,9 +44,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const endpoint: OperationURLParameter = {
@@ -55,10 +55,10 @@ export const endpoint: OperationURLParameter = {
     serializedName: "endpoint",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const dataSourceName: OperationURLParameter = {
@@ -67,9 +67,9 @@ export const dataSourceName: OperationURLParameter = {
     serializedName: "dataSourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifMatch: OperationParameter = {
@@ -77,9 +77,9 @@ export const ifMatch: OperationParameter = {
   mapper: {
     serializedName: "If-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifNoneMatch: OperationParameter = {
@@ -87,9 +87,9 @@ export const ifNoneMatch: OperationParameter = {
   mapper: {
     serializedName: "If-None-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const prefer: OperationParameter = {
@@ -99,9 +99,9 @@ export const prefer: OperationParameter = {
     isConstant: true,
     serializedName: "Prefer",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -110,9 +110,9 @@ export const apiVersion: OperationQueryParameter = {
     serializedName: "api-version",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const select: OperationQueryParameter = {
@@ -120,9 +120,9 @@ export const select: OperationQueryParameter = {
   mapper: {
     serializedName: "$select",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const indexerName: OperationURLParameter = {
@@ -131,19 +131,19 @@ export const indexerName: OperationURLParameter = {
     serializedName: "indexerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const indexer: OperationParameter = {
   parameterPath: "indexer",
-  mapper: SearchIndexerMapper
+  mapper: SearchIndexerMapper,
 };
 
 export const skillset: OperationParameter = {
   parameterPath: "skillset",
-  mapper: SearchIndexerSkillsetMapper
+  mapper: SearchIndexerSkillsetMapper,
 };
 
 export const skillsetName: OperationURLParameter = {
@@ -152,14 +152,14 @@ export const skillsetName: OperationURLParameter = {
     serializedName: "skillsetName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const synonymMap: OperationParameter = {
   parameterPath: "synonymMap",
-  mapper: SynonymMapMapper
+  mapper: SynonymMapMapper,
 };
 
 export const synonymMapName: OperationURLParameter = {
@@ -168,14 +168,14 @@ export const synonymMapName: OperationURLParameter = {
     serializedName: "synonymMapName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const index: OperationParameter = {
   parameterPath: "index",
-  mapper: SearchIndexMapper
+  mapper: SearchIndexMapper,
 };
 
 export const indexName: OperationURLParameter = {
@@ -184,9 +184,9 @@ export const indexName: OperationURLParameter = {
     serializedName: "indexName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const allowIndexDowntime: OperationQueryParameter = {
@@ -194,12 +194,12 @@ export const allowIndexDowntime: OperationQueryParameter = {
   mapper: {
     serializedName: "allowIndexDowntime",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const request: OperationParameter = {
   parameterPath: "request",
-  mapper: AnalyzeRequestMapper
+  mapper: AnalyzeRequestMapper,
 };

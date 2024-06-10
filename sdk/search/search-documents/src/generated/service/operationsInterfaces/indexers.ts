@@ -20,7 +20,7 @@ import {
   IndexersCreateOptionalParams,
   IndexersCreateResponse,
   IndexersGetStatusOptionalParams,
-  IndexersGetStatusResponse
+  IndexersGetStatusResponse,
 } from "../models";
 
 /** Interface representing a Indexers. */
@@ -32,7 +32,7 @@ export interface Indexers {
    */
   reset(
     indexerName: string,
-    options?: IndexersResetOptionalParams
+    options?: IndexersResetOptionalParams,
   ): Promise<void>;
   /**
    * Runs an indexer on-demand.
@@ -49,7 +49,7 @@ export interface Indexers {
   createOrUpdate(
     indexerName: string,
     indexer: SearchIndexer,
-    options?: IndexersCreateOrUpdateOptionalParams
+    options?: IndexersCreateOrUpdateOptionalParams,
   ): Promise<IndexersCreateOrUpdateResponse>;
   /**
    * Deletes an indexer.
@@ -58,7 +58,7 @@ export interface Indexers {
    */
   delete(
     indexerName: string,
-    options?: IndexersDeleteOptionalParams
+    options?: IndexersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves an indexer definition.
@@ -67,7 +67,7 @@ export interface Indexers {
    */
   get(
     indexerName: string,
-    options?: IndexersGetOptionalParams
+    options?: IndexersGetOptionalParams,
   ): Promise<IndexersGetResponse>;
   /**
    * Lists all indexers available for a search service.
@@ -81,7 +81,7 @@ export interface Indexers {
    */
   create(
     indexer: SearchIndexer,
-    options?: IndexersCreateOptionalParams
+    options?: IndexersCreateOptionalParams,
   ): Promise<IndexersCreateResponse>;
   /**
    * Returns the current status and execution history of an indexer.
@@ -90,6 +90,6 @@ export interface Indexers {
    */
   getStatus(
     indexerName: string,
-    options?: IndexersGetStatusOptionalParams
+    options?: IndexersGetStatusOptionalParams,
   ): Promise<IndexersGetStatusResponse>;
 }
