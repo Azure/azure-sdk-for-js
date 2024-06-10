@@ -622,7 +622,7 @@ To set up a federated identity credential (FIC) in Azure Pipelines, you can set 
 
 Make sure you use one of the [recommended Azure Pipelines tasks](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks) so that FIC is available in Azure Pipelines.
 
-For using the `AzurePipelinesCredential` you need to configure these values in the constructor:
+To use `AzurePipelinesCredential`, configure the following values in the constructor:
 
 1. `clientId`: Client ID from your user-assigned managed identity OR Application (client) ID from your app registration.
 2. `tenantId`: Tenant ID from your user-assigned managed identity OR Directory (tenant) ID from your app registration.
