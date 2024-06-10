@@ -27,7 +27,7 @@ export class AzurePipelinesCredential implements TokenCredential {
    * @param tenantId - tenantId associated with the service connection
    * @param clientId - clientId associated with the service connection
    * @param serviceConnectionId - id for the service connection, as found in the querystring's resourceId key
-   * @param systemAccessToken - The Azure pipeline's <see href="https://learn.microsoft.com/azure/devops/pipelines/build/variables?view=azure-devops%26tabs=yaml#systemaccesstoken">System.AccessToken</see> value.
+   * @param systemAccessToken - The pipeline's <see href="https://learn.microsoft.com/azure/devops/pipelines/build/variables?view=azure-devops%26tabs=yaml#systemaccesstoken">System.AccessToken</see> value.
    * @param options - The identity client options to use for authentication.
    */
   constructor(
