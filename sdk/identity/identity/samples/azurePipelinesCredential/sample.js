@@ -5,7 +5,6 @@ async function main(systemAccessToken: string){
     const clientId = "CLIENT_ID";
     const tenantId = "TENANT_ID";
     const serviceConnectionId = "SERVICE_CONNECTION_ID";
-    const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN;
     const credential = new AzurePipelinesCredential(
       tenantId,
       clientId,
