@@ -15,7 +15,7 @@ import {
 import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RestError } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential, logger } from "@azure/identity";
 import { assert } from "chai";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -49,6 +49,7 @@ export function createAppConfigurationClientForTests(
 ): AppConfigurationClient {
   const endpoint = env["AZ_CONFIG_ENDPOINT"];
   const credential = options?.testCredential ?? createTestCredential();
+  logger.info(`credential created`, JSON.stringify(credential));
   if (endpoint == null) {
     throw new Error("Invalid value for APPCONFIG_CONNECTION_STRING");
   }

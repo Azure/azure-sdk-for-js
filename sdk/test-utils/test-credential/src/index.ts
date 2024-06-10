@@ -11,6 +11,7 @@ import {
   DefaultAzureCredentialResourceIdOptions,
   EnvironmentCredential,
   WorkloadIdentityCredential,
+  logger,
 } from "@azure/identity";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "./noOpCredential";
@@ -58,6 +59,7 @@ export function createTestCredential(
     return createBrowserRelayCredential(tokenCredentialOptions);
   } else {
     const { browserRelayServerUrl: _, ...dacOptions } = tokenCredentialOptions;
+    logger.info("Creating ChainedTokenCredential for tests");
     return new ChainedTokenCredential(
       new EnvironmentCredential(dacOptions),
       new WorkloadIdentityCredential(dacOptions),
