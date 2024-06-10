@@ -659,7 +659,7 @@ steps:
         node <path-to-the-javascript-code>
 ```
 
-**Note: The env vars `AZURESUBSCRIPTION_CLIENT_ID`, `AZURESUBSCRIPTION_TENANT_ID` and `AZURESUBSCRIPTION_SERVICE_CONNECTION_ID` are configured by Azure Pipelines only in the tasks `AzureCLI@2` and `AzurePowershell@5` and values from these env vars should be passed into the constructor of `AzurePipelinesCredential` by the user.**
+**Note: The environment variables `AZURESUBSCRIPTION_CLIENT_ID`, `AZURESUBSCRIPTION_TENANT_ID`, and `AZURESUBSCRIPTION_SERVICE_CONNECTION_ID` are configured by Azure Pipelines only in the tasks `AzureCLI@2` and `AzurePowershell@5`. Values from these environment variables should be passed into the constructor of `AzurePipelinesCredential` by the user.**
 
 #### Sample code for using AzurePipelinesCredential
 
