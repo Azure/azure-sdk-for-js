@@ -38,6 +38,8 @@ export async function createRecordedClient(
   currentTest: Test | undefined,
   endpointEnv: string,
   apiKeyEnv: string,
+  topicName: string,
+  subscriptionName: string,
   options: {
     additionalPolicies?: AdditionalPolicyConfig[];
   } = {},
@@ -49,6 +51,7 @@ export async function createRecordedClient(
     senderClient: new EventGridSenderClient(
       assertEnvironmentVariable(endpointEnv),
       new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
+      topicName,
       recorder.configureClientOptions({
         additionalPolicies: options.additionalPolicies,
       }),
@@ -56,6 +59,8 @@ export async function createRecordedClient(
     receiverClient: new EventGridReceiverClient(
       assertEnvironmentVariable(endpointEnv),
       new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
+      topicName,
+      subscriptionName,
       recorder.configureClientOptions({
         additionalPolicies: options.additionalPolicies,
       }),
