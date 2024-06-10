@@ -15,7 +15,7 @@ add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.23"
 core-http-compat-mode: true
-package-version: 12.0.0
+package-version: 12.1.0
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
