@@ -2255,8 +2255,8 @@ matrix(
             },
           });
           assert.equal(serialized, expectedSerialized);
-          assert.isNotNull(poller.operationState);
-          assert.equal(poller.operationState!.status, "succeeded");
+          assert.exists(poller.operationState);
+          assert.equal(poller.operationState.status, "succeeded");
           const restoredPoller = createTestPoller({
             routes: [],
             restoreFrom: serialized,
