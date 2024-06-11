@@ -4,11 +4,11 @@
 import { createRecorder, createInferenceClient } from "./utils/recordedClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { InferenceClient } from "../../src/index.js";
+import { ModelClient } from "../../src/index.js";
 
 describe("chat test suite", () => {
   let recorder: Recorder;
-  let client: InferenceClient;
+  let client: ModelClient;
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);

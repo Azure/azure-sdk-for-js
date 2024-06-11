@@ -9,7 +9,7 @@ import {
 } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
-import createClient, { InferenceClient } from "../../../src/index.js";
+import createClient, { ModelClient } from "../../../src/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
   AZURE_ENDPOINT: "https://endpoint",
@@ -37,7 +37,7 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
 export async function createInferenceClient(
   recorder?: Recorder,
   options?: ClientOptions,
-): Promise<InferenceClient> {
+): Promise<ModelClient> {
   const endpoint = assertEnvironmentVariable("AZURE_ENDPOINT");
   const apikey = assertEnvironmentVariable("AZURE_CLIENT_SECRET");
   const credential = new AzureKeyCredential(apikey);

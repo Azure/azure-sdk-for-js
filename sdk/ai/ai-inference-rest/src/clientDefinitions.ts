@@ -76,6 +76,6 @@ export interface Routes {
   (path: "/images/embeddings"): GetImageEmbeddings;
 }
 
-export type InferenceClient = Client & {
+export type ModelClient = Client & {
   path: Routes;
 };

@@ -193,7 +193,7 @@ export interface CompletionsUsageOutput {
 }
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): InferenceClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): ModelClient;
 export default createClient;
 
 // @public
@@ -447,11 +447,6 @@ export interface GetModelInfoDefaultResponse extends HttpResponse {
 export type GetModelInfoParameters = RequestParameters;
 
 // @public (undocumented)
-export type InferenceClient = Client & {
-    path: Routes;
-};
-
-// @public (undocumented)
 export function isUnexpected(response: GetChatCompletions200Response | GetChatCompletionsDefaultResponse): response is GetChatCompletionsDefaultResponse;
 
 // @public (undocumented)
@@ -462,6 +457,11 @@ export function isUnexpected(response: GetEmbeddings200Response | GetEmbeddingsD
 
 // @public (undocumented)
 export function isUnexpected(response: GetImageEmbeddings200Response | GetImageEmbeddingsDefaultResponse): response is GetImageEmbeddingsDefaultResponse;
+
+// @public (undocumented)
+export type ModelClient = Client & {
+    path: Routes;
+};
 
 // @public
 export interface ModelInfoOutput {
