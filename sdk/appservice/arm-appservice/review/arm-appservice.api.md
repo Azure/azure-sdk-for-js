@@ -1402,6 +1402,7 @@ export type AppServicePlansUpdateVnetRouteResponse = VnetRoute;
 
 // @public (undocumented)
 export interface ArcConfiguration {
+    // (undocumented)
     artifactsStorageType?: StorageType;
     // (undocumented)
     artifactStorageAccessMode?: string;
@@ -3659,7 +3660,7 @@ export interface FunctionsDeployment {
 // @public
 export interface FunctionsDeploymentStorage {
     authentication?: FunctionsDeploymentStorageAuthentication;
-    type?: StorageType;
+    type?: FunctionsDeploymentStorageType;
     value?: string;
 }
 
@@ -3669,6 +3670,9 @@ export interface FunctionsDeploymentStorageAuthentication {
     type?: AuthenticationType;
     userAssignedIdentityResourceId?: string;
 }
+
+// @public
+export type FunctionsDeploymentStorageType = string;
 
 // @public
 export interface FunctionSecrets {
@@ -4233,6 +4237,11 @@ export enum KnownFtpsState {
 }
 
 // @public
+export enum KnownFunctionsDeploymentStorageType {
+    BlobContainer = "blobContainer"
+}
+
+// @public
 export enum KnownInAvailabilityReasonType {
     AlreadyExists = "AlreadyExists",
     Invalid = "Invalid"
@@ -4407,13 +4416,6 @@ export enum KnownSkuName {
     PremiumV3 = "PremiumV3",
     Shared = "Shared",
     Standard = "Standard"
-}
-
-// @public
-export enum KnownStorageType {
-    BlobContainer = "blobContainer",
-    LocalNode = "LocalNode",
-    NetworkFileSystem = "NetworkFileSystem"
 }
 
 // @public
@@ -7875,7 +7877,7 @@ export interface StorageMigrationResponse extends ProxyOnlyResource {
 }
 
 // @public
-export type StorageType = string;
+export type StorageType = "LocalNode" | "NetworkFileSystem";
 
 // @public
 export interface StringDictionary extends ProxyOnlyResource {

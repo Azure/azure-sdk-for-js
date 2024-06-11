@@ -1355,7 +1355,7 @@ export interface FunctionsDeployment {
 /** Storage for deployed package used by the function app. */
 export interface FunctionsDeploymentStorage {
   /** Property to select Azure Storage type. Available options: blobContainer. */
-  type?: StorageType;
+  type?: FunctionsDeploymentStorageType;
   /** Property to set the URL for the selected Azure Storage type. Example: For blobContainer, the value could be https://<storageAccountName>.blob.core.windows.net/<containerName>. */
   value?: string;
   /** Authentication method to access the storage account for deployment. */
@@ -2400,7 +2400,6 @@ export interface KubeEnvironmentCollection {
 }
 
 export interface ArcConfiguration {
-  /** Property to select Azure Storage type. Available options: blobContainer. */
   artifactsStorageType?: StorageType;
   artifactStorageClassName?: string;
   artifactStorageMountPath?: string;
@@ -9807,26 +9806,20 @@ export enum KnownAzureStorageProtocol {
  */
 export type AzureStorageProtocol = string;
 
-/** Known values of {@link StorageType} that the service accepts. */
-export enum KnownStorageType {
+/** Known values of {@link FunctionsDeploymentStorageType} that the service accepts. */
+export enum KnownFunctionsDeploymentStorageType {
   /** BlobContainer */
   BlobContainer = "blobContainer",
-  /** LocalNode */
-  LocalNode = "LocalNode",
-  /** NetworkFileSystem */
-  NetworkFileSystem = "NetworkFileSystem",
 }
 
 /**
- * Defines values for StorageType. \
- * {@link KnownStorageType} can be used interchangeably with StorageType,
+ * Defines values for FunctionsDeploymentStorageType. \
+ * {@link KnownFunctionsDeploymentStorageType} can be used interchangeably with FunctionsDeploymentStorageType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **blobContainer** \
- * **LocalNode** \
- * **NetworkFileSystem**
+ * **blobContainer**
  */
-export type StorageType = string;
+export type FunctionsDeploymentStorageType = string;
 
 /** Known values of {@link AuthenticationType} that the service accepts. */
 export enum KnownAuthenticationType {
@@ -11082,6 +11075,8 @@ export type KubeEnvironmentProvisioningState =
   | "ScheduledForDelete"
   | "UpgradeRequested"
   | "UpgradeFailed";
+/** Defines values for StorageType. */
+export type StorageType = "LocalNode" | "NetworkFileSystem";
 /** Defines values for FrontEndServiceType. */
 export type FrontEndServiceType = "NodePort" | "LoadBalancer";
 /** Defines values for StackPreferredOs. */

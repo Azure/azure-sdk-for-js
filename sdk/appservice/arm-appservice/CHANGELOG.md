@@ -1,6 +1,6 @@
 # Release History
     
-## 15.0.0 (2024-05-14)
+## 15.0.0 (2024-06-11)
     
 **Features**
 
@@ -39,6 +39,7 @@
   - Added Type Alias AuthenticationType
   - Added Type Alias AuthType
   - Added Type Alias AzureStorageProtocol
+  - Added Type Alias FunctionsDeploymentStorageType
   - Added Type Alias RuntimeName
   - Added Type Alias WebAppsCreateOrUpdateSiteContainerResponse
   - Added Type Alias WebAppsCreateOrUpdateSiteContainerSlotResponse
@@ -55,8 +56,8 @@
   - Interface SitePatchResource has a new optional parameter dnsConfiguration
   - Added Enum KnownAuthenticationType
   - Added Enum KnownAzureStorageProtocol
+  - Added Enum KnownFunctionsDeploymentStorageType
   - Added Enum KnownRuntimeName
-  - Added Enum KnownStorageType
   - Enum KnownSkuName has a new value FlexConsumption
   - Enum KnownSupportedTlsVersions has a new value One3
 

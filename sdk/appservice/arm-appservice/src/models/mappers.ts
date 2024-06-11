@@ -7473,7 +7473,8 @@ export const ArcConfiguration: coreClient.CompositeMapper = {
         serializedName: "artifactsStorageType",
         xmlName: "artifactsStorageType",
         type: {
-          name: "String",
+          name: "Enum",
+          allowedValues: ["LocalNode", "NetworkFileSystem"],
         },
       },
       artifactStorageClassName: {
