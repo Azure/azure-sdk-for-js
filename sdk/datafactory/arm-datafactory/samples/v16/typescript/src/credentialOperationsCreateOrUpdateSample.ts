@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  ManagedIdentityCredentialResource,
+  CredentialResource,
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +31,7 @@ async function credentialsCreate() {
     process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const credentialName = "exampleCredential";
-  const credentials: ManagedIdentityCredentialResource = {
+  const credentials: CredentialResource = {
     properties: {
       type: "ManagedIdentity",
       resourceId:
