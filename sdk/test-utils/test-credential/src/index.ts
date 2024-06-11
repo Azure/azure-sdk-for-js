@@ -54,8 +54,10 @@ export function createTestCredential(
   tokenCredentialOptions: CreateTestCredentialOptions = {},
 ): TokenCredential {
   if (isPlaybackMode()) {
+    logger.info("Creating NoOpCredential for playback");
     return new NoOpCredential();
   } else if (isBrowser) {
+    logger.info("Creating BrowserRelayCredential for tests")
     return createBrowserRelayCredential(tokenCredentialOptions);
   } else {
     const { browserRelayServerUrl: _, ...dacOptions } = tokenCredentialOptions;
