@@ -89,7 +89,10 @@ export async function createRecorderAndMetricsClient(
   await recorder.start(recorderOptions);
   const client = new MetricsQueryClient(
     createTestCredential(),
-    recorder.configureClientOptions({}),
+    {
+      audience: "https://management.azure.com",
+      ...recorder.configureClientOptions({})  
+    }
   );
 
   return {
