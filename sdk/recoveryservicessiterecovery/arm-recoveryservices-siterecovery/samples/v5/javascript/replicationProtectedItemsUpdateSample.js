@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to update the recovery settings of an ASR replication protected item.
  *
  * @summary The operation to update the recovery settings of an ASR replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_Update.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_Update.json
  */
 async function updatesTheReplicationProtectedItemSettings() {
   const subscriptionId =
@@ -61,7 +61,7 @@ async function updatesTheReplicationProtectedItemSettings() {
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
-    updateProtectionInput
+    updateProtectionInput,
   );
   console.log(result);
 }

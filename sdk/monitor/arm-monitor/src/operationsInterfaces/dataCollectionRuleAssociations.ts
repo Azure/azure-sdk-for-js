@@ -16,7 +16,7 @@ import {
   DataCollectionRuleAssociationsGetResponse,
   DataCollectionRuleAssociationsCreateOptionalParams,
   DataCollectionRuleAssociationsCreateResponse,
-  DataCollectionRuleAssociationsDeleteOptionalParams
+  DataCollectionRuleAssociationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface DataCollectionRuleAssociations {
    */
   listByResource(
     resourceUri: string,
-    options?: DataCollectionRuleAssociationsListByResourceOptionalParams
+    options?: DataCollectionRuleAssociationsListByResourceOptionalParams,
   ): PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
   /**
    * Lists associations for the specified data collection rule.
@@ -40,7 +40,7 @@ export interface DataCollectionRuleAssociations {
   listByRule(
     resourceGroupName: string,
     dataCollectionRuleName: string,
-    options?: DataCollectionRuleAssociationsListByRuleOptionalParams
+    options?: DataCollectionRuleAssociationsListByRuleOptionalParams,
   ): PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
   /**
    * Lists associations for the specified data collection endpoint.
@@ -52,7 +52,7 @@ export interface DataCollectionRuleAssociations {
   listByDataCollectionEndpoint(
     resourceGroupName: string,
     dataCollectionEndpointName: string,
-    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams
+    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams,
   ): PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
   /**
    * Returns the specified association.
@@ -63,7 +63,7 @@ export interface DataCollectionRuleAssociations {
   get(
     resourceUri: string,
     associationName: string,
-    options?: DataCollectionRuleAssociationsGetOptionalParams
+    options?: DataCollectionRuleAssociationsGetOptionalParams,
   ): Promise<DataCollectionRuleAssociationsGetResponse>;
   /**
    * Creates or updates an association.
@@ -74,7 +74,7 @@ export interface DataCollectionRuleAssociations {
   create(
     resourceUri: string,
     associationName: string,
-    options?: DataCollectionRuleAssociationsCreateOptionalParams
+    options?: DataCollectionRuleAssociationsCreateOptionalParams,
   ): Promise<DataCollectionRuleAssociationsCreateResponse>;
   /**
    * Deletes an association.
@@ -85,6 +85,6 @@ export interface DataCollectionRuleAssociations {
   delete(
     resourceUri: string,
     associationName: string,
-    options?: DataCollectionRuleAssociationsDeleteOptionalParams
+    options?: DataCollectionRuleAssociationsDeleteOptionalParams,
   ): Promise<void>;
 }

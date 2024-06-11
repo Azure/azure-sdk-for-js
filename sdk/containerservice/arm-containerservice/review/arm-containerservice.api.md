@@ -64,6 +64,7 @@ export interface AgentPool extends SubResource {
     upgradeSettings?: AgentPoolUpgradeSettings;
     vmSize?: string;
     vnetSubnetID?: string;
+    windowsProfile?: AgentPoolWindowsProfile;
     workloadRuntime?: WorkloadRuntime;
 }
 
@@ -223,6 +224,11 @@ export interface AgentPoolUpgradeSettings {
     drainTimeoutInMinutes?: number;
     maxSurge?: string;
     nodeSoakDurationInMinutes?: number;
+}
+
+// @public
+export interface AgentPoolWindowsProfile {
+    disableOutboundNat?: boolean;
 }
 
 // @public
@@ -455,9 +461,6 @@ export interface IstioComponents {
 // @public
 export interface IstioEgressGateway {
     enabled: boolean;
-    nodeSelector?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -810,6 +813,7 @@ export type KubernetesSupportPlan = string;
 // @public
 export interface KubernetesVersion {
     capabilities?: KubernetesVersionCapabilities;
+    isDefault?: boolean;
     isPreview?: boolean;
     patchVersions?: {
         [propertyName: string]: KubernetesPatchVersion;
@@ -932,9 +936,11 @@ export interface ManagedCluster extends TrackedResource {
     identityProfile?: {
         [propertyName: string]: UserAssignedIdentity;
     };
+    ingressProfile?: ManagedClusterIngressProfile;
     kubernetesVersion?: string;
     linuxProfile?: ContainerServiceLinuxProfile;
     readonly maxAgentPools?: number;
+    metricsProfile?: ManagedClusterMetricsProfile;
     networkProfile?: ContainerServiceNetworkProfile;
     nodeResourceGroup?: string;
     oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
@@ -1038,6 +1044,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     upgradeSettings?: AgentPoolUpgradeSettings;
     vmSize?: string;
     vnetSubnetID?: string;
+    windowsProfile?: AgentPoolWindowsProfile;
     workloadRuntime?: WorkloadRuntime;
 }
 
@@ -1074,6 +1081,11 @@ export interface ManagedClusterAzureMonitorProfileMetrics {
 }
 
 // @public
+export interface ManagedClusterCostAnalysis {
+    enabled?: boolean;
+}
+
+// @public
 export interface ManagedClusterHttpProxyConfig {
     httpProxy?: string;
     httpsProxy?: string;
@@ -1092,6 +1104,18 @@ export interface ManagedClusterIdentity {
     userAssignedIdentities?: {
         [propertyName: string]: ManagedServiceIdentityUserAssignedIdentitiesValue;
     };
+}
+
+// @public
+export interface ManagedClusterIngressProfile {
+    webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
+}
+
+// @public
+export interface ManagedClusterIngressProfileWebAppRouting {
+    dnsZoneResourceIds?: string[];
+    enabled?: boolean;
+    readonly identity?: UserAssignedIdentity;
 }
 
 // @public
@@ -1131,6 +1155,11 @@ export interface ManagedClusterLoadBalancerProfileOutboundIPs {
 // @public
 export interface ManagedClusterManagedOutboundIPProfile {
     count?: number;
+}
+
+// @public
+export interface ManagedClusterMetricsProfile {
+    costAnalysis?: ManagedClusterCostAnalysis;
 }
 
 // @public

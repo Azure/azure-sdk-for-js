@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns the list of currently active sessions on the Bastion.
  *
  * @summary Returns the list of currently active sessions on the Bastion.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/BastionSessionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/BastionSessionDelete.json
  */
 async function deletesTheSpecifiedActiveSession() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

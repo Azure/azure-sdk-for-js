@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   OrganizationResource,
-  ConfluentManagementClient
+  ConfluentManagementClient,
 } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Organization Validate proxy resource
  *
  * @summary Organization Validate proxy resource
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/Validations_ValidateOrganizationsV2.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Validations_ValidateOrganizationsV2.json
  */
 async function validationsValidateOrganizations() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function validationsValidateOrganizations() {
       privateOfferId: "string",
       privateOfferIds: ["string"],
       publisherId: "string",
-      termUnit: "string"
+      termUnit: "string",
     },
     tags: { environment: "Dev" },
     userDetail: {
@@ -47,15 +47,15 @@ async function validationsValidateOrganizations() {
       emailAddress: "abc@microsoft.com",
       firstName: "string",
       lastName: "string",
-      userPrincipalName: "abc@microsoft.com"
-    }
+      userPrincipalName: "abc@microsoft.com",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const result = await client.validations.validateOrganizationV2(
     resourceGroupName,
     organizationName,
-    body
+    body,
   );
   console.log(result);
 }

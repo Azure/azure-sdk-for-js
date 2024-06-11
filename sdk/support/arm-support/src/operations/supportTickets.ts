@@ -16,7 +16,7 @@ import { MicrosoftSupport } from "../microsoftSupport";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -34,7 +34,7 @@ import {
   SupportTicketsUpdateResponse,
   SupportTicketsCreateOptionalParams,
   SupportTicketsCreateResponse,
-  SupportTicketsListNextResponse
+  SupportTicketsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export class SupportTicketsImpl implements SupportTickets {
    * @param options The options parameters.
    */
   public list(
-    options?: SupportTicketsListOptionalParams
+    options?: SupportTicketsListOptionalParams,
   ): PagedAsyncIterableIterator<SupportTicketDetails> {
     const iter = this.listPagingAll(options);
     return {
@@ -74,13 +74,13 @@ export class SupportTicketsImpl implements SupportTickets {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: SupportTicketsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SupportTicketDetails[]> {
     let result: SupportTicketsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class SupportTicketsImpl implements SupportTickets {
   }
 
   private async *listPagingAll(
-    options?: SupportTicketsListOptionalParams
+    options?: SupportTicketsListOptionalParams,
   ): AsyncIterableIterator<SupportTicketDetails> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -116,11 +116,11 @@ export class SupportTicketsImpl implements SupportTickets {
    */
   checkNameAvailability(
     checkNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: SupportTicketsCheckNameAvailabilityOptionalParams
+    options?: SupportTicketsCheckNameAvailabilityOptionalParams,
   ): Promise<SupportTicketsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { checkNameAvailabilityInput, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -133,7 +133,7 @@ export class SupportTicketsImpl implements SupportTickets {
    * @param options The options parameters.
    */
   private _list(
-    options?: SupportTicketsListOptionalParams
+    options?: SupportTicketsListOptionalParams,
   ): Promise<SupportTicketsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -147,11 +147,11 @@ export class SupportTicketsImpl implements SupportTickets {
    */
   get(
     supportTicketName: string,
-    options?: SupportTicketsGetOptionalParams
+    options?: SupportTicketsGetOptionalParams,
   ): Promise<SupportTicketsGetResponse> {
     return this.client.sendOperationRequest(
       { supportTicketName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -168,11 +168,11 @@ export class SupportTicketsImpl implements SupportTickets {
   update(
     supportTicketName: string,
     updateSupportTicket: UpdateSupportTicket,
-    options?: SupportTicketsUpdateOptionalParams
+    options?: SupportTicketsUpdateOptionalParams,
   ): Promise<SupportTicketsUpdateResponse> {
     return this.client.sendOperationRequest(
       { supportTicketName, updateSupportTicket, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -201,7 +201,7 @@ export class SupportTicketsImpl implements SupportTickets {
   async beginCreate(
     supportTicketName: string,
     createSupportTicketParameters: SupportTicketDetails,
-    options?: SupportTicketsCreateOptionalParams
+    options?: SupportTicketsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SupportTicketsCreateResponse>,
@@ -210,21 +210,20 @@ export class SupportTicketsImpl implements SupportTickets {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SupportTicketsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -233,8 +232,8 @@ export class SupportTicketsImpl implements SupportTickets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -242,15 +241,15 @@ export class SupportTicketsImpl implements SupportTickets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { supportTicketName, createSupportTicketParameters, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       SupportTicketsCreateResponse,
@@ -258,7 +257,7 @@ export class SupportTicketsImpl implements SupportTickets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -289,12 +288,12 @@ export class SupportTicketsImpl implements SupportTickets {
   async beginCreateAndWait(
     supportTicketName: string,
     createSupportTicketParameters: SupportTicketDetails,
-    options?: SupportTicketsCreateOptionalParams
+    options?: SupportTicketsCreateOptionalParams,
   ): Promise<SupportTicketsCreateResponse> {
     const poller = await this.beginCreate(
       supportTicketName,
       createSupportTicketParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -306,11 +305,11 @@ export class SupportTicketsImpl implements SupportTickets {
    */
   private _listNext(
     nextLink: string,
-    options?: SupportTicketsListNextOptionalParams
+    options?: SupportTicketsListNextOptionalParams,
   ): Promise<SupportTicketsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -318,133 +317,128 @@ export class SupportTicketsImpl implements SupportTickets {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Support/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Support/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityOutput
+      bodyMapper: Mappers.CheckNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.checkNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SupportTicketsListResult
+      bodyMapper: Mappers.SupportTicketsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SupportTicketDetails
+      bodyMapper: Mappers.SupportTicketDetails,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.supportTicketName
+    Parameters.supportTicketName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SupportTicketDetails
+      bodyMapper: Mappers.SupportTicketDetails,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.updateSupportTicket,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.supportTicketName
+    Parameters.supportTicketName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SupportTicketDetails
+      bodyMapper: Mappers.SupportTicketDetails,
     },
     201: {
-      bodyMapper: Mappers.SupportTicketDetails
+      bodyMapper: Mappers.SupportTicketDetails,
     },
     202: {
-      bodyMapper: Mappers.SupportTicketDetails
+      bodyMapper: Mappers.SupportTicketDetails,
     },
     204: {
-      bodyMapper: Mappers.SupportTicketDetails
+      bodyMapper: Mappers.SupportTicketDetails,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.createSupportTicketParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.supportTicketName
+    Parameters.supportTicketName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SupportTicketsListResult
+      bodyMapper: Mappers.SupportTicketsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

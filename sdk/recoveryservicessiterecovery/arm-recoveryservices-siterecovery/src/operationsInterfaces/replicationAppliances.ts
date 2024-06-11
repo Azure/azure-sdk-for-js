@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ReplicationAppliance,
-  ReplicationAppliancesListOptionalParams
+  ReplicationAppliancesListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,6 +25,6 @@ export interface ReplicationAppliances {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationAppliancesListOptionalParams
+    options?: ReplicationAppliancesListOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationAppliance>;
 }

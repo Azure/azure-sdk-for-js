@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the protection containers in the specified fabric.
  *
  * @summary Lists the protection containers in the specified fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainers_ListByReplicationFabrics.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainers_ListByReplicationFabrics.json
  */
 async function getsTheListOfProtectionContainerForAFabric() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getsTheListOfProtectionContainerForAFabric() {
   for await (let item of client.replicationProtectionContainers.listByReplicationFabrics(
     resourceName,
     resourceGroupName,
-    fabricName
+    fabricName,
   )) {
     resArray.push(item);
   }

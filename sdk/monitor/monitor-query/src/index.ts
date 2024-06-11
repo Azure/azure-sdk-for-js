@@ -62,10 +62,5 @@ export {
 export { AggregationType, MetricClass } from "./generated/metricsdefinitions/src";
 export { NamespaceClassification } from "./generated/metricsnamespaces/src";
 
-export { LocalizableString } from "./generated/metricBatch/src";
-export {
-  MetricResultsResponseValuesItem,
-  Metric as BatchQueryMetric,
-  MetricsBatchOptionalParams,
-} from "./models/publicBatchModels";
-export { MetricsBatchQueryClient, MetricsBatchQueryClientOptions } from "./metricsBatchQueryClient";
+export { MetricsQueryResourcesOptions } from "./models/publicBatchModels";
+export { MetricsClient } from "./metricsClient";

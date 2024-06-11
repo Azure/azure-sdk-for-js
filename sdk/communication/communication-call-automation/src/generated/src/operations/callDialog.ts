@@ -17,7 +17,7 @@ import {
   CallDialogStartDialogResponse,
   CallDialogStopDialogOptionalParams,
   UpdateDialogRequest,
-  CallDialogUpdateDialogOptionalParams
+  CallDialogUpdateDialogOptionalParams,
 } from "../models";
 
 /** Class containing CallDialog operations. */
@@ -43,11 +43,11 @@ export class CallDialogImpl implements CallDialog {
     callConnectionId: string,
     dialogId: string,
     startDialogRequest: StartDialogRequest,
-    options?: CallDialogStartDialogOptionalParams
+    options?: CallDialogStartDialogOptionalParams,
   ): Promise<CallDialogStartDialogResponse> {
     return this.client.sendOperationRequest(
       { callConnectionId, dialogId, startDialogRequest, options },
-      startDialogOperationSpec
+      startDialogOperationSpec,
     );
   }
 
@@ -60,11 +60,11 @@ export class CallDialogImpl implements CallDialog {
   stopDialog(
     callConnectionId: string,
     dialogId: string,
-    options?: CallDialogStopDialogOptionalParams
+    options?: CallDialogStopDialogOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, dialogId, options },
-      stopDialogOperationSpec
+      stopDialogOperationSpec,
     );
   }
 
@@ -79,11 +79,11 @@ export class CallDialogImpl implements CallDialog {
     callConnectionId: string,
     dialogId: string,
     updateDialogRequest: UpdateDialogRequest,
-    options?: CallDialogUpdateDialogOptionalParams
+    options?: CallDialogUpdateDialogOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, dialogId, updateDialogRequest, options },
-      updateDialogOperationSpec
+      updateDialogOperationSpec,
     );
   }
 }
@@ -95,22 +95,22 @@ const startDialogOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.DialogStateResponse
+      bodyMapper: Mappers.DialogStateResponse,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.startDialogRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.callConnectionId,
-    Parameters.dialogId
+    Parameters.dialogId,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const stopDialogOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}/dialogs/{dialogId}",
@@ -118,17 +118,17 @@ const stopDialogOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.operationCallbackUri],
   urlParameters: [
     Parameters.endpoint,
     Parameters.callConnectionId,
-    Parameters.dialogId
+    Parameters.dialogId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateDialogOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}/dialogs/{dialogId}",
@@ -136,17 +136,17 @@ const updateDialogOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.updateDialogRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.callConnectionId,
-    Parameters.dialogId
+    Parameters.dialogId,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

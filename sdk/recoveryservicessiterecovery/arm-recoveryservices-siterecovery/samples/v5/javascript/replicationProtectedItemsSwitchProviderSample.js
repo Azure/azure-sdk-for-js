@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to initiate a switch provider of the replication protected item.
  *
  * @summary Operation to initiate a switch provider of the replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_SwitchProvider.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_SwitchProvider.json
  */
 async function executeSwitchProvider() {
   const subscriptionId =
@@ -49,7 +49,7 @@ async function executeSwitchProvider() {
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
-    switchProviderInput
+    switchProviderInput,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of a logical network.
  *
  * @summary Gets the details of a logical network.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationLogicalNetworks_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationLogicalNetworks_Get.json
  */
 async function getsALogicalNetworkWithSpecifiedServerIdAndLogicalNetworkName() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function getsALogicalNetworkWithSpecifiedServerIdAndLogicalNetworkName() {
     resourceName,
     resourceGroupName,
     fabricName,
-    logicalNetworkName
+    logicalNetworkName,
   );
   console.log(result);
 }

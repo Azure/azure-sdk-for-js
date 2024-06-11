@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Patch DICOM Service details.
  *
  * @summary Patch DICOM Service details.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/dicomservices/DicomServices_Patch.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/dicomservices/DicomServices_Patch.json
  */
 async function updateADicomservice() {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";

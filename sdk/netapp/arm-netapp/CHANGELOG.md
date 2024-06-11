@@ -1,6 +1,6 @@
 # Release History
 
-## 20.0.0-beta.2 (Unreleased)
+## 20.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,25 @@
 
 ### Other Changes
 
+## 20.0.0 (2024-03-05)
+    
+**Features**
+
+  - Added Interface VolumesResetCifsPasswordHeaders
+  - Added Type Alias VolumesResetCifsPasswordResponse
+  - Enum KnownRelationshipStatus has a new value Failed
+  - Enum KnownRelationshipStatus has a new value Unknown
+
+**Breaking Changes**
+
+  - Interface VolumeGroupMetaData no longer has parameter deploymentSpecId
+  - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
+        [propertyName: string]: UserAssignedIdentity;
+    } to {
+        [propertyName: string]: UserAssignedIdentity | null;
+    }
+    
+    
 ## 20.0.0-beta.1 (2023-12-14)
     
 **Features**
@@ -128,7 +147,7 @@
         [propertyName: string]: UserAssignedIdentity | null;
     }
     
-    
+   
 ## 19.0.0 (2023-09-25)
     
 **Features**

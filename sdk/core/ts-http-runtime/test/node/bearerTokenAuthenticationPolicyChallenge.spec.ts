@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
-import { AccessToken, GetTokenOptions, TokenCredential } from "../../src/auth/tokenCredential";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import { AccessToken, GetTokenOptions, TokenCredential } from "../../src/auth/tokenCredential.js";
 import {
   AuthorizeRequestOnChallengeOptions,
   HttpClient,
@@ -12,8 +11,8 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
-} from "../../src";
-import { TextDecoder } from "util";
+} from "../../src/index.js";
+import { TextDecoder } from "node:util";
 
 export interface TestChallenge {
   scope: string;
@@ -124,13 +123,12 @@ class MockRefreshCredential implements TokenCredential {
 }
 
 describe("bearerTokenAuthenticationPolicy with challenge", function () {
-  let clock: sinon.SinonFakeTimers;
-
   beforeEach(() => {
-    clock = sinon.useFakeTimers(Date.now());
+    vi.useFakeTimers({ now: Date.now() });
   });
+
   afterEach(() => {
-    clock.restore();
+    vi.useRealTimers();
   });
 
   it("tests that the scope and the claim have been passed through to getToken correctly", async function () {
@@ -319,7 +317,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
 
     // Will refresh token once as the first time token is empty
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
-    clock.tick(5000);
+    vi.advanceTimersByTime(5000);
     // Will refresh token twice
     // - 1st refreshing because the token is epxired
     // - 2nd refreshing because the response with old token has 401 error and claim details so we need refresh token again
@@ -428,7 +426,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     // - 2nd refreshing to handle challenge process
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
     assert.equal(credential.authCount, 2);
-    clock.tick(5000);
+    vi.advanceTimersByTime(5000);
     // Will not refresh the token because the previous one is still valid
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);

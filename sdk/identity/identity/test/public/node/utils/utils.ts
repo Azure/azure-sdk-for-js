@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 import * as fs from "fs";
-import * as jwt from "jsonwebtoken";
 import * as net from "net";
 import * as tls from "tls";
+
+import jwt from "jsonwebtoken";
 import ms from "ms";
 import { randomUUID } from "@azure/core-util";
 

@@ -5,7 +5,7 @@ import os from "os";
 import { Context } from "mocha";
 import fs from "fs";
 import childProcess from "child_process";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 import { env, isLiveMode, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all global reach connections associated with a private peering in an express route circuit.
  *
  * @summary Gets all global reach connections associated with a private peering in an express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRouteCircuitConnectionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ExpressRouteCircuitConnectionList.json
  */
 async function listExpressRouteCircuitConnection() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid1";
@@ -31,7 +31,7 @@ async function listExpressRouteCircuitConnection() {
   for await (let item of client.expressRouteCircuitConnections.list(
     resourceGroupName,
     circuitName,
-    peeringName
+    peeringName,
   )) {
     resArray.push(item);
   }

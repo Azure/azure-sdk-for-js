@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a DDoS protection plan tags.
  *
  * @summary Update a DDoS protection plan tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/DdosProtectionPlanUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/DdosProtectionPlanUpdateTags.json
  */
 async function dDoSProtectionPlanUpdateTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

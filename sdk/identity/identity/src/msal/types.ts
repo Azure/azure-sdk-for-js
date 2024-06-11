@@ -16,6 +16,11 @@ export interface MsalToken {
 }
 
 /**
+ * Represents a valid (i.e. complete) MSAL token.
+ */
+export type ValidMsalToken = { [P in keyof MsalToken]-?: NonNullable<MsalToken[P]> };
+
+/**
  * Internal representation of MSAL's Account information.
  * Helps us to disambiguate the MSAL classes accross environments.
  * @internal
@@ -67,4 +72,24 @@ export interface AuthenticationRecord {
    * The username of the logged in account.
    */
   username: string;
+}
+
+/**
+ * Represents a parsed certificate
+ * @internal
+ */
+export interface CertificateParts {
+  /**
+   * Hex encoded X.509 SHA-1 thumbprint of the certificate.
+   */
+  thumbprint: string;
+
+  /**
+   * The PEM encoded private key.
+   */
+  privateKey: string;
+  /**
+   * x5c header.
+   */
+  x5c?: string;
 }

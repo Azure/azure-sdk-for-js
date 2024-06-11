@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to initiate resume replication of the item.
  *
  * @summary The operation to initiate resume replication of the item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationMigrationItems_ResumeReplication.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_ResumeReplication.json
  */
 async function resumeReplication() {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function resumeReplication() {
     fabricName,
     protectionContainerName,
     migrationItemName,
-    resumeReplicationInput
+    resumeReplicationInput,
   );
   console.log(result);
 }

@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as util from "../../src/msal/utils";
-
 import {
   AuthenticationResult,
   ConfidentialClientApplication,
@@ -46,9 +44,6 @@ export async function msalNodeTestSetup(
 
   const sandbox = createSandbox();
 
-  const stub = sandbox.stub(util, "randomUUID");
-  stub.returns(playbackValues.correlationId);
-
   if (testContextOrStubbedToken instanceof Test || testContextOrStubbedToken === undefined) {
     const testContext = testContextOrStubbedToken;
 
@@ -73,6 +68,9 @@ export async function msalNodeTestSetup(
         IDENTITY_SP_CERT_PEM: "",
         AZURE_CAE_MANAGEMENT_ENDPOINT: "https://management.azure.com/",
         AZURE_CLIENT_CERTIFICATE_PATH: "assets/fake-cert.pem",
+        AZURE_IDENTITY_MULTI_TENANT_TENANT_ID: "99999999-9999-9999-9999-999999999999",
+        AZURE_IDENTITY_MULTI_TENANT_CLIENT_ID: "azure_multi_tenant_client_id",
+        AZURE_IDENTITY_MULTI_TENANT_CLIENT_SECRET: "azure_multi_tenant_client_secret",
       },
       sanitizerOptions: {
         headerSanitizers: [
@@ -131,6 +129,11 @@ export async function msalNodeTestSetup(
             regex: true,
             target: `x-client-VER=[a-zA-Z0-9.-]+`,
             value: `x-client-VER=identity-client-version`,
+          },
+          {
+            regex: true,
+            target: `client-request-id=[a-zA-Z0-9-]+`,
+            value: `client-request-id=${playbackValues.correlationId}`,
           },
         ],
         bodyKeySanitizers: [

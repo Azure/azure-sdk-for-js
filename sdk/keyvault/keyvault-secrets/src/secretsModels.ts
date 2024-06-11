@@ -8,7 +8,7 @@ import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.5-preview.1";
+export const LATEST_API_VERSION = "7.5";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -17,7 +17,7 @@ export interface SecretClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5-preview.1";
+  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5";
 
   /**
    * Whether to disable verification that the authentication challenge resource matches the Key Vault domain.

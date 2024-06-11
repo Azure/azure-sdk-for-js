@@ -29,7 +29,7 @@ async function listAllDiskEncryptionSetsInAResourceGroup() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.diskEncryptionSets.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

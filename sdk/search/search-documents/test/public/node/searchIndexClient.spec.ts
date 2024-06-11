@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isLiveMode, env } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
-import { Suite } from "mocha";
+import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { versionsToTest } from "@azure-tools/test-utils";
 import { assert } from "chai";
+import { Context, Suite } from "mocha";
 import {
   AzureOpenAIVectorizer,
   SearchIndex,
@@ -13,20 +13,19 @@ import {
   VectorSearchAlgorithmConfiguration,
   VectorSearchProfile,
 } from "../../../src";
+import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
 import {
-  WAIT_TIME,
   createRandomIndexName,
   createSimpleIndex,
   createSynonymMaps,
   deleteSynonymMaps,
+  WAIT_TIME,
 } from "../utils/setup";
-import { delay, serviceVersions } from "../../../src/serviceUtils";
-import { versionsToTest } from "@azure/test-utils";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
-  onVersions({ minVer: "2020-06-30" }).describe("SearchIndexClient", function (this: Suite) {
+  onVersions({ minVer: "2023-11-01" }).describe("SearchIndexClient", function (this: Suite) {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
@@ -232,7 +231,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       });
     });
   });
-  onVersions({ minVer: "2023-10-01-Preview" }).describe(
+  onVersions({ minVer: "2024-03-01-Preview" }).describe(
     "SearchIndexClient",
     function (this: Suite) {
       let recorder: Recorder;
@@ -276,14 +275,14 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
           kind: "azureOpenAI",
           name: "vectorizer",
           azureOpenAIParameters: {
-            apiKey: env.OPENAI_KEY,
-            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
-            resourceUri: env.OPENAI_ENDPOINT,
+            apiKey: env.AZURE_OPENAI_KEY,
+            deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
+            resourceUri: env.AZURE_OPENAI_ENDPOINT,
           },
         };
         const profile: VectorSearchProfile = {
           name: "profile",
-          algorithm: algorithm.name,
+          algorithmConfigurationName: algorithm.name,
           vectorizer: vectorizer.name,
         };
 
@@ -300,7 +299,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
               name: "descriptionVector",
               vectorSearchDimensions: 1536,
               searchable: true,
-              vectorSearchProfile: profile.name,
+              vectorSearchProfileName: profile.name,
             },
           ],
           vectorSearch: {
@@ -309,8 +308,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
             profiles: [profile],
           },
         };
-        await indexClient.createOrUpdateIndex(index);
         try {
+          await indexClient.createOrUpdateIndex(index);
           index = await indexClient.getIndex(indexName);
           assert.deepEqual(index.vectorSearch?.algorithms?.[0].name, algorithm.name);
           assert.deepEqual(index.vectorSearch?.vectorizers?.[0].name, vectorizer.name);

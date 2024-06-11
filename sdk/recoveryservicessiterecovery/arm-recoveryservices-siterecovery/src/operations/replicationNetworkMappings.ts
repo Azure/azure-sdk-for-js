@@ -16,7 +16,7 @@ import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -37,13 +37,14 @@ import {
   ReplicationNetworkMappingsUpdateOptionalParams,
   ReplicationNetworkMappingsUpdateResponse,
   ReplicationNetworkMappingsListByReplicationNetworksNextResponse,
-  ReplicationNetworkMappingsListNextResponse
+  ReplicationNetworkMappingsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReplicationNetworkMappings operations. */
 export class ReplicationNetworkMappingsImpl
-  implements ReplicationNetworkMappings {
+  implements ReplicationNetworkMappings
+{
   private readonly client: SiteRecoveryManagementClient;
 
   /**
@@ -68,14 +69,14 @@ export class ReplicationNetworkMappingsImpl
     resourceGroupName: string,
     fabricName: string,
     networkName: string,
-    options?: ReplicationNetworkMappingsListByReplicationNetworksOptionalParams
+    options?: ReplicationNetworkMappingsListByReplicationNetworksOptionalParams,
   ): PagedAsyncIterableIterator<NetworkMapping> {
     const iter = this.listByReplicationNetworksPagingAll(
       resourceName,
       resourceGroupName,
       fabricName,
       networkName,
-      options
+      options,
     );
     return {
       next() {
@@ -94,9 +95,9 @@ export class ReplicationNetworkMappingsImpl
           fabricName,
           networkName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -106,7 +107,7 @@ export class ReplicationNetworkMappingsImpl
     fabricName: string,
     networkName: string,
     options?: ReplicationNetworkMappingsListByReplicationNetworksOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkMapping[]> {
     let result: ReplicationNetworkMappingsListByReplicationNetworksResponse;
     let continuationToken = settings?.continuationToken;
@@ -116,7 +117,7 @@ export class ReplicationNetworkMappingsImpl
         resourceGroupName,
         fabricName,
         networkName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -130,7 +131,7 @@ export class ReplicationNetworkMappingsImpl
         fabricName,
         networkName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -144,14 +145,14 @@ export class ReplicationNetworkMappingsImpl
     resourceGroupName: string,
     fabricName: string,
     networkName: string,
-    options?: ReplicationNetworkMappingsListByReplicationNetworksOptionalParams
+    options?: ReplicationNetworkMappingsListByReplicationNetworksOptionalParams,
   ): AsyncIterableIterator<NetworkMapping> {
     for await (const page of this.listByReplicationNetworksPagingPage(
       resourceName,
       resourceGroupName,
       fabricName,
       networkName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -167,7 +168,7 @@ export class ReplicationNetworkMappingsImpl
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationNetworkMappingsListOptionalParams
+    options?: ReplicationNetworkMappingsListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkMapping> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -185,9 +186,9 @@ export class ReplicationNetworkMappingsImpl
           resourceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -195,7 +196,7 @@ export class ReplicationNetworkMappingsImpl
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationNetworkMappingsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkMapping[]> {
     let result: ReplicationNetworkMappingsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -211,7 +212,7 @@ export class ReplicationNetworkMappingsImpl
         resourceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -223,12 +224,12 @@ export class ReplicationNetworkMappingsImpl
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationNetworkMappingsListOptionalParams
+    options?: ReplicationNetworkMappingsListOptionalParams,
   ): AsyncIterableIterator<NetworkMapping> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -248,11 +249,11 @@ export class ReplicationNetworkMappingsImpl
     resourceGroupName: string,
     fabricName: string,
     networkName: string,
-    options?: ReplicationNetworkMappingsListByReplicationNetworksOptionalParams
+    options?: ReplicationNetworkMappingsListByReplicationNetworksOptionalParams,
   ): Promise<ReplicationNetworkMappingsListByReplicationNetworksResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, fabricName, networkName, options },
-      listByReplicationNetworksOperationSpec
+      listByReplicationNetworksOperationSpec,
     );
   }
 
@@ -272,7 +273,7 @@ export class ReplicationNetworkMappingsImpl
     fabricName: string,
     networkName: string,
     networkMappingName: string,
-    options?: ReplicationNetworkMappingsGetOptionalParams
+    options?: ReplicationNetworkMappingsGetOptionalParams,
   ): Promise<ReplicationNetworkMappingsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -281,9 +282,9 @@ export class ReplicationNetworkMappingsImpl
         fabricName,
         networkName,
         networkMappingName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -305,7 +306,7 @@ export class ReplicationNetworkMappingsImpl
     networkName: string,
     networkMappingName: string,
     input: CreateNetworkMappingInput,
-    options?: ReplicationNetworkMappingsCreateOptionalParams
+    options?: ReplicationNetworkMappingsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationNetworkMappingsCreateResponse>,
@@ -314,21 +315,20 @@ export class ReplicationNetworkMappingsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationNetworkMappingsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -337,8 +337,8 @@ export class ReplicationNetworkMappingsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -346,8 +346,8 @@ export class ReplicationNetworkMappingsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -360,16 +360,16 @@ export class ReplicationNetworkMappingsImpl
         networkName,
         networkMappingName,
         input,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationNetworkMappingsCreateResponse,
       OperationState<ReplicationNetworkMappingsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -393,7 +393,7 @@ export class ReplicationNetworkMappingsImpl
     networkName: string,
     networkMappingName: string,
     input: CreateNetworkMappingInput,
-    options?: ReplicationNetworkMappingsCreateOptionalParams
+    options?: ReplicationNetworkMappingsCreateOptionalParams,
   ): Promise<ReplicationNetworkMappingsCreateResponse> {
     const poller = await this.beginCreate(
       resourceName,
@@ -402,7 +402,7 @@ export class ReplicationNetworkMappingsImpl
       networkName,
       networkMappingName,
       input,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -423,25 +423,24 @@ export class ReplicationNetworkMappingsImpl
     fabricName: string,
     networkName: string,
     networkMappingName: string,
-    options?: ReplicationNetworkMappingsDeleteOptionalParams
+    options?: ReplicationNetworkMappingsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -450,8 +449,8 @@ export class ReplicationNetworkMappingsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -459,8 +458,8 @@ export class ReplicationNetworkMappingsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -472,13 +471,13 @@ export class ReplicationNetworkMappingsImpl
         fabricName,
         networkName,
         networkMappingName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -500,7 +499,7 @@ export class ReplicationNetworkMappingsImpl
     fabricName: string,
     networkName: string,
     networkMappingName: string,
-    options?: ReplicationNetworkMappingsDeleteOptionalParams
+    options?: ReplicationNetworkMappingsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceName,
@@ -508,7 +507,7 @@ export class ReplicationNetworkMappingsImpl
       fabricName,
       networkName,
       networkMappingName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -531,7 +530,7 @@ export class ReplicationNetworkMappingsImpl
     networkName: string,
     networkMappingName: string,
     input: UpdateNetworkMappingInput,
-    options?: ReplicationNetworkMappingsUpdateOptionalParams
+    options?: ReplicationNetworkMappingsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationNetworkMappingsUpdateResponse>,
@@ -540,21 +539,20 @@ export class ReplicationNetworkMappingsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationNetworkMappingsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -563,8 +561,8 @@ export class ReplicationNetworkMappingsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -572,8 +570,8 @@ export class ReplicationNetworkMappingsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -586,16 +584,16 @@ export class ReplicationNetworkMappingsImpl
         networkName,
         networkMappingName,
         input,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationNetworkMappingsUpdateResponse,
       OperationState<ReplicationNetworkMappingsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -619,7 +617,7 @@ export class ReplicationNetworkMappingsImpl
     networkName: string,
     networkMappingName: string,
     input: UpdateNetworkMappingInput,
-    options?: ReplicationNetworkMappingsUpdateOptionalParams
+    options?: ReplicationNetworkMappingsUpdateOptionalParams,
   ): Promise<ReplicationNetworkMappingsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceName,
@@ -628,7 +626,7 @@ export class ReplicationNetworkMappingsImpl
       networkName,
       networkMappingName,
       input,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -643,11 +641,11 @@ export class ReplicationNetworkMappingsImpl
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationNetworkMappingsListOptionalParams
+    options?: ReplicationNetworkMappingsListOptionalParams,
   ): Promise<ReplicationNetworkMappingsListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -668,7 +666,7 @@ export class ReplicationNetworkMappingsImpl
     fabricName: string,
     networkName: string,
     nextLink: string,
-    options?: ReplicationNetworkMappingsListByReplicationNetworksNextOptionalParams
+    options?: ReplicationNetworkMappingsListByReplicationNetworksNextOptionalParams,
   ): Promise<ReplicationNetworkMappingsListByReplicationNetworksNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -677,9 +675,9 @@ export class ReplicationNetworkMappingsImpl
         fabricName,
         networkName,
         nextLink,
-        options
+        options,
       },
-      listByReplicationNetworksNextOperationSpec
+      listByReplicationNetworksNextOperationSpec,
     );
   }
 
@@ -695,11 +693,11 @@ export class ReplicationNetworkMappingsImpl
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationNetworkMappingsListNextOptionalParams
+    options?: ReplicationNetworkMappingsListNextOptionalParams,
   ): Promise<ReplicationNetworkMappingsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -707,34 +705,12 @@ export class ReplicationNetworkMappingsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByReplicationNetworksOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkMappingCollection
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.networkName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkMapping
-    }
+      bodyMapper: Mappers.NetworkMappingCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -744,28 +720,47 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.networkName,
-    Parameters.networkMappingName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkMapping,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName,
+    Parameters.fabricName,
+    Parameters.networkName,
+    Parameters.networkMappingName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkMapping
+      bodyMapper: Mappers.NetworkMapping,
     },
     201: {
-      bodyMapper: Mappers.NetworkMapping
+      bodyMapper: Mappers.NetworkMapping,
     },
     202: {
-      bodyMapper: Mappers.NetworkMapping
+      bodyMapper: Mappers.NetworkMapping,
     },
     204: {
-      bodyMapper: Mappers.NetworkMapping
-    }
+      bodyMapper: Mappers.NetworkMapping,
+    },
   },
   requestBody: Parameters.input1,
   queryParameters: [Parameters.apiVersion],
@@ -776,15 +771,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.networkName,
-    Parameters.networkMappingName
+    Parameters.networkMappingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
@@ -795,27 +789,26 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.networkName,
-    Parameters.networkMappingName
+    Parameters.networkMappingName,
   ],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkMapping
+      bodyMapper: Mappers.NetworkMapping,
     },
     201: {
-      bodyMapper: Mappers.NetworkMapping
+      bodyMapper: Mappers.NetworkMapping,
     },
     202: {
-      bodyMapper: Mappers.NetworkMapping
+      bodyMapper: Mappers.NetworkMapping,
     },
     204: {
-      bodyMapper: Mappers.NetworkMapping
-    }
+      bodyMapper: Mappers.NetworkMapping,
+    },
   },
   requestBody: Parameters.input2,
   queryParameters: [Parameters.apiVersion],
@@ -826,38 +819,37 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.networkName,
-    Parameters.networkMappingName
+    Parameters.networkMappingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationNetworkMappings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationNetworkMappings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkMappingCollection
-    }
+      bodyMapper: Mappers.NetworkMappingCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByReplicationNetworksNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkMappingCollection
-    }
+      bodyMapper: Mappers.NetworkMappingCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -866,26 +858,26 @@ const listByReplicationNetworksNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.resourceName,
     Parameters.fabricName,
-    Parameters.networkName
+    Parameters.networkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkMappingCollection
-    }
+      bodyMapper: Mappers.NetworkMappingCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

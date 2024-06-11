@@ -3,8 +3,8 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { deserialize, serialize } from "../../src/serialization";
 import GeographyPoint from "../../src/geographyPoint";
+import { deserialize, serialize } from "../../src/serialization";
 
 describe("serialization.serialize", function () {
   it("nested", function () {

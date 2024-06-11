@@ -27,7 +27,7 @@ async function listFrontDoorsInAResourceGroup() {
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.frontDoors.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

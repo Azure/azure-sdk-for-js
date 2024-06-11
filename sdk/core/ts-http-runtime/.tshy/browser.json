@@ -1,0 +1,16 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.mts",
+    "../src/**/*.tsx"
+  ],
+  "exclude": [
+    ".././src/defaultHttpClient-react-native.mts",
+    ".././src/util/userAgentPlatform-react-native.mts",
+    ".././src/util/uuidUtils-react-native.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/browser"
+  }
+}

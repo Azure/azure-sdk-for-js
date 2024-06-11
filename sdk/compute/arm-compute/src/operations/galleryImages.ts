@@ -16,7 +16,7 @@ import { ComputeManagementClient } from "../computeManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   GalleryImagesGetOptionalParams,
   GalleryImagesGetResponse,
   GalleryImagesDeleteOptionalParams,
-  GalleryImagesListByGalleryNextResponse
+  GalleryImagesListByGalleryNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,12 +58,12 @@ export class GalleryImagesImpl implements GalleryImages {
   public listByGallery(
     resourceGroupName: string,
     galleryName: string,
-    options?: GalleryImagesListByGalleryOptionalParams
+    options?: GalleryImagesListByGalleryOptionalParams,
   ): PagedAsyncIterableIterator<GalleryImage> {
     const iter = this.listByGalleryPagingAll(
       resourceGroupName,
       galleryName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class GalleryImagesImpl implements GalleryImages {
           resourceGroupName,
           galleryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +90,7 @@ export class GalleryImagesImpl implements GalleryImages {
     resourceGroupName: string,
     galleryName: string,
     options?: GalleryImagesListByGalleryOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<GalleryImage[]> {
     let result: GalleryImagesListByGalleryResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class GalleryImagesImpl implements GalleryImages {
       result = await this._listByGallery(
         resourceGroupName,
         galleryName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +110,7 @@ export class GalleryImagesImpl implements GalleryImages {
         resourceGroupName,
         galleryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,12 +122,12 @@ export class GalleryImagesImpl implements GalleryImages {
   private async *listByGalleryPagingAll(
     resourceGroupName: string,
     galleryName: string,
-    options?: GalleryImagesListByGalleryOptionalParams
+    options?: GalleryImagesListByGalleryOptionalParams,
   ): AsyncIterableIterator<GalleryImage> {
     for await (const page of this.listByGalleryPagingPage(
       resourceGroupName,
       galleryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -149,7 +149,7 @@ export class GalleryImagesImpl implements GalleryImages {
     galleryName: string,
     galleryImageName: string,
     galleryImage: GalleryImage,
-    options?: GalleryImagesCreateOrUpdateOptionalParams
+    options?: GalleryImagesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleryImagesCreateOrUpdateResponse>,
@@ -158,21 +158,20 @@ export class GalleryImagesImpl implements GalleryImages {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<GalleryImagesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -181,8 +180,8 @@ export class GalleryImagesImpl implements GalleryImages {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -190,8 +189,8 @@ export class GalleryImagesImpl implements GalleryImages {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -202,16 +201,16 @@ export class GalleryImagesImpl implements GalleryImages {
         galleryName,
         galleryImageName,
         galleryImage,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       GalleryImagesCreateOrUpdateResponse,
       OperationState<GalleryImagesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -233,14 +232,14 @@ export class GalleryImagesImpl implements GalleryImages {
     galleryName: string,
     galleryImageName: string,
     galleryImage: GalleryImage,
-    options?: GalleryImagesCreateOrUpdateOptionalParams
+    options?: GalleryImagesCreateOrUpdateOptionalParams,
   ): Promise<GalleryImagesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       galleryName,
       galleryImageName,
       galleryImage,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -261,7 +260,7 @@ export class GalleryImagesImpl implements GalleryImages {
     galleryName: string,
     galleryImageName: string,
     galleryImage: GalleryImageUpdate,
-    options?: GalleryImagesUpdateOptionalParams
+    options?: GalleryImagesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleryImagesUpdateResponse>,
@@ -270,21 +269,20 @@ export class GalleryImagesImpl implements GalleryImages {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<GalleryImagesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -293,8 +291,8 @@ export class GalleryImagesImpl implements GalleryImages {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -302,8 +300,8 @@ export class GalleryImagesImpl implements GalleryImages {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -314,16 +312,16 @@ export class GalleryImagesImpl implements GalleryImages {
         galleryName,
         galleryImageName,
         galleryImage,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       GalleryImagesUpdateResponse,
       OperationState<GalleryImagesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -345,14 +343,14 @@ export class GalleryImagesImpl implements GalleryImages {
     galleryName: string,
     galleryImageName: string,
     galleryImage: GalleryImageUpdate,
-    options?: GalleryImagesUpdateOptionalParams
+    options?: GalleryImagesUpdateOptionalParams,
   ): Promise<GalleryImagesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       galleryName,
       galleryImageName,
       galleryImage,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -369,11 +367,11 @@ export class GalleryImagesImpl implements GalleryImages {
     resourceGroupName: string,
     galleryName: string,
     galleryImageName: string,
-    options?: GalleryImagesGetOptionalParams
+    options?: GalleryImagesGetOptionalParams,
   ): Promise<GalleryImagesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, galleryName, galleryImageName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -389,25 +387,24 @@ export class GalleryImagesImpl implements GalleryImages {
     resourceGroupName: string,
     galleryName: string,
     galleryImageName: string,
-    options?: GalleryImagesDeleteOptionalParams
+    options?: GalleryImagesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -416,8 +413,8 @@ export class GalleryImagesImpl implements GalleryImages {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -425,19 +422,19 @@ export class GalleryImagesImpl implements GalleryImages {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, galleryName, galleryImageName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -455,13 +452,13 @@ export class GalleryImagesImpl implements GalleryImages {
     resourceGroupName: string,
     galleryName: string,
     galleryImageName: string,
-    options?: GalleryImagesDeleteOptionalParams
+    options?: GalleryImagesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       galleryName,
       galleryImageName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -476,11 +473,11 @@ export class GalleryImagesImpl implements GalleryImages {
   private _listByGallery(
     resourceGroupName: string,
     galleryName: string,
-    options?: GalleryImagesListByGalleryOptionalParams
+    options?: GalleryImagesListByGalleryOptionalParams,
   ): Promise<GalleryImagesListByGalleryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, galleryName, options },
-      listByGalleryOperationSpec
+      listByGalleryOperationSpec,
     );
   }
 
@@ -496,11 +493,11 @@ export class GalleryImagesImpl implements GalleryImages {
     resourceGroupName: string,
     galleryName: string,
     nextLink: string,
-    options?: GalleryImagesListByGalleryNextOptionalParams
+    options?: GalleryImagesListByGalleryNextOptionalParams,
   ): Promise<GalleryImagesListByGalleryNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, galleryName, nextLink, options },
-      listByGalleryNextOperationSpec
+      listByGalleryNextOperationSpec,
     );
   }
 }
@@ -508,25 +505,24 @@ export class GalleryImagesImpl implements GalleryImages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryImage
+      bodyMapper: Mappers.GalleryImage,
     },
     201: {
-      bodyMapper: Mappers.GalleryImage
+      bodyMapper: Mappers.GalleryImage,
     },
     202: {
-      bodyMapper: Mappers.GalleryImage
+      bodyMapper: Mappers.GalleryImage,
     },
     204: {
-      bodyMapper: Mappers.GalleryImage
+      bodyMapper: Mappers.GalleryImage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.galleryImage,
   queryParameters: [Parameters.apiVersion3],
@@ -535,32 +531,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
-    Parameters.galleryImageName
+    Parameters.galleryImageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryImage
+      bodyMapper: Mappers.GalleryImage,
     },
     201: {
-      bodyMapper: Mappers.GalleryImage
+      bodyMapper: Mappers.GalleryImage,
     },
     202: {
-      bodyMapper: Mappers.GalleryImage
+      bodyMapper: Mappers.GalleryImage,
     },
     204: {
-      bodyMapper: Mappers.GalleryImage
+      bodyMapper: Mappers.GalleryImage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.galleryImage1,
   queryParameters: [Parameters.apiVersion3],
@@ -569,23 +564,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
-    Parameters.galleryImageName
+    Parameters.galleryImageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryImage
+      bodyMapper: Mappers.GalleryImage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -593,14 +587,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
-    Parameters.galleryImageName
+    Parameters.galleryImageName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -608,8 +601,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -617,51 +610,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
-    Parameters.galleryImageName
+    Parameters.galleryImageName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByGalleryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryImageList
+      bodyMapper: Mappers.GalleryImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.galleryName
+    Parameters.galleryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByGalleryNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryImageList
+      bodyMapper: Mappers.GalleryImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.galleryName
+    Parameters.galleryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

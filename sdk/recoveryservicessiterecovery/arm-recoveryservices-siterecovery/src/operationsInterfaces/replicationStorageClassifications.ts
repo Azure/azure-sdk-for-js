@@ -12,7 +12,7 @@ import {
   ReplicationStorageClassificationsListByReplicationFabricsOptionalParams,
   ReplicationStorageClassificationsListOptionalParams,
   ReplicationStorageClassificationsGetOptionalParams,
-  ReplicationStorageClassificationsGetResponse
+  ReplicationStorageClassificationsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ReplicationStorageClassifications {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams
+    options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams,
   ): PagedAsyncIterableIterator<StorageClassification>;
   /**
    * Lists the storage classifications in the vault.
@@ -42,7 +42,7 @@ export interface ReplicationStorageClassifications {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationStorageClassificationsListOptionalParams
+    options?: ReplicationStorageClassificationsListOptionalParams,
   ): PagedAsyncIterableIterator<StorageClassification>;
   /**
    * Gets the details of the specified storage classification.
@@ -58,6 +58,6 @@ export interface ReplicationStorageClassifications {
     resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
-    options?: ReplicationStorageClassificationsGetOptionalParams
+    options?: ReplicationStorageClassificationsGetOptionalParams,
   ): Promise<ReplicationStorageClassificationsGetResponse>;
 }

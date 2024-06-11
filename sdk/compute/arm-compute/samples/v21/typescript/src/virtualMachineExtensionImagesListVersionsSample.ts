@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineExtensionImagesListVersionsOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of virtual machine extension image versions.
  *
  * @summary Gets a list of virtual machine extension image versions.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImageListVersionsMaximumSetGen() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function virtualMachineExtensionImageListVersionsMaximumSetGen() {
   const options: VirtualMachineExtensionImagesListVersionsOptionalParams = {
     filter,
     top,
-    orderby
+    orderby,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function virtualMachineExtensionImageListVersionsMaximumSetGen() {
     location,
     publisherName,
     typeParam,
-    options
+    options,
   );
   console.log(result);
 }
@@ -52,7 +52,7 @@ async function virtualMachineExtensionImageListVersionsMaximumSetGen() {
  * This sample demonstrates how to Gets a list of virtual machine extension image versions.
  *
  * @summary Gets a list of virtual machine extension image versions.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImageListVersionsMinimumSetGen() {
   const subscriptionId =
@@ -65,7 +65,7 @@ async function virtualMachineExtensionImageListVersionsMinimumSetGen() {
   const result = await client.virtualMachineExtensionImages.listVersions(
     location,
     publisherName,
-    typeParam
+    typeParam,
   );
   console.log(result);
 }

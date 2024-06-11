@@ -16,6 +16,8 @@ This exporter package assumes your application is [already instrumented](https:/
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
+> *Warning:* This SDK only works for Node.js environments. Use the [Application Insights JavaScript SDK](https://github.com/microsoft/ApplicationInsights-JS) for browser environments.
+
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
@@ -113,6 +115,8 @@ You can enable sampling to limit the amount of telemetry records you receive. In
 const { ApplicationInsightsSampler } = require("@azure/monitor-opentelemetry-exporter");
 const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
+const { Resource } = require("@opentelemetry/resources"); 
+const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions"); 
 
 // Sampler expects a sample rate of between 0 and 1 inclusive
 // A rate of 0.75 means approximately 75 % of your traces will be sent

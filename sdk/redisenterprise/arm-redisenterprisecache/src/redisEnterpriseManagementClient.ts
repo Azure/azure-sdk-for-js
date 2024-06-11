@@ -20,8 +20,7 @@ import {
   RedisEnterpriseImpl,
   DatabasesImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl,
-  SkusImpl
+  PrivateLinkResourcesImpl
 } from "./operations";
 import {
   Operations,
@@ -29,8 +28,7 @@ import {
   RedisEnterprise,
   Databases,
   PrivateEndpointConnections,
-  PrivateLinkResources,
-  Skus
+  PrivateLinkResources
 } from "./operationsInterfaces";
 import { RedisEnterpriseManagementClientOptionalParams } from "./models";
 
@@ -66,7 +64,7 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-redisenterprisecache/2.3.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-redisenterprisecache/3.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -119,14 +117,13 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-01-preview";
+    this.apiVersion = options.apiVersion || "2023-11-01";
     this.operations = new OperationsImpl(this);
     this.operationsStatus = new OperationsStatusImpl(this);
     this.redisEnterprise = new RedisEnterpriseImpl(this);
     this.databases = new DatabasesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.skus = new SkusImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -164,5 +161,4 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
   databases: Databases;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
-  skus: Skus;
 }

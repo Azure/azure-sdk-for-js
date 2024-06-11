@@ -5,7 +5,7 @@
     "module": "Node16",
     "moduleResolution": "Node16",
     "outDir": "./dist",
-    "declarationDir": "./types",
+    "declarationDir": "./types"
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts"]
 }

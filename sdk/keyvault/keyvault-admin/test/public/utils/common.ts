@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
 import { env } from "@azure-tools/test-recorder";
-import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
+import { assert, SupportedVersions, supports, TestFunctionWrapper } from "@azure-tools/test-utils";
 import { LATEST_API_VERSION, SUPPORTED_API_VERSIONS } from "../../../src/constants";
 
 export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
@@ -38,9 +37,9 @@ export function getFolderName(uri: string): string {
 
 /**
  * Safely get an environment variable by name, throwing an error if it doesn't exist.
- * @param envVarName The name of the environment variable to return
+ * @param envVarName - The name of the environment variable to return
  */
-export function getEnvironmentVariable(envVarName: string) {
+export function getEnvironmentVariable(envVarName: string): string {
   const envVar = env[envVarName];
   if (!envVar) {
     throw new Error(`Missing required environment variable ${envVarName}`);
@@ -51,7 +50,7 @@ export function getEnvironmentVariable(envVarName: string) {
 /**
  * Get a predefined SAS token and Storage URI to use when backing up a KeyVault
  */
-export function getSasToken() {
+export function getSasToken(): { blobStorageUri: string; blobSasToken: string } {
   const baseStorageUri = getEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "");
   const blobStorageUri = `${baseStorageUri}/${getEnvironmentVariable("BLOB_CONTAINER_NAME")}`;
   const blobSasToken = getEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN");
@@ -62,7 +61,7 @@ export function getSasToken() {
 /**
  * The known API versions that we support.
  */
-export const serviceVersions = ["7.2", "7.3", "7.4", "7.5-preview.1"] as const;
+export const serviceVersions = ["7.2", "7.3", "7.4", "7.5"] as const;
 
 /**
  * Fetches the service version to test against. This version could be configured as part of CI

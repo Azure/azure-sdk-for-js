@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a specified connection created by this subscription.
  *
  * @summary Get a specified connection created by this subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerConnectionSubscriptionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerConnectionSubscriptionGet.json
  */
 async function getSubscriptionNetworkManagerConnection() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function getSubscriptionNetworkManagerConnection() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.subscriptionNetworkManagerConnections.get(
-    networkManagerConnectionName
+    networkManagerConnectionName,
   );
   console.log(result);
 }

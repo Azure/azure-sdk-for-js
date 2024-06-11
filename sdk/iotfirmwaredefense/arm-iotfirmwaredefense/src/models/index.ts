@@ -8,21 +8,61 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** List of firmwares */
-export interface FirmwareList {
+export type SummaryResourcePropertiesUnion =
+  | SummaryResourceProperties
+  | FirmwareSummary
+  | CveSummary
+  | BinaryHardeningSummaryResource
+  | CryptoCertificateSummaryResource
+  | CryptoKeySummaryResource;
+
+/** List of binary hardening results. */
+export interface BinaryHardeningListResult {
   /**
-   * The list of firmwares.
+   * The list of binary hardening results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: Firmware[];
-  /** The uri to fetch the next page of asset. */
+  readonly value?: BinaryHardeningResource[];
+  /** The uri to fetch the next page of resources. */
   nextLink?: string;
+}
+
+/** Binary hardening of a firmware. */
+export interface BinaryHardeningResult {
+  /** ID for the binary hardening result. */
+  binaryHardeningId?: string;
+  /** Binary hardening features. */
+  features?: BinaryHardeningFeatures;
+  /** The architecture of the uploaded firmware. */
+  architecture?: string;
+  /** The executable path. */
+  filePath?: string;
+  /** The executable class to indicate 32 or 64 bit. */
+  class?: string;
+  /** The runpath of the uploaded firmware. */
+  runpath?: string;
+  /** The rpath of the uploaded firmware. */
+  rpath?: string;
+}
+
+/** Binary hardening features. */
+export interface BinaryHardeningFeatures {
+  /** NX (no-execute) flag. */
+  nx?: boolean;
+  /** PIE (position independent executable) flag. */
+  pie?: boolean;
+  /** RELRO (relocation read-only) flag. */
+  relro?: boolean;
+  /** Canary (stack canaries) flag. */
+  canary?: boolean;
+  /** Stripped flag. */
+  stripped?: boolean;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -108,286 +148,20 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** Firmware definition */
-export interface FirmwareUpdateDefinition {
-  /** File name for a firmware that user uploaded. */
-  fileName?: string;
-  /** Firmware vendor. */
-  vendor?: string;
-  /** Firmware model. */
-  model?: string;
-  /** Firmware version. */
-  version?: string;
-  /** User-specified description of the firmware. */
-  description?: string;
-  /** File size of the uploaded firmware image. */
-  fileSize?: number;
-  /** The status of firmware scan. */
-  status?: Status;
-  /** A list of errors or other messages generated during firmware analysis */
-  statusMessages?: Record<string, unknown>[];
+/** List of crypto certificates. */
+export interface CryptoCertificateListResult {
   /**
-   * Provisioning state of the resource.
+   * The list of crypto certificate results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/** Url data for creating or accessing a blob file. */
-export interface UrlToken {
-  /**
-   * SAS URL for creating or accessing a blob file.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly url?: string;
-  /**
-   * SAS URL for file uploading. Kept for backwards compatibility
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly uploadUrl?: string;
-}
-
-/** Summary result after scanning the firmware. */
-export interface FirmwareSummary {
-  /** Total extracted size of the firmware in bytes. */
-  extractedSize?: number;
-  /** Firmware file size in bytes. */
-  fileSize?: number;
-  /** Extracted file count. */
-  extractedFileCount?: number;
-  /** Components count. */
-  componentCount?: number;
-  /** Binary count */
-  binaryCount?: number;
-  /** Time used for analysis */
-  analysisTimeSeconds?: number;
-  /** The number of root file systems found. */
-  rootFileSystems?: number;
-}
-
-/** List result for components */
-export interface ComponentList {
-  /**
-   * The list of components.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Component[];
-  /** The uri to fetch the next page of asset. */
-  nextLink?: string;
-}
-
-/** Component of a firmware. */
-export interface Component {
-  /** ID for the component. */
-  componentId?: string;
-  /** Name for the component. */
-  componentName?: string;
-  /** Version for the component. */
-  version?: string;
-  /** License for the component. */
-  license?: string;
-  /** Release date for the component. */
-  releaseDate?: Date;
-  /** Paths of the component. */
-  paths?: string[];
-  /** Flag if new update is available for the component. */
-  isUpdateAvailable?: IsUpdateAvailable;
-}
-
-/** List result for binary hardening */
-export interface BinaryHardeningList {
-  /**
-   * The list of binary hardening results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: BinaryHardening[];
-  /** The uri to fetch the next page of asset. */
-  nextLink?: string;
-}
-
-/** Binary hardening of a firmware. */
-export interface BinaryHardening {
-  /** ID for the binary hardening result. */
-  binaryHardeningId?: string;
-  /** The architecture of the uploaded firmware. */
-  architecture?: string;
-  /** path for binary hardening. */
-  path?: string;
-  /** class for binary hardening. */
-  class?: string;
-  /** The runpath of the uploaded firmware. */
-  runpath?: string;
-  /** The rpath of the uploaded firmware. */
-  rpath?: string;
-  /** NX flag. */
-  nx?: NxFlag;
-  /** PIE flag. */
-  pie?: PieFlag;
-  /** RELRO flag. */
-  relro?: RelroFlag;
-  /** Canary flag. */
-  canary?: CanaryFlag;
-  /** Stripped flag. */
-  stripped?: StrippedFlag;
-}
-
-/** Binary hardening summary percentages. */
-export interface BinaryHardeningSummary {
-  /** Total number of binaries that were analyzed */
-  totalFiles?: number;
-  /** NX summary percentage */
-  nx?: number;
-  /** PIE summary percentage */
-  pie?: number;
-  /** RELRO summary percentage */
-  relro?: number;
-  /** Canary summary percentage */
-  canary?: number;
-  /** Stripped summary percentage */
-  stripped?: number;
-}
-
-/** Password hashes list */
-export interface PasswordHashList {
-  /**
-   * Password hashes list
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: PasswordHash[];
-  /** The uri to fetch the next page of asset. */
-  nextLink?: string;
-}
-
-/** Password hash properties */
-export interface PasswordHash {
-  /** ID for password hash */
-  passwordHashId?: string;
-  /** File path of the password hash */
-  filePath?: string;
-  /** Salt of the password hash */
-  salt?: string;
-  /** Hash of the password */
-  hash?: string;
-  /** Context of password hash */
-  context?: string;
-  /** User name of password hash */
-  username?: string;
-  /** Algorithm of the password hash */
-  algorithm?: string;
-}
-
-/** List result for CVE */
-export interface CveList {
-  /**
-   * The list of CVE results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Cve[];
-  /** The uri to fetch the next page of asset. */
-  nextLink?: string;
-}
-
-/** Known CVEs of a firmware. */
-export interface Cve {
-  /** ID of CVE */
-  cveId?: string;
-  /** Component of CVE */
-  component?: Record<string, unknown>;
-  /** Severity of CVE */
-  severity?: string;
-  /** Name of CVE */
-  name?: string;
-  /** A single CVSS score to represent the CVE. If a V3 score is specified, then it will use the V3 score. Otherwise if the V2 score is specified it will be the V2 score */
-  cvssScore?: string;
-  /** Cvss version of CVE */
-  cvssVersion?: string;
-  /** Cvss V2 score of CVE */
-  cvssV2Score?: string;
-  /** Cvss V3 score of CVE */
-  cvssV3Score?: string;
-  /** Publish date of CVE */
-  publishDate?: Date;
-  /** Updated date of CVE */
-  updatedDate?: Date;
-  /**
-   * The list of CVE links.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly links?: CveLink[];
-  /** Description of CVE */
-  description?: string;
-}
-
-/** Link for CVE */
-export interface CveLink {
-  /** Href of CVE link */
-  href?: string;
-  /** Label of CVE link */
-  label?: string;
-}
-
-/** CVE summary values. */
-export interface CveSummary {
-  /** The total number of critical severity CVEs detected */
-  critical?: number;
-  /** The total number of high severity CVEs detected */
-  high?: number;
-  /** The total number of medium severity CVEs detected */
-  medium?: number;
-  /** The total number of low severity CVEs detected */
-  low?: number;
-  /** The total number of unknown severity CVEs detected */
-  unknown?: number;
-  /** The total number of undefined severity CVEs detected */
-  undefined?: number;
-}
-
-/** Cryptographic certificate summary values. */
-export interface CryptoCertificateSummary {
-  /** Total number of certificates found. */
-  totalCertificates?: number;
-  /** Total number of paired private keys found for the certificates. */
-  pairedKeys?: number;
-  /** Total number of expired certificates found. */
-  expired?: number;
-  /** Total number of nearly expired certificates found. */
-  expiringSoon?: number;
-  /** Total number of certificates found using a weak signature algorithm. */
-  weakSignature?: number;
-  /** Total number of certificates found that are self-signed. */
-  selfSigned?: number;
-  /** Total number of certificates found that have an insecure key size for the key algorithm. */
-  shortKeySize?: number;
-}
-
-/** Cryptographic key summary values. */
-export interface CryptoKeySummary {
-  /** Total number of cryptographic keys found. */
-  totalKeys?: number;
-  /** Total number of (non-certificate) public keys found. */
-  publicKeys?: number;
-  /** Total number of private keys found. */
-  privateKeys?: number;
-  /** Total number of keys found that have a matching paired key or certificate. */
-  pairedKeys?: number;
-  /** Total number of keys found that have an insecure key size for the algorithm. */
-  shortKeySize?: number;
-}
-
-/** Crypto certificates list */
-export interface CryptoCertificateList {
-  /**
-   * Crypto certificates list
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: CryptoCertificate[];
-  /** The uri to fetch the next page of asset. */
+  readonly value?: CryptoCertificateResource[];
+  /** The uri to fetch the next page of resources. */
   nextLink?: string;
 }
 
 /** Crypto certificate properties */
 export interface CryptoCertificate {
-  /** ID for the certificate. */
+  /** ID for the certificate result. */
   cryptoCertId?: string;
   /** Name of the certificate. */
   name?: string;
@@ -416,20 +190,20 @@ export interface CryptoCertificate {
   /** List of functions the certificate can fulfill. */
   usage?: string[];
   /**
-   * List of files paths for this certificate
+   * List of files where this certificate was found.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly filePaths?: string[];
   /** A matching paired private key. */
   pairedKey?: PairedKey;
   /** Indicates if the certificate is expired. */
-  isExpired?: IsExpired;
-  /** Indicates if the certificate was self-signed. */
-  isSelfSigned?: IsSelfSigned;
+  isExpired?: boolean;
+  /** Indicates if the certificate is self-signed. */
+  isSelfSigned?: boolean;
   /** Indicates the signature algorithm used is insecure. */
-  isWeakSignature?: IsWeakSignature;
+  isWeakSignature?: boolean;
   /** Indicates the certificate's key size is considered too small to be secure for the key algorithm. */
-  isShortKeySize?: IsShortKeySize;
+  isShortKeySize?: boolean;
 }
 
 /** Information on an entity (distinguished name) in a cryptographic certificate. */
@@ -452,24 +226,22 @@ export interface PairedKey {
   id?: string;
   /** The type indicating whether the paired object is a key or certificate. */
   type?: string;
-  /** Additional paired key properties */
-  additionalProperties?: Record<string, unknown>;
 }
 
-/** Crypto keys list */
-export interface CryptoKeyList {
+/** List of crypto keys. */
+export interface CryptoKeyListResult {
   /**
-   * Crypto keys list
+   * The list of crypto key results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: CryptoKey[];
-  /** The uri to fetch the next page of asset. */
+  readonly value?: CryptoKeyResource[];
+  /** The uri to fetch the next page of resources. */
   nextLink?: string;
 }
 
 /** Crypto key properties */
 export interface CryptoKey {
-  /** ID for the key. */
+  /** ID for the key result. */
   cryptoKeyId?: string;
   /** Type of the key (public or private). */
   keyType?: string;
@@ -480,29 +252,101 @@ export interface CryptoKey {
   /** Functions the key can fulfill. */
   usage?: string[];
   /**
-   * List of files paths for this key.
+   * List of files where this key was found.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly filePaths?: string[];
   /** A matching paired key or certificate. */
   pairedKey?: PairedKey;
   /** Indicates the key size is considered too small to be secure for the algorithm. */
-  isShortKeySize?: IsShortKeySize;
+  isShortKeySize?: boolean;
 }
 
-/** Return a list of firmware analysis workspaces. */
-export interface WorkspaceList {
+/** List of CVE results. */
+export interface CveListResult {
   /**
-   * The list of firmware analysis workspaces.
+   * The list of CVE results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: Workspace[];
+  readonly value?: CveResource[];
+  /** The uri to fetch the next page of resources. */
+  nextLink?: string;
+}
+
+/** Details of a CVE detected in firmware. */
+export interface CveResult {
+  /** ID of the CVE result. */
+  cveId?: string;
+  /** The SBOM component for the CVE. */
+  component?: CveComponent;
+  /** Severity of the CVE. */
+  severity?: string;
+  /** Name of the CVE. */
+  name?: string;
+  /** A single CVSS score to represent the CVE. If a V3 score is specified, then it will use the V3 score. Otherwise if the V2 score is specified it will be the V2 score. */
+  cvssScore?: string;
+  /** CVSS version of the CVE. */
+  cvssVersion?: string;
+  /** CVSS V2 score of the CVE. */
+  cvssV2Score?: string;
+  /** CVSS V3 score of the CVE. */
+  cvssV3Score?: string;
+  /**
+   * The list of reference links for the CVE.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly links?: CveLink[];
+  /** The CVE description. */
+  description?: string;
+}
+
+/** Properties of the SBOM component for a CVE. */
+export interface CveComponent {
+  /** ID of the SBOM component */
+  componentId?: string;
+  /** Name of the SBOM component */
+  name?: string;
+  /** Version of the SBOM component. */
+  version?: string;
+}
+
+/** Properties of a reference link for a CVE. */
+export interface CveLink {
+  /** The destination of the reference link. */
+  href?: string;
+  /** The label of the reference link. */
+  label?: string;
+}
+
+/** List of firmwares */
+export interface FirmwareList {
+  /**
+   * The list of firmwares.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Firmware[];
   /** The uri to fetch the next page of asset. */
   nextLink?: string;
 }
 
-/** Firmware analysis workspace. */
-export interface WorkspaceUpdateDefinition {
+/** Firmware properties. */
+export interface FirmwareProperties {
+  /** File name for a firmware that user uploaded. */
+  fileName?: string;
+  /** Firmware vendor. */
+  vendor?: string;
+  /** Firmware model. */
+  model?: string;
+  /** Firmware version. */
+  version?: string;
+  /** User-specified description of the firmware. */
+  description?: string;
+  /** File size of the uploaded firmware image. */
+  fileSize?: number;
+  /** The status of firmware scan. */
+  status?: Status;
+  /** A list of errors or other messages generated during firmware analysis */
+  statusMessages?: StatusMessage[];
   /**
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -510,10 +354,27 @@ export interface WorkspaceUpdateDefinition {
   readonly provisioningState?: ProvisioningState;
 }
 
-/** Properties for generating an upload URL */
-export interface GenerateUploadUrlRequest {
-  /** A unique ID for the firmware to be uploaded. */
-  firmwareId?: string;
+/** Error and status message */
+export interface StatusMessage {
+  /** The error code */
+  errorCode?: number;
+  /** The error or status message */
+  message?: string;
+}
+
+/** Firmware definition */
+export interface FirmwareUpdateDefinition {
+  /** The editable properties of a firmware */
+  properties?: FirmwareProperties;
+}
+
+/** Url data for creating or accessing a blob file. */
+export interface UrlToken {
+  /**
+   * SAS URL for creating or accessing a blob file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly url?: string;
 }
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -580,18 +441,164 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** Component for CVE */
-export interface CveComponent {
-  /** ID of CVE component */
-  componentId?: string;
-  /** Name of CVE component */
-  name?: string;
-  /** Version of CVE component */
-  version?: string;
+/** List of password hash results */
+export interface PasswordHashListResult {
+  /**
+   * The list of password hash results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: PasswordHashResource[];
+  /** The uri to fetch the next page of resources. */
+  nextLink?: string;
 }
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
+/** Password hash properties */
+export interface PasswordHash {
+  /** ID for password hash */
+  passwordHashId?: string;
+  /** File path of the password hash */
+  filePath?: string;
+  /** Salt of the password hash */
+  salt?: string;
+  /** Hash of the password */
+  hash?: string;
+  /** Context of password hash */
+  context?: string;
+  /** User name of password hash */
+  username?: string;
+  /** Algorithm of the password hash */
+  algorithm?: string;
+}
+
+/** List of SBOM results. */
+export interface SbomComponentListResult {
+  /**
+   * The list of SBOM components.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SbomComponentResource[];
+  /** The uri to fetch the next page of resources. */
+  nextLink?: string;
+}
+
+/** SBOM component of a firmware. */
+export interface SbomComponent {
+  /** ID for the component. */
+  componentId?: string;
+  /** Name for the component. */
+  componentName?: string;
+  /** Version for the component. */
+  version?: string;
+  /** License for the component. */
+  license?: string;
+  /** File paths related to the component. */
+  filePaths?: string[];
+}
+
+/** List of analysis summaries. */
+export interface SummaryListResult {
+  /**
+   * The list of summaries.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SummaryResource[];
+  /** The uri to fetch the next page of resources. */
+  nextLink?: string;
+}
+
+/** Properties of an analysis summary. */
+export interface SummaryResourceProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  summaryType:
+    | "Firmware"
+    | "CVE"
+    | "BinaryHardening"
+    | "CryptoCertificate"
+    | "CryptoKey";
+}
+
+/** Return a list of firmware analysis workspaces. */
+export interface WorkspaceList {
+  /**
+   * The list of firmware analysis workspaces.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Workspace[];
+  /** The uri to fetch the next page of asset. */
+  nextLink?: string;
+}
+
+/** Workspace properties. */
+export interface WorkspaceProperties {
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Firmware analysis workspace. */
+export interface WorkspaceUpdateDefinition {
+  /** The editable workspace properties. */
+  properties?: WorkspaceProperties;
+}
+
+/** Properties for generating an upload URL */
+export interface GenerateUploadUrlRequest {
+  /** A unique ID for the firmware to be uploaded. */
+  firmwareId?: string;
+}
+
+/** binary hardening analysis result resource */
+export interface BinaryHardeningResource extends Resource {
+  /** The properties of a binary hardening result found within a firmware image */
+  properties?: BinaryHardeningResult;
+}
+
+/** Crypto certificate resource */
+export interface CryptoCertificateResource extends Resource {
+  /** The properties of a crypto certificate found within a firmware image */
+  properties?: CryptoCertificate;
+}
+
+/** Crypto key resource */
+export interface CryptoKeyResource extends Resource {
+  /** The properties of a crypto key found within a firmware image */
+  properties?: CryptoKey;
+}
+
+/** CVE analysis result resource */
+export interface CveResource extends Resource {
+  /** The properties of a CVE result found within a firmware image */
+  properties?: CveResult;
+}
+
+/** Firmware definition */
+export interface Firmware extends Resource {
+  /** The properties of a firmware */
+  properties?: FirmwareProperties;
+}
+
+/** Password hash resource */
+export interface PasswordHashResource extends Resource {
+  /** The properties of a password hash found within a firmware image */
+  properties?: PasswordHash;
+}
+
+/** SBOM analysis result resource */
+export interface SbomComponentResource extends Resource {
+  /** The properties of an SBOM component found within a firmware image */
+  properties?: SbomComponent;
+}
+
+/** The object representing a firmware analysis summary resource. */
+export interface SummaryResource extends Resource {
+  /**
+   * Properties of an analysis summary.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: SummaryResourcePropertiesUnion;
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -601,39 +608,127 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** Firmware definition */
-export interface Firmware extends ProxyResource {
-  /** File name for a firmware that user uploaded. */
-  fileName?: string;
-  /** Firmware vendor. */
-  vendor?: string;
-  /** Firmware model. */
-  model?: string;
-  /** Firmware version. */
-  version?: string;
-  /** User-specified description of the firmware. */
-  description?: string;
-  /** File size of the uploaded firmware image. */
+/** Properties for high level summary of firmware analysis results. */
+export interface FirmwareSummary extends SummaryResourceProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  summaryType: "Firmware";
+  /** Total extracted size of the firmware in bytes. */
+  extractedSize?: number;
+  /** Firmware file size in bytes. */
   fileSize?: number;
-  /** The status of firmware scan. */
-  status?: Status;
-  /** A list of errors or other messages generated during firmware analysis */
-  statusMessages?: Record<string, unknown>[];
-  /**
-   * Provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
+  /** Extracted file count. */
+  extractedFileCount?: number;
+  /** Components count. */
+  componentCount?: number;
+  /** Binary count */
+  binaryCount?: number;
+  /** Time used for analysis */
+  analysisTimeSeconds?: number;
+  /** The number of root file systems found. */
+  rootFileSystems?: number;
+}
+
+/** Properties for a CVE analysis summary. */
+export interface CveSummary extends SummaryResourceProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  summaryType: "CVE";
+  /** The total number of critical severity CVEs detected */
+  critical?: number;
+  /** The total number of high severity CVEs detected */
+  high?: number;
+  /** The total number of medium severity CVEs detected */
+  medium?: number;
+  /** The total number of low severity CVEs detected */
+  low?: number;
+  /** The total number of unknown severity CVEs detected */
+  unknown?: number;
+}
+
+/** Properties for a binary hardening analysis summary. */
+export interface BinaryHardeningSummaryResource
+  extends SummaryResourceProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  summaryType: "BinaryHardening";
+  /** Total number of binaries that were analyzed */
+  totalFiles?: number;
+  /** NX summary percentage */
+  nx?: number;
+  /** PIE summary percentage */
+  pie?: number;
+  /** RELRO summary percentage */
+  relro?: number;
+  /** Canary summary percentage */
+  canary?: number;
+  /** Stripped summary percentage */
+  stripped?: number;
+}
+
+/** Properties for cryptographic certificate summary. */
+export interface CryptoCertificateSummaryResource
+  extends SummaryResourceProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  summaryType: "CryptoCertificate";
+  /** Total number of certificates found. */
+  totalCertificates?: number;
+  /** Total number of paired private keys found for the certificates. */
+  pairedKeys?: number;
+  /** Total number of expired certificates found. */
+  expired?: number;
+  /** Total number of nearly expired certificates found. */
+  expiringSoon?: number;
+  /** Total number of certificates found using a weak signature algorithm. */
+  weakSignature?: number;
+  /** Total number of certificates found that are self-signed. */
+  selfSigned?: number;
+  /** Total number of certificates found that have an insecure key size for the key algorithm. */
+  shortKeySize?: number;
+}
+
+/** Properties for cryptographic key summary. */
+export interface CryptoKeySummaryResource extends SummaryResourceProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  summaryType: "CryptoKey";
+  /** Total number of cryptographic keys found. */
+  totalKeys?: number;
+  /** Total number of (non-certificate) public keys found. */
+  publicKeys?: number;
+  /** Total number of private keys found. */
+  privateKeys?: number;
+  /** Total number of keys found that have a matching paired key or certificate. */
+  pairedKeys?: number;
+  /** Total number of keys found that have an insecure key size for the algorithm. */
+  shortKeySize?: number;
 }
 
 /** Firmware analysis workspace. */
 export interface Workspace extends TrackedResource {
-  /**
-   * Provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
+  /** Workspace properties. */
+  properties?: WorkspaceProperties;
 }
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
@@ -646,7 +741,7 @@ export enum KnownStatus {
   /** Ready */
   Ready = "Ready",
   /** Error */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -671,7 +766,7 @@ export enum KnownProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -686,210 +781,6 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
-/** Known values of {@link IsUpdateAvailable} that the service accepts. */
-export enum KnownIsUpdateAvailable {
-  /** True */
-  True = "True",
-  /** False */
-  False = "False"
-}
-
-/**
- * Defines values for IsUpdateAvailable. \
- * {@link KnownIsUpdateAvailable} can be used interchangeably with IsUpdateAvailable,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **True** \
- * **False**
- */
-export type IsUpdateAvailable = string;
-
-/** Known values of {@link NxFlag} that the service accepts. */
-export enum KnownNxFlag {
-  /** True */
-  True = "True",
-  /** False */
-  False = "False"
-}
-
-/**
- * Defines values for NxFlag. \
- * {@link KnownNxFlag} can be used interchangeably with NxFlag,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **True** \
- * **False**
- */
-export type NxFlag = string;
-
-/** Known values of {@link PieFlag} that the service accepts. */
-export enum KnownPieFlag {
-  /** True */
-  True = "True",
-  /** False */
-  False = "False"
-}
-
-/**
- * Defines values for PieFlag. \
- * {@link KnownPieFlag} can be used interchangeably with PieFlag,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **True** \
- * **False**
- */
-export type PieFlag = string;
-
-/** Known values of {@link RelroFlag} that the service accepts. */
-export enum KnownRelroFlag {
-  /** True */
-  True = "True",
-  /** False */
-  False = "False"
-}
-
-/**
- * Defines values for RelroFlag. \
- * {@link KnownRelroFlag} can be used interchangeably with RelroFlag,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **True** \
- * **False**
- */
-export type RelroFlag = string;
-
-/** Known values of {@link CanaryFlag} that the service accepts. */
-export enum KnownCanaryFlag {
-  /** True */
-  True = "True",
-  /** False */
-  False = "False"
-}
-
-/**
- * Defines values for CanaryFlag. \
- * {@link KnownCanaryFlag} can be used interchangeably with CanaryFlag,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **True** \
- * **False**
- */
-export type CanaryFlag = string;
-
-/** Known values of {@link StrippedFlag} that the service accepts. */
-export enum KnownStrippedFlag {
-  /** True */
-  True = "True",
-  /** False */
-  False = "False"
-}
-
-/**
- * Defines values for StrippedFlag. \
- * {@link KnownStrippedFlag} can be used interchangeably with StrippedFlag,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **True** \
- * **False**
- */
-export type StrippedFlag = string;
-
-/** Known values of {@link IsExpired} that the service accepts. */
-export enum KnownIsExpired {
-  /** True */
-  True = "True",
-  /** False */
-  False = "False"
-}
-
-/**
- * Defines values for IsExpired. \
- * {@link KnownIsExpired} can be used interchangeably with IsExpired,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **True** \
- * **False**
- */
-export type IsExpired = string;
-
-/** Known values of {@link IsSelfSigned} that the service accepts. */
-export enum KnownIsSelfSigned {
-  /** True */
-  True = "True",
-  /** False */
-  False = "False"
-}
-
-/**
- * Defines values for IsSelfSigned. \
- * {@link KnownIsSelfSigned} can be used interchangeably with IsSelfSigned,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **True** \
- * **False**
- */
-export type IsSelfSigned = string;
-
-/** Known values of {@link IsWeakSignature} that the service accepts. */
-export enum KnownIsWeakSignature {
-  /** True */
-  True = "True",
-  /** False */
-  False = "False"
-}
-
-/**
- * Defines values for IsWeakSignature. \
- * {@link KnownIsWeakSignature} can be used interchangeably with IsWeakSignature,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **True** \
- * **False**
- */
-export type IsWeakSignature = string;
-
-/** Known values of {@link IsShortKeySize} that the service accepts. */
-export enum KnownIsShortKeySize {
-  /** True */
-  True = "True",
-  /** False */
-  False = "False"
-}
-
-/**
- * Defines values for IsShortKeySize. \
- * {@link KnownIsShortKeySize} can be used interchangeably with IsShortKeySize,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **True** \
- * **False**
- */
-export type IsShortKeySize = string;
-
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** User */
@@ -897,7 +788,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -914,7 +805,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -926,191 +817,234 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
+/** Known values of {@link SummaryType} that the service accepts. */
+export enum KnownSummaryType {
+  /** Firmware */
+  Firmware = "Firmware",
+  /** CVE */
+  CVE = "CVE",
+  /** BinaryHardening */
+  BinaryHardening = "BinaryHardening",
+  /** CryptoCertificate */
+  CryptoCertificate = "CryptoCertificate",
+  /** CryptoKey */
+  CryptoKey = "CryptoKey",
+}
+
+/**
+ * Defines values for SummaryType. \
+ * {@link KnownSummaryType} can be used interchangeably with SummaryType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Firmware** \
+ * **CVE** \
+ * **BinaryHardening** \
+ * **CryptoCertificate** \
+ * **CryptoKey**
+ */
+export type SummaryType = string;
+
+/** Known values of {@link SummaryName} that the service accepts. */
+export enum KnownSummaryName {
+  /** Firmware */
+  Firmware = "Firmware",
+  /** CVE */
+  CVE = "CVE",
+  /** BinaryHardening */
+  BinaryHardening = "BinaryHardening",
+  /** CryptoCertificate */
+  CryptoCertificate = "CryptoCertificate",
+  /** CryptoKey */
+  CryptoKey = "CryptoKey",
+}
+
+/**
+ * Defines values for SummaryName. \
+ * {@link KnownSummaryName} can be used interchangeably with SummaryName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Firmware** \
+ * **CVE** \
+ * **BinaryHardening** \
+ * **CryptoCertificate** \
+ * **CryptoKey**
+ */
+export type SummaryName = string;
+
 /** Optional parameters. */
-export interface FirmwareListByWorkspaceOptionalParams
+export interface BinaryHardeningListByFirmwareOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFirmware operation. */
+export type BinaryHardeningListByFirmwareResponse = BinaryHardeningListResult;
+
+/** Optional parameters. */
+export interface BinaryHardeningListByFirmwareNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFirmwareNext operation. */
+export type BinaryHardeningListByFirmwareNextResponse =
+  BinaryHardeningListResult;
+
+/** Optional parameters. */
+export interface CryptoCertificatesListByFirmwareOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFirmware operation. */
+export type CryptoCertificatesListByFirmwareResponse =
+  CryptoCertificateListResult;
+
+/** Optional parameters. */
+export interface CryptoCertificatesListByFirmwareNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFirmwareNext operation. */
+export type CryptoCertificatesListByFirmwareNextResponse =
+  CryptoCertificateListResult;
+
+/** Optional parameters. */
+export interface CryptoKeysListByFirmwareOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFirmware operation. */
+export type CryptoKeysListByFirmwareResponse = CryptoKeyListResult;
+
+/** Optional parameters. */
+export interface CryptoKeysListByFirmwareNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFirmwareNext operation. */
+export type CryptoKeysListByFirmwareNextResponse = CryptoKeyListResult;
+
+/** Optional parameters. */
+export interface CvesListByFirmwareOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFirmware operation. */
+export type CvesListByFirmwareResponse = CveListResult;
+
+/** Optional parameters. */
+export interface CvesListByFirmwareNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFirmwareNext operation. */
+export type CvesListByFirmwareNextResponse = CveListResult;
+
+/** Optional parameters. */
+export interface FirmwaresListByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspace operation. */
-export type FirmwareListByWorkspaceResponse = FirmwareList;
+export type FirmwaresListByWorkspaceResponse = FirmwareList;
 
 /** Optional parameters. */
-export interface FirmwareCreateOptionalParams
+export interface FirmwaresCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type FirmwareCreateResponse = Firmware;
+export type FirmwaresCreateResponse = Firmware;
 
 /** Optional parameters. */
-export interface FirmwareUpdateOptionalParams
+export interface FirmwaresUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type FirmwareUpdateResponse = Firmware;
+export type FirmwaresUpdateResponse = Firmware;
 
 /** Optional parameters. */
-export interface FirmwareDeleteOptionalParams
+export interface FirmwaresDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface FirmwareGetOptionalParams
+export interface FirmwaresGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type FirmwareGetResponse = Firmware;
+export type FirmwaresGetResponse = Firmware;
 
 /** Optional parameters. */
-export interface FirmwareGenerateDownloadUrlOptionalParams
+export interface FirmwaresGenerateDownloadUrlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateDownloadUrl operation. */
-export type FirmwareGenerateDownloadUrlResponse = UrlToken;
+export type FirmwaresGenerateDownloadUrlResponse = UrlToken;
 
 /** Optional parameters. */
-export interface FirmwareGenerateFilesystemDownloadUrlOptionalParams
+export interface FirmwaresGenerateFilesystemDownloadUrlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateFilesystemDownloadUrl operation. */
-export type FirmwareGenerateFilesystemDownloadUrlResponse = UrlToken;
+export type FirmwaresGenerateFilesystemDownloadUrlResponse = UrlToken;
 
 /** Optional parameters. */
-export interface FirmwareGenerateSummaryOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the generateSummary operation. */
-export type FirmwareGenerateSummaryResponse = FirmwareSummary;
-
-/** Optional parameters. */
-export interface FirmwareListGenerateComponentListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listGenerateComponentList operation. */
-export type FirmwareListGenerateComponentListResponse = ComponentList;
-
-/** Optional parameters. */
-export interface FirmwareGenerateComponentDetailsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the generateComponentDetails operation. */
-export type FirmwareGenerateComponentDetailsResponse = Component;
-
-/** Optional parameters. */
-export interface FirmwareListGenerateBinaryHardeningListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listGenerateBinaryHardeningList operation. */
-export type FirmwareListGenerateBinaryHardeningListResponse = BinaryHardeningList;
-
-/** Optional parameters. */
-export interface FirmwareGenerateBinaryHardeningSummaryOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the generateBinaryHardeningSummary operation. */
-export type FirmwareGenerateBinaryHardeningSummaryResponse = BinaryHardeningSummary;
-
-/** Optional parameters. */
-export interface FirmwareGenerateBinaryHardeningDetailsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the generateBinaryHardeningDetails operation. */
-export type FirmwareGenerateBinaryHardeningDetailsResponse = BinaryHardening;
-
-/** Optional parameters. */
-export interface FirmwareListGeneratePasswordHashListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listGeneratePasswordHashList operation. */
-export type FirmwareListGeneratePasswordHashListResponse = PasswordHashList;
-
-/** Optional parameters. */
-export interface FirmwareListGenerateCveListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listGenerateCveList operation. */
-export type FirmwareListGenerateCveListResponse = CveList;
-
-/** Optional parameters. */
-export interface FirmwareGenerateCveSummaryOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the generateCveSummary operation. */
-export type FirmwareGenerateCveSummaryResponse = CveSummary;
-
-/** Optional parameters. */
-export interface FirmwareGenerateCryptoCertificateSummaryOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the generateCryptoCertificateSummary operation. */
-export type FirmwareGenerateCryptoCertificateSummaryResponse = CryptoCertificateSummary;
-
-/** Optional parameters. */
-export interface FirmwareGenerateCryptoKeySummaryOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the generateCryptoKeySummary operation. */
-export type FirmwareGenerateCryptoKeySummaryResponse = CryptoKeySummary;
-
-/** Optional parameters. */
-export interface FirmwareListGenerateCryptoCertificateListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listGenerateCryptoCertificateList operation. */
-export type FirmwareListGenerateCryptoCertificateListResponse = CryptoCertificateList;
-
-/** Optional parameters. */
-export interface FirmwareListGenerateCryptoKeyListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listGenerateCryptoKeyList operation. */
-export type FirmwareListGenerateCryptoKeyListResponse = CryptoKeyList;
-
-/** Optional parameters. */
-export interface FirmwareListByWorkspaceNextOptionalParams
+export interface FirmwaresListByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
-export type FirmwareListByWorkspaceNextResponse = FirmwareList;
+export type FirmwaresListByWorkspaceNextResponse = FirmwareList;
 
 /** Optional parameters. */
-export interface FirmwareListGenerateComponentListNextOptionalParams
+export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listGenerateComponentListNext operation. */
-export type FirmwareListGenerateComponentListNextResponse = ComponentList;
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface FirmwareListGenerateBinaryHardeningListNextOptionalParams
+export interface OperationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listGenerateBinaryHardeningListNext operation. */
-export type FirmwareListGenerateBinaryHardeningListNextResponse = BinaryHardeningList;
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface FirmwareListGeneratePasswordHashListNextOptionalParams
+export interface PasswordHashesListByFirmwareOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listGeneratePasswordHashListNext operation. */
-export type FirmwareListGeneratePasswordHashListNextResponse = PasswordHashList;
+/** Contains response data for the listByFirmware operation. */
+export type PasswordHashesListByFirmwareResponse = PasswordHashListResult;
 
 /** Optional parameters. */
-export interface FirmwareListGenerateCveListNextOptionalParams
+export interface PasswordHashesListByFirmwareNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listGenerateCveListNext operation. */
-export type FirmwareListGenerateCveListNextResponse = CveList;
+/** Contains response data for the listByFirmwareNext operation. */
+export type PasswordHashesListByFirmwareNextResponse = PasswordHashListResult;
 
 /** Optional parameters. */
-export interface FirmwareListGenerateCryptoCertificateListNextOptionalParams
+export interface SbomComponentsListByFirmwareOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listGenerateCryptoCertificateListNext operation. */
-export type FirmwareListGenerateCryptoCertificateListNextResponse = CryptoCertificateList;
+/** Contains response data for the listByFirmware operation. */
+export type SbomComponentsListByFirmwareResponse = SbomComponentListResult;
 
 /** Optional parameters. */
-export interface FirmwareListGenerateCryptoKeyListNextOptionalParams
+export interface SbomComponentsListByFirmwareNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listGenerateCryptoKeyListNext operation. */
-export type FirmwareListGenerateCryptoKeyListNextResponse = CryptoKeyList;
+/** Contains response data for the listByFirmwareNext operation. */
+export type SbomComponentsListByFirmwareNextResponse = SbomComponentListResult;
+
+/** Optional parameters. */
+export interface SummariesListByFirmwareOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFirmware operation. */
+export type SummariesListByFirmwareResponse = SummaryListResult;
+
+/** Optional parameters. */
+export interface SummariesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SummariesGetResponse = SummaryResource;
+
+/** Optional parameters. */
+export interface SummariesListByFirmwareNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFirmwareNext operation. */
+export type SummariesListByFirmwareNextResponse = SummaryListResult;
 
 /** Optional parameters. */
 export interface WorkspacesListBySubscriptionOptionalParams
@@ -1171,20 +1105,6 @@ export interface WorkspacesListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type WorkspacesListByResourceGroupNextResponse = WorkspaceList;
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface IoTFirmwareDefenseClientOptionalParams

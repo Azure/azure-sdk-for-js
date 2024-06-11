@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createDefaultPipeline } from "../src/clientHelpers";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
+import { createDefaultPipeline } from "../src/clientHelpers.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
-import { keyCredentialAuthenticationPolicyName } from "../src/keyCredentialAuthenticationPolicy";
+import { keyCredentialAuthenticationPolicyName } from "../src/keyCredentialAuthenticationPolicy.js";
 import { TokenCredential } from "@azure/core-auth";
-import { fail } from "assert";
-import { apiVersionPolicyName } from "../src/apiVersionPolicy";
+import { apiVersionPolicyName } from "../src/apiVersionPolicy.js";
+
 describe("clientHelpers", () => {
   const mockBaseUrl = "https://example.org";
   it("should create a default pipeline with no credentials", () => {
@@ -42,7 +42,7 @@ describe("clientHelpers", () => {
   it("should throw if key credentials but no Api Header Name", () => {
     try {
       createDefaultPipeline(mockBaseUrl, { key: "mockKey" });
-      fail("Expected to throw an error");
+      assert.fail("Expected to throw an error");
     } catch (error: any) {
       assert.equal((error as Error).message, "Missing API Key Header Name");
     }

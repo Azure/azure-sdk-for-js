@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import {
   AdmRegistrationDescription,
   AdmTemplateRegistrationDescription,
@@ -10,6 +11,8 @@ import {
   BaiduTemplateRegistrationDescription,
   BrowserRegistrationDescription,
   BrowserTemplateRegistrationDescription,
+  FcmV1RegistrationDescription,
+  FcmV1TemplateRegistrationDescription,
   GcmRegistrationDescription,
   GcmTemplateRegistrationDescription,
   MpnsRegistrationDescription,
@@ -28,6 +31,8 @@ import {
   createBrowserTemplateRegistrationDescription,
   createFcmLegacyRegistrationDescription,
   createFcmLegacyTemplateRegistrationDescription,
+  createFcmV1RegistrationDescription,
+  createFcmV1TemplateRegistrationDescription,
   createXiaomiRegistrationDescription,
   createXiaomiTemplateRegistrationDescription,
   createWindowsRegistrationDescription,
@@ -37,7 +42,6 @@ import {
   registrationDescriptionParser,
   registrationDescriptionSerializer,
 } from "../../../src/serializers/registrationSerializer.js";
-import { assert } from "@azure/test-utils";
 
 const ADM_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
@@ -144,6 +148,29 @@ const BROWSER_TEMPLATE_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
             <Auth>{Auth Secret}</Auth>
             <BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>
         </BrowserTemplateRegistrationDescription>
+    </content>
+</entry>`;
+
+const FCMV1_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
+<entry xmlns="http://www.w3.org/2005/Atom">
+    <content type="application/xml">
+        <FcmV1RegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+            <Tags>myTag,myOtherTag</Tags>
+            <RegistrationId>{Registration Id}</RegistrationId> 
+            <FcmV1RegistrationId>{FCM V1 Registration Id}</FcmV1RegistrationId> 
+        </FcmV1RegistrationDescription>
+    </content>
+</entry>`;
+
+const FCMV1_TEMPLATE_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
+<entry xmlns="http://www.w3.org/2005/Atom">
+    <content type="application/xml">
+        <FcmV1TemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+            <Tags>myTag,myOtherTag</Tags>
+            <RegistrationId>{Registration Id}</RegistrationId> 
+            <FcmV1RegistrationId>{FCM V1 Registration Id}</FcmV1RegistrationId> 
+            <BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>
+        </FcmV1TemplateRegistrationDescription>
     </content>
 </entry>`;
 
@@ -356,6 +383,29 @@ describe("parseRegistrationEntry", () => {
     assert.equal(registration.endpoint, "{Endpoint}");
     assert.equal(registration.p256dh, "{P256DH}");
     assert.equal(registration.auth, "{Auth Secret}");
+    assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
+    assert.equal(registration.bodyTemplate, "{Template for the body}");
+  });
+
+  it("should parse an FCM V1 registration description", async () => {
+    const registration = (await registrationDescriptionParser.parseRegistrationEntry(
+      FCMV1_REGISTRATION,
+    )) as FcmV1RegistrationDescription;
+
+    assert.equal(registration.kind, "FcmV1");
+    assert.equal(registration.registrationId, "{Registration Id}");
+    assert.equal(registration.fcmV1RegistrationId, "{FCM V1 Registration Id}");
+    assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
+  });
+
+  it("should parse a FCM V1 template registration description", async () => {
+    const registration = (await registrationDescriptionParser.parseRegistrationEntry(
+      FCMV1_TEMPLATE_REGISTRATION,
+    )) as FcmV1TemplateRegistrationDescription;
+
+    assert.equal(registration.kind, "FcmV1Template");
+    assert.equal(registration.registrationId, "{Registration Id}");
+    assert.equal(registration.fcmV1RegistrationId, "{FCM V1 Registration Id}");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
     assert.equal(registration.bodyTemplate, "{Template for the body}");
   });
@@ -680,6 +730,11 @@ describe("serializeRegistrationDescription", () => {
 
     const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
 
+    // Check for ordering of the fields
+    // Bug: https://github.com/Azure/azure-sdk-for-js/issues/29081
+    assert.isTrue(xml.indexOf("<P256DH>{P256DH}</P256DH><Auth>{Auth Secret}</Auth>") !== -1);
+
+    // Check the fields
     assert.isTrue(xml.indexOf("<BrowserRegistrationDescription") !== -1);
     assert.isTrue(xml.indexOf("<Endpoint>https://www.microsoft.com/</Endpoint>") !== -1);
     assert.isTrue(xml.indexOf("<P256DH>{P256DH}</P256DH>") !== -1);
@@ -708,6 +763,42 @@ describe("serializeRegistrationDescription", () => {
       xml.indexOf("<BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>") !== -1,
     );
     assert.isTrue(xml.indexOf("</BrowserTemplateRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize a FcmV1RegistrationDescription", () => {
+    const registration = createFcmV1RegistrationDescription({
+      fcmV1RegistrationId: "{FCM V1 Registration ID}",
+      tags: ["myTag", "myOtherTag"],
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<FcmV1RegistrationDescription") !== -1);
+    assert.isTrue(
+      xml.indexOf("<FcmV1RegistrationId>{FCM V1 Registration ID}</FcmV1RegistrationId>") !== -1,
+    );
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("</FcmV1RegistrationDescription>") !== -1);
+  });
+
+  it("should serialize a FcmV1TemplateRegistrationDescription", () => {
+    const registration = createFcmV1TemplateRegistrationDescription({
+      fcmV1RegistrationId: "{FCM V1 Registration ID}",
+      tags: ["myTag", "myOtherTag"],
+      bodyTemplate: "{Template for the body}",
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<FcmV1TemplateRegistrationDescription") !== -1);
+    assert.isTrue(
+      xml.indexOf("<FcmV1RegistrationId>{FCM V1 Registration ID}</FcmV1RegistrationId>") !== -1,
+    );
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(
+      xml.indexOf("<BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>") !== -1,
+    );
+    assert.isTrue(xml.indexOf("</FcmV1TemplateRegistrationDescription>") !== -1);
   });
 
   it("should serialize a GcmRegistrationDescription", () => {

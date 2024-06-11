@@ -18,7 +18,7 @@ import {
   ResourceUsageListNextOptionalParams,
   ResourceUsageListOptionalParams,
   ResourceUsageListResponse,
-  ResourceUsageListNextResponse
+  ResourceUsageListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class ResourceUsageOperationsImpl implements ResourceUsageOperations {
    * @param options The options parameters.
    */
   public list(
-    options?: ResourceUsageListOptionalParams
+    options?: ResourceUsageListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceUsage> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class ResourceUsageOperationsImpl implements ResourceUsageOperations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ResourceUsageListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceUsage[]> {
     let result: ResourceUsageListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class ResourceUsageOperationsImpl implements ResourceUsageOperations {
   }
 
   private async *listPagingAll(
-    options?: ResourceUsageListOptionalParams
+    options?: ResourceUsageListOptionalParams,
   ): AsyncIterableIterator<ResourceUsage> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class ResourceUsageOperationsImpl implements ResourceUsageOperations {
    * @param options The options parameters.
    */
   private _list(
-    options?: ResourceUsageListOptionalParams
+    options?: ResourceUsageListOptionalParams,
   ): Promise<ResourceUsageListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class ResourceUsageOperationsImpl implements ResourceUsageOperations {
    */
   private _listNext(
     nextLink: string,
-    options?: ResourceUsageListNextOptionalParams
+    options?: ResourceUsageListNextOptionalParams,
   ): Promise<ResourceUsageListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -117,38 +117,37 @@ export class ResourceUsageOperationsImpl implements ResourceUsageOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkResourceUsage",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkResourceUsage",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceUsageListResult
+      bodyMapper: Mappers.ResourceUsageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceUsageListResult
+      bodyMapper: Mappers.ResourceUsageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

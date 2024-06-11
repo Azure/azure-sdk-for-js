@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to cancel the failover of the replication protected item.
  *
  * @summary Operation to cancel the failover of the replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_FailoverCancel.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_FailoverCancel.json
  */
 async function executeCancelFailover() {
   const subscriptionId =
@@ -33,13 +33,14 @@ async function executeCancelFailover() {
   const replicatedProtectedItemName = "f8491e4f-817a-40dd-a90c-af773978c75b";
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationProtectedItems.beginFailoverCancelAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    protectionContainerName,
-    replicatedProtectedItemName
-  );
+  const result =
+    await client.replicationProtectedItems.beginFailoverCancelAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+    );
   console.log(result);
 }
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of a registered vCenter server(Add vCenter server).
  *
  * @summary Gets the details of a registered vCenter server(Add vCenter server).
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationvCenters_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationvCenters_Get.json
  */
 async function getsTheDetailsOfAVCenter() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function getsTheDetailsOfAVCenter() {
     resourceName,
     resourceGroupName,
     fabricName,
-    vcenterName
+    vcenterName,
   );
   console.log(result);
 }

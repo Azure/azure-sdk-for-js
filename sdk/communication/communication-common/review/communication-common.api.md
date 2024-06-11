@@ -159,8 +159,8 @@ export interface SerializedCommunicationUserIdentifier {
 
 // @public
 export interface SerializedMicrosoftTeamsAppIdentifier {
+    appId: string;
     cloud?: SerializedCommunicationCloudEnvironment;
-    teamsAppId: string;
 }
 
 // @public

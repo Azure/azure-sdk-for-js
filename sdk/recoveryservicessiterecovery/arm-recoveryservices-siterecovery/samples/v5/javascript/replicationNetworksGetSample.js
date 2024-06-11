@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the details of a network.
  *
  * @summary Gets the details of a network.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworks_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworks_Get.json
  */
 async function getsANetworkWithSpecifiedServerIdAndNetworkName() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getsANetworkWithSpecifiedServerIdAndNetworkName() {
     resourceName,
     resourceGroupName,
     fabricName,
-    networkName
+    networkName,
   );
   console.log(result);
 }

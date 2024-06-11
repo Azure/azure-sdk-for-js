@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the details of the recovery plan.
  *
  * @summary Gets the details of the recovery plan.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationRecoveryPlans_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryPlans_Get.json
  */
 async function getsTheRequestedRecoveryPlan() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getsTheRequestedRecoveryPlan() {
   const result = await client.replicationRecoveryPlans.get(
     resourceName,
     resourceGroupName,
-    recoveryPlanName
+    recoveryPlanName,
   );
   console.log(result);
 }

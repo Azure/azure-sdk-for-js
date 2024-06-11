@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DisableProtectionInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to disable replication on a replication protected item. This will also remove the item.
  *
  * @summary The operation to disable replication on a replication protected item. This will also remove the item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_Delete.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_Delete.json
  */
 async function disablesProtection() {
   const subscriptionId =
@@ -49,7 +49,7 @@ async function disablesProtection() {
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
-    disableProtectionInput
+    disableProtectionInput,
   );
   console.log(result);
 }

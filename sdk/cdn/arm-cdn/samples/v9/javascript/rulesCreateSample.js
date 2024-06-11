@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new delivery rule within the specified rule set.
  *
  * @summary Creates a new delivery rule within the specified rule set.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Rules_Create.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Rules_Create.json
  */
 async function rulesCreate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

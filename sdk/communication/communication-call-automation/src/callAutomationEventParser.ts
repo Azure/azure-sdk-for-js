@@ -15,6 +15,8 @@ import {
   CallTransferFailed,
   ParticipantsUpdated,
   RecordingStateChanged,
+  TeamsComplianceRecordingStateChanged,
+  TeamsRecordingStateChanged,
   PlayCompleted,
   PlayFailed,
   PlayCanceled,
@@ -34,7 +36,9 @@ import {
   TranscriptionStopped,
   TranscriptionUpdated,
   TranscriptionFailed,
-  TranscriptionResumed,
+  CreateCallFailed,
+  AnswerFailed,
+  HoldFailed,
 } from "./models/events";
 
 import { CloudEventMapper } from "./models/mapper";
@@ -94,6 +98,14 @@ export function parseCallAutomationEvent(
     case "Microsoft.Communication.RecordingStateChanged":
       callbackEvent = { kind: "RecordingStateChanged" } as RecordingStateChanged;
       break;
+    case "Microsoft.Communication.TeamsComplianceRecordingStateChanged":
+      callbackEvent = {
+        kind: "TeamsComplianceRecordingStateChanged",
+      } as TeamsComplianceRecordingStateChanged;
+      break;
+    case "Microsoft.Communication.TeamsRecordingStateChanged":
+      callbackEvent = { kind: "TeamsRecordingStateChanged" } as TeamsRecordingStateChanged;
+      break;
     case "Microsoft.Communication.PlayCompleted":
       callbackEvent = { kind: "PlayCompleted" } as PlayCompleted;
       break;
@@ -151,8 +163,14 @@ export function parseCallAutomationEvent(
     case "Microsoft.Communication.TranscriptionFailed":
       callbackEvent = { kind: "TranscriptionFailed" } as TranscriptionFailed;
       break;
-    case "Microsoft.Communication.TranscriptionResumed":
-      callbackEvent = { kind: "TranscriptionResumed" } as TranscriptionResumed;
+    case "Microsoft.Communication.CreateCallFailed":
+      callbackEvent = { kind: "CreateCallFailed" } as CreateCallFailed;
+      break;
+    case "Microsoft.Communication.AnswerFailed":
+      callbackEvent = { kind: "AnswerFailed" } as AnswerFailed;
+      break;
+    case "Microsoft.Communication.HoldFailed":
+      callbackEvent = { kind: "HoldFailed" } as HoldFailed;
       break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);

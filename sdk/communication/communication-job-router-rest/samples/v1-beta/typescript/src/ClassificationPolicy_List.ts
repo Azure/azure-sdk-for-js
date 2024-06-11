@@ -4,16 +4,14 @@
 /**
  * @summary Classification policy crud
  */
-import {
-  AzureCommunicationRoutingServiceClient
-} from "../src";
-import JobRouter from "../src";
-import { paginate } from "../src";
+import JobRouter, {
+  AzureCommunicationRoutingServiceClient,
+  paginate
+} from "@azure-rest/communication-job-router";
 import * as dotenv from "dotenv";
 dotenv.config();
+
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
-
-
 
 // List classification policies
 async function listClassificationPolicies(): Promise<void> {
@@ -24,7 +22,7 @@ async function listClassificationPolicies(): Promise<void> {
   // let pagesCount = 1;
   const maxPageSize = 3;
   // Get the first page which also contains information on how to get the next page.
-  const initialResponse = await routerClient.path("/routing/classificationPolicies").get({ queryParameters: { maxpagesize: maxPageSize} })
+  const initialResponse = await routerClient.path("/routing/classificationPolicies").get({ queryParameters: { maxpagesize: maxPageSize } })
 
   if (initialResponse.status == "200") {
     // The paginate helper creates a paged async iterator using metadata from the first page.
@@ -35,7 +33,6 @@ async function listClassificationPolicies(): Promise<void> {
       console.log(item);
     }
   }
-
 
 }
 

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates the specified Security Partner Provider.
  *
  * @summary Creates or updates the specified Security Partner Provider.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/SecurityPartnerProviderPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/SecurityPartnerProviderPut.json
  */
 async function createSecurityPartnerProvider() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

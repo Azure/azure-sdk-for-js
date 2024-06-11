@@ -59,7 +59,7 @@ export async function main() {
   // now Alpha is going to attempt to update it - note that at this point
   // the setting has been updated (by Beta) and so our etag will not match
   console.log(
-    "Alpha is unaware of Beta's update and will now attempt to update the setting as well"
+    "Alpha is unaware of Beta's update and will now attempt to update the setting as well",
   );
 
   try {
@@ -77,7 +77,7 @@ export async function main() {
     if (err.statusCode === 412) {
       // precondition failed
       console.log(
-        `Alpha's update failed because the etag has changed. Alpha will now need to update and merge.`
+        `Alpha's update failed because the etag has changed. Alpha will now need to update and merge.`,
       );
 
       console.log("Alpha gets the newly updated value and is merging in their changes.");

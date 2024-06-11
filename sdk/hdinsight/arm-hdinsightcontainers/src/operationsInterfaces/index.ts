@@ -7,7 +7,9 @@
  */
 
 export * from "./clusterPools";
+export * from "./clusterPoolAvailableUpgrades";
 export * from "./clusters";
+export * from "./clusterAvailableUpgrades";
 export * from "./clusterJobs";
 export * from "./locations";
 export * from "./operations";

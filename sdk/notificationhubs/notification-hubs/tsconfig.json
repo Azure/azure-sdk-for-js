@@ -1,17 +1,12 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
     "paths": {
-      "@azure/notification-hubs": ["./src/index.js"],
+      "@azure/notification-hubs": ["./src/index.js"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": ".",
+    "rootDir": "."
   },
-  "ts-node": {
-    "esm": true,
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.cts", "src/**/*.mts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

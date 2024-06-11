@@ -28,7 +28,7 @@ async function workloadNetworksListPublicIPs() {
   const resArray = new Array();
   for await (let item of client.workloadNetworks.listPublicIPs(
     resourceGroupName,
-    privateCloudName
+    privateCloudName,
   )) {
     resArray.push(item);
   }

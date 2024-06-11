@@ -18,13 +18,14 @@ import {
   PrivateEndPointConnectionsListByFactoryNextOptionalParams,
   PrivateEndPointConnectionsListByFactoryOptionalParams,
   PrivateEndPointConnectionsListByFactoryResponse,
-  PrivateEndPointConnectionsListByFactoryNextResponse
+  PrivateEndPointConnectionsListByFactoryNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndPointConnections operations. */
 export class PrivateEndPointConnectionsImpl
-  implements PrivateEndPointConnections {
+  implements PrivateEndPointConnections
+{
   private readonly client: DataFactoryManagementClient;
 
   /**
@@ -44,12 +45,12 @@ export class PrivateEndPointConnectionsImpl
   public listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: PrivateEndPointConnectionsListByFactoryOptionalParams
+    options?: PrivateEndPointConnectionsListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnectionResource> {
     const iter = this.listByFactoryPagingAll(
       resourceGroupName,
       factoryName,
-      options
+      options,
     );
     return {
       next() {
@@ -66,9 +67,9 @@ export class PrivateEndPointConnectionsImpl
           resourceGroupName,
           factoryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +77,7 @@ export class PrivateEndPointConnectionsImpl
     resourceGroupName: string,
     factoryName: string,
     options?: PrivateEndPointConnectionsListByFactoryOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateEndpointConnectionResource[]> {
     let result: PrivateEndPointConnectionsListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
@@ -84,7 +85,7 @@ export class PrivateEndPointConnectionsImpl
       result = await this._listByFactory(
         resourceGroupName,
         factoryName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -96,7 +97,7 @@ export class PrivateEndPointConnectionsImpl
         resourceGroupName,
         factoryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -108,12 +109,12 @@ export class PrivateEndPointConnectionsImpl
   private async *listByFactoryPagingAll(
     resourceGroupName: string,
     factoryName: string,
-    options?: PrivateEndPointConnectionsListByFactoryOptionalParams
+    options?: PrivateEndPointConnectionsListByFactoryOptionalParams,
   ): AsyncIterableIterator<PrivateEndpointConnectionResource> {
     for await (const page of this.listByFactoryPagingPage(
       resourceGroupName,
       factoryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -128,11 +129,11 @@ export class PrivateEndPointConnectionsImpl
   private _listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: PrivateEndPointConnectionsListByFactoryOptionalParams
+    options?: PrivateEndPointConnectionsListByFactoryOptionalParams,
   ): Promise<PrivateEndPointConnectionsListByFactoryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, options },
-      listByFactoryOperationSpec
+      listByFactoryOperationSpec,
     );
   }
 
@@ -147,11 +148,11 @@ export class PrivateEndPointConnectionsImpl
     resourceGroupName: string,
     factoryName: string,
     nextLink: string,
-    options?: PrivateEndPointConnectionsListByFactoryNextOptionalParams
+    options?: PrivateEndPointConnectionsListByFactoryNextOptionalParams,
   ): Promise<PrivateEndPointConnectionsListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, nextLink, options },
-      listByFactoryNextOperationSpec
+      listByFactoryNextOperationSpec,
     );
   }
 }
@@ -159,45 +160,44 @@ export class PrivateEndPointConnectionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByFactoryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/privateEndPointConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/privateEndPointConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResponse
+      bodyMapper: Mappers.PrivateEndpointConnectionListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResponse
+      bodyMapper: Mappers.PrivateEndpointConnectionListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

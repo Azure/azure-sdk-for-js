@@ -22,7 +22,7 @@ import {
   NetAppResourceQueryNetworkSiblingSetResponse,
   NetworkFeatures,
   NetAppResourceUpdateNetworkSiblingSetOptionalParams,
-  NetAppResourceUpdateNetworkSiblingSetResponse
+  NetAppResourceUpdateNetworkSiblingSetResponse,
 } from "../models";
 
 /** Interface representing a NetAppResource. */
@@ -40,7 +40,7 @@ export interface NetAppResource {
     name: string,
     typeParam: CheckNameResourceTypes,
     resourceGroup: string,
-    options?: NetAppResourceCheckNameAvailabilityOptionalParams
+    options?: NetAppResourceCheckNameAvailabilityOptionalParams,
   ): Promise<NetAppResourceCheckNameAvailabilityResponse>;
   /**
    * Check if a file path is available.
@@ -54,7 +54,7 @@ export interface NetAppResource {
     location: string,
     name: string,
     subnetId: string,
-    options?: NetAppResourceCheckFilePathAvailabilityOptionalParams
+    options?: NetAppResourceCheckFilePathAvailabilityOptionalParams,
   ): Promise<NetAppResourceCheckFilePathAvailabilityResponse>;
   /**
    * Check if a quota is available.
@@ -69,7 +69,7 @@ export interface NetAppResource {
     name: string,
     typeParam: CheckQuotaNameResourceTypes,
     resourceGroup: string,
-    options?: NetAppResourceCheckQuotaAvailabilityOptionalParams
+    options?: NetAppResourceCheckQuotaAvailabilityOptionalParams,
   ): Promise<NetAppResourceCheckQuotaAvailabilityResponse>;
   /**
    * Provides storage to network proximity and logical zone mapping information.
@@ -78,7 +78,7 @@ export interface NetAppResource {
    */
   queryRegionInfo(
     location: string,
-    options?: NetAppResourceQueryRegionInfoOptionalParams
+    options?: NetAppResourceQueryRegionInfoOptionalParams,
   ): Promise<NetAppResourceQueryRegionInfoResponse>;
   /**
    * Get details of the specified network sibling set.
@@ -94,7 +94,7 @@ export interface NetAppResource {
     location: string,
     networkSiblingSetId: string,
     subnetId: string,
-    options?: NetAppResourceQueryNetworkSiblingSetOptionalParams
+    options?: NetAppResourceQueryNetworkSiblingSetOptionalParams,
   ): Promise<NetAppResourceQueryNetworkSiblingSetResponse>;
   /**
    * Update the network features of the specified network sibling set.
@@ -106,7 +106,7 @@ export interface NetAppResource {
    *                 /subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySubnet}
    * @param networkSiblingSetStateId Network sibling set state Id identifying the current state of the
    *                                 sibling set.
-   * @param networkFeatures Network features available to the volume
+   * @param networkFeatures Network features available to the volume, some such
    * @param options The options parameters.
    */
   beginUpdateNetworkSiblingSet(
@@ -115,7 +115,7 @@ export interface NetAppResource {
     subnetId: string,
     networkSiblingSetStateId: string,
     networkFeatures: NetworkFeatures,
-    options?: NetAppResourceUpdateNetworkSiblingSetOptionalParams
+    options?: NetAppResourceUpdateNetworkSiblingSetOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetAppResourceUpdateNetworkSiblingSetResponse>,
@@ -132,7 +132,7 @@ export interface NetAppResource {
    *                 /subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySubnet}
    * @param networkSiblingSetStateId Network sibling set state Id identifying the current state of the
    *                                 sibling set.
-   * @param networkFeatures Network features available to the volume
+   * @param networkFeatures Network features available to the volume, some such
    * @param options The options parameters.
    */
   beginUpdateNetworkSiblingSetAndWait(
@@ -141,6 +141,6 @@ export interface NetAppResource {
     subnetId: string,
     networkSiblingSetStateId: string,
     networkFeatures: NetworkFeatures,
-    options?: NetAppResourceUpdateNetworkSiblingSetOptionalParams
+    options?: NetAppResourceUpdateNetworkSiblingSetOptionalParams,
   ): Promise<NetAppResourceUpdateNetworkSiblingSetResponse>;
 }

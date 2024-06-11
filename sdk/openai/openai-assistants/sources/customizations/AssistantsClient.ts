@@ -86,7 +86,7 @@ export class AssistantsClient {
   constructor(
     endpointOrOpenAiKey: string | KeyCredential,
     credOrOptions: KeyCredential | TokenCredential | AssistantsClientOptions = {},
-    options: AssistantsClientOptions = {}
+    options: AssistantsClientOptions = {},
   ) {
     let opts: AssistantsClientOptions;
     let endpoint: string;

@@ -17,7 +17,7 @@ import {
   StorageClassificationMappingInput,
   ReplicationStorageClassificationMappingsCreateOptionalParams,
   ReplicationStorageClassificationMappingsCreateResponse,
-  ReplicationStorageClassificationMappingsDeleteOptionalParams
+  ReplicationStorageClassificationMappingsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface ReplicationStorageClassificationMappings {
     resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
-    options?: ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams
+    options?: ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams,
   ): PagedAsyncIterableIterator<StorageClassificationMapping>;
   /**
    * Lists the storage classification mappings in the vault.
@@ -49,7 +49,7 @@ export interface ReplicationStorageClassificationMappings {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationStorageClassificationMappingsListOptionalParams
+    options?: ReplicationStorageClassificationMappingsListOptionalParams,
   ): PagedAsyncIterableIterator<StorageClassificationMapping>;
   /**
    * Gets the details of the specified storage classification mapping.
@@ -67,7 +67,7 @@ export interface ReplicationStorageClassificationMappings {
     fabricName: string,
     storageClassificationName: string,
     storageClassificationMappingName: string,
-    options?: ReplicationStorageClassificationMappingsGetOptionalParams
+    options?: ReplicationStorageClassificationMappingsGetOptionalParams,
   ): Promise<ReplicationStorageClassificationMappingsGetResponse>;
   /**
    * The operation to create a storage classification mapping.
@@ -87,7 +87,7 @@ export interface ReplicationStorageClassificationMappings {
     storageClassificationName: string,
     storageClassificationMappingName: string,
     pairingInput: StorageClassificationMappingInput,
-    options?: ReplicationStorageClassificationMappingsCreateOptionalParams
+    options?: ReplicationStorageClassificationMappingsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationStorageClassificationMappingsCreateResponse>,
@@ -112,7 +112,7 @@ export interface ReplicationStorageClassificationMappings {
     storageClassificationName: string,
     storageClassificationMappingName: string,
     pairingInput: StorageClassificationMappingInput,
-    options?: ReplicationStorageClassificationMappingsCreateOptionalParams
+    options?: ReplicationStorageClassificationMappingsCreateOptionalParams,
   ): Promise<ReplicationStorageClassificationMappingsCreateResponse>;
   /**
    * The operation to delete a storage classification mapping.
@@ -130,7 +130,7 @@ export interface ReplicationStorageClassificationMappings {
     fabricName: string,
     storageClassificationName: string,
     storageClassificationMappingName: string,
-    options?: ReplicationStorageClassificationMappingsDeleteOptionalParams
+    options?: ReplicationStorageClassificationMappingsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete a storage classification mapping.
@@ -148,6 +148,6 @@ export interface ReplicationStorageClassificationMappings {
     fabricName: string,
     storageClassificationName: string,
     storageClassificationMappingName: string,
-    options?: ReplicationStorageClassificationMappingsDeleteOptionalParams
+    options?: ReplicationStorageClassificationMappingsDeleteOptionalParams,
   ): Promise<void>;
 }

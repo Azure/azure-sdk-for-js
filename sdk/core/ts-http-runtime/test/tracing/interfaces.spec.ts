@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GetTokenOptions } from "../../src/auth/tokenCredential";
-import { OperationTracingOptions } from "../../src/tracing/interfaces";
-import { assert } from "chai";
-import { createTracingContext } from "../../src/tracing/tracingContext";
+import { describe, it, assert } from "vitest";
+import { GetTokenOptions } from "../../src/auth/tokenCredential.js";
+import { OperationTracingOptions } from "../../src/tracing/interfaces.js";
+import { createTracingContext } from "../../src/tracing/tracingContext.js";
 
 describe("Interface compatibility", () => {
   describe("OperationTracingOptions", () => {

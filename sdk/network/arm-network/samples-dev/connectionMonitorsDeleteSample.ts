@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified connection monitor.
  *
  * @summary Deletes the specified connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherConnectionMonitorDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkWatcherConnectionMonitorDelete.json
  */
 async function deleteConnectionMonitor() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function deleteConnectionMonitor() {
   const result = await client.connectionMonitors.beginDeleteAndWait(
     resourceGroupName,
     networkWatcherName,
-    connectionMonitorName
+    connectionMonitorName,
   );
   console.log(result);
 }

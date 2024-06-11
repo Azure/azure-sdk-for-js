@@ -14,7 +14,7 @@ import {
   ManagementGroupNetworkManagerConnectionsCreateOrUpdateResponse,
   ManagementGroupNetworkManagerConnectionsGetOptionalParams,
   ManagementGroupNetworkManagerConnectionsGetResponse,
-  ManagementGroupNetworkManagerConnectionsDeleteOptionalParams
+  ManagementGroupNetworkManagerConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface ManagementGroupNetworkManagerConnections {
    */
   list(
     managementGroupId: string,
-    options?: ManagementGroupNetworkManagerConnectionsListOptionalParams
+    options?: ManagementGroupNetworkManagerConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkManagerConnection>;
   /**
    * Create a network manager connection on this management group.
@@ -42,7 +42,7 @@ export interface ManagementGroupNetworkManagerConnections {
     managementGroupId: string,
     networkManagerConnectionName: string,
     parameters: NetworkManagerConnection,
-    options?: ManagementGroupNetworkManagerConnectionsCreateOrUpdateOptionalParams
+    options?: ManagementGroupNetworkManagerConnectionsCreateOrUpdateOptionalParams,
   ): Promise<ManagementGroupNetworkManagerConnectionsCreateOrUpdateResponse>;
   /**
    * Get a specified connection created by this management group.
@@ -54,7 +54,7 @@ export interface ManagementGroupNetworkManagerConnections {
   get(
     managementGroupId: string,
     networkManagerConnectionName: string,
-    options?: ManagementGroupNetworkManagerConnectionsGetOptionalParams
+    options?: ManagementGroupNetworkManagerConnectionsGetOptionalParams,
   ): Promise<ManagementGroupNetworkManagerConnectionsGetResponse>;
   /**
    * Delete specified pending connection created by this management group.
@@ -66,6 +66,6 @@ export interface ManagementGroupNetworkManagerConnections {
   delete(
     managementGroupId: string,
     networkManagerConnectionName: string,
-    options?: ManagementGroupNetworkManagerConnectionsDeleteOptionalParams
+    options?: ManagementGroupNetworkManagerConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

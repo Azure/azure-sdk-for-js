@@ -17,8 +17,8 @@
     "types": ["node"],
     "sourceMap": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
   "include": ["src", "tests"],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules"]
 }

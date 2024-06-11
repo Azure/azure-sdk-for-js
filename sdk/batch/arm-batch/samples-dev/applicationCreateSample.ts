@@ -11,7 +11,7 @@
 import {
   Application,
   ApplicationCreateOptionalParams,
-  BatchManagementClient
+  BatchManagementClient,
 } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Adds an application to the specified Batch account.
  *
  * @summary Adds an application to the specified Batch account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/ApplicationCreate.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/ApplicationCreate.json
  */
 async function applicationCreate() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function applicationCreate() {
   const applicationName = "app1";
   const parameters: Application = {
     allowUpdates: false,
-    displayName: "myAppName"
+    displayName: "myAppName",
   };
   const options: ApplicationCreateOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -41,7 +41,7 @@ async function applicationCreate() {
     resourceGroupName,
     accountName,
     applicationName,
-    options
+    options,
   );
   console.log(result);
 }

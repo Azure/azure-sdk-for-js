@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to switch protection from one container to another or one replication provider to another.
  *
  * @summary Operation to switch protection from one container to another or one replication provider to another.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainers_SwitchProtection.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainers_SwitchProtection.json
  */
 async function switchesProtectionFromOneContainerToAnotherOrOneReplicationProviderToAnother() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function switchesProtectionFromOneContainerToAnotherOrOneReplicationProvid
     resourceGroupName,
     fabricName,
     protectionContainerName,
-    switchInput
+    switchInput,
   );
   console.log(result);
 }

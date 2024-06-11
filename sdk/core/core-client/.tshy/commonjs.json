@@ -1,0 +1,16 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.cts",
+    "../src/**/*.tsx"
+  ],
+  "exclude": [
+    "../src/**/*.mts",
+    "../src/base64-browser.mts",
+    "../src/state-browser.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/commonjs"
+  }
+}

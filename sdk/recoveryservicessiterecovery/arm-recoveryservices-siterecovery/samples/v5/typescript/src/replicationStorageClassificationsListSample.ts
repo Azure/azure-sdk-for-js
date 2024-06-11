@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the storage classifications in the vault.
  *
  * @summary Lists the storage classifications in the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationStorageClassifications_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationStorageClassifications_List.json
  */
 async function getsTheListOfStorageClassificationObjectsUnderAVault() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getsTheListOfStorageClassificationObjectsUnderAVault() {
   const resArray = new Array();
   for await (let item of client.replicationStorageClassifications.list(
     resourceName,
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

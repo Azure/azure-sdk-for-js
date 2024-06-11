@@ -20,7 +20,7 @@ import {
   ReplicationRecoveryServicesProvidersPurgeOptionalParams,
   ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams,
   ReplicationRecoveryServicesProvidersRefreshProviderResponse,
-  ReplicationRecoveryServicesProvidersDeleteOptionalParams
+  ReplicationRecoveryServicesProvidersDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface ReplicationRecoveryServicesProviders {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationRecoveryServicesProvidersListByReplicationFabricsOptionalParams
+    options?: ReplicationRecoveryServicesProvidersListByReplicationFabricsOptionalParams,
   ): PagedAsyncIterableIterator<RecoveryServicesProvider>;
   /**
    * Lists the registered recovery services providers in the vault.
@@ -50,7 +50,7 @@ export interface ReplicationRecoveryServicesProviders {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationRecoveryServicesProvidersListOptionalParams
+    options?: ReplicationRecoveryServicesProvidersListOptionalParams,
   ): PagedAsyncIterableIterator<RecoveryServicesProvider>;
   /**
    * Gets the details of registered recovery services provider.
@@ -66,7 +66,7 @@ export interface ReplicationRecoveryServicesProviders {
     resourceGroupName: string,
     fabricName: string,
     providerName: string,
-    options?: ReplicationRecoveryServicesProvidersGetOptionalParams
+    options?: ReplicationRecoveryServicesProvidersGetOptionalParams,
   ): Promise<ReplicationRecoveryServicesProvidersGetResponse>;
   /**
    * The operation to add a recovery services provider.
@@ -84,7 +84,7 @@ export interface ReplicationRecoveryServicesProviders {
     fabricName: string,
     providerName: string,
     addProviderInput: AddRecoveryServicesProviderInput,
-    options?: ReplicationRecoveryServicesProvidersCreateOptionalParams
+    options?: ReplicationRecoveryServicesProvidersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationRecoveryServicesProvidersCreateResponse>,
@@ -107,7 +107,7 @@ export interface ReplicationRecoveryServicesProviders {
     fabricName: string,
     providerName: string,
     addProviderInput: AddRecoveryServicesProviderInput,
-    options?: ReplicationRecoveryServicesProvidersCreateOptionalParams
+    options?: ReplicationRecoveryServicesProvidersCreateOptionalParams,
   ): Promise<ReplicationRecoveryServicesProvidersCreateResponse>;
   /**
    * The operation to purge(force delete) a recovery services provider from the vault.
@@ -123,7 +123,7 @@ export interface ReplicationRecoveryServicesProviders {
     resourceGroupName: string,
     fabricName: string,
     providerName: string,
-    options?: ReplicationRecoveryServicesProvidersPurgeOptionalParams
+    options?: ReplicationRecoveryServicesProvidersPurgeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to purge(force delete) a recovery services provider from the vault.
@@ -139,7 +139,7 @@ export interface ReplicationRecoveryServicesProviders {
     resourceGroupName: string,
     fabricName: string,
     providerName: string,
-    options?: ReplicationRecoveryServicesProvidersPurgeOptionalParams
+    options?: ReplicationRecoveryServicesProvidersPurgeOptionalParams,
   ): Promise<void>;
   /**
    * The operation to refresh the information from the recovery services provider.
@@ -155,12 +155,10 @@ export interface ReplicationRecoveryServicesProviders {
     resourceGroupName: string,
     fabricName: string,
     providerName: string,
-    options?: ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams
+    options?: ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ReplicationRecoveryServicesProvidersRefreshProviderResponse
-      >,
+      OperationState<ReplicationRecoveryServicesProvidersRefreshProviderResponse>,
       ReplicationRecoveryServicesProvidersRefreshProviderResponse
     >
   >;
@@ -178,7 +176,7 @@ export interface ReplicationRecoveryServicesProviders {
     resourceGroupName: string,
     fabricName: string,
     providerName: string,
-    options?: ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams
+    options?: ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams,
   ): Promise<ReplicationRecoveryServicesProvidersRefreshProviderResponse>;
   /**
    * The operation to removes/delete(unregister) a recovery services provider from the vault.
@@ -194,7 +192,7 @@ export interface ReplicationRecoveryServicesProviders {
     resourceGroupName: string,
     fabricName: string,
     providerName: string,
-    options?: ReplicationRecoveryServicesProvidersDeleteOptionalParams
+    options?: ReplicationRecoveryServicesProvidersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to removes/delete(unregister) a recovery services provider from the vault.
@@ -210,6 +208,6 @@ export interface ReplicationRecoveryServicesProviders {
     resourceGroupName: string,
     fabricName: string,
     providerName: string,
-    options?: ReplicationRecoveryServicesProvidersDeleteOptionalParams
+    options?: ReplicationRecoveryServicesProvidersDeleteOptionalParams,
   ): Promise<void>;
 }

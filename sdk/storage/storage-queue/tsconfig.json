@@ -21,13 +21,13 @@
     "esModuleInterop": true,
 
     "paths": {
-      "@azure/storage-queue": ["./src/index"],
-    },
+      "@azure/storage-queue": ["./src/index"]
+    }
   },
   "include": [
     "./src/**/*.ts",
     "./test/**/*.ts",
     "./samples-dev/**/*.ts",
-    "../storage-blob/src/**/*.ts",
-  ],
+    "../storage-blob/src/**/*.ts"
+  ]
 }

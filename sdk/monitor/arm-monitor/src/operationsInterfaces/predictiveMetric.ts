@@ -8,7 +8,7 @@
 
 import {
   PredictiveMetricGetOptionalParams,
-  PredictiveMetricGetResponse
+  PredictiveMetricGetResponse,
 } from "../models";
 
 /** Interface representing a PredictiveMetric. */
@@ -35,6 +35,6 @@ export interface PredictiveMetric {
     metricNamespace: string,
     metricName: string,
     aggregation: string,
-    options?: PredictiveMetricGetOptionalParams
+    options?: PredictiveMetricGetOptionalParams,
   ): Promise<PredictiveMetricGetResponse>;
 }

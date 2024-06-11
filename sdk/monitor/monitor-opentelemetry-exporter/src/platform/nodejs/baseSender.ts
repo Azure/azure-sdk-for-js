@@ -26,6 +26,7 @@ export abstract class BaseSender {
   private longIntervalStatsbeatMetrics;
   private statsbeatFailureCount: number = 0;
   private batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
+  private isStatsbeatSender: boolean;
 
   constructor(options: {
     endpointUrl: string;
@@ -33,6 +34,7 @@ export abstract class BaseSender {
     trackStatsbeat: boolean;
     exporterOptions: AzureMonitorExporterOptions;
     aadAudience?: string;
+    isStatsbeatSender?: boolean;
   }) {
     this.numConsecutiveRedirects = 0;
     this.persister = new FileSystemPersist(options.instrumentationKey, options.exporterOptions);
@@ -48,6 +50,7 @@ export abstract class BaseSender {
       });
     }
     this.retryTimer = null;
+    this.isStatsbeatSender = options.isStatsbeatSender || false;
   }
 
   abstract send(payload: unknown[]): Promise<SenderResult>;
@@ -167,17 +170,21 @@ export abstract class BaseSender {
         if (restError.statusCode) {
           this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
         }
-        diag.error(
-          "Retrying due to transient client side error. Error message:",
-          restError.message,
-        );
+        if (!this.isStatsbeatSender) {
+          diag.error(
+            "Retrying due to transient client side error. Error message:",
+            restError.message,
+          );
+        }
         return this.persist(envelopes);
       }
       this.networkStatsbeatMetrics?.countException(restError);
-      diag.error(
-        "Envelopes could not be exported and are not retriable. Error message:",
-        restError.message,
-      );
+      if (!this.isStatsbeatSender) {
+        diag.error(
+          "Envelopes could not be exported and are not retriable. Error message:",
+          restError.message,
+        );
+      }
       return { code: ExportResultCode.FAILED, error: restError };
     }
   }

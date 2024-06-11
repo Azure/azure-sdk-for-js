@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists active connectivity configurations in a network manager.
  *
  * @summary Lists active connectivity configurations in a network manager.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerActiveConnectivityConfigurationsList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerActiveConnectivityConfigurationsList.json
  */
 async function listActiveConnectivityConfigurations() {
   const subscriptionId =

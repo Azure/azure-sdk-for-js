@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /**
  * This sample demonstrates how the createRegistration() method can be used to register a device with Azure
@@ -28,7 +28,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
-async function main() {
+async function main(): Promise<void> {
   const context = createClientContext(connectionString, hubName);
 
   const registration = createAppleRegistrationDescription({

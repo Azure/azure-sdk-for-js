@@ -14,12 +14,13 @@ import { FrontDoorManagementClient } from "../frontDoorManagementClient";
 import {
   CheckNameAvailabilityInput,
   FrontDoorNameAvailabilityCheckOptionalParams,
-  FrontDoorNameAvailabilityCheckResponse
+  FrontDoorNameAvailabilityCheckResponse,
 } from "../models";
 
 /** Class containing FrontDoorNameAvailability operations. */
 export class FrontDoorNameAvailabilityImpl
-  implements FrontDoorNameAvailability {
+  implements FrontDoorNameAvailability
+{
   private readonly client: FrontDoorManagementClient;
 
   /**
@@ -37,11 +38,11 @@ export class FrontDoorNameAvailabilityImpl
    */
   check(
     checkFrontDoorNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: FrontDoorNameAvailabilityCheckOptionalParams
+    options?: FrontDoorNameAvailabilityCheckOptionalParams,
   ): Promise<FrontDoorNameAvailabilityCheckResponse> {
     return this.client.sendOperationRequest(
       { checkFrontDoorNameAvailabilityInput, options },
-      checkOperationSpec
+      checkOperationSpec,
     );
   }
 }
@@ -53,16 +54,16 @@ const checkOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityOutput
+      bodyMapper: Mappers.CheckNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.checkFrontDoorNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

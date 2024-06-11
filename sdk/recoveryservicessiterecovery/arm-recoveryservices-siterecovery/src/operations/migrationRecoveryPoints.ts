@@ -20,7 +20,7 @@ import {
   MigrationRecoveryPointsListByReplicationMigrationItemsResponse,
   MigrationRecoveryPointsGetOptionalParams,
   MigrationRecoveryPointsGetResponse,
-  MigrationRecoveryPointsListByReplicationMigrationItemsNextResponse
+  MigrationRecoveryPointsListByReplicationMigrationItemsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,7 +52,7 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
     fabricName: string,
     protectionContainerName: string,
     migrationItemName: string,
-    options?: MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams
+    options?: MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams,
   ): PagedAsyncIterableIterator<MigrationRecoveryPoint> {
     const iter = this.listByReplicationMigrationItemsPagingAll(
       resourceName,
@@ -60,7 +60,7 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
       fabricName,
       protectionContainerName,
       migrationItemName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
           protectionContainerName,
           migrationItemName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -93,7 +93,7 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
     protectionContainerName: string,
     migrationItemName: string,
     options?: MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MigrationRecoveryPoint[]> {
     let result: MigrationRecoveryPointsListByReplicationMigrationItemsResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +104,7 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
         fabricName,
         protectionContainerName,
         migrationItemName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -119,7 +119,7 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
         protectionContainerName,
         migrationItemName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -134,7 +134,7 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
     fabricName: string,
     protectionContainerName: string,
     migrationItemName: string,
-    options?: MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams
+    options?: MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams,
   ): AsyncIterableIterator<MigrationRecoveryPoint> {
     for await (const page of this.listByReplicationMigrationItemsPagingPage(
       resourceName,
@@ -142,7 +142,7 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
       fabricName,
       protectionContainerName,
       migrationItemName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -164,7 +164,7 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
     fabricName: string,
     protectionContainerName: string,
     migrationItemName: string,
-    options?: MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams
+    options?: MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams,
   ): Promise<MigrationRecoveryPointsListByReplicationMigrationItemsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -173,9 +173,9 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
         fabricName,
         protectionContainerName,
         migrationItemName,
-        options
+        options,
       },
-      listByReplicationMigrationItemsOperationSpec
+      listByReplicationMigrationItemsOperationSpec,
     );
   }
 
@@ -197,7 +197,7 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
     protectionContainerName: string,
     migrationItemName: string,
     migrationRecoveryPointName: string,
-    options?: MigrationRecoveryPointsGetOptionalParams
+    options?: MigrationRecoveryPointsGetOptionalParams,
   ): Promise<MigrationRecoveryPointsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -207,9 +207,9 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
         protectionContainerName,
         migrationItemName,
         migrationRecoveryPointName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -232,10 +232,8 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
     protectionContainerName: string,
     migrationItemName: string,
     nextLink: string,
-    options?: MigrationRecoveryPointsListByReplicationMigrationItemsNextOptionalParams
-  ): Promise<
-    MigrationRecoveryPointsListByReplicationMigrationItemsNextResponse
-  > {
+    options?: MigrationRecoveryPointsListByReplicationMigrationItemsNextOptionalParams,
+  ): Promise<MigrationRecoveryPointsListByReplicationMigrationItemsNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceName,
@@ -244,9 +242,9 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
         protectionContainerName,
         migrationItemName,
         nextLink,
-        options
+        options,
       },
-      listByReplicationMigrationItemsNextOperationSpec
+      listByReplicationMigrationItemsNextOperationSpec,
     );
   }
 }
@@ -254,35 +252,12 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByReplicationMigrationItemsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrationRecoveryPoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrationRecoveryPoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationRecoveryPointCollection
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.migrationItemName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrationRecoveryPoints/{migrationRecoveryPointName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MigrationRecoveryPoint
-    }
+      bodyMapper: Mappers.MigrationRecoveryPointCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -293,29 +268,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.fabricName,
     Parameters.protectionContainerName,
     Parameters.migrationItemName,
-    Parameters.migrationRecoveryPointName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByReplicationMigrationItemsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrationRecoveryPoints/{migrationRecoveryPointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationRecoveryPointCollection
-    }
+      bodyMapper: Mappers.MigrationRecoveryPoint,
+    },
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink,
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.migrationItemName
+    Parameters.migrationItemName,
+    Parameters.migrationRecoveryPointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+const listByReplicationMigrationItemsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.MigrationRecoveryPointCollection,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.resourceName,
+      Parameters.fabricName,
+      Parameters.protectionContainerName,
+      Parameters.migrationItemName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

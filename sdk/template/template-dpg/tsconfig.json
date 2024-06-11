@@ -7,8 +7,8 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "lib": ["esnext"],
-    "rootDir": ".",
+    "rootDir": "."
   },
   "ts-node": { "esm": true },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

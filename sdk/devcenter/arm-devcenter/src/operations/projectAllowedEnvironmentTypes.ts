@@ -20,13 +20,14 @@ import {
   ProjectAllowedEnvironmentTypesListResponse,
   ProjectAllowedEnvironmentTypesGetOptionalParams,
   ProjectAllowedEnvironmentTypesGetResponse,
-  ProjectAllowedEnvironmentTypesListNextResponse
+  ProjectAllowedEnvironmentTypesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ProjectAllowedEnvironmentTypes operations. */
 export class ProjectAllowedEnvironmentTypesImpl
-  implements ProjectAllowedEnvironmentTypes {
+  implements ProjectAllowedEnvironmentTypes
+{
   private readonly client: DevCenterClient;
 
   /**
@@ -46,7 +47,7 @@ export class ProjectAllowedEnvironmentTypesImpl
   public list(
     resourceGroupName: string,
     projectName: string,
-    options?: ProjectAllowedEnvironmentTypesListOptionalParams
+    options?: ProjectAllowedEnvironmentTypesListOptionalParams,
   ): PagedAsyncIterableIterator<AllowedEnvironmentType> {
     const iter = this.listPagingAll(resourceGroupName, projectName, options);
     return {
@@ -64,9 +65,9 @@ export class ProjectAllowedEnvironmentTypesImpl
           resourceGroupName,
           projectName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -74,7 +75,7 @@ export class ProjectAllowedEnvironmentTypesImpl
     resourceGroupName: string,
     projectName: string,
     options?: ProjectAllowedEnvironmentTypesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AllowedEnvironmentType[]> {
     let result: ProjectAllowedEnvironmentTypesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +91,7 @@ export class ProjectAllowedEnvironmentTypesImpl
         resourceGroupName,
         projectName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -102,12 +103,12 @@ export class ProjectAllowedEnvironmentTypesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     projectName: string,
-    options?: ProjectAllowedEnvironmentTypesListOptionalParams
+    options?: ProjectAllowedEnvironmentTypesListOptionalParams,
   ): AsyncIterableIterator<AllowedEnvironmentType> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       projectName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -122,11 +123,11 @@ export class ProjectAllowedEnvironmentTypesImpl
   private _list(
     resourceGroupName: string,
     projectName: string,
-    options?: ProjectAllowedEnvironmentTypesListOptionalParams
+    options?: ProjectAllowedEnvironmentTypesListOptionalParams,
   ): Promise<ProjectAllowedEnvironmentTypesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -141,11 +142,11 @@ export class ProjectAllowedEnvironmentTypesImpl
     resourceGroupName: string,
     projectName: string,
     environmentTypeName: string,
-    options?: ProjectAllowedEnvironmentTypesGetOptionalParams
+    options?: ProjectAllowedEnvironmentTypesGetOptionalParams,
   ): Promise<ProjectAllowedEnvironmentTypesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, environmentTypeName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -160,11 +161,11 @@ export class ProjectAllowedEnvironmentTypesImpl
     resourceGroupName: string,
     projectName: string,
     nextLink: string,
-    options?: ProjectAllowedEnvironmentTypesListNextOptionalParams
+    options?: ProjectAllowedEnvironmentTypesListNextOptionalParams,
   ): Promise<ProjectAllowedEnvironmentTypesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -172,38 +173,36 @@ export class ProjectAllowedEnvironmentTypesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/allowedEnvironmentTypes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/allowedEnvironmentTypes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AllowedEnvironmentTypeListResult
+      bodyMapper: Mappers.AllowedEnvironmentTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/allowedEnvironmentTypes/{environmentTypeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/allowedEnvironmentTypes/{environmentTypeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AllowedEnvironmentType
+      bodyMapper: Mappers.AllowedEnvironmentType,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -211,29 +210,29 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.environmentTypeName
+    Parameters.environmentTypeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AllowedEnvironmentTypeListResult
+      bodyMapper: Mappers.AllowedEnvironmentTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

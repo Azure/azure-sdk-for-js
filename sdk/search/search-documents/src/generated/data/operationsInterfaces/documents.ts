@@ -28,7 +28,7 @@ import {
   DocumentsAutocompleteGetResponse,
   AutocompleteRequest,
   DocumentsAutocompletePostOptionalParams,
-  DocumentsAutocompletePostResponse
+  DocumentsAutocompletePostResponse,
 } from "../models";
 
 /** Interface representing a Documents. */
@@ -38,14 +38,14 @@ export interface Documents {
    * @param options The options parameters.
    */
   count(
-    options?: DocumentsCountOptionalParams
+    options?: DocumentsCountOptionalParams,
   ): Promise<DocumentsCountResponse>;
   /**
    * Searches for documents in the index.
    * @param options The options parameters.
    */
   searchGet(
-    options?: DocumentsSearchGetOptionalParams
+    options?: DocumentsSearchGetOptionalParams,
   ): Promise<DocumentsSearchGetResponse>;
   /**
    * Searches for documents in the index.
@@ -54,7 +54,7 @@ export interface Documents {
    */
   searchPost(
     searchRequest: SearchRequest,
-    options?: DocumentsSearchPostOptionalParams
+    options?: DocumentsSearchPostOptionalParams,
   ): Promise<DocumentsSearchPostResponse>;
   /**
    * Retrieves a document from the index.
@@ -63,7 +63,7 @@ export interface Documents {
    */
   get(
     key: string,
-    options?: DocumentsGetOptionalParams
+    options?: DocumentsGetOptionalParams,
   ): Promise<DocumentsGetResponse>;
   /**
    * Suggests documents in the index that match the given partial query text.
@@ -76,7 +76,7 @@ export interface Documents {
   suggestGet(
     searchText: string,
     suggesterName: string,
-    options?: DocumentsSuggestGetOptionalParams
+    options?: DocumentsSuggestGetOptionalParams,
   ): Promise<DocumentsSuggestGetResponse>;
   /**
    * Suggests documents in the index that match the given partial query text.
@@ -85,7 +85,7 @@ export interface Documents {
    */
   suggestPost(
     suggestRequest: SuggestRequest,
-    options?: DocumentsSuggestPostOptionalParams
+    options?: DocumentsSuggestPostOptionalParams,
   ): Promise<DocumentsSuggestPostResponse>;
   /**
    * Sends a batch of document write actions to the index.
@@ -94,7 +94,7 @@ export interface Documents {
    */
   index(
     batch: IndexBatch,
-    options?: DocumentsIndexOptionalParams
+    options?: DocumentsIndexOptionalParams,
   ): Promise<DocumentsIndexResponse>;
   /**
    * Autocompletes incomplete query terms based on input text and matching terms in the index.
@@ -106,7 +106,7 @@ export interface Documents {
   autocompleteGet(
     searchText: string,
     suggesterName: string,
-    options?: DocumentsAutocompleteGetOptionalParams
+    options?: DocumentsAutocompleteGetOptionalParams,
   ): Promise<DocumentsAutocompleteGetResponse>;
   /**
    * Autocompletes incomplete query terms based on input text and matching terms in the index.
@@ -115,6 +115,6 @@ export interface Documents {
    */
   autocompletePost(
     autocompleteRequest: AutocompleteRequest,
-    options?: DocumentsAutocompletePostOptionalParams
+    options?: DocumentsAutocompletePostOptionalParams,
   ): Promise<DocumentsAutocompletePostResponse>;
 }

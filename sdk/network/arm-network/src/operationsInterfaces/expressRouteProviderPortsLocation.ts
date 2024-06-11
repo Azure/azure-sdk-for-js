@@ -8,7 +8,7 @@
 
 import {
   ExpressRouteProviderPortsLocationListOptionalParams,
-  ExpressRouteProviderPortsLocationListResponse
+  ExpressRouteProviderPortsLocationListResponse,
 } from "../models";
 
 /** Interface representing a ExpressRouteProviderPortsLocation. */
@@ -18,6 +18,6 @@ export interface ExpressRouteProviderPortsLocation {
    * @param options The options parameters.
    */
   list(
-    options?: ExpressRouteProviderPortsLocationListOptionalParams
+    options?: ExpressRouteProviderPortsLocationListOptionalParams,
   ): Promise<ExpressRouteProviderPortsLocationListResponse>;
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Cluster details
  *
  * @summary Cluster details
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/Access_ClusterList.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_ClusterList.json
  */
 async function accessClusterList() {
   const subscriptionId =

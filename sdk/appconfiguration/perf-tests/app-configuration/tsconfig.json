@@ -3,9 +3,9 @@
   "compilerOptions": {
     "module": "commonjs",
     "declarationDir": "./types/latest",
-    "outDir": "./dist-esm",
+    "outDir": "./dist-esm"
   },
   "compileOnSave": true,
   "exclude": ["node_modules"],
-  "include": ["./test/**/*.ts"],
+  "include": ["./test/**/*.ts"]
 }

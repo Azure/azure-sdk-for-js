@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the logical networks of the Azure Site Recovery fabric.
  *
  * @summary Lists all the logical networks of the Azure Site Recovery fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationLogicalNetworks_ListByReplicationFabrics.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationLogicalNetworks_ListByReplicationFabrics.json
  */
 async function getsTheListOfLogicalNetworksUnderAFabric() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function getsTheListOfLogicalNetworksUnderAFabric() {
   for await (let item of client.replicationLogicalNetworks.listByReplicationFabrics(
     resourceName,
     resourceGroupName,
-    fabricName
+    fabricName,
   )) {
     resArray.push(item);
   }

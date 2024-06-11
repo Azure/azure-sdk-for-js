@@ -15,7 +15,7 @@ import {
   NetworkVirtualApplianceConnectionsCreateOrUpdateResponse,
   NetworkVirtualApplianceConnectionsGetOptionalParams,
   NetworkVirtualApplianceConnectionsGetResponse,
-  NetworkVirtualApplianceConnectionsDeleteOptionalParams
+  NetworkVirtualApplianceConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface NetworkVirtualApplianceConnections {
   list(
     resourceGroupName: string,
     networkVirtualApplianceName: string,
-    options?: NetworkVirtualApplianceConnectionsListOptionalParams
+    options?: NetworkVirtualApplianceConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkVirtualApplianceConnection>;
   /**
    * Creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA
@@ -47,7 +47,7 @@ export interface NetworkVirtualApplianceConnections {
     networkVirtualApplianceName: string,
     connectionName: string,
     networkVirtualApplianceConnectionParameters: NetworkVirtualApplianceConnection,
-    options?: NetworkVirtualApplianceConnectionsCreateOrUpdateOptionalParams
+    options?: NetworkVirtualApplianceConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkVirtualApplianceConnectionsCreateOrUpdateResponse>,
@@ -69,7 +69,7 @@ export interface NetworkVirtualApplianceConnections {
     networkVirtualApplianceName: string,
     connectionName: string,
     networkVirtualApplianceConnectionParameters: NetworkVirtualApplianceConnection,
-    options?: NetworkVirtualApplianceConnectionsCreateOrUpdateOptionalParams
+    options?: NetworkVirtualApplianceConnectionsCreateOrUpdateOptionalParams,
   ): Promise<NetworkVirtualApplianceConnectionsCreateOrUpdateResponse>;
   /**
    * Retrieves the details of specified NVA connection.
@@ -82,7 +82,7 @@ export interface NetworkVirtualApplianceConnections {
     resourceGroupName: string,
     networkVirtualApplianceName: string,
     connectionName: string,
-    options?: NetworkVirtualApplianceConnectionsGetOptionalParams
+    options?: NetworkVirtualApplianceConnectionsGetOptionalParams,
   ): Promise<NetworkVirtualApplianceConnectionsGetResponse>;
   /**
    * Deletes a NVA connection.
@@ -95,7 +95,7 @@ export interface NetworkVirtualApplianceConnections {
     resourceGroupName: string,
     networkVirtualApplianceName: string,
     connectionName: string,
-    options?: NetworkVirtualApplianceConnectionsDeleteOptionalParams
+    options?: NetworkVirtualApplianceConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a NVA connection.
@@ -108,6 +108,6 @@ export interface NetworkVirtualApplianceConnections {
     resourceGroupName: string,
     networkVirtualApplianceName: string,
     connectionName: string,
-    options?: NetworkVirtualApplianceConnectionsDeleteOptionalParams
+    options?: NetworkVirtualApplianceConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -19,7 +19,7 @@ import {
   SnapshotsUpdateResponse,
   SnapshotsDeleteOptionalParams,
   SnapshotRestoreFiles,
-  SnapshotsRestoreFilesOptionalParams
+  SnapshotsRestoreFilesOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface Snapshots {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: SnapshotsListOptionalParams
+    options?: SnapshotsListOptionalParams,
   ): PagedAsyncIterableIterator<Snapshot>;
   /**
    * Get details of the specified snapshot
@@ -55,7 +55,7 @@ export interface Snapshots {
     poolName: string,
     volumeName: string,
     snapshotName: string,
-    options?: SnapshotsGetOptionalParams
+    options?: SnapshotsGetOptionalParams,
   ): Promise<SnapshotsGetResponse>;
   /**
    * Create the specified snapshot within the given volume
@@ -74,7 +74,7 @@ export interface Snapshots {
     volumeName: string,
     snapshotName: string,
     body: Snapshot,
-    options?: SnapshotsCreateOptionalParams
+    options?: SnapshotsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SnapshotsCreateResponse>,
@@ -98,7 +98,7 @@ export interface Snapshots {
     volumeName: string,
     snapshotName: string,
     body: Snapshot,
-    options?: SnapshotsCreateOptionalParams
+    options?: SnapshotsCreateOptionalParams,
   ): Promise<SnapshotsCreateResponse>;
   /**
    * Patch a snapshot
@@ -117,7 +117,7 @@ export interface Snapshots {
     volumeName: string,
     snapshotName: string,
     body: Record<string, unknown>,
-    options?: SnapshotsUpdateOptionalParams
+    options?: SnapshotsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SnapshotsUpdateResponse>,
@@ -141,7 +141,7 @@ export interface Snapshots {
     volumeName: string,
     snapshotName: string,
     body: Record<string, unknown>,
-    options?: SnapshotsUpdateOptionalParams
+    options?: SnapshotsUpdateOptionalParams,
   ): Promise<SnapshotsUpdateResponse>;
   /**
    * Delete snapshot
@@ -158,7 +158,7 @@ export interface Snapshots {
     poolName: string,
     volumeName: string,
     snapshotName: string,
-    options?: SnapshotsDeleteOptionalParams
+    options?: SnapshotsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete snapshot
@@ -175,7 +175,7 @@ export interface Snapshots {
     poolName: string,
     volumeName: string,
     snapshotName: string,
-    options?: SnapshotsDeleteOptionalParams
+    options?: SnapshotsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Restore the specified files from the specified snapshot to the active filesystem
@@ -194,7 +194,7 @@ export interface Snapshots {
     volumeName: string,
     snapshotName: string,
     body: SnapshotRestoreFiles,
-    options?: SnapshotsRestoreFilesOptionalParams
+    options?: SnapshotsRestoreFilesOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restore the specified files from the specified snapshot to the active filesystem
@@ -213,6 +213,6 @@ export interface Snapshots {
     volumeName: string,
     snapshotName: string,
     body: SnapshotRestoreFiles,
-    options?: SnapshotsRestoreFilesOptionalParams
+    options?: SnapshotsRestoreFilesOptionalParams,
   ): Promise<void>;
 }

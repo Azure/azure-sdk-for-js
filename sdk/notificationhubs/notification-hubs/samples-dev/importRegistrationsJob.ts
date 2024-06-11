@@ -1,6 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 /**
  * This sample demonstrates how the createNotificationJob() method can be used to import registrations
  * descriptions from an existing set of exports.
@@ -33,7 +32,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const outputContainerUrl = process.env.OUTPUT_CONTAINER_URL || "<output container URL>";
 const importFileUrl = process.env.IMPORT_FILE_URL || "<import file URL>";
 
-async function main() {
+async function main(): Promise<void> {
   const context = createClientContext(connectionString, hubName);
 
   let importJob: NotificationHubJob = {

@@ -21,3 +21,5 @@ export * from "./simGroups";
 export * from "./simPolicies";
 export * from "./sites";
 export * from "./slices";
+export * from "./extendedUeInformation";
+export * from "./ueInformation";

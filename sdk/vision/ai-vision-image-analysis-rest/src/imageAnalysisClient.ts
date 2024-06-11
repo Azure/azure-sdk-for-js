@@ -20,7 +20,7 @@ export default function createClient(
 ): ImageAnalysisClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/computervision`;
   options.apiVersion = options.apiVersion ?? "2023-10-01";
-  const userAgentInfo = `azsdk-js-ai-vision-image-analysis-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-ai-vision-image-analysis-rest/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all the Firewall Policies in a subscription.
  *
  * @summary Gets all the Firewall Policies in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/FirewallPolicyListBySubscription.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/FirewallPolicyListBySubscription.json
  */
 async function listAllFirewallPoliciesForAGivenSubscription() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

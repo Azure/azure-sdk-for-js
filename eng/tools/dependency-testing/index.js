@@ -92,7 +92,7 @@ async function insertPackageJson(
   targetPackagePath,
   targetPackageName,
   versionType,
-  testFolder
+  testFolder,
 ) {
   const testPath = path.join(targetPackagePath, testFolder);
   let templateJson = await packageUtils.readFileJson("./templates/package.json");
@@ -115,7 +115,7 @@ async function insertPackageJson(
       package,
       packageJsonContents.dependencies[package],
       repoRoot,
-      versionType
+      versionType,
     );
     if (packageJsonContents.dependencies[package] !== depList[package]) {
       console.log(package);
@@ -129,14 +129,14 @@ async function insertPackageJson(
     testPackageJson.devDependencies[package] = packageJsonContents.devDependencies[package];
     if (package.startsWith("@azure/") || package.startsWith("@azure-rest/")) {
       console.log(
-        "packagejson version before func call = " + packageJsonContents.devDependencies[package]
+        "packagejson version before func call = " + packageJsonContents.devDependencies[package],
       );
       let packageVersion = packageJsonContents.devDependencies[package];
       testPackageJson.devDependencies[package] = await findAppropriateVersion(
         package,
         packageVersion,
         repoRoot,
-        versionType
+        versionType,
       );
       console.log("packagejson version = " + packageJsonContents.devDependencies[package]);
       if (
@@ -148,7 +148,6 @@ async function insertPackageJson(
       }
     }
   }
-  console.log(testPackageJson);
   const testPackageJsonPath = path.join(testPath, "package.json");
   await packageUtils.writePackageJson(testPackageJsonPath, testPackageJson);
   console.log(allowedVersionList);
@@ -189,20 +188,17 @@ async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, 
   if (allNPMVersionsString) {
     let allVersions = JSON.parse(allNPMVersionsString);
     if (typeof allVersions === "string") {
-      allVersions = [ allVersions ];
+      allVersions = [allVersions];
     }
     console.log(versionType);
     if (versionType === "min") {
-      let minVersion = await semver.minSatisfying(
-        allVersions,
-        packageJsonDepVersion
-      );
+      let minVersion = await semver.minSatisfying(allVersions, packageJsonDepVersion);
       if (minVersion) {
         return minVersion;
       } else {
         //issue a warning
         console.warn(
-          `No matching semver min version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`
+          `No matching semver min version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`,
         );
         let version = await getPackageVersion(repoRoot, package);
         console.log(version);
@@ -210,16 +206,13 @@ async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, 
       }
     } else if (versionType === "max") {
       console.log("calling semver max satisfying");
-      let maxVersion = await semver.maxSatisfying(
-        allVersions,
-        packageJsonDepVersion
-      );
+      let maxVersion = await semver.maxSatisfying(allVersions, packageJsonDepVersion);
       if (maxVersion) {
         return maxVersion;
       } else {
         //issue a warning
         console.warn(
-          `No matching semver max version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`
+          `No matching semver max version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`,
         );
         let version = await getPackageVersion(repoRoot, package);
         console.log(version);
@@ -265,6 +258,7 @@ async function copyRepoFile(repoRoot, relativePath, fileName, targetPackagePath,
   const testPath = path.join(targetPackagePath, testFolder);
   const sourcePath = path.join(repoRoot, relativePath, fileName);
   const destPath = path.join(testPath, fileName);
+  console.log(`copying file from ${sourcePath} to ${destPath}`);
   fs.copyFileSync(sourcePath, destPath);
 }
 
@@ -281,7 +275,7 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
   console.log("Reading filePath = " + filePath);
   testAssetsContent = fileContent.replace(
     'path.resolve(path.join(process.cwd(), "assets"',
-    'path.resolve(path.join(process.cwd(),"..","..", "assets"'
+    'path.resolve(path.join(process.cwd(),"..","..", "assets"',
   );
   // Regex for internal references = /* ["']+[../]*src[/][a-z]+["'] */
   let internalrefs = testAssetsContent.match(/[\"\']+[..//]*src[//][a-zA-Z/]+[\"\']+/g);
@@ -360,11 +354,10 @@ async function updateRushConfig(repoRoot, targetPackage, testFolder) {
   await packageUtils.writePackageJson(rushPath, rushSpec);
 }
 
-
 async function getPackageFromRush(repoRoot, packageName) {
   const rushSpec = await packageUtils.getRushSpec(repoRoot);
   const targetPackage = rushSpec.projects.find(
-    (packageSpec) => packageSpec.packageName == packageName
+    (packageSpec) => packageSpec.packageName == packageName,
   );
   return targetPackage;
 }
@@ -393,7 +386,7 @@ async function main(argv) {
     targetPackagePath,
     targetPackage.packageName,
     versionType,
-    testFolder
+    testFolder,
   );
   await insertTsConfigJson(targetPackagePath, testFolder);
   if (dryRun) {
@@ -401,8 +394,13 @@ async function main(argv) {
     return;
   }
   await replaceSourceReferences(targetPackagePath, targetPackage.packageName, testFolder);
-  await copyRepoFile(repoRoot, "common/tools", "mocha-multi-reporter.js", targetPackagePath, testFolder);
-  await copyRepoFile(repoRoot, "common/tools", "esm-workaround.js", targetPackagePath, testFolder);
+  await copyRepoFile(
+    repoRoot,
+    "common/tools",
+    "mocha-multi-reporter.js",
+    targetPackagePath,
+    testFolder,
+  );
   await updateRushConfig(repoRoot, targetPackage, testFolder);
   outputTestPath(targetPackage.projectFolder, sourceDir, testFolder);
 }

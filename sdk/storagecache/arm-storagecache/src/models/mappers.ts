@@ -429,6 +429,46 @@ export const AmlFilesystemArchiveStatus: coreClient.CompositeMapper = {
   }
 };
 
+export const AmlFilesystemRootSquashSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AmlFilesystemRootSquashSettings",
+    modelProperties: {
+      mode: {
+        serializedName: "mode",
+        type: {
+          name: "String"
+        }
+      },
+      noSquashNidLists: {
+        serializedName: "noSquashNidLists",
+        type: {
+          name: "String"
+        }
+      },
+      squashUID: {
+        serializedName: "squashUID",
+        type: {
+          name: "Number"
+        }
+      },
+      squashGID: {
+        serializedName: "squashGID",
+        type: {
+          name: "Number"
+        }
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -590,6 +630,13 @@ export const AmlFilesystemUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AmlFilesystemUpdatePropertiesMaintenanceWindow"
+        }
+      },
+      rootSquashSettings: {
+        serializedName: "properties.rootSquashSettings",
+        type: {
+          name: "Composite",
+          className: "AmlFilesystemRootSquashSettings"
         }
       }
     }
@@ -2739,6 +2786,13 @@ export const AmlFilesystem: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AmlFilesystemPropertiesHsm"
+        }
+      },
+      rootSquashSettings: {
+        serializedName: "properties.rootSquashSettings",
+        type: {
+          name: "Composite",
+          className: "AmlFilesystemRootSquashSettings"
         }
       }
     }

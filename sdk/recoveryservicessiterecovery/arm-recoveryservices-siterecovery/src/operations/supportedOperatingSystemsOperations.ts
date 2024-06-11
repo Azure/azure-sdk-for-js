@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
 import {
   SupportedOperatingSystemsGetOptionalParams,
-  SupportedOperatingSystemsGetResponse
+  SupportedOperatingSystemsGetResponse,
 } from "../models";
 
 /** Class containing SupportedOperatingSystemsOperations operations. */
 export class SupportedOperatingSystemsOperationsImpl
-  implements SupportedOperatingSystemsOperations {
+  implements SupportedOperatingSystemsOperations
+{
   private readonly client: SiteRecoveryManagementClient;
 
   /**
@@ -39,11 +40,11 @@ export class SupportedOperatingSystemsOperationsImpl
   get(
     resourceName: string,
     resourceGroupName: string,
-    options?: SupportedOperatingSystemsGetOptionalParams
+    options?: SupportedOperatingSystemsGetOptionalParams,
   ): Promise<SupportedOperatingSystemsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -51,21 +52,20 @@ export class SupportedOperatingSystemsOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationSupportedOperatingSystems",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationSupportedOperatingSystems",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SupportedOperatingSystems
-    }
+      bodyMapper: Mappers.SupportedOperatingSystems,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.instanceType],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

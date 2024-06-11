@@ -40,7 +40,7 @@ async function main() {
 
   // getting the configuration settting of the snapshot
   const snapshotConfigurationSettings = await client.listConfigurationSettingsForSnapshot(
-    newSnapshot.name
+    newSnapshot.name,
   );
 
   for await (const setting of snapshotConfigurationSettings) {

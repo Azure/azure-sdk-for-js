@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to delete a storage classification mapping.
  *
  * @summary The operation to delete a storage classification mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationStorageClassificationMappings_Delete.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationStorageClassificationMappings_Delete.json
  */
 async function deleteAStorageClassificationMapping() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function deleteAStorageClassificationMapping() {
     resourceGroupName,
     fabricName,
     storageClassificationName,
-    storageClassificationMappingName
+    storageClassificationMappingName,
   );
   console.log(result);
 }

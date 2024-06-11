@@ -16,11 +16,12 @@ export interface AzureMonitorOpenTelemetryOptions {
     browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
     enableLiveMetrics?: boolean;
     enableStandardMetrics?: boolean;
+    enableTraceBasedSamplingForLogs?: boolean;
     instrumentationOptions?: InstrumentationOptions;
-    logRecordProcessors?: [LogRecordProcessor];
+    logRecordProcessors?: LogRecordProcessor[];
     resource?: Resource;
     samplingRatio?: number;
-    spanProcessors?: [SpanProcessor];
+    spanProcessors?: SpanProcessor[];
 }
 
 // @public
@@ -39,10 +40,11 @@ export interface InstrumentationOptions {
     postgreSql?: InstrumentationConfig;
     redis?: InstrumentationConfig;
     redis4?: InstrumentationConfig;
+    winston?: InstrumentationConfig;
 }
 
 // @public
-export function shutdownAzureMonitor(): void;
+export function shutdownAzureMonitor(): Promise<void>;
 
 // @public
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void;

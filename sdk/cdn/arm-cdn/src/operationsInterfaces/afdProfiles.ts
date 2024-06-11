@@ -22,7 +22,7 @@ import {
   AfdProfilesValidateSecretResponse,
   ProfileUpgradeParameters,
   AfdProfilesUpgradeOptionalParams,
-  AfdProfilesUpgradeResponse
+  AfdProfilesUpgradeResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface AfdProfiles {
   listResourceUsage(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
   /**
    * Check the availability of an afdx endpoint name, and return the globally unique endpoint host name.
@@ -52,7 +52,7 @@ export interface AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     checkEndpointNameAvailabilityInput: CheckEndpointNameAvailabilityInput,
-    options?: AfdProfilesCheckEndpointNameAvailabilityOptionalParams
+    options?: AfdProfilesCheckEndpointNameAvailabilityOptionalParams,
   ): Promise<AfdProfilesCheckEndpointNameAvailabilityResponse>;
   /**
    * Validates the custom domain mapping to ensure it maps to the correct Azure Front Door endpoint in
@@ -67,7 +67,7 @@ export interface AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     checkHostNameAvailabilityInput: CheckHostNameAvailabilityInput,
-    options?: AfdProfilesCheckHostNameAvailabilityOptionalParams
+    options?: AfdProfilesCheckHostNameAvailabilityOptionalParams,
   ): Promise<AfdProfilesCheckHostNameAvailabilityResponse>;
   /**
    * Validate a Secret in the profile.
@@ -81,7 +81,7 @@ export interface AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     validateSecretInput: ValidateSecretInput,
-    options?: AfdProfilesValidateSecretOptionalParams
+    options?: AfdProfilesValidateSecretOptionalParams,
   ): Promise<AfdProfilesValidateSecretResponse>;
   /**
    * Upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
@@ -95,7 +95,7 @@ export interface AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     profileUpgradeParameters: ProfileUpgradeParameters,
-    options?: AfdProfilesUpgradeOptionalParams
+    options?: AfdProfilesUpgradeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AfdProfilesUpgradeResponse>,
@@ -114,6 +114,6 @@ export interface AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     profileUpgradeParameters: ProfileUpgradeParameters,
-    options?: AfdProfilesUpgradeOptionalParams
+    options?: AfdProfilesUpgradeOptionalParams,
   ): Promise<AfdProfilesUpgradeResponse>;
 }

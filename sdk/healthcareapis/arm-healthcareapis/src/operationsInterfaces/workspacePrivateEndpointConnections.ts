@@ -15,7 +15,7 @@ import {
   WorkspacePrivateEndpointConnectionsGetResponse,
   WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse,
-  WorkspacePrivateEndpointConnectionsDeleteOptionalParams
+  WorkspacePrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface WorkspacePrivateEndpointConnections {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams
+    options?: WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnectionDescription>;
   /**
    * Gets the specified private endpoint connection associated with the workspace.
@@ -44,7 +44,7 @@ export interface WorkspacePrivateEndpointConnections {
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: WorkspacePrivateEndpointConnectionsGetOptionalParams
+    options?: WorkspacePrivateEndpointConnectionsGetOptionalParams,
   ): Promise<WorkspacePrivateEndpointConnectionsGetResponse>;
   /**
    * Update the state of the specified private endpoint connection associated with the workspace.
@@ -60,7 +60,7 @@ export interface WorkspacePrivateEndpointConnections {
     workspaceName: string,
     privateEndpointConnectionName: string,
     properties: PrivateEndpointConnectionDescription,
-    options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>,
@@ -81,7 +81,7 @@ export interface WorkspacePrivateEndpointConnections {
     workspaceName: string,
     privateEndpointConnectionName: string,
     properties: PrivateEndpointConnectionDescription,
-    options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes a private endpoint connection.
@@ -95,7 +95,7 @@ export interface WorkspacePrivateEndpointConnections {
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams
+    options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection.
@@ -109,6 +109,6 @@ export interface WorkspacePrivateEndpointConnections {
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams
+    options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

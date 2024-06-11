@@ -3,8 +3,8 @@
   "compilerOptions": {
     "declarationDir": "./types",
     "outDir": "./dist-esm",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"],
+    "lib": ["dom", "es5", "es6", "es7", "esnext"]
   },
   "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

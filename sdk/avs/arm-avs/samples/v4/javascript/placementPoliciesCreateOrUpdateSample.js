@@ -49,7 +49,7 @@ async function placementPoliciesCreateOrUpdate() {
     privateCloudName,
     clusterName,
     placementPolicyName,
-    placementPolicy
+    placementPolicy,
   );
   console.log(result);
 }

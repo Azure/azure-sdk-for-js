@@ -9,7 +9,9 @@ import {
   OperationRequest,
   OperationRequestInfo,
   ParameterPath,
-} from "./interfaces";
+} from "./interfaces.js";
+
+import { state } from "./state.js";
 
 /**
  * @internal
@@ -106,7 +108,6 @@ function getPropertyFromParameterPath(
   return result;
 }
 
-const operationRequestMap = new WeakMap<OperationRequest, OperationRequestInfo>();
 const originalRequestSymbol = Symbol.for("@azure/core-client original request");
 
 function hasOriginalRequest(
@@ -119,11 +120,11 @@ export function getOperationRequestInfo(request: OperationRequest): OperationReq
   if (hasOriginalRequest(request)) {
     return getOperationRequestInfo(request[originalRequestSymbol]);
   }
-  let info = operationRequestMap.get(request);
+  let info = state.operationRequestMap.get(request);
 
   if (!info) {
     info = {};
-    operationRequestMap.set(request, info);
+    state.operationRequestMap.set(request, info);
   }
   return info;
 }

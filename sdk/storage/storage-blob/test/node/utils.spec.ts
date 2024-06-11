@@ -188,7 +188,7 @@ describe("Utility Helpers Node.js only", () => {
       }
     }
 
-    const validFilePath = path.join(__dirname, "read_stream_to_local_file_test.txt");
+    const validFilePath = path.join("./", "read_stream_to_local_file_test.txt");
 
     afterEach("remove temporary file", () => {
       if (fs.existsSync(validFilePath)) {
@@ -233,7 +233,7 @@ describe("Utility Helpers Node.js only", () => {
       const readStream = new TestReadableStream(numBytes, emittingErrorInMiddle);
 
       try {
-        await readStreamToLocalFile(readStream, __dirname);
+        await readStreamToLocalFile(readStream, "./");
         throw new Error("Test failure");
       } catch (err: any) {
         assert.notEqual(err.message, "Test failure");

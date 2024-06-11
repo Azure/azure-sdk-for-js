@@ -18,7 +18,7 @@ import {
   ChangeDataCaptureStartOptionalParams,
   ChangeDataCaptureStopOptionalParams,
   ChangeDataCaptureStatusOptionalParams,
-  ChangeDataCaptureStatusResponse
+  ChangeDataCaptureStatusResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface ChangeDataCapture {
   listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: ChangeDataCaptureListByFactoryOptionalParams
+    options?: ChangeDataCaptureListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<ChangeDataCaptureResource>;
   /**
    * Creates or updates a change data capture resource.
@@ -48,7 +48,7 @@ export interface ChangeDataCapture {
     factoryName: string,
     changeDataCaptureName: string,
     changeDataCapture: ChangeDataCaptureResource,
-    options?: ChangeDataCaptureCreateOrUpdateOptionalParams
+    options?: ChangeDataCaptureCreateOrUpdateOptionalParams,
   ): Promise<ChangeDataCaptureCreateOrUpdateResponse>;
   /**
    * Gets a change data capture.
@@ -61,7 +61,7 @@ export interface ChangeDataCapture {
     resourceGroupName: string,
     factoryName: string,
     changeDataCaptureName: string,
-    options?: ChangeDataCaptureGetOptionalParams
+    options?: ChangeDataCaptureGetOptionalParams,
   ): Promise<ChangeDataCaptureGetResponse>;
   /**
    * Deletes a change data capture.
@@ -74,7 +74,7 @@ export interface ChangeDataCapture {
     resourceGroupName: string,
     factoryName: string,
     changeDataCaptureName: string,
-    options?: ChangeDataCaptureDeleteOptionalParams
+    options?: ChangeDataCaptureDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Starts a change data capture.
@@ -87,7 +87,7 @@ export interface ChangeDataCapture {
     resourceGroupName: string,
     factoryName: string,
     changeDataCaptureName: string,
-    options?: ChangeDataCaptureStartOptionalParams
+    options?: ChangeDataCaptureStartOptionalParams,
   ): Promise<void>;
   /**
    * Stops a change data capture.
@@ -100,7 +100,7 @@ export interface ChangeDataCapture {
     resourceGroupName: string,
     factoryName: string,
     changeDataCaptureName: string,
-    options?: ChangeDataCaptureStopOptionalParams
+    options?: ChangeDataCaptureStopOptionalParams,
   ): Promise<void>;
   /**
    * Gets the current status for the change data capture resource.
@@ -113,6 +113,6 @@ export interface ChangeDataCapture {
     resourceGroupName: string,
     factoryName: string,
     changeDataCaptureName: string,
-    options?: ChangeDataCaptureStatusOptionalParams
+    options?: ChangeDataCaptureStatusOptionalParams,
   ): Promise<ChangeDataCaptureStatusResponse>;
 }

@@ -14,7 +14,7 @@ import { HDInsightContainersManagementClient } from "../hDInsightContainersManag
 import {
   NameAvailabilityParameters,
   LocationsCheckNameAvailabilityOptionalParams,
-  LocationsCheckNameAvailabilityResponse
+  LocationsCheckNameAvailabilityResponse,
 } from "../models";
 
 /** Class containing Locations operations. */
@@ -38,11 +38,11 @@ export class LocationsImpl implements Locations {
   checkNameAvailability(
     location: string,
     nameAvailabilityParameters: NameAvailabilityParameters,
-    options?: LocationsCheckNameAvailabilityOptionalParams
+    options?: LocationsCheckNameAvailabilityOptionalParams,
   ): Promise<LocationsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { location, nameAvailabilityParameters, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 }
@@ -50,25 +50,24 @@ export class LocationsImpl implements Locations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NameAvailabilityResult
+      bodyMapper: Mappers.NameAvailabilityResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.nameAvailabilityParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

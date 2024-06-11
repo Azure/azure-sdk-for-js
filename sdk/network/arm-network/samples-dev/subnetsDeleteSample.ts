@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified subnet.
  *
  * @summary Deletes the specified subnet.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/SubnetDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/SubnetDelete.json
  */
 async function deleteSubnet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function deleteSubnet() {
   const result = await client.subnets.beginDeleteAndWait(
     resourceGroupName,
     virtualNetworkName,
-    subnetName
+    subnetName,
   );
   console.log(result);
 }

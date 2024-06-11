@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalCommon from "@azure/msal-node";
-
-import { AuthenticationRecord, MsalAccountInfo, MsalToken } from "./types";
+import { AuthenticationRecord, MsalAccountInfo, MsalToken, ValidMsalToken } from "./types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
 import { CredentialLogger, credentialLogger, formatError } from "../util/logging";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
@@ -12,6 +10,7 @@ import { randomUUID as coreRandomUUID, isNode } from "@azure/core-util";
 import { AbortError } from "@azure/abort-controller";
 import { AzureLogLevel } from "@azure/logger";
 import { GetTokenOptions } from "@azure/core-auth";
+import { msalCommon } from "./msal";
 
 export interface ILoggerCallback {
   (level: msalCommon.LogLevel, message: string, containsPii: boolean): void;
@@ -34,9 +33,9 @@ const LatestAuthenticationRecordVersion = "1.0";
  */
 export function ensureValidMsalToken(
   scopes: string | string[],
-  msalToken?: MsalToken,
+  msalToken?: MsalToken | null,
   getTokenOptions?: GetTokenOptions,
-): void {
+): asserts msalToken is ValidMsalToken {
   const error = (message: string): Error => {
     logger.getToken.info(message);
     return new AuthenticationRequiredError({

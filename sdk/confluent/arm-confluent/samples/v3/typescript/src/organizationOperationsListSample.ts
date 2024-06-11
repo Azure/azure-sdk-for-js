@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all operations provided by Microsoft.Confluent.
  *
  * @summary List all operations provided by Microsoft.Confluent.
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/OrganizationOperations_List.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/OrganizationOperations_List.json
  */
 async function organizationOperationsList() {
   const credential = new DefaultAzureCredential();

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ServiceEndpointPolicyDefinition,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a service endpoint policy definition in the specified service endpoint policy.
  *
  * @summary Creates or updates a service endpoint policy definition in the specified service endpoint policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ServiceEndpointPolicyDefinitionCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ServiceEndpointPolicyDefinitionCreate.json
  */
 async function createServiceEndpointPolicyDefinition() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,17 +34,18 @@ async function createServiceEndpointPolicyDefinition() {
     serviceResources: [
       "/subscriptions/subid1",
       "/subscriptions/subid1/resourceGroups/storageRg",
-      "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount"
-    ]
+      "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount",
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.serviceEndpointPolicyDefinitions.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceEndpointPolicyName,
-    serviceEndpointPolicyDefinitionName,
-    serviceEndpointPolicyDefinitions
-  );
+  const result =
+    await client.serviceEndpointPolicyDefinitions.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serviceEndpointPolicyName,
+      serviceEndpointPolicyDefinitionName,
+      serviceEndpointPolicyDefinitions,
+    );
   console.log(result);
 }
 

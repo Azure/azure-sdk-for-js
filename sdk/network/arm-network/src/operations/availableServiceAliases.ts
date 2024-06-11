@@ -22,7 +22,7 @@ import {
   AvailableServiceAliasesListByResourceGroupOptionalParams,
   AvailableServiceAliasesListByResourceGroupResponse,
   AvailableServiceAliasesListNextResponse,
-  AvailableServiceAliasesListByResourceGroupNextResponse
+  AvailableServiceAliasesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
    */
   public list(
     location: string,
-    options?: AvailableServiceAliasesListOptionalParams
+    options?: AvailableServiceAliasesListOptionalParams,
   ): PagedAsyncIterableIterator<AvailableServiceAlias> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -60,14 +60,14 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: AvailableServiceAliasesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailableServiceAlias[]> {
     let result: AvailableServiceAliasesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
 
   private async *listPagingAll(
     location: string,
-    options?: AvailableServiceAliasesListOptionalParams
+    options?: AvailableServiceAliasesListOptionalParams,
   ): AsyncIterableIterator<AvailableServiceAlias> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -105,12 +105,12 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
   public listByResourceGroup(
     resourceGroupName: string,
     location: string,
-    options?: AvailableServiceAliasesListByResourceGroupOptionalParams
+    options?: AvailableServiceAliasesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AvailableServiceAlias> {
     const iter = this.listByResourceGroupPagingAll(
       resourceGroupName,
       location,
-      options
+      options,
     );
     return {
       next() {
@@ -127,9 +127,9 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
           resourceGroupName,
           location,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -137,7 +137,7 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
     resourceGroupName: string,
     location: string,
     options?: AvailableServiceAliasesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailableServiceAlias[]> {
     let result: AvailableServiceAliasesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -145,7 +145,7 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
       result = await this._listByResourceGroup(
         resourceGroupName,
         location,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -157,7 +157,7 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
         resourceGroupName,
         location,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -169,12 +169,12 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
     location: string,
-    options?: AvailableServiceAliasesListByResourceGroupOptionalParams
+    options?: AvailableServiceAliasesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AvailableServiceAlias> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       location,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -187,11 +187,11 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
    */
   private _list(
     location: string,
-    options?: AvailableServiceAliasesListOptionalParams
+    options?: AvailableServiceAliasesListOptionalParams,
   ): Promise<AvailableServiceAliasesListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -204,11 +204,11 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
   private _listByResourceGroup(
     resourceGroupName: string,
     location: string,
-    options?: AvailableServiceAliasesListByResourceGroupOptionalParams
+    options?: AvailableServiceAliasesListByResourceGroupOptionalParams,
   ): Promise<AvailableServiceAliasesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, location, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -221,11 +221,11 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
   private _listNext(
     location: string,
     nextLink: string,
-    options?: AvailableServiceAliasesListNextOptionalParams
+    options?: AvailableServiceAliasesListNextOptionalParams,
   ): Promise<AvailableServiceAliasesListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -240,11 +240,11 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
     resourceGroupName: string,
     location: string,
     nextLink: string,
-    options?: AvailableServiceAliasesListByResourceGroupNextOptionalParams
+    options?: AvailableServiceAliasesListByResourceGroupNextOptionalParams,
   ): Promise<AvailableServiceAliasesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, location, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -252,86 +252,84 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableServiceAliases",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableServiceAliases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableServiceAliasesResult
+      bodyMapper: Mappers.AvailableServiceAliasesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableServiceAliases",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableServiceAliases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableServiceAliasesResult
+      bodyMapper: Mappers.AvailableServiceAliasesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableServiceAliasesResult
+      bodyMapper: Mappers.AvailableServiceAliasesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableServiceAliasesResult
+      bodyMapper: Mappers.AvailableServiceAliasesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

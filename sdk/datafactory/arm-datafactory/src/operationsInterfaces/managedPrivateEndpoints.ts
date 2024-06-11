@@ -14,7 +14,7 @@ import {
   ManagedPrivateEndpointsCreateOrUpdateResponse,
   ManagedPrivateEndpointsGetOptionalParams,
   ManagedPrivateEndpointsGetResponse,
-  ManagedPrivateEndpointsDeleteOptionalParams
+  ManagedPrivateEndpointsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ManagedPrivateEndpoints {
     resourceGroupName: string,
     factoryName: string,
     managedVirtualNetworkName: string,
-    options?: ManagedPrivateEndpointsListByFactoryOptionalParams
+    options?: ManagedPrivateEndpointsListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<ManagedPrivateEndpointResource>;
   /**
    * Creates or updates a managed private endpoint.
@@ -48,7 +48,7 @@ export interface ManagedPrivateEndpoints {
     managedVirtualNetworkName: string,
     managedPrivateEndpointName: string,
     managedPrivateEndpoint: ManagedPrivateEndpointResource,
-    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams
+    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams,
   ): Promise<ManagedPrivateEndpointsCreateOrUpdateResponse>;
   /**
    * Gets a managed private endpoint.
@@ -63,7 +63,7 @@ export interface ManagedPrivateEndpoints {
     factoryName: string,
     managedVirtualNetworkName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsGetOptionalParams
+    options?: ManagedPrivateEndpointsGetOptionalParams,
   ): Promise<ManagedPrivateEndpointsGetResponse>;
   /**
    * Deletes a managed private endpoint.
@@ -78,6 +78,6 @@ export interface ManagedPrivateEndpoints {
     factoryName: string,
     managedVirtualNetworkName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams
+    options?: ManagedPrivateEndpointsDeleteOptionalParams,
   ): Promise<void>;
 }

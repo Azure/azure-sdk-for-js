@@ -15,7 +15,7 @@ import {
   SecurityAdminConfigurationsGetResponse,
   SecurityAdminConfigurationsCreateOrUpdateOptionalParams,
   SecurityAdminConfigurationsCreateOrUpdateResponse,
-  SecurityAdminConfigurationsDeleteOptionalParams
+  SecurityAdminConfigurationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface SecurityAdminConfigurations {
   list(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: SecurityAdminConfigurationsListOptionalParams
+    options?: SecurityAdminConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityAdminConfiguration>;
   /**
    * Retrieves a network manager security admin configuration.
@@ -44,7 +44,7 @@ export interface SecurityAdminConfigurations {
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: SecurityAdminConfigurationsGetOptionalParams
+    options?: SecurityAdminConfigurationsGetOptionalParams,
   ): Promise<SecurityAdminConfigurationsGetResponse>;
   /**
    * Creates or updates a network manager security admin configuration.
@@ -59,7 +59,7 @@ export interface SecurityAdminConfigurations {
     networkManagerName: string,
     configurationName: string,
     securityAdminConfiguration: SecurityAdminConfiguration,
-    options?: SecurityAdminConfigurationsCreateOrUpdateOptionalParams
+    options?: SecurityAdminConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<SecurityAdminConfigurationsCreateOrUpdateResponse>;
   /**
    * Deletes a network manager security admin configuration.
@@ -72,7 +72,7 @@ export interface SecurityAdminConfigurations {
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: SecurityAdminConfigurationsDeleteOptionalParams
+    options?: SecurityAdminConfigurationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a network manager security admin configuration.
@@ -85,6 +85,6 @@ export interface SecurityAdminConfigurations {
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: SecurityAdminConfigurationsDeleteOptionalParams
+    options?: SecurityAdminConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }

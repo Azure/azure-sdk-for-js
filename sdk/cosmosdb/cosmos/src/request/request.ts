@@ -7,6 +7,7 @@ import { PartitionKeyInternal } from "../documents";
 import { CosmosHeaders } from "../queryExecutionContext";
 import { FeedOptions, RequestOptions } from "./index";
 import { defaultLogger } from "../common/logger";
+import { ChangeFeedMode } from "../client/ChangeFeed";
 // ----------------------------------------------------------------------------
 // Utility methods
 //
@@ -115,8 +116,15 @@ export async function getHeaders({
     }
   }
 
-  if (options.useIncrementalFeed) {
-    headers[Constants.HttpHeaders.A_IM] = "Incremental Feed";
+  if (options.useAllVersionsAndDeletesFeed) {
+    // headers required for reading feed in allVersionsAndDeletes mode
+    headers[Constants.HttpHeaders.A_IM] = ChangeFeedMode.AllVersionsAndDeletes;
+    headers[Constants.HttpHeaders.ChangeFeedWireFormatVersion] =
+      Constants.AllVersionsAndDeletesChangeFeedWireFormatVersion;
+  }
+
+  if (options.useIncrementalFeed || options.useLatestVersionFeed) {
+    headers[Constants.HttpHeaders.A_IM] = ChangeFeedMode.LatestVersion;
   }
 
   if (options.indexingDirective) {
@@ -141,6 +149,11 @@ export async function getHeaders({
       );
       headers[Constants.HttpHeaders.DedicatedGatewayPerRequestCacheStaleness] = "null";
     }
+  }
+
+  if (options.bypassIntegratedCache) {
+    headers[Constants.HttpHeaders.DedicatedGatewayPerRequestBypassCache] =
+      options.bypassIntegratedCache.toString();
   }
 
   if (options.resourceTokenExpirySeconds) {

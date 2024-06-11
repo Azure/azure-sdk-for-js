@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get all the service instances in a resource group.
  *
  * @summary Get all the service instances in a resource group.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/legacy/ServiceListByResourceGroup.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceListByResourceGroup.json
  */
 async function listAllServicesInResourceGroup() {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";

@@ -17,7 +17,7 @@ import {
   CommunicationsGetOptionalParams,
   CommunicationsGetResponse,
   CommunicationsCreateOptionalParams,
-  CommunicationsCreateResponse
+  CommunicationsCreateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface Communications {
    */
   list(
     supportTicketName: string,
-    options?: CommunicationsListOptionalParams
+    options?: CommunicationsListOptionalParams,
   ): PagedAsyncIterableIterator<CommunicationDetails>;
   /**
    * Check the availability of a resource name. This API should be used to check the uniqueness of the
@@ -47,7 +47,7 @@ export interface Communications {
   checkNameAvailability(
     supportTicketName: string,
     checkNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: CommunicationsCheckNameAvailabilityOptionalParams
+    options?: CommunicationsCheckNameAvailabilityOptionalParams,
   ): Promise<CommunicationsCheckNameAvailabilityResponse>;
   /**
    * Returns communication details for a support ticket.
@@ -58,7 +58,7 @@ export interface Communications {
   get(
     supportTicketName: string,
     communicationName: string,
-    options?: CommunicationsGetOptionalParams
+    options?: CommunicationsGetOptionalParams,
   ): Promise<CommunicationsGetResponse>;
   /**
    * Adds a new customer communication to an Azure support ticket.
@@ -71,7 +71,7 @@ export interface Communications {
     supportTicketName: string,
     communicationName: string,
     createCommunicationParameters: CommunicationDetails,
-    options?: CommunicationsCreateOptionalParams
+    options?: CommunicationsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CommunicationsCreateResponse>,
@@ -89,6 +89,6 @@ export interface Communications {
     supportTicketName: string,
     communicationName: string,
     createCommunicationParameters: CommunicationDetails,
-    options?: CommunicationsCreateOptionalParams
+    options?: CommunicationsCreateOptionalParams,
   ): Promise<CommunicationsCreateResponse>;
 }

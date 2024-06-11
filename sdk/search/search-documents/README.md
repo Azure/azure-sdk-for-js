@@ -17,7 +17,7 @@ The Azure AI Search service is well suited for the following application scenari
 * In a search client application, implement query logic and user experiences
   similar to commercial web search engines and chat-style apps.
 
-Use the Azure.Search.Documents client library to:
+Use the @azure/search-documents client library to:
 
 * Submit queries using vector, keyword, and hybrid query forms.
 * Implement filtered queries for metadata, geospatial search, faceted navigation, 
@@ -349,14 +349,14 @@ interface Hotel {
   hotelId?: string;
   hotelName?: string | null;
   description?: string | null;
-  descriptionVector?: Array<number> | null;
+  descriptionVector?: Array<number>;
   parkingIncluded?: boolean | null;
   lastRenovationDate?: Date | null;
   rating?: number | null;
   rooms?: Array<{
     beds?: number | null;
     description?: string | null;
-  } | null>;
+  }>;
 }
 
 const client = new SearchClient<Hotel>(
@@ -406,7 +406,7 @@ async function main() {
   const searchResults = await client.search("WiFi", {
     filter: odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`,
     orderBy: ["Rating desc"],
-    select: ["hotelId", "hotelName", "rating"],
+    select: ["hotelId", "hotelName", "Rating"],
   });
   for await (const result of searchResults.results) {
     // Each result will have "HotelId", "HotelName", and "Rating"

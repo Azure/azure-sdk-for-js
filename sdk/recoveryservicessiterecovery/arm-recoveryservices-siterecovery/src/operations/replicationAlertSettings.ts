@@ -23,7 +23,7 @@ import {
   ConfigureAlertRequest,
   ReplicationAlertSettingsCreateOptionalParams,
   ReplicationAlertSettingsCreateResponse,
-  ReplicationAlertSettingsListNextResponse
+  ReplicationAlertSettingsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,7 +49,7 @@ export class ReplicationAlertSettingsImpl implements ReplicationAlertSettings {
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationAlertSettingsListOptionalParams
+    options?: ReplicationAlertSettingsListOptionalParams,
   ): PagedAsyncIterableIterator<Alert> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -67,9 +67,9 @@ export class ReplicationAlertSettingsImpl implements ReplicationAlertSettings {
           resourceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +77,7 @@ export class ReplicationAlertSettingsImpl implements ReplicationAlertSettings {
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationAlertSettingsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Alert[]> {
     let result: ReplicationAlertSettingsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +93,7 @@ export class ReplicationAlertSettingsImpl implements ReplicationAlertSettings {
         resourceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -105,12 +105,12 @@ export class ReplicationAlertSettingsImpl implements ReplicationAlertSettings {
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationAlertSettingsListOptionalParams
+    options?: ReplicationAlertSettingsListOptionalParams,
   ): AsyncIterableIterator<Alert> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,11 +126,11 @@ export class ReplicationAlertSettingsImpl implements ReplicationAlertSettings {
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationAlertSettingsListOptionalParams
+    options?: ReplicationAlertSettingsListOptionalParams,
   ): Promise<ReplicationAlertSettingsListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -146,11 +146,11 @@ export class ReplicationAlertSettingsImpl implements ReplicationAlertSettings {
     resourceName: string,
     resourceGroupName: string,
     alertSettingName: string,
-    options?: ReplicationAlertSettingsGetOptionalParams
+    options?: ReplicationAlertSettingsGetOptionalParams,
   ): Promise<ReplicationAlertSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, alertSettingName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -168,11 +168,11 @@ export class ReplicationAlertSettingsImpl implements ReplicationAlertSettings {
     resourceGroupName: string,
     alertSettingName: string,
     request: ConfigureAlertRequest,
-    options?: ReplicationAlertSettingsCreateOptionalParams
+    options?: ReplicationAlertSettingsCreateOptionalParams,
   ): Promise<ReplicationAlertSettingsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, alertSettingName, request, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -188,11 +188,11 @@ export class ReplicationAlertSettingsImpl implements ReplicationAlertSettings {
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationAlertSettingsListNextOptionalParams
+    options?: ReplicationAlertSettingsListNextOptionalParams,
   ): Promise<ReplicationAlertSettingsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -200,32 +200,12 @@ export class ReplicationAlertSettingsImpl implements ReplicationAlertSettings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertCollection
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Alert
-    }
+      bodyMapper: Mappers.AlertCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -233,19 +213,36 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.alertSettingName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Alert,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName,
+    Parameters.alertSettingName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Alert
-    }
+      bodyMapper: Mappers.Alert,
+    },
   },
   requestBody: Parameters.request,
   queryParameters: [Parameters.apiVersion],
@@ -254,27 +251,27 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.alertSettingName
+    Parameters.alertSettingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertCollection
-    }
+      bodyMapper: Mappers.AlertCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

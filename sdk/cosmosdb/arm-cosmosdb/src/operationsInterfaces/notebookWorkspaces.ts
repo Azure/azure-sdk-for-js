@@ -21,7 +21,7 @@ import {
   NotebookWorkspacesListConnectionInfoOptionalParams,
   NotebookWorkspacesListConnectionInfoResponse,
   NotebookWorkspacesRegenerateAuthTokenOptionalParams,
-  NotebookWorkspacesStartOptionalParams
+  NotebookWorkspacesStartOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface NotebookWorkspaces {
   listByDatabaseAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: NotebookWorkspacesListByDatabaseAccountOptionalParams
+    options?: NotebookWorkspacesListByDatabaseAccountOptionalParams,
   ): PagedAsyncIterableIterator<NotebookWorkspace>;
   /**
    * Gets the notebook workspace for a Cosmos DB account.
@@ -49,7 +49,7 @@ export interface NotebookWorkspaces {
     resourceGroupName: string,
     accountName: string,
     notebookWorkspaceName: NotebookWorkspaceName,
-    options?: NotebookWorkspacesGetOptionalParams
+    options?: NotebookWorkspacesGetOptionalParams,
   ): Promise<NotebookWorkspacesGetResponse>;
   /**
    * Creates the notebook workspace for a Cosmos DB account.
@@ -65,7 +65,7 @@ export interface NotebookWorkspaces {
     accountName: string,
     notebookWorkspaceName: NotebookWorkspaceName,
     notebookCreateUpdateParameters: NotebookWorkspaceCreateUpdateParameters,
-    options?: NotebookWorkspacesCreateOrUpdateOptionalParams
+    options?: NotebookWorkspacesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NotebookWorkspacesCreateOrUpdateResponse>,
@@ -86,7 +86,7 @@ export interface NotebookWorkspaces {
     accountName: string,
     notebookWorkspaceName: NotebookWorkspaceName,
     notebookCreateUpdateParameters: NotebookWorkspaceCreateUpdateParameters,
-    options?: NotebookWorkspacesCreateOrUpdateOptionalParams
+    options?: NotebookWorkspacesCreateOrUpdateOptionalParams,
   ): Promise<NotebookWorkspacesCreateOrUpdateResponse>;
   /**
    * Deletes the notebook workspace for a Cosmos DB account.
@@ -99,7 +99,7 @@ export interface NotebookWorkspaces {
     resourceGroupName: string,
     accountName: string,
     notebookWorkspaceName: NotebookWorkspaceName,
-    options?: NotebookWorkspacesDeleteOptionalParams
+    options?: NotebookWorkspacesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the notebook workspace for a Cosmos DB account.
@@ -112,7 +112,7 @@ export interface NotebookWorkspaces {
     resourceGroupName: string,
     accountName: string,
     notebookWorkspaceName: NotebookWorkspaceName,
-    options?: NotebookWorkspacesDeleteOptionalParams
+    options?: NotebookWorkspacesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves the connection info for the notebook workspace
@@ -125,7 +125,7 @@ export interface NotebookWorkspaces {
     resourceGroupName: string,
     accountName: string,
     notebookWorkspaceName: NotebookWorkspaceName,
-    options?: NotebookWorkspacesListConnectionInfoOptionalParams
+    options?: NotebookWorkspacesListConnectionInfoOptionalParams,
   ): Promise<NotebookWorkspacesListConnectionInfoResponse>;
   /**
    * Regenerates the auth token for the notebook workspace
@@ -138,7 +138,7 @@ export interface NotebookWorkspaces {
     resourceGroupName: string,
     accountName: string,
     notebookWorkspaceName: NotebookWorkspaceName,
-    options?: NotebookWorkspacesRegenerateAuthTokenOptionalParams
+    options?: NotebookWorkspacesRegenerateAuthTokenOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Regenerates the auth token for the notebook workspace
@@ -151,7 +151,7 @@ export interface NotebookWorkspaces {
     resourceGroupName: string,
     accountName: string,
     notebookWorkspaceName: NotebookWorkspaceName,
-    options?: NotebookWorkspacesRegenerateAuthTokenOptionalParams
+    options?: NotebookWorkspacesRegenerateAuthTokenOptionalParams,
   ): Promise<void>;
   /**
    * Starts the notebook workspace
@@ -164,7 +164,7 @@ export interface NotebookWorkspaces {
     resourceGroupName: string,
     accountName: string,
     notebookWorkspaceName: NotebookWorkspaceName,
-    options?: NotebookWorkspacesStartOptionalParams
+    options?: NotebookWorkspacesStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts the notebook workspace
@@ -177,6 +177,6 @@ export interface NotebookWorkspaces {
     resourceGroupName: string,
     accountName: string,
     notebookWorkspaceName: NotebookWorkspaceName,
-    options?: NotebookWorkspacesStartOptionalParams
+    options?: NotebookWorkspacesStartOptionalParams,
   ): Promise<void>;
 }

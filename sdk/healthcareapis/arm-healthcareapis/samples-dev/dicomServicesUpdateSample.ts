@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DicomServicePatchResource,
-  HealthcareApisManagementClient
+  HealthcareApisManagementClient,
 } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Patch DICOM Service details.
  *
  * @summary Patch DICOM Service details.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/dicomservices/DicomServices_Patch.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/dicomservices/DicomServices_Patch.json
  */
 async function updateADicomservice() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function updateADicomservice() {
   const dicomServiceName = "blue";
   const workspaceName = "workspace1";
   const dicomservicePatchResource: DicomServicePatchResource = {
-    tags: { tagKey: "tagValue" }
+    tags: { tagKey: "tagValue" },
   };
   const credential = new DefaultAzureCredential();
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
@@ -39,7 +39,7 @@ async function updateADicomservice() {
     resourceGroupName,
     dicomServiceName,
     workspaceName,
-    dicomservicePatchResource
+    dicomservicePatchResource,
   );
   console.log(result);
 }

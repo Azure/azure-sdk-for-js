@@ -22,7 +22,7 @@ import {
   fakeTestSecretPlaceholder,
   getYieldedValue,
   matrix,
-} from "@azure/test-utils";
+} from "@azure-tools/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {

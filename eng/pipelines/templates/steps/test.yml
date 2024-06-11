@@ -2,11 +2,12 @@ parameters:
   Artifacts: []
   ServiceDirectory: not-specified
   TestProxy: true
+  OSName: ''
 
 steps:
   - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
     parameters:
-      AgentImage: $(OSVmImage)
+      AgentImage: ${{ parameters.OSName}}
 
   - script: |
       node common/scripts/install-run-rush.js install

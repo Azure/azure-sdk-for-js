@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ServerThreatProtectionSettingsModel,
-  PostgreSQLManagementFlexibleServerClient
+  PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a server's Advanced Threat Protection settings.
  *
  * @summary Creates or updates a server's Advanced Threat Protection settings.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerThreatProtectionSettingsCreateOrUpdate.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerThreatProtectionSettingsCreateOrUpdate.json
  */
 async function updateAServerThreatProtectionSettings() {
   const subscriptionId =
@@ -35,14 +35,15 @@ async function updateAServerThreatProtectionSettings() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
-  const result = await client.serverThreatProtectionSettings.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    threatProtectionName,
-    parameters
-  );
+  const result =
+    await client.serverThreatProtectionSettings.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      threatProtectionName,
+      parameters,
+    );
   console.log(result);
 }
 

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to configure vault setting.
  *
  * @summary The operation to configure vault setting.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationVaultSetting_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationVaultSetting_Create.json
  */
 async function updatesVaultSettingAVaultSettingObjectIsASingletonPerVaultAndItIsAlwaysPresentByDefault() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function updatesVaultSettingAVaultSettingObjectIsASingletonPerVaultAndItIs
     resourceName,
     resourceGroupName,
     vaultSettingName,
-    input
+    input,
   );
   console.log(result);
 }

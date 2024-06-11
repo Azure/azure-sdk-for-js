@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get Waf related log analytics report for AFD profile.
  *
  * @summary Get Waf related log analytics report for AFD profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/LogAnalytics_GetWafLogAnalyticsMetrics.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/LogAnalytics_GetWafLogAnalyticsMetrics.json
  */
 async function logAnalyticsGetWafLogAnalyticsMetrics() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

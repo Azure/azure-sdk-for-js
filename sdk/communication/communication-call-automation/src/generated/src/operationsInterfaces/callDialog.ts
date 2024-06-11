@@ -12,7 +12,7 @@ import {
   CallDialogStartDialogResponse,
   CallDialogStopDialogOptionalParams,
   UpdateDialogRequest,
-  CallDialogUpdateDialogOptionalParams
+  CallDialogUpdateDialogOptionalParams,
 } from "../models";
 
 /** Interface representing a CallDialog. */
@@ -28,7 +28,7 @@ export interface CallDialog {
     callConnectionId: string,
     dialogId: string,
     startDialogRequest: StartDialogRequest,
-    options?: CallDialogStartDialogOptionalParams
+    options?: CallDialogStartDialogOptionalParams,
   ): Promise<CallDialogStartDialogResponse>;
   /**
    * Stop a dialog.
@@ -39,7 +39,7 @@ export interface CallDialog {
   stopDialog(
     callConnectionId: string,
     dialogId: string,
-    options?: CallDialogStopDialogOptionalParams
+    options?: CallDialogStopDialogOptionalParams,
   ): Promise<void>;
   /**
    * Update a dialog.
@@ -52,6 +52,6 @@ export interface CallDialog {
     callConnectionId: string,
     dialogId: string,
     updateDialogRequest: UpdateDialogRequest,
-    options?: CallDialogUpdateDialogOptionalParams
+    options?: CallDialogUpdateDialogOptionalParams,
   ): Promise<void>;
 }

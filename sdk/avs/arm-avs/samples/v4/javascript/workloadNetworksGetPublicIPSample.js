@@ -29,7 +29,7 @@ async function workloadNetworksGetPublicIP() {
   const result = await client.workloadNetworks.getPublicIP(
     resourceGroupName,
     privateCloudName,
-    publicIPId
+    publicIPId,
   );
   console.log(result);
 }

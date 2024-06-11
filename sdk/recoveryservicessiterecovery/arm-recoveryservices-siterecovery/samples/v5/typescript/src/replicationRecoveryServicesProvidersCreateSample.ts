@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AddRecoveryServicesProviderInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to add a recovery services provider.
  *
  * @summary The operation to add a recovery services provider.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationRecoveryServicesProviders_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryServicesProviders_Create.json
  */
 async function addsARecoveryServicesProvider() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function addsARecoveryServicesProvider() {
         audience:
           "https://microsoft.onmicrosoft.com/cf19e349-644c-4c6a-bcae-9c8f35357874",
         objectId: "141360b8-5686-4240-a027-5e24e6affeba",
-        tenantId: "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        tenantId: "72f988bf-86f1-41af-91ab-2d7cd011db47",
       },
       machineName: "vmwareprovider1",
       resourceAccessIdentityInput: {
@@ -50,19 +50,20 @@ async function addsARecoveryServicesProvider() {
         audience:
           "https://microsoft.onmicrosoft.com/cf19e349-644c-4c6a-bcae-9c8f35357874",
         objectId: "141360b8-5686-4240-a027-5e24e6affeba",
-        tenantId: "72f988bf-86f1-41af-91ab-2d7cd011db47"
-      }
-    }
+        tenantId: "72f988bf-86f1-41af-91ab-2d7cd011db47",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationRecoveryServicesProviders.beginCreateAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    providerName,
-    addProviderInput
-  );
+  const result =
+    await client.replicationRecoveryServicesProviders.beginCreateAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      providerName,
+      addProviderInput,
+    );
   console.log(result);
 }
 

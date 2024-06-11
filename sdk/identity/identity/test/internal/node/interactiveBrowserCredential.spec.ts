@@ -4,14 +4,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
 import {
   InteractiveBrowserCredential,
   InteractiveBrowserCredentialNodeOptions,
 } from "../../../src";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import { Recorder, env } from "@azure-tools/test-recorder";
 
+import { Context } from "mocha";
 import Sinon from "sinon";
 import { assert } from "chai";
 import http from "http";
@@ -46,9 +46,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
 
   const scope = "https://vault.azure.net/.default";
 
-  // TODO: re-enable this when we resolve the esm incompatibility issues
-  // https://github.com/Azure/azure-sdk-for-js/issues/28373
-  it.skip("Throws an expected error if no browser is available", async function (this: Context) {
+  it("Throws an expected error if no browser is available", async function (this: Context) {
     // The SinonStub type does not include this second parameter to throws().
     const testErrorMessage = "No browsers available on this test.";
     (sandbox.stub(interactiveBrowserMockable, "open") as any).throws(

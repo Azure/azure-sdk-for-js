@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DedicatedHostGroupUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update an dedicated host group.
  *
  * @summary Update an dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHostGroup_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHostGroup_Update_MaximumSet_Gen.json
  */
 async function dedicatedHostGroupUpdateMaximumSetGen() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function dedicatedHostGroupUpdateMaximumSetGen() {
       hosts: [
         {
           availableCapacity: {
-            allocatableVMs: [{ count: 26, vmSize: "aaaaaaaaaaaaaaaaaaaa" }]
+            allocatableVMs: [{ count: 26, vmSize: "aaaaaaaaaaaaaaaaaaaa" }],
           },
           statuses: [
             {
@@ -42,23 +42,23 @@ async function dedicatedHostGroupUpdateMaximumSetGen() {
               displayStatus: "aaaaaa",
               level: "Info",
               message: "a",
-              time: new Date("2021-11-30T12:58:26.522Z")
-            }
-          ]
-        }
-      ]
+              time: new Date("2021-11-30T12:58:26.522Z"),
+            },
+          ],
+        },
+      ],
     },
     platformFaultDomainCount: 3,
     supportAutomaticPlacement: true,
     tags: { key9921: "aaaaaaaaaa" },
-    zones: ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+    zones: ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.dedicatedHostGroups.update(
     resourceGroupName,
     hostGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -67,7 +67,7 @@ async function dedicatedHostGroupUpdateMaximumSetGen() {
  * This sample demonstrates how to Update an dedicated host group.
  *
  * @summary Update an dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHostGroup_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHostGroup_Update_MinimumSet_Gen.json
  */
 async function dedicatedHostGroupUpdateMinimumSetGen() {
   const subscriptionId =
@@ -81,7 +81,7 @@ async function dedicatedHostGroupUpdateMinimumSetGen() {
   const result = await client.dedicatedHostGroups.update(
     resourceGroupName,
     hostGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

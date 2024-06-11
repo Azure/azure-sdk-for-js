@@ -9,7 +9,7 @@ import {
   MessageContent,
 } from "./models";
 import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
-import LRUCache from "lru-cache";
+import { LRUCache } from "lru-cache";
 import LRUCacheOptions = LRUCache.Options;
 import { isMessageContent } from "./utility";
 import { logger } from "./logger";
@@ -26,7 +26,7 @@ interface CacheEntry {
 }
 
 const avroMimeType = "avro/binary";
-const cacheOptions: LRUCacheOptions<string, any> = {
+const cacheOptions: LRUCacheOptions<string, any, unknown> = {
   max: 128,
   /**
    * This is needed in order to specify `sizeCalculation` but we do not intend

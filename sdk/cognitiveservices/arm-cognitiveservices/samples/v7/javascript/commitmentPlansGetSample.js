@@ -28,7 +28,7 @@ async function getCommitmentPlan() {
   const result = await client.commitmentPlans.get(
     resourceGroupName,
     accountName,
-    commitmentPlanName
+    commitmentPlanName,
   );
   console.log(result);
 }

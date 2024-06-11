@@ -16,7 +16,7 @@ import { CdnManagementClient } from "../cdnManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   AfdOriginsUpdateOptionalParams,
   AfdOriginsUpdateResponse,
   AfdOriginsDeleteOptionalParams,
-  AfdOriginsListByOriginGroupNextResponse
+  AfdOriginsListByOriginGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,13 +60,13 @@ export class AfdOriginsImpl implements AfdOrigins {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginsListByOriginGroupOptionalParams
+    options?: AfdOriginsListByOriginGroupOptionalParams,
   ): PagedAsyncIterableIterator<AFDOrigin> {
     const iter = this.listByOriginGroupPagingAll(
       resourceGroupName,
       profileName,
       originGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +84,9 @@ export class AfdOriginsImpl implements AfdOrigins {
           profileName,
           originGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -95,7 +95,7 @@ export class AfdOriginsImpl implements AfdOrigins {
     profileName: string,
     originGroupName: string,
     options?: AfdOriginsListByOriginGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AFDOrigin[]> {
     let result: AfdOriginsListByOriginGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +104,7 @@ export class AfdOriginsImpl implements AfdOrigins {
         resourceGroupName,
         profileName,
         originGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -117,7 +117,7 @@ export class AfdOriginsImpl implements AfdOrigins {
         profileName,
         originGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -130,13 +130,13 @@ export class AfdOriginsImpl implements AfdOrigins {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginsListByOriginGroupOptionalParams
+    options?: AfdOriginsListByOriginGroupOptionalParams,
   ): AsyncIterableIterator<AFDOrigin> {
     for await (const page of this.listByOriginGroupPagingPage(
       resourceGroupName,
       profileName,
       originGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -154,11 +154,11 @@ export class AfdOriginsImpl implements AfdOrigins {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginsListByOriginGroupOptionalParams
+    options?: AfdOriginsListByOriginGroupOptionalParams,
   ): Promise<AfdOriginsListByOriginGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, originGroupName, options },
-      listByOriginGroupOperationSpec
+      listByOriginGroupOperationSpec,
     );
   }
 
@@ -176,11 +176,11 @@ export class AfdOriginsImpl implements AfdOrigins {
     profileName: string,
     originGroupName: string,
     originName: string,
-    options?: AfdOriginsGetOptionalParams
+    options?: AfdOriginsGetOptionalParams,
   ): Promise<AfdOriginsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, originGroupName, originName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -200,7 +200,7 @@ export class AfdOriginsImpl implements AfdOrigins {
     originGroupName: string,
     originName: string,
     origin: AFDOrigin,
-    options?: AfdOriginsCreateOptionalParams
+    options?: AfdOriginsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AfdOriginsCreateResponse>,
@@ -209,21 +209,20 @@ export class AfdOriginsImpl implements AfdOrigins {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AfdOriginsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -232,8 +231,8 @@ export class AfdOriginsImpl implements AfdOrigins {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -241,8 +240,8 @@ export class AfdOriginsImpl implements AfdOrigins {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -254,9 +253,9 @@ export class AfdOriginsImpl implements AfdOrigins {
         originGroupName,
         originName,
         origin,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       AfdOriginsCreateResponse,
@@ -264,7 +263,7 @@ export class AfdOriginsImpl implements AfdOrigins {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -286,7 +285,7 @@ export class AfdOriginsImpl implements AfdOrigins {
     originGroupName: string,
     originName: string,
     origin: AFDOrigin,
-    options?: AfdOriginsCreateOptionalParams
+    options?: AfdOriginsCreateOptionalParams,
   ): Promise<AfdOriginsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
@@ -294,7 +293,7 @@ export class AfdOriginsImpl implements AfdOrigins {
       originGroupName,
       originName,
       origin,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -315,7 +314,7 @@ export class AfdOriginsImpl implements AfdOrigins {
     originGroupName: string,
     originName: string,
     originUpdateProperties: AFDOriginUpdateParameters,
-    options?: AfdOriginsUpdateOptionalParams
+    options?: AfdOriginsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AfdOriginsUpdateResponse>,
@@ -324,21 +323,20 @@ export class AfdOriginsImpl implements AfdOrigins {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AfdOriginsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -347,8 +345,8 @@ export class AfdOriginsImpl implements AfdOrigins {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -356,8 +354,8 @@ export class AfdOriginsImpl implements AfdOrigins {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -369,9 +367,9 @@ export class AfdOriginsImpl implements AfdOrigins {
         originGroupName,
         originName,
         originUpdateProperties,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       AfdOriginsUpdateResponse,
@@ -379,7 +377,7 @@ export class AfdOriginsImpl implements AfdOrigins {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -401,7 +399,7 @@ export class AfdOriginsImpl implements AfdOrigins {
     originGroupName: string,
     originName: string,
     originUpdateProperties: AFDOriginUpdateParameters,
-    options?: AfdOriginsUpdateOptionalParams
+    options?: AfdOriginsUpdateOptionalParams,
   ): Promise<AfdOriginsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -409,7 +407,7 @@ export class AfdOriginsImpl implements AfdOrigins {
       originGroupName,
       originName,
       originUpdateProperties,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -428,25 +426,24 @@ export class AfdOriginsImpl implements AfdOrigins {
     profileName: string,
     originGroupName: string,
     originName: string,
-    options?: AfdOriginsDeleteOptionalParams
+    options?: AfdOriginsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -455,8 +452,8 @@ export class AfdOriginsImpl implements AfdOrigins {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -464,8 +461,8 @@ export class AfdOriginsImpl implements AfdOrigins {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -476,14 +473,14 @@ export class AfdOriginsImpl implements AfdOrigins {
         profileName,
         originGroupName,
         originName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -503,14 +500,14 @@ export class AfdOriginsImpl implements AfdOrigins {
     profileName: string,
     originGroupName: string,
     originName: string,
-    options?: AfdOriginsDeleteOptionalParams
+    options?: AfdOriginsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       profileName,
       originGroupName,
       originName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -529,11 +526,11 @@ export class AfdOriginsImpl implements AfdOrigins {
     profileName: string,
     originGroupName: string,
     nextLink: string,
-    options?: AfdOriginsListByOriginGroupNextOptionalParams
+    options?: AfdOriginsListByOriginGroupNextOptionalParams,
   ): Promise<AfdOriginsListByOriginGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, originGroupName, nextLink, options },
-      listByOriginGroupNextOperationSpec
+      listByOriginGroupNextOperationSpec,
     );
   }
 }
@@ -541,39 +538,15 @@ export class AfdOriginsImpl implements AfdOrigins {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByOriginGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AFDOriginListResult
+      bodyMapper: Mappers.AFDOriginListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.profileName1,
-    Parameters.originGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AFDOrigin
+      bodyMapper: Mappers.AfdErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -582,31 +555,52 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.originGroupName,
-    Parameters.originName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AFDOrigin,
+    },
+    default: {
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName1,
+    Parameters.originGroupName,
+    Parameters.originName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AFDOrigin
+      bodyMapper: Mappers.AFDOrigin,
     },
     201: {
-      bodyMapper: Mappers.AFDOrigin
+      bodyMapper: Mappers.AFDOrigin,
     },
     202: {
-      bodyMapper: Mappers.AFDOrigin
+      bodyMapper: Mappers.AFDOrigin,
     },
     204: {
-      bodyMapper: Mappers.AFDOrigin
+      bodyMapper: Mappers.AFDOrigin,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   requestBody: Parameters.origin,
   queryParameters: [Parameters.apiVersion],
@@ -616,32 +610,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.originGroupName,
-    Parameters.originName
+    Parameters.originName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AFDOrigin
+      bodyMapper: Mappers.AFDOrigin,
     },
     201: {
-      bodyMapper: Mappers.AFDOrigin
+      bodyMapper: Mappers.AFDOrigin,
     },
     202: {
-      bodyMapper: Mappers.AFDOrigin
+      bodyMapper: Mappers.AFDOrigin,
     },
     204: {
-      bodyMapper: Mappers.AFDOrigin
+      bodyMapper: Mappers.AFDOrigin,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   requestBody: Parameters.originUpdateProperties,
   queryParameters: [Parameters.apiVersion],
@@ -651,15 +644,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.originGroupName,
-    Parameters.originName
+    Parameters.originName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -667,8 +659,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -677,21 +669,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.originGroupName,
-    Parameters.originName
+    Parameters.originName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByOriginGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AFDOriginListResult
+      bodyMapper: Mappers.AFDOriginListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -699,8 +691,8 @@ const listByOriginGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.nextLink,
-    Parameters.originGroupName
+    Parameters.originGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -6,9 +6,9 @@
     "preserveConstEnums": true,
     "module": "ES2020",
     "paths": {
-      "@azure/ai-form-recognizer": ["./src/index"],
+      "@azure/ai-form-recognizer": ["./src/index"]
     },
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "bin/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "test/**/*.ts", "bin/**/*.ts", "samples-dev/**/*.ts"]
 }

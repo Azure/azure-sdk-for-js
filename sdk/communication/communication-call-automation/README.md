@@ -36,10 +36,12 @@ To use this client library in the browser, first you need to use a bundler. For 
 ### Initialize CallAutomationClient
 ```JavaScript
 import { CallAutomationClient } from '@azure/communication-call-automation';
+import { DefaultAzureCredential } from "@azure/identity"; 
 
 // Your unique Azure Communication service endpoint
-const endpointUrl = '<ENDPOINT>';
-const callAutomationClient = new CallAutomationClient(endpointUrl);
+const credential = new DefaultAzureCredential(); 
+const endpointUrl = '<ENDPOINT>' 
+const callAutomationClient = new CallAutomationClient(endpointUrl, credential); 
 ```
 
 ### Create Call
@@ -54,7 +56,9 @@ const target: CommunicationUserIdentifier = {
 }
 
 // make invitation
-const callInvite = new CallInvite(target);
+const callInvite: CallInvite = {
+   targetParticipant:target
+};
 
 // callback url to recieve callback events
 const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
@@ -73,7 +77,7 @@ const response = callConnection.getCallMedia().playToAll(myFile);
 ### Handle Mid-Connection callback events
 To easily handle mid-connection events, Call Automation's SDK provides easier way to handle these events. Take a look at CallAutomationEventProcessor. This will ensure correlation between call and events more easily.
 ```JavaScript
-const eventProcessor: CallAutomationEventProcessor = callAutomationClient.getEventProcessor();
+const eventProcessor: CallAutomationEventProcessor = await callAutomationClient.getEventProcessor();
 eventProcessor.processEvents(incomingEvent);
 ```
 ProcessEvents is required for EventProcessor to work. After event is being consumed by EventProcessor, you can start using its feature.
@@ -93,7 +97,7 @@ const createCallEventResult : CreateCallEventResult = await callResult.waitForEv
 if (createCallEventResult.isSuccess)
 {
   // work with callConnected event
-  const callConnectedEvent : CallConnected = createCallEventResult.successResult;
+  const callConnectedEvent : CallConnected = createCallEventResult.successResult!;
 }
 ```
 

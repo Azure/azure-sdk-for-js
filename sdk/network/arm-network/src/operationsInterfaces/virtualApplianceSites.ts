@@ -15,7 +15,7 @@ import {
   VirtualApplianceSitesGetOptionalParams,
   VirtualApplianceSitesGetResponse,
   VirtualApplianceSitesCreateOrUpdateOptionalParams,
-  VirtualApplianceSitesCreateOrUpdateResponse
+  VirtualApplianceSitesCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface VirtualApplianceSites {
   list(
     resourceGroupName: string,
     networkVirtualApplianceName: string,
-    options?: VirtualApplianceSitesListOptionalParams
+    options?: VirtualApplianceSitesListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualApplianceSite>;
   /**
    * Deletes the specified site from a Virtual Appliance.
@@ -43,7 +43,7 @@ export interface VirtualApplianceSites {
     resourceGroupName: string,
     networkVirtualApplianceName: string,
     siteName: string,
-    options?: VirtualApplianceSitesDeleteOptionalParams
+    options?: VirtualApplianceSitesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified site from a Virtual Appliance.
@@ -56,7 +56,7 @@ export interface VirtualApplianceSites {
     resourceGroupName: string,
     networkVirtualApplianceName: string,
     siteName: string,
-    options?: VirtualApplianceSitesDeleteOptionalParams
+    options?: VirtualApplianceSitesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified Virtual Appliance Site.
@@ -69,7 +69,7 @@ export interface VirtualApplianceSites {
     resourceGroupName: string,
     networkVirtualApplianceName: string,
     siteName: string,
-    options?: VirtualApplianceSitesGetOptionalParams
+    options?: VirtualApplianceSitesGetOptionalParams,
   ): Promise<VirtualApplianceSitesGetResponse>;
   /**
    * Creates or updates the specified Network Virtual Appliance Site.
@@ -85,7 +85,7 @@ export interface VirtualApplianceSites {
     networkVirtualApplianceName: string,
     siteName: string,
     parameters: VirtualApplianceSite,
-    options?: VirtualApplianceSitesCreateOrUpdateOptionalParams
+    options?: VirtualApplianceSitesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualApplianceSitesCreateOrUpdateResponse>,
@@ -106,6 +106,6 @@ export interface VirtualApplianceSites {
     networkVirtualApplianceName: string,
     siteName: string,
     parameters: VirtualApplianceSite,
-    options?: VirtualApplianceSitesCreateOrUpdateOptionalParams
+    options?: VirtualApplianceSitesCreateOrUpdateOptionalParams,
   ): Promise<VirtualApplianceSitesCreateOrUpdateResponse>;
 }

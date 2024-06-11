@@ -21,14 +21,14 @@
     "esModuleInterop": true,
 
     "paths": {
-      "@azure/storage-blob-changefeed": ["./src/index"],
-    },
+      "@azure/storage-blob-changefeed": ["./src/index"]
+    }
   },
   "compileOnSave": true,
   "include": [
     "./src/**/*.ts",
     "./test/**/*.ts",
     "samples-dev/**/*.ts",
-    "../storage-internal-avro/**/*.ts",
-  ],
+    "../storage-internal-avro/**/*.ts"
+  ]
 }

@@ -12,7 +12,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion75Preview1,
+  ApiVersion75,
   KeyVaultClientOptionalParams,
   JsonWebKeyType,
   CreateKeyOptionalParams,
@@ -75,7 +75,7 @@ import {
 } from "./models";
 
 export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
-  apiVersion: ApiVersion75Preview1;
+  apiVersion: ApiVersion75;
 
   /**
    * Initializes a new instance of the KeyVaultClient class.
@@ -83,7 +83,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion75Preview1,
+    apiVersion: ApiVersion75,
     options?: KeyVaultClientOptionalParams
   ) {
     if (apiVersion === undefined) {
@@ -98,7 +98,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-keyvault-keys/4.8.0-beta.2`;
+    const packageDetails = `azsdk-js-keyvault-keys/4.8.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

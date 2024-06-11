@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the protection container mappings for a protection container.
  *
  * @summary Lists the protection container mappings for a protection container.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainerMappings_ListByReplicationProtectionContainers.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainerMappings_ListByReplicationProtectionContainers.json
  */
 async function getsTheListOfProtectionContainerMappingsForAProtectionContainer() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getsTheListOfProtectionContainerMappingsForAProtectionContainer()
     resourceName,
     resourceGroupName,
     fabricName,
-    protectionContainerName
+    protectionContainerName,
   )) {
     resArray.push(item);
   }

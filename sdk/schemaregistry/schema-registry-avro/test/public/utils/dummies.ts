@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as avro from "avsc/";
+import * as avro from "avsc";
 import { env } from "@azure-tools/test-recorder";
 
 export const testSchemaObject: avro.schema.RecordType = {

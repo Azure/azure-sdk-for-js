@@ -16,7 +16,7 @@ import {
   TriggerRunsCancelOptionalParams,
   RunFilterParameters,
   TriggerRunsQueryByFactoryOptionalParams,
-  TriggerRunsQueryByFactoryResponse
+  TriggerRunsQueryByFactoryResponse,
 } from "../models";
 
 /** Class containing TriggerRuns operations. */
@@ -44,11 +44,11 @@ export class TriggerRunsImpl implements TriggerRuns {
     factoryName: string,
     triggerName: string,
     runId: string,
-    options?: TriggerRunsRerunOptionalParams
+    options?: TriggerRunsRerunOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, triggerName, runId, options },
-      rerunOperationSpec
+      rerunOperationSpec,
     );
   }
 
@@ -65,11 +65,11 @@ export class TriggerRunsImpl implements TriggerRuns {
     factoryName: string,
     triggerName: string,
     runId: string,
-    options?: TriggerRunsCancelOptionalParams
+    options?: TriggerRunsCancelOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, triggerName, runId, options },
-      cancelOperationSpec
+      cancelOperationSpec,
     );
   }
 
@@ -84,11 +84,11 @@ export class TriggerRunsImpl implements TriggerRuns {
     resourceGroupName: string,
     factoryName: string,
     filterParameters: RunFilterParameters,
-    options?: TriggerRunsQueryByFactoryOptionalParams
+    options?: TriggerRunsQueryByFactoryOptionalParams,
   ): Promise<TriggerRunsQueryByFactoryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, filterParameters, options },
-      queryByFactoryOperationSpec
+      queryByFactoryOperationSpec,
     );
   }
 }
@@ -96,14 +96,13 @@ export class TriggerRunsImpl implements TriggerRuns {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const rerunOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/triggerRuns/{runId}/rerun",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/triggerRuns/{runId}/rerun",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -112,20 +111,19 @@ const rerunOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.runId,
-    Parameters.triggerName
+    Parameters.triggerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/triggerRuns/{runId}/cancel",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/triggerRuns/{runId}/cancel",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -134,22 +132,21 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.runId,
-    Parameters.triggerName
+    Parameters.triggerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const queryByFactoryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryTriggerRuns",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryTriggerRuns",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.TriggerRunsQueryResponse
+      bodyMapper: Mappers.TriggerRunsQueryResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.filterParameters,
   queryParameters: [Parameters.apiVersion],
@@ -157,9 +154,9 @@ const queryByFactoryOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

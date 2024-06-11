@@ -1,5 +1,5 @@
 import { SecretClient } from "@azure/keyvault-secrets";
-import { PerfTest } from "@azure/test-utils-perf";
+import { PerfTest } from "@azure-tools/test-perf";
 import { keyVaultUri, credential } from "./utils";
 
 export abstract class SecretTest<TOptions = Record<string, unknown>> extends PerfTest<TOptions> {

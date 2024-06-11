@@ -28,7 +28,7 @@ async function deleteCommitmentPlan() {
   const result = await client.commitmentPlans.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    commitmentPlanName
+    commitmentPlanName,
   );
   console.log(result);
 }

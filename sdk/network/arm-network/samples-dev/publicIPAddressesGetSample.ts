@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified public IP address in a specified resource group.
  *
  * @summary Gets the specified public IP address in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PublicIpAddressGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/PublicIpAddressGet.json
  */
 async function getPublicIPAddress() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getPublicIPAddress() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.publicIPAddresses.get(
     resourceGroupName,
-    publicIpAddressName
+    publicIpAddressName,
   );
   console.log(result);
 }

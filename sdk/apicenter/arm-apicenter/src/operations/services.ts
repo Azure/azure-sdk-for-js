@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureAPICenter } from "../azureAPICenter";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   Service,
   ServicesListBySubscriptionNextOptionalParams,
   ServicesListBySubscriptionOptionalParams,
@@ -25,11 +31,15 @@ import {
   ServicesGetResponse,
   ServicesCreateOrUpdateOptionalParams,
   ServicesCreateOrUpdateResponse,
+  ServiceUpdate,
   ServicesUpdateOptionalParams,
   ServicesUpdateResponse,
   ServicesDeleteOptionalParams,
+  MetadataSchemaExportRequest,
+  ServicesExportMetadataSchemaOptionalParams,
+  ServicesExportMetadataSchemaResponse,
   ServicesListBySubscriptionNextResponse,
-  ServicesListByResourceGroupNextResponse
+  ServicesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,7 +60,7 @@ export class ServicesImpl implements Services {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ServicesListBySubscriptionOptionalParams
+    options?: ServicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Service> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -65,13 +75,13 @@ export class ServicesImpl implements Services {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ServicesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Service[]> {
     let result: ServicesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +102,7 @@ export class ServicesImpl implements Services {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ServicesListBySubscriptionOptionalParams
+    options?: ServicesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Service> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -100,13 +110,13 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Lists services within a resource group
+   * Returns a collection of services within the resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
+    options?: ServicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Service> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -123,16 +133,16 @@ export class ServicesImpl implements Services {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ServicesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Service[]> {
     let result: ServicesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -147,7 +157,7 @@ export class ServicesImpl implements Services {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -158,11 +168,11 @@ export class ServicesImpl implements Services {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
+    options?: ServicesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Service> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -173,95 +183,194 @@ export class ServicesImpl implements Services {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ServicesListBySubscriptionOptionalParams
+    options?: ServicesListBySubscriptionOptionalParams,
   ): Promise<ServicesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
   /**
-   * Lists services within a resource group
+   * Returns a collection of services within the resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
+    options?: ServicesListByResourceGroupOptionalParams,
   ): Promise<ServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
   /**
-   * Get service
+   * Returns details of the service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName Service name
+   * @param serviceName The name of Azure API Center service.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServicesGetOptionalParams
+    options?: ServicesGetOptionalParams,
   ): Promise<ServicesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Create or update service
+   * Creates new or updates existing API.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName Service name
+   * @param serviceName The name of Azure API Center service.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServicesCreateOrUpdateOptionalParams
+    resource: Service,
+    options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<ServicesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
-      createOrUpdateOperationSpec
+      { resourceGroupName, serviceName, resource, options },
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
-   * Update service
+   * Updates existing service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName Service name
+   * @param serviceName The name of Azure API Center service.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServicesUpdateOptionalParams
+    properties: ServiceUpdate,
+    options?: ServicesUpdateOptionalParams,
   ): Promise<ServicesUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
-      updateOperationSpec
+      { resourceGroupName, serviceName, properties, options },
+      updateOperationSpec,
     );
   }
 
   /**
-   * Delete service
+   * Deletes specified service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName Service name
+   * @param serviceName The name of Azure API Center service.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServicesDeleteOptionalParams
+    options?: ServicesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
+  }
+
+  /**
+   * Exports the effective metadata schema.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of Azure API Center service.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginExportMetadataSchema(
+    resourceGroupName: string,
+    serviceName: string,
+    body: MetadataSchemaExportRequest,
+    options?: ServicesExportMetadataSchemaOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ServicesExportMetadataSchemaResponse>,
+      ServicesExportMetadataSchemaResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ServicesExportMetadataSchemaResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, body, options },
+      spec: exportMetadataSchemaOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ServicesExportMetadataSchemaResponse,
+      OperationState<ServicesExportMetadataSchemaResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Exports the effective metadata schema.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of Azure API Center service.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginExportMetadataSchemaAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    body: MetadataSchemaExportRequest,
+    options?: ServicesExportMetadataSchemaOptionalParams,
+  ): Promise<ServicesExportMetadataSchemaResponse> {
+    const poller = await this.beginExportMetadataSchema(
+      resourceGroupName,
+      serviceName,
+      body,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -271,11 +380,11 @@ export class ServicesImpl implements Services {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ServicesListBySubscriptionNextOptionalParams
+    options?: ServicesListBySubscriptionNextOptionalParams,
   ): Promise<ServicesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -288,11 +397,11 @@ export class ServicesImpl implements Services {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ServicesListByResourceGroupNextOptionalParams
+    options?: ServicesListByResourceGroupNextOptionalParams,
   ): Promise<ServicesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -300,79 +409,75 @@ export class ServicesImpl implements Services {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ApiCenter/services",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ApiCenter/services",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceCollection
+      bodyMapper: Mappers.ServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceCollection
+      bodyMapper: Mappers.ServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Service
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Service,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Service
+      bodyMapper: Mappers.Service,
     },
     201: {
-      bodyMapper: Mappers.Service
+      bodyMapper: Mappers.Service,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
@@ -380,93 +485,123 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Service
+      bodyMapper: Mappers.Service,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const exportMetadataSchemaOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/exportMetadataSchema",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MetadataSchemaExportResult,
+    },
+    201: {
+      bodyMapper: Mappers.MetadataSchemaExportResult,
+    },
+    202: {
+      bodyMapper: Mappers.MetadataSchemaExportResult,
+    },
+    204: {
+      bodyMapper: Mappers.MetadataSchemaExportResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceCollection
+      bodyMapper: Mappers.ServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceCollection
+      bodyMapper: Mappers.ServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

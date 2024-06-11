@@ -39,7 +39,7 @@ describe("LogHandler", () => {
     );
     const loggerProvider: LoggerProvider = new LoggerProvider();
     loggerProvider.addLogRecordProcessor(handler.getBatchLogRecordProcessor());
-    loggerProvider.addLogRecordProcessor(handler.getBAzureLogRecordProcessor());
+    loggerProvider.addLogRecordProcessor(handler.getAzureLogRecordProcessor());
     logs.setGlobalLoggerProvider(loggerProvider);
 
     const tracerProvider = new NodeTracerProvider();
@@ -178,7 +178,7 @@ describe("LogHandler", () => {
         });
     });
 
-    it("Instrumentations", () => {
+    it("should add bunyan instrumentation", () => {
       let config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
@@ -191,6 +191,22 @@ describe("LogHandler", () => {
         logHandler.getInstrumentations()[0].instrumentationName,
         "@opentelemetry/instrumentation-bunyan",
         "Bunyan instrumentation not added",
+      );
+    });
+
+    it("should add winston instrumentation", () => {
+      let config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.winston = {
+        enabled: true,
+      };
+      let logHandler = new LogHandler(config, metricHandler);
+      assert.ok(logHandler.getInstrumentations().length > 0, "Log instrumentations not added");
+      assert.strictEqual(
+        logHandler.getInstrumentations()[0].instrumentationName,
+        "@opentelemetry/instrumentation-winston",
+        "Winston instrumentation not added",
       );
     });
   });

@@ -30,6 +30,7 @@ export class HttpSender extends BaseSender {
     trackStatsbeat: boolean;
     exporterOptions: AzureMonitorExporterOptions;
     aadAudience?: string;
+    isStatsbeatSender?: boolean;
   }) {
     super(options);
     // Build endpoint using provided configuration or default values

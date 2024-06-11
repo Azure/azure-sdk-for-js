@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineScaleSetVMsListOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of all virtual machines in a VM scale sets.
  *
  * @summary Gets a list of all virtual machines in a VM scale sets.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMListMaximumSetGen() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function virtualMachineScaleSetVMListMaximumSetGen() {
   const options: VirtualMachineScaleSetVMsListOptionalParams = {
     filter,
     select,
-    expand
+    expand,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function virtualMachineScaleSetVMListMaximumSetGen() {
   for await (let item of client.virtualMachineScaleSetVMs.list(
     resourceGroupName,
     virtualMachineScaleSetName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -54,7 +54,7 @@ async function virtualMachineScaleSetVMListMaximumSetGen() {
  * This sample demonstrates how to Gets a list of all virtual machines in a VM scale sets.
  *
  * @summary Gets a list of all virtual machines in a VM scale sets.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMListMinimumSetGen() {
   const subscriptionId =
@@ -67,7 +67,7 @@ async function virtualMachineScaleSetVMListMinimumSetGen() {
   const resArray = new Array();
   for await (let item of client.virtualMachineScaleSetVMs.list(
     resourceGroupName,
-    virtualMachineScaleSetName
+    virtualMachineScaleSetName,
   )) {
     resArray.push(item);
   }

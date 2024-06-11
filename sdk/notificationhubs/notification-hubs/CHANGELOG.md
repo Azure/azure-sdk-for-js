@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.4 (Unreleased)
+## 1.2.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,41 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.2.1 (2024-04-25)
+
+### Bugs Fixed
+
+- Fixed FirebaseV1 Notification to use the correct `data` and create the wrapper `message`.
+  - [#29404](https://github.com/Azure/azure-sdk-for-js/issues/29404)
+  - [#29371](https://github.com/Azure/azure-sdk-for-js/issues/29371)
+- Fixed Firebase query for `listRegistrationsByChannel` to use the correct `channel` query parameter.
+  - [#29372](https://github.com/Azure/azure-sdk-for-js/issues/29372)
+
+## 1.2.0 (2024-03-28)
+
+### Features Added
+
+- Added overloads to create notifications for ADM, Baidu, Template, Xiaomi and WebPush accepting either a string or a custom object that is transformed into the JSON notification body.
+
+### Bugs Fixed
+
+- Fix ordering of XML `BrowserRegistrationDescription` properties.
+
+## 1.1.1 (2024-03-19)
+
+### Bugs Fixed
+
+- Fixed to allow `FcmV1Notification` as part of the `Notification` and `sendNotification` parameters.
+
+## 1.1.0 (2024-03-01)
+
+### Features Added
+
+- Added Support for [Firebase Cloud Messaging (FCM)](https://firebase.google.com/docs/cloud-messaging) V1 API with the following:
+  - `FcmV1RegistrationDescription` and `FcmV1TemplateRegistrationDescription` for registrations with associated factory methods.
+  - `FcmV1Installation` for installation operations and associated factory methods.
+  - `FcmV1Notification` for notification send support and associated factory methods.
 
 ## 1.0.3 (2023-11-13)
 

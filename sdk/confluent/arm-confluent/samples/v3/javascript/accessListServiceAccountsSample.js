@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Organization service accounts details
  *
  * @summary Organization service accounts details
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/Access_ServiceAccountsList.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_ServiceAccountsList.json
  */
 async function accessServiceAccountsList() {
   const subscriptionId =

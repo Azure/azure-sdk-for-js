@@ -23,7 +23,7 @@ import {
   DatasetsGetOptionalParams,
   DatasetsGetResponse,
   DatasetsDeleteOptionalParams,
-  DatasetsListByFactoryNextResponse
+  DatasetsListByFactoryNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,12 +48,12 @@ export class DatasetsImpl implements Datasets {
   public listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: DatasetsListByFactoryOptionalParams
+    options?: DatasetsListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<DatasetResource> {
     const iter = this.listByFactoryPagingAll(
       resourceGroupName,
       factoryName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class DatasetsImpl implements Datasets {
           resourceGroupName,
           factoryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class DatasetsImpl implements Datasets {
     resourceGroupName: string,
     factoryName: string,
     options?: DatasetsListByFactoryOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DatasetResource[]> {
     let result: DatasetsListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class DatasetsImpl implements Datasets {
       result = await this._listByFactory(
         resourceGroupName,
         factoryName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -100,7 +100,7 @@ export class DatasetsImpl implements Datasets {
         resourceGroupName,
         factoryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +112,12 @@ export class DatasetsImpl implements Datasets {
   private async *listByFactoryPagingAll(
     resourceGroupName: string,
     factoryName: string,
-    options?: DatasetsListByFactoryOptionalParams
+    options?: DatasetsListByFactoryOptionalParams,
   ): AsyncIterableIterator<DatasetResource> {
     for await (const page of this.listByFactoryPagingPage(
       resourceGroupName,
       factoryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,11 +132,11 @@ export class DatasetsImpl implements Datasets {
   private _listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: DatasetsListByFactoryOptionalParams
+    options?: DatasetsListByFactoryOptionalParams,
   ): Promise<DatasetsListByFactoryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, options },
-      listByFactoryOperationSpec
+      listByFactoryOperationSpec,
     );
   }
 
@@ -153,11 +153,11 @@ export class DatasetsImpl implements Datasets {
     factoryName: string,
     datasetName: string,
     dataset: DatasetResource,
-    options?: DatasetsCreateOrUpdateOptionalParams
+    options?: DatasetsCreateOrUpdateOptionalParams,
   ): Promise<DatasetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, datasetName, dataset, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -172,11 +172,11 @@ export class DatasetsImpl implements Datasets {
     resourceGroupName: string,
     factoryName: string,
     datasetName: string,
-    options?: DatasetsGetOptionalParams
+    options?: DatasetsGetOptionalParams,
   ): Promise<DatasetsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, datasetName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -191,11 +191,11 @@ export class DatasetsImpl implements Datasets {
     resourceGroupName: string,
     factoryName: string,
     datasetName: string,
-    options?: DatasetsDeleteOptionalParams
+    options?: DatasetsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, datasetName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -210,11 +210,11 @@ export class DatasetsImpl implements Datasets {
     resourceGroupName: string,
     factoryName: string,
     nextLink: string,
-    options?: DatasetsListByFactoryNextOptionalParams
+    options?: DatasetsListByFactoryNextOptionalParams,
   ): Promise<DatasetsListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, nextLink, options },
-      listByFactoryNextOperationSpec
+      listByFactoryNextOperationSpec,
     );
   }
 }
@@ -222,38 +222,36 @@ export class DatasetsImpl implements Datasets {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByFactoryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatasetListResponse
+      bodyMapper: Mappers.DatasetListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets/{datasetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets/{datasetName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DatasetResource
+      bodyMapper: Mappers.DatasetResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.dataset,
   queryParameters: [Parameters.apiVersion],
@@ -262,28 +260,27 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.datasetName
+    Parameters.datasetName,
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets/{datasetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets/{datasetName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatasetResource
+      bodyMapper: Mappers.DatasetResource,
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -291,21 +288,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.datasetName
+    Parameters.datasetName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets/{datasetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets/{datasetName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -313,29 +309,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.datasetName
+    Parameters.datasetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatasetListResponse
+      bodyMapper: Mappers.DatasetListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

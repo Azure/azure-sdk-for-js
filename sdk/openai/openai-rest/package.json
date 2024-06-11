@@ -1,0 +1,104 @@
+{
+  "name": "@azure-rest/openai",
+  "sdk-type": "client",
+  "author": "Microsoft Corporation",
+  "version": "1.0.0-beta.1",
+  "description": "undefined",
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "dist/index.cjs",
+  "module": "dist-esm/src/index.js",
+  "types": "./types/openai.d.ts",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "files": [
+    "dist/",
+    "dist-esm/src",
+    "types/openai.d.ts",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "review/*"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:samples": "echo Obsolete",
+    "generate": "tsp-client update",
+    "bundle": "tsc -p . && dev-tool run bundle",
+    "build": "npm run clean && npm run bundle && dev-tool run extract-api",
+    "build:test": "npm run bundle",
+    "check-format": "echo skipped",
+    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "format": "echo skipped",
+    "integration-test:browser": "npm run unit-test:browser",
+    "integration-test:node": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "echo skipped",
+    "lint": "echo skipped",
+    "pack": "npm pack 2>&1",
+    "test:browser": "npm run clean && npm run build && npm run integration-test:browser",
+    "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
+    "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
+  "sideEffects": false,
+  "autoPublish": false,
+  "dependencies": {
+    "@azure/core-auth": "^1.6.0",
+    "@azure-rest/core-client": "^1.2.0",
+    "@azure/core-rest-pipeline": "^1.14.0",
+    "@azure/logger": "^1.0.0",
+    "tslib": "^2.2.0",
+    "@azure/core-lro": "^2.6.0",
+    "@azure/abort-controller": "^1.0.0"
+  },
+  "devDependencies": {
+    "@azure/core-sse": "^2.0.0",
+    "@azure/dev-tool": "^1.0.0",
+    "@microsoft/api-extractor": "^7.31.1",
+    "autorest": "latest",
+    "@types/node": "^18.0.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.0",
+    "mkdirp": "^3.0.1",
+    "rimraf": "^5.0.0",
+    "source-map-support": "^0.5.9",
+    "typescript": "~5.4.5"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-rest/README.md",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/openAIClient.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure OpenAI",
+    "productSlugs": [
+      "azure",
+      "azure-cognitive-services",
+      "azure-openai"
+    ],
+    "requiredResources": {
+      "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource"
+    }
+  }
+}

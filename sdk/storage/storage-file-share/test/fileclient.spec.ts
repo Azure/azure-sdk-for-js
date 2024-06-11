@@ -5,7 +5,7 @@ import { AbortController } from "@azure/abort-controller";
 import { isNode, isBrowser } from "@azure/core-util";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 import {
   FileStartCopyOptions,

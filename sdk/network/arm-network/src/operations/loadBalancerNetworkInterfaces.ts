@@ -18,13 +18,14 @@ import {
   LoadBalancerNetworkInterfacesListNextOptionalParams,
   LoadBalancerNetworkInterfacesListOptionalParams,
   LoadBalancerNetworkInterfacesListResponse,
-  LoadBalancerNetworkInterfacesListNextResponse
+  LoadBalancerNetworkInterfacesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LoadBalancerNetworkInterfaces operations. */
 export class LoadBalancerNetworkInterfacesImpl
-  implements LoadBalancerNetworkInterfaces {
+  implements LoadBalancerNetworkInterfaces
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -44,12 +45,12 @@ export class LoadBalancerNetworkInterfacesImpl
   public list(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancerNetworkInterfacesListOptionalParams
+    options?: LoadBalancerNetworkInterfacesListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterface> {
     const iter = this.listPagingAll(
       resourceGroupName,
       loadBalancerName,
-      options
+      options,
     );
     return {
       next() {
@@ -66,9 +67,9 @@ export class LoadBalancerNetworkInterfacesImpl
           resourceGroupName,
           loadBalancerName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +77,7 @@ export class LoadBalancerNetworkInterfacesImpl
     resourceGroupName: string,
     loadBalancerName: string,
     options?: LoadBalancerNetworkInterfacesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkInterface[]> {
     let result: LoadBalancerNetworkInterfacesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +93,7 @@ export class LoadBalancerNetworkInterfacesImpl
         resourceGroupName,
         loadBalancerName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -104,12 +105,12 @@ export class LoadBalancerNetworkInterfacesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancerNetworkInterfacesListOptionalParams
+    options?: LoadBalancerNetworkInterfacesListOptionalParams,
   ): AsyncIterableIterator<NetworkInterface> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       loadBalancerName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -124,11 +125,11 @@ export class LoadBalancerNetworkInterfacesImpl
   private _list(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancerNetworkInterfacesListOptionalParams
+    options?: LoadBalancerNetworkInterfacesListOptionalParams,
   ): Promise<LoadBalancerNetworkInterfacesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, loadBalancerName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -143,11 +144,11 @@ export class LoadBalancerNetworkInterfacesImpl
     resourceGroupName: string,
     loadBalancerName: string,
     nextLink: string,
-    options?: LoadBalancerNetworkInterfacesListNextOptionalParams
+    options?: LoadBalancerNetworkInterfacesListNextOptionalParams,
   ): Promise<LoadBalancerNetworkInterfacesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, loadBalancerName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -155,45 +156,44 @@ export class LoadBalancerNetworkInterfacesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/networkInterfaces",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/networkInterfaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceListResult
+      bodyMapper: Mappers.NetworkInterfaceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.loadBalancerName
+    Parameters.loadBalancerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfaceListResult
+      bodyMapper: Mappers.NetworkInterfaceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.loadBalancerName
+    Parameters.loadBalancerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Renews the connection certificate for the ASR replication fabric.
  *
  * @summary Renews the connection certificate for the ASR replication fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationFabrics_RenewCertificate.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationFabrics_RenewCertificate.json
  */
 async function renewsCertificateForTheFabric() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function renewsCertificateForTheFabric() {
     resourceName,
     resourceGroupName,
     fabricName,
-    renewCertificate
+    renewCertificate,
   );
   console.log(result);
 }

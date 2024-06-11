@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient } from "../interfaces";
-import { Pipeline } from "../pipeline";
-import { bearerTokenAuthenticationPolicy } from "../policies/bearerTokenAuthenticationPolicy";
-import { createDefaultHttpClient } from "../defaultHttpClient";
-import { createPipelineFromOptions } from "../createPipelineFromOptions";
-import { TokenCredential, isTokenCredential } from "../auth/tokenCredential";
-import { KeyCredential } from "../auth/keyCredential";
-
-import { ClientOptions } from "./common";
-import { apiVersionPolicy } from "./apiVersionPolicy";
-import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy";
+import { HttpClient } from "../interfaces.js";
+import { Pipeline } from "../pipeline.js";
+import { bearerTokenAuthenticationPolicy } from "../policies/bearerTokenAuthenticationPolicy.js";
+import { createDefaultHttpClient } from "../defaultHttpClient.js";
+import { createPipelineFromOptions } from "../createPipelineFromOptions.js";
+import { TokenCredential, isTokenCredential } from "../auth/tokenCredential.js";
+import { KeyCredential, isKeyCredential } from "../auth/keyCredential.js";
+import { ClientOptions } from "./common.js";
+import { apiVersionPolicy } from "./apiVersionPolicy.js";
+import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
 
 let cachedHttpClient: HttpClient | undefined;
 
@@ -34,7 +33,7 @@ export interface AddCredentialPipelinePolicyOptions {
  */
 export function addCredentialPipelinePolicy(
   pipeline: Pipeline,
-  baseUrl: string,
+  endpoint: string,
   options: AddCredentialPipelinePolicyOptions = {},
 ): void {
   const { credential, clientOptions } = options;
@@ -45,7 +44,7 @@ export function addCredentialPipelinePolicy(
   if (isTokenCredential(credential)) {
     const tokenPolicy = bearerTokenAuthenticationPolicy({
       credential,
-      scopes: clientOptions?.credentials?.scopes ?? `${baseUrl}/.default`,
+      scopes: clientOptions?.credentials?.scopes ?? `${endpoint}/.default`,
     });
     pipeline.addPolicy(tokenPolicy);
   } else if (isKeyCredential(credential)) {
@@ -64,7 +63,7 @@ export function addCredentialPipelinePolicy(
  * Creates a default rest pipeline to re-use accross Rest Level Clients
  */
 export function createDefaultPipeline(
-  baseUrl: string,
+  endpoint: string,
   credential?: TokenCredential | KeyCredential,
   options: ClientOptions = {},
 ): Pipeline {
@@ -72,12 +71,8 @@ export function createDefaultPipeline(
 
   pipeline.addPolicy(apiVersionPolicy(options));
 
-  addCredentialPipelinePolicy(pipeline, baseUrl, { credential, clientOptions: options });
+  addCredentialPipelinePolicy(pipeline, endpoint, { credential, clientOptions: options });
   return pipeline;
-}
-
-function isKeyCredential(credential: any): credential is KeyCredential {
-  return (credential as KeyCredential).key !== undefined;
 }
 
 export function getCachedDefaultHttpsClient(): HttpClient {

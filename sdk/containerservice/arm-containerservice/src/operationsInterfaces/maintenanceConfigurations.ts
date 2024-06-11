@@ -14,7 +14,7 @@ import {
   MaintenanceConfigurationsGetResponse,
   MaintenanceConfigurationsCreateOrUpdateOptionalParams,
   MaintenanceConfigurationsCreateOrUpdateResponse,
-  MaintenanceConfigurationsDeleteOptionalParams
+  MaintenanceConfigurationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface MaintenanceConfigurations {
   listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams
+    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams,
   ): PagedAsyncIterableIterator<MaintenanceConfiguration>;
   /**
    * Gets the specified maintenance configuration of a managed cluster.
@@ -42,7 +42,7 @@ export interface MaintenanceConfigurations {
     resourceGroupName: string,
     resourceName: string,
     configName: string,
-    options?: MaintenanceConfigurationsGetOptionalParams
+    options?: MaintenanceConfigurationsGetOptionalParams,
   ): Promise<MaintenanceConfigurationsGetResponse>;
   /**
    * Creates or updates a maintenance configuration in the specified managed cluster.
@@ -57,7 +57,7 @@ export interface MaintenanceConfigurations {
     resourceName: string,
     configName: string,
     parameters: MaintenanceConfiguration,
-    options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams
+    options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<MaintenanceConfigurationsCreateOrUpdateResponse>;
   /**
    * Deletes a maintenance configuration.
@@ -70,6 +70,6 @@ export interface MaintenanceConfigurations {
     resourceGroupName: string,
     resourceName: string,
     configName: string,
-    options?: MaintenanceConfigurationsDeleteOptionalParams
+    options?: MaintenanceConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }

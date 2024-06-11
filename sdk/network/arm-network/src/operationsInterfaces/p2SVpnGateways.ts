@@ -31,7 +31,7 @@ import {
   P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedOptionalParams,
   P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedResponse,
   P2SVpnConnectionRequest,
-  P2SVpnGatewaysDisconnectP2SVpnConnectionsOptionalParams
+  P2SVpnGatewaysDisconnectP2SVpnConnectionsOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,14 +44,14 @@ export interface P2SVpnGateways {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: P2SVpnGatewaysListByResourceGroupOptionalParams
+    options?: P2SVpnGatewaysListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<P2SVpnGateway>;
   /**
    * Lists all the P2SVpnGateways in a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: P2SVpnGatewaysListOptionalParams
+    options?: P2SVpnGatewaysListOptionalParams,
   ): PagedAsyncIterableIterator<P2SVpnGateway>;
   /**
    * Retrieves the details of a virtual wan p2s vpn gateway.
@@ -62,7 +62,7 @@ export interface P2SVpnGateways {
   get(
     resourceGroupName: string,
     gatewayName: string,
-    options?: P2SVpnGatewaysGetOptionalParams
+    options?: P2SVpnGatewaysGetOptionalParams,
   ): Promise<P2SVpnGatewaysGetResponse>;
   /**
    * Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
@@ -76,7 +76,7 @@ export interface P2SVpnGateways {
     resourceGroupName: string,
     gatewayName: string,
     p2SVpnGatewayParameters: P2SVpnGateway,
-    options?: P2SVpnGatewaysCreateOrUpdateOptionalParams
+    options?: P2SVpnGatewaysCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<P2SVpnGatewaysCreateOrUpdateResponse>,
@@ -95,7 +95,7 @@ export interface P2SVpnGateways {
     resourceGroupName: string,
     gatewayName: string,
     p2SVpnGatewayParameters: P2SVpnGateway,
-    options?: P2SVpnGatewaysCreateOrUpdateOptionalParams
+    options?: P2SVpnGatewaysCreateOrUpdateOptionalParams,
   ): Promise<P2SVpnGatewaysCreateOrUpdateResponse>;
   /**
    * Updates virtual wan p2s vpn gateway tags.
@@ -108,7 +108,7 @@ export interface P2SVpnGateways {
     resourceGroupName: string,
     gatewayName: string,
     p2SVpnGatewayParameters: TagsObject,
-    options?: P2SVpnGatewaysUpdateTagsOptionalParams
+    options?: P2SVpnGatewaysUpdateTagsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<P2SVpnGatewaysUpdateTagsResponse>,
@@ -126,7 +126,7 @@ export interface P2SVpnGateways {
     resourceGroupName: string,
     gatewayName: string,
     p2SVpnGatewayParameters: TagsObject,
-    options?: P2SVpnGatewaysUpdateTagsOptionalParams
+    options?: P2SVpnGatewaysUpdateTagsOptionalParams,
   ): Promise<P2SVpnGatewaysUpdateTagsResponse>;
   /**
    * Deletes a virtual wan p2s vpn gateway.
@@ -137,7 +137,7 @@ export interface P2SVpnGateways {
   beginDelete(
     resourceGroupName: string,
     gatewayName: string,
-    options?: P2SVpnGatewaysDeleteOptionalParams
+    options?: P2SVpnGatewaysDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a virtual wan p2s vpn gateway.
@@ -148,7 +148,7 @@ export interface P2SVpnGateways {
   beginDeleteAndWait(
     resourceGroupName: string,
     gatewayName: string,
-    options?: P2SVpnGatewaysDeleteOptionalParams
+    options?: P2SVpnGatewaysDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Resets the primary of the p2s vpn gateway in the specified resource group.
@@ -159,7 +159,7 @@ export interface P2SVpnGateways {
   beginReset(
     resourceGroupName: string,
     gatewayName: string,
-    options?: P2SVpnGatewaysResetOptionalParams
+    options?: P2SVpnGatewaysResetOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<P2SVpnGatewaysResetResponse>,
@@ -175,7 +175,7 @@ export interface P2SVpnGateways {
   beginResetAndWait(
     resourceGroupName: string,
     gatewayName: string,
-    options?: P2SVpnGatewaysResetOptionalParams
+    options?: P2SVpnGatewaysResetOptionalParams,
   ): Promise<P2SVpnGatewaysResetResponse>;
   /**
    * Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group.
@@ -188,7 +188,7 @@ export interface P2SVpnGateways {
     resourceGroupName: string,
     gatewayName: string,
     parameters: P2SVpnProfileParameters,
-    options?: P2SVpnGatewaysGenerateVpnProfileOptionalParams
+    options?: P2SVpnGatewaysGenerateVpnProfileOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<P2SVpnGatewaysGenerateVpnProfileResponse>,
@@ -206,7 +206,7 @@ export interface P2SVpnGateways {
     resourceGroupName: string,
     gatewayName: string,
     parameters: P2SVpnProfileParameters,
-    options?: P2SVpnGatewaysGenerateVpnProfileOptionalParams
+    options?: P2SVpnGatewaysGenerateVpnProfileOptionalParams,
   ): Promise<P2SVpnGatewaysGenerateVpnProfileResponse>;
   /**
    * Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource
@@ -218,7 +218,7 @@ export interface P2SVpnGateways {
   beginGetP2SVpnConnectionHealth(
     resourceGroupName: string,
     gatewayName: string,
-    options?: P2SVpnGatewaysGetP2SVpnConnectionHealthOptionalParams
+    options?: P2SVpnGatewaysGetP2SVpnConnectionHealthOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<P2SVpnGatewaysGetP2SVpnConnectionHealthResponse>,
@@ -235,7 +235,7 @@ export interface P2SVpnGateways {
   beginGetP2SVpnConnectionHealthAndWait(
     resourceGroupName: string,
     gatewayName: string,
-    options?: P2SVpnGatewaysGetP2SVpnConnectionHealthOptionalParams
+    options?: P2SVpnGatewaysGetP2SVpnConnectionHealthOptionalParams,
   ): Promise<P2SVpnGatewaysGetP2SVpnConnectionHealthResponse>;
   /**
    * Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway
@@ -249,7 +249,7 @@ export interface P2SVpnGateways {
     resourceGroupName: string,
     gatewayName: string,
     request: P2SVpnConnectionHealthRequest,
-    options?: P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedOptionalParams
+    options?: P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedResponse>,
@@ -268,7 +268,7 @@ export interface P2SVpnGateways {
     resourceGroupName: string,
     gatewayName: string,
     request: P2SVpnConnectionHealthRequest,
-    options?: P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedOptionalParams
+    options?: P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedOptionalParams,
   ): Promise<P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedResponse>;
   /**
    * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
@@ -281,7 +281,7 @@ export interface P2SVpnGateways {
     resourceGroupName: string,
     p2SVpnGatewayName: string,
     request: P2SVpnConnectionRequest,
-    options?: P2SVpnGatewaysDisconnectP2SVpnConnectionsOptionalParams
+    options?: P2SVpnGatewaysDisconnectP2SVpnConnectionsOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
@@ -294,6 +294,6 @@ export interface P2SVpnGateways {
     resourceGroupName: string,
     p2SVpnGatewayName: string,
     request: P2SVpnConnectionRequest,
-    options?: P2SVpnGatewaysDisconnectP2SVpnConnectionsOptionalParams
+    options?: P2SVpnGatewaysDisconnectP2SVpnConnectionsOptionalParams,
   ): Promise<void>;
 }

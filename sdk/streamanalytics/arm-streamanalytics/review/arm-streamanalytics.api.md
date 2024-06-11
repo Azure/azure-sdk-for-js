@@ -6,9 +6,14 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export interface AggregateFunctionProperties extends FunctionProperties {
+    type: "Aggregate";
+}
 
 // @public
 export type AuthenticationMode = string;
@@ -17,6 +22,15 @@ export type AuthenticationMode = string;
 export interface AvroSerialization extends Serialization {
     properties?: Record<string, unknown>;
     type: "Avro";
+}
+
+// @public
+export interface AzureDataExplorerOutputDataSource extends OutputDataSource {
+    authenticationMode?: AuthenticationMode;
+    cluster?: string;
+    database?: string;
+    table?: string;
+    type: "Microsoft.Kusto/clusters/databases";
 }
 
 // @public
@@ -44,37 +58,87 @@ export interface AzureDataLakeStoreOutputDataSourceProperties extends OAuthBased
 }
 
 // @public
-export interface AzureMachineLearningWebServiceFunctionBinding extends FunctionBinding {
+export interface AzureFunctionOutputDataSource extends OutputDataSource {
     apiKey?: string;
-    batchSize?: number;
-    endpoint?: string;
-    inputs?: AzureMachineLearningWebServiceInputs;
-    outputs?: AzureMachineLearningWebServiceOutputColumn[];
-    type: "Microsoft.MachineLearning/WebService";
+    functionAppName?: string;
+    functionName?: string;
+    maxBatchCount?: number;
+    maxBatchSize?: number;
+    type: "Microsoft.AzureFunction";
 }
 
 // @public
-export interface AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters extends FunctionRetrieveDefaultDefinitionParameters {
-    bindingType: "Microsoft.MachineLearning/WebService";
+export interface AzureMachineLearningServiceFunctionBinding extends FunctionBinding {
+    apiKey?: string;
+    batchSize?: number;
+    endpoint?: string;
+    inputRequestName?: string;
+    inputs?: AzureMachineLearningServiceInputColumn[];
+    numberOfParallelRequests?: number;
+    outputResponseName?: string;
+    outputs?: AzureMachineLearningServiceOutputColumn[];
+    type: "Microsoft.MachineLearningServices";
+}
+
+// @public
+export interface AzureMachineLearningServiceFunctionRetrieveDefaultDefinitionParameters extends FunctionRetrieveDefaultDefinitionParameters {
+    bindingType: "Microsoft.MachineLearningServices";
     executeEndpoint?: string;
     udfType?: "Scalar";
 }
 
 // @public
-export interface AzureMachineLearningWebServiceInputColumn {
+export interface AzureMachineLearningServiceInputColumn {
     dataType?: string;
     mapTo?: number;
     name?: string;
 }
 
 // @public
-export interface AzureMachineLearningWebServiceInputs {
-    columnNames?: AzureMachineLearningWebServiceInputColumn[];
+export interface AzureMachineLearningServiceInputs {
+    columnNames?: AzureMachineLearningServiceInputColumn[];
     name?: string;
 }
 
 // @public
-export interface AzureMachineLearningWebServiceOutputColumn {
+export interface AzureMachineLearningServiceOutputColumn {
+    dataType?: string;
+    mapTo?: number;
+    name?: string;
+}
+
+// @public
+export interface AzureMachineLearningStudioFunctionBinding extends FunctionBinding {
+    apiKey?: string;
+    batchSize?: number;
+    endpoint?: string;
+    inputs?: AzureMachineLearningStudioInputs;
+    outputs?: AzureMachineLearningStudioOutputColumn[];
+    type: "Microsoft.MachineLearning/WebService";
+}
+
+// @public
+export interface AzureMachineLearningStudioFunctionRetrieveDefaultDefinitionParameters extends FunctionRetrieveDefaultDefinitionParameters {
+    bindingType: "Microsoft.MachineLearning/WebService";
+    executeEndpoint?: string;
+    udfType?: "Scalar";
+}
+
+// @public
+export interface AzureMachineLearningStudioInputColumn {
+    dataType?: string;
+    mapTo?: number;
+    name?: string;
+}
+
+// @public
+export interface AzureMachineLearningStudioInputs {
+    columnNames?: AzureMachineLearningStudioInputColumn[];
+    name?: string;
+}
+
+// @public
+export interface AzureMachineLearningStudioOutputColumn {
     dataType?: string;
     name?: string;
 }
@@ -110,6 +174,7 @@ export interface AzureSqlDatabaseOutputDataSourceProperties extends AzureSqlData
 
 // @public
 export interface AzureSqlReferenceInputDataSource extends ReferenceInputDataSource {
+    authenticationMode?: AuthenticationMode;
     database?: string;
     deltaSnapshotQuery?: string;
     fullSnapshotQuery?: string;
@@ -117,13 +182,13 @@ export interface AzureSqlReferenceInputDataSource extends ReferenceInputDataSour
     refreshRate?: string;
     refreshType?: RefreshType;
     server?: string;
-    table?: string;
     type: "Microsoft.Sql/Server/Database";
     user?: string;
 }
 
 // @public
 export interface AzureSynapseDataSourceProperties {
+    authenticationMode?: AuthenticationMode;
     database?: string;
     password?: string;
     server?: string;
@@ -133,6 +198,7 @@ export interface AzureSynapseDataSourceProperties {
 
 // @public
 export interface AzureSynapseOutputDataSource extends OutputDataSource {
+    authenticationMode?: AuthenticationMode;
     database?: string;
     password?: string;
     server?: string;
@@ -159,6 +225,7 @@ export interface AzureTableOutputDataSource extends OutputDataSource {
 
 // @public
 export interface BlobDataSourceProperties {
+    authenticationMode?: AuthenticationMode;
     container?: string;
     dateFormat?: string;
     pathPattern?: string;
@@ -169,6 +236,8 @@ export interface BlobDataSourceProperties {
 // @public
 export interface BlobOutputDataSource extends OutputDataSource {
     authenticationMode?: AuthenticationMode;
+    blobPathPrefix?: string;
+    blobWriteMode?: BlobWriteMode;
     container?: string;
     dateFormat?: string;
     pathPattern?: string;
@@ -179,14 +248,21 @@ export interface BlobOutputDataSource extends OutputDataSource {
 
 // @public
 export interface BlobOutputDataSourceProperties extends BlobDataSourceProperties {
-    authenticationMode?: AuthenticationMode;
+    blobPathPrefix?: string;
+    blobWriteMode?: BlobWriteMode;
 }
 
 // @public
 export interface BlobReferenceInputDataSource extends ReferenceInputDataSource {
+    authenticationMode?: AuthenticationMode;
+    blobName?: string;
     container?: string;
     dateFormat?: string;
+    deltaPathPattern?: string;
+    deltaSnapshotRefreshRate?: string;
+    fullSnapshotRefreshRate?: string;
     pathPattern?: string;
+    sourcePartitionCount?: number;
     storageAccounts?: StorageAccount[];
     timeFormat?: string;
     type: "Microsoft.Storage/Blob";
@@ -194,10 +270,16 @@ export interface BlobReferenceInputDataSource extends ReferenceInputDataSource {
 
 // @public
 export interface BlobReferenceInputDataSourceProperties extends BlobDataSourceProperties {
+    blobName?: string;
+    deltaPathPattern?: string;
+    deltaSnapshotRefreshRate?: string;
+    fullSnapshotRefreshRate?: string;
+    sourcePartitionCount?: number;
 }
 
 // @public
 export interface BlobStreamInputDataSource extends StreamInputDataSource {
+    authenticationMode?: AuthenticationMode;
     container?: string;
     dateFormat?: string;
     pathPattern?: string;
@@ -213,13 +295,12 @@ export interface BlobStreamInputDataSourceProperties extends BlobDataSourcePrope
 }
 
 // @public
+export type BlobWriteMode = string;
+
+// @public
 export interface Cluster extends TrackedResource {
-    readonly capacityAllocated?: number;
-    readonly capacityAssigned?: number;
-    readonly clusterId?: string;
-    readonly createdDate?: Date;
     readonly etag?: string;
-    readonly provisioningState?: ClusterProvisioningState;
+    properties?: ClusterProperties;
     sku?: ClusterSku;
 }
 
@@ -248,15 +329,24 @@ export interface ClusterListResult {
 }
 
 // @public
+export interface ClusterProperties {
+    readonly capacityAllocated?: number;
+    readonly capacityAssigned?: number;
+    readonly clusterId?: string;
+    readonly createdDate?: Date;
+    readonly provisioningState?: ClusterProvisioningState;
+}
+
+// @public
 export type ClusterProvisioningState = string;
 
 // @public
 export interface Clusters {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<ClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, cluster: Cluster, options?: ClustersUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, cluster: Cluster, options?: ClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, cluster: Cluster, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
@@ -353,6 +443,15 @@ export type ClustersUpdateResponse = Cluster;
 export type CompatibilityLevel = string;
 
 // @public
+export interface CompileQuery {
+    compatibilityLevel?: CompatibilityLevel;
+    functions?: QueryFunction[];
+    inputs?: QueryInput[];
+    jobType: JobType;
+    query: string;
+}
+
+// @public
 export interface Compression {
     type: CompressionType;
 }
@@ -364,10 +463,40 @@ export type CompressionType = string;
 export type ContentStoragePolicy = string;
 
 // @public
+export interface CSharpFunctionBinding extends FunctionBinding {
+    class?: string;
+    dllPath?: string;
+    method?: string;
+    type: "Microsoft.StreamAnalytics/CLRUdf";
+    updateMode?: UpdateMode;
+}
+
+// @public
+export interface CSharpFunctionRetrieveDefaultDefinitionParameters extends FunctionRetrieveDefaultDefinitionParameters {
+    bindingType: "Microsoft.StreamAnalytics/CLRUdf";
+    script?: string;
+    udfType?: "Scalar";
+}
+
+// @public
 export interface CsvSerialization extends Serialization {
     encoding?: Encoding;
     fieldDelimiter?: string;
     type: "Csv";
+}
+
+// @public
+export interface CustomClrSerialization extends Serialization {
+    serializationClassName?: string;
+    serializationDllPath?: string;
+    type: "CustomClr";
+}
+
+// @public
+export interface DeltaSerialization extends Serialization {
+    deltaTablePath?: string;
+    partitionColumns?: string[];
+    type: "Delta";
 }
 
 // @public
@@ -386,6 +515,7 @@ export interface Diagnostics {
 export interface DocumentDbOutputDataSource extends OutputDataSource {
     accountId?: string;
     accountKey?: string;
+    authenticationMode?: AuthenticationMode;
     collectionNamePattern?: string;
     database?: string;
     documentId?: string;
@@ -423,14 +553,28 @@ export interface ErrorResponse {
 }
 
 // @public
+export type EventGridEventSchemaType = string;
+
+// @public
+export interface EventGridStreamInputDataSource extends StreamInputDataSource {
+    eventTypes?: string[];
+    schema?: EventGridEventSchemaType;
+    storageAccounts?: StorageAccount[];
+    subscriber?: EventHubV2StreamInputDataSource;
+    type: "Microsoft.EventGrid/EventSubscriptions";
+}
+
+// @public
 export interface EventHubDataSourceProperties extends ServiceBusDataSourceProperties {
     eventHubName?: string;
+    partitionCount?: number;
 }
 
 // @public
 export interface EventHubOutputDataSource extends OutputDataSource {
     authenticationMode?: AuthenticationMode;
     eventHubName?: string;
+    partitionCount?: number;
     partitionKey?: string;
     propertyColumns?: string[];
     serviceBusNamespace?: string;
@@ -450,6 +594,8 @@ export interface EventHubStreamInputDataSource extends StreamInputDataSource {
     authenticationMode?: AuthenticationMode;
     consumerGroupName?: string;
     eventHubName?: string;
+    partitionCount?: number;
+    prefetchCount?: number;
     serviceBusNamespace?: string;
     sharedAccessPolicyKey?: string;
     sharedAccessPolicyName?: string;
@@ -459,12 +605,14 @@ export interface EventHubStreamInputDataSource extends StreamInputDataSource {
 // @public
 export interface EventHubStreamInputDataSourceProperties extends EventHubDataSourceProperties {
     consumerGroupName?: string;
+    prefetchCount?: number;
 }
 
 // @public
 export interface EventHubV2OutputDataSource extends OutputDataSource {
     authenticationMode?: AuthenticationMode;
     eventHubName?: string;
+    partitionCount?: number;
     partitionKey?: string;
     propertyColumns?: string[];
     serviceBusNamespace?: string;
@@ -478,6 +626,8 @@ export interface EventHubV2StreamInputDataSource extends StreamInputDataSource {
     authenticationMode?: AuthenticationMode;
     consumerGroupName?: string;
     eventHubName?: string;
+    partitionCount?: number;
+    prefetchCount?: number;
     serviceBusNamespace?: string;
     sharedAccessPolicyKey?: string;
     sharedAccessPolicyName?: string;
@@ -491,12 +641,27 @@ export type EventSerializationType = string;
 export type EventsOutOfOrderPolicy = string;
 
 // @public
+interface External_2 {
+    container?: string;
+    path?: string;
+    refreshConfiguration?: RefreshConfiguration;
+    storageAccount?: StorageAccount;
+}
+export { External_2 as External }
+
+// @public
+export interface FileReferenceInputDataSource extends ReferenceInputDataSource {
+    path?: string;
+    type: "File";
+}
+
+// @public
 export interface FunctionBinding {
-    type: "Microsoft.MachineLearning/WebService" | "Microsoft.StreamAnalytics/JavascriptUdf";
+    type: "Microsoft.MachineLearning/WebService" | "Microsoft.StreamAnalytics/JavascriptUdf" | "Microsoft.StreamAnalytics/CLRUdf" | "Microsoft.MachineLearningServices";
 }
 
 // @public (undocumented)
-export type FunctionBindingUnion = FunctionBinding | AzureMachineLearningWebServiceFunctionBinding | JavaScriptFunctionBinding;
+export type FunctionBindingUnion = FunctionBinding | AzureMachineLearningStudioFunctionBinding | JavaScriptFunctionBinding | CSharpFunctionBinding | AzureMachineLearningServiceFunctionBinding;
 
 // @public
 export interface FunctionInput {
@@ -522,24 +687,28 @@ export interface FunctionOutput {
 
 // @public
 export interface FunctionProperties {
+    binding?: FunctionBindingUnion;
     readonly etag?: string;
-    type: "Scalar";
+    // (undocumented)
+    inputs?: FunctionInput[];
+    output?: FunctionOutput;
+    type: "Scalar" | "Aggregate";
 }
 
 // @public (undocumented)
-export type FunctionPropertiesUnion = FunctionProperties | ScalarFunctionProperties;
+export type FunctionPropertiesUnion = FunctionProperties | ScalarFunctionProperties | AggregateFunctionProperties;
 
 // @public
 export interface FunctionRetrieveDefaultDefinitionParameters {
-    bindingType: "Microsoft.MachineLearning/WebService" | "Microsoft.StreamAnalytics/JavascriptUdf";
+    bindingType: "Microsoft.MachineLearning/WebService" | "Microsoft.MachineLearningServices" | "Microsoft.StreamAnalytics/JavascriptUdf" | "Microsoft.StreamAnalytics/CLRUdf";
 }
 
 // @public (undocumented)
-export type FunctionRetrieveDefaultDefinitionParametersUnion = FunctionRetrieveDefaultDefinitionParameters | AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters | JavaScriptFunctionRetrieveDefaultDefinitionParameters;
+export type FunctionRetrieveDefaultDefinitionParametersUnion = FunctionRetrieveDefaultDefinitionParameters | AzureMachineLearningStudioFunctionRetrieveDefaultDefinitionParameters | AzureMachineLearningServiceFunctionRetrieveDefaultDefinitionParameters | JavaScriptFunctionRetrieveDefaultDefinitionParameters | CSharpFunctionRetrieveDefaultDefinitionParameters;
 
 // @public
 export interface Functions {
-    beginTest(resourceGroupName: string, jobName: string, functionName: string, options?: FunctionsTestOptionalParams): Promise<PollerLike<PollOperationState<FunctionsTestResponse>, FunctionsTestResponse>>;
+    beginTest(resourceGroupName: string, jobName: string, functionName: string, options?: FunctionsTestOptionalParams): Promise<SimplePollerLike<OperationState<FunctionsTestResponse>, FunctionsTestResponse>>;
     beginTestAndWait(resourceGroupName: string, jobName: string, functionName: string, options?: FunctionsTestOptionalParams): Promise<FunctionsTestResponse>;
     createOrReplace(resourceGroupName: string, jobName: string, functionName: string, functionParam: FunctionModel, options?: FunctionsCreateOrReplaceOptionalParams): Promise<FunctionsCreateOrReplaceResponse>;
     delete(resourceGroupName: string, jobName: string, functionName: string, options?: FunctionsDeleteOptionalParams): Promise<void>;
@@ -604,7 +773,7 @@ export type FunctionsRetrieveDefaultDefinitionResponse = FunctionModel;
 
 // @public
 export interface FunctionsTestOptionalParams extends coreClient.OperationOptions {
-    functionParam?: FunctionModel;
+    function?: FunctionModel;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -626,13 +795,59 @@ export interface FunctionsUpdateOptionalParams extends coreClient.OperationOptio
 export type FunctionsUpdateResponse = FunctionsUpdateHeaders & FunctionModel;
 
 // @public
+export interface GatewayMessageBusOutputDataSource extends OutputDataSource {
+    topic?: string;
+    type: "GatewayMessageBus";
+}
+
+// @public
+export interface GatewayMessageBusOutputDataSourceProperties extends GatewayMessageBusSourceProperties {
+}
+
+// @public
+export interface GatewayMessageBusSourceProperties {
+    topic?: string;
+}
+
+// @public
+export interface GatewayMessageBusStreamInputDataSource extends StreamInputDataSource {
+    topic?: string;
+    type: "GatewayMessageBus";
+}
+
+// @public
+export interface GatewayMessageBusStreamInputDataSourceProperties extends GatewayMessageBusSourceProperties {
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export interface GetStreamingJobSkuResult {
+    readonly capacity?: SkuCapacity;
+    readonly resourceType?: ResourceType;
+    readonly sku?: GetStreamingJobSkuResultSku;
+}
+
+// @public
+export interface GetStreamingJobSkuResults {
+    readonly nextLink?: string;
+    value?: GetStreamingJobSkuResult[];
+}
+
+// @public
+export interface GetStreamingJobSkuResultSku {
+    name?: SkuName;
+}
+
+// @public
 export interface Identity {
-    principalId?: string;
-    tenantId?: string;
+    readonly principalId?: string;
+    readonly tenantId?: string;
     type?: string;
+    userAssignedIdentities?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
 }
 
 // @public
@@ -654,6 +869,7 @@ export interface InputProperties {
     partitionKey?: string;
     serialization?: SerializationUnion;
     type: "Stream" | "Reference";
+    watermarkSettings?: InputWatermarkProperties;
 }
 
 // @public (undocumented)
@@ -661,7 +877,7 @@ export type InputPropertiesUnion = InputProperties | StreamInputProperties | Ref
 
 // @public
 export interface Inputs {
-    beginTest(resourceGroupName: string, jobName: string, inputName: string, options?: InputsTestOptionalParams): Promise<PollerLike<PollOperationState<InputsTestResponse>, InputsTestResponse>>;
+    beginTest(resourceGroupName: string, jobName: string, inputName: string, options?: InputsTestOptionalParams): Promise<SimplePollerLike<OperationState<InputsTestResponse>, InputsTestResponse>>;
     beginTestAndWait(resourceGroupName: string, jobName: string, inputName: string, options?: InputsTestOptionalParams): Promise<InputsTestResponse>;
     createOrReplace(resourceGroupName: string, jobName: string, inputName: string, input: Input, options?: InputsCreateOrReplaceOptionalParams): Promise<InputsCreateOrReplaceResponse>;
     delete(resourceGroupName: string, jobName: string, inputName: string, options?: InputsDeleteOptionalParams): Promise<void>;
@@ -739,6 +955,14 @@ export interface InputsUpdateOptionalParams extends coreClient.OperationOptions 
 export type InputsUpdateResponse = InputsUpdateHeaders & Input;
 
 // @public
+export type InputWatermarkMode = string;
+
+// @public
+export interface InputWatermarkProperties {
+    watermarkMode?: InputWatermarkMode;
+}
+
+// @public
 export interface IoTHubStreamInputDataSource extends StreamInputDataSource {
     consumerGroupName?: string;
     endpoint?: string;
@@ -766,7 +990,6 @@ export type JobState = string;
 
 // @public
 export interface JobStorageAccount extends StorageAccount {
-    authenticationMode?: AuthenticationMode;
 }
 
 // @public
@@ -787,6 +1010,12 @@ export enum KnownAuthenticationMode {
     ConnectionString = "ConnectionString",
     Msi = "Msi",
     UserToken = "UserToken"
+}
+
+// @public
+export enum KnownBlobWriteMode {
+    Append = "Append",
+    Once = "Once"
 }
 
 // @public
@@ -827,9 +1056,17 @@ export enum KnownEncoding {
 }
 
 // @public
+export enum KnownEventGridEventSchemaType {
+    CloudEventSchema = "CloudEventSchema",
+    EventGridEventSchema = "EventGridEventSchema"
+}
+
+// @public
 export enum KnownEventSerializationType {
     Avro = "Avro",
     Csv = "Csv",
+    CustomClr = "CustomClr",
+    Delta = "Delta",
     Json = "Json",
     Parquet = "Parquet"
 }
@@ -838,6 +1075,12 @@ export enum KnownEventSerializationType {
 export enum KnownEventsOutOfOrderPolicy {
     Adjust = "Adjust",
     Drop = "Drop"
+}
+
+// @public
+export enum KnownInputWatermarkMode {
+    None = "None",
+    ReadWatermark = "ReadWatermark"
 }
 
 // @public
@@ -880,6 +1123,23 @@ export enum KnownOutputStartMode {
 }
 
 // @public
+export enum KnownOutputWatermarkMode {
+    None = "None",
+    SendCurrentPartitionWatermark = "SendCurrentPartitionWatermark",
+    SendLowestWatermarkAcrossPartitions = "SendLowestWatermarkAcrossPartitions"
+}
+
+// @public
+export enum KnownQueryTestingResultStatus {
+    CompilerError = "CompilerError",
+    RuntimeError = "RuntimeError",
+    Started = "Started",
+    Success = "Success",
+    Timeout = "Timeout",
+    UnknownError = "UnknownError"
+}
+
+// @public
 export enum KnownRefreshType {
     RefreshPeriodicallyWithDelta = "RefreshPeriodicallyWithDelta",
     RefreshPeriodicallyWithFull = "RefreshPeriodicallyWithFull",
@@ -887,8 +1147,51 @@ export enum KnownRefreshType {
 }
 
 // @public
+export enum KnownResourceType {
+    MicrosoftStreamAnalyticsStreamingjobs = "Microsoft.StreamAnalytics/streamingjobs"
+}
+
+// @public
+export enum KnownSampleInputResultStatus {
+    ErrorConnectingToInput = "ErrorConnectingToInput",
+    NoEventsFoundInRange = "NoEventsFoundInRange",
+    ReadAllEventsInRange = "ReadAllEventsInRange"
+}
+
+// @public
+export enum KnownSkuCapacityScaleType {
+    Automatic = "automatic",
+    Manual = "manual",
+    None = "none"
+}
+
+// @public
 export enum KnownSkuName {
     Standard = "Standard"
+}
+
+// @public
+export enum KnownTestDatasourceResultStatus {
+    TestFailed = "TestFailed",
+    TestSucceeded = "TestSucceeded"
+}
+
+// @public
+export enum KnownUpdatableUdfRefreshType {
+    Blocking = "Blocking",
+    Nonblocking = "Nonblocking"
+}
+
+// @public
+export enum KnownUpdateMode {
+    Refreshable = "Refreshable",
+    Static = "Static"
+}
+
+// @public
+export interface LastOutputEventTimestamp {
+    lastOutputEventTime?: string;
+    lastUpdateTime?: string;
 }
 
 // @public
@@ -943,18 +1246,20 @@ export interface Output extends SubResource {
     datasource?: OutputDataSourceUnion;
     readonly diagnostics?: Diagnostics;
     readonly etag?: string;
+    readonly lastOutputEventTimestamps?: LastOutputEventTimestamp[];
     serialization?: SerializationUnion;
     sizeWindow?: number;
     timeWindow?: string;
+    watermarkSettings?: OutputWatermarkProperties;
 }
 
 // @public
 export interface OutputDataSource {
-    type: "Microsoft.Storage/Blob" | "Microsoft.Storage/Table" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Sql/Server/Database" | "Microsoft.Sql/Server/DataWarehouse" | "Microsoft.Storage/DocumentDB" | "Microsoft.ServiceBus/Queue" | "Microsoft.ServiceBus/Topic" | "PowerBI" | "Microsoft.DataLake/Accounts";
+    type: "Raw" | "Microsoft.Storage/Blob" | "Microsoft.Storage/Table" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Sql/Server/Database" | "Microsoft.Sql/Server/DataWarehouse" | "Microsoft.DBForPostgreSQL/servers/databases" | "Microsoft.Storage/DocumentDB" | "Microsoft.AzureFunction" | "Microsoft.ServiceBus/Queue" | "Microsoft.ServiceBus/Topic" | "PowerBI" | "Microsoft.DataLake/Accounts" | "GatewayMessageBus" | "Microsoft.Kusto/clusters/databases";
 }
 
 // @public (undocumented)
-export type OutputDataSourceUnion = OutputDataSource | BlobOutputDataSource | AzureTableOutputDataSource | EventHubOutputDataSource | EventHubV2OutputDataSource | AzureSqlDatabaseOutputDataSource | AzureSynapseOutputDataSource | DocumentDbOutputDataSource | ServiceBusQueueOutputDataSource | ServiceBusTopicOutputDataSource | PowerBIOutputDataSource | AzureDataLakeStoreOutputDataSource;
+export type OutputDataSourceUnion = OutputDataSource | RawOutputDatasource | BlobOutputDataSource | AzureTableOutputDataSource | EventHubOutputDataSource | EventHubV2OutputDataSource | AzureSqlDatabaseOutputDataSource | AzureSynapseOutputDataSource | PostgreSQLOutputDataSource | DocumentDbOutputDataSource | AzureFunctionOutputDataSource | ServiceBusQueueOutputDataSource | ServiceBusTopicOutputDataSource | PowerBIOutputDataSource | AzureDataLakeStoreOutputDataSource | GatewayMessageBusOutputDataSource | AzureDataExplorerOutputDataSource;
 
 // @public
 export type OutputErrorPolicy = string;
@@ -967,7 +1272,7 @@ export interface OutputListResult {
 
 // @public
 export interface Outputs {
-    beginTest(resourceGroupName: string, jobName: string, outputName: string, options?: OutputsTestOptionalParams): Promise<PollerLike<PollOperationState<OutputsTestResponse>, OutputsTestResponse>>;
+    beginTest(resourceGroupName: string, jobName: string, outputName: string, options?: OutputsTestOptionalParams): Promise<SimplePollerLike<OperationState<OutputsTestResponse>, OutputsTestResponse>>;
     beginTestAndWait(resourceGroupName: string, jobName: string, outputName: string, options?: OutputsTestOptionalParams): Promise<OutputsTestResponse>;
     createOrReplace(resourceGroupName: string, jobName: string, outputName: string, output: Output, options?: OutputsCreateOrReplaceOptionalParams): Promise<OutputsCreateOrReplaceResponse>;
     delete(resourceGroupName: string, jobName: string, outputName: string, options?: OutputsDeleteOptionalParams): Promise<void>;
@@ -1048,9 +1353,45 @@ export interface OutputsUpdateOptionalParams extends coreClient.OperationOptions
 export type OutputsUpdateResponse = OutputsUpdateHeaders & Output;
 
 // @public
+export type OutputWatermarkMode = string;
+
+// @public
+export interface OutputWatermarkProperties {
+    maxWatermarkDifferenceAcrossPartitions?: string;
+    watermarkMode?: OutputWatermarkMode;
+}
+
+// @public
 export interface ParquetSerialization extends Serialization {
     properties?: Record<string, unknown>;
     type: "Parquet";
+}
+
+// @public
+export interface PostgreSQLDataSourceProperties {
+    authenticationMode?: AuthenticationMode;
+    database?: string;
+    maxWriterCount?: number;
+    password?: string;
+    server?: string;
+    table?: string;
+    user?: string;
+}
+
+// @public
+export interface PostgreSQLOutputDataSource extends OutputDataSource {
+    authenticationMode?: AuthenticationMode;
+    database?: string;
+    maxWriterCount?: number;
+    password?: string;
+    server?: string;
+    table?: string;
+    type: "Microsoft.DBForPostgreSQL/servers/databases";
+    user?: string;
+}
+
+// @public
+export interface PostgreSQLOutputDataSourceProperties extends PostgreSQLDataSourceProperties {
 }
 
 // @public
@@ -1077,9 +1418,8 @@ export interface PowerBIOutputDataSourceProperties extends OAuthBasedDataSourceP
 
 // @public
 export interface PrivateEndpoint extends ProxyResource {
-    readonly createdDate?: string;
     readonly etag?: string;
-    manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
+    properties?: PrivateEndpointProperties;
 }
 
 // @public
@@ -1089,8 +1429,14 @@ export interface PrivateEndpointListResult {
 }
 
 // @public
+export interface PrivateEndpointProperties {
+    readonly createdDate?: string;
+    manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
+}
+
+// @public
 export interface PrivateEndpoints {
-    beginDelete(resourceGroupName: string, clusterName: string, privateEndpointName: string, options?: PrivateEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, privateEndpointName: string, options?: PrivateEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, privateEndpointName: string, options?: PrivateEndpointsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, clusterName: string, privateEndpointName: string, privateEndpoint: PrivateEndpoint, options?: PrivateEndpointsCreateOrUpdateOptionalParams): Promise<PrivateEndpointsCreateOrUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, privateEndpointName: string, options?: PrivateEndpointsGetOptionalParams): Promise<PrivateEndpointsGetResponse>;
@@ -1153,17 +1499,89 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export interface QueryCompilationError {
+    readonly endColumn?: number;
+    readonly endLine?: number;
+    readonly isGlobal?: boolean;
+    readonly message?: string;
+    readonly startColumn?: number;
+    readonly startLine?: number;
+}
+
+// @public
+export interface QueryCompilationResult {
+    readonly errors?: QueryCompilationError[];
+    readonly functions?: string[];
+    readonly inputs?: string[];
+    readonly outputs?: string[];
+    readonly warnings?: string[];
+}
+
+// @public
+export interface QueryFunction {
+    bindingType: string;
+    inputs: FunctionInput[];
+    name: string;
+    output: FunctionOutput;
+    type: string;
+}
+
+// @public
+export interface QueryInput {
+    name: string;
+    type: string;
+}
+
+// @public
+export interface QueryTestingResult extends ErrorModel {
+    readonly outputUri?: string;
+    readonly status?: QueryTestingResultStatus;
+}
+
+// @public
+export type QueryTestingResultStatus = string;
+
+// @public
+export interface RawOutputDatasource extends OutputDataSource {
+    payloadUri?: string;
+    type: "Raw";
+}
+
+// @public
+export interface RawReferenceInputDataSource extends ReferenceInputDataSource {
+    payload?: string;
+    payloadUri?: string;
+    type: "Raw";
+}
+
+// @public
+export interface RawStreamInputDataSource extends StreamInputDataSource {
+    payload?: string;
+    payloadUri?: string;
+    type: "Raw";
+}
+
+// @public
 export interface ReferenceInputDataSource {
-    type: "Microsoft.Storage/Blob" | "Microsoft.Sql/Server/Database";
+    type: "File" | "Microsoft.Storage/Blob" | "Raw" | "Microsoft.Sql/Server/Database";
 }
 
 // @public (undocumented)
-export type ReferenceInputDataSourceUnion = ReferenceInputDataSource | BlobReferenceInputDataSource | AzureSqlReferenceInputDataSource;
+export type ReferenceInputDataSourceUnion = ReferenceInputDataSource | FileReferenceInputDataSource | BlobReferenceInputDataSource | RawReferenceInputDataSource | AzureSqlReferenceInputDataSource;
 
 // @public
 export interface ReferenceInputProperties extends InputProperties {
     datasource?: ReferenceInputDataSourceUnion;
     type: "Reference";
+}
+
+// @public
+export interface RefreshConfiguration {
+    dateFormat?: string;
+    pathPattern?: string;
+    refreshInterval?: string;
+    refreshType?: UpdatableUdfRefreshType;
+    timeFormat?: string;
 }
 
 // @public
@@ -1183,10 +1601,29 @@ export interface ResourceTestStatus {
 }
 
 // @public
+export type ResourceType = string;
+
+// @public
+export interface SampleInput {
+    compatibilityLevel?: string;
+    dataLocale?: string;
+    eventsUri?: string;
+    input?: Input;
+}
+
+// @public
+export interface SampleInputResult extends ErrorModel {
+    readonly diagnostics?: string[];
+    readonly eventsDownloadUrl?: string;
+    readonly lastArrivalTime?: string;
+    readonly status?: SampleInputResultStatus;
+}
+
+// @public
+export type SampleInputResultStatus = string;
+
+// @public
 export interface ScalarFunctionProperties extends FunctionProperties {
-    binding?: FunctionBindingUnion;
-    inputs?: FunctionInput[];
-    output?: FunctionOutput;
     type: "Scalar";
 }
 
@@ -1197,11 +1634,11 @@ export interface ScaleStreamingJobParameters {
 
 // @public
 export interface Serialization {
-    type: "Parquet" | "Csv" | "Json" | "Avro";
+    type: "Delta" | "Parquet" | "CustomClr" | "Csv" | "Json" | "Avro";
 }
 
 // @public (undocumented)
-export type SerializationUnion = Serialization | ParquetSerialization | CsvSerialization | JsonSerialization | AvroSerialization;
+export type SerializationUnion = Serialization | DeltaSerialization | ParquetSerialization | CustomClrSerialization | CsvSerialization | JsonSerialization | AvroSerialization;
 
 // @public
 export interface ServiceBusDataSourceProperties {
@@ -1255,11 +1692,43 @@ export interface ServiceBusTopicOutputDataSourceProperties extends ServiceBusDat
 
 // @public
 export interface Sku {
+    capacity?: number;
     name?: SkuName;
 }
 
 // @public
+export interface SkuCapacity {
+    readonly allowedValues?: number[];
+    readonly default?: number;
+    readonly maximum?: number;
+    readonly minimum?: number;
+    readonly scaleType?: SkuCapacityScaleType;
+}
+
+// @public
+export type SkuCapacityScaleType = string;
+
+// @public
+export interface SkuListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SkuListNextResponse = GetStreamingJobSkuResults;
+
+// @public
+export interface SkuListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SkuListResponse = GetStreamingJobSkuResults;
+
+// @public
 export type SkuName = string;
+
+// @public
+export interface SkuOperations {
+    list(resourceGroupName: string, jobName: string, options?: SkuListOptionalParams): PagedAsyncIterableIterator<GetStreamingJobSkuResult>;
+}
 
 // @public
 export interface StartStreamingJobParameters {
@@ -1271,6 +1740,7 @@ export interface StartStreamingJobParameters {
 export interface StorageAccount {
     accountKey?: string;
     accountName?: string;
+    authenticationMode?: AuthenticationMode;
 }
 
 // @public (undocumented)
@@ -1278,8 +1748,6 @@ export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: StreamAnalyticsManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     clusters: Clusters;
     // (undocumented)
@@ -1293,6 +1761,8 @@ export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     privateEndpoints: PrivateEndpoints;
     // (undocumented)
+    skuOperations: SkuOperations;
+    // (undocumented)
     streamingJobs: StreamingJobs;
     // (undocumented)
     subscriptionId: string;
@@ -1305,7 +1775,6 @@ export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
 // @public
 export interface StreamAnalyticsManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -1320,6 +1789,7 @@ export interface StreamingJob extends TrackedResource {
     eventsLateArrivalMaxDelayInSeconds?: number;
     eventsOutOfOrderMaxDelayInSeconds?: number;
     eventsOutOfOrderPolicy?: EventsOutOfOrderPolicy;
+    externals?: External_2;
     functions?: FunctionModel[];
     identity?: Identity;
     inputs?: Input[];
@@ -1334,6 +1804,7 @@ export interface StreamingJob extends TrackedResource {
     outputStartTime?: Date;
     readonly provisioningState?: string;
     sku?: Sku;
+    skuPropertiesSku?: Sku;
     transformation?: Transformation;
 }
 
@@ -1345,15 +1816,15 @@ export interface StreamingJobListResult {
 
 // @public
 export interface StreamingJobs {
-    beginCreateOrReplace(resourceGroupName: string, jobName: string, streamingJob: StreamingJob, options?: StreamingJobsCreateOrReplaceOptionalParams): Promise<PollerLike<PollOperationState<StreamingJobsCreateOrReplaceResponse>, StreamingJobsCreateOrReplaceResponse>>;
+    beginCreateOrReplace(resourceGroupName: string, jobName: string, streamingJob: StreamingJob, options?: StreamingJobsCreateOrReplaceOptionalParams): Promise<SimplePollerLike<OperationState<StreamingJobsCreateOrReplaceResponse>, StreamingJobsCreateOrReplaceResponse>>;
     beginCreateOrReplaceAndWait(resourceGroupName: string, jobName: string, streamingJob: StreamingJob, options?: StreamingJobsCreateOrReplaceOptionalParams): Promise<StreamingJobsCreateOrReplaceResponse>;
-    beginDelete(resourceGroupName: string, jobName: string, options?: StreamingJobsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, jobName: string, options?: StreamingJobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, jobName: string, options?: StreamingJobsDeleteOptionalParams): Promise<void>;
-    beginScale(resourceGroupName: string, jobName: string, options?: StreamingJobsScaleOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginScale(resourceGroupName: string, jobName: string, options?: StreamingJobsScaleOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginScaleAndWait(resourceGroupName: string, jobName: string, options?: StreamingJobsScaleOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, jobName: string, options?: StreamingJobsStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, jobName: string, options?: StreamingJobsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, jobName: string, options?: StreamingJobsStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, jobName: string, options?: StreamingJobsStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, jobName: string, options?: StreamingJobsStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, jobName: string, options?: StreamingJobsStopOptionalParams): Promise<void>;
     get(resourceGroupName: string, jobName: string, options?: StreamingJobsGetOptionalParams): Promise<StreamingJobsGetResponse>;
     list(options?: StreamingJobsListOptionalParams): PagedAsyncIterableIterator<StreamingJob>;
@@ -1461,11 +1932,11 @@ export type StreamingJobsUpdateResponse = StreamingJobsUpdateHeaders & Streaming
 
 // @public
 export interface StreamInputDataSource {
-    type: "Microsoft.Storage/Blob" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Devices/IotHubs";
+    type: "Microsoft.Storage/Blob" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Devices/IotHubs" | "Raw" | "GatewayMessageBus" | "Microsoft.EventGrid/EventSubscriptions";
 }
 
 // @public (undocumented)
-export type StreamInputDataSourceUnion = StreamInputDataSource | BlobStreamInputDataSource | EventHubStreamInputDataSource | EventHubV2StreamInputDataSource | IoTHubStreamInputDataSource;
+export type StreamInputDataSourceUnion = StreamInputDataSource | BlobStreamInputDataSource | EventHubStreamInputDataSource | EventHubV2StreamInputDataSource | IoTHubStreamInputDataSource | RawStreamInputDataSource | GatewayMessageBusStreamInputDataSource | EventGridStreamInputDataSource;
 
 // @public
 export interface StreamInputProperties extends InputProperties {
@@ -1493,8 +1964,24 @@ export interface SubscriptionQuotasListResult {
 
 // @public
 export interface Subscriptions {
+    beginSampleInput(location: string, sampleInput: SampleInput, options?: SubscriptionsSampleInputOptionalParams): Promise<SimplePollerLike<OperationState<SubscriptionsSampleInputResponse>, SubscriptionsSampleInputResponse>>;
+    beginSampleInputAndWait(location: string, sampleInput: SampleInput, options?: SubscriptionsSampleInputOptionalParams): Promise<SubscriptionsSampleInputResponse>;
+    beginTestInput(location: string, testInput: TestInput, options?: SubscriptionsTestInputOptionalParams): Promise<SimplePollerLike<OperationState<SubscriptionsTestInputResponse>, SubscriptionsTestInputResponse>>;
+    beginTestInputAndWait(location: string, testInput: TestInput, options?: SubscriptionsTestInputOptionalParams): Promise<SubscriptionsTestInputResponse>;
+    beginTestOutput(location: string, testOutput: TestOutput, options?: SubscriptionsTestOutputOptionalParams): Promise<SimplePollerLike<OperationState<SubscriptionsTestOutputResponse>, SubscriptionsTestOutputResponse>>;
+    beginTestOutputAndWait(location: string, testOutput: TestOutput, options?: SubscriptionsTestOutputOptionalParams): Promise<SubscriptionsTestOutputResponse>;
+    beginTestQuery(location: string, testQuery: TestQuery, options?: SubscriptionsTestQueryOptionalParams): Promise<SimplePollerLike<OperationState<SubscriptionsTestQueryResponse>, SubscriptionsTestQueryResponse>>;
+    beginTestQueryAndWait(location: string, testQuery: TestQuery, options?: SubscriptionsTestQueryOptionalParams): Promise<SubscriptionsTestQueryResponse>;
+    compileQuery(location: string, compileQuery: CompileQuery, options?: SubscriptionsCompileQueryOptionalParams): Promise<SubscriptionsCompileQueryResponse>;
     listQuotas(location: string, options?: SubscriptionsListQuotasOptionalParams): Promise<SubscriptionsListQuotasResponse>;
 }
+
+// @public
+export interface SubscriptionsCompileQueryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionsCompileQueryResponse = QueryCompilationResult;
 
 // @public
 export interface SubscriptionsListQuotasOptionalParams extends coreClient.OperationOptions {
@@ -1502,6 +1989,72 @@ export interface SubscriptionsListQuotasOptionalParams extends coreClient.Operat
 
 // @public
 export type SubscriptionsListQuotasResponse = SubscriptionQuotasListResult;
+
+// @public
+export interface SubscriptionsSampleInputOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SubscriptionsSampleInputResponse = SampleInputResult;
+
+// @public
+export interface SubscriptionsTestInputOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SubscriptionsTestInputResponse = TestDatasourceResult;
+
+// @public
+export interface SubscriptionsTestOutputOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SubscriptionsTestOutputResponse = TestDatasourceResult;
+
+// @public
+export interface SubscriptionsTestQueryOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SubscriptionsTestQueryResponse = QueryTestingResult;
+
+// @public
+export interface TestDatasourceResult extends ErrorModel {
+    readonly status?: TestDatasourceResultStatus;
+}
+
+// @public
+export type TestDatasourceResultStatus = string;
+
+// @public
+export interface TestInput {
+    input: Input;
+}
+
+// @public
+export interface TestOutput {
+    output: Output;
+}
+
+// @public
+export interface TestQuery {
+    diagnostics?: TestQueryDiagnostics;
+    streamingJob: StreamingJob;
+}
+
+// @public
+export interface TestQueryDiagnostics {
+    path?: string;
+    writeUri: string;
+}
 
 // @public
 export interface TrackedResource extends Resource {
@@ -1564,6 +2117,12 @@ export interface TransformationsUpdateOptionalParams extends coreClient.Operatio
 
 // @public
 export type TransformationsUpdateResponse = TransformationsUpdateHeaders & Transformation;
+
+// @public
+export type UpdatableUdfRefreshType = string;
+
+// @public
+export type UpdateMode = string;
 
 // (No @packageDocumentation comment for this package)
 

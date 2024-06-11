@@ -1,6 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
+declare global {
+  interface FormData {}
+  interface Blob {}
+  interface File {}
+  interface ReadableStream<R = any> {}
+  interface TransformStream<I = any, O = any> {}
+}
+/* eslint-enable @typescript-eslint/no-unused-vars */
+
 export type {
   Agent,
   BodyPart,
@@ -22,74 +32,77 @@ export type {
   SendRequest,
   TlsSettings,
   TransferProgressEvent,
-} from "./interfaces";
+} from "./interfaces.js";
 export {
   type AddPolicyOptions as AddPipelineOptions,
   type PipelinePhase,
   type PipelinePolicy,
   type Pipeline,
   createEmptyPipeline,
-} from "./pipeline";
+} from "./pipeline.js";
 export {
   createPipelineFromOptions,
   type TelemetryOptions,
   type InternalPipelineOptions,
   type PipelineOptions,
-} from "./createPipelineFromOptions";
-export { createDefaultHttpClient } from "./defaultHttpClient";
-export { createHttpHeaders } from "./httpHeaders";
-export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest";
-export { RestError, type RestErrorOptions, isRestError } from "./restError";
+} from "./createPipelineFromOptions.js";
+export { createDefaultHttpClient } from "./defaultHttpClient.js";
+export { createHttpHeaders } from "./httpHeaders.js";
+export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
+export { RestError, type RestErrorOptions, isRestError } from "./restError.js";
 export {
   decompressResponsePolicy,
   decompressResponsePolicyName,
-} from "./policies/decompressResponsePolicy";
+} from "./policies/decompressResponsePolicy.js";
 export {
   exponentialRetryPolicy,
   type ExponentialRetryPolicyOptions,
   exponentialRetryPolicyName,
-} from "./policies/exponentialRetryPolicy";
+} from "./policies/exponentialRetryPolicy.js";
 export {
   setClientRequestIdPolicy,
   setClientRequestIdPolicyName,
-} from "./policies/setClientRequestIdPolicy";
-export { logPolicy, logPolicyName, type LogPolicyOptions } from "./policies/logPolicy";
-export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy";
-export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy";
+} from "./policies/setClientRequestIdPolicy.js";
+export { logPolicy, logPolicyName, type LogPolicyOptions } from "./policies/logPolicy.js";
+export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
+export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy.js";
 export {
   redirectPolicy,
   redirectPolicyName,
   type RedirectPolicyOptions,
-} from "./policies/redirectPolicy";
+} from "./policies/redirectPolicy.js";
 export {
   systemErrorRetryPolicy,
   type SystemErrorRetryPolicyOptions,
   systemErrorRetryPolicyName,
-} from "./policies/systemErrorRetryPolicy";
+} from "./policies/systemErrorRetryPolicy.js";
 export {
   throttlingRetryPolicy,
   throttlingRetryPolicyName,
   type ThrottlingRetryPolicyOptions,
-} from "./policies/throttlingRetryPolicy";
-export { retryPolicy, type RetryPolicyOptions } from "./policies/retryPolicy";
+} from "./policies/throttlingRetryPolicy.js";
+export { retryPolicy, type RetryPolicyOptions } from "./policies/retryPolicy.js";
 export type {
   RetryStrategy,
   RetryInformation,
   RetryModifiers,
-} from "./retryStrategies/retryStrategy";
+} from "./retryStrategies/retryStrategy.js";
 export {
   tracingPolicy,
   tracingPolicyName,
   type TracingPolicyOptions,
-} from "./policies/tracingPolicy";
-export { defaultRetryPolicy, type DefaultRetryPolicyOptions } from "./policies/defaultRetryPolicy";
+} from "./policies/tracingPolicy.js";
+export {
+  defaultRetryPolicy,
+  type DefaultRetryPolicyOptions,
+} from "./policies/defaultRetryPolicy.js";
 export {
   userAgentPolicy,
   userAgentPolicyName,
   type UserAgentPolicyOptions,
-} from "./policies/userAgentPolicy";
-export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy";
-export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy";
+} from "./policies/userAgentPolicy.js";
+export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy.js";
+export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy.js";
 export {
   bearerTokenAuthenticationPolicy,
   type BearerTokenAuthenticationPolicyOptions,
@@ -97,16 +110,16 @@ export {
   type ChallengeCallbacks,
   type AuthorizeRequestOptions,
   type AuthorizeRequestOnChallengeOptions,
-} from "./policies/bearerTokenAuthenticationPolicy";
-export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
+} from "./policies/bearerTokenAuthenticationPolicy.js";
+export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy.js";
 export {
   auxiliaryAuthenticationHeaderPolicy,
   type AuxiliaryAuthenticationHeaderPolicyOptions,
   auxiliaryAuthenticationHeaderPolicyName,
-} from "./policies/auxiliaryAuthenticationHeaderPolicy";
+} from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
 export {
   createFile,
   createFileFromStream,
   type CreateFileOptions,
   type CreateFileFromStreamOptions,
-} from "./util/file";
+} from "./util/file.js";

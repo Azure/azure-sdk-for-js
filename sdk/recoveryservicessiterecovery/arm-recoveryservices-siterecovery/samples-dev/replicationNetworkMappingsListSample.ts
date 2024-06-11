@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all ASR network mappings in the vault.
  *
  * @summary Lists all ASR network mappings in the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworkMappings_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworkMappings_List.json
  */
 async function getsAllTheNetworkMappingsUnderAVault() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getsAllTheNetworkMappingsUnderAVault() {
   const resArray = new Array();
   for await (let item of client.replicationNetworkMappings.list(
     resourceName,
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

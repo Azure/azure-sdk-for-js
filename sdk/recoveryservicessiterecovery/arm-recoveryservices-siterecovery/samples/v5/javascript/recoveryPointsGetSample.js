@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the details of specified recovery point.
  *
  * @summary Get the details of specified recovery point.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/RecoveryPoints_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/RecoveryPoints_Get.json
  */
 async function getsARecoveryPoint() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function getsARecoveryPoint() {
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
-    recoveryPointName
+    recoveryPointName,
   );
   console.log(result);
 }

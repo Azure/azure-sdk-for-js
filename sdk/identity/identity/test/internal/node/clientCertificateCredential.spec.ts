@@ -114,7 +114,7 @@ describe("ClientCertificateCredential (internal)", function () {
   });
 
   it("throws when given a file that doesn't contain a PEM-formatted certificate", async function (this: Context) {
-    const fullPath = path.resolve(__dirname, "../src/index.ts");
+    const fullPath = path.resolve("./clientCertificateCredential.spec.ts");
     const credential = new ClientCertificateCredential("tenant", "client", {
       certificatePath: fullPath,
     });

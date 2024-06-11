@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about the specified Batch account.
  *
  * @summary Gets information about the specified Batch account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountGet.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/BatchAccountGet.json
  */
 async function batchAccountGet() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function batchAccountGet() {
  * This sample demonstrates how to Gets information about the specified Batch account.
  *
  * @summary Gets information about the specified Batch account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PrivateBatchAccountGet.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PrivateBatchAccountGet.json
  */
 async function privateBatchAccountGet() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

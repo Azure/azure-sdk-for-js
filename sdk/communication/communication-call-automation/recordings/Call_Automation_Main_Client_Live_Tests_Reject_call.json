@@ -22,20 +22,24 @@
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/401f0700-7539-4784-b1ea-cd57a598c685",
-      "type": "Microsoft.Communication.CallDisconnected",
+      "source": "calling/callConnections/421f0b00-d931-441b-bf88-58b09e9de827",
+      "type": "Microsoft.Communication.CreateCallFailed",
       "data": {
-        "eventSource": "calling/callConnections/401f0700-7539-4784-b1ea-cd57a598c685",
-        "operationContext": "operationContextRejectCall",
+        "eventSource": "calling/callConnections/421f0b00-d931-441b-bf88-58b09e9de827",
+        "resultInformation": {
+          "code": 603,
+          "subCode": 0,
+          "message": "Decline. DiagCode: 603#0.@"
+        },
         "version": "2023-10-03-preview",
-        "callConnectionId": "401f0700-7539-4784-b1ea-cd57a598c685",
+        "callConnectionId": "421f0b00-d931-441b-bf88-58b09e9de827",
         "correlationId": "sanitized",
-        "publicEventType": "Microsoft.Communication.CallDisconnected"
+        "publicEventType": "Microsoft.Communication.CreateCallFailed"
       },
-      "time": "2024-01-04T13:54:12.2650422+00:00",
+      "time": "2024-03-08T21:37:25.9377797+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/401f0700-7539-4784-b1ea-cd57a598c685"
+      "subject": "calling/callConnections/421f0b00-d931-441b-bf88-58b09e9de827"
     }
   ]
 ]

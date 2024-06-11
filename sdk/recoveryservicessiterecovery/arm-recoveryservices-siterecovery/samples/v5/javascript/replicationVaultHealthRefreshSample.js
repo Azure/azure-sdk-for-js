@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Refreshes health summary of the vault.
  *
  * @summary Refreshes health summary of the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationVaultHealth_Refresh.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationVaultHealth_Refresh.json
  */
 async function refreshesHealthSummaryOfTheVault() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function refreshesHealthSummaryOfTheVault() {
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const result = await client.replicationVaultHealth.beginRefreshAndWait(
     resourceName,
-    resourceGroupName
+    resourceGroupName,
   );
   console.log(result);
 }

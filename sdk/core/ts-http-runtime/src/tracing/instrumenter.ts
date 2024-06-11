@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Instrumenter, InstrumenterSpanOptions, TracingContext, TracingSpan } from "./interfaces";
-import { createTracingContext } from "./tracingContext";
+import {
+  Instrumenter,
+  InstrumenterSpanOptions,
+  TracingContext,
+  TracingSpan,
+} from "./interfaces.js";
+import { createTracingContext } from "./tracingContext.js";
 
 export function createDefaultTracingSpan(): TracingSpan {
   return {

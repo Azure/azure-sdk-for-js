@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of all action groups in a subscription.
  *
  * @summary Get a list of all action groups in a subscription.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/listActionGroups.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/examples/listActionGroups.json
  */
 async function listActionGroupsAtSubscriptionLevel() {
   const subscriptionId =

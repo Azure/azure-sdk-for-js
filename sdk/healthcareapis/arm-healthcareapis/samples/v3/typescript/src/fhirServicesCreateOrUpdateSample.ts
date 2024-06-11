@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   FhirService,
-  HealthcareApisManagementClient
+  HealthcareApisManagementClient,
 } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a FHIR Service resource with the specified parameters.
  *
  * @summary Creates or updates a FHIR Service resource with the specified parameters.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/fhirservices/FhirServices_Create.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/fhirservices/FhirServices_Create.json
  */
 async function createOrUpdateAFhirService() {
   const subscriptionId =
@@ -36,41 +36,55 @@ async function createOrUpdateAFhirService() {
       audience: "https://azurehealthcareapis.com",
       authority:
         "https://login.microsoftonline.com/abfde7b2-df0f-47e6-aabf-2462b07508dc",
-      smartProxyEnabled: true
+      smartIdentityProviders: [
+        {
+          applications: [
+            {
+              allowedDataActions: ["Read"],
+              audience: "22222222-2222-2222-2222-222222222222",
+              clientId: "22222222-2222-2222-2222-222222222222",
+            },
+          ],
+          authority:
+            "https://login.b2clogin.com/11111111-1111-1111-1111-111111111111/v2.0",
+        },
+      ],
+      smartProxyEnabled: true,
     },
     corsConfiguration: {
       allowCredentials: false,
       headers: ["*"],
       maxAge: 1440,
       methods: ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"],
-      origins: ["*"]
+      origins: ["*"],
     },
     encryption: {
       customerManagedKeyEncryption: {
         keyEncryptionKeyUrl:
-          "https://mykeyvault.vault.azure.net/keys/myEncryptionKey/myKeyVersion"
-      }
+          "https://mykeyvault.vault.azure.net/keys/myEncryptionKey/myKeyVersion",
+      },
     },
     exportConfiguration: { storageAccountName: "existingStorageAccount" },
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/subid/resourcegroups/testRG/providers/MicrosoftManagedIdentity/userAssignedIdentities/testMi": {}
-      }
+        "/subscriptions/subid/resourcegroups/testRG/providers/MicrosoftManagedIdentity/userAssignedIdentities/testMi":
+          {},
+      },
     },
     implementationGuidesConfiguration: { usCoreMissingData: false },
     importConfiguration: {
       enabled: false,
       initialImportMode: false,
-      integrationDataStore: "existingStorageAccount"
+      integrationDataStore: "existingStorageAccount",
     },
     kind: "fhir-R4",
     location: "westus",
     tags: {
       additionalProp1: "string",
       additionalProp2: "string",
-      additionalProp3: "string"
-    }
+      additionalProp3: "string",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
@@ -78,7 +92,7 @@ async function createOrUpdateAFhirService() {
     resourceGroupName,
     workspaceName,
     fhirServiceName,
-    fhirservice
+    fhirservice,
   );
   console.log(result);
 }

@@ -14,7 +14,7 @@ import * as Mappers from "./models/mappers";
 import { KeyVaultClientContext } from "./keyVaultClientContext";
 import {
   KeyVaultClientOptionalParams,
-  ApiVersion75Preview1,
+  ApiVersion75,
   FullBackupOptionalParams,
   FullBackupResponse,
   FullBackupStatusOptionalParams,
@@ -40,7 +40,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion75Preview1,
+    apiVersion: ApiVersion75,
     options?: KeyVaultClientOptionalParams
   ) {
     super(apiVersion, options);

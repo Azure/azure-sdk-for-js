@@ -190,6 +190,25 @@ import {
   AcsRouterWorkerOfferRevokedEventData,
   ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
   ResourceNotificationsResourceManagementDeletedEventData,
+  StorageTaskAssignmentQueuedEventData,
+  AvsScriptExecutionStartedEventData,
+  AvsScriptExecutionCancelledEventData,
+  AvsClusterCreatedEventData,
+  AvsPrivateCloudFailedEventData,
+  AvsPrivateCloudUpdatingEventData,
+  AvsPrivateCloudUpdatedEventData,
+  AvsClusterUpdatingEventData,
+  AvsClusterDeletedEventData,
+  AvsScriptExecutionFailedEventData,
+  AvsScriptExecutionFinishedEventData,
+  StorageTaskAssignmentCompletedEventData,
+  AvsClusterUpdatedEventData,
+  AvsClusterFailedEventData,
+  ApiCenterApiDefinitionAddedEventData,
+  ApiCenterApiDefinitionUpdatedEventData,
+  AcsMessageDeliveryStatusUpdatedEventData,
+  AcsMessageReceivedEventData,
+  AcsRouterWorkerUpdatedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -580,6 +599,44 @@ export interface SystemEventNameToEventData {
   "Microsoft.ResourceNotifications.Resources.CreatedOrUpdated": ResourceNotificationsResourceManagementCreatedOrUpdatedEventData;
   /** An interface for the event data of a "Microsoft.ResourceNotifications.Resources.Deleted" event. */
   "Microsoft.ResourceNotifications.Resources.Deleted": ResourceNotificationsResourceManagementDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.StorageTaskAssignmentQueued" event. */
+  "Microsoft.Storage.StorageTaskAssignmentQueued": StorageTaskAssignmentQueuedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.StorageTaskAssignmentCompleted" event. */
+  "Microsoft.Storage.StorageTaskAssignmentCompleted": StorageTaskAssignmentCompletedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ScriptExecutionStarted" event. */
+  "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ScriptExecutionFinished" event. */
+  "Microsoft.AVS.ScriptExecutionFinished": AvsScriptExecutionFinishedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ScriptExecutionCancelled" event. */
+  "Microsoft.AVS.ScriptExecutionCancelled": AvsScriptExecutionCancelledEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ScriptExecutionFailed" event. */
+  "Microsoft.AVS.ScriptExecutionFailed": AvsScriptExecutionFailedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.PrivateCloudUpdating" event. */
+  "Microsoft.AVS.PrivateCloudUpdating": AvsPrivateCloudUpdatingEventData;
+  /** An interface for the event data of a "Microsoft.AVS.PrivateCloudUpdated" event. */
+  "Microsoft.AVS.PrivateCloudUpdated": AvsPrivateCloudUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.PrivateCloudFailed" event. */
+  "Microsoft.AVS.PrivateCloudFailed": AvsPrivateCloudFailedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ClusterCreated" event. */
+  "Microsoft.AVS.ClusterCreated": AvsClusterCreatedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ClusterDeleted" event. */
+  "Microsoft.AVS.ClusterDeleted": AvsClusterDeletedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ClusterUpdating" event. */
+  "Microsoft.AVS.ClusterUpdating": AvsClusterUpdatingEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ClusterUpdated" event. */
+  "Microsoft.AVS.ClusterUpdated": AvsClusterUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ClusterFailed" event. */
+  "Microsoft.AVS.ClusterFailed": AvsClusterFailedEventData;
+  /** An interface for the event data of a "Microsoft.ApiCenter.ApiDefinitionAdded" event. */
+  "Microsoft.ApiCenter.ApiDefinitionAdded": ApiCenterApiDefinitionAddedEventData;
+  /** An interface for the event data of a "Microsoft.ApiCenter.ApiDefinitionUpdated" event. */
+  "Microsoft.ApiCenter.ApiDefinitionUpdated": ApiCenterApiDefinitionUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated" event. */
+  "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsMessageDeliveryStatusUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.AdvancedMessageReceived" event. */
+  "Microsoft.Communication.AdvancedMessageReceived": AcsMessageReceivedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.RouterWorkerUpdated" event. */
+  "Microsoft.Communication.RouterWorkerUpdated": AcsRouterWorkerUpdatedEventData;
 }
 
 /**

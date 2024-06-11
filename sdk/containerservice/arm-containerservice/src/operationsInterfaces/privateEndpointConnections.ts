@@ -15,7 +15,7 @@ import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsUpdateOptionalParams,
   PrivateEndpointConnectionsUpdateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
+  PrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a PrivateEndpointConnections. */
@@ -29,7 +29,7 @@ export interface PrivateEndpointConnections {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListOptionalParams,
   ): Promise<PrivateEndpointConnectionsListResponse>;
   /**
    * To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
@@ -42,7 +42,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     resourceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Updates a private endpoint connection.
@@ -57,7 +57,7 @@ export interface PrivateEndpointConnections {
     resourceName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsUpdateOptionalParams
+    options?: PrivateEndpointConnectionsUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsUpdateResponse>;
   /**
    * Deletes a private endpoint connection.
@@ -70,7 +70,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     resourceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection.
@@ -83,6 +83,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     resourceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

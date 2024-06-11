@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a FHIR Service.
  *
  * @summary Deletes a FHIR Service.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/fhirservices/FhirServices_Delete.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/fhirservices/FhirServices_Delete.json
  */
 async function deleteAFhirService() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function deleteAFhirService() {
   const result = await client.fhirServices.beginDeleteAndWait(
     resourceGroupName,
     fhirServiceName,
-    workspaceName
+    workspaceName,
   );
   console.log(result);
 }

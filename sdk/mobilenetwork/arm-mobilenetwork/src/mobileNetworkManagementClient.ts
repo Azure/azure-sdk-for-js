@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -29,7 +29,9 @@ import {
   SimGroupsImpl,
   SimPoliciesImpl,
   SitesImpl,
-  SlicesImpl
+  SlicesImpl,
+  ExtendedUeInformationImpl,
+  UeInformationImpl,
 } from "./operations";
 import {
   AttachedDataNetworks,
@@ -46,7 +48,9 @@ import {
   SimGroups,
   SimPolicies,
   Sites,
-  Slices
+  Slices,
+  ExtendedUeInformation,
+  UeInformation,
 } from "./operationsInterfaces";
 import { MobileNetworkManagementClientOptionalParams } from "./models";
 
@@ -64,18 +68,18 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: MobileNetworkManagementClientOptionalParams
+    options?: MobileNetworkManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: MobileNetworkManagementClientOptionalParams
+    options?: MobileNetworkManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?:
       | MobileNetworkManagementClientOptionalParams
       | string,
-    options?: MobileNetworkManagementClientOptionalParams
+    options?: MobileNetworkManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -95,10 +99,10 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     }
     const defaults: MobileNetworkManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-mobilenetwork/4.0.1`;
+    const packageDetails = `azsdk-js-arm-mobilenetwork/5.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -108,20 +112,21 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -131,7 +136,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -141,9 +146,9 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -151,7 +156,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-09-01";
+    this.apiVersion = options.apiVersion || "2024-02-01";
     this.attachedDataNetworks = new AttachedDataNetworksImpl(this);
     this.dataNetworks = new DataNetworksImpl(this);
     this.diagnosticsPackages = new DiagnosticsPackagesImpl(this);
@@ -159,9 +164,8 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     this.operations = new OperationsImpl(this);
     this.packetCaptures = new PacketCapturesImpl(this);
     this.packetCoreControlPlanes = new PacketCoreControlPlanesImpl(this);
-    this.packetCoreControlPlaneVersions = new PacketCoreControlPlaneVersionsImpl(
-      this
-    );
+    this.packetCoreControlPlaneVersions =
+      new PacketCoreControlPlaneVersionsImpl(this);
     this.packetCoreDataPlanes = new PacketCoreDataPlanesImpl(this);
     this.services = new ServicesImpl(this);
     this.sims = new SimsImpl(this);
@@ -169,6 +173,8 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     this.simPolicies = new SimPoliciesImpl(this);
     this.sites = new SitesImpl(this);
     this.slices = new SlicesImpl(this);
+    this.extendedUeInformation = new ExtendedUeInformationImpl(this);
+    this.ueInformation = new UeInformationImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -181,7 +187,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -195,7 +201,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -215,4 +221,6 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
   simPolicies: SimPolicies;
   sites: Sites;
   slices: Slices;
+  extendedUeInformation: ExtendedUeInformation;
+  ueInformation: UeInformation;
 }

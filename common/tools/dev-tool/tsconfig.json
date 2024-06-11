@@ -17,8 +17,8 @@
     "downlevelIteration": true,
 
     "resolveJsonModule": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
   "exclude": ["test/samples/files/expectations/**/*"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

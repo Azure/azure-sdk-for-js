@@ -11,7 +11,7 @@ import {
   NetworkVirtualApplianceSku,
   VirtualApplianceSkusListOptionalParams,
   VirtualApplianceSkusGetOptionalParams,
-  VirtualApplianceSkusGetResponse
+  VirtualApplianceSkusGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +22,7 @@ export interface VirtualApplianceSkus {
    * @param options The options parameters.
    */
   list(
-    options?: VirtualApplianceSkusListOptionalParams
+    options?: VirtualApplianceSkusListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkVirtualApplianceSku>;
   /**
    * Retrieves a single available sku for network virtual appliance.
@@ -31,6 +31,6 @@ export interface VirtualApplianceSkus {
    */
   get(
     skuName: string,
-    options?: VirtualApplianceSkusGetOptionalParams
+    options?: VirtualApplianceSkusGetOptionalParams,
   ): Promise<VirtualApplianceSkusGetResponse>;
 }

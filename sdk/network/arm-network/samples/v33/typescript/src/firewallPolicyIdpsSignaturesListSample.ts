@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the current status of IDPS signatures for the relevant policy. Maximal amount of returned signatures is 1000.
  *
  * @summary Retrieves the current status of IDPS signatures for the relevant policy. Maximal amount of returned signatures is 1000.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/FirewallPolicyQuerySignatureOverrides.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/FirewallPolicyQuerySignatureOverrides.json
  */
 async function querySignatureOverrides() {
   const subscriptionId =
@@ -31,14 +31,14 @@ async function querySignatureOverrides() {
     orderBy: { field: "severity", order: "Ascending" },
     resultsPerPage: 20,
     search: "",
-    skip: 0
+    skip: 0,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.firewallPolicyIdpsSignatures.list(
     resourceGroupName,
     firewallPolicyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

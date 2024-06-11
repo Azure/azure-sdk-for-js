@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a IpAllocation tags.
  *
  * @summary Updates a IpAllocation tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/IpAllocationUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/IpAllocationUpdateTags.json
  */
 async function updateVirtualNetworkTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function updateVirtualNetworkTags() {
   const result = await client.ipAllocations.updateTags(
     resourceGroupName,
     ipAllocationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

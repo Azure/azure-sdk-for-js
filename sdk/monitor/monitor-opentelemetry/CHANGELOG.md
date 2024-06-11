@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.1 (Unreleased)
+## 1.4.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,50 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.4.0 (2024-04-16)
+
+- Capture live metrics and live metrics activation in statsbeat.
+
+### Features Added
+
+- Add support for Trace based sampling for logs.
+- Add support for Winston log instrumentation.
+
+### Bugs Fixed
+
+- Handle Parsing Nested Objects in Integration Tests.
+
+### Other Changes
+
+- When log sampling, check for spanId instead of traceId.
+- Update OpenTelemetry depdendencies.
+
+## 1.3.0 (2024-02-13)
+
+### Features Added
+
+- Allow spanProcessors and logRecordProcessors to be passed as options to useAzureMonitor.
+
+### Bugs Fixed
+
+- Fix detecting Azure Functions and Azure App Service RPs incorrectly in the browser SDK loader.
+- Fix OpenTelemetry Resource type being used when resource is set on the AzureMonitorOpenTelemetryOptions by resource detector.
+- Fix Resource typing on the Azure Monitor config.
+- Fix document duration, dependency duration metric, and default quickpulse endpoint.
+- Fix issue with miscalculation of Live Metrics request/depdendency duration.
+
+### Other Changes
+
+- Updated Quickpulse transmission time.
+- Update OpenTelemetry depdendencies.
+- Add SDK prefix including attach type in both manual and auto-attach scenarios.
+- Updated the @microsoft/applicationinsights-web-snippet to version 1.1.2.
+- Update swagger definition file for Quickpulse.
+- Updated to use exporter version 1.0.0-beta.21.
+- Update standard metric names.
+- Update to use dev-tool to run tests.
+- Add properties in Live Metrics Documents.
 
 ## 1.2.0 (2024-01-23)
 
@@ -34,6 +78,7 @@
 - Handle issue of custom MeterReaders not being able to collect metrics for instrumentations.
 
 ### Other Changes
+
 - Update OpenTelemetry dependencies.
 - Change JSON config values precedence.
 - Fix broken link in README.
@@ -41,11 +86,13 @@
 ## 1.1.0 (2023-10-09)
 
 ### Bugs Fixed
+
 - Fix precedence of JSON config value changes over defaults.
 - Fix custom MeterReaders not being able to collect metrics for instrumentations.
 - Fix values for Statsbeat Features and Instrumentations.
 
 ### Other Changes
+
 - Fix lint issues.
 
 ## 1.0.0 (2023-09-20)
@@ -55,16 +102,17 @@
 - Add support for Azure Functions programming model v4.
 
 ### Bugs Fixed
+
 - Avoid dependency telemetry for ingestion endpoint calls.
 - Add custom AI Sampler to maintain data reliability in Standard Metrics.
 - Fix issues with SDK version not propagating correctly.
 
 ### Other Changes
+
 - Update to latest OpenTelemetry dependencies.
 - Rename azureMonitorExporterConfig.
 - Remove singleton in handlers.
 - Adding Functional Tests.
-
 
 ## 1.0.0-beta.3 (2023-08-30)
 

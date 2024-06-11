@@ -32,7 +32,7 @@ async function getFluxConfiguration() {
     clusterRp,
     clusterResourceName,
     clusterName,
-    fluxConfigurationName
+    fluxConfigurationName,
   );
   console.log(result);
 }

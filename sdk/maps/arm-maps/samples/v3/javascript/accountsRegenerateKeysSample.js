@@ -29,7 +29,7 @@ async function regenerateKey() {
   const result = await client.accounts.regenerateKeys(
     resourceGroupName,
     accountName,
-    keySpecification
+    keySpecification,
   );
   console.log(result);
 }

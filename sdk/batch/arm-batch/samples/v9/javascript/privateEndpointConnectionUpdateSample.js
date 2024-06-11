@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates the properties of an existing private endpoint connection.
  *
  * @summary Updates the properties of an existing private endpoint connection.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PrivateEndpointConnectionUpdate.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PrivateEndpointConnectionUpdate.json
  */
 async function updatePrivateEndpointConnection() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

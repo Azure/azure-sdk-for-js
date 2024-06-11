@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./firmwareOperations";
-export * from "./workspaces";
+export * from "./binaryHardening";
+export * from "./cryptoCertificates";
+export * from "./cryptoKeys";
+export * from "./cves";
+export * from "./firmwares";
 export * from "./operations";
+export * from "./passwordHashes";
+export * from "./sbomComponents";
+export * from "./summaries";
+export * from "./workspaces";

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to start resynchronize/repair replication for a replication protected item requiring resynchronization.
  *
  * @summary The operation to start resynchronize/repair replication for a replication protected item requiring resynchronization.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_RepairReplication.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_RepairReplication.json
  */
 async function resynchronizeOrRepairReplication() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function resynchronizeOrRepairReplication() {
     resourceGroupName,
     fabricName,
     protectionContainerName,
-    replicatedProtectedItemName
+    replicatedProtectedItemName,
   );
   console.log(result);
 }

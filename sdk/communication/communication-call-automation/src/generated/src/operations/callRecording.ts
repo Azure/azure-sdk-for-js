@@ -19,7 +19,7 @@ import {
   CallRecordingGetRecordingPropertiesResponse,
   CallRecordingStopRecordingOptionalParams,
   CallRecordingPauseRecordingOptionalParams,
-  CallRecordingResumeRecordingOptionalParams
+  CallRecordingResumeRecordingOptionalParams,
 } from "../models";
 
 /** Class containing CallRecording operations. */
@@ -41,11 +41,11 @@ export class CallRecordingImpl implements CallRecording {
    */
   startRecording(
     startCallRecording: StartCallRecordingRequest,
-    options?: CallRecordingStartRecordingOptionalParams
+    options?: CallRecordingStartRecordingOptionalParams,
   ): Promise<CallRecordingStartRecordingResponse> {
     return this.client.sendOperationRequest(
       { startCallRecording, options },
-      startRecordingOperationSpec
+      startRecordingOperationSpec,
     );
   }
 
@@ -56,11 +56,11 @@ export class CallRecordingImpl implements CallRecording {
    */
   getRecordingProperties(
     recordingId: string,
-    options?: CallRecordingGetRecordingPropertiesOptionalParams
+    options?: CallRecordingGetRecordingPropertiesOptionalParams,
   ): Promise<CallRecordingGetRecordingPropertiesResponse> {
     return this.client.sendOperationRequest(
       { recordingId, options },
-      getRecordingPropertiesOperationSpec
+      getRecordingPropertiesOperationSpec,
     );
   }
 
@@ -71,11 +71,11 @@ export class CallRecordingImpl implements CallRecording {
    */
   stopRecording(
     recordingId: string,
-    options?: CallRecordingStopRecordingOptionalParams
+    options?: CallRecordingStopRecordingOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { recordingId, options },
-      stopRecordingOperationSpec
+      stopRecordingOperationSpec,
     );
   }
 
@@ -86,11 +86,11 @@ export class CallRecordingImpl implements CallRecording {
    */
   pauseRecording(
     recordingId: string,
-    options?: CallRecordingPauseRecordingOptionalParams
+    options?: CallRecordingPauseRecordingOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { recordingId, options },
-      pauseRecordingOperationSpec
+      pauseRecordingOperationSpec,
     );
   }
 
@@ -101,11 +101,11 @@ export class CallRecordingImpl implements CallRecording {
    */
   resumeRecording(
     recordingId: string,
-    options?: CallRecordingResumeRecordingOptionalParams
+    options?: CallRecordingResumeRecordingOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { recordingId, options },
-      resumeRecordingOperationSpec
+      resumeRecordingOperationSpec,
     );
   }
 }
@@ -117,11 +117,11 @@ const startRecordingOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RecordingStateResponse
+      bodyMapper: Mappers.RecordingStateResponse,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.startCallRecording,
   queryParameters: [Parameters.apiVersion],
@@ -130,26 +130,26 @@ const startRecordingOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
+    Parameters.repeatabilityFirstSent,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getRecordingPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/calling/recordings/{recordingId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecordingStateResponse
+      bodyMapper: Mappers.RecordingStateResponse,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.recordingId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const stopRecordingOperationSpec: coreClient.OperationSpec = {
   path: "/calling/recordings/{recordingId}",
@@ -157,13 +157,13 @@ const stopRecordingOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.recordingId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const pauseRecordingOperationSpec: coreClient.OperationSpec = {
   path: "/calling/recordings/{recordingId}:pause",
@@ -171,13 +171,13 @@ const pauseRecordingOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.recordingId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const resumeRecordingOperationSpec: coreClient.OperationSpec = {
   path: "/calling/recordings/{recordingId}:resume",
@@ -185,11 +185,11 @@ const resumeRecordingOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.recordingId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

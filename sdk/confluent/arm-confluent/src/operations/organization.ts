@@ -16,7 +16,7 @@ import { ConfluentManagementClient } from "../confluentManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -27,6 +27,18 @@ import {
   OrganizationListByResourceGroupNextOptionalParams,
   OrganizationListByResourceGroupOptionalParams,
   OrganizationListByResourceGroupResponse,
+  SCEnvironmentRecord,
+  OrganizationListEnvironmentsNextOptionalParams,
+  OrganizationListEnvironmentsOptionalParams,
+  OrganizationListEnvironmentsResponse,
+  SCClusterRecord,
+  OrganizationListClustersNextOptionalParams,
+  OrganizationListClustersOptionalParams,
+  OrganizationListClustersResponse,
+  SchemaRegistryClusterRecord,
+  OrganizationListSchemaRegistryClustersNextOptionalParams,
+  OrganizationListSchemaRegistryClustersOptionalParams,
+  OrganizationListSchemaRegistryClustersResponse,
   OrganizationGetOptionalParams,
   OrganizationGetResponse,
   OrganizationCreateOptionalParams,
@@ -34,8 +46,26 @@ import {
   OrganizationUpdateOptionalParams,
   OrganizationUpdateResponse,
   OrganizationDeleteOptionalParams,
+  OrganizationGetEnvironmentByIdOptionalParams,
+  OrganizationGetEnvironmentByIdResponse,
+  ListAccessRequestModel,
+  OrganizationListRegionsOptionalParams,
+  OrganizationListRegionsResponse,
+  CreateAPIKeyModel,
+  OrganizationCreateAPIKeyOptionalParams,
+  OrganizationCreateAPIKeyResponse,
+  OrganizationDeleteClusterAPIKeyOptionalParams,
+  OrganizationGetClusterAPIKeyOptionalParams,
+  OrganizationGetClusterAPIKeyResponse,
+  OrganizationGetSchemaRegistryClusterByIdOptionalParams,
+  OrganizationGetSchemaRegistryClusterByIdResponse,
+  OrganizationGetClusterByIdOptionalParams,
+  OrganizationGetClusterByIdResponse,
   OrganizationListBySubscriptionNextResponse,
-  OrganizationListByResourceGroupNextResponse
+  OrganizationListByResourceGroupNextResponse,
+  OrganizationListEnvironmentsNextResponse,
+  OrganizationListClustersNextResponse,
+  OrganizationListSchemaRegistryClustersNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +86,7 @@ export class OrganizationImpl implements Organization {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: OrganizationListBySubscriptionOptionalParams
+    options?: OrganizationListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<OrganizationResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -71,13 +101,13 @@ export class OrganizationImpl implements Organization {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: OrganizationListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OrganizationResource[]> {
     let result: OrganizationListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +128,7 @@ export class OrganizationImpl implements Organization {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: OrganizationListBySubscriptionOptionalParams
+    options?: OrganizationListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<OrganizationResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -107,12 +137,12 @@ export class OrganizationImpl implements Organization {
 
   /**
    * List all Organizations under the specified resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: OrganizationListByResourceGroupOptionalParams
+    options?: OrganizationListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<OrganizationResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -129,16 +159,16 @@ export class OrganizationImpl implements Organization {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: OrganizationListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OrganizationResource[]> {
     let result: OrganizationListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -153,7 +183,7 @@ export class OrganizationImpl implements Organization {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -164,11 +194,281 @@ export class OrganizationImpl implements Organization {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: OrganizationListByResourceGroupOptionalParams
+    options?: OrganizationListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<OrganizationResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists of all the environments in a organization
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param options The options parameters.
+   */
+  public listEnvironments(
+    resourceGroupName: string,
+    organizationName: string,
+    options?: OrganizationListEnvironmentsOptionalParams,
+  ): PagedAsyncIterableIterator<SCEnvironmentRecord> {
+    const iter = this.listEnvironmentsPagingAll(
+      resourceGroupName,
+      organizationName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listEnvironmentsPagingPage(
+          resourceGroupName,
+          organizationName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listEnvironmentsPagingPage(
+    resourceGroupName: string,
+    organizationName: string,
+    options?: OrganizationListEnvironmentsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<SCEnvironmentRecord[]> {
+    let result: OrganizationListEnvironmentsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listEnvironments(
+        resourceGroupName,
+        organizationName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listEnvironmentsNext(
+        resourceGroupName,
+        organizationName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listEnvironmentsPagingAll(
+    resourceGroupName: string,
+    organizationName: string,
+    options?: OrganizationListEnvironmentsOptionalParams,
+  ): AsyncIterableIterator<SCEnvironmentRecord> {
+    for await (const page of this.listEnvironmentsPagingPage(
+      resourceGroupName,
+      organizationName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists of all the clusters in a environment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param options The options parameters.
+   */
+  public listClusters(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    options?: OrganizationListClustersOptionalParams,
+  ): PagedAsyncIterableIterator<SCClusterRecord> {
+    const iter = this.listClustersPagingAll(
+      resourceGroupName,
+      organizationName,
+      environmentId,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listClustersPagingPage(
+          resourceGroupName,
+          organizationName,
+          environmentId,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listClustersPagingPage(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    options?: OrganizationListClustersOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<SCClusterRecord[]> {
+    let result: OrganizationListClustersResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listClusters(
+        resourceGroupName,
+        organizationName,
+        environmentId,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listClustersNext(
+        resourceGroupName,
+        organizationName,
+        environmentId,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listClustersPagingAll(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    options?: OrganizationListClustersOptionalParams,
+  ): AsyncIterableIterator<SCClusterRecord> {
+    for await (const page of this.listClustersPagingPage(
+      resourceGroupName,
+      organizationName,
+      environmentId,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get schema registry clusters
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param options The options parameters.
+   */
+  public listSchemaRegistryClusters(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    options?: OrganizationListSchemaRegistryClustersOptionalParams,
+  ): PagedAsyncIterableIterator<SchemaRegistryClusterRecord> {
+    const iter = this.listSchemaRegistryClustersPagingAll(
+      resourceGroupName,
+      organizationName,
+      environmentId,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listSchemaRegistryClustersPagingPage(
+          resourceGroupName,
+          organizationName,
+          environmentId,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listSchemaRegistryClustersPagingPage(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    options?: OrganizationListSchemaRegistryClustersOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<SchemaRegistryClusterRecord[]> {
+    let result: OrganizationListSchemaRegistryClustersResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSchemaRegistryClusters(
+        resourceGroupName,
+        organizationName,
+        environmentId,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listSchemaRegistryClustersNext(
+        resourceGroupName,
+        organizationName,
+        environmentId,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listSchemaRegistryClustersPagingAll(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    options?: OrganizationListSchemaRegistryClustersOptionalParams,
+  ): AsyncIterableIterator<SchemaRegistryClusterRecord> {
+    for await (const page of this.listSchemaRegistryClustersPagingPage(
+      resourceGroupName,
+      organizationName,
+      environmentId,
+      options,
     )) {
       yield* page;
     }
@@ -179,56 +479,56 @@ export class OrganizationImpl implements Organization {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: OrganizationListBySubscriptionOptionalParams
+    options?: OrganizationListBySubscriptionOptionalParams,
   ): Promise<OrganizationListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
   /**
    * List all Organizations under the specified resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: OrganizationListByResourceGroupOptionalParams
+    options?: OrganizationListByResourceGroupOptionalParams,
   ): Promise<OrganizationListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
   /**
    * Get the properties of a specific Organization resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationGetOptionalParams
+    options?: OrganizationGetOptionalParams,
   ): Promise<OrganizationGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, organizationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Create Organization resource
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationCreateOptionalParams
+    options?: OrganizationCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<OrganizationCreateResponse>,
@@ -237,21 +537,20 @@ export class OrganizationImpl implements Organization {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<OrganizationCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -260,8 +559,8 @@ export class OrganizationImpl implements Organization {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -269,15 +568,15 @@ export class OrganizationImpl implements Organization {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, organizationName, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       OrganizationCreateResponse,
@@ -285,7 +584,7 @@ export class OrganizationImpl implements Organization {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -293,68 +592,67 @@ export class OrganizationImpl implements Organization {
 
   /**
    * Create Organization resource
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationCreateOptionalParams
+    options?: OrganizationCreateOptionalParams,
   ): Promise<OrganizationCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       organizationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Update Organization resource
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationUpdateOptionalParams
+    options?: OrganizationUpdateOptionalParams,
   ): Promise<OrganizationUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, organizationName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
   /**
    * Delete Organization resource
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationDeleteOptionalParams
+    options?: OrganizationDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -363,8 +661,8 @@ export class OrganizationImpl implements Organization {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -372,20 +670,20 @@ export class OrganizationImpl implements Organization {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, organizationName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -393,21 +691,237 @@ export class OrganizationImpl implements Organization {
 
   /**
    * Delete Organization resource
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationDeleteOptionalParams
+    options?: OrganizationDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       organizationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Lists of all the environments in a organization
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param options The options parameters.
+   */
+  private _listEnvironments(
+    resourceGroupName: string,
+    organizationName: string,
+    options?: OrganizationListEnvironmentsOptionalParams,
+  ): Promise<OrganizationListEnvironmentsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, options },
+      listEnvironmentsOperationSpec,
+    );
+  }
+
+  /**
+   * Get Environment details by environment Id
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param options The options parameters.
+   */
+  getEnvironmentById(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    options?: OrganizationGetEnvironmentByIdOptionalParams,
+  ): Promise<OrganizationGetEnvironmentByIdResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, environmentId, options },
+      getEnvironmentByIdOperationSpec,
+    );
+  }
+
+  /**
+   * Lists of all the clusters in a environment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param options The options parameters.
+   */
+  private _listClusters(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    options?: OrganizationListClustersOptionalParams,
+  ): Promise<OrganizationListClustersResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, environmentId, options },
+      listClustersOperationSpec,
+    );
+  }
+
+  /**
+   * Get schema registry clusters
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param options The options parameters.
+   */
+  private _listSchemaRegistryClusters(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    options?: OrganizationListSchemaRegistryClustersOptionalParams,
+  ): Promise<OrganizationListSchemaRegistryClustersResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, environmentId, options },
+      listSchemaRegistryClustersOperationSpec,
+    );
+  }
+
+  /**
+   * cloud provider regions available for creating Schema Registry clusters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param body List Access Request Model
+   * @param options The options parameters.
+   */
+  listRegions(
+    resourceGroupName: string,
+    organizationName: string,
+    body: ListAccessRequestModel,
+    options?: OrganizationListRegionsOptionalParams,
+  ): Promise<OrganizationListRegionsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, body, options },
+      listRegionsOperationSpec,
+    );
+  }
+
+  /**
+   * Creates API key for a schema registry Cluster ID or Kafka Cluster ID under a environment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param clusterId Confluent kafka or schema registry cluster id
+   * @param body Request payload for get creating API Key for schema registry Cluster ID or Kafka Cluster
+   *             ID under a environment
+   * @param options The options parameters.
+   */
+  createAPIKey(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    clusterId: string,
+    body: CreateAPIKeyModel,
+    options?: OrganizationCreateAPIKeyOptionalParams,
+  ): Promise<OrganizationCreateAPIKeyResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        organizationName,
+        environmentId,
+        clusterId,
+        body,
+        options,
+      },
+      createAPIKeyOperationSpec,
+    );
+  }
+
+  /**
+   * Deletes API key of a kafka or schema registry cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param apiKeyId Confluent API Key id
+   * @param options The options parameters.
+   */
+  deleteClusterAPIKey(
+    resourceGroupName: string,
+    organizationName: string,
+    apiKeyId: string,
+    options?: OrganizationDeleteClusterAPIKeyOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, apiKeyId, options },
+      deleteClusterAPIKeyOperationSpec,
+    );
+  }
+
+  /**
+   * Get API key details of a kafka or schema registry cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param apiKeyId Confluent API Key id
+   * @param options The options parameters.
+   */
+  getClusterAPIKey(
+    resourceGroupName: string,
+    organizationName: string,
+    apiKeyId: string,
+    options?: OrganizationGetClusterAPIKeyOptionalParams,
+  ): Promise<OrganizationGetClusterAPIKeyResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, apiKeyId, options },
+      getClusterAPIKeyOperationSpec,
+    );
+  }
+
+  /**
+   * Get schema registry cluster by Id
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param clusterId Confluent kafka or schema registry cluster id
+   * @param options The options parameters.
+   */
+  getSchemaRegistryClusterById(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    clusterId: string,
+    options?: OrganizationGetSchemaRegistryClusterByIdOptionalParams,
+  ): Promise<OrganizationGetSchemaRegistryClusterByIdResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        organizationName,
+        environmentId,
+        clusterId,
+        options,
+      },
+      getSchemaRegistryClusterByIdOperationSpec,
+    );
+  }
+
+  /**
+   * Get cluster by Id
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param clusterId Confluent kafka or schema registry cluster id
+   * @param options The options parameters.
+   */
+  getClusterById(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    clusterId: string,
+    options?: OrganizationGetClusterByIdOptionalParams,
+  ): Promise<OrganizationGetClusterByIdResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        organizationName,
+        environmentId,
+        clusterId,
+        options,
+      },
+      getClusterByIdOperationSpec,
+    );
   }
 
   /**
@@ -417,28 +931,90 @@ export class OrganizationImpl implements Organization {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: OrganizationListBySubscriptionNextOptionalParams
+    options?: OrganizationListBySubscriptionNextOptionalParams,
   ): Promise<OrganizationListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: OrganizationListByResourceGroupNextOptionalParams
+    options?: OrganizationListByResourceGroupNextOptionalParams,
   ): Promise<OrganizationListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListEnvironmentsNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param nextLink The nextLink from the previous successful call to the ListEnvironments method.
+   * @param options The options parameters.
+   */
+  private _listEnvironmentsNext(
+    resourceGroupName: string,
+    organizationName: string,
+    nextLink: string,
+    options?: OrganizationListEnvironmentsNextOptionalParams,
+  ): Promise<OrganizationListEnvironmentsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, nextLink, options },
+      listEnvironmentsNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListClustersNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param nextLink The nextLink from the previous successful call to the ListClusters method.
+   * @param options The options parameters.
+   */
+  private _listClustersNext(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    nextLink: string,
+    options?: OrganizationListClustersNextOptionalParams,
+  ): Promise<OrganizationListClustersNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, environmentId, nextLink, options },
+      listClustersNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListSchemaRegistryClustersNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param nextLink The nextLink from the previous successful call to the ListSchemaRegistryClusters
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listSchemaRegistryClustersNext(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    nextLink: string,
+    options?: OrganizationListSchemaRegistryClustersNextOptionalParams,
+  ): Promise<OrganizationListSchemaRegistryClustersNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, environmentId, nextLink, options },
+      listSchemaRegistryClustersNextOperationSpec,
     );
   }
 }
@@ -446,85 +1022,81 @@ export class OrganizationImpl implements Organization {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/organizations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/organizations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationResourceListResult
+      bodyMapper: Mappers.OrganizationResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationResourceListResult
+      bodyMapper: Mappers.OrganizationResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OrganizationResource
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.organizationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OrganizationResource,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.organizationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationResource
+      bodyMapper: Mappers.OrganizationResource,
     },
     201: {
-      bodyMapper: Mappers.OrganizationResource
+      bodyMapper: Mappers.OrganizationResource,
     },
     202: {
-      bodyMapper: Mappers.OrganizationResource
+      bodyMapper: Mappers.OrganizationResource,
     },
     204: {
-      bodyMapper: Mappers.OrganizationResource
+      bodyMapper: Mappers.OrganizationResource,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
@@ -532,23 +1104,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationResource
+      bodyMapper: Mappers.OrganizationResource,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -556,15 +1127,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -572,55 +1142,356 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listEnvironmentsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetEnvironmentsResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.pageToken,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getEnvironmentByIdOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SCEnvironmentRecord,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+    Parameters.environmentId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listClustersOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/clusters",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListClustersSuccessResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.pageToken,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+    Parameters.environmentId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listSchemaRegistryClustersOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/schemaRegistryClusters",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListSchemaRegistryClustersResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.pageToken,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+    Parameters.environmentId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listRegionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/listRegions",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListRegionsSuccessResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const createAPIKeyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/clusters/{clusterId}/createAPIKey",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.APIKeyRecord,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.body4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+    Parameters.environmentId,
+    Parameters.clusterId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteClusterAPIKeyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/apiKeys/{apiKeyId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+    Parameters.apiKeyId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getClusterAPIKeyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/apiKeys/{apiKeyId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.APIKeyRecord,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+    Parameters.apiKeyId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getSchemaRegistryClusterByIdOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/schemaRegistryClusters/{clusterId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SchemaRegistryClusterRecord,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+    Parameters.environmentId,
+    Parameters.clusterId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getClusterByIdOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/clusters/{clusterId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SCClusterRecord,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+    Parameters.environmentId,
+    Parameters.clusterId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationResourceListResult
+      bodyMapper: Mappers.OrganizationResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationResourceListResult
+      bodyMapper: Mappers.OrganizationResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listEnvironmentsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetEnvironmentsResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listClustersNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListClustersSuccessResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+    Parameters.environmentId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listSchemaRegistryClustersNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListSchemaRegistryClustersResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.organizationName,
+    Parameters.resourceGroupName1,
+    Parameters.environmentId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

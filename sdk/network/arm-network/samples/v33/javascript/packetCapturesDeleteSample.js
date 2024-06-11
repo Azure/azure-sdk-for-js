@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the specified packet capture session.
  *
  * @summary Deletes the specified packet capture session.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherPacketCaptureDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkWatcherPacketCaptureDelete.json
  */
 async function deletePacketCapture() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

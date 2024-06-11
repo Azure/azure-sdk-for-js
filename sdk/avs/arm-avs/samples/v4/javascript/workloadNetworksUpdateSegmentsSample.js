@@ -38,7 +38,7 @@ async function workloadNetworksUpdateSegments() {
     resourceGroupName,
     privateCloudName,
     segmentId,
-    workloadNetworkSegment
+    workloadNetworkSegment,
   );
   console.log(result);
 }

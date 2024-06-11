@@ -28,7 +28,7 @@ async function deleteDeployment() {
   const result = await client.deployments.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    deploymentName
+    deploymentName,
   );
   console.log(result);
 }

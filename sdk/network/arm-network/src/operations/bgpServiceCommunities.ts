@@ -18,7 +18,7 @@ import {
   BgpServiceCommunitiesListNextOptionalParams,
   BgpServiceCommunitiesListOptionalParams,
   BgpServiceCommunitiesListResponse,
-  BgpServiceCommunitiesListNextResponse
+  BgpServiceCommunitiesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class BgpServiceCommunitiesImpl implements BgpServiceCommunities {
    * @param options The options parameters.
    */
   public list(
-    options?: BgpServiceCommunitiesListOptionalParams
+    options?: BgpServiceCommunitiesListOptionalParams,
   ): PagedAsyncIterableIterator<BgpServiceCommunity> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class BgpServiceCommunitiesImpl implements BgpServiceCommunities {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: BgpServiceCommunitiesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BgpServiceCommunity[]> {
     let result: BgpServiceCommunitiesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class BgpServiceCommunitiesImpl implements BgpServiceCommunities {
   }
 
   private async *listPagingAll(
-    options?: BgpServiceCommunitiesListOptionalParams
+    options?: BgpServiceCommunitiesListOptionalParams,
   ): AsyncIterableIterator<BgpServiceCommunity> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class BgpServiceCommunitiesImpl implements BgpServiceCommunities {
    * @param options The options parameters.
    */
   private _list(
-    options?: BgpServiceCommunitiesListOptionalParams
+    options?: BgpServiceCommunitiesListOptionalParams,
   ): Promise<BgpServiceCommunitiesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class BgpServiceCommunitiesImpl implements BgpServiceCommunities {
    */
   private _listNext(
     nextLink: string,
-    options?: BgpServiceCommunitiesListNextOptionalParams
+    options?: BgpServiceCommunitiesListNextOptionalParams,
   ): Promise<BgpServiceCommunitiesListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -117,38 +117,37 @@ export class BgpServiceCommunitiesImpl implements BgpServiceCommunities {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/bgpServiceCommunities",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/bgpServiceCommunities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BgpServiceCommunityListResult
+      bodyMapper: Mappers.BgpServiceCommunityListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BgpServiceCommunityListResult
+      bodyMapper: Mappers.BgpServiceCommunityListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

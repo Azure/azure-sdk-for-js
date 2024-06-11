@@ -18,13 +18,14 @@ import {
   LocationBasedCapabilitiesExecuteNextOptionalParams,
   LocationBasedCapabilitiesExecuteOptionalParams,
   LocationBasedCapabilitiesExecuteResponse,
-  LocationBasedCapabilitiesExecuteNextResponse
+  LocationBasedCapabilitiesExecuteNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LocationBasedCapabilities operations. */
 export class LocationBasedCapabilitiesImpl
-  implements LocationBasedCapabilities {
+  implements LocationBasedCapabilities
+{
   private readonly client: PostgreSQLManagementFlexibleServerClient;
 
   /**
@@ -42,7 +43,7 @@ export class LocationBasedCapabilitiesImpl
    */
   public listExecute(
     locationName: string,
-    options?: LocationBasedCapabilitiesExecuteOptionalParams
+    options?: LocationBasedCapabilitiesExecuteOptionalParams,
   ): PagedAsyncIterableIterator<FlexibleServerCapability> {
     const iter = this.executePagingAll(locationName, options);
     return {
@@ -57,14 +58,14 @@ export class LocationBasedCapabilitiesImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.executePagingPage(locationName, options, settings);
-      }
+      },
     };
   }
 
   private async *executePagingPage(
     locationName: string,
     options?: LocationBasedCapabilitiesExecuteOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FlexibleServerCapability[]> {
     let result: LocationBasedCapabilitiesExecuteResponse;
     let continuationToken = settings?.continuationToken;
@@ -79,7 +80,7 @@ export class LocationBasedCapabilitiesImpl
       result = await this._executeNext(
         locationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -90,7 +91,7 @@ export class LocationBasedCapabilitiesImpl
 
   private async *executePagingAll(
     locationName: string,
-    options?: LocationBasedCapabilitiesExecuteOptionalParams
+    options?: LocationBasedCapabilitiesExecuteOptionalParams,
   ): AsyncIterableIterator<FlexibleServerCapability> {
     for await (const page of this.executePagingPage(locationName, options)) {
       yield* page;
@@ -104,11 +105,11 @@ export class LocationBasedCapabilitiesImpl
    */
   private _execute(
     locationName: string,
-    options?: LocationBasedCapabilitiesExecuteOptionalParams
+    options?: LocationBasedCapabilitiesExecuteOptionalParams,
   ): Promise<LocationBasedCapabilitiesExecuteResponse> {
     return this.client.sendOperationRequest(
       { locationName, options },
-      executeOperationSpec
+      executeOperationSpec,
     );
   }
 
@@ -121,11 +122,11 @@ export class LocationBasedCapabilitiesImpl
   private _executeNext(
     locationName: string,
     nextLink: string,
-    options?: LocationBasedCapabilitiesExecuteNextOptionalParams
+    options?: LocationBasedCapabilitiesExecuteNextOptionalParams,
   ): Promise<LocationBasedCapabilitiesExecuteNextResponse> {
     return this.client.sendOperationRequest(
       { locationName, nextLink, options },
-      executeNextOperationSpec
+      executeNextOperationSpec,
     );
   }
 }
@@ -133,43 +134,42 @@ export class LocationBasedCapabilitiesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const executeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/capabilities",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/capabilities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CapabilitiesListResult
+      bodyMapper: Mappers.CapabilitiesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const executeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CapabilitiesListResult
+      bodyMapper: Mappers.CapabilitiesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

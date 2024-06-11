@@ -49,7 +49,7 @@ describe("StorageCache test", () => {
     const credential = createTestCredential();
     client = new StorageCacheManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "czwjstest";
+    resourceGroup = "myjstest";
     resourcename = "resourcetest";
   });
 

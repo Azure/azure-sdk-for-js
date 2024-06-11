@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { describe, it, assert, beforeEach } from "vitest";
 import { createStream } from "../../src/utils.js";
-import { Context } from "mocha";
 
 describe("createStream", () => {
+  beforeEach((ctx) => {
+    console.log("Context:", ctx.task.name);
+    console.log("Suite:", ctx.task.suite.name);
+  });
+
   const createIter = async function* (): AsyncGenerator<number> {
     yield 1;
     yield 2;
@@ -32,12 +36,13 @@ describe("createStream", () => {
     assert.isTrue(canceled);
   });
 
-  it("creates disposable stream", async function (this: Context) {
+  it("creates disposable stream", async function () {
     let disposed = false;
     {
-      await using stream = createStream(createIter(), async () => {
+      const stream = createStream(createIter(), async () => {
         disposed = true;
       });
+      await stream[Symbol.asyncDispose]();
       assert.isDefined(stream);
     }
     assert.isTrue(disposed);

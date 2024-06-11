@@ -18,13 +18,14 @@ import {
   ApplicationGatewayWafDynamicManifestsGetNextOptionalParams,
   ApplicationGatewayWafDynamicManifestsGetOptionalParams,
   ApplicationGatewayWafDynamicManifestsGetResponse,
-  ApplicationGatewayWafDynamicManifestsGetNextResponse
+  ApplicationGatewayWafDynamicManifestsGetNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApplicationGatewayWafDynamicManifests operations. */
 export class ApplicationGatewayWafDynamicManifestsImpl
-  implements ApplicationGatewayWafDynamicManifests {
+  implements ApplicationGatewayWafDynamicManifests
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -42,7 +43,7 @@ export class ApplicationGatewayWafDynamicManifestsImpl
    */
   public list(
     location: string,
-    options?: ApplicationGatewayWafDynamicManifestsGetOptionalParams
+    options?: ApplicationGatewayWafDynamicManifestsGetOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGatewayWafDynamicManifestResult> {
     const iter = this.getPagingAll(location, options);
     return {
@@ -57,14 +58,14 @@ export class ApplicationGatewayWafDynamicManifestsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.getPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *getPagingPage(
     location: string,
     options?: ApplicationGatewayWafDynamicManifestsGetOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApplicationGatewayWafDynamicManifestResult[]> {
     let result: ApplicationGatewayWafDynamicManifestsGetResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +87,7 @@ export class ApplicationGatewayWafDynamicManifestsImpl
 
   private async *getPagingAll(
     location: string,
-    options?: ApplicationGatewayWafDynamicManifestsGetOptionalParams
+    options?: ApplicationGatewayWafDynamicManifestsGetOptionalParams,
   ): AsyncIterableIterator<ApplicationGatewayWafDynamicManifestResult> {
     for await (const page of this.getPagingPage(location, options)) {
       yield* page;
@@ -100,11 +101,11 @@ export class ApplicationGatewayWafDynamicManifestsImpl
    */
   private _get(
     location: string,
-    options?: ApplicationGatewayWafDynamicManifestsGetOptionalParams
+    options?: ApplicationGatewayWafDynamicManifestsGetOptionalParams,
   ): Promise<ApplicationGatewayWafDynamicManifestsGetResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -117,11 +118,11 @@ export class ApplicationGatewayWafDynamicManifestsImpl
   private _getNext(
     location: string,
     nextLink: string,
-    options?: ApplicationGatewayWafDynamicManifestsGetNextOptionalParams
+    options?: ApplicationGatewayWafDynamicManifestsGetNextOptionalParams,
   ): Promise<ApplicationGatewayWafDynamicManifestsGetNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      getNextOperationSpec
+      getNextOperationSpec,
     );
   }
 }
@@ -129,43 +130,42 @@ export class ApplicationGatewayWafDynamicManifestsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationGatewayWafDynamicManifestResultList
+      bodyMapper: Mappers.ApplicationGatewayWafDynamicManifestResultList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationGatewayWafDynamicManifestResultList
+      bodyMapper: Mappers.ApplicationGatewayWafDynamicManifestResultList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -11,7 +11,7 @@ import {
   OutboundRule,
   LoadBalancerOutboundRulesListOptionalParams,
   LoadBalancerOutboundRulesGetOptionalParams,
-  LoadBalancerOutboundRulesGetResponse
+  LoadBalancerOutboundRulesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface LoadBalancerOutboundRules {
   list(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancerOutboundRulesListOptionalParams
+    options?: LoadBalancerOutboundRulesListOptionalParams,
   ): PagedAsyncIterableIterator<OutboundRule>;
   /**
    * Gets the specified load balancer outbound rule.
@@ -39,6 +39,6 @@ export interface LoadBalancerOutboundRules {
     resourceGroupName: string,
     loadBalancerName: string,
     outboundRuleName: string,
-    options?: LoadBalancerOutboundRulesGetOptionalParams
+    options?: LoadBalancerOutboundRulesGetOptionalParams,
   ): Promise<LoadBalancerOutboundRulesGetResponse>;
 }

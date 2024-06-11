@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of a replication policy.
  *
  * @summary Gets the details of a replication policy.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationPolicies_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationPolicies_Get.json
  */
 async function getsTheRequestedPolicy() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getsTheRequestedPolicy() {
   const result = await client.replicationPolicies.get(
     resourceName,
     resourceGroupName,
-    policyName
+    policyName,
   );
   console.log(result);
 }

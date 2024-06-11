@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to update a replication policy.
  *
  * @summary The operation to update a replication policy.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationPolicies_Update.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationPolicies_Update.json
  */
 async function updatesThePolicy() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function updatesThePolicy() {
     resourceName,
     resourceGroupName,
     policyName,
-    input
+    input,
   );
   console.log(result);
 }

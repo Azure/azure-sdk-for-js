@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a connection monitor.
  *
  * @summary Create or update a connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherConnectionMonitorCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkWatcherConnectionMonitorCreate.json
  */
 async function createConnectionMonitorV1() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -65,7 +65,7 @@ async function createConnectionMonitorV1() {
  * This sample demonstrates how to Create or update a connection monitor.
  *
  * @summary Create or update a connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherConnectionMonitorV2Create.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkWatcherConnectionMonitorV2Create.json
  */
 async function createConnectionMonitorV2() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

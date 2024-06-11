@@ -1,14 +1,59 @@
 # Release History
 
-## 2.6.1 (Unreleased)
+## 3.0.0-beta.2 (2024-04-26)
 
-### Features Added
+To migrate the existing applications to v3, please refer to [Migration Guide](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro/docs/MIGRATION.md).
+
+Compared with v3.0.0-beta.1 there are following changes.
+
+### Other Changes
+
+- Remove the `isStopped` considering we deprecate `stopPolling`
+- The return type for `processResult` is changed from `TResult` to `Promise<TResult>`
+- Rename the property from `initialUrl` to `initialRequestUrl` for `OperationConfig`
+
+## 2.7.2 (2024-04-09)
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
+
+## 3.0.0-beta.1 (2024-02-25)
+
+Initial implementation of next-generation for Long Running Operations (LROs) in which we deprecate the `LroEngine` support and change the return type of `createHttpPoller` from `Promise<SimplePollerLike>` to `PollerLike`.
 
 ### Breaking Changes
 
-### Bugs Fixed
+- `LroEngine` is deprecated and no long supported
+- The return type of `createHttpPoller` is changed from `Promise<SimplePollerLike>` to `PollerLike`
+- Interfaces are renamed. `SimplePollerLike` is renamed as `PollerLike`, `LroResponse` is renamed as `OperationResponse` and `LroResourceLocationConfig` is to `ResourceLocationConfig`
+- Functions `getOperationState()`, `getResult()`, `isDone()` and `isStopped()` are changed to read-only attributes `operationState`, `result`, `isDone` and `isStopped`
+- Deprecate the attributes `requestMethod` and `requestPath` in `LongRunningOperation`
+- `LongRunningOperation` is renamed to `RunningOperation`
+- The return type for `processResult` is changed from `TResult` to `Promise<TResult>`
+
+### Features Added
+
+- Add a new function `serialize` to help serialize the poller
+- Add a new function `submitted` to help wait for the poller submitted
 
 ### Other Changes
+
+- Add a new parameter `TRequest` for `OperationResponse` to accept the raw request
+- Export the function `deserializeState` to the public
+
+## 2.7.1 (2024-03-20)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
+## 2.7.0 (2024-03-12)
+
+### Other Changes
+
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
 
 ## 2.6.0 (2024-02-01)
 

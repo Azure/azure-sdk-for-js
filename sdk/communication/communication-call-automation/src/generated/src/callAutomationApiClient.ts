@@ -10,19 +10,19 @@ import * as coreClient from "@azure/core-client";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import {
   CallConnectionImpl,
   CallMediaImpl,
   CallDialogImpl,
-  CallRecordingImpl
+  CallRecordingImpl,
 } from "./operations";
 import {
   CallConnection,
   CallMedia,
   CallDialog,
-  CallRecording
+  CallRecording,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -37,7 +37,7 @@ import {
   RedirectCallRequest,
   RedirectCallOptionalParams,
   RejectCallRequest,
-  RejectCallOptionalParams
+  RejectCallOptionalParams,
 } from "./models";
 
 export class CallAutomationApiClient extends coreClient.ServiceClient {
@@ -51,7 +51,7 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
    */
   constructor(
     endpoint: string,
-    options?: CallAutomationApiClientOptionalParams
+    options?: CallAutomationApiClientOptionalParams,
   ) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
@@ -62,7 +62,7 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: CallAutomationApiClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
     const packageDetails = `azsdk-js-communication-call-automation/1.2.0-beta.1`;
@@ -75,9 +75,9 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}",
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -101,7 +101,7 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -115,7 +115,7 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -127,11 +127,11 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
    */
   createCall(
     createCallRequest: CreateCallRequest,
-    options?: CreateCallOptionalParams
+    options?: CreateCallOptionalParams,
   ): Promise<CreateCallResponse> {
     return this.sendOperationRequest(
       { createCallRequest, options },
-      createCallOperationSpec
+      createCallOperationSpec,
     );
   }
 
@@ -142,11 +142,11 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
    */
   answerCall(
     answerCallRequest: AnswerCallRequest,
-    options?: AnswerCallOptionalParams
+    options?: AnswerCallOptionalParams,
   ): Promise<AnswerCallResponse> {
     return this.sendOperationRequest(
       { answerCallRequest, options },
-      answerCallOperationSpec
+      answerCallOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
    */
   redirectCall(
     redirectCallRequest: RedirectCallRequest,
-    options?: RedirectCallOptionalParams
+    options?: RedirectCallOptionalParams,
   ): Promise<void> {
     return this.sendOperationRequest(
       { redirectCallRequest, options },
-      redirectCallOperationSpec
+      redirectCallOperationSpec,
     );
   }
 
@@ -172,11 +172,11 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
    */
   rejectCall(
     rejectCallRequest: RejectCallRequest,
-    options?: RejectCallOptionalParams
+    options?: RejectCallOptionalParams,
   ): Promise<void> {
     return this.sendOperationRequest(
       { rejectCallRequest, options },
-      rejectCallOperationSpec
+      rejectCallOperationSpec,
     );
   }
 
@@ -193,11 +193,11 @@ const createCallOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     201: {
-      bodyMapper: Mappers.CallConnectionPropertiesInternal
+      bodyMapper: Mappers.CallConnectionPropertiesInternal,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.createCallRequest,
   queryParameters: [Parameters.apiVersion],
@@ -206,21 +206,21 @@ const createCallOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
+    Parameters.repeatabilityFirstSent,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const answerCallOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections:answer",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CallConnectionPropertiesInternal
+      bodyMapper: Mappers.CallConnectionPropertiesInternal,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.answerCallRequest,
   queryParameters: [Parameters.apiVersion],
@@ -229,10 +229,10 @@ const answerCallOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
+    Parameters.repeatabilityFirstSent,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const redirectCallOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections:redirect",
@@ -240,8 +240,8 @@ const redirectCallOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.redirectCallRequest,
   queryParameters: [Parameters.apiVersion],
@@ -250,10 +250,10 @@ const redirectCallOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
+    Parameters.repeatabilityFirstSent,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const rejectCallOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections:reject",
@@ -261,8 +261,8 @@ const rejectCallOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.rejectCallRequest,
   queryParameters: [Parameters.apiVersion],
@@ -271,8 +271,8 @@ const rejectCallOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
+    Parameters.repeatabilityFirstSent,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };

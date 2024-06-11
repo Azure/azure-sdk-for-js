@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an existing origin within an endpoint.
  *
  * @summary Gets an existing origin within an endpoint.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Origins_Get.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Origins_Get.json
  */
 async function originsGet() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function originsGet() {
     resourceGroupName,
     profileName,
     endpointName,
-    originName
+    originName,
   );
   console.log(result);
 }

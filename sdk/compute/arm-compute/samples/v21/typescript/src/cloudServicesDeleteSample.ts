@@ -30,7 +30,7 @@ async function deleteCloudService() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.cloudServices.beginDeleteAndWait(
     resourceGroupName,
-    cloudServiceName
+    cloudServiceName,
   );
   console.log(result);
 }

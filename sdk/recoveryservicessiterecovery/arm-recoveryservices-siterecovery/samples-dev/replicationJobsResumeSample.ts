@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ResumeJobParams,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to resume an Azure Site Recovery job.
  *
  * @summary The operation to resume an Azure Site Recovery job.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationJobs_Resume.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationJobs_Resume.json
  */
 async function resumesTheSpecifiedJob() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function resumesTheSpecifiedJob() {
     resourceName,
     resourceGroupName,
     jobName,
-    resumeJobParams
+    resumeJobParams,
   );
   console.log(result);
 }

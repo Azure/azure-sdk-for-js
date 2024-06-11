@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert, matrix } from "@azure/test-utils";
+import { assert, matrix } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { getDeployments, getModels } from "./utils/utils.js";
@@ -50,10 +50,22 @@ describe("OpenAI", function () {
 
         it("wrong prompt type", async function () {
           // TODO: Update the error message expectations
-          assertOpenAiError(client.getEmbeddings(modelName, true as any), {
-            messagePattern: /\$.input invalid/,
+          await assertOpenAiError(client.getEmbeddings(modelName, true as any), {
+            messagePattern: /'\$\.input' is invalid/,
             type: `invalid_request_error`,
+            errorCode: null,
           });
+        });
+
+        it("embeddings request with dimensions", async function () {
+          const prompt = ["This is text to be embedded"];
+          modelName = "text-embedding-3-small";
+          const embeddings = await client.getEmbeddings(modelName, prompt, { dimensions: 512 });
+          assert.isNotNull(embeddings.data);
+          assert.equal(embeddings.data.length > 0, true);
+          assert.isNotNull(embeddings.data[0].embedding);
+          assert.equal(embeddings.data[0].embedding.length, 512);
+          assert.isNotNull(embeddings.usage);
         });
       });
     });

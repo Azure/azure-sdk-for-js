@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CapacityReservationGroupUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
  *
  * @summary The operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/capacityReservationExamples/CapacityReservationGroup_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/capacityReservationExamples/CapacityReservationGroup_Update_MaximumSet_Gen.json
  */
 async function capacityReservationGroupUpdateMaximumSetGen() {
   const subscriptionId =
@@ -31,14 +31,14 @@ async function capacityReservationGroupUpdateMaximumSetGen() {
   const capacityReservationGroupName = "aaaaaaaaaaaaaaaaaaaaaa";
   const parameters: CapacityReservationGroupUpdate = {
     instanceView: {},
-    tags: { key5355: "aaa" }
+    tags: { key5355: "aaa" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.capacityReservationGroups.update(
     resourceGroupName,
     capacityReservationGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -47,7 +47,7 @@ async function capacityReservationGroupUpdateMaximumSetGen() {
  * This sample demonstrates how to The operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
  *
  * @summary The operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/capacityReservationExamples/CapacityReservationGroup_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/capacityReservationExamples/CapacityReservationGroup_Update_MinimumSet_Gen.json
  */
 async function capacityReservationGroupUpdateMinimumSetGen() {
   const subscriptionId =
@@ -61,7 +61,7 @@ async function capacityReservationGroupUpdateMinimumSetGen() {
   const result = await client.capacityReservationGroups.update(
     resourceGroupName,
     capacityReservationGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

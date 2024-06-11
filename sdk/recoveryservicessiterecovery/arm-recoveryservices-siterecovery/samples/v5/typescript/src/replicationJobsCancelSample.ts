@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to cancel an Azure Site Recovery job.
  *
  * @summary The operation to cancel an Azure Site Recovery job.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationJobs_Cancel.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationJobs_Cancel.json
  */
 async function cancelsTheSpecifiedJob() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function cancelsTheSpecifiedJob() {
   const result = await client.replicationJobs.beginCancelAndWait(
     resourceName,
     resourceGroupName,
-    jobName
+    jobName,
   );
   console.log(result);
 }

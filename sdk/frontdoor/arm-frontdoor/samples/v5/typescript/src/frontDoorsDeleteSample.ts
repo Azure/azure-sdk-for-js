@@ -28,7 +28,7 @@ async function deleteFrontDoor() {
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const result = await client.frontDoors.beginDeleteAndWait(
     resourceGroupName,
-    frontDoorName
+    frontDoorName,
   );
   console.log(result);
 }

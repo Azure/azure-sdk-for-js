@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -20,7 +20,11 @@ import {
   DiagnosticsImpl,
   DiscoverySolutionImpl,
   SolutionImpl,
-  TroubleshootersImpl
+  SimplifiedSolutionsImpl,
+  TroubleshootersImpl,
+  SolutionSelfHelpImpl,
+  DiscoverySolutionNLPTenantScopeImpl,
+  DiscoverySolutionNLPSubscriptionScopeImpl,
 } from "./operations";
 import {
   Operations,
@@ -28,25 +32,49 @@ import {
   Diagnostics,
   DiscoverySolution,
   Solution,
-  Troubleshooters
+  SimplifiedSolutions,
+  Troubleshooters,
+  SolutionSelfHelp,
+  DiscoverySolutionNLPTenantScope,
+  DiscoverySolutionNLPSubscriptionScope,
 } from "./operationsInterfaces";
 import { HelpRPOptionalParams } from "./models";
 
 export class HelpRP extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the HelpRP class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: HelpRPOptionalParams
+    subscriptionId: string,
+    options?: HelpRPOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: HelpRPOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: HelpRPOptionalParams | string,
+    options?: HelpRPOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
+    }
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -55,7 +83,7 @@ export class HelpRP extends coreClient.ServiceClient {
     }
     const defaults: HelpRPOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-selfhelp/2.0.0-beta.3`;
@@ -68,20 +96,21 @@ export class HelpRP extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -91,7 +120,7 @@ export class HelpRP extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -101,21 +130,29 @@ export class HelpRP extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-09-01-preview";
+    this.apiVersion = options.apiVersion || "2024-03-01-preview";
     this.operations = new OperationsImpl(this);
     this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
     this.diagnostics = new DiagnosticsImpl(this);
     this.discoverySolution = new DiscoverySolutionImpl(this);
     this.solution = new SolutionImpl(this);
+    this.simplifiedSolutions = new SimplifiedSolutionsImpl(this);
     this.troubleshooters = new TroubleshootersImpl(this);
+    this.solutionSelfHelp = new SolutionSelfHelpImpl(this);
+    this.discoverySolutionNLPTenantScope =
+      new DiscoverySolutionNLPTenantScopeImpl(this);
+    this.discoverySolutionNLPSubscriptionScope =
+      new DiscoverySolutionNLPSubscriptionScopeImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -128,7 +165,7 @@ export class HelpRP extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -142,7 +179,7 @@ export class HelpRP extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -152,5 +189,9 @@ export class HelpRP extends coreClient.ServiceClient {
   diagnostics: Diagnostics;
   discoverySolution: DiscoverySolution;
   solution: Solution;
+  simplifiedSolutions: SimplifiedSolutions;
   troubleshooters: Troubleshooters;
+  solutionSelfHelp: SolutionSelfHelp;
+  discoverySolutionNLPTenantScope: DiscoverySolutionNLPTenantScope;
+  discoverySolutionNLPSubscriptionScope: DiscoverySolutionNLPSubscriptionScope;
 }

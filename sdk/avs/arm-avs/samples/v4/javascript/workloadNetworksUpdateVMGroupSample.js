@@ -34,7 +34,7 @@ async function workloadNetworksUpdateVMGroup() {
     resourceGroupName,
     privateCloudName,
     vmGroupId,
-    workloadNetworkVMGroup
+    workloadNetworkVMGroup,
   );
   console.log(result);
 }

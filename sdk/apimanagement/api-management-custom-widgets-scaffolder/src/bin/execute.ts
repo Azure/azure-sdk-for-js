@@ -3,7 +3,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Log, buildGetConfig } from "./execute-helpers";
+import { Log, buildGetConfig } from "./execute-helpers.js";
 import {
   prefixUrlProtocol,
   promptServiceInformation,
@@ -12,10 +12,9 @@ import {
   validateDeployConfig,
   validateMiscConfig,
   validateWidgetConfig,
-} from "./execute-configs";
-
+} from "./execute-configs.js";
 import chalk from "chalk";
-import { generateProject } from "../generateProject";
+import { generateProject } from "../generateProject.js";
 
 const log = console.log;
 const white: Log = (msg) => log(chalk.white(msg));

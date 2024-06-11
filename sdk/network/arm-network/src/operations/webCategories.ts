@@ -20,7 +20,7 @@ import {
   WebCategoriesListBySubscriptionResponse,
   WebCategoriesGetOptionalParams,
   WebCategoriesGetResponse,
-  WebCategoriesListBySubscriptionNextResponse
+  WebCategoriesListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class WebCategoriesImpl implements WebCategories {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: WebCategoriesListBySubscriptionOptionalParams
+    options?: WebCategoriesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AzureWebCategory> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -56,13 +56,13 @@ export class WebCategoriesImpl implements WebCategories {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: WebCategoriesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AzureWebCategory[]> {
     let result: WebCategoriesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class WebCategoriesImpl implements WebCategories {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: WebCategoriesListBySubscriptionOptionalParams
+    options?: WebCategoriesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<AzureWebCategory> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -97,11 +97,11 @@ export class WebCategoriesImpl implements WebCategories {
    */
   get(
     name: string,
-    options?: WebCategoriesGetOptionalParams
+    options?: WebCategoriesGetOptionalParams,
   ): Promise<WebCategoriesGetResponse> {
     return this.client.sendOperationRequest(
       { name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -110,11 +110,11 @@ export class WebCategoriesImpl implements WebCategories {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: WebCategoriesListBySubscriptionOptionalParams
+    options?: WebCategoriesListBySubscriptionOptionalParams,
   ): Promise<WebCategoriesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -125,11 +125,11 @@ export class WebCategoriesImpl implements WebCategories {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: WebCategoriesListBySubscriptionNextOptionalParams
+    options?: WebCategoriesListBySubscriptionNextOptionalParams,
   ): Promise<WebCategoriesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -137,55 +137,53 @@ export class WebCategoriesImpl implements WebCategories {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories/{name}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureWebCategory
+      bodyMapper: Mappers.AzureWebCategory,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.name],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureWebCategoryListResult
+      bodyMapper: Mappers.AzureWebCategoryListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureWebCategoryListResult
+      bodyMapper: Mappers.AzureWebCategoryListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

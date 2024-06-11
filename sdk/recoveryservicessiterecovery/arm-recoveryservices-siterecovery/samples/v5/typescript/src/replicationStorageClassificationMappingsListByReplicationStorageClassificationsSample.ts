@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the storage classification mappings for the fabric.
  *
  * @summary Lists the storage classification mappings for the fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationStorageClassificationMappings_ListByReplicationStorageClassifications.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationStorageClassificationMappings_ListByReplicationStorageClassifications.json
  */
 async function getsTheListOfStorageClassificationMappingsObjectsUnderAStorage() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function getsTheListOfStorageClassificationMappingsObjectsUnderAStorage() 
     resourceName,
     resourceGroupName,
     fabricName,
-    storageClassificationName
+    storageClassificationName,
   )) {
     resArray.push(item);
   }

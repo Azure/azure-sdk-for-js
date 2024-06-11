@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update an email notification(alert) configuration.
  *
  * @summary Create or update an email notification(alert) configuration.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationAlertSettings_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationAlertSettings_Create.json
  */
 async function configuresEmailNotificationsForThisVault() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function configuresEmailNotificationsForThisVault() {
     resourceName,
     resourceGroupName,
     alertSettingName,
-    request
+    request,
   );
   console.log(result);
 }

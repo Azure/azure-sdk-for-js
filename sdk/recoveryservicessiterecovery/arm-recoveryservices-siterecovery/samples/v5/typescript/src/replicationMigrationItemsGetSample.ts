@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of a migration item.
  *
  * @summary Gets the details of a migration item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationMigrationItems_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_Get.json
  */
 async function getsTheDetailsOfAMigrationItem() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function getsTheDetailsOfAMigrationItem() {
     resourceGroupName,
     fabricName,
     protectionContainerName,
-    migrationItemName
+    migrationItemName,
   );
   console.log(result);
 }

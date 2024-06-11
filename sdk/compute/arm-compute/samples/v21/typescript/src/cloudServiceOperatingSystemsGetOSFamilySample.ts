@@ -29,7 +29,7 @@ async function getCloudServiceOSFamily() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.cloudServiceOperatingSystems.getOSFamily(
     location,
-    osFamilyName
+    osFamilyName,
   );
   console.log(result);
 }

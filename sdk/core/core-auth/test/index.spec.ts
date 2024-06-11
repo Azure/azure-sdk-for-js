@@ -9,8 +9,8 @@ import {
   isNamedKeyCredential,
   isSASCredential,
   isTokenCredential,
-} from "../src/index";
-import { assert } from "chai";
+} from "../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("AzureKeyCredential", () => {
   it("credential constructor throws on invalid key", () => {

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VpnDeviceScriptParameters,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a xml format representation for vpn device configuration script.
  *
  * @summary Gets a xml format representation for vpn device configuration script.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGatewayVpnDeviceConfigurationScript.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkGatewayVpnDeviceConfigurationScript.json
  */
 async function getVpnDeviceConfigurationScript() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,15 +30,16 @@ async function getVpnDeviceConfigurationScript() {
   const parameters: VpnDeviceScriptParameters = {
     deviceFamily: "ISR",
     firmwareVersion: "IOS 15.1 (Preview)",
-    vendor: "Cisco"
+    vendor: "Cisco",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualNetworkGateways.vpnDeviceConfigurationScript(
-    resourceGroupName,
-    virtualNetworkGatewayConnectionName,
-    parameters
-  );
+  const result =
+    await client.virtualNetworkGateways.vpnDeviceConfigurationScript(
+      resourceGroupName,
+      virtualNetworkGatewayConnectionName,
+      parameters,
+    );
   console.log(result);
 }
 

@@ -23,7 +23,7 @@ import {
   ScopeConnectionsGetOptionalParams,
   ScopeConnectionsGetResponse,
   ScopeConnectionsDeleteOptionalParams,
-  ScopeConnectionsListNextResponse
+  ScopeConnectionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,12 +48,12 @@ export class ScopeConnectionsImpl implements ScopeConnections {
   public list(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: ScopeConnectionsListOptionalParams
+    options?: ScopeConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<ScopeConnection> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class ScopeConnectionsImpl implements ScopeConnections {
           resourceGroupName,
           networkManagerName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class ScopeConnectionsImpl implements ScopeConnections {
     resourceGroupName: string,
     networkManagerName: string,
     options?: ScopeConnectionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ScopeConnection[]> {
     let result: ScopeConnectionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +96,7 @@ export class ScopeConnectionsImpl implements ScopeConnections {
         resourceGroupName,
         networkManagerName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -108,12 +108,12 @@ export class ScopeConnectionsImpl implements ScopeConnections {
   private async *listPagingAll(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: ScopeConnectionsListOptionalParams
+    options?: ScopeConnectionsListOptionalParams,
   ): AsyncIterableIterator<ScopeConnection> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,7 +132,7 @@ export class ScopeConnectionsImpl implements ScopeConnections {
     networkManagerName: string,
     scopeConnectionName: string,
     parameters: ScopeConnection,
-    options?: ScopeConnectionsCreateOrUpdateOptionalParams
+    options?: ScopeConnectionsCreateOrUpdateOptionalParams,
   ): Promise<ScopeConnectionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -140,9 +140,9 @@ export class ScopeConnectionsImpl implements ScopeConnections {
         networkManagerName,
         scopeConnectionName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class ScopeConnectionsImpl implements ScopeConnections {
     resourceGroupName: string,
     networkManagerName: string,
     scopeConnectionName: string,
-    options?: ScopeConnectionsGetOptionalParams
+    options?: ScopeConnectionsGetOptionalParams,
   ): Promise<ScopeConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, scopeConnectionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -176,11 +176,11 @@ export class ScopeConnectionsImpl implements ScopeConnections {
     resourceGroupName: string,
     networkManagerName: string,
     scopeConnectionName: string,
-    options?: ScopeConnectionsDeleteOptionalParams
+    options?: ScopeConnectionsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, scopeConnectionName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -193,11 +193,11 @@ export class ScopeConnectionsImpl implements ScopeConnections {
   private _list(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: ScopeConnectionsListOptionalParams
+    options?: ScopeConnectionsListOptionalParams,
   ): Promise<ScopeConnectionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -212,11 +212,11 @@ export class ScopeConnectionsImpl implements ScopeConnections {
     resourceGroupName: string,
     networkManagerName: string,
     nextLink: string,
-    options?: ScopeConnectionsListNextOptionalParams
+    options?: ScopeConnectionsListNextOptionalParams,
   ): Promise<ScopeConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -224,19 +224,18 @@ export class ScopeConnectionsImpl implements ScopeConnections {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ScopeConnection
+      bodyMapper: Mappers.ScopeConnection,
     },
     201: {
-      bodyMapper: Mappers.ScopeConnection
+      bodyMapper: Mappers.ScopeConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters39,
   queryParameters: [Parameters.apiVersion],
@@ -245,23 +244,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName,
-    Parameters.scopeConnectionName
+    Parameters.scopeConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScopeConnection
+      bodyMapper: Mappers.ScopeConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -269,21 +267,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName,
-    Parameters.scopeConnectionName
+    Parameters.scopeConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -291,55 +288,54 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName,
-    Parameters.scopeConnectionName
+    Parameters.scopeConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScopeConnectionListResult
+      bodyMapper: Mappers.ScopeConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName
+    Parameters.networkManagerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScopeConnectionListResult
+      bodyMapper: Mappers.ScopeConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkManagerName
+    Parameters.networkManagerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

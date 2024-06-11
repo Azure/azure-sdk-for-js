@@ -17,7 +17,7 @@ import {
   EnvironmentTypeUpdate,
   EnvironmentTypesUpdateOptionalParams,
   EnvironmentTypesUpdateResponse,
-  EnvironmentTypesDeleteOptionalParams
+  EnvironmentTypesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface EnvironmentTypes {
   listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: EnvironmentTypesListByDevCenterOptionalParams
+    options?: EnvironmentTypesListByDevCenterOptionalParams,
   ): PagedAsyncIterableIterator<EnvironmentType>;
   /**
    * Gets an environment type.
@@ -45,7 +45,7 @@ export interface EnvironmentTypes {
     resourceGroupName: string,
     devCenterName: string,
     environmentTypeName: string,
-    options?: EnvironmentTypesGetOptionalParams
+    options?: EnvironmentTypesGetOptionalParams,
   ): Promise<EnvironmentTypesGetResponse>;
   /**
    * Creates or updates an environment type.
@@ -60,7 +60,7 @@ export interface EnvironmentTypes {
     devCenterName: string,
     environmentTypeName: string,
     body: EnvironmentType,
-    options?: EnvironmentTypesCreateOrUpdateOptionalParams
+    options?: EnvironmentTypesCreateOrUpdateOptionalParams,
   ): Promise<EnvironmentTypesCreateOrUpdateResponse>;
   /**
    * Partially updates an environment type.
@@ -75,7 +75,7 @@ export interface EnvironmentTypes {
     devCenterName: string,
     environmentTypeName: string,
     body: EnvironmentTypeUpdate,
-    options?: EnvironmentTypesUpdateOptionalParams
+    options?: EnvironmentTypesUpdateOptionalParams,
   ): Promise<EnvironmentTypesUpdateResponse>;
   /**
    * Deletes an environment type.
@@ -88,6 +88,6 @@ export interface EnvironmentTypes {
     resourceGroupName: string,
     devCenterName: string,
     environmentTypeName: string,
-    options?: EnvironmentTypesDeleteOptionalParams
+    options?: EnvironmentTypesDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the networks available in a vault.
  *
  * @summary Lists the networks available in a vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworks_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworks_List.json
  */
 async function getsTheListOfNetworksViewOnlyApi() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getsTheListOfNetworksViewOnlyApi() {
   const resArray = new Array();
   for await (let item of client.replicationNetworks.list(
     resourceName,
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

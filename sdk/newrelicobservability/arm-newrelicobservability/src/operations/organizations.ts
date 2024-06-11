@@ -18,7 +18,7 @@ import {
   OrganizationsListNextOptionalParams,
   OrganizationsListOptionalParams,
   OrganizationsListOperationResponse,
-  OrganizationsListNextResponse
+  OrganizationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export class OrganizationsImpl implements Organizations {
   public list(
     userEmail: string,
     location: string,
-    options?: OrganizationsListOptionalParams
+    options?: OrganizationsListOptionalParams,
   ): PagedAsyncIterableIterator<OrganizationResource> {
     const iter = this.listPagingAll(userEmail, location, options);
     return {
@@ -58,7 +58,7 @@ export class OrganizationsImpl implements Organizations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(userEmail, location, options, settings);
-      }
+      },
     };
   }
 
@@ -66,7 +66,7 @@ export class OrganizationsImpl implements Organizations {
     userEmail: string,
     location: string,
     options?: OrganizationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OrganizationResource[]> {
     let result: OrganizationsListOperationResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,12 +89,12 @@ export class OrganizationsImpl implements Organizations {
   private async *listPagingAll(
     userEmail: string,
     location: string,
-    options?: OrganizationsListOptionalParams
+    options?: OrganizationsListOptionalParams,
   ): AsyncIterableIterator<OrganizationResource> {
     for await (const page of this.listPagingPage(
       userEmail,
       location,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -109,11 +109,11 @@ export class OrganizationsImpl implements Organizations {
   private _list(
     userEmail: string,
     location: string,
-    options?: OrganizationsListOptionalParams
+    options?: OrganizationsListOptionalParams,
   ): Promise<OrganizationsListOperationResponse> {
     return this.client.sendOperationRequest(
       { userEmail, location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -124,11 +124,11 @@ export class OrganizationsImpl implements Organizations {
    */
   private _listNext(
     nextLink: string,
-    options?: OrganizationsListNextOptionalParams
+    options?: OrganizationsListNextOptionalParams,
   ): Promise<OrganizationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -136,42 +136,41 @@ export class OrganizationsImpl implements Organizations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/NewRelic.Observability/organizations",
+  path: "/subscriptions/{subscriptionId}/providers/NewRelic.Observability/organizations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationsListResponse
+      bodyMapper: Mappers.OrganizationsListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.userEmail,
-    Parameters.location
+    Parameters.location,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationsListResponse
+      bodyMapper: Mappers.OrganizationsListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

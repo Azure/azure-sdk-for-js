@@ -12,17 +12,22 @@ import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface Account extends TrackedResource {
-    readonly dashboardUri?: string;
-    readonly provisioningState?: ProvisioningState;
-    regionalAffinity?: EnablementStatus;
-    reporting?: EnablementStatus;
-    scalableExecution?: EnablementStatus;
+    properties?: AccountProperties;
 }
 
 // @public
 export interface AccountListResult {
     nextLink?: string;
     value: Account[];
+}
+
+// @public
+export interface AccountProperties {
+    readonly dashboardUri?: string;
+    readonly provisioningState?: ProvisioningState;
+    regionalAffinity?: EnablementStatus;
+    reporting?: EnablementStatus;
+    scalableExecution?: EnablementStatus;
 }
 
 // @public
@@ -107,12 +112,17 @@ export type AccountsUpdateResponse = Account;
 
 // @public
 export interface AccountUpdate {
-    regionalAffinity?: EnablementStatus;
-    reporting?: EnablementStatus;
-    scalableExecution?: EnablementStatus;
+    properties?: AccountUpdateProperties;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface AccountUpdateProperties {
+    regionalAffinity?: EnablementStatus;
+    reporting?: EnablementStatus;
+    scalableExecution?: EnablementStatus;
 }
 
 // @public
@@ -285,8 +295,7 @@ export interface ProxyResource extends Resource {
 
 // @public
 export interface Quota extends ProxyResource {
-    freeTrial?: FreeTrialProperties;
-    readonly provisioningState?: ProvisioningState;
+    properties?: QuotaProperties;
 }
 
 // @public
@@ -297,6 +306,12 @@ export interface QuotaListResult {
 
 // @public
 export type QuotaNames = string;
+
+// @public
+export interface QuotaProperties {
+    freeTrial?: FreeTrialProperties;
+    readonly provisioningState?: ProvisioningState;
+}
 
 // @public
 export interface Quotas {

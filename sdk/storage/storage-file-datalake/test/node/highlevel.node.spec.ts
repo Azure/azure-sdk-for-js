@@ -836,7 +836,7 @@ describe("Highlevel Node.js only", () => {
     await fileClient.uploadFile(tempFileSmall);
 
     try {
-      await fileClient.readToFile(__dirname);
+      await fileClient.readToFile(".");
       throw new Error("Test failure.");
     } catch (err: any) {
       assert.notEqual(err.message, "Test failure.");

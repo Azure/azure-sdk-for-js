@@ -1,5 +1,55 @@
 # Release History
 
+## 5.4.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 5.4.0 (2024-04-11)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated`
+  - `Microsoft.Communication.AdvancedMessageReceived`
+  - `Microsoft.Communication.RouterWorkerUpdated`
+
+## 5.3.0 (2024-03-13)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.ApiCenter.ApiDefinitionAdded`
+  - `Microsoft.ApiCenter.ApiDefinitionUpdated`
+
+## 5.2.0 (2024-02-08)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.Storage.StorageTaskAssignmentQueued`
+  - `Microsoft.Storage.StorageTaskAssignmentCompleted`
+  - `Microsoft.AVS.ScriptExecutionStarted`
+  - `Microsoft.AVS.ScriptExecutionFinished`
+  - `Microsoft.AVS.ScriptExecutionCancelled`
+  - `Microsoft.AVS.ScriptExecutionFailed`
+  - `Microsoft.AVS.PrivateCloudUpdating`
+  - `Microsoft.AVS.PrivateCloudUpdated`
+  - `Microsoft.AVS.PrivateCloudFailed`
+  - `Microsoft.AVS.ClusterCreated`
+  - `Microsoft.AVS.ClusterDeleted`
+  - `Microsoft.AVS.ClusterUpdating`
+  - `Microsoft.AVS.ClusterUpdated`
+  - `Microsoft.AVS.ClusterFailed`
+
 ## 5.1.1 (2024-01-22)
 
 ### Features Added

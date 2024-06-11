@@ -4,8 +4,8 @@
     "module": "CommonJS",
     "declarationDir": "./typings/latest",
     "lib": ["ES6", "ESNext.AsyncIterable"],
-    "outDir": "./dist-esm",
+    "outDir": "./dist-esm"
   },
   "compileOnSave": true,
-  "include": ["./test/**/*.ts"],
+  "include": ["./test/**/*.ts"]
 }

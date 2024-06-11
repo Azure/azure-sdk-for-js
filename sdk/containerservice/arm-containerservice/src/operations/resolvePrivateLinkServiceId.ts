@@ -14,12 +14,13 @@ import { ContainerServiceClient } from "../containerServiceClient";
 import {
   PrivateLinkResource,
   ResolvePrivateLinkServiceIdPostOptionalParams,
-  ResolvePrivateLinkServiceIdPostResponse
+  ResolvePrivateLinkServiceIdPostResponse,
 } from "../models";
 
 /** Class containing ResolvePrivateLinkServiceId operations. */
 export class ResolvePrivateLinkServiceIdImpl
-  implements ResolvePrivateLinkServiceId {
+  implements ResolvePrivateLinkServiceId
+{
   private readonly client: ContainerServiceClient;
 
   /**
@@ -41,11 +42,11 @@ export class ResolvePrivateLinkServiceIdImpl
     resourceGroupName: string,
     resourceName: string,
     parameters: PrivateLinkResource,
-    options?: ResolvePrivateLinkServiceIdPostOptionalParams
+    options?: ResolvePrivateLinkServiceIdPostOptionalParams,
   ): Promise<ResolvePrivateLinkServiceIdPostResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, parameters, options },
-      postOperationSpec
+      postOperationSpec,
     );
   }
 }
@@ -53,16 +54,15 @@ export class ResolvePrivateLinkServiceIdImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const postOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resolvePrivateLinkServiceId",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resolvePrivateLinkServiceId",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResource
+      bodyMapper: Mappers.PrivateLinkResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
@@ -70,9 +70,9 @@ const postOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

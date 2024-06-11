@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to delete an ASR migration item.
  *
  * @summary The operation to delete an ASR migration item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationMigrationItems_Delete.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_Delete.json
  */
 async function deleteTheMigrationItem() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function deleteTheMigrationItem() {
     resourceGroupName,
     fabricName,
     protectionContainerName,
-    migrationItemName
+    migrationItemName,
   );
   console.log(result);
 }

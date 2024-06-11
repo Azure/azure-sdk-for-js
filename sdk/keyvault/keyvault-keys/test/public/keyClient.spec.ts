@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
@@ -30,8 +30,8 @@ describe("Keys client - create, read, update and delete operations", () => {
 
     // These tests rely on the attestation URI inside the Release Policy, which is sanitized by the test recorder.
     // Using a bodiless matcher to ignore the differences that this causes.
-    recorder.setMatcher("BodilessMatcher");
     await recorder.start(envSetupForPlayback);
+    await recorder.setMatcher("BodilessMatcher");
 
     const authentication = await authenticate(getServiceVersion(), recorder);
     keySuffix = authentication.keySuffix;
@@ -263,7 +263,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       "Unexpected key name in result from beginDeleteKey().",
     );
     await poller.pollUntilDone();
-    let getResult = await poller.getResult();
+    let getResult = poller.getResult();
     assert.equal(
       getResult!.name,
       keyName,
@@ -452,7 +452,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       }
     });
 
-    it("can create an exportable key and release it", async () => {
+    it("can create an exportable key and release it", async function (this: Context) {
       const keyName = recorder.variable(
         "exportkey",
         `exportkey-${Math.floor(Math.random() * 1000)}`,
@@ -499,7 +499,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       );
     });
 
-    it("errors when updating an immutable release policy", async () => {
+    it("errors when updating an immutable release policy", async function (this: Context) {
       const keyName = recorder.variable(
         "immutablerelease",
         `immutablerelease-${Math.floor(Math.random() * 1000)}`,

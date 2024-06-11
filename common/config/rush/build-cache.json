@@ -1,5 +1,5 @@
 {
-  "buildCacheEnabled": true,
+  "buildCacheEnabled": false,
   // Follow instructions at
   //   https://rushjs.io/pages/maintainer/build_cache/#user-authentication
   // to authenticate.

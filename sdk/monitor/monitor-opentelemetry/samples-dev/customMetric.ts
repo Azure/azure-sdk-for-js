@@ -34,8 +34,8 @@ export async function main() {
   customCounter.add(3);
 }
 
-main().catch((error) => {
+main().catch(async (error) => {
   console.error("An error occurred:", error);
-  shutdownAzureMonitor();
+  await shutdownAzureMonitor();
   process.exit(1);
 });

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the networks available for a fabric.
  *
  * @summary Lists the networks available for a fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworks_ListByReplicationFabrics.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworks_ListByReplicationFabrics.json
  */
 async function getsTheListOfNetworksUnderAFabric() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getsTheListOfNetworksUnderAFabric() {
   for await (let item of client.replicationNetworks.listByReplicationFabrics(
     resourceName,
     resourceGroupName,
-    fabricName
+    fabricName,
   )) {
     resArray.push(item);
   }

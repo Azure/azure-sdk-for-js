@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "paths": { "@azure-rest/maps-search": ["./src/index"] },
+    "paths": { "@azure-rest/maps-search": ["./src/index"] }
   },
-  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }

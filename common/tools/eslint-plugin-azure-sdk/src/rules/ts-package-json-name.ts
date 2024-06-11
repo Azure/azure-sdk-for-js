@@ -92,7 +92,7 @@ function getPackageMetadata(node: Property): {
   const nodeValue = node.value as Literal;
   const packageName = nodeValue.value as string;
   // Check if there is a sub scope i.e @azure-rest
-  const [_, subScope] = packageName.match(/^@azure(-[a-z]+)?\//) ?? [];
+  const [, subScope] = packageName.match(/^@azure(-[a-z]+)?\//) ?? [];
 
   return {
     nodeValue,

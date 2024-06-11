@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /**
  * This sample demonstrates how the createNotificationJob() method can be used to export registrations
@@ -27,7 +27,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 // Define export job parameters
 const outputContainerUrl = process.env.OUTPUT_CONTAINER_URL || "<output container URL>";
 
-async function main() {
+async function main(): Promise<void> {
   const context = createClientContext(connectionString, hubName);
 
   let exportJob: NotificationHubJob = {

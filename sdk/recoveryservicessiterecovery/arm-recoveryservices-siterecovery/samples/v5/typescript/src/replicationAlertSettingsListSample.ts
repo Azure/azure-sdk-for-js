@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the list of email notification(alert) configurations for the vault.
  *
  * @summary Gets the list of email notification(alert) configurations for the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationAlertSettings_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationAlertSettings_List.json
  */
 async function getsTheListOfConfiguredEmailNotificationAlertConfigurations() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getsTheListOfConfiguredEmailNotificationAlertConfigurations() {
   const resArray = new Array();
   for await (let item of client.replicationAlertSettings.list(
     resourceName,
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

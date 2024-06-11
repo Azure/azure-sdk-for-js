@@ -29,7 +29,7 @@ import {
   PublicIPAddressesDdosProtectionStatusOptionalParams,
   PublicIPAddressesDdosProtectionStatusResponse,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
-  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse
+  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export interface PublicIPAddresses {
   listCloudServicePublicIPAddresses(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
   ): PagedAsyncIterableIterator<PublicIPAddress>;
   /**
    * Gets information about all public IP addresses in a role instance IP configuration in a cloud
@@ -62,14 +62,14 @@ export interface PublicIPAddresses {
     roleInstanceName: string,
     networkInterfaceName: string,
     ipConfigurationName: string,
-    options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams,
   ): PagedAsyncIterableIterator<PublicIPAddress>;
   /**
    * Gets all the public IP addresses in a subscription.
    * @param options The options parameters.
    */
   listAll(
-    options?: PublicIPAddressesListAllOptionalParams
+    options?: PublicIPAddressesListAllOptionalParams,
   ): PagedAsyncIterableIterator<PublicIPAddress>;
   /**
    * Gets all public IP addresses in a resource group.
@@ -78,7 +78,7 @@ export interface PublicIPAddresses {
    */
   list(
     resourceGroupName: string,
-    options?: PublicIPAddressesListOptionalParams
+    options?: PublicIPAddressesListOptionalParams,
   ): PagedAsyncIterableIterator<PublicIPAddress>;
   /**
    * Gets information about all public IP addresses on a virtual machine scale set level.
@@ -89,7 +89,7 @@ export interface PublicIPAddresses {
   listVirtualMachineScaleSetPublicIPAddresses(
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
-    options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
   ): PagedAsyncIterableIterator<PublicIPAddress>;
   /**
    * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual
@@ -107,7 +107,7 @@ export interface PublicIPAddresses {
     virtualmachineIndex: string,
     networkInterfaceName: string,
     ipConfigurationName: string,
-    options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
   ): PagedAsyncIterableIterator<PublicIPAddress>;
   /**
    * Get the specified public IP address in a cloud service.
@@ -126,7 +126,7 @@ export interface PublicIPAddresses {
     networkInterfaceName: string,
     ipConfigurationName: string,
     publicIpAddressName: string,
-    options?: PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams
+    options?: PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams,
   ): Promise<PublicIPAddressesGetCloudServicePublicIPAddressResponse>;
   /**
    * Deletes the specified public IP address.
@@ -137,7 +137,7 @@ export interface PublicIPAddresses {
   beginDelete(
     resourceGroupName: string,
     publicIpAddressName: string,
-    options?: PublicIPAddressesDeleteOptionalParams
+    options?: PublicIPAddressesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified public IP address.
@@ -148,7 +148,7 @@ export interface PublicIPAddresses {
   beginDeleteAndWait(
     resourceGroupName: string,
     publicIpAddressName: string,
-    options?: PublicIPAddressesDeleteOptionalParams
+    options?: PublicIPAddressesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified public IP address in a specified resource group.
@@ -159,7 +159,7 @@ export interface PublicIPAddresses {
   get(
     resourceGroupName: string,
     publicIpAddressName: string,
-    options?: PublicIPAddressesGetOptionalParams
+    options?: PublicIPAddressesGetOptionalParams,
   ): Promise<PublicIPAddressesGetResponse>;
   /**
    * Creates or updates a static or dynamic public IP address.
@@ -172,7 +172,7 @@ export interface PublicIPAddresses {
     resourceGroupName: string,
     publicIpAddressName: string,
     parameters: PublicIPAddress,
-    options?: PublicIPAddressesCreateOrUpdateOptionalParams
+    options?: PublicIPAddressesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PublicIPAddressesCreateOrUpdateResponse>,
@@ -190,7 +190,7 @@ export interface PublicIPAddresses {
     resourceGroupName: string,
     publicIpAddressName: string,
     parameters: PublicIPAddress,
-    options?: PublicIPAddressesCreateOrUpdateOptionalParams
+    options?: PublicIPAddressesCreateOrUpdateOptionalParams,
   ): Promise<PublicIPAddressesCreateOrUpdateResponse>;
   /**
    * Updates public IP address tags.
@@ -203,7 +203,7 @@ export interface PublicIPAddresses {
     resourceGroupName: string,
     publicIpAddressName: string,
     parameters: TagsObject,
-    options?: PublicIPAddressesUpdateTagsOptionalParams
+    options?: PublicIPAddressesUpdateTagsOptionalParams,
   ): Promise<PublicIPAddressesUpdateTagsResponse>;
   /**
    * Gets the Ddos Protection Status of a Public IP Address
@@ -214,7 +214,7 @@ export interface PublicIPAddresses {
   beginDdosProtectionStatus(
     resourceGroupName: string,
     publicIpAddressName: string,
-    options?: PublicIPAddressesDdosProtectionStatusOptionalParams
+    options?: PublicIPAddressesDdosProtectionStatusOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PublicIPAddressesDdosProtectionStatusResponse>,
@@ -230,7 +230,7 @@ export interface PublicIPAddresses {
   beginDdosProtectionStatusAndWait(
     resourceGroupName: string,
     publicIpAddressName: string,
-    options?: PublicIPAddressesDdosProtectionStatusOptionalParams
+    options?: PublicIPAddressesDdosProtectionStatusOptionalParams,
   ): Promise<PublicIPAddressesDdosProtectionStatusResponse>;
   /**
    * Get the specified public IP address in a virtual machine scale set.
@@ -249,6 +249,6 @@ export interface PublicIPAddresses {
     networkInterfaceName: string,
     ipConfigurationName: string,
     publicIpAddressName: string,
-    options?: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams
+    options?: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
   ): Promise<PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse>;
 }

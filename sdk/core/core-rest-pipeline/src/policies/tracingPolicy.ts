@@ -7,13 +7,13 @@ import {
   type TracingSpan,
   createTracingClient,
 } from "@azure/core-tracing";
-import { SDK_VERSION } from "../constants";
-import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
-import type { PipelinePolicy } from "../pipeline";
-import { getUserAgentValue } from "../util/userAgent";
-import { logger } from "../log";
+import { SDK_VERSION } from "../constants.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
+import { getUserAgentValue } from "../util/userAgent.js";
+import { logger } from "../log.js";
 import { getErrorMessage, isError } from "@azure/core-util";
-import { isRestError } from "../restError";
+import { isRestError } from "../restError.js";
 
 /**
  * The programmatic identifier of the tracingPolicy.

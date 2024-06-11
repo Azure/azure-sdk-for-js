@@ -1,0 +1,14 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.mts",
+    "../src/**/*.tsx"
+  ],
+  "exclude": [
+    ".././src/state-cjs.cts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/browser"
+  }
+}

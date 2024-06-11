@@ -20,7 +20,7 @@ import {
   LtrBackupOperationsListByServerResponse,
   LtrBackupOperationsGetOptionalParams,
   LtrBackupOperationsGetResponse,
-  LtrBackupOperationsListByServerNextResponse
+  LtrBackupOperationsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,12 +45,12 @@ export class LtrBackupOperationsImpl implements LtrBackupOperations {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: LtrBackupOperationsListByServerOptionalParams
+    options?: LtrBackupOperationsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<LtrServerBackupOperation> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -67,9 +67,9 @@ export class LtrBackupOperationsImpl implements LtrBackupOperations {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +77,7 @@ export class LtrBackupOperationsImpl implements LtrBackupOperations {
     resourceGroupName: string,
     serverName: string,
     options?: LtrBackupOperationsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LtrServerBackupOperation[]> {
     let result: LtrBackupOperationsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +93,7 @@ export class LtrBackupOperationsImpl implements LtrBackupOperations {
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -105,12 +105,12 @@ export class LtrBackupOperationsImpl implements LtrBackupOperations {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: LtrBackupOperationsListByServerOptionalParams
+    options?: LtrBackupOperationsListByServerOptionalParams,
   ): AsyncIterableIterator<LtrServerBackupOperation> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,11 +127,11 @@ export class LtrBackupOperationsImpl implements LtrBackupOperations {
     resourceGroupName: string,
     serverName: string,
     backupName: string,
-    options?: LtrBackupOperationsGetOptionalParams
+    options?: LtrBackupOperationsGetOptionalParams,
   ): Promise<LtrBackupOperationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, backupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -144,11 +144,11 @@ export class LtrBackupOperationsImpl implements LtrBackupOperations {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: LtrBackupOperationsListByServerOptionalParams
+    options?: LtrBackupOperationsListByServerOptionalParams,
   ): Promise<LtrBackupOperationsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -163,11 +163,11 @@ export class LtrBackupOperationsImpl implements LtrBackupOperations {
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: LtrBackupOperationsListByServerNextOptionalParams
+    options?: LtrBackupOperationsListByServerNextOptionalParams,
   ): Promise<LtrBackupOperationsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -175,16 +175,15 @@ export class LtrBackupOperationsImpl implements LtrBackupOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/ltrBackupOperations/{backupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/ltrBackupOperations/{backupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LtrServerBackupOperation
+      bodyMapper: Mappers.LtrServerBackupOperation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -192,51 +191,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.backupName1
+    Parameters.backupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/ltrBackupOperations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/ltrBackupOperations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LtrServerBackupOperationList
+      bodyMapper: Mappers.LtrServerBackupOperationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LtrServerBackupOperationList
+      bodyMapper: Mappers.LtrServerBackupOperationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

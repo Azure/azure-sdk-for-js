@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ProximityPlacementGroupUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a proximity placement group.
  *
  * @summary Update a proximity placement group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_Patch.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_Patch.json
  */
 async function updateAProximityPlacementGroup() {
   const subscriptionId =
@@ -30,14 +30,14 @@ async function updateAProximityPlacementGroup() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const proximityPlacementGroupName = "myProximityPlacementGroup";
   const parameters: ProximityPlacementGroupUpdate = {
-    tags: { additionalProp1: "string" }
+    tags: { additionalProp1: "string" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.proximityPlacementGroups.update(
     resourceGroupName,
     proximityPlacementGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

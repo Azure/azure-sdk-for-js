@@ -99,8 +99,11 @@ describe("NetworkAnalytics test", () => {
 
   it("dataProducts delete test", async function () {
     const resArray = new Array();
-    const res = await client.dataProducts.beginDeleteAndWait(resourceGroup, resourcename
-    )
+    const res = await client.dataProducts.beginDeleteAndWait(
+      resourceGroup,
+      resourcename,
+      testPollingOptions,
+    );
     for await (let item of client.dataProducts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

@@ -4,9 +4,9 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure/schema-registry": ["./src/index"],
+      "@azure/schema-registry": ["./src/index"]
     },
-    "lib": ["dom"],
+    "lib": ["dom"]
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

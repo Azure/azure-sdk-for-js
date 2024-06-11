@@ -21,7 +21,7 @@ import {
   DatabaseListUsagesResponse,
   MetricDefinition,
   DatabaseListMetricDefinitionsOptionalParams,
-  DatabaseListMetricDefinitionsResponse
+  DatabaseListMetricDefinitionsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,14 +52,14 @@ export class DatabaseImpl implements Database {
     accountName: string,
     databaseRid: string,
     filter: string,
-    options?: DatabaseListMetricsOptionalParams
+    options?: DatabaseListMetricsOptionalParams,
   ): PagedAsyncIterableIterator<Metric> {
     const iter = this.listMetricsPagingAll(
       resourceGroupName,
       accountName,
       databaseRid,
       filter,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +78,9 @@ export class DatabaseImpl implements Database {
           databaseRid,
           filter,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +90,7 @@ export class DatabaseImpl implements Database {
     databaseRid: string,
     filter: string,
     options?: DatabaseListMetricsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Metric[]> {
     let result: DatabaseListMetricsResponse;
     result = await this._listMetrics(
@@ -98,7 +98,7 @@ export class DatabaseImpl implements Database {
       accountName,
       databaseRid,
       filter,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -108,14 +108,14 @@ export class DatabaseImpl implements Database {
     accountName: string,
     databaseRid: string,
     filter: string,
-    options?: DatabaseListMetricsOptionalParams
+    options?: DatabaseListMetricsOptionalParams,
   ): AsyncIterableIterator<Metric> {
     for await (const page of this.listMetricsPagingPage(
       resourceGroupName,
       accountName,
       databaseRid,
       filter,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,13 +132,13 @@ export class DatabaseImpl implements Database {
     resourceGroupName: string,
     accountName: string,
     databaseRid: string,
-    options?: DatabaseListUsagesOptionalParams
+    options?: DatabaseListUsagesOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listUsagesPagingAll(
       resourceGroupName,
       accountName,
       databaseRid,
-      options
+      options,
     );
     return {
       next() {
@@ -156,9 +156,9 @@ export class DatabaseImpl implements Database {
           accountName,
           databaseRid,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -167,14 +167,14 @@ export class DatabaseImpl implements Database {
     accountName: string,
     databaseRid: string,
     options?: DatabaseListUsagesOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Usage[]> {
     let result: DatabaseListUsagesResponse;
     result = await this._listUsages(
       resourceGroupName,
       accountName,
       databaseRid,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -183,13 +183,13 @@ export class DatabaseImpl implements Database {
     resourceGroupName: string,
     accountName: string,
     databaseRid: string,
-    options?: DatabaseListUsagesOptionalParams
+    options?: DatabaseListUsagesOptionalParams,
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listUsagesPagingPage(
       resourceGroupName,
       accountName,
       databaseRid,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -206,13 +206,13 @@ export class DatabaseImpl implements Database {
     resourceGroupName: string,
     accountName: string,
     databaseRid: string,
-    options?: DatabaseListMetricDefinitionsOptionalParams
+    options?: DatabaseListMetricDefinitionsOptionalParams,
   ): PagedAsyncIterableIterator<MetricDefinition> {
     const iter = this.listMetricDefinitionsPagingAll(
       resourceGroupName,
       accountName,
       databaseRid,
-      options
+      options,
     );
     return {
       next() {
@@ -230,9 +230,9 @@ export class DatabaseImpl implements Database {
           accountName,
           databaseRid,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -241,14 +241,14 @@ export class DatabaseImpl implements Database {
     accountName: string,
     databaseRid: string,
     options?: DatabaseListMetricDefinitionsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<MetricDefinition[]> {
     let result: DatabaseListMetricDefinitionsResponse;
     result = await this._listMetricDefinitions(
       resourceGroupName,
       accountName,
       databaseRid,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -257,13 +257,13 @@ export class DatabaseImpl implements Database {
     resourceGroupName: string,
     accountName: string,
     databaseRid: string,
-    options?: DatabaseListMetricDefinitionsOptionalParams
+    options?: DatabaseListMetricDefinitionsOptionalParams,
   ): AsyncIterableIterator<MetricDefinition> {
     for await (const page of this.listMetricDefinitionsPagingPage(
       resourceGroupName,
       accountName,
       databaseRid,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -284,11 +284,11 @@ export class DatabaseImpl implements Database {
     accountName: string,
     databaseRid: string,
     filter: string,
-    options?: DatabaseListMetricsOptionalParams
+    options?: DatabaseListMetricsOptionalParams,
   ): Promise<DatabaseListMetricsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, databaseRid, filter, options },
-      listMetricsOperationSpec
+      listMetricsOperationSpec,
     );
   }
 
@@ -303,11 +303,11 @@ export class DatabaseImpl implements Database {
     resourceGroupName: string,
     accountName: string,
     databaseRid: string,
-    options?: DatabaseListUsagesOptionalParams
+    options?: DatabaseListUsagesOptionalParams,
   ): Promise<DatabaseListUsagesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, databaseRid, options },
-      listUsagesOperationSpec
+      listUsagesOperationSpec,
     );
   }
 
@@ -322,11 +322,11 @@ export class DatabaseImpl implements Database {
     resourceGroupName: string,
     accountName: string,
     databaseRid: string,
-    options?: DatabaseListMetricDefinitionsOptionalParams
+    options?: DatabaseListMetricDefinitionsOptionalParams,
   ): Promise<DatabaseListMetricDefinitionsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, databaseRid, options },
-      listMetricDefinitionsOperationSpec
+      listMetricDefinitionsOperationSpec,
     );
   }
 }
@@ -334,13 +334,12 @@ export class DatabaseImpl implements Database {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listMetricsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/metrics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/metrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetricListResult
-    }
+      bodyMapper: Mappers.MetricListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -348,19 +347,18 @@ const listMetricsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.databaseRid
+    Parameters.databaseRid,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listUsagesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/usages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsagesResult
-    }
+      bodyMapper: Mappers.UsagesResult,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter1],
   urlParameters: [
@@ -368,19 +366,18 @@ const listUsagesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.databaseRid
+    Parameters.databaseRid,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listMetricDefinitionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/metricDefinitions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/metricDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetricDefinitionsListResult
-    }
+      bodyMapper: Mappers.MetricDefinitionsListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -388,8 +385,8 @@ const listMetricDefinitionsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.databaseRid
+    Parameters.databaseRid,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

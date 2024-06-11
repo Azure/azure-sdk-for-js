@@ -1,21 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { stringToUint8Array } from "../util/bytesEncoding";
-import { createHttpHeaders } from "../httpHeaders";
+import { stringToUint8Array } from "../util/bytesEncoding.js";
+import { isNodeLike } from "../util/checkEnvironment.js";
+import { createHttpHeaders } from "../httpHeaders.js";
 import {
   BodyPart,
   FormDataMap,
+  FormDataValue,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-} from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
+} from "../interfaces.js";
+import { PipelinePolicy } from "../pipeline.js";
 
 /**
  * The programmatic identifier of the formDataPolicy.
  */
 export const formDataPolicyName = "formDataPolicy";
+
+function formDataToFormDataMap(formData: FormData): FormDataMap {
+  const formDataMap: FormDataMap = {};
+  for (const [key, value] of formData.entries()) {
+    formDataMap[key] ??= [];
+    (formDataMap[key] as FormDataValue[]).push(value);
+  }
+  return formDataMap;
+}
 
 /**
  * A policy that encodes FormData on the request into the body.
@@ -24,6 +35,11 @@ export function formDataPolicy(): PipelinePolicy {
   return {
     name: formDataPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      if (isNodeLike && typeof FormData !== "undefined" && request.body instanceof FormData) {
+        request.formData = formDataToFormDataMap(request.body);
+        request.body = undefined;
+      }
+
       if (request.formData) {
         const contentType = request.headers.get("Content-Type");
         if (contentType && contentType.indexOf("application/x-www-form-urlencoded") !== -1) {
@@ -75,6 +91,10 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
           }),
           body: stringToUint8Array(value, "utf-8"),
         });
+      } else if (value === undefined || value === null || typeof value !== "object") {
+        throw new Error(
+          `Unexpected value for key ${fieldName}: ${value}. Value should be serialized to string first.`,
+        );
       } else {
         // using || instead of ?? here since if value.name is empty we should create a file name
         const fileName = (value as File).name || "blob";
@@ -83,9 +103,8 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
           "Content-Disposition",
           `form-data; name="${fieldName}"; filename="${fileName}"`,
         );
-        if (value.type) {
-          headers.set("Content-Type", value.type);
-        }
+        // again, || is used since an empty value.type means the content type is unset
+        headers.set("Content-Type", value.type || "application/octet-stream");
 
         parts.push({
           headers,

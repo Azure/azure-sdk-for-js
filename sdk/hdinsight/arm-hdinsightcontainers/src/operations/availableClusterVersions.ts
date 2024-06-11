@@ -18,7 +18,7 @@ import {
   AvailableClusterVersionsListByLocationNextOptionalParams,
   AvailableClusterVersionsListByLocationOptionalParams,
   AvailableClusterVersionsListByLocationResponse,
-  AvailableClusterVersionsListByLocationNextResponse
+  AvailableClusterVersionsListByLocationNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class AvailableClusterVersionsImpl implements AvailableClusterVersions {
    */
   public listByLocation(
     location: string,
-    options?: AvailableClusterVersionsListByLocationOptionalParams
+    options?: AvailableClusterVersionsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<ClusterVersion> {
     const iter = this.listByLocationPagingAll(location, options);
     return {
@@ -56,14 +56,14 @@ export class AvailableClusterVersionsImpl implements AvailableClusterVersions {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByLocationPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listByLocationPagingPage(
     location: string,
     options?: AvailableClusterVersionsListByLocationOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ClusterVersion[]> {
     let result: AvailableClusterVersionsListByLocationResponse;
     let continuationToken = settings?.continuationToken;
@@ -78,7 +78,7 @@ export class AvailableClusterVersionsImpl implements AvailableClusterVersions {
       result = await this._listByLocationNext(
         location,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -89,7 +89,7 @@ export class AvailableClusterVersionsImpl implements AvailableClusterVersions {
 
   private async *listByLocationPagingAll(
     location: string,
-    options?: AvailableClusterVersionsListByLocationOptionalParams
+    options?: AvailableClusterVersionsListByLocationOptionalParams,
   ): AsyncIterableIterator<ClusterVersion> {
     for await (const page of this.listByLocationPagingPage(location, options)) {
       yield* page;
@@ -103,11 +103,11 @@ export class AvailableClusterVersionsImpl implements AvailableClusterVersions {
    */
   private _listByLocation(
     location: string,
-    options?: AvailableClusterVersionsListByLocationOptionalParams
+    options?: AvailableClusterVersionsListByLocationOptionalParams,
   ): Promise<AvailableClusterVersionsListByLocationResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listByLocationOperationSpec
+      listByLocationOperationSpec,
     );
   }
 
@@ -120,11 +120,11 @@ export class AvailableClusterVersionsImpl implements AvailableClusterVersions {
   private _listByLocationNext(
     location: string,
     nextLink: string,
-    options?: AvailableClusterVersionsListByLocationNextOptionalParams
+    options?: AvailableClusterVersionsListByLocationNextOptionalParams,
   ): Promise<AvailableClusterVersionsListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listByLocationNextOperationSpec
+      listByLocationNextOperationSpec,
     );
   }
 }
@@ -132,43 +132,42 @@ export class AvailableClusterVersionsImpl implements AvailableClusterVersions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/availableClusterVersions",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/availableClusterVersions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterVersionsListResult
+      bodyMapper: Mappers.ClusterVersionsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterVersionsListResult
+      bodyMapper: Mappers.ClusterVersionsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

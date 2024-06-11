@@ -5,7 +5,7 @@
  * @summary Demonstrates the Indexer Operations.
  */
 
-const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search-documents");
+const { AzureKeyCredential, SearchIndexerClient } = require("@azure/search-documents");
 
 require("dotenv").config();
 
@@ -14,7 +14,7 @@ const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const dataSourceName = process.env.DATA_SOURCE_NAME || "";
 const targetIndexName = process.env.TARGET_INDEX_NAME || "";
 
-const indexerName = "example-indexer-sample-1";
+const TEST_INDEXER_NAME = "example-indexer-sample-1";
 
 async function createIndexer(indexerName, client) {
   console.log(`Creating Indexer Operation`);
@@ -44,7 +44,7 @@ async function getIndexerStatus(indexerName, client) {
   console.log(`Limits`);
   console.log(`******`);
   console.log(
-    `MaxDocumentContentCharactersToExtract: ${indexerStatus.limits.maxDocumentContentCharactersToExtract}`
+    `MaxDocumentContentCharactersToExtract: ${indexerStatus.limits.maxDocumentContentCharactersToExtract}`,
   );
   console.log(`MaxDocumentExtractionSize: ${indexerStatus.limits.maxDocumentExtractionSize}`);
   console.log(`MaxRunTime: ${indexerStatus.limits.maxRunTime}`);
@@ -99,14 +99,14 @@ async function main() {
   }
   const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
   try {
-    await createIndexer(indexerName, client);
-    await getAndUpdateIndexer(indexerName, client);
-    await getIndexerStatus(indexerName, client);
+    await createIndexer(TEST_INDEXER_NAME, client);
+    await getAndUpdateIndexer(TEST_INDEXER_NAME, client);
+    await getIndexerStatus(TEST_INDEXER_NAME, client);
     await listIndexers(client);
-    await resetIndexer(indexerName, client);
-    await runIndexer(indexerName, client);
+    await resetIndexer(TEST_INDEXER_NAME, client);
+    await runIndexer(TEST_INDEXER_NAME, client);
   } finally {
-    await deleteIndexer(indexerName, client);
+    await deleteIndexer(TEST_INDEXER_NAME, client);
   }
 }
 

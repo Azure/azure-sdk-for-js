@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.1 (Unreleased)
+## 7.1.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,17 @@
 
 ### Other Changes
 
+## 7.1.0-beta.1 (2024-02-01)
+    
+**Features**
+
+  - Added Interface AmlFilesystemRootSquashSettings
+  - Added Type Alias AmlFilesystemSquashMode
+  - Interface AmlFilesystem has a new optional parameter rootSquashSettings
+  - Interface AmlFilesystemUpdate has a new optional parameter rootSquashSettings
+  - Added Enum KnownAmlFilesystemSquashMode
+    
+    
 ## 7.0.0 (2023-06-09)
     
 **Features**
@@ -202,4 +213,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

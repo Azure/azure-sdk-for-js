@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "./abort-controller/AbortError";
+import { AbortError } from "./abort-controller/AbortError.js";
 import {
   HttpClient,
   HttpHeaders as PipelineHeaders,
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces";
-import { RestError } from "./restError";
-import { createHttpHeaders } from "./httpHeaders";
-import { isNodeReadableStream, isReadableStream } from "./util/typeGuards";
+} from "./interfaces.js";
+import { RestError } from "./restError.js";
+import { createHttpHeaders } from "./httpHeaders.js";
+import { isNodeReadableStream, isReadableStream } from "./util/typeGuards.js";
 
 /**
  * Checks if the body is a Blob or Blob-like
@@ -103,7 +103,7 @@ async function buildPipelineResponse(
   httpResponse: Response,
   request: PipelineRequest,
   abortControllerCleanup?: () => void,
-) {
+): Promise<PipelineResponse> {
   const headers = buildPipelineHeaders(httpResponse);
   const response: PipelineResponse = {
     request,
@@ -184,6 +184,7 @@ function setupAbortSignal(request: PipelineRequest): {
 /**
  * Gets the specific error
  */
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 function getError(e: RestError, request: PipelineRequest): RestError {
   if (e && e?.name === "AbortError") {
     return e;
@@ -198,7 +199,7 @@ function getError(e: RestError, request: PipelineRequest): RestError {
 /**
  * Converts PipelineRequest headers to Fetch headers
  */
-function buildFetchHeaders(pipelineHeaders: PipelineHeaders) {
+function buildFetchHeaders(pipelineHeaders: PipelineHeaders): Headers {
   const headers = new Headers();
   for (const [name, value] of pipelineHeaders) {
     headers.append(name, value);
@@ -216,7 +217,15 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
   return responseHeaders;
 }
 
-function buildRequestBody(request: PipelineRequest) {
+function buildRequestBody(request: PipelineRequest):
+  | {
+      streaming: boolean;
+      body: ReadableStream<Uint8Array>;
+    }
+  | {
+      streaming: boolean;
+      body: string | Blob | ArrayBuffer | ArrayBufferView | FormData | null | undefined;
+    } {
   const body = typeof request.body === "function" ? request.body() : request.body;
   if (isNodeReadableStream(body)) {
     throw new Error("Node streams are not supported in browser environment.");

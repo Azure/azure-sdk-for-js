@@ -1,9 +1,14 @@
-const JobRouter = require("../src").default;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+/**
+ * @summary router worker crud
+ */
+const JobRouter = require("@azure-rest/communication-job-router").default;
 require("dotenv").config();
+
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // Get a router worker
-
 async function getRouterWorker() {
   // Create the Router Client
   const routerClient = JobRouter(connectionString);

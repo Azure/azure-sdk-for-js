@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isObject } from "./object";
+import { isObject } from "./object.js";
 
 /**
  * Typeguard for an error object shape (has name and message)

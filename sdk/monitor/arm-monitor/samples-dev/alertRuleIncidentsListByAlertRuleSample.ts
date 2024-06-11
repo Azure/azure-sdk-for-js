@@ -32,7 +32,7 @@ async function listAlertRuleIncidents() {
   const resArray = new Array();
   for await (let item of client.alertRuleIncidents.listByAlertRule(
     resourceGroupName,
-    ruleName
+    ruleName,
   )) {
     resArray.push(item);
   }

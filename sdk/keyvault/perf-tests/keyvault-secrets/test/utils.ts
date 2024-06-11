@@ -1,5 +1,5 @@
 import { ClientSecretCredential } from "@azure/identity";
-import { getEnvVar } from "@azure/test-utils-perf";
+import { getEnvVar } from "@azure-tools/test-perf";
 import * as dotenv from "dotenv";
 
 dotenv.config();

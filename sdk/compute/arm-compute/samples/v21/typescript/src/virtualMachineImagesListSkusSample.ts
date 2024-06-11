@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
  *
  * @summary Gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListSkus_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListSkus_MaximumSet_Gen.json
  */
 async function virtualMachineImageListSkusMaximumSetGen() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function virtualMachineImageListSkusMaximumSetGen() {
   const result = await client.virtualMachineImages.listSkus(
     location,
     publisherName,
-    offer
+    offer,
   );
   console.log(result);
 }
@@ -40,7 +40,7 @@ async function virtualMachineImageListSkusMaximumSetGen() {
  * This sample demonstrates how to Gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
  *
  * @summary Gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListSkus_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListSkus_MinimumSet_Gen.json
  */
 async function virtualMachineImageListSkusMinimumSetGen() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function virtualMachineImageListSkusMinimumSetGen() {
   const result = await client.virtualMachineImages.listSkus(
     location,
     publisherName,
-    offer
+    offer,
   );
   console.log(result);
 }

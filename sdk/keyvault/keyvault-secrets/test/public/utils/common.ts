@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
-import { SupportedVersions, TestFunctionWrapper, supports } from "@azure/test-utils";
+import { SupportedVersions, TestFunctionWrapper, assert, supports } from "@azure-tools/test-utils";
 import { env } from "@azure-tools/test-recorder";
 import { SecretClientOptions } from "../../../src";
 
@@ -32,7 +31,7 @@ export const serviceVersions: readonly NonNullable<ServiceVersion>[] = [
   "7.2",
   "7.3",
   "7.4",
-  "7.5-preview.1",
+  "7.5",
 ] as const;
 
 /**
