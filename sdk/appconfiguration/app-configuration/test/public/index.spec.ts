@@ -105,7 +105,7 @@ describe("AppConfigurationClient", () => {
       assert.equal(key, result.key);
     });
 
-    it.only("adds a configuration setting", async () => {
+    it("adds a configuration setting", async () => {
       const key = recorder.variable(
         "addConfigTest",
         `addConfigTest${Math.floor(Math.random() * 1000)}`,

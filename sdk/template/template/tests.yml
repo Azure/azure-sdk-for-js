@@ -7,3 +7,7 @@ extends:
     PackageName: "@azure/template"
     ServiceDirectory: template
     UseFederatedAuth: true
+    CloudConfig:
+      Public:
+        ServiceConnection: azure-sdk-tests
+        SubscriptionConfigurationFilePath: eng/common/TestResources/sub-config/AzurePublicMsft.json
