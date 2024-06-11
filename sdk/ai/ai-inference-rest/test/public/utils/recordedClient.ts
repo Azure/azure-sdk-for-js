@@ -34,7 +34,7 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
   return recorder;
 }
 
-export async function createInferenceClient(
+export async function createModelClient(
   recorder?: Recorder,
   options?: ClientOptions,
 ): Promise<ModelClient> {
