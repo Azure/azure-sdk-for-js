@@ -1,5 +1,21 @@
 # Release History
 
+## 4.3.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.3.0-beta.2 (2024-06-10)
+
+### Bugs Fixed
+
+- Managed identity bug fixes
+
 ## 4.3.0-beta.1 (2024-05-08)
 
 ### Features Added

@@ -573,11 +573,11 @@ export interface CloudEvent<T> {
   /**
    * Identifies the schema that data adheres to.
    */
-  dataschema?: string;
+  dataSchema?: string;
   /**
    * Content type of data value.
    */
-  datacontenttype?: string;
+  dataContentType?: string;
   /**
    * Event data specific to the event type.
    */
@@ -593,7 +593,7 @@ export interface CloudEvent<T> {
   /**
    * The version of the CloudEvents specification which the event uses.
    */
-  specversion?: string | "1.0";
+  specVersion?: string | "1.0";
 }
 
 /**

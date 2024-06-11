@@ -189,7 +189,7 @@
         "sipx",
         "ssml",
         "unhold",
-		    "Unhold"
+        "Unhold"
       ]
     },
     {
@@ -286,6 +286,10 @@
     {
       "filename": "sdk/identity/**/*.md",
       "words": ["MSAL", "PKCE"]
+    },
+    {
+      "filename": "sdk/identity/**/*.ts",
+      "words": ["azcmagent", "HIMDS"]
     },
     {
       "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",

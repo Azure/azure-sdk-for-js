@@ -47,7 +47,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:node": "tsc -p . && dev-tool run bundle",
-    "build:samples": "echo Obsolete",
+    "build:samples": "dev-tool samples publish -f",
     "build:test": "tsc -p . && dev-tool run bundle",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
