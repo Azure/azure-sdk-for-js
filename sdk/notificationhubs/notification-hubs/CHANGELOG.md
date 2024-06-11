@@ -1,14 +1,16 @@
 # Release History
 
-## 1.2.4 (Unreleased)
+## 2.0.0 (Unreleased)
 
 ### Features Added
 
+- Moved to `@azure/core-lro` v3 for long running operations.
+- Added `beginGetNotificationDetails` to get the details of a notification as a long running operation.
+
 ### Breaking Changes
 
-### Bugs Fixed
+- Moving from `@azure/core-lro` v2 to v3 for long running operations.  For APIs such as `beginSubmitNotificationHubJob`, this is a breaking change as it uses the new `PollerLike` interface instead of the old `SimplePollerLike` interface.  See the [Polling API](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/docs/MIGRATION.md#poller-api) migration guide for more information.
 
-### Other Changes
 
 ## 1.2.3 (2024-05-21)
 

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import type { OperationState, PollerLike } from "@azure/core-lro";
+
 /**
  * Represents the notification outcome states.
  */
@@ -28,6 +30,14 @@ export interface NotificationOutcome {
    */
   count: number;
 }
+
+/**
+ * Describes a poller for NotificationHubJob types.
+ */
+export type NotificationDetailsPoller = PollerLike<
+  OperationState<NotificationDetails>,
+  NotificationDetails
+>;
 
 /**
  * Represents Notification details.

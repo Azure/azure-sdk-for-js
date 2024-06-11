@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 export * from "./clientContext.js";
+export * from "./beginGetNotificationDetails.js";
 export * from "./beginSubmitNotificationHubJob.js";
 export * from "./cancelScheduledNotification.js";
 export * from "./createOrUpdateInstallation.js";

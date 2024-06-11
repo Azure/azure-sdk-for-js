@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
+import type {
   DirectSendNotificationOptions,
   EntityOperationOptions,
   NotificationHubsClientOptions,
@@ -10,18 +10,20 @@ import {
   ScheduleNotificationOptions,
   SendNotificationOptions,
 } from "./models/options.js";
-import { Installation, JsonPatch } from "./models/installation.js";
-import {
+import type { Installation, JsonPatch } from "./models/installation.js";
+import type {
   NotificationDetails,
+  NotificationDetailsPoller,
   NotificationHubsMessageResponse,
   NotificationHubsResponse,
 } from "./models/notificationDetails.js";
-import { NotificationHubJob, NotificationHubJobPoller } from "./models/notificationHubJob.js";
-import { NotificationHubsClientContext, createClientContext } from "./api/clientContext.js";
-import { RegistrationDescription, RegistrationChannel } from "./models/registration.js";
-import { Notification } from "./models/notification.js";
-import { OperationOptions } from "@azure-rest/core-client";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { NotificationHubJob, NotificationHubJobPoller } from "./models/notificationHubJob.js";
+import { type NotificationHubsClientContext, createClientContext } from "./api/clientContext.js";
+import type { RegistrationDescription, RegistrationChannel } from "./models/registration.js";
+import type { Notification } from "./models/notification.js";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { beginGetNotificationDetails as beginGetNotificationDetailsMethod } from "./api/beginGetNotificationDetails.js";
 import { beginSubmitNotificationHubJob as beginSubmitNotificationHubJobMethod } from "./api/beginSubmitNotificationHubJob.js";
 import { cancelScheduledNotification as cancelScheduledNotificationMethod } from "./api/cancelScheduledNotification.js";
 import { createOrUpdateInstallation as createOrUpdateInstallationMethod } from "./api/createOrUpdateInstallation.js";
@@ -29,7 +31,7 @@ import { createOrUpdateRegistration as createOrUpdateRegistrationMethod } from "
 import { createRegistrationId as createRegistrationIdMethod } from "./api/createRegistrationId.js";
 import { createRegistration as createRegistrationMethod } from "./api/createRegistration.js";
 import { deleteInstallation as deleteInstallationMethod } from "./api/deleteInstallation.js";
-import { deleteRegistration } from "./api/deleteRegistration.js";
+import { deleteRegistration as deleteRegistrationMethod } from "./api/deleteRegistration.js";
 import { getFeedbackContainerUrl as getFeedbackContainerUrlMethod } from "./api/getFeedbackContainerUrl.js";
 import { getInstallation as getInstallationMethod } from "./api/getInstallation.js";
 import { getNotificationHubJob as getNotificationHubJobMethod } from "./api/getNotificationHubJob.js";
@@ -177,7 +179,7 @@ export class NotificationHubsClient {
     registrationId: string,
     options: EntityOperationOptions = {},
   ): Promise<NotificationHubsResponse> {
-    return deleteRegistration(this._client, registrationId, options);
+    return deleteRegistrationMethod(this._client, registrationId, options);
   }
 
   /**
@@ -294,6 +296,19 @@ export class NotificationHubsClient {
     options: OperationOptions = {},
   ): Promise<NotificationDetails> {
     return getNotificationOutcomeDetailsMethod(this._client, notificationId, options);
+  }
+
+  /**
+   * Gets the details of a notification outcome as a long running operation.
+   * @param notificationId - The Notification ID used to get the notification details.
+   * @param polledOperationOptions - The operation options.
+   * @returns A poller which can be called to poll until completion of the getting the notification details.
+   */
+  beginGetNotificationDetails(
+    notificationId: string,
+    polledOperationOptions: PolledOperationOptions = {},
+  ): Promise<NotificationDetailsPoller> {
+    return beginGetNotificationDetailsMethod(this._client, notificationId, polledOperationOptions);
   }
 
   /**

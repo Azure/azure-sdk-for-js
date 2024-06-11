@@ -13,7 +13,10 @@ import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { PipelineResponse } from '@azure/core-rest-pipeline';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PollerLike } from '@azure/core-lro';
+
+// @public
+export function beginGetNotificationDetails(context: NotificationHubsClientContext, notificationId: string, polledOperationOptions?: PolledOperationOptions): Promise<NotificationDetailsPoller>;
 
 // @public
 export function beginSubmitNotificationHubJob(context: NotificationHubsClientContext, notificationHubJob: NotificationHubJob, polledOperationOptions?: PolledOperationOptions): Promise<NotificationHubJobPoller>;
