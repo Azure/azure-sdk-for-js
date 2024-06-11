@@ -2221,6 +2221,11 @@
       "packageName": "@azure/arm-oracledatabase",
       "projectFolder": "sdk/oracledatabase/arm-oracledatabase",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/azure-health-deidentification",
+      "projectFolder": "sdk/healthdataaiservices/azure-health-deidentification",
+      "versionPolicyName": "client"
     }
   ]
 }
