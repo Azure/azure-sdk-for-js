@@ -65,8 +65,6 @@
     "src/queryExecutionContext/EndpointComponent/GroupByValueEndpointComponent.ts",
     "src/queryExecutionContext/EndpointComponent/OffsetLimitEndpointComponent.ts",
     "src/queryExecutionContext/EndpointComponent/OrderByEndpointComponent.ts",
-    "src/queryExecutionContext/EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.ts",
-    "src/queryExecutionContext/EndpointComponent/NonStreamingOrderByEndpointComponent.ts",
     "src/queryExecutionContext/EndpointComponent/OrderedDistinctEndpointComponent.ts",
     "src/queryExecutionContext/EndpointComponent/UnorderedDistinctEndpointComponent.ts",
     "src/queryExecutionContext/defaultQueryExecutionContext.ts",
@@ -176,7 +174,6 @@
     "test/internal/unit/client.spec.ts",
     "test/internal/unit/timeoutFailoverRetryPolicy.spec.ts",
     "test/internal/unit/nonStreamingOrderByMap.spec.ts",
-    "test/internal/unit/nonStreamingOrderByPriorityQueue.spec.ts",
     "test/internal/unit/utils/supportedQueryFeaturesBuilder.spec.ts",
     "test/public/common/BaselineTest.PathParser.ts",
     "test/public/common/TestData.ts",
@@ -228,7 +225,6 @@
     "test/public/integration/client.retry.spec.ts",
     "test/public/functional/vectorEmbeddingPolicy.spec.ts",
     "test/public/functional/computedProperties.spec.ts",
-    "test/internal/unit/utils/nonStreamingOrderByPriorityQueue.spec.ts",
-    "test/public/functional/endpointComponent/NonStreamingOrderByEndpointComponent.spec.ts"
+    "test/internal/unit/utils/nonStreamingOrderByPriorityQueue.spec.ts"
   ]
 }
