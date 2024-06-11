@@ -575,9 +575,7 @@
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility",
       // Add Identity to decoupledLocalDependencies so that dev-tool uses the package from npm, avoiding a cyclic dependency.
-      "decoupledLocalDependencies": [
-        "@azure/identity"
-      ]
+      "decoupledLocalDependencies": ["@azure/identity"]
     },
     {
       "packageName": "@azure/eventgrid",
@@ -617,9 +615,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": [
-        "@azure/keyvault-keys"
-      ],
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {
@@ -2226,6 +2222,11 @@
       "packageName": "@azure/arm-oracledatabase",
       "projectFolder": "sdk/oracledatabase/arm-oracledatabase",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/batch",
+      "projectFolder": "sdk/batch/batch-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
