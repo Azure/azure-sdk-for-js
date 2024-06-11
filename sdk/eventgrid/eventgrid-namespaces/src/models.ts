@@ -23,73 +23,31 @@ export interface SendEventOptions extends OperationOptions {
 }
 
 /** Event Grid Sender Client Options */
-export interface EventGridSenderClientOptions extends EventGridOptions {
-  /** Topic name */
-  topicName?: string;
-}
+export interface EventGridSenderClientOptions extends EventGridOptions {}
 
 /** Event Grid Receiver Client Options */
-export interface EventGridReceiverClientOptions extends EventGridOptions {
-  /** Topic name */
-  topicName?: string;
-
-  /** Event Subscription name */
-  eventSubscriptionName?: string;
-}
+export interface EventGridReceiverClientOptions extends EventGridOptions {}
 
 /** Send Events Options */
-export interface SendEventsOptions extends PublishCloudEventOptionalParams {
-  /** Topic name */
-  topicName?: string;
-}
+export interface SendEventsOptions extends PublishCloudEventOptionalParams {}
 
 /** Receive Events Options */
-export interface ReceiveEventsOptions extends ReceiveCloudEventsOptionalParams {
-  /** Topic name */
-  topicName?: string;
-
-  /** Event Subscription name */
-  eventSubscriptionName?: string;
-}
+export interface ReceiveEventsOptions extends ReceiveCloudEventsOptionalParams {}
 
 /** Acknowledge Events Options */
-export interface AcknowledgeEventsOptions extends AcknowledgeCloudEventsOptionalParams {
-  /** Topic name */
-  topicName?: string;
-
-  /** Event Subscription name */
-  eventSubscriptionName?: string;
-}
+export interface AcknowledgeEventsOptions extends AcknowledgeCloudEventsOptionalParams {}
 
 /** Release Events Options */
 export interface ReleaseEventsOptions extends OperationOptions {
-  /** Topic name */
-  topicName?: string;
-
-  /** Event Subscription name */
-  eventSubscriptionName?: string;
-
   /** Release events with the specified delay in seconds. */
   releaseDelay?: ReleaseDelay;
 }
 
 /** Reject Events Options */
-export interface RejectEventsOptions extends RejectCloudEventsOptionalParams {
-  /** Topic name */
-  topicName?: string;
-
-  /** Event Subscription name */
-  eventSubscriptionName?: string;
-}
+export interface RejectEventsOptions extends RejectCloudEventsOptionalParams {}
 
 /** Renew Event Locks Options */
-export interface RenewEventLocksOptions extends RenewCloudEventLocksOptionalParams {
-  /** Topic name */
-  topicName?: string;
-
-  /** Event Subscription name */
-  eventSubscriptionName?: string;
-}
+export interface RenewEventLocksOptions extends RenewCloudEventLocksOptionalParams {}
 
 /** Known values of {@link ReleaseDelay} that the service accepts. */
 export const enum KnownReleaseDelay {
