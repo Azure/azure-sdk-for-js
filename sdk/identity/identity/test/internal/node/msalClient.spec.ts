@@ -14,14 +14,14 @@ import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 
 import { AbortError } from "@azure/abort-controller";
 import { AuthenticationRequiredError } from "../../../src/errors";
+import { Context } from "mocha";
+import { DeveloperSignOnClientId } from "../../../src/constants";
 import { IdentityClient } from "../../../src/client/identityClient";
 import { assert } from "@azure-tools/test-utils";
 import { credentialLogger } from "../../../src/util/logging";
+import { getUsernamePasswordStaticResources } from "../../msalTestUtils";
 import { msalPlugins } from "../../../src/msal/nodeFlows/msalPlugins";
 import sinon from "sinon";
-import { DeveloperSignOnClientId } from "../../../src/constants";
-import { Context } from "mocha";
-import { getUsernamePasswordStaticResources } from "../../msalTestUtils";
 
 describe("MsalClient", function () {
   describe("recorded tests", function () {
@@ -101,6 +101,22 @@ describe("MsalClient", function () {
 
       const client = msalClient.createMsalClient(clientId, tenantId);
       assert.exists(client);
+    });
+
+    it("can configure a custom logger for the client", async function () {
+      const clientId = "client-id";
+      const tenantId = "tenant-id";
+      const logger = credentialLogger("test");
+      const logSpy = sinon.spy(logger, "info");
+
+      const client = msalClient.createMsalClient(clientId, tenantId, { logger });
+      try {
+        await client.getTokenByClientSecret(["https://vault.azure.net/.default"], "client-secret");
+      } catch (e) {
+        // ignore errors
+      }
+
+      assert.isAbove(logSpy.callCount, 0);
     });
   });
 

@@ -22,7 +22,6 @@ import { AuthenticationRequiredError } from "../../errors";
 import { BrokerOptions } from "./brokerOptions";
 import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 import { IdentityClient } from "../../client/identityClient";
-import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
@@ -31,7 +30,7 @@ import { resolveTenantId } from "../../util/tenantIdUtils";
 /**
  * The logger for all MsalClient instances.
  */
-const msalLogger = credentialLogger("MsalClient");
+let msalLogger = credentialLogger("MsalClient");
 
 export interface GetTokenWithSilentAuthOptions extends GetTokenOptions {
   /**
@@ -163,12 +162,17 @@ export interface MsalClientOptions {
   /**
    * A custom authority host.
    */
-  authorityHost?: string;
+  authorityHost?: IdentityClient["tokenCredentialOptions"]["authorityHost"];
 
   /**
    * Allows users to configure settings for logging policy options, allow logging account information and personally identifiable information for customer support.
    */
   loggingOptions?: IdentityClient["tokenCredentialOptions"]["loggingOptions"];
+
+  /**
+   * The token credential options for the MsalClient.
+   */
+  tokenCredentialOptions?: IdentityClient["tokenCredentialOptions"];
 
   /**
    * Determines whether instance discovery is disabled.
@@ -184,11 +188,6 @@ export interface MsalClientOptions {
    * The authentication record for the MsalClient.
    */
   authenticationRecord?: AuthenticationRecord;
-
-  /**
-   * The token credential options for the MsalClient.
-   */
-  tokenCredentialOptions?: MultiTenantTokenCredentialOptions;
 }
 
 /**
@@ -217,6 +216,13 @@ export function generateMsalConfiguration(
     authorityHost: authority,
     loggingOptions: msalClientOptions.loggingOptions,
   });
+
+  if (msalClientOptions.logger) {
+    msalLogger.info(
+      "Custom logger has been provided, setting it as the logger for the MSAL client.",
+    );
+    msalLogger = msalClientOptions.logger;
+  }
 
   const msalConfig: msal.Configuration = {
     auth: {
