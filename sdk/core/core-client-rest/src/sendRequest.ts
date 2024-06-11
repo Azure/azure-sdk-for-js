@@ -122,8 +122,8 @@ function buildPipelineRequest(
     accept: options.accept ?? options.headers?.accept ?? "application/json",
     ...(hasContent &&
       requestContentType && {
-      "content-type": requestContentType,
-    }),
+        "content-type": requestContentType,
+      }),
   });
 
   return createPipelineRequest({
