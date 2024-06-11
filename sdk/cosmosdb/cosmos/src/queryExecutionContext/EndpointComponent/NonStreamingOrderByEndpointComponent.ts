@@ -69,12 +69,12 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         this.nonStreamingOrderByPQ = this.nonStreamingOrderByPQ.reverse();
         // For offset limit case we set the size of priority queue to offset + limit
         // and we drain offset number of items from the priority queue
-        while (this.offset < this.priorityQueueBufferSize && this.offset > 0) {
+        while (this.offset < this.priorityQueueBufferSize && this.offset > 0 && !this.nonStreamingOrderByPQ.isEmpty()) {
           this.nonStreamingOrderByPQ.dequeue();
           this.offset--;
         }
 
-        if (this.nonStreamingOrderByPQ.size() !== 0) {
+        if (!this.nonStreamingOrderByPQ.isEmpty()) {
           const item = this.nonStreamingOrderByPQ.dequeue()?.payload;
           return {
             result: item,
@@ -97,7 +97,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
   public hasMoreResults(): boolean {
     return (
       this.priorityQueueBufferSize > 0 &&
-      (this.executionContext.hasMoreResults() || this.nonStreamingOrderByPQ.size() !== 0)
+      (this.executionContext.hasMoreResults() || !this.nonStreamingOrderByPQ.isEmpty())
     );
   }
 }
