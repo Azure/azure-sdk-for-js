@@ -36,7 +36,7 @@ export const testPollingOptions = {
 };
 
 
-describe.skip("Datafactory test", () => {
+describe("Datafactory test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DataFactoryManagementClient;
