@@ -4,8 +4,9 @@
 import * as msal from "@azure/msal-node";
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { AuthenticationRecord, CertificateParts } from "../types";
+import { CredentialLogger, credentialLogger, formatSuccess } from "../../util/logging";
 import { PluginConfiguration, msalPlugins } from "./msalPlugins";
-import { credentialLogger, formatSuccess } from "../../util/logging";
 import {
   defaultLoggerCallback,
   ensureValidMsalToken,
@@ -18,13 +19,14 @@ import {
 } from "../utils";
 
 import { AuthenticationRequiredError } from "../../errors";
-import { AuthenticationRecord, CertificateParts } from "../types";
+import { BrokerOptions } from "./brokerOptions";
+import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 import { IdentityClient } from "../../client/identityClient";
-import { MsalNodeOptions } from "./msalNodeCommon";
+import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
+import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils";
-import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 
 /**
  * The logger for all MsalClient instances.
@@ -145,11 +147,49 @@ export interface MsalClient {
 }
 
 /**
- * Options for creating an instance of the MsalClient.
+ * Represents the options for configuring the MsalClient.
  */
-export type MsalClientOptions = Partial<
-  Omit<MsalNodeOptions, "clientId" | "tenantId" | "disableAutomaticAuthentication">
->;
+export interface MsalClientOptions {
+  /**
+   * Parameters that enable WAM broker authentication in the InteractiveBrowserCredential.
+   */
+  brokerOptions?: BrokerOptions;
+
+  /**
+   * Parameters that enable token cache persistence in the Identity credentials.
+   */
+  tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
+
+  /**
+   * A custom authority host.
+   */
+  authorityHost?: string;
+
+  /**
+   * Allows users to configure settings for logging policy options, allow logging account information and personally identifiable information for customer support.
+   */
+  loggingOptions?: IdentityClient["tokenCredentialOptions"]["loggingOptions"];
+
+  /**
+   * Determines whether instance discovery is disabled.
+   */
+  disableInstanceDiscovery?: boolean;
+
+  /**
+   * The logger for the MsalClient.
+   */
+  logger?: CredentialLogger;
+
+  /**
+   * The authentication record for the MsalClient.
+   */
+  authenticationRecord?: AuthenticationRecord;
+
+  /**
+   * The token credential options for the MsalClient.
+   */
+  tokenCredentialOptions?: MultiTenantTokenCredentialOptions;
+}
 
 /**
  * Generates the configuration for MSAL (Microsoft Authentication Library).
