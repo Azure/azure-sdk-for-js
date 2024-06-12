@@ -17,6 +17,6 @@ export interface KqlScripts {
    * @param options The options parameters.
    */
   listAll(
-    options?: KqlScriptsGetAllOptionalParams
+    options?: KqlScriptsGetAllOptionalParams,
   ): PagedAsyncIterableIterator<KqlScriptResource>;
 }
