@@ -1,23 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export function randomName(prefix: string, maxLen: number): string {
-    return getValue(
-      (readValue: string) => readValue,
-      () => superRandomName(prefix, maxLen)
-    );
+import { BatchRequest, DocumentFilter, Glossary, SourceInput, StorageInputType, StorageSource, TargetInput } from "../../../src/models";
+
+export function createSourceInput(sourceUrl: string, language?: string, storageSource?: StorageSource, filter?: DocumentFilter): SourceInput {
+  return {
+    sourceUrl,
+    language,
+    storageSource,
+    filter,
+  };
+}
+
+export function createTargetInput(targetUrl: string, language: string, storageSource?: StorageSource, glossaries?: Glossary[], category?: string): TargetInput {
+  return {
+    targetUrl,
+    language,
+    storageSource,
+    glossaries,
+    category,
+  };
+}
+
+export function createBatchRequest(
+  source: SourceInput,
+  targets: Array<TargetInput>,
+  storageType?: StorageInputType
+): BatchRequest {
+  return {
+    source,
+    targets,
+    storageType,
+  };
+}
+
+export function getTranslationOperationID(url: string): string {
+  try {
+    const parsedUrl = new URL(url);
+    const pathSegments = parsedUrl.pathname.split('/');
+    const lastSegment = pathSegments[pathSegments.length - 1];
+    return typeof lastSegment === 'string' ? lastSegment : "";
+  } catch (error) {
+    console.error("Invalid Operation-location URL:", error);
+    return "";
   }
-  
-  function getValue(
-    readValueFunc: (readValue: string) => string,
-    superFunc: () => string
-  ): string {
-    // Example implementation of getValue, using the provided functions
-    const readValue = "exampleReadValue";
-    return Math.random() > 0.5 ? readValueFunc(readValue) : superFunc();
-  }
-  
-  function superRandomName(prefix: string, maxLen: number): string {
-    // Example implementation of the super class method
-    return `${prefix}-${Math.random().toString(36).substr(2, maxLen)}`;
-  }  
+}
+
+export function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
