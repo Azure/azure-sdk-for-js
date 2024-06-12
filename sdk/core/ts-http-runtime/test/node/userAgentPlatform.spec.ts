@@ -19,7 +19,7 @@ describe("userAgentPlatform", () => {
   });
 
   it("should handle an empty process.versions", () => {
-    vi.mocked(process).versions = {};
+    vi.mocked(process).versions = undefined;
     const map = new Map<string, string>();
 
     setPlatformSpecificData(map);
