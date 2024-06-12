@@ -1,4 +1,4 @@
-# Azure ModelClient REST client library for JavaScript
+# Azure Inference REST client library for JavaScript
 
 Inference API for Azure-supported AI models
 
