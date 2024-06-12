@@ -185,6 +185,7 @@ jobs:
             ScriptType: InlineScript
             Inline: |
               node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+              exit $LASTEXITCODE
           displayName: "Integration test libraries"
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
           env:
@@ -200,6 +201,7 @@ jobs:
             ScriptType: InlineScript
             Inline: |
               node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
+              exit $LASTEXITCODE
           displayName: "Integration test libraries"
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
           env:
@@ -217,6 +219,7 @@ jobs:
             ScriptType: InlineScript
             Inline: |
               node ../../../common/scripts/install-run-rushx.js execute:samples
+              exit $LASTEXITCODE
           displayName: "Execute Samples"
           env:
             TEST_MODE: "live"

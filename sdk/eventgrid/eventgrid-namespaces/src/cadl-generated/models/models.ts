@@ -33,7 +33,7 @@ export interface PublishResult {}
 /** Details of the Receive operation response. */
 export interface ReceiveResult {
   /** Array of receive responses, one per cloud event. */
-  value: ReceiveDetails[];
+  details: ReceiveDetails[];
 }
 
 /** Receive operation details per Cloud Event. */
@@ -52,12 +52,6 @@ export interface BrokerProperties {
   deliveryCount: number;
 }
 
-/** Array of lock tokens for the corresponding received Cloud Events to be acknowledged. */
-export interface AcknowledgeOptions {
-  /** Array of lock tokens. */
-  lockTokens: string[];
-}
-
 /** The result of the Acknowledge operation. */
 export interface AcknowledgeResult {
   /** Array of FailedLockToken for failed cloud events. Each FailedLockToken includes the lock token along with the related error information (namely, the error code and description). */
@@ -74,11 +68,9 @@ export interface FailedLockToken {
   error: ErrorModel;
 }
 
-/** Array of lock tokens for the corresponding received Cloud Events to be released. */
-export interface ReleaseOptions {
-  /** Array of lock tokens. */
-  lockTokens: string[];
-}
+/** Supported delays for release operation. */
+/** "0", "10", "60", "600", "3600" */
+export type ReleaseDelay = string;
 
 /** The result of the Release operation. */
 export interface ReleaseResult {
@@ -86,12 +78,6 @@ export interface ReleaseResult {
   failedLockTokens: FailedLockToken[];
   /** Array of lock tokens for the successfully released cloud events. */
   succeededLockTokens: string[];
-}
-
-/** Array of lock tokens for the corresponding received Cloud Events to be rejected. */
-export interface RejectOptions {
-  /** Array of lock tokens. */
-  lockTokens: string[];
 }
 
 /** The result of the Reject operation. */
@@ -102,20 +88,22 @@ export interface RejectResult {
   succeededLockTokens: string[];
 }
 
-/** Array of lock tokens for the corresponding received Cloud Events to be renewed. */
-export interface RenewLockOptions {
-  /** Array of lock tokens. */
-  lockTokens: string[];
-}
-
 /** The result of the RenewLock operation. */
-export interface RenewCloudEventLocksResult {
+export interface RenewLocksResult {
   /** Array of FailedLockToken for failed cloud events. Each FailedLockToken includes the lock token along with the related error information (namely, the error code and description). */
   failedLockTokens: FailedLockToken[];
   /** Array of lock tokens for the successfully renewed locks. */
   succeededLockTokens: string[];
 }
 
-/** Supported delays for release operation. */
-/** "0", "10", "60", "600", "3600" */
-export type ReleaseDelay = string;
+/** */
+export type ServiceApiVersions =
+  | "2023-06-01-preview"
+  | "2023-10-01-preview"
+  | "2023-11-01"
+  | "2024-06-01";
+
+export interface ErrorResponse {
+  /** The error object. */
+  error: ErrorModel;
+}

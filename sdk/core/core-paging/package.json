@@ -53,7 +53,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "sideEffects": true,
+  "sideEffects": false,
   "private": false,
   "scripts": {
     "build:samples": "echo Obsolete",

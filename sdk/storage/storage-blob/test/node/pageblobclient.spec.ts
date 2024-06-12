@@ -378,6 +378,34 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
+  // [Copy source error code] Feature is pending on service side, skip the case for now.
+  it.skip("updatePagesFromURL - should fail with source error message", async function () {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+
+    const newBlobClient = containerClient.getPageBlobClient(
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
+    );
+    await newBlobClient.create(1024);
+
+    const sourceUrl = await pageBlobClient.generateSasUrl({
+      permissions: BlobSASPermissions.parse("d"),
+      expiresOn: tmr,
+    });
+
+    try {
+      await newBlobClient.uploadPagesFromURL(sourceUrl, 0, 512, 512);
+    } catch (err) {
+      assert.deepEqual((err as any).details.errorCode, "CannotVerifyCopySource");
+      assert.equal((err as any).details.copySourceStatusCode, 403);
+      assert.deepEqual((err as any).details.copySourceErrorCode, "AuthorizationPermissionMismatch");
+      assert.deepEqual(
+        (err as any).details.copySourceErrorMessage,
+        "This request is not authorized to perform this operation using this permission.",
+      );
+    }
+  });
+
   it("can be created with a url and a credential", async function () {
     const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential);
