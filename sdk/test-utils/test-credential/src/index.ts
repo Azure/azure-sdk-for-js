@@ -3,14 +3,11 @@
 
 import {
   AzureCliCredential,
-  AzureDeveloperCliCredential,
   AzurePowerShellCredential,
   ChainedTokenCredential,
   DefaultAzureCredentialClientIdOptions,
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialResourceIdOptions,
-  EnvironmentCredential,
-  WorkloadIdentityCredential,
   logger,
 } from "@azure/identity";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
@@ -63,11 +60,8 @@ export function createTestCredential(
     const { browserRelayServerUrl: _, ...dacOptions } = tokenCredentialOptions;
     logger.info("Creating ChainedTokenCredential for tests");
     return new ChainedTokenCredential(
-      new EnvironmentCredential(dacOptions),
-      new WorkloadIdentityCredential(dacOptions),
-      new AzureCliCredential(dacOptions),
       new AzurePowerShellCredential(dacOptions),
-      new AzureDeveloperCliCredential(dacOptions)
+      new AzureCliCredential(dacOptions),
     );
   }
 }

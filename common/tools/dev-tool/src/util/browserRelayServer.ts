@@ -48,11 +48,8 @@ function buildServer(app: Express) {
     const id = randomUUID();
     try {
       const cred = new ChainedTokenCredential(
-        new EnvironmentCredential(req.body),
-        new WorkloadIdentityCredential(req.body),
-        new AzureCliCredential(req.body),
         new AzurePowerShellCredential(req.body),
-        new AzureDeveloperCliCredential(req.body)
+        new AzureCliCredential(req.body),
       );
       credentials[id] = cred;
       res.status(201).send({ id });
