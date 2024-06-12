@@ -64,7 +64,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
@@ -154,7 +154,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("co").toString(),
@@ -194,7 +194,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const shareSAS = generateFileSASQueryParameters(
       {
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: ShareSASPermissions.parse("rcwdl"),
         protocol: SASProtocol.HttpsAndHttp,
         shareName: shareClient.name,
@@ -250,7 +250,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentType: "content-type-override",
         expiresOn: tmr,
         filePath: fileClient.path,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: FileSASPermissions.parse("rcwd"),
         protocol: SASProtocol.HttpsAndHttp,
         shareName: fileClient.shareName,
@@ -411,7 +411,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
@@ -428,7 +428,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       AccountSASPermissions.parse("rwdlacup"),
       AccountSASResourceTypes.parse("sco").toString(),
       {
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
         version: "2016-05-31",
@@ -474,7 +474,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const shareSAS = generateFileSASQueryParameters(
       {
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: ShareSASPermissions.parse("rcwdl"),
         protocol: SASProtocol.HttpsAndHttp,
         shareName: shareClient.name,
@@ -487,7 +487,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL1 = `${shareClient.url}?${shareSAS}`;
     const sasURL = shareClient.generateSasUrl({
       expiresOn: tmr,
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
       permissions: ShareSASPermissions.parse("rcwdl"),
       protocol: SASProtocol.HttpsAndHttp,
       startsOn: now,
@@ -548,7 +548,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentType: "content-type-override",
         expiresOn: tmr,
         filePath: fileClient.path,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: FileSASPermissions.parse("rcwd"),
         protocol: SASProtocol.HttpsAndHttp,
         shareName: fileClient.shareName,
@@ -566,7 +566,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       contentLanguage: "content-language-override",
       contentType: "content-type-override",
       expiresOn: tmr,
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
       permissions: FileSASPermissions.parse("rcwd"),
       protocol: SASProtocol.HttpsAndHttp,
       startsOn: now,
@@ -702,7 +702,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
