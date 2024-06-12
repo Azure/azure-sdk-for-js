@@ -11,65 +11,82 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  VmmServersImpl,
+  VirtualMachineInstancesImpl,
+  GuestAgentsImpl,
+  VmInstanceHybridIdentityMetadatasImpl,
   OperationsImpl,
-  CloudsImpl,
-  VirtualNetworksImpl,
-  VirtualMachinesImpl,
-  VirtualMachineTemplatesImpl,
   AvailabilitySetsImpl,
-  InventoryItemsImpl
+  CloudsImpl,
+  VirtualMachineTemplatesImpl,
+  VirtualNetworksImpl,
+  VmmServersImpl,
+  InventoryItemsImpl,
 } from "./operations";
 import {
-  VmmServers,
+  VirtualMachineInstances,
+  GuestAgents,
+  VmInstanceHybridIdentityMetadatas,
   Operations,
-  Clouds,
-  VirtualNetworks,
-  VirtualMachines,
-  VirtualMachineTemplates,
   AvailabilitySets,
-  InventoryItems
+  Clouds,
+  VirtualMachineTemplates,
+  VirtualNetworks,
+  VmmServers,
+  InventoryItems,
 } from "./operationsInterfaces";
-import { ScvmmOptionalParams } from "./models";
+import { ScVmmOptionalParams } from "./models";
 
-export class Scvmm extends coreClient.ServiceClient {
+export class ScVmm extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
   apiVersion: string;
+  subscriptionId?: string;
 
   /**
-   * Initializes a new instance of the Scvmm class.
+   * Initializes a new instance of the ScVmm class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
-   *                       00000000-0000-0000-0000-000000000000).
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ScvmmOptionalParams
+    options?: ScVmmOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ScVmmOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: ScVmmOptionalParams | string,
+    options?: ScVmmOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
     if (!options) {
       options = {};
     }
-    const defaults: ScvmmOptionalParams = {
+    const defaults: ScVmmOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-scvmm/1.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-scvmm/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -79,20 +96,21 @@ export class Scvmm extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -102,7 +120,7 @@ export class Scvmm extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -112,9 +130,9 @@ export class Scvmm extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -122,14 +140,17 @@ export class Scvmm extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-06-05-preview";
-    this.vmmServers = new VmmServersImpl(this);
+    this.apiVersion = options.apiVersion || "2023-10-07";
+    this.virtualMachineInstances = new VirtualMachineInstancesImpl(this);
+    this.guestAgents = new GuestAgentsImpl(this);
+    this.vmInstanceHybridIdentityMetadatas =
+      new VmInstanceHybridIdentityMetadatasImpl(this);
     this.operations = new OperationsImpl(this);
-    this.clouds = new CloudsImpl(this);
-    this.virtualNetworks = new VirtualNetworksImpl(this);
-    this.virtualMachines = new VirtualMachinesImpl(this);
-    this.virtualMachineTemplates = new VirtualMachineTemplatesImpl(this);
     this.availabilitySets = new AvailabilitySetsImpl(this);
+    this.clouds = new CloudsImpl(this);
+    this.virtualMachineTemplates = new VirtualMachineTemplatesImpl(this);
+    this.virtualNetworks = new VirtualNetworksImpl(this);
+    this.vmmServers = new VmmServersImpl(this);
     this.inventoryItems = new InventoryItemsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -143,7 +164,7 @@ export class Scvmm extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -157,17 +178,19 @@ export class Scvmm extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  vmmServers: VmmServers;
+  virtualMachineInstances: VirtualMachineInstances;
+  guestAgents: GuestAgents;
+  vmInstanceHybridIdentityMetadatas: VmInstanceHybridIdentityMetadatas;
   operations: Operations;
-  clouds: Clouds;
-  virtualNetworks: VirtualNetworks;
-  virtualMachines: VirtualMachines;
-  virtualMachineTemplates: VirtualMachineTemplates;
   availabilitySets: AvailabilitySets;
+  clouds: Clouds;
+  virtualMachineTemplates: VirtualMachineTemplates;
+  virtualNetworks: VirtualNetworks;
+  vmmServers: VmmServers;
   inventoryItems: InventoryItems;
 }

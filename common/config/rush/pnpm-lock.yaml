@@ -17586,7 +17586,7 @@ packages:
     dev: false
 
   file:projects/arm-scvmm.tgz:
-    resolution: {integrity: sha512-wk1V8WEl1GhY4hvEhwiCTqSiN0Z9K0OjhDAM/T2TZklV2D/IBtLj80mSWD7vbfs2lA02gSGRaDfFEmDgFc4m6A==, tarball: file:projects/arm-scvmm.tgz}
+    resolution: {integrity: sha512-90y7E/YiiJ7bBC6axIoUlVgfKCLlcEQ0z6E+Ysvlv875sTjnJLblj4/QWHGZKhwTXdIQ4NeB6T41LIkzkhA96Q==, tarball: file:projects/arm-scvmm.tgz}
     name: '@rush-temp/arm-scvmm'
     version: 0.0.0
     dependencies:
@@ -17607,6 +17607,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.11.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
