@@ -8,6 +8,7 @@ import {
   DefaultAzureCredentialClientIdOptions,
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialResourceIdOptions,
+  EnvironmentCredential,
 } from "@azure/identity";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "./noOpCredential";
@@ -58,6 +59,8 @@ export function createTestCredential(
     return new ChainedTokenCredential(
       new AzurePowerShellCredential(dacOptions),
       new AzureCliCredential(dacOptions),
+      // Keep Environment Credential for packages that have not migrated yet
+      new EnvironmentCredential(dacOptions),
     );
   }
 }

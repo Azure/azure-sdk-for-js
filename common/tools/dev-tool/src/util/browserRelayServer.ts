@@ -3,7 +3,13 @@
 
 import express from "express";
 import type { Express } from "express-serve-static-core";
-import { AzureCliCredential, AzurePowerShellCredential, ChainedTokenCredential, type TokenCredential } from "@azure/identity";
+import {
+  AzureCliCredential,
+  AzurePowerShellCredential,
+  ChainedTokenCredential,
+  EnvironmentCredential,
+  type TokenCredential,
+} from "@azure/identity";
 import { randomUUID } from "node:crypto";
 import { createPrinter } from "./printer";
 
@@ -50,6 +56,8 @@ function buildServer(app: Express) {
       const cred = new ChainedTokenCredential(
         new AzurePowerShellCredential(req.body),
         new AzureCliCredential(req.body),
+        // Keep Environment Credential for packages that have not migrated yet
+        new EnvironmentCredential(req.body),
       );
       credentials[id] = cred;
       res.status(201).send({ id });
