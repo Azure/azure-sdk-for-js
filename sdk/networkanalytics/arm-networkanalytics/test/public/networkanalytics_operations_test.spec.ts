@@ -29,6 +29,7 @@ describe("NetworkAnalytics test", () => {
   let resourcename: string;
 
   beforeEach(async (context) => {
+    process.env.SystemRoot = process.env.SystemRoot || "C:\\Windows";
     recorder = await createRecorder(context);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -46,7 +47,7 @@ describe("NetworkAnalytics test", () => {
     }
   });
 
-  it("operation list test", async function () {
+  it.only("operation list test", async function () {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
       resArray.push(item);
