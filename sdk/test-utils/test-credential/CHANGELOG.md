@@ -4,13 +4,13 @@
 
 ### Breaking Changes
 
-Updates the `createTestCredential` method to consume `DefaultAzureCredential` instead of `ClientSecretCredential` in order to offer autonomy to the devs and to move away from client secrets in environment varaibles.
+Updates the `createTestCredential` method to consume `ChainedTokenCredential` instead of `ClientSecretCredential` in order to offer autonomy to the devs and to move away from client secrets in environment varaibles.
 
 - `NoOpCredential` is offered for playback.
 - In record and live modes:
-  - `DefaultAzureCredential` is offered in Node.
+  - `ChainedTokenCredential` is offered in Node. The credential will try `AzurePowershelLCredential`, `AzureCliCredential`, and `EnvironmentCredential` in the listed order.
   - In the browser, a custom credential is provided that fetches tokens from a locally running Node server. The server is provided in the dev-tool package, and must be running while the browser
-    tests are running for the credential to work. The server uses `DefaultAzureCredential` on the host machine to generate tokens.
+    tests are running for the credential to work. The server uses `ChainedTokenCredential` as in Node on the host machine to generate tokens.
 - [`User Auth` and `Auth via development tools`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-users) are preferred in record mode to record the tests.
 
 ## 2.0.0 (2024-04-09)
