@@ -35,10 +35,7 @@ export function getRequestDimensions(span: ReadableSpan): Attributes {
   dimensions.requestResultCode = statusCode;
   // OTel treats 4xx request responses as UNSET SpanStatusCode, but we should count them as failed
   dimensions.requestSuccess =
-    span.status.code !== SpanStatusCode.ERROR &&
-    (Number(statusCode) || 0) < 400
-      ? "True"
-      : "False";
+    span.status.code !== SpanStatusCode.ERROR && (Number(statusCode) || 0) < 400 ? "True" : "False";
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
