@@ -1231,18 +1231,6 @@ packages:
       - supports-color
     dev: false
 
-  /@azure-tools/test-recorder@3.5.1:
-    resolution: {integrity: sha512-ts6YITiT3dtTg1+dIqBm0JzD14Lh4KHZg050jPZ3If60QQp7lVaELc0sc6O7d8UfdaGF1IT2XcPQbs0LQCYpQA==}
-    engines: {node: '>=18.0.0'}
-    dependencies:
-      '@azure/core-auth': 1.7.2
-      '@azure/core-rest-pipeline': 1.16.0
-      '@azure/core-util': 1.9.0
-      '@azure/logger': 1.1.2
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@azure/abort-controller@1.1.0:
     resolution: {integrity: sha512-TrRLIoSQVzfAJX9H1JeFjzAoDGcoK1IYX1UImfceTZpsyYfWr09Ss1aHW1y5TrrR3iq6RZLBwJ3E24uwPhwahw==}
     engines: {node: '>=12.0.0'}
