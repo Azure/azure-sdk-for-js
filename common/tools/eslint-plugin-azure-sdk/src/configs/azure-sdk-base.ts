@@ -23,12 +23,7 @@ export default {
   overrides: [
     {
       files: ["*.ts", "*.cts", "*.mts", "*.tsx", "*.json"],
-      excludedFiles: [
-        "**/*.md/*.ts",
-        "**/*.md/*.json",
-        "**/src/**/*.json",
-        "**/test/**/*.json",
-      ],
+      excludedFiles: ["**/*.md/*.ts", "**/*.md/*.json", "**/src/**/*.json", "**/test/**/*.json"],
       parserOptions: {
         project: [
           "./tsconfig.json",
@@ -41,7 +36,7 @@ export default {
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "prettier",
-        "plugin:@azure/azure-sdk/recommended",
+        "plugin:@azure/azure-sdk/recommended-legacy",
       ],
       rules: {
         curly: ["error", "multi-line"],
@@ -171,7 +166,10 @@ export default {
       parserOptions: {
         project: null,
       },
-      extends: ["plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/eslint-recommended"],
+      extends: [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+      ],
       rules: {
         "@typescript-eslint/no-unused-vars": "off",
       },

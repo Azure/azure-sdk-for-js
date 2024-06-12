@@ -20,7 +20,6 @@ module.exports = function (config) {
       "karma-mocha",
       "karma-mocha-reporter",
       "karma-chrome-launcher",
-      "karma-edge-launcher",
       "karma-firefox-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
@@ -59,6 +58,7 @@ module.exports = function (config) {
       "AZURE_CLIENT_ID",
       "AZURE_TENANT_ID",
       "SUBSCRIPTION_ID",
+      "RECORDINGS_RELATIVE_PATH",
     ],
 
     // test results reporter to use

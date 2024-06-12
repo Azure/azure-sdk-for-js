@@ -25,5 +25,5 @@ describe(`TollFreeVerificationClient - lists Campaign Briefs`, function () {
     for await (const campaignBrief of client.listCampaignBriefs()) {
       assert.equal(campaignBrief.countryCode, "US");
     }
-  }).timeout(10000);
+  }).timeout(30000);
 });

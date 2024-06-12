@@ -18,7 +18,6 @@ import {
   isServiceBusError,
 } from "@azure/service-bus";
 import * as dotenv from "dotenv";
-import { AbortController } from "@azure/abort-controller";
 
 dotenv.config();
 

@@ -1,5 +1,21 @@
 # Release History
 
+## 4.4.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.4.0-beta.1 (2024-06-06)
+
+### Features Added
+
+- Exports a constant for the geographic replication feature.
+
 ## 4.3.0 (2024-05-20)
 
 ### Breaking Changes

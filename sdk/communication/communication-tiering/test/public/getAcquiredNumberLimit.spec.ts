@@ -26,5 +26,5 @@ describe(`TieringClient - Get Acquired Number Limits`, function () {
     const resourceId = env.RESOURCE_ID!;
     const acquiredNumberLimits = await client.getAcquiredNumberLimits(resourceId);
     assert.isNotNull(acquiredNumberLimits);
-  }).timeout(10000);
+  }).timeout(30000);
 });

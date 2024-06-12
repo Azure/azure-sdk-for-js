@@ -123,6 +123,7 @@ export enum StatsbeatFeature {
   BROWSER_SDK_LOADER = 4,
   DISTRO = 8,
   LIVE_METRICS = 16,
+  SHIM = 32,
 }
 
 export enum StatsbeatInstrumentation {

@@ -28,6 +28,6 @@ export interface BackupOperationResults {
     vaultName: string,
     resourceGroupName: string,
     operationId: string,
-    options?: BackupOperationResultsGetOptionalParams
+    options?: BackupOperationResultsGetOptionalParams,
   ): Promise<void>;
 }

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /**
  * @summary Demonstrates handling Web PubSub CloudEvents with Express
@@ -21,7 +21,7 @@ const handler = new WebPubSubEventHandler("chat", {
     console.log(connectedRequest);
   },
   handleUserEvent(req, res) {
-    var calledTime = req.context.states.calledTime++;
+    const calledTime = req.context.states.calledTime++;
     console.log(calledTime);
     // You can also set the state here
     res.setState("calledTime", calledTime);

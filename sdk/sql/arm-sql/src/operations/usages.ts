@@ -18,7 +18,7 @@ import {
   UsagesListByInstancePoolNextOptionalParams,
   UsagesListByInstancePoolOptionalParams,
   UsagesListByInstancePoolResponse,
-  UsagesListByInstancePoolNextResponse
+  UsagesListByInstancePoolNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,12 +44,12 @@ export class UsagesImpl implements Usages {
   public listByInstancePool(
     resourceGroupName: string,
     instancePoolName: string,
-    options?: UsagesListByInstancePoolOptionalParams
+    options?: UsagesListByInstancePoolOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listByInstancePoolPagingAll(
       resourceGroupName,
       instancePoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -66,9 +66,9 @@ export class UsagesImpl implements Usages {
           resourceGroupName,
           instancePoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +76,7 @@ export class UsagesImpl implements Usages {
     resourceGroupName: string,
     instancePoolName: string,
     options?: UsagesListByInstancePoolOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Usage[]> {
     let result: UsagesListByInstancePoolResponse;
     let continuationToken = settings?.continuationToken;
@@ -84,7 +84,7 @@ export class UsagesImpl implements Usages {
       result = await this._listByInstancePool(
         resourceGroupName,
         instancePoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -96,7 +96,7 @@ export class UsagesImpl implements Usages {
         resourceGroupName,
         instancePoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -108,12 +108,12 @@ export class UsagesImpl implements Usages {
   private async *listByInstancePoolPagingAll(
     resourceGroupName: string,
     instancePoolName: string,
-    options?: UsagesListByInstancePoolOptionalParams
+    options?: UsagesListByInstancePoolOptionalParams,
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listByInstancePoolPagingPage(
       resourceGroupName,
       instancePoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -129,11 +129,11 @@ export class UsagesImpl implements Usages {
   private _listByInstancePool(
     resourceGroupName: string,
     instancePoolName: string,
-    options?: UsagesListByInstancePoolOptionalParams
+    options?: UsagesListByInstancePoolOptionalParams,
   ): Promise<UsagesListByInstancePoolResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, instancePoolName, options },
-      listByInstancePoolOperationSpec
+      listByInstancePoolOperationSpec,
     );
   }
 
@@ -149,11 +149,11 @@ export class UsagesImpl implements Usages {
     resourceGroupName: string,
     instancePoolName: string,
     nextLink: string,
-    options?: UsagesListByInstancePoolNextOptionalParams
+    options?: UsagesListByInstancePoolNextOptionalParams,
   ): Promise<UsagesListByInstancePoolNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, instancePoolName, nextLink, options },
-      listByInstancePoolNextOperationSpec
+      listByInstancePoolNextOperationSpec,
     );
   }
 }
@@ -161,41 +161,40 @@ export class UsagesImpl implements Usages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByInstancePoolOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/instancePools/{instancePoolName}/usages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/instancePools/{instancePoolName}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageListResult
+      bodyMapper: Mappers.UsageListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion6, Parameters.expandChildren],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.instancePoolName
+    Parameters.instancePoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByInstancePoolNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageListResult
+      bodyMapper: Mappers.UsageListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.instancePoolName
+    Parameters.instancePoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
