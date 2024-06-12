@@ -3,8 +3,6 @@
 ## 1.3.0-beta.1 (Unreleased)
 
 ### Features Added
-- EventProcessor is a new way to easily handle mid-connection events. Take a look at readme file for usage.
-- Introduced `TeamsComplianceRecordingStateChanged` and `TeamsRecordingStateChanged` events.
 
 ### Breaking Changes
 
@@ -17,12 +15,14 @@
 ### Features Added
 
 - Support for Bring Your Own Storage recording option
-- Support for PauseOnStart recording option 
+- Support for PauseOnStart recording option
 - Support for Recording state change with new recording kind's
 
-### Other Changes
+### Breaking Changes
 
 - Support for MicrosoftTeamsAppIdentifier CommunicationIdentifier
+
+### Other Changes
 
 ## 1.1.0 (2023-11-23)
 
