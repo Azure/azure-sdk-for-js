@@ -8,6 +8,7 @@ import {
   RecorderStartOptions,
   assertEnvironmentVariable,
   env,
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { ChatClient } from "../../../src";
 import {
@@ -17,6 +18,7 @@ import {
 } from "@azure/communication-common";
 import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
 import { generateToken } from "./connectionUtils";
+import { NoOpCredential } from "@azure-tools/test-credential";
 
 export interface RecordedClient {
   chatClient: ChatClient;
@@ -27,7 +29,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
 };
 
-const fakeToken = generateToken();
+const fakeToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc2MzQ4MDguMTd9.Rx6RqlnKsM09viqebSbPDKRcUp3EIKDEHNVXq3Wb0ms";
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   sanitizerOptions: {
@@ -40,6 +42,7 @@ export const recorderOptions: RecorderStartOptions = {
     bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
   },
   removeCentralSanitizers: [
+    "AZSDK4001", // url need not be sanitized, fake conn string handles it already
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
     "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
   ],
@@ -78,7 +81,20 @@ export function createChatClient(userToken: string, recorder: Recorder): ChatCli
 
   return new ChatClient(
     url,
-    new AzureCommunicationTokenCredential(generateToken()),
+    isPlaybackMode() ? new NoOpAzureCommunicationTokenCredential() : new AzureCommunicationTokenCredential(userToken),
     recorder.configureClientOptions({}),
   );
+}
+
+/**
+ * `TokenCredential` implementation for playback.
+ * If your regular AAD credentials don't take the recorder httpClient option, the AAD traffic won't be recorded.
+ * In this case, you'll need to bypass the AAD requests with no-op.
+ *
+ * Using this NoOpAzureCommunicationTokenCredential as your credential in playback mode would help you bypass the AAD traffic.
+ */
+export class NoOpAzureCommunicationTokenCredential extends NoOpCredential {
+  public dispose(): void {
+    /* intentionally empty */
+  }
 }
