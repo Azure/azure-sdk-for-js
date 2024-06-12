@@ -6,10 +6,10 @@ Inference API for Azure-supported AI models
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest)
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-inference)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/ai-inference?view=azure-node-preview)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest/samples)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-rest)
+- [Package (NPM)](https://aka.ms/npm-azure-rest-ai-inference)
+- [API reference documentation](https://aka.ms/AAp1kxa)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples)
 
 ## Getting started
 
