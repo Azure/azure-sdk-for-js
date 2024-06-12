@@ -43,7 +43,7 @@ export class GeneratedMonitorIngestionClientContext extends coreClient.ServiceCl
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-monitor-ingestion/1.0.1`;
+    const packageDetails = `azsdk-js-monitor-ingestion/1.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

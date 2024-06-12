@@ -4,8 +4,9 @@
 import * as msal from "@azure/msal-node";
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { AuthenticationRecord, CertificateParts } from "../types";
+import { CredentialLogger, credentialLogger, formatSuccess } from "../../util/logging";
 import { PluginConfiguration, msalPlugins } from "./msalPlugins";
-import { credentialLogger, formatSuccess } from "../../util/logging";
 import {
   defaultLoggerCallback,
   ensureValidMsalToken,
@@ -18,16 +19,16 @@ import {
 } from "../utils";
 
 import { AuthenticationRequiredError } from "../../errors";
-import { AuthenticationRecord, CertificateParts } from "../types";
+import { BrokerOptions } from "./brokerOptions";
+import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 import { IdentityClient } from "../../client/identityClient";
-import { MsalNodeOptions } from "./msalNodeCommon";
+import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils";
-import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 
 /**
- * The logger for all MsalClient instances.
+ * The default logger used if no logger was passed in by the credential.
  */
 const msalLogger = credentialLogger("MsalClient");
 
@@ -117,6 +118,26 @@ export interface MsalClient {
   ): Promise<AccessToken>;
 
   /**
+   * Retrieves an access token by using an authorization code flow.
+   *
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param authorizationCode - An authorization code that was received from following the
+                              authorization code flow.  This authorization code must not
+                              have already been used to obtain an access token.
+   * @param redirectUri - The redirect URI that was used to request the authorization code.
+                        Must be the same URI that is configured for the App Registration.
+   * @param clientSecret - An optional client secret that was generated for the App Registration.
+   * @param options - Additional options that may be provided to the method.
+   */
+  getTokenByAuthorizationCode(
+    scopes: string[],
+    redirectUri: string,
+    authorizationCode: string,
+    clientSecret?: string,
+    options?: GetTokenWithSilentAuthOptions,
+  ): Promise<AccessToken>;
+
+  /**
    * Retrieves the last authenticated account. This method expects an authentication record to have been previously loaded.
    *
    * An authentication record could be loaded by calling the `getToken` method, or by providing an `authenticationRecord` when creating a credential.
@@ -125,11 +146,49 @@ export interface MsalClient {
 }
 
 /**
- * Options for creating an instance of the MsalClient.
+ * Represents the options for configuring the MsalClient.
  */
-export type MsalClientOptions = Partial<
-  Omit<MsalNodeOptions, "clientId" | "tenantId" | "disableAutomaticAuthentication">
->;
+export interface MsalClientOptions {
+  /**
+   * Parameters that enable WAM broker authentication in the InteractiveBrowserCredential.
+   */
+  brokerOptions?: BrokerOptions;
+
+  /**
+   * Parameters that enable token cache persistence in the Identity credentials.
+   */
+  tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
+
+  /**
+   * A custom authority host.
+   */
+  authorityHost?: IdentityClient["tokenCredentialOptions"]["authorityHost"];
+
+  /**
+   * Allows users to configure settings for logging policy options, allow logging account information and personally identifiable information for customer support.
+   */
+  loggingOptions?: IdentityClient["tokenCredentialOptions"]["loggingOptions"];
+
+  /**
+   * The token credential options for the MsalClient.
+   */
+  tokenCredentialOptions?: IdentityClient["tokenCredentialOptions"];
+
+  /**
+   * Determines whether instance discovery is disabled.
+   */
+  disableInstanceDiscovery?: boolean;
+
+  /**
+   * The logger for the MsalClient.
+   */
+  logger?: CredentialLogger;
+
+  /**
+   * The authentication record for the MsalClient.
+   */
+  authenticationRecord?: AuthenticationRecord;
+}
 
 /**
  * Generates the configuration for MSAL (Microsoft Authentication Library).
@@ -144,7 +203,11 @@ export function generateMsalConfiguration(
   tenantId: string,
   msalClientOptions: MsalClientOptions = {},
 ): msal.Configuration {
-  const resolvedTenant = resolveTenantId(msalLogger, tenantId, clientId);
+  const resolvedTenant = resolveTenantId(
+    msalClientOptions.logger ?? msalLogger,
+    tenantId,
+    clientId,
+  );
 
   // TODO: move and reuse getIdentityClientAuthorityHost
   const authority = getAuthority(
@@ -198,6 +261,9 @@ interface MsalClientState {
 
   /** Claims received from challenges, cached for the next request */
   cachedClaims?: string;
+
+  /** The logger instance */
+  logger: CredentialLogger;
 }
 
 /**
@@ -221,6 +287,7 @@ export function createMsalClient(
       ? publicToMsal(createMsalClientOptions.authenticationRecord)
       : null,
     pluginConfiguration: msalPlugins.generatePluginConfiguration(createMsalClientOptions),
+    logger: createMsalClientOptions.logger ?? msalLogger,
   };
 
   const publicApps: Map<string, msal.PublicClientApplication> = new Map();
@@ -231,12 +298,12 @@ export function createMsalClient(
 
     let publicClientApp = publicApps.get(appKey);
     if (publicClientApp) {
-      msalLogger.getToken.info("Existing PublicClientApplication found in cache, returning it.");
+      state.logger.getToken.info("Existing PublicClientApplication found in cache, returning it.");
       return publicClientApp;
     }
 
     // Initialize a new app and cache it
-    msalLogger.getToken.info(
+    state.logger.getToken.info(
       `Creating new PublicClientApplication with CAE ${options.enableCae ? "enabled" : "disabled"}.`,
     );
 
@@ -265,14 +332,14 @@ export function createMsalClient(
 
     let confidentialClientApp = confidentialApps.get(appKey);
     if (confidentialClientApp) {
-      msalLogger.getToken.info(
+      state.logger.getToken.info(
         "Existing ConfidentialClientApplication found in cache, returning it.",
       );
       return confidentialClientApp;
     }
 
     // Initialize a new app and cache it
-    msalLogger.getToken.info(
+    state.logger.getToken.info(
       `Creating new ConfidentialClientApplication with CAE ${options.enableCae ? "enabled" : "disabled"}.`,
     );
 
@@ -299,7 +366,7 @@ export function createMsalClient(
     options: GetTokenOptions = {},
   ): Promise<msal.AuthenticationResult> {
     if (state.cachedAccount === null) {
-      msalLogger.getToken.info(
+      state.logger.getToken.info(
         "No cached account found in local state, attempting to load it from MSAL cache.",
       );
       const cache = app.getTokenCache();
@@ -310,7 +377,8 @@ export function createMsalClient(
       }
 
       if (accounts.length > 1) {
-        msalLogger.info(`More than one account was found authenticated for this Client ID and Tenant ID.
+        state.logger
+          .info(`More than one account was found authenticated for this Client ID and Tenant ID.
 However, no "authenticationRecord" has been provided for this credential,
 therefore we're unable to pick between these accounts.
 A new login attempt will be requested, to ensure the correct account is picked.
@@ -339,7 +407,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       }
     }
 
-    msalLogger.getToken.info("Attempting to acquire token silently");
+    state.logger.getToken.info("Attempting to acquire token silently");
     return app.acquireTokenSilent(silentRequest);
   }
 
@@ -389,7 +457,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     ensureValidMsalToken(scopes, response, options);
     state.cachedAccount = response?.account ?? null;
 
-    msalLogger.getToken.info(formatSuccess(scopes));
+    state.logger.getToken.info(formatSuccess(scopes));
 
     return {
       token: response.accessToken,
@@ -402,7 +470,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     clientSecret: string,
     options: GetTokenOptions = {},
   ): Promise<AccessToken> {
-    msalLogger.getToken.info(`Attempting to acquire token using client secret`);
+    state.logger.getToken.info(`Attempting to acquire token using client secret`);
 
     state.msalConfig.auth.clientSecret = clientSecret;
 
@@ -417,7 +485,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       });
       ensureValidMsalToken(scopes, response, options);
 
-      msalLogger.getToken.info(formatSuccess(scopes));
+      state.logger.getToken.info(formatSuccess(scopes));
 
       return {
         token: response.accessToken,
@@ -433,7 +501,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     clientAssertion: string,
     options: GetTokenOptions = {},
   ): Promise<AccessToken> {
-    msalLogger.getToken.info(`Attempting to acquire token using client assertion`);
+    state.logger.getToken.info(`Attempting to acquire token using client assertion`);
 
     state.msalConfig.auth.clientAssertion = clientAssertion;
 
@@ -449,7 +517,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       });
       ensureValidMsalToken(scopes, response, options);
 
-      msalLogger.getToken.info(formatSuccess(scopes));
+      state.logger.getToken.info(formatSuccess(scopes));
 
       return {
         token: response.accessToken,
@@ -465,7 +533,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     certificate: CertificateParts,
     options: GetTokenOptions = {},
   ): Promise<AccessToken> {
-    msalLogger.getToken.info(`Attempting to acquire token using client certificate`);
+    state.logger.getToken.info(`Attempting to acquire token using client certificate`);
 
     state.msalConfig.auth.clientCertificate = certificate;
 
@@ -479,7 +547,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       });
       ensureValidMsalToken(scopes, response, options);
 
-      msalLogger.getToken.info(formatSuccess(scopes));
+      state.logger.getToken.info(formatSuccess(scopes));
 
       return {
         token: response.accessToken,
@@ -495,7 +563,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     deviceCodeCallback: DeviceCodePromptCallback,
     options: GetTokenWithSilentAuthOptions = {},
   ): Promise<AccessToken> {
-    msalLogger.getToken.info(`Attempting to acquire token using device code`);
+    state.logger.getToken.info(`Attempting to acquire token using device code`);
 
     const msalApp = await getPublicApp(options);
 
@@ -524,7 +592,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     password: string,
     options: GetTokenOptions = {},
   ): Promise<AccessToken> {
-    msalLogger.getToken.info(`Attempting to acquire token using username and password`);
+    state.logger.getToken.info(`Attempting to acquire token using username and password`);
 
     const msalApp = await getPublicApp(options);
 
@@ -548,6 +616,36 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     return msalToPublic(clientId, state.cachedAccount);
   }
 
+  async function getTokenByAuthorizationCode(
+    scopes: string[],
+    redirectUri: string,
+    authorizationCode: string,
+    clientSecret?: string,
+    options: GetTokenWithSilentAuthOptions = {},
+  ): Promise<AccessToken> {
+    state.logger.getToken.info(`Attempting to acquire token using authorization code`);
+
+    let msalApp: msal.ConfidentialClientApplication | msal.PublicClientApplication;
+    if (clientSecret) {
+      // If a client secret is provided, we need to use a confidential client application
+      // See https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow#request-an-access-token-with-a-client_secret
+      state.msalConfig.auth.clientSecret = clientSecret;
+      msalApp = await getConfidentialApp(options);
+    } else {
+      msalApp = await getPublicApp(options);
+    }
+
+    return withSilentAuthentication(msalApp, scopes, options, () => {
+      return msalApp.acquireTokenByCode({
+        scopes,
+        redirectUri,
+        code: authorizationCode,
+        authority: state.msalConfig.auth.authority,
+        claims: options?.claims,
+      });
+    });
+  }
+
   return {
     getActiveAccount,
     getTokenByClientSecret,
@@ -555,5 +653,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     getTokenByClientCertificate,
     getTokenByDeviceCode,
     getTokenByUsernamePassword,
+    getTokenByAuthorizationCode,
   };
 }

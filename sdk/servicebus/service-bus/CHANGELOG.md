@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Fix an issue where `rhea-promise` receivers are not properly closed in `MessageSession.createRheaLink()` [PR #29954](https://github.com/Azure/azure-sdk-for-js/pull/29954)
+
 ### Other Changes
 
 - upgrade dependency `@azure/abort-controller` version to `^2.1.2`.
