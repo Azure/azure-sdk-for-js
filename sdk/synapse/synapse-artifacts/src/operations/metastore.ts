@@ -21,7 +21,7 @@ import {
   MetastoreUpdateObject,
   MetastoreUpdateOptionalParams,
   MetastoreUpdateResponse,
-  MetastoreDeleteOptionalParams
+  MetastoreDeleteOptionalParams,
 } from "../models";
 
 /** Class containing Metastore operations. */
@@ -46,7 +46,7 @@ export class MetastoreImpl implements Metastore {
   async register(
     id: string,
     registerBody: MetastoreRegisterObject,
-    options?: MetastoreRegisterOptionalParams
+    options?: MetastoreRegisterOptionalParams,
   ): Promise<MetastoreRegisterResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.register",
@@ -54,9 +54,9 @@ export class MetastoreImpl implements Metastore {
       async (options) => {
         return this.client.sendOperationRequest(
           { id, registerBody, options },
-          registerOperationSpec
+          registerOperationSpec,
         ) as Promise<MetastoreRegisterResponse>;
-      }
+      },
     );
   }
 
@@ -67,7 +67,7 @@ export class MetastoreImpl implements Metastore {
    */
   async getDatabaseOperations(
     id: string,
-    options?: MetastoreGetDatabaseOperationsOptionalParams
+    options?: MetastoreGetDatabaseOperationsOptionalParams,
   ): Promise<MetastoreGetDatabaseOperationsResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.getDatabaseOperations",
@@ -75,9 +75,9 @@ export class MetastoreImpl implements Metastore {
       async (options) => {
         return this.client.sendOperationRequest(
           { id, options },
-          getDatabaseOperationsOperationSpec
+          getDatabaseOperationsOperationSpec,
         ) as Promise<MetastoreGetDatabaseOperationsResponse>;
-      }
+      },
     );
   }
 
@@ -90,7 +90,7 @@ export class MetastoreImpl implements Metastore {
   async update(
     id: string,
     updateBody: MetastoreUpdateObject,
-    options?: MetastoreUpdateOptionalParams
+    options?: MetastoreUpdateOptionalParams,
   ): Promise<MetastoreUpdateResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.update",
@@ -98,9 +98,9 @@ export class MetastoreImpl implements Metastore {
       async (options) => {
         return this.client.sendOperationRequest(
           { id, updateBody, options },
-          updateOperationSpec
+          updateOperationSpec,
         ) as Promise<MetastoreUpdateResponse>;
-      }
+      },
     );
   }
 
@@ -111,7 +111,7 @@ export class MetastoreImpl implements Metastore {
    */
   async delete(
     id: string,
-    options?: MetastoreDeleteOptionalParams
+    options?: MetastoreDeleteOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "ArtifactsClient.delete",
@@ -119,9 +119,9 @@ export class MetastoreImpl implements Metastore {
       async (options) => {
         return this.client.sendOperationRequest(
           { id, options },
-          deleteOperationSpec
+          deleteOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 }
@@ -133,52 +133,52 @@ const registerOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.MetastoreRegistrationResponse
+      bodyMapper: Mappers.MetastoreRegistrationResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   requestBody: Parameters.registerBody,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getDatabaseOperationsOperationSpec: coreClient.OperationSpec = {
   path: "/metastore/create-database-operations/{id}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetastoreRequestSuccessResponse
+      bodyMapper: Mappers.MetastoreRequestSuccessResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/metastore/update-database-operations/{id}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.MetastoreUpdationResponse
+      bodyMapper: Mappers.MetastoreUpdationResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   requestBody: Parameters.updateBody,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/metastore/databases/{id}",
@@ -186,11 +186,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
