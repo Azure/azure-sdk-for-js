@@ -15,7 +15,7 @@ async function main(systemAccessToken){
     );  
   const client = new SecretClient("https://YOUR_KEYVAULT_NAME.vault.azure.net/", credential);
   const secretValue = await client.getSecret("secretKey");
-  console.log("the value of secret is", secretValue);
+  // do something with the secret
 }
 main().catch((err) => {
   console.error("The sample encountered an error:", err);

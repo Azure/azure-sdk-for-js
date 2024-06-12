@@ -1,0 +1,20 @@
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - script: |
+      npm install @azure/identity@4.3.0
+      npm install @azure/keyvault-secrets
+    displayName: "Install the test version of Azure Identity"
+
+  - task: AzureCLI@2
+    displayName: "Azure CLI Task"
+    inputs:
+      azureSubscription: "<NAME_OF_SERVICE_CONNECTION>"
+      scriptType: bash
+      scriptLocation: "inlineScript"
+      inlineScript: |
+        node sdk/identity/identity/samples/sample.js
