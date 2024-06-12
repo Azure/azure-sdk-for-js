@@ -39,7 +39,7 @@ import {
   LinkConnectionUpdateLandingZoneCredentialOptionalParams,
   LinkConnectionPauseOptionalParams,
   LinkConnectionResumeOptionalParams,
-  LinkConnectionListByWorkspaceNextResponse
+  LinkConnectionListByWorkspaceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,7 +60,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    * @param options The options parameters.
    */
   public listByWorkspace(
-    options?: LinkConnectionListByWorkspaceOptionalParams
+    options?: LinkConnectionListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<LinkConnectionResource> {
     const iter = this.listByWorkspacePagingAll(options);
     return {
@@ -75,13 +75,13 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByWorkspacePagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listByWorkspacePagingPage(
     options?: LinkConnectionListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LinkConnectionResource[]> {
     let result: LinkConnectionListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
   }
 
   private async *listByWorkspacePagingAll(
-    options?: LinkConnectionListByWorkspaceOptionalParams
+    options?: LinkConnectionListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<LinkConnectionResource> {
     for await (const page of this.listByWorkspacePagingPage(options)) {
       yield* page;
@@ -114,7 +114,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    * @param options The options parameters.
    */
   private async _listByWorkspace(
-    options?: LinkConnectionListByWorkspaceOptionalParams
+    options?: LinkConnectionListByWorkspaceOptionalParams,
   ): Promise<LinkConnectionListByWorkspaceResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient._listByWorkspace",
@@ -122,9 +122,9 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          listByWorkspaceOperationSpec
+          listByWorkspaceOperationSpec,
         ) as Promise<LinkConnectionListByWorkspaceResponse>;
-      }
+      },
     );
   }
 
@@ -137,7 +137,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
   async createOrUpdate(
     linkConnectionName: string,
     linkConnection: LinkConnectionResource,
-    options?: LinkConnectionCreateOrUpdateOptionalParams
+    options?: LinkConnectionCreateOrUpdateOptionalParams,
   ): Promise<LinkConnectionCreateOrUpdateResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.createOrUpdate",
@@ -145,9 +145,9 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, linkConnection, options },
-          createOrUpdateOperationSpec
+          createOrUpdateOperationSpec,
         ) as Promise<LinkConnectionCreateOrUpdateResponse>;
-      }
+      },
     );
   }
 
@@ -158,7 +158,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    */
   async get(
     linkConnectionName: string,
-    options?: LinkConnectionGetOptionalParams
+    options?: LinkConnectionGetOptionalParams,
   ): Promise<LinkConnectionGetResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.get",
@@ -166,9 +166,9 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, options },
-          getOperationSpec
+          getOperationSpec,
         ) as Promise<LinkConnectionGetResponse>;
-      }
+      },
     );
   }
 
@@ -179,7 +179,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    */
   async delete(
     linkConnectionName: string,
-    options?: LinkConnectionDeleteOptionalParams
+    options?: LinkConnectionDeleteOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "ArtifactsClient.delete",
@@ -187,9 +187,9 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, options },
-          deleteOperationSpec
+          deleteOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -202,7 +202,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
   async editTables(
     linkConnectionName: string,
     editTablesRequest: EditTablesRequest,
-    options?: LinkConnectionEditTablesOptionalParams
+    options?: LinkConnectionEditTablesOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "ArtifactsClient.editTables",
@@ -210,9 +210,9 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, editTablesRequest, options },
-          editTablesOperationSpec
+          editTablesOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -224,7 +224,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    */
   async start(
     linkConnectionName: string,
-    options?: LinkConnectionStartOptionalParams
+    options?: LinkConnectionStartOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "ArtifactsClient.start",
@@ -232,9 +232,9 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, options },
-          startOperationSpec
+          startOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -246,7 +246,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    */
   async stop(
     linkConnectionName: string,
-    options?: LinkConnectionStopOptionalParams
+    options?: LinkConnectionStopOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "ArtifactsClient.stop",
@@ -254,9 +254,9 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, options },
-          stopOperationSpec
+          stopOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -267,7 +267,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    */
   async getDetailedStatus(
     linkConnectionName: string,
-    options?: LinkConnectionGetDetailedStatusOptionalParams
+    options?: LinkConnectionGetDetailedStatusOptionalParams,
   ): Promise<LinkConnectionGetDetailedStatusResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.getDetailedStatus",
@@ -275,9 +275,9 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, options },
-          getDetailedStatusOperationSpec
+          getDetailedStatusOperationSpec,
         ) as Promise<LinkConnectionGetDetailedStatusResponse>;
-      }
+      },
     );
   }
 
@@ -288,7 +288,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    */
   async listLinkTables(
     linkConnectionName: string,
-    options?: LinkConnectionListLinkTablesOptionalParams
+    options?: LinkConnectionListLinkTablesOptionalParams,
   ): Promise<LinkConnectionListLinkTablesResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.listLinkTables",
@@ -296,9 +296,9 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, options },
-          listLinkTablesOperationSpec
+          listLinkTablesOperationSpec,
         ) as Promise<LinkConnectionListLinkTablesResponse>;
-      }
+      },
     );
   }
 
@@ -311,7 +311,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
   async queryTableStatus(
     linkConnectionName: string,
     queryTableStatusRequest: QueryTableStatusRequest,
-    options?: LinkConnectionQueryTableStatusOptionalParams
+    options?: LinkConnectionQueryTableStatusOptionalParams,
   ): Promise<LinkConnectionQueryTableStatusResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.queryTableStatus",
@@ -319,9 +319,9 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, queryTableStatusRequest, options },
-          queryTableStatusOperationSpec
+          queryTableStatusOperationSpec,
         ) as Promise<LinkConnectionQueryTableStatusResponse>;
-      }
+      },
     );
   }
 
@@ -334,7 +334,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
   async updateLandingZoneCredential(
     linkConnectionName: string,
     updateLandingZoneCredentialRequest: UpdateLandingZoneCredential,
-    options?: LinkConnectionUpdateLandingZoneCredentialOptionalParams
+    options?: LinkConnectionUpdateLandingZoneCredentialOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "ArtifactsClient.updateLandingZoneCredential",
@@ -342,9 +342,9 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, updateLandingZoneCredentialRequest, options },
-          updateLandingZoneCredentialOperationSpec
+          updateLandingZoneCredentialOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -356,7 +356,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    */
   async pause(
     linkConnectionName: string,
-    options?: LinkConnectionPauseOptionalParams
+    options?: LinkConnectionPauseOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "ArtifactsClient.pause",
@@ -364,9 +364,9 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, options },
-          pauseOperationSpec
+          pauseOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -378,7 +378,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    */
   async resume(
     linkConnectionName: string,
-    options?: LinkConnectionResumeOptionalParams
+    options?: LinkConnectionResumeOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "ArtifactsClient.resume",
@@ -386,9 +386,9 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, options },
-          resumeOperationSpec
+          resumeOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -399,7 +399,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    */
   private async _listByWorkspaceNext(
     nextLink: string,
-    options?: LinkConnectionListByWorkspaceNextOptionalParams
+    options?: LinkConnectionListByWorkspaceNextOptionalParams,
   ): Promise<LinkConnectionListByWorkspaceNextResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient._listByWorkspaceNext",
@@ -407,9 +407,9 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { nextLink, options },
-          listByWorkspaceNextOperationSpec
+          listByWorkspaceNextOperationSpec,
         ) as Promise<LinkConnectionListByWorkspaceNextResponse>;
-      }
+      },
     );
   }
 }
@@ -421,50 +421,50 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkConnectionListResponse
+      bodyMapper: Mappers.LinkConnectionListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkConnectionResource
+      bodyMapper: Mappers.LinkConnectionResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.linkConnection,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.linkConnectionName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkConnectionResource
+      bodyMapper: Mappers.LinkConnectionResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.linkConnectionName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}",
@@ -473,13 +473,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.linkConnectionName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const editTablesOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}/edittables",
@@ -487,15 +487,15 @@ const editTablesOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.editTablesRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.linkConnectionName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const startOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}/start",
@@ -503,13 +503,13 @@ const startOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.linkConnectionName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const stopOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}/stop",
@@ -517,63 +517,63 @@ const stopOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.linkConnectionName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDetailedStatusOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}/detailedstatus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkConnectionDetailedStatus
+      bodyMapper: Mappers.LinkConnectionDetailedStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.linkConnectionName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listLinkTablesOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}/linktables",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkTableListResponse
+      bodyMapper: Mappers.LinkTableListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.linkConnectionName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const queryTableStatusOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}/querytablestatus",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkConnectionQueryTableStatus
+      bodyMapper: Mappers.LinkConnectionQueryTableStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.queryTableStatusRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.linkConnectionName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateLandingZoneCredentialOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}/updateLandingZoneCredential",
@@ -581,15 +581,15 @@ const updateLandingZoneCredentialOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.updateLandingZoneCredentialRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.linkConnectionName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const pauseOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}/pause",
@@ -597,13 +597,13 @@ const pauseOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.linkConnectionName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const resumeOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}/resume",
@@ -611,26 +611,26 @@ const resumeOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.linkConnectionName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkConnectionListResponse
+      bodyMapper: Mappers.LinkConnectionListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
