@@ -137,7 +137,7 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual(metrics[0].dataPoints[1].attributes["_MS.IsAutocollected"], "True");
     assert.strictEqual(metrics[0].dataPoints[1].attributes["_MS.MetricId"], "requests/duration");
     assert.strictEqual(metrics[0].dataPoints[1].attributes["request/resultCode"], "400");
-    assert.strictEqual(metrics[0].dataPoints[1].attributes["Request.Success"], "True");
+    assert.strictEqual(metrics[0].dataPoints[1].attributes["Request.Success"], "False");
 
     // Dependencies
     assert.strictEqual(metrics[1].dataPoints.length, 2, "dataPoints count");
