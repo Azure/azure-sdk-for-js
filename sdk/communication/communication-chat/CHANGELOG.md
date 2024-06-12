@@ -2,6 +2,8 @@
 
 ## 1.5.1 (2024-06-12)
 
+### Bugs Fixed
+
 - Updated @azure/core-client and @azure/core-rest-pipeline version.
 
 ## 1.5.0 (2024-04-15)
