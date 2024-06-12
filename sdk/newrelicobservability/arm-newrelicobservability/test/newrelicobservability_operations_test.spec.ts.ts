@@ -27,6 +27,9 @@ const replaceableVariables: Record<string, string> = {
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK4001", // url should not be over-sanitized, fake env setup handles it already
+  ],
 };
 
 export const testPollingOptions = {
@@ -48,7 +51,7 @@ describe("NewRelicObservability test", () => {
     subscriptionId = env.NewRelic_SUBSCRIPTION_ID || "";
     tenantId = env.NewRelic_TENANT_ID || "";
     const credentialOptions: CreateTestCredentialOptions = {
-      tenantId,
+      tenantId: tenantId,
     };
     // This is an example of how the environment variables are used
     const credential = createTestCredential(credentialOptions);
