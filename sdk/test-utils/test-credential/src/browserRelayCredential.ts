@@ -34,7 +34,6 @@ async function createCredential(
 
   if (!response.ok) {
     if (response.status === 400) {
-      console.log("Error response", await response.json());
       // Throw the error that the relay received
       throw new RelayAuthenticationError(
         "Relay could not create credential",
