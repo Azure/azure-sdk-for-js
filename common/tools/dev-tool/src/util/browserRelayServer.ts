@@ -3,7 +3,7 @@
 
 import express from "express";
 import type { Express } from "express-serve-static-core";
-import { AzureCliCredential, AzureDeveloperCliCredential, AzurePowerShellCredential, ChainedTokenCredential, EnvironmentCredential, WorkloadIdentityCredential, type TokenCredential } from "@azure/identity";
+import { AzureCliCredential, AzurePowerShellCredential, ChainedTokenCredential, type TokenCredential } from "@azure/identity";
 import { randomUUID } from "node:crypto";
 import { createPrinter } from "./printer";
 
