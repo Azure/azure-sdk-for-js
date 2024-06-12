@@ -25,7 +25,7 @@ describe("chat test suite", () => {
     assert.isNotNull(client.pipeline);
   });
 
-  it("client test", async function () {
+  it("simple chat test", async function () {
     const response = await client.path("/chat/completions").post({
       body: {
         messages: [
@@ -41,4 +41,5 @@ describe("chat test suite", () => {
     assert.isDefined(completion.choices[0].message);
     assert.isDefined(completion.choices[0].message.content);
   });
+
 });
