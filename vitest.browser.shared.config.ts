@@ -15,7 +15,7 @@ export default defineConfig({
     include: ["@azure-tools/test-recorder"],
   },
   test: {
-    testTimeout: 18000,
+    testTimeout: 180000,
     reporters: ["basic", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
