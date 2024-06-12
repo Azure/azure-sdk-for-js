@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a network security perimeter configuration.
  *
  * @summary Gets a network security perimeter configuration.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-03-01-preview/examples/NetworkSecurityPerimeterConfigurationsGet.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/NetworkSecurityPerimeterConfigurationsGet.json
  */
 async function getAnNspConfigByName() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";

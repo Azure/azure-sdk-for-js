@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of the private endpoint connection to the search service in the given resource group.
  *
  * @summary Gets the details of the private endpoint connection to the search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-03-01-preview/examples/GetPrivateEndpointConnection.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/GetPrivateEndpointConnection.json
  */
 async function privateEndpointConnectionGet() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
