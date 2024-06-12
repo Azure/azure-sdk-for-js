@@ -16,7 +16,7 @@ This troubleshooting guide covers the following areas of the Azure Identity clie
 - [Find relevant information in error messages](#find-relevant-information-in-error-messages)
 - [Enable and configure logging](#enable-and-configure-logging)
   - [Allow logging identifiers](#allow-logging-identifiers)
-  - [PII Logging](#pii-logging)
+  - [PII logging](#pii-logging)
 - [Permission issues](#permission-issues)
 - [Troubleshoot default Azure credential authentication issues](#troubleshoot-default-azure-credential-authentication-issues)
 - [Troubleshoot environment credential authentication issues](#troubleshoot-environment-credential-authentication-issues)
