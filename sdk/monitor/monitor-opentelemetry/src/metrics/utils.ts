@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Attributes } from "@opentelemetry/api";
+import { Attributes, SpanStatusCode } from "@opentelemetry/api";
 import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import {
   SEMRESATTRS_SERVICE_NAME,
@@ -15,6 +15,7 @@ import {
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_TYPE,
   SEMATTRS_HTTP_USER_AGENT,
+  SEMATTRS_HTTP_STATUS_CODE,
 } from "@opentelemetry/semantic-conventions";
 import {
   MetricDependencyDimensions,
@@ -30,9 +31,14 @@ import { Resource } from "@opentelemetry/resources";
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);
   dimensions.metricId = StandardMetricIds.REQUEST_DURATION;
-  const statusCode = String(span.attributes["http.status_code"]);
+  const statusCode = String(span.attributes[SEMATTRS_HTTP_STATUS_CODE]);
   dimensions.requestResultCode = statusCode;
-  dimensions.requestSuccess = Number(statusCode) < 400 ? "True" : "False";
+  // OTel treats 4xx request responses as UNSET SpanStatusCode, but we should count them as failed
+  dimensions.requestSuccess =
+    span.status.code !== SpanStatusCode.ERROR &&
+    (Number(statusCode) || 0) < 400
+      ? "True"
+      : "False";
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
@@ -42,11 +48,11 @@ export function getRequestDimensions(span: ReadableSpan): Attributes {
 export function getDependencyDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricDependencyDimensions = getBaseDimensions(span.resource);
   dimensions.metricId = StandardMetricIds.DEPENDENCIES_DURATION;
-  const statusCode = String(span.attributes["http.status_code"]);
+  const statusCode = String(span.attributes[SEMATTRS_HTTP_STATUS_CODE]);
   dimensions.dependencyTarget = getDependencyTarget(span.attributes);
   dimensions.dependencyResultCode = statusCode;
   dimensions.dependencyType = "http";
-  dimensions.dependencySuccess = Number(statusCode) < 400 ? "True" : "False";
+  dimensions.dependencySuccess = span.status.code !== SpanStatusCode.ERROR ? "True" : "False";
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
