@@ -71,7 +71,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [interactivebrowsercredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v4/javascript/interactiveBrowserCredential.js
 [tokenprovider]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v4/javascript/tokenProvider.js
 [workloadidentitycredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v4/javascript/workloadIdentityCredential.js
-[azurepipelinescredential_azurepipelinescredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v4/javascript/azurePipelinesCredential\azurePipelinesCredential.js
+[azurepipelinescredential_azurepipelinescredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v4/javascript/azurePipelinesCredential/azurePipelinesCredential.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/identity
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureactivedirectoryappregistration]: https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
