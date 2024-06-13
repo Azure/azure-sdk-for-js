@@ -18549,7 +18549,7 @@ packages:
     dev: false
 
   file:projects/arm-storagemover.tgz:
-    resolution: {integrity: sha512-/wGv4mhzV8Bb0dAJFWZUUJZ7jfmSQUXo5C9okmbFwj5CuZKY+bVKThVS9zulAWMmxL80Ci6iFBktADJuOB8RJg==, tarball: file:projects/arm-storagemover.tgz}
+    resolution: {integrity: sha512-CtytoxwlUvvon3IpA0XUz5Riyp0wM2Oxud+3qDi5mleW1Uxp32TtvsKzudkehzWGE34k6/CFxmd5/T4uW3RnWg==, tarball: file:projects/arm-storagemover.tgz}
     name: '@rush-temp/arm-storagemover'
     version: 0.0.0
     dependencies:
@@ -18570,6 +18570,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.34)(typescript@5.4.5)
       tslib: 2.6.3
+      tsx: 4.15.2
       typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
