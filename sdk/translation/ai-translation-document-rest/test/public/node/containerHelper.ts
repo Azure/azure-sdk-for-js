@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  Recorder,
+  //Recorder,
   env,
 } from "@azure-tools/test-recorder";
 import { ContainerClient, ContainerSASPermissions } from "@azure/storage-blob";
@@ -23,22 +23,22 @@ export async function createSourceContainer(documents: TestDocument[]): Promise<
   const containerName = `source-${getUniqueName()}`;
   const containerClient = await createContainer(containerName, documents);
 
-  const sasToken = await containerClient.generateSasUrl({
+  const sasUrl = await containerClient.generateSasUrl({
     permissions: ContainerSASPermissions.parse("rwl"),
     expiresOn: getDateOneDayAfter(),
   });
-  return `${sasToken}`;
+  return `${sasUrl}`;
 }
 
 export async function createTargetContainer(documents?: TestDocument[]): Promise<string> {
   const containerName = `target-${getUniqueName()}`;
   const containerClient = await createContainer(containerName, documents);
 
-  const sasToken = await containerClient.generateSasUrl({
+  const sasUrl = await containerClient.generateSasUrl({
     permissions: ContainerSASPermissions.parse("rwl"),
     expiresOn: getDateOneDayAfter(),
   });
-  return `${sasToken}`;
+  return `${sasUrl}`;
 }
 
 async function createContainer(containerName: string, documents?: TestDocument[]): Promise<ContainerClient> {

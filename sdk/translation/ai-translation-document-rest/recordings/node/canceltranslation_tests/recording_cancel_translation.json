@@ -17,11 +17,11 @@
         "inputs": [
           {
             "source": {
-              "sourceUrl": "https://fakeStorageName.blob.core.windows.net/source-8305955916?sv=Sanitized&se=2024-06-13T05%3A13%3A53Z&sr=c&sp=rwl&sig=Sanitized"
+              "sourceUrl": "https://fakeStorageName.blob.core.windows.net/source-0663552443?sv=Sanitized&se=2024-06-14T23%3A33%3A22Z&sr=c&sp=rwl&sig=Sanitized"
             },
             "targets": [
               {
-                "targetUrl": "https://fakeStorageName.blob.core.windows.net/target-7766939529?sv=Sanitized&se=2024-06-13T05%3A13%3A53Z&sr=c&sp=rwl&sig=Sanitized",
+                "targetUrl": "https://fakeStorageName.blob.core.windows.net/target-4409741421?sv=Sanitized&se=2024-06-14T23%3A33%3A22Z&sr=c&sp=rwl&sig=Sanitized",
                 "language": "fr"
               }
             ]
@@ -30,15 +30,15 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "9537dad5-7686-4cce-b39c-1cc003d895ca",
+        "apim-request-id": "d85a791c-4cbb-427a-8042-2d3bdd99d064",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Jun 2024 05:13:53 GMT",
+        "Date": "Thu, 13 Jun 2024 23:33:21 GMT",
         "Operation-Location": "https://example.com",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "x-ms-region": "West US",
-        "X-RequestId": "9537dad5-7686-4cce-b39c-1cc003d895ca"
+        "X-RequestId": "d85a791c-4cbb-427a-8042-2d3bdd99d064"
       },
       "ResponseBody": {
         "id": "Sanitized",
@@ -46,7 +46,7 @@
       }
     },
     {
-      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches/45d12854-c771-49a3-9437-d3e8f35007b4?api-version=2024-05-01",
+      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches/40ba314f-0cd1-4b12-927a-20dc0fcbe470?api-version=2024-05-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -59,20 +59,20 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "7759e0b8-b7f0-48e8-8000-186e9976f647",
+        "apim-request-id": "68e6c10a-4cb5-4f27-b31f-d438e28c8607",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Jun 2024 05:13:53 GMT",
+        "Date": "Thu, 13 Jun 2024 23:33:22 GMT",
         "Retry-After": "1",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "x-ms-region": "West US",
-        "X-RequestId": "7759e0b8-b7f0-48e8-8000-186e9976f647"
+        "X-RequestId": "68e6c10a-4cb5-4f27-b31f-d438e28c8607"
       },
       "ResponseBody": {
         "id": "Sanitized",
-        "createdDateTimeUtc": "2024-06-12T05:13:53.6291178Z",
-        "lastActionDateTimeUtc": "2024-06-12T05:13:53.7275445Z",
+        "createdDateTimeUtc": "2024-06-13T23:33:22.5964973Z",
+        "lastActionDateTimeUtc": "2024-06-13T23:33:22.6789662Z",
         "status": "Cancelling",
         "summary": {
           "total": 0,
@@ -86,7 +86,7 @@
       }
     },
     {
-      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches/45d12854-c771-49a3-9437-d3e8f35007b4?api-version=2024-05-01",
+      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches/40ba314f-0cd1-4b12-927a-20dc0fcbe470?api-version=2024-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -99,22 +99,22 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "ce251377-4276-4876-ba2f-153a773037ce",
+        "apim-request-id": "02f8dd2b-80ef-4164-8569-c80653f96599",
         "Cache-Control": "public, max-age=1",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Jun 2024 05:13:53 GMT",
-        "ETag": "\"8B64763130D3FD39FBF88C9AEF9D621345994945F59FCB084DA53F58B0240AC7\"",
+        "Date": "Thu, 13 Jun 2024 23:33:22 GMT",
+        "ETag": "\"27916CBB235598DCED610249BAE15CBC38B8B78C82C185A8D885730F2503B5BA\"",
         "Retry-After": "1",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "x-ms-region": "West US",
-        "X-RequestId": "ce251377-4276-4876-ba2f-153a773037ce"
+        "X-RequestId": "02f8dd2b-80ef-4164-8569-c80653f96599"
       },
       "ResponseBody": {
         "id": "Sanitized",
-        "createdDateTimeUtc": "2024-06-12T05:13:53.6291178Z",
-        "lastActionDateTimeUtc": "2024-06-12T05:13:53.7275445Z",
+        "createdDateTimeUtc": "2024-06-13T23:33:22.5964973Z",
+        "lastActionDateTimeUtc": "2024-06-13T23:33:22.6789662Z",
         "status": "Cancelling",
         "summary": {
           "total": 0,
