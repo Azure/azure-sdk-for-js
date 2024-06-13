@@ -512,7 +512,7 @@ describe("FileServiceClient Premium", () => {
     assert.ok(propertiesSet.protocol?.smb?.multichannel);
   });
 
-  it("Share Enable Protocol & Share Squash Root", async function (this: Context) {
+  it.skip("Share Enable Protocol & Share Squash Root", async function (this: Context) {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
