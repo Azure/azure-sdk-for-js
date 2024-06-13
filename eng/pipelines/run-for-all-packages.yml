@@ -1,0 +1,43 @@
+trigger: none
+pr: none
+
+stages:
+  - stage:
+    displayName: Manual Validation All Packages
+
+    pool:
+      name: azsdk-pool-mms-ubuntu-2204-general
+      vmImage: ubuntu-22.04
+
+    jobs:
+      - job: BuildAllPackages
+        timeoutInMinutes: 120
+        steps:
+          - template: /eng/pipelines/templates/steps/use-node-version.yml
+            parameters:
+              NodeVersion: 20.x
+
+          - script: |
+              node common/scripts/install-run-rush.js install
+            displayName: "Install library dependencies"
+
+          - script: |
+              node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
+              node eng/tools/rush-runner.js lint -p max
+            displayName: "Build ESLint Plugin and Lint All Packages"
+
+          - script: |
+              node eng/tools/rush-runner.js build -p max
+            displayName: "Build All Packages"
+
+          - script: |
+              node eng/tools/rush-runner.js build:test -t @azure/app-configuration -t @azure/event-hubs
+            displayName: "Build Tests for Selected Packages"
+
+          - script: |
+              node eng/tools/rush-runner.js unit-test -t @azure/app-configuration -t @azure/event-hubs -p 1
+            displayName: "Run Unit Tests for Selected Packages"
+
+          - script: |
+              node eng/tools/rush-runner.js integration-test --only @azure/app-configuration --only @azure-rest/synapse-access-control  -p 1
+            displayName: "Run Integration Tests for Selected Packages"
