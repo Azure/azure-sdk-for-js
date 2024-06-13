@@ -1,5 +1,10 @@
 # Release History
 
+## 1.6.0 (upcoming)
+
+### Features Added
+
+
 ## 1.5.1 (2024-06-12)
 
 ### Bugs Fixed
