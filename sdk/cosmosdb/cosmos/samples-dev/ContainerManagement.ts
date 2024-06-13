@@ -9,7 +9,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
-import { CosmosClient } from "@azure/cosmos";
+import {
+  CosmosClient,
+  VectorEmbeddingDataType,
+  VectorEmbeddingDistanceFunction,
+  VectorIndexType,
+} from "@azure/cosmos";
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
@@ -48,21 +53,21 @@ async function run(): Promise<void> {
     vectorEmbeddings: [
       {
         path: "/vector1",
-        dataType: "float32",
+        dataType: VectorEmbeddingDataType.UInt8,
         dimensions: 1000,
-        distanceFunction: "euclidean",
+        distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
       },
       {
         path: "/vector2",
-        dataType: "int8",
+        dataType: VectorEmbeddingDataType.Int8,
         dimensions: 200,
-        distanceFunction: "dotproduct",
+        distanceFunction: VectorEmbeddingDistanceFunction.DotProduct,
       },
       {
         path: "/vector3",
-        dataType: "uint8",
+        dataType: VectorEmbeddingDataType.UInt8,
         dimensions: 400,
-        distanceFunction: "cosine",
+        distanceFunction: VectorEmbeddingDistanceFunction.Cosine,
       },
     ],
   };
@@ -78,9 +83,9 @@ async function run(): Promise<void> {
     ],
     spatialIndexes: [{ path: "/location/*", types: ["Point", "Polygon"] }],
     vectorIndexes: [
-      { path: "/vector1", type: "flat" },
-      { path: "/vector2", type: "quantizedFlat" },
-      { path: "/vector3", type: "diskANN" },
+      { path: "/vector1", type: VectorIndexType.Flat },
+      { path: "/vector2", type: VectorIndexType.QuantizedFlat },
+      { path: "/vector3", type: VectorIndexType.DiskANN },
     ],
   };
 

@@ -7,6 +7,11 @@ import { endpoint } from "../../common/_testConfig";
 import { masterKey } from "../../common/_fakeTestSecrets";
 import { getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
 import { IndexingPolicy, VectorEmbeddingPolicy } from "../../../../src";
+import {
+  VectorEmbeddingDataType,
+  VectorEmbeddingDistanceFunction,
+  VectorIndexType,
+} from "../../../../src/documents";
 
 describe.skip("Test nonStreaming Queries", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 30000);
@@ -21,30 +26,30 @@ describe.skip("Test nonStreaming Queries", function () {
       vectorEmbeddings: [
         {
           path: "/vector1",
-          dataType: "float32",
+          dataType: VectorEmbeddingDataType.Float32,
           dimensions: 3,
-          distanceFunction: "euclidean",
+          distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
         },
         {
           path: "/vector2",
-          dataType: "int8",
+          dataType: VectorEmbeddingDataType.UInt8,
           dimensions: 3,
-          distanceFunction: "dotproduct",
+          distanceFunction: VectorEmbeddingDistanceFunction.DotProduct,
         },
         {
           path: "/vector3",
-          dataType: "uint8",
+          dataType: VectorEmbeddingDataType.UInt8,
           dimensions: 3,
-          distanceFunction: "cosine",
+          distanceFunction: VectorEmbeddingDistanceFunction.Cosine,
         },
       ],
     };
 
     const indexingPolicy: IndexingPolicy = {
       vectorIndexes: [
-        { path: "/vector1", type: "flat" },
-        { path: "/vector2", type: "quantizedFlat" },
-        { path: "/vector3", type: "diskANN" },
+        { path: "/vector1", type: VectorIndexType.Flat },
+        { path: "/vector2", type: VectorIndexType.QuantizedFlat },
+        { path: "/vector3", type: VectorIndexType.DiskANN },
       ],
     };
     container = await getTestContainer("Test", client, {

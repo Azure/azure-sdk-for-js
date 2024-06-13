@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { IndexingPolicy, VectorEmbeddingPolicy } from "../../../src/documents";
+import {
+  IndexingPolicy,
+  VectorEmbeddingDataType,
+  VectorEmbeddingDistanceFunction,
+  VectorEmbeddingPolicy,
+  VectorIndexType,
+} from "../../../src/documents";
 import { getTestDatabase } from "../common/TestHelpers";
 import { Database } from "../../../src/client/Database/Database";
 import { Container } from "../../../src/client";
@@ -18,30 +24,29 @@ describe("Vector search feature", async () => {
     it("validate VectorEmbeddingPolicy", async function () {
       const indexingPolicy: IndexingPolicy = {
         vectorIndexes: [
-          { path: "/vector1", type: "flat" },
-          { path: "/vector2", type: "quantizedFlat" },
-          // { path: "/vector3", type: "diskANN" },
+          { path: "/vector1", type: VectorIndexType.Flat },
+          { path: "/vector2", type: VectorIndexType.QuantizedFlat },
         ],
       };
       const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
         vectorEmbeddings: [
           {
             path: "/vector1",
-            dataType: "float32",
+            dataType: VectorEmbeddingDataType.Float32,
             dimensions: 500,
-            distanceFunction: "euclidean",
+            distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
           },
           {
             path: "/vector2",
-            dataType: "int8",
+            dataType: VectorEmbeddingDataType.Int8,
             dimensions: 200,
-            distanceFunction: "dotproduct",
+            distanceFunction: VectorEmbeddingDistanceFunction.DotProduct,
           },
           {
             path: "/vector3",
-            dataType: "uint8",
+            dataType: VectorEmbeddingDataType.UInt8,
             dimensions: 400,
-            distanceFunction: "cosine",
+            distanceFunction: VectorEmbeddingDistanceFunction.Cosine,
           },
         ],
       };
@@ -66,16 +71,16 @@ describe("Vector search feature", async () => {
         vectorEmbeddings: [
           {
             path: "/vector1",
-            dataType: "float32",
+            dataType: VectorEmbeddingDataType.Float32,
             dimensions: 500,
-            distanceFunction: "euclidean",
+            distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
           },
         ],
       };
 
       // Pass a vector indexing policy without embedding policy
       let indexingPolicy: IndexingPolicy = {
-        vectorIndexes: [{ path: "/vector1", type: "flat" }],
+        vectorIndexes: [{ path: "/vector1", type: VectorIndexType.Flat }],
       };
       const containerName = "JSApp- vector embedding container failed";
       // create container
@@ -96,7 +101,7 @@ describe("Vector search feature", async () => {
 
       // Pass a vector indexing policy with non-matching path
       indexingPolicy = {
-        vectorIndexes: [{ path: "/vector2", type: "flat" }],
+        vectorIndexes: [{ path: "/vector2", type: VectorIndexType.Flat }],
       };
       try {
         await database.containers.createIfNotExists({
@@ -116,14 +121,14 @@ describe("Vector search feature", async () => {
         vectorEmbeddings: [
           {
             path: "/vector1",
-            dataType: "float32",
+            dataType: VectorEmbeddingDataType.Float32,
             dimensions: 500,
-            distanceFunction: "euclidean",
+            distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
           },
         ],
       };
       const indexingPolicy: IndexingPolicy = {
-        vectorIndexes: [{ path: "/vector1", type: "flat" }],
+        vectorIndexes: [{ path: "/vector1", type: VectorIndexType.Flat }],
       };
       const containerId = "replace vector indexing policy";
       await database.containers.createIfNotExists({
@@ -132,7 +137,7 @@ describe("Vector search feature", async () => {
         vectorEmbeddingPolicy: vectorEmbeddingPolicy,
       });
       const newIndexingPolicy: IndexingPolicy = {
-        vectorIndexes: [{ path: "/vector1", type: "quantizedFlat" }],
+        vectorIndexes: [{ path: "/vector1", type: VectorIndexType.QuantizedFlat }],
       };
       try {
         await database.container(containerId).replace({
@@ -154,9 +159,9 @@ describe("Vector search feature", async () => {
         vectorEmbeddings: [
           {
             path: "/vector1",
-            dataType: "float32",
+            dataType: VectorEmbeddingDataType.Float32,
             dimensions: 2000,
-            distanceFunction: "euclidean",
+            distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
           },
         ],
       };
@@ -205,21 +210,21 @@ describe("Vector search feature", async () => {
     before(async function () {
       database = await getTestDatabase("vector search database");
       const indexingPolicy: IndexingPolicy = {
-        vectorIndexes: [{ path: "/vector1", type: "flat" }],
+        vectorIndexes: [{ path: "/vector1", type: VectorIndexType.Flat }],
       };
       const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
         vectorEmbeddings: [
           {
             path: "/vector1",
-            dataType: "float32",
+            dataType: VectorEmbeddingDataType.Float32,
             dimensions: 2,
-            distanceFunction: "euclidean",
+            distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
           },
           {
             path: "/vector2",
-            dataType: "float32",
+            dataType: VectorEmbeddingDataType.Float32,
             dimensions: 2,
-            distanceFunction: "dotproduct",
+            distanceFunction: VectorEmbeddingDistanceFunction.DotProduct,
           },
         ],
       };
@@ -335,15 +340,15 @@ describe("Vector search feature", async () => {
     before(async function () {
       database = await getTestDatabase("vector search database");
       const indexingPolicy: IndexingPolicy = {
-        vectorIndexes: [{ path: "/vector1", type: "flat" }],
+        vectorIndexes: [{ path: "/vector1", type: VectorIndexType.Flat }],
       };
       const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
         vectorEmbeddings: [
           {
             path: "/vector1",
-            dataType: "float32",
+            dataType: VectorEmbeddingDataType.Float32,
             dimensions: 2,
-            distanceFunction: "dotproduct",
+            distanceFunction: VectorEmbeddingDistanceFunction.DotProduct,
           },
         ],
       };

@@ -25,9 +25,27 @@ export interface VectorEmbedding {
   /**
    * The data type of the vector.
    */
-  dataType: "float16" | "float32" | "uint8" | "int8";
+  dataType: VectorEmbeddingDataType;
   /**
    * The distance function to use for distance calculation in between vectors.
    */
-  distanceFunction: "euclidean" | "cosine" | "dotproduct";
+  distanceFunction: VectorEmbeddingDistanceFunction;
+}
+
+/**
+ * Represents the data type of the vector.
+ */
+export enum VectorEmbeddingDataType {
+  Float16 = "float16",
+  Float32 = "float32",
+  UInt8 = "uint8",
+  Int8 = "int8",
+}
+/**
+ * Represents the distance function to use for distance calculation in between vectors.
+ */
+export enum VectorEmbeddingDistanceFunction {
+  Euclidean = "euclidean",
+  Cosine = "cosine",
+  DotProduct = "dotproduct",
 }
