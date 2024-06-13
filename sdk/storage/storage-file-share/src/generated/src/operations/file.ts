@@ -695,6 +695,7 @@ const uploadRangeFromURLOperationSpec: coreClient.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot,
     Parameters.allowSourceTrailingDot,
     Parameters.range1,
@@ -737,7 +738,8 @@ const getRangeListOperationSpec: coreClient.OperationSpec = {
     Parameters.leaseId,
     Parameters.fileRequestIntent,
     Parameters.allowTrailingDot,
-    Parameters.range
+    Parameters.range,
+    Parameters.supportRename
   ],
   isXML: true,
   serializer: xmlSerializer

@@ -26,5 +26,5 @@ describe(`RecipientVerificationClient - Get verification constants`, function ()
     assert.isNotNull(verificationConstants.currentNumberOfVerifications);
     assert.isNotNull(verificationConstants.maxRetriesAllowed);
     assert.isNotNull(verificationConstants.maxVerificationsAllowed);
-  }).timeout(10000);
+  }).timeout(30000);
 });

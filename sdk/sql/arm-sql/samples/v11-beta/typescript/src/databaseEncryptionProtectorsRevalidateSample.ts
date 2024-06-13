@@ -31,12 +31,13 @@ async function revalidatesTheEncryptionProtectorForAParticularDatabase() {
   const encryptionProtectorName = "current";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databaseEncryptionProtectors.beginRevalidateAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    encryptionProtectorName
-  );
+  const result =
+    await client.databaseEncryptionProtectors.beginRevalidateAndWait(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      encryptionProtectorName,
+    );
   console.log(result);
 }
 

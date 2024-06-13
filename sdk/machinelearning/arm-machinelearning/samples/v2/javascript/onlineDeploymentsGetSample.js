@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureMachineLearningWorkspaces } = require("@azure/arm-machinelearning");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get Inference Deployment Deployment.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/KubernetesOnlineDeployment/get.json
  */
 async function getKubernetesOnlineDeployment() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
@@ -29,12 +31,10 @@ async function getKubernetesOnlineDeployment() {
     resourceGroupName,
     workspaceName,
     endpointName,
-    deploymentName
+    deploymentName,
   );
   console.log(result);
 }
-
-getKubernetesOnlineDeployment().catch(console.error);
 
 /**
  * This sample demonstrates how to Get Inference Deployment Deployment.
@@ -43,8 +43,9 @@ getKubernetesOnlineDeployment().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/ManagedOnlineDeployment/get.json
  */
 async function getManagedOnlineDeployment() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
@@ -54,9 +55,14 @@ async function getManagedOnlineDeployment() {
     resourceGroupName,
     workspaceName,
     endpointName,
-    deploymentName
+    deploymentName,
   );
   console.log(result);
 }
 
-getManagedOnlineDeployment().catch(console.error);
+async function main() {
+  getKubernetesOnlineDeployment();
+  getManagedOnlineDeployment();
+}
+
+main().catch(console.error);

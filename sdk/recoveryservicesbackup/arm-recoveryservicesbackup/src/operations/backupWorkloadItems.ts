@@ -18,7 +18,7 @@ import {
   BackupWorkloadItemsListNextOptionalParams,
   BackupWorkloadItemsListOptionalParams,
   BackupWorkloadItemsListResponse,
-  BackupWorkloadItemsListNextResponse
+  BackupWorkloadItemsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,14 +50,14 @@ export class BackupWorkloadItemsImpl implements BackupWorkloadItems {
     resourceGroupName: string,
     fabricName: string,
     containerName: string,
-    options?: BackupWorkloadItemsListOptionalParams
+    options?: BackupWorkloadItemsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadItemResource> {
     const iter = this.listPagingAll(
       vaultName,
       resourceGroupName,
       fabricName,
       containerName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class BackupWorkloadItemsImpl implements BackupWorkloadItems {
           fabricName,
           containerName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +88,7 @@ export class BackupWorkloadItemsImpl implements BackupWorkloadItems {
     fabricName: string,
     containerName: string,
     options?: BackupWorkloadItemsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkloadItemResource[]> {
     let result: BackupWorkloadItemsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class BackupWorkloadItemsImpl implements BackupWorkloadItems {
         resourceGroupName,
         fabricName,
         containerName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -112,7 +112,7 @@ export class BackupWorkloadItemsImpl implements BackupWorkloadItems {
         fabricName,
         containerName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,14 +126,14 @@ export class BackupWorkloadItemsImpl implements BackupWorkloadItems {
     resourceGroupName: string,
     fabricName: string,
     containerName: string,
-    options?: BackupWorkloadItemsListOptionalParams
+    options?: BackupWorkloadItemsListOptionalParams,
   ): AsyncIterableIterator<WorkloadItemResource> {
     for await (const page of this.listPagingPage(
       vaultName,
       resourceGroupName,
       fabricName,
       containerName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -155,11 +155,11 @@ export class BackupWorkloadItemsImpl implements BackupWorkloadItems {
     resourceGroupName: string,
     fabricName: string,
     containerName: string,
-    options?: BackupWorkloadItemsListOptionalParams
+    options?: BackupWorkloadItemsListOptionalParams,
   ): Promise<BackupWorkloadItemsListResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, fabricName, containerName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -179,7 +179,7 @@ export class BackupWorkloadItemsImpl implements BackupWorkloadItems {
     fabricName: string,
     containerName: string,
     nextLink: string,
-    options?: BackupWorkloadItemsListNextOptionalParams
+    options?: BackupWorkloadItemsListNextOptionalParams,
   ): Promise<BackupWorkloadItemsListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -188,9 +188,9 @@ export class BackupWorkloadItemsImpl implements BackupWorkloadItems {
         fabricName,
         containerName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -198,21 +198,20 @@ export class BackupWorkloadItemsImpl implements BackupWorkloadItems {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/items",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/items",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadItemResourceList
+      bodyMapper: Mappers.WorkloadItemResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
@@ -220,21 +219,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName,
-    Parameters.containerName
+    Parameters.containerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadItemResourceList
+      bodyMapper: Mappers.WorkloadItemResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -243,8 +242,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.fabricName,
     Parameters.nextLink,
-    Parameters.containerName
+    Parameters.containerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

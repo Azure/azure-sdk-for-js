@@ -283,198 +283,6 @@ export interface GroupingResultOutput {
   messyGroup: string[];
 }
 
-/** Face list is a list of faces, up to 1,000 faces. */
-export interface FaceListOutput {
-  /** User defined name, maximum length is 128. */
-  name: string;
-  /** Optional user defined data. Length should not exceed 16K. */
-  userData?: string;
-  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
-  recognitionModel?: RecognitionModelOutput;
-  /** Valid character is letter in lower case or digit or '-' or '_', maximum length is 64. */
-  readonly faceListId: string;
-  /** Face ids of registered faces in the face list. */
-  persistedFaces?: Array<FaceListFaceOutput>;
-}
-
-/** Face resource for face list. */
-export interface FaceListFaceOutput {
-  /** Face ID of the face. */
-  readonly persistedFaceId: string;
-  /** User-provided data attached to the face. The length limit is 1K. */
-  userData?: string;
-}
-
-/** Face list item for list face list. */
-export interface FaceListItemOutput {
-  /** User defined name, maximum length is 128. */
-  name: string;
-  /** Optional user defined data. Length should not exceed 16K. */
-  userData?: string;
-  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
-  recognitionModel?: RecognitionModelOutput;
-  /** Valid character is letter in lower case or digit or '-' or '_', maximum length is 64. */
-  faceListId: string;
-}
-
-/** Response body for adding face. */
-export interface AddFaceResultOutput {
-  /** Persisted Face ID of the added face, which is persisted and will not expire. Different from faceId which is created in "Detect" and will expire in 24 hours after the detection call. */
-  persistedFaceId: string;
-}
-
-/** Large face list is a list of faces, up to 1,000,000 faces. */
-export interface LargeFaceListOutput {
-  /** User defined name, maximum length is 128. */
-  name: string;
-  /** Optional user defined data. Length should not exceed 16K. */
-  userData?: string;
-  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
-  recognitionModel?: RecognitionModelOutput;
-  /** Valid character is letter in lower case or digit or '-' or '_', maximum length is 64. */
-  readonly largeFaceListId: string;
-}
-
-/** Training result of a container */
-export interface TrainingResultOutput {
-  /** Training status of the container. */
-  status: OperationStatusOutput;
-  /** A combined UTC date and time string that describes the created time of the person group, large person group or large face list. */
-  createdDateTime: string;
-  /** A combined UTC date and time string that describes the last modify time of the person group, large person group or large face list, could be null value when the group is not successfully trained. */
-  lastActionDateTime: string;
-  /** A combined UTC date and time string that describes the last successful training time of the person group, large person group or large face list. */
-  lastSuccessfulTrainingDateTime: string;
-  /** Show failure message when training failed (omitted when training succeed). */
-  message?: string;
-}
-
-/** Face resource for large face list. */
-export interface LargeFaceListFaceOutput {
-  /** Face ID of the face. */
-  readonly persistedFaceId: string;
-  /** User-provided data attached to the face. The length limit is 1K. */
-  userData?: string;
-}
-
-/** The container of the uploaded person data, including face recognition feature, and up to 10,000 persons. To handle larger scale face identification problem, please consider using Large Person Group. */
-export interface PersonGroupOutput {
-  /** User defined name, maximum length is 128. */
-  name: string;
-  /** Optional user defined data. Length should not exceed 16K. */
-  userData?: string;
-  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
-  recognitionModel?: RecognitionModelOutput;
-  /** ID of the container. */
-  readonly personGroupId: string;
-}
-
-/** Response of create person. */
-export interface CreatePersonResultOutput {
-  /** Person ID of the person. */
-  personId: string;
-}
-
-/** The person in a specified person group. To add face to this person, please call "Add Large Person Group Person Face". */
-export interface PersonGroupPersonOutput {
-  /** ID of the person. */
-  readonly personId: string;
-  /** User defined name, maximum length is 128. */
-  name: string;
-  /** Optional user defined data. Length should not exceed 16K. */
-  userData?: string;
-  /** Face ids of registered faces in the person. */
-  persistedFaceIds?: string[];
-}
-
-/** Face resource for person group person. */
-export interface PersonGroupPersonFaceOutput {
-  /** Face ID of the face. */
-  readonly persistedFaceId: string;
-  /** User-provided data attached to the face. The length limit is 1K. */
-  userData?: string;
-}
-
-/** The container of the uploaded person data, including face recognition feature, and up to 1,000,000 people. */
-export interface LargePersonGroupOutput {
-  /** User defined name, maximum length is 128. */
-  name: string;
-  /** Optional user defined data. Length should not exceed 16K. */
-  userData?: string;
-  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
-  recognitionModel?: RecognitionModelOutput;
-  /** ID of the container. */
-  readonly largePersonGroupId: string;
-}
-
-/** The person in a specified large person group. To add face to this person, please call "Add Large Person Group Person Face". */
-export interface LargePersonGroupPersonOutput {
-  /** ID of the person. */
-  readonly personId: string;
-  /** User defined name, maximum length is 128. */
-  name: string;
-  /** Optional user defined data. Length should not exceed 16K. */
-  userData?: string;
-  /** Face ids of registered faces in the person. */
-  persistedFaceIds?: string[];
-}
-
-/** Face resource for large person group person. */
-export interface LargePersonGroupPersonFaceOutput {
-  /** Face ID of the face. */
-  readonly persistedFaceId: string;
-  /** User-provided data attached to the face. The length limit is 1K. */
-  userData?: string;
-}
-
-/** Person resource for person directory */
-export interface PersonDirectoryPersonOutput {
-  /** Person ID of the person. */
-  readonly personId: string;
-  /** User defined name, maximum length is 128. */
-  name: string;
-  /** Optional user defined data. Length should not exceed 16K. */
-  userData?: string;
-}
-
-/** Response of list dynamic person group of person. */
-export interface ListGroupReferenceResultOutput {
-  /** Array of PersonDirectory DynamicPersonGroup ids. */
-  dynamicPersonGroupIds: string[];
-}
-
-/** Face resource for person directory person. */
-export interface PersonDirectoryFaceOutput {
-  /** Face ID of the face. */
-  readonly persistedFaceId: string;
-  /** User-provided data attached to the face. The length limit is 1K. */
-  userData?: string;
-}
-
-/** Response of list face of person. */
-export interface ListFaceResultOutput {
-  /** Id of person. */
-  personId: string;
-  /** Array of persisted face ids. */
-  persistedFaceIds: string[];
-}
-
-/** A container that references Person Directory "Create Person". */
-export interface DynamicPersonGroupOutput {
-  /** ID of the dynamic person group. */
-  readonly dynamicPersonGroupId: string;
-  /** User defined name, maximum length is 128. */
-  name: string;
-  /** Optional user defined data. Length should not exceed 16K. */
-  userData?: string;
-}
-
-/** Response of list dynamic person group person. */
-export interface ListPersonResultOutput {
-  /** Array of PersonDirectory Person ids. */
-  personIds: string[];
-}
-
 /** Response of liveness session creation. */
 export interface CreateLivenessSessionResultOutput {
   /** The unique session ID of the created session. It will expire 48 hours after it was created or may be deleted sooner using the corresponding Session DELETE operation. */
@@ -633,6 +441,198 @@ export interface LivenessWithVerifySessionOutput {
   status: FaceSessionStatusOutput;
   /** The latest session audit result only populated if status == 'ResultAvailable'. */
   result?: LivenessSessionAuditEntryOutput;
+}
+
+/** Face list is a list of faces, up to 1,000 faces. */
+export interface FaceListOutput {
+  /** User defined name, maximum length is 128. */
+  name: string;
+  /** Optional user defined data. Length should not exceed 16K. */
+  userData?: string;
+  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
+  recognitionModel?: RecognitionModelOutput;
+  /** Valid character is letter in lower case or digit or '-' or '_', maximum length is 64. */
+  readonly faceListId: string;
+  /** Face ids of registered faces in the face list. */
+  persistedFaces?: Array<FaceListFaceOutput>;
+}
+
+/** Face resource for face list. */
+export interface FaceListFaceOutput {
+  /** Face ID of the face. */
+  readonly persistedFaceId: string;
+  /** User-provided data attached to the face. The length limit is 1K. */
+  userData?: string;
+}
+
+/** Face list item for list face list. */
+export interface FaceListItemOutput {
+  /** User defined name, maximum length is 128. */
+  name: string;
+  /** Optional user defined data. Length should not exceed 16K. */
+  userData?: string;
+  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
+  recognitionModel?: RecognitionModelOutput;
+  /** Valid character is letter in lower case or digit or '-' or '_', maximum length is 64. */
+  faceListId: string;
+}
+
+/** Response body for adding face. */
+export interface AddFaceResultOutput {
+  /** Persisted Face ID of the added face, which is persisted and will not expire. Different from faceId which is created in "Detect" and will expire in 24 hours after the detection call. */
+  persistedFaceId: string;
+}
+
+/** Large face list is a list of faces, up to 1,000,000 faces. */
+export interface LargeFaceListOutput {
+  /** User defined name, maximum length is 128. */
+  name: string;
+  /** Optional user defined data. Length should not exceed 16K. */
+  userData?: string;
+  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
+  recognitionModel?: RecognitionModelOutput;
+  /** Valid character is letter in lower case or digit or '-' or '_', maximum length is 64. */
+  readonly largeFaceListId: string;
+}
+
+/** Training result of a container */
+export interface TrainingResultOutput {
+  /** Training status of the container. */
+  status: OperationStatusOutput;
+  /** A combined UTC date and time string that describes the created time of the person group, large person group or large face list. */
+  createdDateTime: string;
+  /** A combined UTC date and time string that describes the last modify time of the person group, large person group or large face list, could be null value when the group is not successfully trained. */
+  lastActionDateTime: string;
+  /** A combined UTC date and time string that describes the last successful training time of the person group, large person group or large face list. */
+  lastSuccessfulTrainingDateTime: string;
+  /** Show failure message when training failed (omitted when training succeed). */
+  message?: string;
+}
+
+/** Face resource for large face list. */
+export interface LargeFaceListFaceOutput {
+  /** Face ID of the face. */
+  readonly persistedFaceId: string;
+  /** User-provided data attached to the face. The length limit is 1K. */
+  userData?: string;
+}
+
+/** Response of create person. */
+export interface CreatePersonResultOutput {
+  /** Person ID of the person. */
+  personId: string;
+}
+
+/** Person resource for person directory */
+export interface PersonDirectoryPersonOutput {
+  /** Person ID of the person. */
+  readonly personId: string;
+  /** User defined name, maximum length is 128. */
+  name: string;
+  /** Optional user defined data. Length should not exceed 16K. */
+  userData?: string;
+}
+
+/** Response of list dynamic person group of person. */
+export interface ListGroupReferenceResultOutput {
+  /** Array of PersonDirectory DynamicPersonGroup ids. */
+  dynamicPersonGroupIds: string[];
+}
+
+/** Face resource for person directory person. */
+export interface PersonDirectoryFaceOutput {
+  /** Face ID of the face. */
+  readonly persistedFaceId: string;
+  /** User-provided data attached to the face. The length limit is 1K. */
+  userData?: string;
+}
+
+/** Response of list face of person. */
+export interface ListFaceResultOutput {
+  /** Id of person. */
+  personId: string;
+  /** Array of persisted face ids. */
+  persistedFaceIds: string[];
+}
+
+/** A container that references Person Directory "Create Person". */
+export interface DynamicPersonGroupOutput {
+  /** ID of the dynamic person group. */
+  readonly dynamicPersonGroupId: string;
+  /** User defined name, maximum length is 128. */
+  name: string;
+  /** Optional user defined data. Length should not exceed 16K. */
+  userData?: string;
+}
+
+/** Response of list dynamic person group person. */
+export interface ListPersonResultOutput {
+  /** Array of PersonDirectory Person ids. */
+  personIds: string[];
+}
+
+/** The container of the uploaded person data, including face recognition feature, and up to 10,000 persons. To handle larger scale face identification problem, please consider using Large Person Group. */
+export interface PersonGroupOutput {
+  /** User defined name, maximum length is 128. */
+  name: string;
+  /** Optional user defined data. Length should not exceed 16K. */
+  userData?: string;
+  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
+  recognitionModel?: RecognitionModelOutput;
+  /** ID of the container. */
+  readonly personGroupId: string;
+}
+
+/** The person in a specified person group. To add face to this person, please call "Add Large Person Group Person Face". */
+export interface PersonGroupPersonOutput {
+  /** ID of the person. */
+  readonly personId: string;
+  /** User defined name, maximum length is 128. */
+  name: string;
+  /** Optional user defined data. Length should not exceed 16K. */
+  userData?: string;
+  /** Face ids of registered faces in the person. */
+  persistedFaceIds?: string[];
+}
+
+/** Face resource for person group person. */
+export interface PersonGroupPersonFaceOutput {
+  /** Face ID of the face. */
+  readonly persistedFaceId: string;
+  /** User-provided data attached to the face. The length limit is 1K. */
+  userData?: string;
+}
+
+/** The container of the uploaded person data, including face recognition feature, and up to 1,000,000 people. */
+export interface LargePersonGroupOutput {
+  /** User defined name, maximum length is 128. */
+  name: string;
+  /** Optional user defined data. Length should not exceed 16K. */
+  userData?: string;
+  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
+  recognitionModel?: RecognitionModelOutput;
+  /** ID of the container. */
+  readonly largePersonGroupId: string;
+}
+
+/** The person in a specified large person group. To add face to this person, please call "Add Large Person Group Person Face". */
+export interface LargePersonGroupPersonOutput {
+  /** ID of the person. */
+  readonly personId: string;
+  /** User defined name, maximum length is 128. */
+  name: string;
+  /** Optional user defined data. Length should not exceed 16K. */
+  userData?: string;
+  /** Face ids of registered faces in the person. */
+  persistedFaceIds?: string[];
+}
+
+/** Face resource for large person group person. */
+export interface LargePersonGroupPersonFaceOutput {
+  /** Face ID of the face. */
+  readonly persistedFaceId: string;
+  /** User-provided data attached to the face. The length limit is 1K. */
+  userData?: string;
 }
 
 /** Alias for OperationStatusOutput */

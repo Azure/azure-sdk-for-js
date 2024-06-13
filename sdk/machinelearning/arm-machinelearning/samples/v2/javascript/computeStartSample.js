@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureMachineLearningWorkspaces } = require("@azure/arm-machinelearning");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Posts a start action to a compute instance
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/start.json
  */
 async function startComputeInstanceCompute() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const credential = new DefaultAzureCredential();
@@ -27,9 +29,13 @@ async function startComputeInstanceCompute() {
   const result = await client.computeOperations.beginStartAndWait(
     resourceGroupName,
     workspaceName,
-    computeName
+    computeName,
   );
   console.log(result);
 }
 
-startComputeInstanceCompute().catch(console.error);
+async function main() {
+  startComputeInstanceCompute();
+}
+
+main().catch(console.error);

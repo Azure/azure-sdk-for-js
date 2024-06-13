@@ -1,6 +1,6 @@
 # Release History
 
-## 5.4.1 (Unreleased)
+## 5.5.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.5.0 (2026-06-11)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.Communication.ChatThreadCreated`
+  - `Microsoft.Communication.ChatThreadDeleted`
+  - `Microsoft.Communication.ChatThreadPropertiesUpdated`
 
 ## 5.4.0 (2024-04-11)
 

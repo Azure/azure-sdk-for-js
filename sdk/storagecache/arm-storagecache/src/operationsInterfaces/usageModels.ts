@@ -17,6 +17,6 @@ export interface UsageModels {
    * @param options The options parameters.
    */
   list(
-    options?: UsageModelsListOptionalParams
+    options?: UsageModelsListOptionalParams,
   ): PagedAsyncIterableIterator<UsageModel>;
 }

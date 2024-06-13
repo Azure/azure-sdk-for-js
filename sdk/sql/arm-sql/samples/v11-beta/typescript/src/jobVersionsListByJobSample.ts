@@ -35,7 +35,7 @@ async function getAllVersionsOfAJob() {
     resourceGroupName,
     serverName,
     jobAgentName,
-    jobName
+    jobName,
   )) {
     resArray.push(item);
   }

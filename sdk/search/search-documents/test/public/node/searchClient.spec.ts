@@ -48,7 +48,7 @@ describe("SearchClient", function (this: Suite) {
         assert.equal(correctServiceVersion, client.apiVersion);
       });
 
-      it("prioritizes `serviceVersion` over `apiVersion", () => {
+      it("prioritizes `serviceVersion` over `apiVersion`", () => {
         const client = new SearchClient<Hotel>("", "", credential, {
           apiVersion: incorrectServiceVersion,
           serviceVersion: correctServiceVersion,

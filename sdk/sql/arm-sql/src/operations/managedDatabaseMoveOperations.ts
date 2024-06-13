@@ -20,13 +20,14 @@ import {
   ManagedDatabaseMoveOperationsListByLocationResponse,
   ManagedDatabaseMoveOperationsGetOptionalParams,
   ManagedDatabaseMoveOperationsGetResponse,
-  ManagedDatabaseMoveOperationsListByLocationNextResponse
+  ManagedDatabaseMoveOperationsListByLocationNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedDatabaseMoveOperations operations. */
 export class ManagedDatabaseMoveOperationsImpl
-  implements ManagedDatabaseMoveOperations {
+  implements ManagedDatabaseMoveOperations
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -47,12 +48,12 @@ export class ManagedDatabaseMoveOperationsImpl
   public listByLocation(
     resourceGroupName: string,
     locationName: string,
-    options?: ManagedDatabaseMoveOperationsListByLocationOptionalParams
+    options?: ManagedDatabaseMoveOperationsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<ManagedDatabaseMoveOperationResult> {
     const iter = this.listByLocationPagingAll(
       resourceGroupName,
       locationName,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +70,9 @@ export class ManagedDatabaseMoveOperationsImpl
           resourceGroupName,
           locationName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,7 +80,7 @@ export class ManagedDatabaseMoveOperationsImpl
     resourceGroupName: string,
     locationName: string,
     options?: ManagedDatabaseMoveOperationsListByLocationOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedDatabaseMoveOperationResult[]> {
     let result: ManagedDatabaseMoveOperationsListByLocationResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +88,7 @@ export class ManagedDatabaseMoveOperationsImpl
       result = await this._listByLocation(
         resourceGroupName,
         locationName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -99,7 +100,7 @@ export class ManagedDatabaseMoveOperationsImpl
         resourceGroupName,
         locationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +112,12 @@ export class ManagedDatabaseMoveOperationsImpl
   private async *listByLocationPagingAll(
     resourceGroupName: string,
     locationName: string,
-    options?: ManagedDatabaseMoveOperationsListByLocationOptionalParams
+    options?: ManagedDatabaseMoveOperationsListByLocationOptionalParams,
   ): AsyncIterableIterator<ManagedDatabaseMoveOperationResult> {
     for await (const page of this.listByLocationPagingPage(
       resourceGroupName,
       locationName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,11 +133,11 @@ export class ManagedDatabaseMoveOperationsImpl
   private _listByLocation(
     resourceGroupName: string,
     locationName: string,
-    options?: ManagedDatabaseMoveOperationsListByLocationOptionalParams
+    options?: ManagedDatabaseMoveOperationsListByLocationOptionalParams,
   ): Promise<ManagedDatabaseMoveOperationsListByLocationResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, locationName, options },
-      listByLocationOperationSpec
+      listByLocationOperationSpec,
     );
   }
 
@@ -152,11 +153,11 @@ export class ManagedDatabaseMoveOperationsImpl
     resourceGroupName: string,
     locationName: string,
     operationId: string,
-    options?: ManagedDatabaseMoveOperationsGetOptionalParams
+    options?: ManagedDatabaseMoveOperationsGetOptionalParams,
   ): Promise<ManagedDatabaseMoveOperationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, locationName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -172,11 +173,11 @@ export class ManagedDatabaseMoveOperationsImpl
     resourceGroupName: string,
     locationName: string,
     nextLink: string,
-    options?: ManagedDatabaseMoveOperationsListByLocationNextOptionalParams
+    options?: ManagedDatabaseMoveOperationsListByLocationNextOptionalParams,
   ): Promise<ManagedDatabaseMoveOperationsListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, locationName, nextLink, options },
-      listByLocationNextOperationSpec
+      listByLocationNextOperationSpec,
     );
   }
 }
@@ -184,66 +185,64 @@ export class ManagedDatabaseMoveOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/managedDatabaseMoveOperationResults",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/managedDatabaseMoveOperationResults",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedDatabaseMoveOperationListResult
+      bodyMapper: Mappers.ManagedDatabaseMoveOperationListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
     Parameters.filter1,
     Parameters.onlyLatestPerDatabase,
-    Parameters.apiVersion9
+    Parameters.apiVersion10,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.locationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/managedDatabaseMoveOperationResults/{operationId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedDatabaseMoveOperationResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.locationName,
-    Parameters.operationId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/managedDatabaseMoveOperationResults/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedDatabaseMoveOperationResult,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion10],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.locationName,
+    Parameters.operationId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedDatabaseMoveOperationListResult
+      bodyMapper: Mappers.ManagedDatabaseMoveOperationListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

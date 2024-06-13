@@ -1,14 +1,45 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0 (2024-06-10)
+
+This release targets Azure Dev Center 2023-04-01 General Available API, which is the same version as the previous 1.0.0-beta.3 release.
 
 ### Features Added
 
+- Added output types:
+    - DevBoxActionDelayResultStatusOutput
+    - DevBoxActionTypeOutput
+    - DevBoxProvisioningStateOutput 
+    - EnvironmentProvisioningStateOutput
+    - EnvironmentTypeEnableStatusOutput
+    - HibernateSupportOutput
+    - LocalAdminStatusOutput
+    - OperationStateOutput
+    - OsTypeOutput
+    - ParameterTypeOutput
+    - PoolHealthStatusOutput
+    - PowerStateOutput
+    - ScheduledFrequencyOutput
+    - ScheduledTypeOutput 
+    - SkuNameOutput
+    - StopOnDisconnectEnableStatusOutput
+
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- Rename interfaces to match operation names in Dev Center API documentation
+    - ListSchedules was renamed to ListSchedulesByPool
+    - GetSchedule was renamed to GetScheduleByPool
+    - ListDevBoxes was renamed to ListDevBoxesByUser
+    - GetDevBox was renamed to GetDevBoxByUser
+    - ListDevBoxActions was renamed to ListActions
+    - GetDevBoxAction was renamed to GetAction
+    - DelayAllActions was renamed to DelayActions
+    - ListAllEnvironments was renamed to ListEnvironments
+    - ListEnvironments was renamed to ListEnvironmentsByUser
+    - GetEnvironment was renamed to GetEnvironmentByUser
+    - CreateOrUpdateEnvironment was renamed to CreateOrReplaceEnvironment
+    - ListCatalogs was renamed to ListCatalogsByProject
+    - ListEnvironmentDefinitions was renamed to listEnvironmentDefinitionsByProject
 
 ## 1.0.0-beta.3 (2023-11-20)
 This release updates the Azure DevCenter library to use the 2023-04-01 GA API.

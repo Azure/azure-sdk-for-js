@@ -189,7 +189,7 @@
         "sipx",
         "ssml",
         "unhold",
-		    "Unhold"
+        "Unhold"
       ]
     },
     {
@@ -259,6 +259,10 @@
       "words": ["Dicom", "Gcch", "gcch"]
     },
     {
+      "filename": "sdk/eventgrid/eventgrid-system-events/review/**/*.md",
+      "words": ["Dicom", "Gcch", "gcch"]
+    },
+    {
       "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
       "words": ["iddocument"]
     },
@@ -282,6 +286,10 @@
     {
       "filename": "sdk/identity/**/*.md",
       "words": ["MSAL", "PKCE"]
+    },
+    {
+      "filename": "sdk/identity/**/*.ts",
+      "words": ["azcmagent", "HIMDS"]
     },
     {
       "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",
@@ -346,6 +354,7 @@
         "rerank",
         "reranker",
         "sorani",
+        "vectorize",
         "vectorizer",
         "vectorizers"
       ]

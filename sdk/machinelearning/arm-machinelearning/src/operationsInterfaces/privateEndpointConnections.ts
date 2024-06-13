@@ -14,7 +14,7 @@ import {
   PrivateEndpointConnectionsGetResponse,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
+  PrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface PrivateEndpointConnections {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets the specified private endpoint connection associated with the workspace.
@@ -43,7 +43,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Update the state of specified private endpoint connection associated with the workspace.
@@ -59,7 +59,7 @@ export interface PrivateEndpointConnections {
     workspaceName: string,
     privateEndpointConnectionName: string,
     properties: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes the specified private endpoint connection associated with the workspace.
@@ -73,6 +73,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

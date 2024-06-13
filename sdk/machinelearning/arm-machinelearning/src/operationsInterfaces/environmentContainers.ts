@@ -14,7 +14,7 @@ import {
   EnvironmentContainersGetOptionalParams,
   EnvironmentContainersGetResponse,
   EnvironmentContainersCreateOrUpdateOptionalParams,
-  EnvironmentContainersCreateOrUpdateResponse
+  EnvironmentContainersCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface EnvironmentContainers {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EnvironmentContainersListOptionalParams
+    options?: EnvironmentContainersListOptionalParams,
   ): PagedAsyncIterableIterator<EnvironmentContainer>;
   /**
    * Delete container.
@@ -42,7 +42,7 @@ export interface EnvironmentContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: EnvironmentContainersDeleteOptionalParams
+    options?: EnvironmentContainersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get container.
@@ -55,7 +55,7 @@ export interface EnvironmentContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: EnvironmentContainersGetOptionalParams
+    options?: EnvironmentContainersGetOptionalParams,
   ): Promise<EnvironmentContainersGetResponse>;
   /**
    * Create or update container.
@@ -70,6 +70,6 @@ export interface EnvironmentContainers {
     workspaceName: string,
     name: string,
     body: EnvironmentContainer,
-    options?: EnvironmentContainersCreateOrUpdateOptionalParams
+    options?: EnvironmentContainersCreateOrUpdateOptionalParams,
   ): Promise<EnvironmentContainersCreateOrUpdateResponse>;
 }
