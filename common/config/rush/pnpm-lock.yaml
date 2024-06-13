@@ -1664,15 +1664,6 @@ packages:
       keytar: 7.9.0
     dev: false
 
-  /@azure/msal-node-extensions@1.0.8:
-    resolution: {integrity: sha512-h7YxOroWRY/Y5B5NEvLhiwhG2tmOiqiDC91EC4CmtNpkMgH/pbr6Ln0iOJXVhDhz9dzBRCKLUL1Afj5MzHHg1g==}
-    engines: {node: 16 || 18 || 20}
-    dependencies:
-      '@azure/msal-common': 14.5.0
-      '@azure/msal-node-runtime': 0.13.6-alpha.0
-      keytar: 7.9.0
-    dev: false
-
   /@azure/msal-node-runtime@0.13.6-alpha.0:
     resolution: {integrity: sha512-Tu5e4wBFiaiBLrOu7bsJF7FYknFH9XIOvUyCqCnmLJFMMOUnYULZ7fOFYuintFFcNPMOT2u8BVfSCPxETri5ng==}
     requiresBuild: true
