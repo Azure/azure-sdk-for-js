@@ -135,7 +135,7 @@ export class LegacyMsiProvider {
       appServiceMsi2019,
       appServiceMsi2017,
       cloudShellMsi,
-      tokenExchangeMsi(),
+      tokenExchangeMsi,
       imdsMsi,
     ];
 
