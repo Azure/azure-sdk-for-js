@@ -377,7 +377,7 @@ and thus draw attention to them in relevant experiences including the failures b
 
 ```typescript
 import { useAzureMonitor } from "@azure/monitor-opentelemetry";
-import { trace Exception } from "@opentelemetry/api";
+import { trace, Exception } from "@opentelemetry/api";
 
 useAzureMonitor();
 const tracer =  trace.getTracer("testMeter");
