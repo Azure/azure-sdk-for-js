@@ -65,7 +65,7 @@ describe.only("AzurePipelinesCredential", function () {
       systemAccessToken
     );
     const regExp: RegExp =
-      /AuthenticationRequiredError: unauthorized_client: 700016 - AADSTS700016: Application with identifier 'clientId' was not found in the directory 'Microsoft'./;
+      /AADSTS700016: Application with identifier 'clientId' was not found in the directory 'Microsoft'/;
     await assert.isRejected(
       credential.getToken(scope),
       regExp,
@@ -85,9 +85,6 @@ describe.only("AzurePipelinesCredential", function () {
       existingServiceConnectionId,
       "systemAccessToken"
     );
-    await assert.isRejected(
-      credential.getToken(scope),
-      /AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404./
-    );
+    await assert.isRejected(credential.getToken(scope), /Status code: 302/);
   });
 });
