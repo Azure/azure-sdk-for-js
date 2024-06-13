@@ -31,18 +31,13 @@
 
 # PRLabel: %Azure.Core
 # ServiceLabel: %Azure.Core
-# AzureSdkOwners: @xirzec @jeremymeng @deyaaeldeen @timovv @mpodwysocki
-/sdk/core/ @xirzec @jeremymeng @deyaaeldeen @timovv @mpodwysocki
+# AzureSdkOwners: @Azure/azure-sdk-for-js-core
+/sdk/core/ @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Azure.Core
 # ServiceLabel: %Azure.Core
 # AzureSdkOwners:  @jeremymeng @deyaaeldeen @HarshaNalluru
 /sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru
-
-# PRLabel: %Azure.Core
-# ServiceLabel: %Azure.Core
-# AzureSdkOwners: @jeremymeng @deyaaeldeen
-/sdk/core/core-auth/ @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
 # ServiceLabel: %Azure.Core
