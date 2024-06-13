@@ -5,7 +5,6 @@ import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { tracingClient } from "../../util/tracing";
-// import { MSIConfiguration } from "./models";
 import { IdentityClient } from "../../client/identityClient";
 import { ManagedIdentityApplication } from "@azure/msal-node";
 import { defaultLoggerCallback, getMSALLogLevel } from "../../msal/utils";
@@ -76,6 +75,7 @@ export class MsalMsiProvider {
     }
 
     // ManagedIdentity uses http for local requests
+    // TODO: test, and remove if not necessary
     _options.allowInsecureConnection = true;
 
     if (_options?.retryOptions?.maxRetries !== undefined) {
@@ -83,6 +83,7 @@ export class MsalMsiProvider {
     }
 
     this.identityClient = new IdentityClient(_options);
+    this.tokenExchangeMsi = tokenExchangeMsi();
     this.managedIdentityApp = new ManagedIdentityApplication({
       managedIdentityIdParams: {
         userAssignedClientId: this.clientId,
@@ -99,7 +100,6 @@ export class MsalMsiProvider {
       },
     });
 
-    this.tokenExchangeMsi = tokenExchangeMsi();
     // this.isAvailableIdentityClient = new IdentityClient({
     //   ..._options,
     //   retryOptions: {
@@ -127,27 +127,36 @@ export class MsalMsiProvider {
         if (!resource) {
           throw new Error(`Invalid scope ${scopes}`);
         }
+        const isTokenExchangeMsi = await this.tokenExchangeMsi.isAvailable({
+          scopes,
+          clientId: this.clientId,
+          getTokenOptions: options,
+          identityClient: this.identityClient,
+          resourceId: this.resourceId,
+        });
 
-        // TODO: refactor this once I have tests in place
-        if (await this.tokenExchangeMsi.isAvailable({ scopes, clientId: this.clientId })) {
-          const token = await this.tokenExchangeMsi.getToken(
-            {
-              identityClient: this.identityClient,
-              scopes,
-              clientId: this.clientId,
-              resourceId: this.resourceId,
-              retryConfig: this.msiRetryConfig,
-            },
-            options,
-          );
-          if (token === null) {
+        if (isTokenExchangeMsi) {
+          const result = await this.tokenExchangeMsi.getToken({
+            scopes,
+            clientId: this.clientId,
+            identityClient: this.identityClient,
+            retryConfig: this.msiRetryConfig,
+            resourceId: this.resourceId,
+          });
+
+          if (result === null) {
+            // It also means that the endpoint answered with either 199 or 201 (see the sendTokenRequest method),
+            // yet we had no access token. For this reason, we'll throw once with a specific message:
             const error = new CredentialUnavailableError(
               "The managed identity endpoint was reached, yet no tokens were received.",
             );
             logger.getToken.info(formatError(scopes, error));
             throw error;
           }
-          return token;
+
+          return result;
+        } else if (this.managedIdentityApp.getManagedIdentitySource() === "Imds") {
+          throw new Error("probing not working yet");
         }
 
         // TODO: handle probing for MSI endpoint
