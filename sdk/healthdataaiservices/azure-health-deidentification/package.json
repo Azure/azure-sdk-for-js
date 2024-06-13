@@ -76,7 +76,7 @@
     "typescript": "~5.4.5",
     "tshy": "^1.11.1",
     "@azure/core-util": "^1.9.0",
-    "@azure-tools/test-credential": "^1.1.0",
+    "@azure-tools/test-credential": "^2.1.0",
     "@azure/identity": "^4.0.1",
     "@azure-tools/test-recorder": "^4.1.0",
     "@vitest/browser": "^1.6.0",
