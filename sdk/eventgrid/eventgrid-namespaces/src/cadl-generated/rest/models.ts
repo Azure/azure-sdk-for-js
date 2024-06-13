@@ -25,29 +25,5 @@ export interface CloudEvent {
   subject?: string;
 }
 
-/** Array of lock tokens for the corresponding received Cloud Events to be acknowledged. */
-export interface AcknowledgeOptions {
-  /** Array of lock tokens. */
-  lockTokens: string[];
-}
-
-/** Array of lock tokens for the corresponding received Cloud Events to be released. */
-export interface ReleaseOptions {
-  /** Array of lock tokens. */
-  lockTokens: string[];
-}
-
-/** Array of lock tokens for the corresponding received Cloud Events to be rejected. */
-export interface RejectOptions {
-  /** Array of lock tokens. */
-  lockTokens: string[];
-}
-
-/** Array of lock tokens for the corresponding received Cloud Events to be renewed. */
-export interface RenewLockOptions {
-  /** Array of lock tokens. */
-  lockTokens: string[];
-}
-
 /** Alias for ReleaseDelay */
-export type ReleaseDelay = number | 0 | 10 | 60 | 600 | 3600;
+export type ReleaseDelay = string | "0" | "10" | "60" | "600" | "3600";

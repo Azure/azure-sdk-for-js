@@ -99,7 +99,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2023-01-03",
+    defaultValue: "2024-08-04",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -257,6 +257,17 @@ export const rootSquash: OperationParameter = {
     type: {
       name: "Enum",
       allowedValues: ["NoRootSquash", "RootSquash", "AllSquash"]
+    }
+  }
+};
+
+export const enableSnapshotVirtualDirectoryAccess: OperationParameter = {
+  parameterPath: ["options", "enableSnapshotVirtualDirectoryAccess"],
+  mapper: {
+    serializedName: "x-ms-enable-snapshot-virtual-directory-access",
+    xmlName: "x-ms-enable-snapshot-virtual-directory-access",
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -1219,6 +1230,17 @@ export const prevsharesnapshot: OperationQueryParameter = {
     xmlName: "prevsharesnapshot",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const supportRename: OperationParameter = {
+  parameterPath: ["options", "supportRename"],
+  mapper: {
+    serializedName: "x-ms-file-support-rename",
+    xmlName: "x-ms-file-support-rename",
+    type: {
+      name: "Boolean"
     }
   }
 };

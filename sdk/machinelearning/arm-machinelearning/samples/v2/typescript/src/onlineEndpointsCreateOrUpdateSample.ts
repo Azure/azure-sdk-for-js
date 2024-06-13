@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   OnlineEndpoint,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update Online Endpoint (asynchronous).
@@ -21,14 +24,17 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineEndpoint/createOrUpdate.json
  */
 async function createOrUpdateOnlineEndpoint() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const body: OnlineEndpoint = {
     identity: {
       type: "SystemAssigned",
-      userAssignedIdentities: { string: {} }
+      userAssignedIdentities: { string: {} },
     },
     kind: "string",
     location: "string",
@@ -37,16 +43,16 @@ async function createOrUpdateOnlineEndpoint() {
       authMode: "AMLToken",
       compute: "string",
       properties: { string: "string" },
-      traffic: { string: 1 }
+      traffic: { string: 1 },
     },
     sku: {
       name: "string",
       capacity: 1,
       family: "string",
       size: "string",
-      tier: "Free"
+      tier: "Free",
     },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -54,9 +60,13 @@ async function createOrUpdateOnlineEndpoint() {
     resourceGroupName,
     workspaceName,
     endpointName,
-    body
+    body,
   );
   console.log(result);
 }
 
-createOrUpdateOnlineEndpoint().catch(console.error);
+async function main() {
+  createOrUpdateOnlineEndpoint();
+}
+
+main().catch(console.error);

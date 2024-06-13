@@ -39,6 +39,10 @@ export const recorderOptions: RecorderStartOptions = {
     ],
     bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
   },
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export async function createTestUser(recorder: Recorder): Promise<CommunicationUserToken> {
@@ -74,7 +78,7 @@ export function createChatClient(userToken: string, recorder: Recorder): ChatCli
 
   return new ChatClient(
     url,
-    new AzureCommunicationTokenCredential(userToken),
+    new AzureCommunicationTokenCredential(generateToken()),
     recorder.configureClientOptions({}),
   );
 }

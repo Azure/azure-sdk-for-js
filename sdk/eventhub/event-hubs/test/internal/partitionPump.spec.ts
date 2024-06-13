@@ -35,7 +35,7 @@ testWithServiceTypes(() => {
           const requiredEventProperties = {
             body: "",
             enqueuedTimeUtc,
-            offset: 0,
+            offset: "0",
             partitionKey: null,
             sequenceNumber: 0,
             properties: {

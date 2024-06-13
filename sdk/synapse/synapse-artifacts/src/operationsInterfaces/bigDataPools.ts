@@ -10,7 +10,7 @@ import {
   BigDataPoolsListOptionalParams,
   BigDataPoolsListResponse,
   BigDataPoolsGetOptionalParams,
-  BigDataPoolsGetResponse
+  BigDataPoolsGetResponse,
 } from "../models";
 
 /** Interface representing a BigDataPools. */
@@ -20,7 +20,7 @@ export interface BigDataPools {
    * @param options The options parameters.
    */
   list(
-    options?: BigDataPoolsListOptionalParams
+    options?: BigDataPoolsListOptionalParams,
   ): Promise<BigDataPoolsListResponse>;
   /**
    * Get Big Data Pool
@@ -29,6 +29,6 @@ export interface BigDataPools {
    */
   get(
     bigDataPoolName: string,
-    options?: BigDataPoolsGetOptionalParams
+    options?: BigDataPoolsGetOptionalParams,
   ): Promise<BigDataPoolsGetResponse>;
 }
