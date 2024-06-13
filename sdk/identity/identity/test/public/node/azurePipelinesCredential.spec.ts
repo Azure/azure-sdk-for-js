@@ -5,7 +5,7 @@ import { AzurePipelinesCredential } from "../../../src";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
 
-describe.only("AzurePipelinesCredential", function () {
+describe("AzurePipelinesCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!;
 
@@ -22,7 +22,7 @@ describe.only("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      systemAccessToken
+      systemAccessToken,
     );
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -41,14 +41,14 @@ describe.only("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       "existingServiceConnectionId",
-      systemAccessToken
+      systemAccessToken,
     );
     const regExp: RegExp =
       /AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404./;
     await assert.isRejected(
       credential.getToken(scope),
       regExp,
-      "error thrown doesn't match or promise not rejected"
+      "error thrown doesn't match or promise not rejected",
     );
   });
 
@@ -62,14 +62,14 @@ describe.only("AzurePipelinesCredential", function () {
       tenantId,
       "clientId",
       existingServiceConnectionId,
-      systemAccessToken
+      systemAccessToken,
     );
     const regExp: RegExp =
       /AADSTS700016: Application with identifier 'clientId' was not found in the directory 'Microsoft'/;
     await assert.isRejected(
       credential.getToken(scope),
       regExp,
-      "error thrown doesn't match or promise not rejected"
+      "error thrown doesn't match or promise not rejected",
     );
   });
 
@@ -83,7 +83,7 @@ describe.only("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      "systemAccessToken"
+      "systemAccessToken",
     );
     await assert.isRejected(credential.getToken(scope), /Status code: 302/);
   });
