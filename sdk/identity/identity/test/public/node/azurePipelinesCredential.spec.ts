@@ -45,12 +45,10 @@ describe.only("AzurePipelinesCredential", function () {
     );
     const regExp: RegExp =
       /AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404./;
-    assert.throws(
-      async () => {
-        await credential.getToken(scope);
-      },
+    await assert.isRejected(
+      credential.getToken(scope),
       regExp,
-      "error thrown matches."
+      "error thrown doesn't match or promise not rejected"
     );
   });
 
@@ -66,12 +64,13 @@ describe.only("AzurePipelinesCredential", function () {
       existingServiceConnectionId,
       systemAccessToken
     );
-    //await assert.isRejected(credential.getToken(scope), /some message/)
-    try {
-      await credential.getToken(scope);
-    } catch (e) {
-      console.log(e);
-    }
+    const regExp: RegExp =
+      /AuthenticationRequiredError: unauthorized_client: 700016 - AADSTS700016: Application with identifier 'clientId' was not found in the directory 'Microsoft'./;
+    await assert.isRejected(
+      credential.getToken(scope),
+      regExp,
+      "error thrown doesn't match or promise not rejected"
+    );
   });
 
   it("fails with with invalid system access token", async function () {
@@ -86,14 +85,9 @@ describe.only("AzurePipelinesCredential", function () {
       existingServiceConnectionId,
       "systemAccessToken"
     );
-    try {
-      const token = await credential.getToken(scope);
-      assert.ok(token?.token);
-      assert.isDefined(token?.expiresOnTimestamp);
-      if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
-      //await assert.isRejected(credential.getToken(scope), /some message/)
-    } catch (e) {
-      console.log(e);
-    }
+    await assert.isRejected(
+      credential.getToken(scope),
+      /AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404./
+    );
   });
 });
