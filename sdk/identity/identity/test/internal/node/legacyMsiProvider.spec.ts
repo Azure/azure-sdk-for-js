@@ -258,7 +258,7 @@ describe("ManagedIdentityCredential", function () {
     assert.ok(error!.message!.indexOf("No managed identity endpoint found.") > -1);
   });
 
-  it.only("returns expected error when the Docker Desktop IMDS responds for unreachable network", async function () {
+  it("returns expected error when the Docker Desktop IMDS responds for unreachable network", async function () {
     const netError: RestError = new RestError(
       "connecting to 169.254.169.254:80: connecting to 169.254.169.254:80: dial tcp 169.254.169.254:80: connectex: A socket operation was attempted to an unreachable network.",
       {
@@ -275,7 +275,6 @@ describe("ManagedIdentityCredential", function () {
       ],
     });
 
-    console.log(error);
     assert.ok(error!.message!.indexOf("Network unreachable.") > -1);
     assert(error!.name, "CredentialUnavailableError");
   });
