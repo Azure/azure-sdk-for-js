@@ -10,8 +10,8 @@ import {
 } from "../../errors";
 import { MSI, MSIConfiguration, MSIToken } from "./models";
 import { MsalResult, MsalToken, ValidMsalToken } from "../../msal/types";
-import { cloudShellMsi, logger } from "./cloudShellMsi";
-import { formatError, formatSuccess } from "../../util/logging";
+import { cloudShellMsi, } from "./cloudShellMsi";
+import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 
 import { DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient } from "../../client/identityClient";
@@ -26,22 +26,18 @@ import { imdsMsi } from "./imdsMsi";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { tracingClient } from "../../util/tracing";
 
+const logger = credentialLogger("ManagedIdentityCredential");
+
 /**
  * Options to send on the {@link ManagedIdentityCredential} constructor.
- * This variation supports `clientId` and not `resourceId`, since only one of both is supported.
+ * Since this is an internal implementation, uses a looser interface than the public one.
  */
-interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
+interface ManagedIdentityCredentialOptions extends TokenCredentialOptions {
   /**
    * The client ID of the user - assigned identity, or app registration(when working with AKS pod - identity).
    */
   clientId?: string;
-}
 
-/**
- * Options to send on the {@link ManagedIdentityCredential} constructor.
- * This variation supports `resourceId` and not `clientId`, since only one of both is supported.
- */
-interface ManagedIdentityCredentialResourceIdOptions extends TokenCredentialOptions {
   /**
    * Allows specifying a custom resource Id.
    * In scenarios such as when user assigned identities are created using an ARM template,
@@ -49,7 +45,7 @@ interface ManagedIdentityCredentialResourceIdOptions extends TokenCredentialOpti
    * this parameter allows programs to use these user assigned identities
    * without having to first determine the client Id of the created identity.
    */
-  resourceId: string;
+  resourceId?: string;
 }
 
 export class LegacyMsiProvider {
@@ -69,8 +65,7 @@ export class LegacyMsiProvider {
   constructor(
     clientIdOrOptions?:
       | string
-      | ManagedIdentityCredentialClientIdOptions
-      | ManagedIdentityCredentialResourceIdOptions,
+      | ManagedIdentityCredentialOptions,
     options?: TokenCredentialOptions,
   ) {
     let _options: TokenCredentialOptions | undefined;
@@ -78,14 +73,14 @@ export class LegacyMsiProvider {
       this.clientId = clientIdOrOptions;
       _options = options;
     } else {
-      this.clientId = (clientIdOrOptions as ManagedIdentityCredentialClientIdOptions)?.clientId;
+      this.clientId = (clientIdOrOptions as ManagedIdentityCredentialOptions)?.clientId;
       _options = clientIdOrOptions;
     }
-    this.resourceId = (_options as ManagedIdentityCredentialResourceIdOptions)?.resourceId;
+    this.resourceId = (_options as ManagedIdentityCredentialOptions)?.resourceId;
     // For JavaScript users.
     if (this.clientId && this.resourceId) {
       throw new Error(
-        `ManagedIdentityCredential (legacy) - Client Id and Resource Id can't be provided at the same time.`,
+        `ManagedIdentityCredential - Client Id and Resource Id can't be provided at the same time.`,
       );
     }
     if (_options?.retryOptions?.maxRetries !== undefined) {
@@ -157,7 +152,7 @@ export class LegacyMsiProvider {
     }
 
     throw new CredentialUnavailableError(
-      `ManagedIdentityCredential (legacy) - No MSI credential available`,
+      `ManagedIdentityCredential - No MSI credential available`,
     );
   }
 
@@ -166,7 +161,7 @@ export class LegacyMsiProvider {
     getTokenOptions?: GetTokenOptions,
   ): Promise<MSIToken | null> {
     const { span, updatedOptions } = tracingClient.startSpan(
-      `ManagedIdentityCredential.authenticateManagedIdentity-legacy`,
+      `ManagedIdentityCredential.authenticateManagedIdentity`,
       getTokenOptions,
     );
 
@@ -209,7 +204,7 @@ export class LegacyMsiProvider {
   ): Promise<AccessToken> {
     let result: AccessToken | null = null;
     const { span, updatedOptions } = tracingClient.startSpan(
-      `ManagedIdentityCredential.getToken-legacy`,
+      `ManagedIdentityCredential.getToken`,
       options,
     );
     try {
@@ -288,7 +283,7 @@ export class LegacyMsiProvider {
       // we can safely assume the credential is unavailable.
       if (err.code === "ENETUNREACH") {
         const error = new CredentialUnavailableError(
-          `ManagedIdentityCredential (legacy): Unavailable. Network unreachable. Message: ${err.message}`,
+          `ManagedIdentityCredential: Unavailable. Network unreachable. Message: ${err.message}`,
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -299,7 +294,7 @@ export class LegacyMsiProvider {
       // we can safely assume the credential is unavailable.
       if (err.code === "EHOSTUNREACH") {
         const error = new CredentialUnavailableError(
-          `ManagedIdentityCredential (legacy): Unavailable. No managed identity endpoint found. Message: ${err.message}`,
+          `ManagedIdentityCredential: Unavailable. No managed identity endpoint found. Message: ${err.message}`,
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -309,16 +304,16 @@ export class LegacyMsiProvider {
       // and it means that the endpoint is working, but that no identity is available.
       if (err.statusCode === 399) {
         throw new CredentialUnavailableError(
-          `ManagedIdentityCredential (legacy): The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`,
+          `ManagedIdentityCredential: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`,
         );
       }
 
       // This is a special case for Docker Desktop which responds with a 402 with a message that contains "A socket operation was attempted to an unreachable network" or "A socket operation was attempted to an unreachable host"
       // rather than just timing out, as expected.
-      if (err.statusCode === 402 || err.code === 403) {
+      if (err.statusCode === 403 || err.code === 403) {
         if (err.message.includes("unreachable")) {
           const error = new CredentialUnavailableError(
-            `ManagedIdentityCredential (legacy): Unavailable. Network unreachable. Message: ${err.message}`,
+            `ManagedIdentityCredential: Unavailable. Network unreachable. Message: ${err.message}`,
           );
 
           logger.getToken.info(formatError(scopes, error));
@@ -330,13 +325,13 @@ export class LegacyMsiProvider {
       // This will throw silently during any ChainedTokenCredential.
       if (err.statusCode === undefined) {
         throw new CredentialUnavailableError(
-          `ManagedIdentityCredential (legacy): Authentication failed. Message ${err.message}`,
+          `ManagedIdentityCredential: Authentication failed. Message ${err.message}`,
         );
       }
 
       // Any other error should break the chain.
       throw new AuthenticationError(err.statusCode, {
-        error: `ManagedIdentityCredential (legacy) authentication failed.`,
+        error: `ManagedIdentityCredential authentication failed.`,
         error_description: err.message,
       });
     } finally {
