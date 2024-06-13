@@ -19275,7 +19275,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-LsbGjr9EW8VTWF/5INwJsD2jzswejO0PtWkeP9T3VW/gU7HjW6IrwSw0pvEeJJqgSAES/He5SJVkvmUrZRCpww==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-Ig3CWKQBXnEfG9ukjexA74Yq+ZXRdSeHAv1owp0ynN3rCgy89SLaXi3ZmlDQIxQK59djz3Xj3/HtkQZNT/T7rg==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
