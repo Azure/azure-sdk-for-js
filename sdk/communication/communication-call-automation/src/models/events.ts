@@ -38,6 +38,7 @@ import {
   MediaStreamingStarted as RestMediaStreamingStarted,
   MediaStreamingStopped as RestMediaStreamingStopped,
   MediaStreamingFailed as RestMediaStreamingFailed,
+  ConnectFailed as RestConnectFailed,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -75,7 +76,8 @@ export type CallAutomationEvent =
   | HoldFailed
   | MediaStreamingStarted
   | MediaStreamingStopped
-  | MediaStreamingFailed;
+  | MediaStreamingFailed
+  | ConnectFailed;
 
 export {
   RestAddParticipantSucceeded,
@@ -111,6 +113,7 @@ export {
   RestMediaStreamingStarted,
   RestMediaStreamingStopped,
   RestMediaStreamingFailed,
+  RestConnectFailed,
 };
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
@@ -691,4 +694,21 @@ export interface MediaStreamingFailed
   resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "MediaStreamingFailed";
+}
+
+export interface ConnectFailed
+  extends Omit<
+    RestConnectFailed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "ConnectFailed";
 }

@@ -3,8 +3,8 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import Sinon, { SinonStubbedInstance } from "sinon";
-import { CallConnectionProperties } from "../src/models/models";
-import { AnswerCallResult, CreateCallResult } from "../src/models/responses";
+import { CallConnectionProperties, CallLocator } from "../src/models/models";
+import { AnswerCallResult, CreateCallResult, ConnectResult } from "../src/models/responses";
 import {
   CALL_CALLBACK_URL,
   CALL_INCOMING_CALL_CONTEXT,
@@ -181,6 +181,33 @@ describe("Call Automation Client Unit Tests", () => {
     promiseResult
       .then(() => {
         assert.isTrue(client.rejectCall.calledWith(CALL_INCOMING_CALL_CONTEXT));
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("Create Connection", async () => {
+    const connectResultMock: ConnectResult = {
+      callConnectionProperties: {} as CallConnectionProperties,
+      callConnection: {} as CallConnection,
+    };
+    client.connect.returns(
+      new Promise((resolve) => {
+        resolve(connectResultMock);
+      }),
+    );
+    const callLocator: CallLocator = {
+      id: "test",
+      kind: "roomCallLocator",
+    };
+    const promiseResult = client.connect(callLocator, CALL_CALLBACK_URL);
+
+    // asserts
+    promiseResult
+      .then((result: ConnectResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(client.connect.calledWith(callLocator, CALL_CALLBACK_URL));
+        assert.equal(result, connectResultMock);
         return;
       })
       .catch((error) => console.error(error));
