@@ -310,6 +310,7 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
   await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function setScriptsSection(packageJson: any): void {
   packageJson.scripts["build"] = "npm run clean && tshy && dev-tool run extract-api";
 
@@ -319,10 +320,12 @@ function setScriptsSection(packageJson: any): void {
   packageJson.scripts["unit-test:node"] = "dev-tool run test:vitest --no-test-proxy";
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function setFilesSection(packageJson: any): void {
   packageJson.files = ["dist/", "README.md", "LICENSE"];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function addTypeScriptHybridizer(packageJson: any): void {
   packageJson["tshy"] = {
     exports: {
@@ -335,6 +338,7 @@ function addTypeScriptHybridizer(packageJson: any): void {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function addNewPackages(packageJson: any): Promise<void> {
   const newPackages = [
     "@vitest/browser",
@@ -352,6 +356,7 @@ async function addNewPackages(packageJson: any): Promise<void> {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function removeLegacyPackages(packageJson: any): void {
   const legacyPackages = [
     "chai",
@@ -389,6 +394,7 @@ function sortObjectByKeys(unsortedObj: { [key: string]: string }): { [key: strin
   return Object.fromEntries(sortedEntries);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function sortDevDependencies(packageJson: any): void {
   if (packageJson.devDependencies) {
     packageJson.devDependencies = sortObjectByKeys(packageJson.devDependencies);
@@ -399,6 +405,7 @@ async function renameFieldFiles(
   field: string,
   altFieldName: string,
   packageFolder: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   packageJson: any,
 ): Promise<void> {
   if (packageJson[field]) {
