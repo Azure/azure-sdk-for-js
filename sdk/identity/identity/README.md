@@ -58,7 +58,7 @@ For advanced authentication workflows in the browser, we have a section where we
 
 ### Authenticate the client in development environment
 
-While we recommend using managed identity in your production application, it is typical for a developer to use their own account for authenticating calls to Azure services when debugging and executing code locally. There are several developer tools which can be used to perform this authentication in your development environment.
+While we recommend using managed identity in your Azure-hosted application, it is typical for a developer to use their own account for authenticating calls to Azure services when debugging and executing code locally. There are several developer tools which can be used to perform this authentication in your development environment.
 
 #### Authenticate via the Azure Developer CLI
 
