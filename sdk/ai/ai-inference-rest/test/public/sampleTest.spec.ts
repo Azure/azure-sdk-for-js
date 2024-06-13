@@ -29,8 +29,9 @@ describe("chat test suite", () => {
     const response = await client.path("/chat/completions").post({
       body: {
         messages: [
-            {role: "user", content: "How many feet are in a mile?"},
-        ]}
+          { role: "user", content: "How many feet are in a mile?" },
+        ]
+      }
     });
 
     assert.equal(response.status, "200");
