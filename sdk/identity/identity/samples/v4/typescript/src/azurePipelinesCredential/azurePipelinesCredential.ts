@@ -21,7 +21,7 @@ async function main() {
     );
     const client = new KeyClient("https://YOUR_KEYVAULT_NAME.vault.azure.net/", credential);
     await client.getKey("keyValue");
-    // do something with the key value
+    // do something with the key
   }
 }
 main().catch((err) => {
