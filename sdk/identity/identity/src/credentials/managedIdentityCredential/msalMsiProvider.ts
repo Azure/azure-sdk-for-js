@@ -52,6 +52,8 @@ export class MsalMsiProvider {
     intervalIncrement: 2,
   };
   private tokenExchangeMsi: MSI;
+  private imdsMsi: MSI;
+  private isAvailableIdentityClient: IdentityClient;
 
   constructor(
     clientIdOrOptions?: string | ManagedIdentityCredentialOptions,
@@ -100,12 +102,12 @@ export class MsalMsiProvider {
       },
     });
 
-    // this.isAvailableIdentityClient = new IdentityClient({
-    //   ..._options,
-    //   retryOptions: {
-    //     maxRetries: 0,
-    //   },
-    // })
+    this.isAvailableIdentityClient = new IdentityClient({
+      ..._options,
+      retryOptions: {
+        maxRetries: 0,
+      },
+    });
   }
 
   /**
@@ -134,6 +136,8 @@ export class MsalMsiProvider {
           identityClient: this.identityClient,
           resourceId: this.resourceId,
         });
+        const isImdsMsi =
+          !isTokenExchangeMsi && this.managedIdentityApp.getManagedIdentitySource() === "Imds";
 
         if (isTokenExchangeMsi) {
           const result = await this.tokenExchangeMsi.getToken({
@@ -155,11 +159,30 @@ export class MsalMsiProvider {
           }
 
           return result;
-        } else if (this.managedIdentityApp.getManagedIdentitySource() === "Imds") {
-          throw new Error("probing not working yet");
+        } else if (isImdsMsi) {
+          // first probe, if we're in a DAC scenario, then get the token
+          const isAvailable = await this.imdsMsi.isAvailable({
+            scopes,
+            clientId: this.clientId,
+            getTokenOptions: options,
+            identityClient: this.isAvailableIdentityClient,
+            resourceId: this.resourceId,
+          });
+
+          if (!isAvailable) {
+            const error = new CredentialUnavailableError(
+              `ManagedIdentityCredential: The managed identity endpoint is not available.`,
+            );
+
+            logger.getToken.info(formatError(scopes, error));
+            throw error;
+          }
         }
 
-        // TODO: handle probing for MSI endpoint
+        // At this point we know that:
+        // - This is not a tokenExchangeMsi,
+        // - We already probed for IMDS endpoint availability if it's an IMDS MSI.
+        // We can proceed normally
         const token = await this.managedIdentityApp.acquireToken({
           resource,
         });
