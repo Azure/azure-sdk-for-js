@@ -55,7 +55,7 @@ export class AzurePipelinesCredential implements TokenCredential {
 
     const oidcRequestUrl = `${process.env.SYSTEM_OIDCREQUESTURI}?api-version=${OIDC_API_VERSION}&serviceConnectionId=${serviceConnectionId}`;
     logger.info(
-      `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
+      `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, client ID: ${clientId} and service connection ID: ${serviceConnectionId}`
     );
     this.clientAssertionCredential = new ClientAssertionCredential(
       tenantId,
@@ -134,14 +134,16 @@ export class AzurePipelinesCredential implements TokenCredential {
       } else {
         let errorMessage = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
         if (response.status !== 200) {
-          errorMessage += `Response = ${JSON.stringify(result)}`
+          errorMessage += `Response = ${JSON.stringify(result)}`;
         }
-        logger.error(errorMessage)
-        throw new AuthenticationError(response.status, errorMessage);       
-        } 
+        logger.error(errorMessage);
+        throw new AuthenticationError(response.status, errorMessage);
+      }
     } catch (e) {
       logger.error((e as Error).message);
-      logger.error( `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`)
+      logger.error(
+        `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`
+      );
       throw new AuthenticationError(
         response.status,
         `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`
