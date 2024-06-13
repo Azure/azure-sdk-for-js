@@ -154,15 +154,13 @@ function fixTestingImports(packageFolder: string): void {
       });
     }
 
+    const modulesToRemove = ["chai", "chai-as-promised", "chai-exclude", "sinon", "mocha"];
+
     // Iterate over all the import declarations
     for (const importDeclaration of sourceFile.getImportDeclarations()) {
       const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
       // If the module specifier is legacy, remove the import declaration
-      if (
-        moduleSpecifier === "chai" ||
-        moduleSpecifier === "chai-as-promised" ||
-        moduleSpecifier === "sinon"
-      ) {
+      if (modulesToRemove.includes(moduleSpecifier)) {
         importDeclaration.remove();
       }
     }
@@ -172,6 +170,13 @@ function fixTestingImports(packageFolder: string): void {
 }
 
 function fixSourceFiles(packageFolder: string): void {
+  const sourceLinesToRemove = [
+    "const should = chai.should();",
+    "chai.use(chaiAsPromised);",
+    "chai.use(chaiExclude);",
+    "const expect = chai.expect;",
+  ];
+
   // Create a new project
   const project = new Project({
     tsConfigFilePath: resolve(packageFolder, "tsconfig.json"),
@@ -181,9 +186,16 @@ function fixSourceFiles(packageFolder: string): void {
   for (const sourceFile of project.getSourceFiles()) {
     // Iterate over all the statements in the source file
     for (const statement of sourceFile.getStatements()) {
-      // If the statement is "const should = chai.should();", remove it
-      if (statement.getText() === "const should = chai.should();") {
-        statement.remove();
+      // Remove old legacy lines
+      for (const line of sourceLinesToRemove) {
+        if (statement.getText() === line) {
+          statement.remove();
+        }
+      }
+
+      // If statement is a beforeEach, then fix the function
+      if (statement.getText() == "beforeEach(async function (this: Context) {") {
+        statement.replaceWithText(statement.getText().replace("(this: Context)", "(ctx)"));
       }
     }
 
@@ -336,6 +348,16 @@ function addTypeScriptHybridizer(packageJson: any): void {
     esmDialects: ["browser", "react-native"],
     selfLink: false,
   };
+
+  // Check if there are subpath exports
+  if (packageJson.exports) {
+    for (const key of Object.keys(packageJson.exports)) {
+      // Don't set for package.json or root
+      if (key !== "." && key !== "./package.json") {
+        packageJson["tshy"].exports[key] = `./src/${key.replace("./", "")}/index.ts`;
+      }
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -410,7 +432,11 @@ async function renameFieldFiles(
 ): Promise<void> {
   if (packageJson[field]) {
     // Iterate over the entries in the given field
-    for (const [_, value] of Object.entries(packageJson[field])) {
+    for (const value of Object.values(packageJson[field])) {
+      if (!value) {
+        continue;
+      }
+
       // Resolve the paths relative to the package folder
       const destinationPath = value as string;
       if (!destinationPath.includes(altFieldName)) {
@@ -427,8 +453,12 @@ async function renameFieldFiles(
       newFileName = newFileName.replace(`.${altFieldName}`, "") + `-${field}.mts`;
       const newPath = resolve(dirname(oldPath), newFileName);
 
-      // Rename the file
-      await rename(oldPath, newPath);
+      try {
+        // Rename the file
+        await rename(oldPath, newPath);
+      } catch {
+        log.warn(`Could not rename ${oldPath} to ${newPath}`);
+      }
     }
   }
 }
