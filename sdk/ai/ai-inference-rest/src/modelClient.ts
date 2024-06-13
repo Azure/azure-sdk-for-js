@@ -11,7 +11,7 @@ import {
 import { ModelClient } from "./clientDefinitions.js";
 
 /**
- * Initialize a new instance of `ModelContext`
+ * Initialize a new instance of `ModelClient`
  * @param endpointParam - The parameter endpointParam
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters

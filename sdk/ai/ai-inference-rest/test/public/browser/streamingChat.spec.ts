@@ -32,6 +32,8 @@ describe("chat test suite", () => {
     assert.equal(response.status, "200");
     const stream = response.body;
     assert.isDefined(stream);
+    const reader = (stream as any).getReader();
+    assert.isDefined(reader);
 
     const getBuffersLength = (buffers: Uint8Array[]): number => {
       return buffers.reduce((acc, curr) => acc + curr.length, 0);
@@ -49,9 +51,8 @@ describe("chat test suite", () => {
       return res;
     };
 
-    const streamToString = async (stream: ReadableStream<Uint8Array>): Promise<string> => {
+    const streamToString = async (): Promise<string> => {
       let length = 0;
-      const reader = (stream as any).getReader();
       const buffers: Uint8Array[] = [];
       try {
         // eslint-disable-next-line no-constant-condition
@@ -68,7 +69,7 @@ describe("chat test suite", () => {
       }
     };
 
-    const text = await streamToString(stream);
+    const text = await streamToString();
     assert.isNotEmpty(text);
 
   });
