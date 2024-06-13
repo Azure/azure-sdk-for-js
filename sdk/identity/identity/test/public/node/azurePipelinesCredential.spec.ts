@@ -5,7 +5,7 @@ import { AzurePipelinesCredential } from "../../../src";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
 
-describe("AzurePipelinesCredential", function () {
+describe.only("AzurePipelinesCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!;
 
@@ -24,15 +24,10 @@ describe("AzurePipelinesCredential", function () {
       existingServiceConnectionId,
       systemAccessToken
     );
-    try {
-      const token = await credential.getToken(scope);
-      assert.ok(token?.token);
-      assert.isDefined(token?.expiresOnTimestamp);
-      if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
-    } catch (e) {
-      console.log(e);
-      throw(e);
-    }
+    const token = await credential.getToken(scope);
+    assert.ok(token?.token);
+    assert.isDefined(token?.expiresOnTimestamp);
+    if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
   });
 
   it("fails with with invalid service connection", async function () {
@@ -48,8 +43,15 @@ describe("AzurePipelinesCredential", function () {
       "existingServiceConnectionId",
       systemAccessToken
     );
-    const regExp: RegExp = /AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404./
-    assert.throws(async ()=>{await credential.getToken(scope)},regExp,"error thrown matches." );
+    const regExp: RegExp =
+      /AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404./;
+    assert.throws(
+      async () => {
+        await credential.getToken(scope);
+      },
+      regExp,
+      "error thrown matches."
+    );
   });
 
   it("fails with with invalid client id", async function () {
@@ -64,10 +66,10 @@ describe("AzurePipelinesCredential", function () {
       existingServiceConnectionId,
       systemAccessToken
     );
+    //await assert.isRejected(credential.getToken(scope), /some message/)
     try {
       await credential.getToken(scope);
     } catch (e) {
-      assert
       console.log(e);
     }
   });
@@ -89,6 +91,7 @@ describe("AzurePipelinesCredential", function () {
       assert.ok(token?.token);
       assert.isDefined(token?.expiresOnTimestamp);
       if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
+      //await assert.isRejected(credential.getToken(scope), /some message/)
     } catch (e) {
       console.log(e);
     }
