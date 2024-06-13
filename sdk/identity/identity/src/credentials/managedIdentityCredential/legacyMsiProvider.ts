@@ -9,11 +9,6 @@ import {
   CredentialUnavailableError,
 } from "../../errors";
 import { MSI, MSIConfiguration, MSIToken } from "./models";
-import {
-  ManagedIdentityCredential,
-  ManagedIdentityCredentialClientIdOptions,
-  ManagedIdentityCredentialResourceIdOptions,
-} from ".";
 import { MsalResult, MsalToken, ValidMsalToken } from "../../msal/types";
 import { cloudShellMsi, logger } from "./cloudShellMsi";
 import { formatError, formatSuccess } from "../../util/logging";
@@ -30,6 +25,32 @@ import { getMSALLogLevel } from "../../msal/utils";
 import { imdsMsi } from "./imdsMsi";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { tracingClient } from "../../util/tracing";
+
+/**
+ * Options to send on the {@link ManagedIdentityCredential} constructor.
+ * This variation supports `clientId` and not `resourceId`, since only one of both is supported.
+ */
+interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
+  /**
+   * The client ID of the user - assigned identity, or app registration(when working with AKS pod - identity).
+   */
+  clientId?: string;
+}
+
+/**
+ * Options to send on the {@link ManagedIdentityCredential} constructor.
+ * This variation supports `resourceId` and not `clientId`, since only one of both is supported.
+ */
+interface ManagedIdentityCredentialResourceIdOptions extends TokenCredentialOptions {
+  /**
+   * Allows specifying a custom resource Id.
+   * In scenarios such as when user assigned identities are created using an ARM template,
+   * where the resource Id of the identity is known but the client Id can't be known ahead of time,
+   * this parameter allows programs to use these user assigned identities
+   * without having to first determine the client Id of the created identity.
+   */
+  resourceId: string;
+}
 
 export class LegacyMsiProvider {
   private identityClient: IdentityClient;
@@ -64,7 +85,7 @@ export class LegacyMsiProvider {
     // For JavaScript users.
     if (this.clientId && this.resourceId) {
       throw new Error(
-        `${ManagedIdentityCredential.name} - Client Id and Resource Id can't be provided at the same time.`,
+        `ManagedIdentityCredential (legacy) - Client Id and Resource Id can't be provided at the same time.`,
       );
     }
     if (_options?.retryOptions?.maxRetries !== undefined) {
@@ -136,7 +157,7 @@ export class LegacyMsiProvider {
     }
 
     throw new CredentialUnavailableError(
-      `${ManagedIdentityCredential.name} - No MSI credential available`,
+      `ManagedIdentityCredential (legacy) - No MSI credential available`,
     );
   }
 
@@ -145,7 +166,7 @@ export class LegacyMsiProvider {
     getTokenOptions?: GetTokenOptions,
   ): Promise<MSIToken | null> {
     const { span, updatedOptions } = tracingClient.startSpan(
-      `${ManagedIdentityCredential.name}.authenticateManagedIdentity`,
+      `ManagedIdentityCredential.authenticateManagedIdentity-legacy`,
       getTokenOptions,
     );
 
@@ -188,7 +209,7 @@ export class LegacyMsiProvider {
   ): Promise<AccessToken> {
     let result: AccessToken | null = null;
     const { span, updatedOptions } = tracingClient.startSpan(
-      `${ManagedIdentityCredential.name}.getToken`,
+      `ManagedIdentityCredential.getToken-legacy`,
       options,
     );
     try {
@@ -267,7 +288,7 @@ export class LegacyMsiProvider {
       // we can safely assume the credential is unavailable.
       if (err.code === "ENETUNREACH") {
         const error = new CredentialUnavailableError(
-          `${ManagedIdentityCredential.name}: Unavailable. Network unreachable. Message: ${err.message}`,
+          `ManagedIdentityCredential (legacy): Unavailable. Network unreachable. Message: ${err.message}`,
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -278,7 +299,7 @@ export class LegacyMsiProvider {
       // we can safely assume the credential is unavailable.
       if (err.code === "EHOSTUNREACH") {
         const error = new CredentialUnavailableError(
-          `${ManagedIdentityCredential.name}: Unavailable. No managed identity endpoint found. Message: ${err.message}`,
+          `ManagedIdentityCredential (legacy): Unavailable. No managed identity endpoint found. Message: ${err.message}`,
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -288,7 +309,7 @@ export class LegacyMsiProvider {
       // and it means that the endpoint is working, but that no identity is available.
       if (err.statusCode === 399) {
         throw new CredentialUnavailableError(
-          `${ManagedIdentityCredential.name}: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`,
+          `ManagedIdentityCredential (legacy): The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`,
         );
       }
 
@@ -297,7 +318,7 @@ export class LegacyMsiProvider {
       if (err.statusCode === 402 || err.code === 403) {
         if (err.message.includes("unreachable")) {
           const error = new CredentialUnavailableError(
-            `${ManagedIdentityCredential.name}: Unavailable. Network unreachable. Message: ${err.message}`,
+            `ManagedIdentityCredential (legacy): Unavailable. Network unreachable. Message: ${err.message}`,
           );
 
           logger.getToken.info(formatError(scopes, error));
@@ -309,13 +330,13 @@ export class LegacyMsiProvider {
       // This will throw silently during any ChainedTokenCredential.
       if (err.statusCode === undefined) {
         throw new CredentialUnavailableError(
-          `${ManagedIdentityCredential.name}: Authentication failed. Message ${err.message}`,
+          `ManagedIdentityCredential (legacy): Authentication failed. Message ${err.message}`,
         );
       }
 
       // Any other error should break the chain.
       throw new AuthenticationError(err.statusCode, {
-        error: `${ManagedIdentityCredential.name} authentication failed.`,
+        error: `ManagedIdentityCredential (legacy) authentication failed.`,
         error_description: err.message,
       });
     } finally {
