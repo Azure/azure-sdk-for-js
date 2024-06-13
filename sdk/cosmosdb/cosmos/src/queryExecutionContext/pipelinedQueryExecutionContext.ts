@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
 import { Response, FeedOptions } from "../request";
-import {
-  PartitionedQueryExecutionInfo,
-  QueryInfo
-} from "../request/ErrorResponse";
+import { PartitionedQueryExecutionInfo, QueryInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
 import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointComponent";
@@ -93,7 +90,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             this.query,
             this.options,
             this.partitionedQueryExecutionInfo,
-            correlatedActivityId
+            correlatedActivityId,
           ),
         );
       } else {
@@ -166,9 +163,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this.fetchBuffer = [];
       this.fetchMoreRespHeaders = getInitialHeader();
       return this.nonStreamingOrderBy
-        ? this._nonStreamingFetchMoreImplementation(
-            diagnosticNode,
-          )
+        ? this._nonStreamingFetchMoreImplementation(diagnosticNode)
         : this._fetchMoreImplementation(diagnosticNode);
     }
   }
@@ -218,9 +213,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<Response<any>> {
     try {
-      const { result: item, headers } = await this.endpoint.nextItem(
-        diagnosticNode,
-      );
+      const { result: item, headers } = await this.endpoint.nextItem(diagnosticNode);
       mergeHeaders(this.fetchMoreRespHeaders, headers);
       if (item === undefined) {
         // no more results
@@ -247,8 +240,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           const temp = this.fetchBuffer.slice(0, this.pageSize);
           this.fetchBuffer = this.fetchBuffer.splice(this.pageSize);
           return { result: temp, headers: this.fetchMoreRespHeaders };
-        } 
-        else {
+        } else {
           return this._nonStreamingFetchMoreImplementation(diagnosticNode);
         }
       }

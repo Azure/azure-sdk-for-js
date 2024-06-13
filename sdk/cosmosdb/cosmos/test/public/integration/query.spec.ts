@@ -68,7 +68,7 @@ describe("Test Query Metrics", function (this: Suite) {
     await createdContainer.items.create(doc);
     const query = "SELECT * from " + collectionId;
     const queryOptions: FeedOptions = {
-      populateQueryMetrics: true
+      populateQueryMetrics: true,
     };
     const queryIterator = createdContainer.items.query(query, queryOptions);
 
@@ -116,7 +116,7 @@ describe("Partition key in FeedOptions", function (this: Suite) {
     await container.items.create({ id: "bar" });
     const query = "SELECT * from C";
     const queryIterator = container.items.query(query, {
-      partitionKey: "foo"
+      partitionKey: "foo",
     });
 
     const { resources } = await queryIterator.fetchAll();
@@ -225,7 +225,7 @@ describe("Test Index metrics", function (this: Suite) {
     const queryList = [query1, query2];
     const queryOptions: FeedOptions = {
       populateIndexMetrics: true,
-      maxItemCount: 1
+      maxItemCount: 1,
     };
     for (const query of queryList) {
       const queryIterator = container.items.query(query, queryOptions);

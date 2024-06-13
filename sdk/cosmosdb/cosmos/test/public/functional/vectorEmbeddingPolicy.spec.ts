@@ -457,7 +457,6 @@ async function executeQueryAndVerifyOrder(
   // execute order by query on it
   while (iterator.hasMoreResults()) {
     const { resources: result } = await iterator.fetchNext();
-    console.log("result", JSON.stringify(result))
     if (result !== undefined) {
       // check for order of similarityScore for items
       for (const item of result) {

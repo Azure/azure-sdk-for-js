@@ -32,9 +32,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     );
   }
 
-  public async nextItem(
-    diagnosticNode: DiagnosticNodeInternal
-  ): Promise<Response<any>> {
+  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     if (
       this.priorityQueueBufferSize <= 0 ||
       (this.isCompleted && this.nonStreamingOrderByPQ.isEmpty())
@@ -52,42 +50,43 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         headers: getInitialHeader(),
       };
     }
-      if (this.executionContext.hasMoreResults()) {
-        const { result: item, headers } = await this.executionContext.nextItem(
-          diagnosticNode,
-        );
-        if (item !== undefined) {
-          this.nonStreamingOrderByPQ.enqueue(item);
-        }
+    if (this.executionContext.hasMoreResults()) {
+      const { result: item, headers } = await this.executionContext.nextItem(diagnosticNode);
+      if (item !== undefined) {
+        this.nonStreamingOrderByPQ.enqueue(item);
+      }
+      return {
+        result: {},
+        headers,
+      };
+    } else {
+      this.isCompleted = true;
+      // Reverse the priority queue to get the results in the correct order
+      this.nonStreamingOrderByPQ = this.nonStreamingOrderByPQ.reverse();
+      // For offset limit case we set the size of priority queue to offset + limit
+      // and we drain offset number of items from the priority queue
+      while (
+        this.offset < this.priorityQueueBufferSize &&
+        this.offset > 0 &&
+        !this.nonStreamingOrderByPQ.isEmpty()
+      ) {
+        this.nonStreamingOrderByPQ.dequeue();
+        this.offset--;
+      }
+
+      if (!this.nonStreamingOrderByPQ.isEmpty()) {
+        const item = this.nonStreamingOrderByPQ.dequeue()?.payload;
         return {
-          result: {},
-          headers,
+          result: item,
+          headers: getInitialHeader(),
         };
       } else {
-        this.isCompleted = true;
-        // Reverse the priority queue to get the results in the correct order
-        this.nonStreamingOrderByPQ = this.nonStreamingOrderByPQ.reverse();
-        // For offset limit case we set the size of priority queue to offset + limit
-        // and we drain offset number of items from the priority queue
-        while (this.offset < this.priorityQueueBufferSize && this.offset > 0 && !this.nonStreamingOrderByPQ.isEmpty()) {
-          this.nonStreamingOrderByPQ.dequeue();
-          this.offset--;
-        }
-
-        if (!this.nonStreamingOrderByPQ.isEmpty()) {
-          const item = this.nonStreamingOrderByPQ.dequeue()?.payload;
-          return {
-            result: item,
-            headers: getInitialHeader(),
-          };
-        } else {
-          return {
-            result: undefined,
-            headers: getInitialHeader(),
-          };
-        }
+        return {
+          result: undefined,
+          headers: getInitialHeader(),
+        };
       }
-     
+    }
   }
 
   /**

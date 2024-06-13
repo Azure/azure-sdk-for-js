@@ -39,9 +39,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     );
   }
 
-  public async nextItem(
-    diagnosticNode: DiagnosticNodeInternal
-  ): Promise<Response<any>> {
+  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     // if size is 0, just return undefined. Valid if query is TOP 0 or LIMIT 0
     if (this.priorityQueueBufferSize === 0) {
       return {
@@ -53,7 +51,9 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     let resHeaders = getInitialHeader();
     if (!this.isCompleted && this.executionContext.hasMoreResults()) {
       // Grab the next result
-      const { result, headers } = (await this.executionContext.nextItem(diagnosticNode)) as NonStreamingOrderByResponse;
+      const { result, headers } = (await this.executionContext.nextItem(
+        diagnosticNode,
+      )) as NonStreamingOrderByResponse;
       resHeaders = headers;
       if (result) {
         // make hash of result object and update the map if required.
