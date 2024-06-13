@@ -47,7 +47,7 @@ describe("NetworkAnalytics test", () => {
     }
   });
 
-  it.only("operation list test", async function () {
+  it("operation list test", async function () {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
       resArray.push(item);
@@ -55,53 +55,53 @@ describe("NetworkAnalytics test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it("dataProducts create test", async function () {
-    const res = await client.dataProducts.create(
-      subscriptionId,
-      resourceGroup,
-      resourcename,
-      {
-        location,
-        properties: {
-          majorVersion: "1",
-          product: "MCC",
-          publisher: "Microsoft"
-        }
-      },
-      testPollingOptions);
-    assert.equal(res.name, resourcename);
-  });
+  // it("dataProducts create test", async function () {
+  //   const res = await client.dataProducts.create(
+  //     subscriptionId,
+  //     resourceGroup,
+  //     resourcename,
+  //     {
+  //       location,
+  //       properties: {
+  //         majorVersion: "1",
+  //         product: "MCC",
+  //         publisher: "Microsoft"
+  //       }
+  //     },
+  //     testPollingOptions);
+  //   assert.equal(res.name, resourcename);
+  // });
 
-  it("dataProducts get test", async function () {
-    const res = await client.dataProducts.get(
-      subscriptionId,
-      resourceGroup,
-      resourcename);
-    assert.equal(res.name, resourcename);
-  });
+  // it("dataProducts get test", async function () {
+  //   const res = await client.dataProducts.get(
+  //     subscriptionId,
+  //     resourceGroup,
+  //     resourcename);
+  //   assert.equal(res.name, resourcename);
+  // });
 
-  it("dataProducts list test", async function () {
-    const resArray = new Array();
-    for await (let item of client.dataProducts.listByResourceGroup(
-      subscriptionId,
-      resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 1);
-  });
+  // it("dataProducts list test", async function () {
+  //   const resArray = new Array();
+  //   for await (let item of client.dataProducts.listByResourceGroup(
+  //     subscriptionId,
+  //     resourceGroup)) {
+  //     resArray.push(item);
+  //   }
+  //   assert.equal(resArray.length, 1);
+  // });
 
-  it("dataProducts delete test", async function () {
-    const resArray = new Array();
-    const res = await client.dataProducts.delete(
-      subscriptionId,
-      resourceGroup,
-      resourcename,
-      testPollingOptions,
-    );
-    for await (let item of client.dataProducts.listByResourceGroup(subscriptionId, resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
-  });
+  // it("dataProducts delete test", async function () {
+  //   const resArray = new Array();
+  //   const res = await client.dataProducts.delete(
+  //     subscriptionId,
+  //     resourceGroup,
+  //     resourcename,
+  //     testPollingOptions,
+  //   );
+  //   for await (let item of client.dataProducts.listByResourceGroup(subscriptionId, resourceGroup)) {
+  //     resArray.push(item);
+  //   }
+  //   assert.equal(resArray.length, 0);
+  // });
 
 })
