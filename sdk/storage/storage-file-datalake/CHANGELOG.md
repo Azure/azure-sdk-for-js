@@ -1,5 +1,12 @@
 # Release History
 
+## 12.23.0-beta.1 (2024-06-13)
+
+### Features Added
+
+- Added support for service version 2024-08-04.
+- Added more detailed messaging for authorization failure cases.
+
 ## 12.22.0 (2024-06-04)
 
 ### Features Added

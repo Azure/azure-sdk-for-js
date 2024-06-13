@@ -1518,6 +1518,14 @@ packages:
       tslib: 2.6.3
     dev: false
 
+  /@azure/core-xml@1.4.2:
+    resolution: {integrity: sha512-CW3MZhApe/S4iikbYKE7s83fjDBPIr2kpidX+hlGRwh7N4o1nIpQ/PfJTeioqhfqdMvRtheEl+ft64fyTaLNaA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      fast-xml-parser: 4.4.0
+      tslib: 2.6.3
+    dev: false
+
   /@azure/event-hubs@5.12.0:
     resolution: {integrity: sha512-mGQjaYYPvPW+sz2C1Bl2/07n4tsln1j8I8ELAeSjJQeQoc+fS4sLDlW3diWFFiX2bJh0BavkNLnqTT7mE0W5Ww==}
     engines: {node: '>=18.0.0'}
@@ -1703,6 +1711,68 @@ packages:
       '@azure/core-paging': 1.6.2
       '@azure/core-rest-pipeline': 1.16.0
       '@azure/core-tracing': 1.1.2
+      '@azure/logger': 1.1.2
+      events: 3.3.0
+      tslib: 2.6.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/storage-blob@12.23.0:
+    resolution: {integrity: sha512-c1KJ5R5hqR/HtvmFtTn/Y1BNMq45NUBp0LZH7yF8WFMET+wmESgEr0FVTu/Z5NonmfUjbgJZG5Nh8xHc5RdWGQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-http-compat': 2.1.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.0
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/core-xml': 1.4.2
+      '@azure/logger': 1.1.2
+      events: 3.3.0
+      tslib: 2.6.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/storage-file-datalake@12.22.0:
+    resolution: {integrity: sha512-Xl6cNbxO/2sUzI2DZOgQBNjfnQxgkjrG9nq9ZpVfJwXO3PSZY7F7cp9mRmSX1EP8bqkgxG9maE22HRlOZa6HYA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-http-compat': 2.1.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.0
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/core-xml': 1.4.2
+      '@azure/logger': 1.1.2
+      '@azure/storage-blob': 12.23.0
+      events: 3.3.0
+      tslib: 2.6.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/storage-file-share@12.23.0:
+    resolution: {integrity: sha512-nq1W5gUx4o/hYj1zdLsfrSrdwxVYLP5hwvcEY4Po/Ig1YBb+s/E5bxgtQTrXEnANUCNpEQFIxEOWwOaY7DjcbQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-http-compat': 2.1.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.0
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/core-xml': 1.4.2
       '@azure/logger': 1.1.2
       events: 3.3.0
       tslib: 2.6.3
@@ -11673,7 +11743,7 @@ packages:
     dev: false
 
   file:projects/ai-language-text.tgz:
-    resolution: {integrity: sha512-4Mp2wIsSdCqKIdF6x5Muz0VeTwNMNJuLAyYFP0u6MMi54YjG6YN7AO0/Ojy8irIhKHYjMtYgyzcjVBQKUsmY9A==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-7zv3rRRUHFfLrZRY8LmrzM26L25KT/cxShglIUTxRvwcaMWKhN9GlEI1tHBGEe4tKuZqJRWyJRB8QDRfI2GkHA==, tarball: file:projects/ai-language-text.tgz}
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
@@ -11681,6 +11751,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.1
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.1
+      '@azure/storage-blob': 12.23.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
       '@types/chai': 4.3.16
       '@types/chai-as-promised': 7.1.8
@@ -12012,12 +12083,13 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-qDrUsMelBYLGjRkTdZOdpdIGyCUaJiSniJke0UE/MUWfa/+xCd0sXyJT/c7fzly7vzAKUQVXHqs/UY+06ERM7Q==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-fRrbQBQLd8yZNoZLM2bVchzax18ri041vIt9m42eFaLioP1KZesMVobBkEqf6qVhFOn47TMju9SFMfSMmQ3Idw==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure/identity': 4.2.1
+      '@azure/storage-blob': 12.23.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
       '@types/node': 18.19.34
       '@vitest/browser': 1.6.0(playwright@1.44.1)(vitest@1.6.0)
@@ -20884,12 +20956,13 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-g8Sz7Q4bvyLWA1UCMIOhMDDv7ZShCshkr1XZ+G5B+iNdrjPxp8EJU88pPJHQ9cVYy3Lziz90N4ORcaMcbI/1ng==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-Cch20aHcn0SA1uItE7z53pM7A1gJPOYUnGMfGgs9Bg+aGK7YDPwtCqQlFPu3YcQ1o2qnWeMHtFgpBEAMw2K6xg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/event-hubs': 5.13.0-beta.1
+      '@azure/storage-blob': 12.23.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
       '@types/chai': 4.3.16
       '@types/chai-as-promised': 7.1.8
@@ -22764,10 +22837,11 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-gnVzxlY1vrAzRzZwxxYq0IpU2a7YPUY19+GM3mhITC1zWOgyJG34mkJgcxO7zIXPJe/4cVUQju5/2ffQ2SpU8w==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-ZFQHP4wPThWvIxQPlbyl6S5noOLmQGNh/Sr+53SOI6fOE4stiO2SU6h3oAA5Flt+AN7ecF7DbjJaLNdyhTmSbw==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
+      '@azure/storage-blob': 12.23.0
       '@types/node': 18.19.34
       dotenv: 16.4.5
       eslint: 8.57.0
@@ -22782,10 +22856,11 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-geRsVuhsTRf+GXo5R3Yj48oZNP60syLkzHV9FZIgEwQWNRsJewvVjK+3tC0+g6ERAAJoEQ+bBZ/9wl7k3MM4sA==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-IqNMSbO7Zr0HoLvLmtadH8jS8exN3/o/yV+wmm82TAfGWzvo+H/AAHsbDQwE9KOUnfGzeprtrXw/cAW2+m75DA==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
+      '@azure/storage-file-datalake': 12.22.0
       '@types/node': 18.19.34
       dotenv: 16.4.5
       eslint: 8.57.0
@@ -22800,10 +22875,11 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-3Ky21ZldXc114WKpbFdvLNM/MD2gt7OXjndWFmshPn5GH9DWjXLU0Be/pBaruDs/V6jb3P4MSIWnMOPuGVDY9Q==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-R//6vCw8iYaZIH9hz0Cdc+eL42f8/wFyQPERFgqX1m5pjAOs67OLZsURMisUTvRa3GfDLxf34WD0G5CAVVhNgA==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
+      '@azure/storage-file-share': 12.23.0
       '@types/node': 18.19.34
       dotenv: 16.4.5
       eslint: 8.57.0
@@ -23108,13 +23184,14 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-0FUfIE6E0HZgj6zlKvd0VYyZ5Dh/FKwZkWYNSBzw6TH4xODWzI94P2A6H83KKYp0CWM2/e953RxaiteA9VUREg==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-RtmI/ZJbREK0zj0aS3BtL1vnG39a0w/+fXI3EnN00gmltxPE9OXYYG6+SOIwaHFdEwBUbOfDTg/w/uo6YoGhRA==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
       '@azure-tools/test-recorder': 3.5.1
       '@azure/identity': 4.2.1
+      '@azure/storage-blob': 12.23.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
@@ -23397,13 +23474,14 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-Gp+UCjBva4S3RMBJDYFU1CzkmZuF8s3mQZrL2hh4smDJx69QPAeC7WUqjNnFF2pIV1O2m6Gb3LnOc+5nINptmQ==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-6WJzO/4W+1DseF3OzGO0j/fnRffm7Gd+lyHFlGgDAIeOBIXP6j56rMVWeWAimTOCe2UDsUCVvKsNUtpGI9RFIA==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 3.5.1
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@azure/storage-blob': 12.23.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
@@ -23495,7 +23573,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-OazKzrkOlEhqENzWySRtkqAqi+b4p/59GLsYEs0UtpwzVqrbpm8oWAElv4C1HqCGInn2vwTOQ6dRIH8UrcxMRw==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-hbfVXoPkzPjq5RKyJm4ak3fLVqLn0D8Iza9rQxyfBq3dxXMLzOkMUf2vhFgU7RTvgsOnFi18U8DLOVANc5KcQQ==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -23546,7 +23624,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-U8xDsTWXBVQAGtbuxJ4QhnK+EQnF4E3N9FWRdD9sAN+l9/TuoaA4eQYHlmMtlukQKE2f+g3yfuU55O5DCmXIGQ==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-JoQCqxkTega8a0J3OQRvlwxgLAS9ls9pMDDnKfVBRNaq5MWeX8gJzCMJhEGQKq8FqiOlPZVBgzFecaRvh7SxNA==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -23554,6 +23632,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.1
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.1
+      '@azure/storage-blob': 12.23.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
@@ -23638,7 +23717,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-yTxOQcKWhyzk4lQTFbdtkpGCBvbaT3+NTmpALS5Yg/nY4njMEE1v3V2CtrvZ11/spxac5tmspJ24JCtGR92zvA==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-Txy9M+lXJ/ntq7ImyeULAdJs9l/aonvX+GMhlwiBmHj730vuU3XOJrNJ+0b4IX4PNPHiBsEFHwP7vTIUs09MzQ==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
@@ -23646,6 +23725,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.1
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.1
+      '@azure/storage-blob': 12.23.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6

@@ -10,6 +10,7 @@ import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCrede
 import { HeaderConstants } from "../utils/constants";
 import { getURLPath, getURLQueries } from "../utils/utils.common";
 import { CredentialPolicy } from "./CredentialPolicy";
+import { compareHeader } from "../utils/SharedKeyComparator";
 
 /**
  * StorageSharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
@@ -126,7 +127,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     });
 
     headersArray.sort((a, b): number => {
-      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+      return compareHeader(a.name.toLowerCase(), b.name.toLowerCase());
     });
 
     // Remove duplicate headers
