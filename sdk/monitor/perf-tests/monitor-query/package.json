@@ -8,7 +8,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/monitor-query": "1.2.0",
+    "@azure/monitor-query": "1.3.0",
     "@azure-tools/test-perf": "^1.0.0",
     "dotenv": "^16.0.0",
     "@azure/identity": "^4.0.1"

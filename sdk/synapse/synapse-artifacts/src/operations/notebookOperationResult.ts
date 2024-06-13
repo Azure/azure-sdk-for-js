@@ -33,7 +33,7 @@ export class NotebookOperationResultImpl implements NotebookOperationResult {
    */
   async get(
     operationId: string,
-    options?: NotebookOperationResultGetOptionalParams
+    options?: NotebookOperationResultGetOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "ArtifactsClient.get",
@@ -41,9 +41,9 @@ export class NotebookOperationResultImpl implements NotebookOperationResult {
       async (options) => {
         return this.client.sendOperationRequest(
           { operationId, options },
-          getOperationSpec
+          getOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 }
@@ -59,11 +59,11 @@ const getOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.operationId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

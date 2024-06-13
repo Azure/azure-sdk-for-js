@@ -6,7 +6,7 @@
  * service to get a list of supported languages for a selected scope
  */
 import TextTranslationClient, {
-  GetLanguagesParameters,
+  GetSupportedLanguagesParameters,
   isUnexpected,
 } from "@azure-rest/ai-translation-text";
 
@@ -18,12 +18,12 @@ const endpoint = process.env["ENDPOINT"] || "https://api.cognitive.microsofttran
 export async function main() {
   console.log("== Scoped list supported languages sample ==");
 
-  const parameters: GetLanguagesParameters = {
+  const parameters: GetSupportedLanguagesParameters = {
     queryParameters: {
       scope: "translation",
     },
   };
-  const translationClient = TextTranslationClient(endpoint, undefined, undefined);
+  const translationClient = TextTranslationClient(endpoint);
   const langResponse = await translationClient.path("/languages").get(parameters);
 
   if (isUnexpected(langResponse)) {

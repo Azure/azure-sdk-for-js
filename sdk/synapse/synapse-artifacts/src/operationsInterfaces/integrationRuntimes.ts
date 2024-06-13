@@ -10,7 +10,7 @@ import {
   IntegrationRuntimesListOptionalParams,
   IntegrationRuntimesListResponse,
   IntegrationRuntimesGetOptionalParams,
-  IntegrationRuntimesGetResponse
+  IntegrationRuntimesGetResponse,
 } from "../models";
 
 /** Interface representing a IntegrationRuntimes. */
@@ -20,7 +20,7 @@ export interface IntegrationRuntimes {
    * @param options The options parameters.
    */
   list(
-    options?: IntegrationRuntimesListOptionalParams
+    options?: IntegrationRuntimesListOptionalParams,
   ): Promise<IntegrationRuntimesListResponse>;
   /**
    * Get Integration Runtime
@@ -29,6 +29,6 @@ export interface IntegrationRuntimes {
    */
   get(
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesGetOptionalParams
+    options?: IntegrationRuntimesGetOptionalParams,
   ): Promise<IntegrationRuntimesGetResponse>;
 }

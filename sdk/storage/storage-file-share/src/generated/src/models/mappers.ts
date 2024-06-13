@@ -250,6 +250,13 @@ export const StorageError: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      authenticationErrorDetail: {
+        serializedName: "AuthenticationErrorDetail",
+        xmlName: "AuthenticationErrorDetail",
+        type: {
+          name: "String"
+        }
+      },
       code: {
         serializedName: "Code",
         xmlName: "Code",
@@ -524,6 +531,13 @@ export const SharePropertiesInternal: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["NoRootSquash", "RootSquash", "AllSquash"]
+        }
+      },
+      enableSnapshotVirtualDirectoryAccess: {
+        serializedName: "EnableSnapshotVirtualDirectoryAccess",
+        xmlName: "EnableSnapshotVirtualDirectoryAccess",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1033,6 +1047,14 @@ export const HandleItem: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      clientName: {
+        serializedName: "ClientName",
+        required: true,
+        xmlName: "ClientName",
+        type: {
+          name: "String"
+        }
+      },
       openTime: {
         serializedName: "OpenTime",
         required: true,
@@ -1528,6 +1550,13 @@ export const ShareGetPropertiesHeaders: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["NoRootSquash", "RootSquash", "AllSquash"]
+        }
+      },
+      enableSnapshotVirtualDirectoryAccess: {
+        serializedName: "x-ms-enable-snapshot-virtual-directory-access",
+        xmlName: "x-ms-enable-snapshot-virtual-directory-access",
+        type: {
+          name: "Boolean"
         }
       },
       errorCode: {

@@ -76,6 +76,7 @@ export interface SmbMultichannel {
 
 export interface StorageError {
   message?: string;
+  authenticationErrorDetail?: string;
   code?: string;
 }
 
@@ -124,6 +125,7 @@ export interface SharePropertiesInternal {
   leaseDuration?: LeaseDurationType;
   enabledProtocols?: string;
   rootSquash?: ShareRootSquash;
+  enableSnapshotVirtualDirectoryAccess?: boolean;
 }
 
 /** A permission (a security descriptor) at the share level. */
@@ -234,6 +236,8 @@ export interface HandleItem {
   sessionId: string;
   /** Client IP that opened the handle */
   clientIp: string;
+  /** Name of the client machine where the share is being mounted */
+  clientName: string;
   /** Time when the session that previously opened the handle has last been reconnected. (UTC) */
   openTime: Date;
   /** Time handle was last connected to (UTC) */
@@ -368,6 +372,8 @@ export interface ShareGetPropertiesHeaders {
   enabledProtocols?: string;
   /** Valid for NFS shares only. */
   rootSquash?: ShareRootSquash;
+  /** Version 2023-08-03 and newer. Specifies whether the snapshot virtual directory should be accessible at the root of share mount point when NFS is enabled. This header is only returned for shares, not for snapshots. */
+  enableSnapshotVirtualDirectoryAccess?: boolean;
   /** Error Code */
   errorCode?: string;
 }
@@ -1684,6 +1690,8 @@ export enum KnownStorageErrorCode {
   ShareSnapshotOperationNotSupported = "ShareSnapshotOperationNotSupported",
   /** ShareHasSnapshots */
   ShareHasSnapshots = "ShareHasSnapshots",
+  /** PreviousSnapshotNotFound */
+  PreviousSnapshotNotFound = "PreviousSnapshotNotFound",
   /** ContainerQuotaDowngradeNotAllowed */
   ContainerQuotaDowngradeNotAllowed = "ContainerQuotaDowngradeNotAllowed",
   /** AuthorizationSourceIPMismatch */
@@ -1764,6 +1772,7 @@ export enum KnownStorageErrorCode {
  * **ShareSnapshotCountExceeded** \
  * **ShareSnapshotOperationNotSupported** \
  * **ShareHasSnapshots** \
+ * **PreviousSnapshotNotFound** \
  * **ContainerQuotaDowngradeNotAllowed** \
  * **AuthorizationSourceIPMismatch** \
  * **AuthorizationProtocolMismatch** \
@@ -1863,6 +1872,7 @@ export interface ShareCreateOptionalParams extends coreClient.OperationOptions {
   enabledProtocols?: string;
   /** Root squash to set on the share.  Only valid for NFS shares. */
   rootSquash?: ShareRootSquash;
+  enableSnapshotVirtualDirectoryAccess?: boolean;
 }
 
 /** Contains response data for the create operation. */
@@ -2027,6 +2037,7 @@ export interface ShareSetPropertiesOptionalParams
   accessTier?: ShareAccessTier;
   /** Root squash to set on the share.  Only valid for NFS shares. */
   rootSquash?: ShareRootSquash;
+  enableSnapshotVirtualDirectoryAccess?: boolean;
 }
 
 /** Contains response data for the setProperties operation. */
@@ -2547,6 +2558,8 @@ export interface FileUploadRangeFromURLOptionalParams
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** If true, the trailing dot will not be trimmed from the source URI. */
@@ -2581,6 +2594,8 @@ export interface FileGetRangeListOptionalParams
   range?: string;
   /** The previous snapshot parameter is an opaque DateTime value that, when present, specifies the previous snapshot. */
   prevsharesnapshot?: string;
+  /** This header is allowed only when PrevShareSnapshot query parameter is set. Determines whether the changed ranges for a file that has been renamed or moved between the target snapshot (or the live file) and the previous snapshot should be listed. If the value is true, the valid changed ranges for the file will be returned. If the value is false, the operation will result in a failure with 409 (Conflict) response. The default value is false. */
+  supportRename?: boolean;
 }
 
 /** Contains response data for the getRangeList operation. */

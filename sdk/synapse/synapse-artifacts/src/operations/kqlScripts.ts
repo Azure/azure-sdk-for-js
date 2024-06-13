@@ -19,7 +19,7 @@ import {
   KqlScriptsGetAllNextOptionalParams,
   KqlScriptsGetAllOptionalParams,
   KqlScriptsGetAllResponse,
-  KqlScriptsGetAllNextResponse
+  KqlScriptsGetAllNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export class KqlScriptsImpl implements KqlScripts {
    * @param options The options parameters.
    */
   public listAll(
-    options?: KqlScriptsGetAllOptionalParams
+    options?: KqlScriptsGetAllOptionalParams,
   ): PagedAsyncIterableIterator<KqlScriptResource> {
     const iter = this.getAllPagingAll(options);
     return {
@@ -55,13 +55,13 @@ export class KqlScriptsImpl implements KqlScripts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.getAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *getAllPagingPage(
     options?: KqlScriptsGetAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<KqlScriptResource[]> {
     let result: KqlScriptsGetAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -82,7 +82,7 @@ export class KqlScriptsImpl implements KqlScripts {
   }
 
   private async *getAllPagingAll(
-    options?: KqlScriptsGetAllOptionalParams
+    options?: KqlScriptsGetAllOptionalParams,
   ): AsyncIterableIterator<KqlScriptResource> {
     for await (const page of this.getAllPagingPage(options)) {
       yield* page;
@@ -94,7 +94,7 @@ export class KqlScriptsImpl implements KqlScripts {
    * @param options The options parameters.
    */
   private async _getAll(
-    options?: KqlScriptsGetAllOptionalParams
+    options?: KqlScriptsGetAllOptionalParams,
   ): Promise<KqlScriptsGetAllResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient._getAll",
@@ -102,9 +102,9 @@ export class KqlScriptsImpl implements KqlScripts {
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          getAllOperationSpec
+          getAllOperationSpec,
         ) as Promise<KqlScriptsGetAllResponse>;
-      }
+      },
     );
   }
 
@@ -115,7 +115,7 @@ export class KqlScriptsImpl implements KqlScripts {
    */
   private async _getAllNext(
     nextLink: string,
-    options?: KqlScriptsGetAllNextOptionalParams
+    options?: KqlScriptsGetAllNextOptionalParams,
   ): Promise<KqlScriptsGetAllNextResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient._getAllNext",
@@ -123,9 +123,9 @@ export class KqlScriptsImpl implements KqlScripts {
       async (options) => {
         return this.client.sendOperationRequest(
           { nextLink, options },
-          getAllNextOperationSpec
+          getAllNextOperationSpec,
         ) as Promise<KqlScriptsGetAllNextResponse>;
-      }
+      },
     );
   }
 }
@@ -137,29 +137,29 @@ const getAllOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KqlScriptsResourceCollectionResponse
+      bodyMapper: Mappers.KqlScriptsResourceCollectionResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KqlScriptsResourceCollectionResponse
+      bodyMapper: Mappers.KqlScriptsResourceCollectionResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
