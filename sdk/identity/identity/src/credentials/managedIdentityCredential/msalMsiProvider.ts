@@ -18,6 +18,7 @@ import {
 } from "../../errors";
 import { MSI, MSIConfiguration } from "./models";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
+import { imdsMsi } from "./imdsMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential(MSAL)");
 
@@ -86,6 +87,7 @@ export class MsalMsiProvider {
 
     this.identityClient = new IdentityClient(_options);
     this.tokenExchangeMsi = tokenExchangeMsi();
+    this.imdsMsi = imdsMsi;
     this.managedIdentityApp = new ManagedIdentityApplication({
       managedIdentityIdParams: {
         userAssignedClientId: this.clientId,
