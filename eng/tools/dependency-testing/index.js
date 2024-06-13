@@ -1,4 +1,16 @@
-let argv = require("yargs")
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { argv } from "yargs";
+import fs from "node:fs";
+import path from "node:path";
+import semver from "semver";
+import packageUtils from "@azure-tools/eng-package-utils";
+// crossSpawn is used because of its ability to better handle corner cases that break when using spawn in Windows environments.
+// For more details see - https://www.npmjs.com/package/cross-spawn
+import crossSpawn from "cross-spawn";
+
+let cliArguments = argv
   .options({
     "artifact-name": {
       type: "string",
@@ -33,14 +45,6 @@ let argv = require("yargs")
     },
   })
   .help().argv;
-
-const fs = require("fs");
-const path = require("path");
-const semver = require("semver");
-const packageUtils = require("@azure-tools/eng-package-utils");
-// crossSpawn is used because of its ability to better handle corner cases that break when using spawn in Windows environments.
-// For more details see - https://www.npmjs.com/package/cross-spawn
-let crossSpawn = require("cross-spawn");
 
 /**
  * This function outputs the complete local path to the test or test/public folder for devops jobs
@@ -105,8 +109,10 @@ async function insertPackageJson(
   await usePackageTestTimeout(testPackageJson, packageJsonContents);
   testPackageJson.type = packageJsonContents.type;
   if (packageJsonContents.scripts["integration-test:node"].includes("vitest")) {
-    testPackageJson.scripts["integration-test:node"] = "dev-tool run test:vitest -- -c vitest.dependency-test.config.ts";
-    testPackageJson.scripts["integration-test:browser"] = "dev-tool run build-test && dev-tool run test:vitest --browser  -- -c vitest.dependency-test.browser.config.ts";
+    testPackageJson.scripts["integration-test:node"] =
+      "dev-tool run test:vitest -- -c vitest.dependency-test.config.ts";
+    testPackageJson.scripts["integration-test:browser"] =
+      "dev-tool run build-test && dev-tool run test:vitest --browser  -- -c vitest.dependency-test.browser.config.ts";
     testPackageJson.scripts["build"] = "echo skipped.";
   }
 
@@ -115,42 +121,43 @@ async function insertPackageJson(
   let allowedVersionList = {};
   depList[targetPackageName] = packageJsonContents.version; //works
   allowedVersionList[targetPackageName] = depList[targetPackageName];
-  for (const package of Object.keys(packageJsonContents.dependencies)) {
-    depList[package] = packageJsonContents.dependencies[package];
-    depList[package] = await findAppropriateVersion(
-      package,
-      packageJsonContents.dependencies[package],
+  for (const packageName of Object.keys(packageJsonContents.dependencies)) {
+    depList[packageName] = packageJsonContents.dependencies[packageName];
+    depList[packageName] = await findAppropriateVersion(
+      packageName,
+      packageJsonContents.dependencies[packageName],
       repoRoot,
       versionType,
     );
-    if (packageJsonContents.dependencies[package] !== depList[package]) {
-      console.log(package);
-      allowedVersionList[package] = depList[package];
-      console.log(allowedVersionList[package]);
+    if (packageJsonContents.dependencies[packageName] !== depList[packageName]) {
+      console.log(packageName);
+      allowedVersionList[packageName] = depList[packageName];
+      console.log(allowedVersionList[packageName]);
     }
   }
   testPackageJson.dependencies = depList;
 
-  for (const package of Object.keys(packageJsonContents.devDependencies)) {
-    testPackageJson.devDependencies[package] = packageJsonContents.devDependencies[package];
-    if (package.startsWith("@azure/") || package.startsWith("@azure-rest/")) {
+  for (const packageName of Object.keys(packageJsonContents.devDependencies)) {
+    testPackageJson.devDependencies[packageName] = packageJsonContents.devDependencies[packageName];
+    if (packageName.startsWith("@azure/") || packageName.startsWith("@azure-rest/")) {
       console.log(
-        "packagejson version before func call = " + packageJsonContents.devDependencies[package],
+        `packagejson version before func call = ${packageJsonContents.devDependencies[packageName]}`,
       );
-      let packageVersion = packageJsonContents.devDependencies[package];
-      testPackageJson.devDependencies[package] = await findAppropriateVersion(
-        package,
+      let packageVersion = packageJsonContents.devDependencies[packageName];
+      testPackageJson.devDependencies[packageName] = await findAppropriateVersion(
+        packageName,
         packageVersion,
         repoRoot,
         versionType,
       );
-      console.log("packagejson version = " + packageJsonContents.devDependencies[package]);
+      console.log(`packagejson version = ${packageJsonContents.devDependencies[packageName]}`);
       if (
-        packageJsonContents.devDependencies[package] !== testPackageJson.devDependencies[package]
+        packageJsonContents.devDependencies[packageName] !==
+        testPackageJson.devDependencies[packageName]
       ) {
-        console.log(package);
-        allowedVersionList[package] = testPackageJson.devDependencies[package];
-        console.log(allowedVersionList[package]);
+        console.log(packageName);
+        allowedVersionList[packageName] = testPackageJson.devDependencies[packageName];
+        console.log(allowedVersionList[packageName]);
       }
     }
   }
@@ -166,10 +173,10 @@ async function insertPackageJson(
  * @param {*} repoRoot - root of the repository given as input
  * @returns {bool}- true or false
  */
-async function isPackageAUtility(package, repoRoot) {
-  let thisPackage = await getPackageFromRush(repoRoot, package);
+async function isPackageAUtility(packageName, repoRoot) {
+  let thisPackage = await getPackageFromRush(repoRoot, packageName);
   if (thisPackage && thisPackage.versionPolicyName === "utility") {
-    console.log(thisPackage.packageName + " utility");
+    console.log(`${thisPackage.packageName} utility`);
     return true;
   }
   return false;
@@ -178,19 +185,19 @@ async function isPackageAUtility(package, repoRoot) {
 /**
  * This is the main heart of the min-max testing.
  * Decides the appropriate versions to be pinned of the dependencies or dev-dep in the package.json
- * @param {*} package - the package which is a depenency or dev-dependency of the targetPackage. We want to decide what version this package should be pinned to.
+ * @param {*} package - the package which is a dependency or dev-dependency of the targetPackage. We want to decide what version this package should be pinned to.
  * @param {*} packageJsonDepVersion - the dependency version range of the {package} in the targetPackage's package.json
  * @param {*} repoRoot - root of the repository given as input
  * @param {*} versionType - min or max or same
  * @returns
  */
-async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, versionType) {
-  console.log("checking " + package + " = " + packageJsonDepVersion);
-  let isUtility = await isPackageAUtility(package, repoRoot);
+async function findAppropriateVersion(packageName, packageJsonDepVersion, repoRoot, versionType) {
+  console.log(`checking ${packageName} = ${packageJsonDepVersion}`);
+  let isUtility = await isPackageAUtility(packageName, repoRoot);
   if (isUtility) {
     return packageJsonDepVersion;
   }
-  let allNPMVersionsString = await getVersions(package);
+  let allNPMVersionsString = await getVersions(packageName);
   if (allNPMVersionsString) {
     let allVersions = JSON.parse(allNPMVersionsString);
     if (typeof allVersions === "string") {
@@ -204,9 +211,9 @@ async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, 
       } else {
         //issue a warning
         console.warn(
-          `No matching semver min version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`,
+          `No matching semver min version found on npm for package ${packageName} with version ${packageJsonDepVersion}. Replacing with local version`,
         );
-        let version = await getPackageVersion(repoRoot, package);
+        let version = await getPackageVersion(repoRoot, packageName);
         console.log(version);
         return version;
       }
@@ -218,9 +225,9 @@ async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, 
       } else {
         //issue a warning
         console.warn(
-          `No matching semver max version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`,
+          `No matching semver max version found on npm for package ${packageName} with version ${packageJsonDepVersion}. Replacing with local version`,
         );
-        let version = await getPackageVersion(repoRoot, package);
+        let version = await getPackageVersion(repoRoot, packageName);
         console.log(version);
         return version;
       }
@@ -230,8 +237,8 @@ async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, 
   }
 }
 
-async function getPackageVersion(repoRoot, package) {
-  let thisPackage = await getPackageFromRush(repoRoot, package);
+async function getPackageVersion(repoRoot, packageName) {
+  let thisPackage = await getPackageFromRush(repoRoot, packageName);
   console.log(thisPackage);
   let thisPackagePath = path.join(repoRoot, thisPackage.projectFolder);
   let thisPackageJsonPath = path.join(thisPackagePath, "package.json");
@@ -419,4 +426,5 @@ async function main(argv) {
   await updateRushConfig(repoRoot, targetPackage, testFolder);
   outputTestPath(targetPackage.projectFolder, sourceDir, testFolder);
 }
-main(argv);
+
+main(cliArguments);
