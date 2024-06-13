@@ -5,9 +5,7 @@ import { Recorder, VitestTestContext, assertEnvironmentVariable } from "@azure-t
 import { TokenCredential } from "@azure/core-auth";
 import { DeidentificationClient } from "../../../src/clientDefinitions.js";
 import createClient from "../../../src/deidentificationClient.js";
-import * as dotenv from "dotenv";
 
-dotenv.config();
 /**
  * creates the recorder and reads the environment variables from the `.env` file.
  * Should be called first in the test suite to make sure environment variables are

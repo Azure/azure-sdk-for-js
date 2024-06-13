@@ -7,7 +7,7 @@ import { DeidentificationClient } from "../../src/clientDefinitions.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 import { DeidentificationJob } from "../../src/models.js";
-import { DeidentificationJobOutput } from "../../src/outputModels.js";
+import { DeidentificationJobOutput, PagedDeidentificationJobOutput } from "../../src/outputModels.js";
 import { assert } from "@azure-tools/test-utils";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 
@@ -80,26 +80,6 @@ describe("Batch", () => {
   }, 10000);
 
   it("CreateThenList returns expected", async function () {
-    const jobName = generateJobName();
-    const inputPrefix = "example_patient_1";
-    const storageAccountSASUri = assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI")
-    
-    const job: DeidentificationJob = {
-      dataType: "Plaintext",
-      operation: "Surrogate",
-      sourceLocation: { location: storageAccountSASUri, prefix: inputPrefix, extensions: ["*"] },
-      targetLocation: { location: storageAccountSASUri, prefix: OUTPUT_FOLDER },
-    }
-
-    const response = await client.path("/jobs/{name}", jobName).put({ body: job });
-
-    const jobOutput = response.body as DeidentificationJobOutput;
-
-    // Test list jobs
-            var jobs = client.path("/jobs").get({ body: job });
-
-            bool jobFound = false;
-            int jobsToLookThrough = 10;
 
   }, 10000);
 

@@ -1,42 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { defineConfig } from "vitest/config";
-import dotenv from "dotenv";
+import { defineConfig, mergeConfig } from "vitest/config";
+import viteConfig from "../../../vitest.browser.shared.config.ts";
 
-// Load environment variables from .env file for local development
-dotenv.config();
-
-export default defineConfig({
-  define: {
-    "process.env": process.env,
-  },
-  test: {
-    reporters: ["basic", "junit"],
-    outputFile: {
-      junit: "test-results.browser.xml",
+export default mergeConfig(
+  viteConfig,
+  defineConfig({
+    test: {
+      include: [
+        "dist-test/browser/test/internal/**/*.spec.js",
+        "dist-test/browser/test/public/**/*.spec.js",
+      ],
     },
-    browser: {
-      enabled: true,
-      headless: true,
-      name: "chromium",
-      provider: "playwright",
-      providerOptions: {
-        launch: {
-          args: ["--disable-web-security"],
-        },
-      },
-    },
-    fakeTimers: {
-      toFake: ["setTimeout", "Date"],
-    },
-    watch: false,
-    include: ["dist-test/browser/test/public/**/*.spec.js",],
-    coverage: {
-      include: ["dist-test/browser/**/*.spec.js"],
-      provider: "istanbul",
-      reporter: ["text", "json", "html"],
-      reportsDirectory: "coverage-browser",
-    },
-  },
-});
+  }),
+);
