@@ -1,29 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import "./env";
+import { Recorder, VitestTestContext, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { TokenCredential } from "@azure/core-auth";
+import { DeidentificationClient } from "../../../src/clientDefinitions.js";
+import createClient from "../../../src/deidentificationClient.js";
+import * as dotenv from "dotenv";
 
-const envSetupForPlayback: Record<string, string> = {
-  ENDPOINT: "https://endpoint",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id",
-};
-
-const recorderEnvSetup: RecorderStartOptions = {
-  envSetupForPlayback,
-};
-
+dotenv.config();
 /**
  * creates the recorder and reads the environment variables from the `.env` file.
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
-  await recorder.start(recorderEnvSetup);
-  return recorder;
+export async function createRecorder(testContext: VitestTestContext): Promise<Recorder> {
+  return new Recorder(testContext);
+}
+
+export async function createRecordedDeidentificationClient(recorder: Recorder, credentials: TokenCredential): Promise<DeidentificationClient> {
+  const endpoint = assertEnvironmentVariable("DEID_SERVICE_ENDPOINT");
+  const client = await createClient(
+    endpoint,
+    credentials,
+    recorder.configureClientOptions({}),
+  );
+
+  return client;
 }

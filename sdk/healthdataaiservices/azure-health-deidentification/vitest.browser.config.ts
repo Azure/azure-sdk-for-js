@@ -2,6 +2,10 @@
 // Licensed under the MIT license.
 
 import { defineConfig } from "vitest/config";
+import dotenv from "dotenv";
+
+// Load environment variables from .env file for local development
+dotenv.config();
 
 export default defineConfig({
   define: {
@@ -17,12 +21,17 @@ export default defineConfig({
       headless: true,
       name: "chromium",
       provider: "playwright",
+      providerOptions: {
+        launch: {
+          args: ["--disable-web-security"],
+        },
+      },
     },
     fakeTimers: {
       toFake: ["setTimeout", "Date"],
     },
     watch: false,
-    include: ["dist-test/browser/**/*.spec.js"],
+    include: ["dist-test/browser/test/public/**/*.spec.js",],
     coverage: {
       include: ["dist-test/browser/**/*.spec.js"],
       provider: "istanbul",
