@@ -10,7 +10,7 @@ import {
 } from "../../errors";
 import { MSI, MSIConfiguration, MSIToken } from "./models";
 import { MsalResult, MsalToken, ValidMsalToken } from "../../msal/types";
-import { cloudShellMsi, } from "./cloudShellMsi";
+import { cloudShellMsi } from "./cloudShellMsi";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 
 import { DeveloperSignOnClientId } from "../../constants";
@@ -63,9 +63,7 @@ export class LegacyMsiProvider {
   };
 
   constructor(
-    clientIdOrOptions?:
-      | string
-      | ManagedIdentityCredentialOptions,
+    clientIdOrOptions?: string | ManagedIdentityCredentialOptions,
     options?: TokenCredentialOptions,
   ) {
     let _options: TokenCredentialOptions | undefined;
@@ -151,9 +149,7 @@ export class LegacyMsiProvider {
       }
     }
 
-    throw new CredentialUnavailableError(
-      `ManagedIdentityCredential - No MSI credential available`,
-    );
+    throw new CredentialUnavailableError(`ManagedIdentityCredential - No MSI credential available`);
   }
 
   private async authenticateManagedIdentity(

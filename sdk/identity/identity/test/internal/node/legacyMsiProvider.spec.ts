@@ -14,7 +14,7 @@ import {
 import { Context } from "mocha";
 import { GetTokenOptions } from "@azure/core-auth";
 import { IdentityTestContext } from "../../httpRequests";
-import { LegacyMsiProvider} from "../../../src/credentials/managedIdentityCredential/legacyMsiProvider";
+import { LegacyMsiProvider } from "../../../src/credentials/managedIdentityCredential/legacyMsiProvider";
 import { RestError } from "@azure/core-rest-pipeline";
 import Sinon from "sinon";
 import { assert } from "chai";
