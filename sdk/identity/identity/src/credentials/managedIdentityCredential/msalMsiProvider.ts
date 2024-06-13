@@ -1,4 +1,3 @@
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
@@ -6,14 +5,20 @@ import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { tracingClient } from "../../util/tracing";
-import { MSIConfiguration } from "./models";
+// import { MSIConfiguration } from "./models";
 import { IdentityClient } from "../../client/identityClient";
 import { ManagedIdentityApplication } from "@azure/msal-node";
 import { defaultLoggerCallback, getMSALLogLevel } from "../../msal/utils";
 import { getLogLevel } from "@azure/logger";
 import { mapScopesToResource } from "./utils";
 import { MsalToken, ValidMsalToken } from "../../msal/types";
-import { AuthenticationError, AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
+import {
+  AuthenticationError,
+  AuthenticationRequiredError,
+  CredentialUnavailableError,
+} from "../../errors";
+import { MSI, MSIConfiguration } from "./models";
+import { tokenExchangeMsi } from "./tokenExchangeMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential(MSAL)");
 
@@ -47,11 +52,10 @@ export class MsalMsiProvider {
     startDelayInMs: 800,
     intervalIncrement: 2,
   };
+  private tokenExchangeMsi: MSI;
 
   constructor(
-    clientIdOrOptions?:
-      | string
-      | ManagedIdentityCredentialOptions,
+    clientIdOrOptions?: string | ManagedIdentityCredentialOptions,
     options: TokenCredentialOptions = {},
   ) {
     let _options: TokenCredentialOptions = {};
@@ -60,7 +64,7 @@ export class MsalMsiProvider {
       _options = options;
     } else {
       this.clientId = (clientIdOrOptions as ManagedIdentityCredentialOptions)?.clientId;
-      _options = clientIdOrOptions ?? {}
+      _options = clientIdOrOptions ?? {};
     }
     this.resourceId = (_options as ManagedIdentityCredentialOptions)?.resourceId;
 
@@ -74,6 +78,10 @@ export class MsalMsiProvider {
     // ManagedIdentity uses http for local requests
     _options.allowInsecureConnection = true;
 
+    if (_options?.retryOptions?.maxRetries !== undefined) {
+      this.msiRetryConfig.maxRetries = _options.retryOptions.maxRetries;
+    }
+
     this.identityClient = new IdentityClient(_options);
     this.managedIdentityApp = new ManagedIdentityApplication({
       managedIdentityIdParams: {
@@ -81,26 +89,23 @@ export class MsalMsiProvider {
         userAssignedResourceId: this.resourceId,
       },
       system: {
+        // todo: proxyUrl?
         networkClient: this.identityClient,
         loggerOptions: {
           logLevel: getMSALLogLevel(getLogLevel()),
           piiLoggingEnabled: options.loggingOptions?.enableUnsafeSupportLogging,
-          loggerCallback:  defaultLoggerCallback(logger),
+          loggerCallback: defaultLoggerCallback(logger),
         },
       },
-    
-    })
-    
-    // if (_options?.retryOptions?.maxRetries !== undefined) {
-    //   this.msiRetryConfig.maxRetries = _options.retryOptions.maxRetries;
-    // }
+    });
+
+    this.tokenExchangeMsi = tokenExchangeMsi();
     // this.isAvailableIdentityClient = new IdentityClient({
     //   ..._options,
     //   retryOptions: {
     //     maxRetries: 0,
     //   },
-    // });
-
+    // })
   }
 
   /**
@@ -117,73 +122,64 @@ export class MsalMsiProvider {
     options: GetTokenOptions = {},
   ): Promise<AccessToken> {
     return tracingClient.withSpan("ManagedIdentityCredential.getToken", options, async () => {
-    try {
-      const resource = mapScopesToResource(scopes);
-      if (!resource) {
-        throw new Error(`Invalid scope ${scopes}`); 
-      }
+      try {
+        const resource = mapScopesToResource(scopes);
+        if (!resource) {
+          throw new Error(`Invalid scope ${scopes}`);
+        }
 
-      // TODO: use tokenExchangeMsi if applicable
-      // TODO: handle probing for MSI endpoint
-      const token = await this.managedIdentityApp.acquireToken({
-        resource
-      })
+        // TODO: refactor this once I have tests in place
+        if (await this.tokenExchangeMsi.isAvailable({ scopes, clientId: this.clientId })) {
+          const token = await this.tokenExchangeMsi.getToken(
+            {
+              identityClient: this.identityClient,
+              scopes,
+              clientId: this.clientId,
+              resourceId: this.resourceId,
+              retryConfig: this.msiRetryConfig,
+            },
+            options,
+          );
+          if (token === null) {
+            const error = new CredentialUnavailableError(
+              "The managed identity endpoint was reached, yet no tokens were received.",
+            );
+            logger.getToken.info(formatError(scopes, error));
+            throw error;
+          }
+          return token;
+        }
 
-      // TODO: account caching, etc?
-      // TODO: handle forceRefresh
-      this.ensureValidMsalToken(scopes, token, options);
-      logger.getToken.info(formatSuccess(scopes));
+        // TODO: handle probing for MSI endpoint
+        const token = await this.managedIdentityApp.acquireToken({
+          resource,
+        });
 
-      return {
-        expiresOnTimestamp: token.expiresOn.getTime(),
-        token: token.accessToken
-      }
-    } catch (err: any) {
-      // CredentialUnavailable errors are expected to reach here.
-      // We intend them to bubble up, so that DefaultAzureCredential can catch them.
-      if (err.name === "AuthenticationRequiredError") {
-        throw err;
-      }
+        // TODO: account caching, etc?
+        // TODO: handle forceRefresh
+        this.ensureValidMsalToken(scopes, token, options);
+        logger.getToken.info(formatSuccess(scopes));
 
-      // Expected errors to reach this point:
-      // - Errors coming from a method unexpectedly breaking.
-      // - When identityClient.sendTokenRequest throws, in which case
-      //   if the status code was 399, it means that the endpoint is working,
-      //   but no identity is available.
+        return {
+          expiresOnTimestamp: token.expiresOn.getTime(),
+          token: token.accessToken,
+        };
+      } catch (err: any) {
+        // CredentialUnavailable errors are expected to reach here.
+        // We intend them to bubble up, so that DefaultAzureCredential can catch them.
+        if (err.name === "AuthenticationRequiredError") {
+          throw err;
+        }
 
-      // If either the network is unreachable,
-      // we can safely assume the credential is unavailable.
-      if (err.code === "ENETUNREACH") {
-        const error = new CredentialUnavailableError(
-          `ManagedIdentityCredential: Unavailable. Network unreachable. Message: ${err.message}`,
-        );
+        // Expected errors to reach this point:
+        // - Errors coming from a method unexpectedly breaking.
+        // - When identityClient.sendTokenRequest throws, in which case
+        //   if the status code was 399, it means that the endpoint is working,
+        //   but no identity is available.
 
-        logger.getToken.info(formatError(scopes, error));
-        throw error;
-      }
-
-      // If either the host was unreachable,
-      // we can safely assume the credential is unavailable.
-      if (err.code === "EHOSTUNREACH") {
-        const error = new CredentialUnavailableError(
-          `ManagedIdentityCredential: Unavailable. No managed identity endpoint found. Message: ${err.message}`,
-        );
-
-        logger.getToken.info(formatError(scopes, error));
-        throw error;
-      }
-      // If err.statusCode has a value of 399, it comes from sendTokenRequest,
-      // and it means that the endpoint is working, but that no identity is available.
-      if (err.statusCode === 399) {
-        throw new CredentialUnavailableError(
-          `ManagedIdentityCredential: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`,
-        );
-      }
-
-      // This is a special case for Docker Desktop which responds with a 402 with a message that contains "A socket operation was attempted to an unreachable network" or "A socket operation was attempted to an unreachable host"
-      // rather than just timing out, as expected.
-      if (err.statusCode === 403 || err.code === 403) {
-        if (err.message.includes("unreachable")) {
+        // If either the network is unreachable,
+        // we can safely assume the credential is unavailable.
+        if (err.code === "ENETUNREACH") {
           const error = new CredentialUnavailableError(
             `ManagedIdentityCredential: Unavailable. Network unreachable. Message: ${err.message}`,
           );
@@ -191,23 +187,53 @@ export class MsalMsiProvider {
           logger.getToken.info(formatError(scopes, error));
           throw error;
         }
+
+        // If either the host was unreachable,
+        // we can safely assume the credential is unavailable.
+        if (err.code === "EHOSTUNREACH") {
+          const error = new CredentialUnavailableError(
+            `ManagedIdentityCredential: Unavailable. No managed identity endpoint found. Message: ${err.message}`,
+          );
+
+          logger.getToken.info(formatError(scopes, error));
+          throw error;
+        }
+        // If err.statusCode has a value of 399, it comes from sendTokenRequest,
+        // and it means that the endpoint is working, but that no identity is available.
+        if (err.statusCode === 399) {
+          throw new CredentialUnavailableError(
+            `ManagedIdentityCredential: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`,
+          );
+        }
+
+        // This is a special case for Docker Desktop which responds with a 402 with a message that contains "A socket operation was attempted to an unreachable network" or "A socket operation was attempted to an unreachable host"
+        // rather than just timing out, as expected.
+        if (err.statusCode === 403 || err.code === 403) {
+          if (err.message.includes("unreachable")) {
+            const error = new CredentialUnavailableError(
+              `ManagedIdentityCredential: Unavailable. Network unreachable. Message: ${err.message}`,
+            );
+
+            logger.getToken.info(formatError(scopes, error));
+            throw error;
+          }
+        }
+
+        // If the error has no status code, we can assume there was no available identity.
+        // This will throw silently during any ChainedTokenCredential.
+        if (err.statusCode === undefined) {
+          throw new CredentialUnavailableError(
+            `ManagedIdentityCredential: Authentication failed. Message ${err.message}`,
+          );
+        }
+
+        // Any other error should break the chain.
+        throw new AuthenticationError(err.statusCode, {
+          error: `ManagedIdentityCredential authentication failed.`,
+          error_description: err.message,
+        });
       }
-
-      // If the error has no status code, we can assume there was no available identity.
-      // This will throw silently during any ChainedTokenCredential.
-      if (err.statusCode === undefined) {
-        throw new CredentialUnavailableError(
-          `ManagedIdentityCredential: Authentication failed. Message ${err.message}`,
-        );
-      }
-
-      // Any other error should break the chain.
-      throw new AuthenticationError(err.statusCode, {
-        error: `ManagedIdentityCredential authentication failed.`,
-        error_description: err.message,
-      });
-
-    }})
+    });
   }
 
   /**
