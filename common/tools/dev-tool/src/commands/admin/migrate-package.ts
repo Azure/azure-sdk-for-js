@@ -5,9 +5,9 @@ import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { Project, SourceFile } from "ts-morph";
 import { createPrinter } from "../../util/printer";
 import { resolveRoot } from "../../util/resolveProject";
-import { readFile, unlink, writeFile } from "node:fs/promises";
+import { readFile, rename, unlink, writeFile } from "node:fs/promises";
 import { existsSync, lstatSync } from "node:fs";
-import { basename, resolve } from "node:path";
+import { basename, dirname, resolve } from "node:path";
 import { run } from "../../util/run";
 import stripJsonComments from "strip-json-comments";
 
@@ -69,7 +69,7 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName }) 
 
   const projectFolder = resolve(root, project.projectFolder);
 
-  await upgradePackageJson(resolve(projectFolder, "package.json"));
+  await upgradePackageJson(projectFolder, resolve(projectFolder, "package.json"));
   await upgradeTypeScriptConfig(resolve(projectFolder, "tsconfig.json"));
   await fixApiExtractorConfig(resolve(projectFolder, "api-extractor.json"));
   await cleanupFiles(projectFolder);
@@ -261,6 +261,13 @@ async function upgradeTypeScriptConfig(tsconfigPath: string): Promise<void> {
   tsConfig.compilerOptions.module = "NodeNext";
   tsConfig.compilerOptions.moduleResolution = "NodeNext";
   tsConfig.compilerOptions.rootDir = ".";
+  tsConfig.include = [
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./src/**/*.cts",
+    "./samples-dev/**/*.ts", // TODO: Check if samples-dev is needed
+    "./test/**/*.ts",
+  ];
 
   // Remove old options
   delete tsConfig.compilerOptions.outDir;
@@ -269,7 +276,7 @@ async function upgradeTypeScriptConfig(tsconfigPath: string): Promise<void> {
   await writeFile(tsconfigPath, JSON.stringify(tsConfig, null, 2));
 }
 
-async function upgradePackageJson(packageJsonPath: string): Promise<void> {
+async function upgradePackageJson(projectFolder: string, packageJsonPath: string): Promise<void> {
   const packageJson = JSON.parse(await readFile(packageJsonPath, "utf-8"));
 
   // Change the module type to ESM
@@ -292,6 +299,11 @@ async function upgradePackageJson(packageJsonPath: string): Promise<void> {
 
   // Set scripts
   setScriptsSection(packageJson);
+
+  // Rename files and rewrite browser field
+  await renameFieldFiles("browser", "browser", projectFolder, packageJson);
+  await renameFieldFiles("react-native", "native", projectFolder, packageJson);
+  packageJson.browser = "./dist/browser/index.js";
 
   // Save the updated package.json
   await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
@@ -379,5 +391,36 @@ function sortObjectByKeys(unsortedObj: { [key: string]: string }): { [key: strin
 function sortDevDependencies(packageJson: any): void {
   if (packageJson.devDependencies) {
     packageJson.devDependencies = sortObjectByKeys(packageJson.devDependencies);
+  }
+}
+
+async function renameFieldFiles(
+  field: string,
+  altFieldName: string,
+  packageFolder: string,
+  packageJson: any,
+): Promise<void> {
+  if (packageJson[field]) {
+    // Iterate over the entries in the given field
+    for (const [_, value] of Object.entries(packageJson[field])) {
+      // Resolve the paths relative to the package folder
+      const destinationPath = value as string;
+      if (!destinationPath.includes(altFieldName)) {
+        continue;
+      }
+
+      const oldPath = resolve(
+        packageFolder,
+        "src",
+        destinationPath.replace("./dist-esm/src/", "").replace(".js", ".ts"),
+      );
+      let newFileName = basename(oldPath, ".ts");
+      // Remove the prefix from the filename
+      newFileName = newFileName.replace(`.${altFieldName}`, "") + `-${field}.mts`;
+      const newPath = resolve(dirname(oldPath), newFileName);
+
+      // Rename the file
+      await rename(oldPath, newPath);
+    }
   }
 }
