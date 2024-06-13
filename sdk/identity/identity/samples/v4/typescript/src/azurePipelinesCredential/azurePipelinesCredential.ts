@@ -5,7 +5,7 @@
  * @summary Authenticates using AzurePipelines Credential
  */
 import { AzurePipelinesCredential } from "@azure/identity";
-import { SecretClient } from "@azure/keyvault-secrets";
+import { KeyClient } from "@azure/keyvault-keys";
 
 async function main() {
   const clientId = "YOUR_CLIENT_ID";
@@ -19,9 +19,9 @@ async function main() {
       serviceConnectionId,
       systemAccessToken
     );
-    const client = new SecretClient("https://YOUR_KEYVAULT_NAME.vault.azure.net/", credential);
-    await client.getSecret("secretKey");
-    // do something with the secret
+    const client = new KeyClient("https://YOUR_KEYVAULT_NAME.vault.azure.net/", credential);
+    await client.getKey("keyValue");
+    // do something with the key value
   }
 }
 main().catch((err) => {
