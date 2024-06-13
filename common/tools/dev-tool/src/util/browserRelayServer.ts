@@ -5,6 +5,7 @@ import express from "express";
 import type { Express } from "express-serve-static-core";
 import {
   AzureCliCredential,
+  AzureDeveloperCliCredential,
   AzurePowerShellCredential,
   ChainedTokenCredential,
   EnvironmentCredential,
@@ -60,6 +61,7 @@ function buildServer(app: Express) {
         // See the migration guide for more information
         // https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/1080/Secret-auth-migration
         new EnvironmentCredential(req.body),
+        new AzureDeveloperCliCredential(req.body),
       );
       credentials[id] = cred;
       res.status(201).send({ id });

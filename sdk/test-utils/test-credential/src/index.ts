@@ -3,6 +3,7 @@
 
 import {
   AzureCliCredential,
+  AzureDeveloperCliCredential,
   AzurePowerShellCredential,
   ChainedTokenCredential,
   DefaultAzureCredentialClientIdOptions,
@@ -63,6 +64,7 @@ export function createTestCredential(
       // See the migration guide for more information
       // https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/1080/Secret-auth-migration
       new EnvironmentCredential(dacOptions),
+      new AzureDeveloperCliCredential(dacOptions),
     );
   }
 }
