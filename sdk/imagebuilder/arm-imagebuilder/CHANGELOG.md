@@ -1,15 +1,17 @@
 # Release History
+    
+## 4.1.0 (2024-06-12)
+    
+**Features**
 
-## 4.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ImageTemplateAutoRun
+  - Added Type Alias AutoRunState
+  - Interface ImageTemplate has a new optional parameter autoRun
+  - Interface ImageTemplate has a new optional parameter managedResourceTags
+  - Interface ImageTemplateUpdateParametersProperties has a new optional parameter vmProfile
+  - Interface VirtualNetworkConfig has a new optional parameter containerInstanceSubnetId
+    
+    
 ## 4.0.0 (2023-12-21)
     
 **Features**
