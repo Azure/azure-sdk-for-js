@@ -13,6 +13,28 @@ Key links:
 
 ## Getting started
 
+```javascript
+import ModelClient from "@azure-rest/ai-inference";
+import { AzureKeyCredential } from "@azure/core-auth";
+const client = new ModelClient(
+  "https://<Azure Model endpoint>",
+  new AzureKeyCredential("<Azure API key>")
+);
+
+const response = await client.path("/chat/completions").post({
+  body: {
+    messages: [
+      {role: "user", content: "How many feet are in a mile?"},
+    ],
+  }
+});
+
+if(response.status !== "200") {
+  throw response.body.error;
+}
+console.log(response.body.choices[0].message.content);
+```
+
 ### Currently supported environments
 
 - LTS versions of Node.js
