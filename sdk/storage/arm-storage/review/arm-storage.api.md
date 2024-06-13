@@ -18,7 +18,7 @@ export interface AccessPolicy {
 }
 
 // @public
-export type AccessTier = "Hot" | "Cool" | "Premium";
+export type AccessTier = "Hot" | "Cool" | "Premium" | "Cold";
 
 // @public
 export interface AccountImmutabilityPolicyProperties {
@@ -701,6 +701,24 @@ export interface ErrorResponseBody {
 }
 
 // @public
+export interface ExecutionTarget {
+    excludePrefix?: string[];
+    prefix?: string[];
+}
+
+// @public
+export interface ExecutionTrigger {
+    parameters: TriggerParameters;
+    type: TriggerType;
+}
+
+// @public
+export interface ExecutionTriggerUpdate {
+    parameters?: TriggerParametersUpdate;
+    type?: TriggerType;
+}
+
+// @public
 export type ExpirationAction = string;
 
 // @public
@@ -965,6 +983,9 @@ export interface IPRule {
 }
 
 // @public
+export type IssueType = string;
+
+// @public
 export interface KeyCreationTime {
     // (undocumented)
     key1?: Date;
@@ -1103,6 +1124,7 @@ export enum KnownEncryptionScopeState {
 
 // @public
 export enum KnownExpirationAction {
+    Block = "Block",
     Log = "Log"
 }
 
@@ -1148,6 +1170,12 @@ export enum KnownImmutabilityPolicyUpdateType {
 // @public
 export enum KnownInventoryRuleType {
     Inventory = "Inventory"
+}
+
+// @public
+export enum KnownIssueType {
+    ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -1229,6 +1257,11 @@ export enum KnownListEncryptionScopesInclude {
 }
 
 // @public
+export enum KnownListLocalUserIncludeParam {
+    Nfsv3 = "nfsv3"
+}
+
+// @public
 export enum KnownManagementPolicyName {
     Default = "default"
 }
@@ -1257,12 +1290,28 @@ export enum KnownMigrationStatus {
 export enum KnownMinimumTlsVersion {
     TLS10 = "TLS1_0",
     TLS11 = "TLS1_1",
-    TLS12 = "TLS1_2"
+    TLS12 = "TLS1_2",
+    TLS13 = "TLS1_3"
 }
 
 // @public
 export enum KnownName {
     AccessTimeTracking = "AccessTimeTracking"
+}
+
+// @public
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownNspAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
 }
 
 // @public
@@ -1323,13 +1372,21 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 // @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 // @public
 export enum KnownReasonCode {
     NotAvailableForSubscription = "NotAvailableForSubscription",
     QuotaId = "QuotaId"
+}
+
+// @public
+export enum KnownResourceAssociationAccessMode {
+    Audit = "Audit",
+    Enforced = "Enforced",
+    Learning = "Learning"
 }
 
 // @public
@@ -1351,6 +1408,18 @@ export enum KnownRuleType {
 }
 
 // @public
+export enum KnownRunResult {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownRunStatusEnum {
+    Finished = "Finished",
+    InProgress = "InProgress"
+}
+
+// @public
 export enum KnownSchedule {
     Daily = "Daily",
     Weekly = "Weekly"
@@ -1366,6 +1435,12 @@ export enum KnownServices {
     Q = "q",
     // (undocumented)
     T = "t"
+}
+
+// @public
+export enum KnownSeverity {
+    Error = "Error",
+    Warning = "Warning"
 }
 
 // @public
@@ -1543,6 +1618,9 @@ export type ListContainersInclude = string;
 // @public
 export type ListEncryptionScopesInclude = string;
 
+// @public
+export type ListLocalUserIncludeParam = string;
+
 // @public (undocumented)
 export interface ListQueue extends Resource {
     metadata?: {
@@ -1579,14 +1657,19 @@ export interface ListTableServices {
 
 // @public
 export interface LocalUser extends Resource {
+    allowAclAuthorization?: boolean;
+    extendedGroups?: number[];
+    groupId?: number;
     hasSharedKey?: boolean;
     hasSshKey?: boolean;
     hasSshPassword?: boolean;
     homeDirectory?: string;
+    isNFSv3Enabled?: boolean;
     permissionScopes?: PermissionScope[];
     readonly sid?: string;
     sshAuthorizedKeys?: SshPublicKey[];
     readonly systemData?: SystemData;
+    readonly userId?: number;
 }
 
 // @public
@@ -1602,6 +1685,7 @@ export interface LocalUserRegeneratePasswordResult {
 
 // @public
 export interface LocalUsers {
+    readonly nextLink?: string;
     value?: LocalUser[];
 }
 
@@ -1632,6 +1716,9 @@ export type LocalUsersListKeysResponse = LocalUserKeys;
 
 // @public
 export interface LocalUsersListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    include?: ListLocalUserIncludeParam;
+    maxpagesize?: number;
 }
 
 // @public
@@ -1789,6 +1876,106 @@ export interface NetworkRuleSet {
     ipRules?: IPRule[];
     resourceAccessRules?: ResourceAccessRule[];
     virtualNetworkRules?: VirtualNetworkRule[];
+}
+
+// @public
+export interface NetworkSecurityPerimeter {
+    id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResourceAutoGenerated {
+    readonly networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    readonly profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
+    readonly provisioningIssues?: ProvisioningIssue[];
+    readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+    readonly resourceAssociation?: NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationList {
+    nextLink?: string;
+    readonly value?: NetworkSecurityPerimeterConfiguration[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationPropertiesProfile {
+    accessRules?: NspAccessRule[];
+    accessRulesVersion?: number;
+    diagnosticSettingsVersion?: number;
+    enabledLogCategories?: string[];
+    name?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation {
+    accessMode?: ResourceAssociationAccessMode;
+    name?: string;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurations {
+    beginReconcile(resourceGroupName: string, accountName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>, NetworkSecurityPerimeterConfigurationsReconcileResponse>>;
+    beginReconcileAndWait(resourceGroupName: string, accountName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
+    get(resourceGroupName: string, accountName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: NetworkSecurityPerimeterConfigurationsListOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsGetResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsListResponse = NetworkSecurityPerimeterConfigurationList;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfigurationsReconcileHeaders;
+
+// @public
+export interface NspAccessRule {
+    name?: string;
+    readonly properties?: NspAccessRuleProperties;
+}
+
+// @public
+export type NspAccessRuleDirection = string;
+
+// @public
+export interface NspAccessRuleProperties {
+    addressPrefixes?: string[];
+    direction?: NspAccessRuleDirection;
+    readonly fullyQualifiedDomainNames?: string[];
+    readonly networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    subscriptions?: NspAccessRulePropertiesSubscriptionsItem[];
+}
+
+// @public
+export interface NspAccessRulePropertiesSubscriptionsItem {
+    id?: string;
 }
 
 // @public
@@ -2004,10 +2191,27 @@ export interface ProtocolSettings {
 }
 
 // @public
-export type ProvisioningState = "Creating" | "ResolvingDNS" | "Succeeded";
+export interface ProvisioningIssue {
+    name?: string;
+    readonly properties?: ProvisioningIssueProperties;
+}
+
+// @public
+export interface ProvisioningIssueProperties {
+    description?: string;
+    issueType?: IssueType;
+    severity?: Severity;
+}
+
+// @public
+export type ProvisioningState = "Creating" | "ResolvingDNS" | "Succeeded" | "ValidateSubscriptionQuotaBegin" | "ValidateSubscriptionQuotaEnd" | "Deleting" | "Canceled" | "Failed";
 
 // @public
 export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface ProxyResourceAutoGenerated extends ResourceAutoGenerated {
 }
 
 // @public
@@ -2119,6 +2323,17 @@ export interface ResourceAccessRule {
 }
 
 // @public
+export type ResourceAssociationAccessMode = string;
+
+// @public
+export interface ResourceAutoGenerated {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
 export interface RestorePolicyProperties {
     days?: number;
     enabled: boolean;
@@ -2148,6 +2363,12 @@ export interface RoutingPreference {
 
 // @public
 export type RuleType = string;
+
+// @public
+export type RunResult = string;
+
+// @public
+export type RunStatusEnum = string;
 
 // @public
 export interface SasPolicy {
@@ -2187,6 +2408,9 @@ export interface ServiceSasParameters {
 export interface ServiceSpecification {
     metricSpecifications?: MetricSpecification[];
 }
+
+// @public
+export type Severity = string;
 
 // @public
 export type ShareAccessTier = string;
@@ -2279,6 +2503,7 @@ export interface StorageAccount extends TrackedResource {
     readonly customDomain?: CustomDomain;
     defaultToOAuthAuthentication?: boolean;
     dnsEndpointType?: DnsEndpointType;
+    enableExtendedGroups?: boolean;
     enableHttpsTrafficOnly?: boolean;
     enableNfsV3?: boolean;
     readonly encryption?: Encryption;
@@ -2330,6 +2555,7 @@ export interface StorageAccountCreateParameters {
     customDomain?: CustomDomain;
     defaultToOAuthAuthentication?: boolean;
     dnsEndpointType?: DnsEndpointType;
+    enableExtendedGroups?: boolean;
     enableHttpsTrafficOnly?: boolean;
     enableNfsV3?: boolean;
     encryption?: Encryption;
@@ -2598,6 +2824,7 @@ export interface StorageAccountUpdateParameters {
     customDomain?: CustomDomain;
     defaultToOAuthAuthentication?: boolean;
     dnsEndpointType?: DnsEndpointType;
+    enableExtendedGroups?: boolean;
     enableHttpsTrafficOnly?: boolean;
     encryption?: Encryption;
     identity?: Identity;
@@ -2644,6 +2871,8 @@ export class StorageManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     managementPolicies: ManagementPolicies;
     // (undocumented)
+    networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
+    // (undocumented)
     objectReplicationPoliciesOperations: ObjectReplicationPoliciesOperations;
     // (undocumented)
     operations: Operations;
@@ -2659,6 +2888,12 @@ export class StorageManagementClient extends coreClient.ServiceClient {
     skus: Skus;
     // (undocumented)
     storageAccounts: StorageAccounts;
+    // (undocumented)
+    storageTaskAssignmentInstancesReport: StorageTaskAssignmentInstancesReport;
+    // (undocumented)
+    storageTaskAssignments: StorageTaskAssignments;
+    // (undocumented)
+    storageTaskAssignmentsInstancesReport: StorageTaskAssignmentsInstancesReport;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
@@ -2687,6 +2922,216 @@ export interface StorageQueue extends Resource {
 // @public
 export interface StorageSkuListResult {
     readonly value?: SkuInformation[];
+}
+
+// @public
+export interface StorageTaskAssignment extends Resource {
+    properties: StorageTaskAssignmentProperties;
+}
+
+// @public
+export interface StorageTaskAssignmentExecutionContext {
+    target?: ExecutionTarget;
+    trigger: ExecutionTrigger;
+}
+
+// @public
+export interface StorageTaskAssignmentInstancesReport {
+    list(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, options?: StorageTaskAssignmentInstancesReportListOptionalParams): PagedAsyncIterableIterator<StorageTaskReportInstance>;
+}
+
+// @public
+export interface StorageTaskAssignmentInstancesReportListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageTaskAssignmentInstancesReportListNextResponse = StorageTaskReportSummary;
+
+// @public
+export interface StorageTaskAssignmentInstancesReportListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    maxpagesize?: string;
+}
+
+// @public
+export type StorageTaskAssignmentInstancesReportListResponse = StorageTaskReportSummary;
+
+// @public
+export interface StorageTaskAssignmentProperties {
+    description: string;
+    enabled: boolean;
+    executionContext: StorageTaskAssignmentExecutionContext;
+    readonly provisioningState?: ProvisioningState;
+    report: StorageTaskAssignmentReport;
+    runStatus?: StorageTaskReportProperties;
+    taskId: string;
+}
+
+// @public
+export interface StorageTaskAssignmentReport {
+    prefix: string;
+}
+
+// @public
+export interface StorageTaskAssignments {
+    beginCreate(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, parameters: StorageTaskAssignment, options?: StorageTaskAssignmentsCreateOptionalParams): Promise<SimplePollerLike<OperationState<StorageTaskAssignmentsCreateResponse>, StorageTaskAssignmentsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, parameters: StorageTaskAssignment, options?: StorageTaskAssignmentsCreateOptionalParams): Promise<StorageTaskAssignmentsCreateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, options?: StorageTaskAssignmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<StorageTaskAssignmentsDeleteResponse>, StorageTaskAssignmentsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, options?: StorageTaskAssignmentsDeleteOptionalParams): Promise<StorageTaskAssignmentsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, parameters: StorageTaskAssignmentUpdateParameters, options?: StorageTaskAssignmentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageTaskAssignmentsUpdateResponse>, StorageTaskAssignmentsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, parameters: StorageTaskAssignmentUpdateParameters, options?: StorageTaskAssignmentsUpdateOptionalParams): Promise<StorageTaskAssignmentsUpdateResponse>;
+    get(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, options?: StorageTaskAssignmentsGetOptionalParams): Promise<StorageTaskAssignmentsGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: StorageTaskAssignmentsListOptionalParams): PagedAsyncIterableIterator<StorageTaskAssignment>;
+}
+
+// @public
+export interface StorageTaskAssignmentsCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface StorageTaskAssignmentsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type StorageTaskAssignmentsCreateResponse = StorageTaskAssignment;
+
+// @public
+export interface StorageTaskAssignmentsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface StorageTaskAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type StorageTaskAssignmentsDeleteResponse = StorageTaskAssignmentsDeleteHeaders;
+
+// @public
+export interface StorageTaskAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageTaskAssignmentsGetResponse = StorageTaskAssignment;
+
+// @public
+export interface StorageTaskAssignmentsInstancesReport {
+    list(resourceGroupName: string, accountName: string, options?: StorageTaskAssignmentsInstancesReportListOptionalParams): PagedAsyncIterableIterator<StorageTaskReportInstance>;
+}
+
+// @public
+export interface StorageTaskAssignmentsInstancesReportListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageTaskAssignmentsInstancesReportListNextResponse = StorageTaskReportSummary;
+
+// @public
+export interface StorageTaskAssignmentsInstancesReportListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    maxpagesize?: string;
+}
+
+// @public
+export type StorageTaskAssignmentsInstancesReportListResponse = StorageTaskReportSummary;
+
+// @public
+export interface StorageTaskAssignmentsList {
+    readonly nextLink?: string;
+    readonly value?: StorageTaskAssignment[];
+}
+
+// @public
+export interface StorageTaskAssignmentsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageTaskAssignmentsListNextResponse = StorageTaskAssignmentsList;
+
+// @public
+export interface StorageTaskAssignmentsListOptionalParams extends coreClient.OperationOptions {
+    maxpagesize?: string;
+}
+
+// @public
+export type StorageTaskAssignmentsListResponse = StorageTaskAssignmentsList;
+
+// @public
+export interface StorageTaskAssignmentsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface StorageTaskAssignmentsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type StorageTaskAssignmentsUpdateResponse = StorageTaskAssignment;
+
+// @public
+export interface StorageTaskAssignmentUpdateExecutionContext {
+    target?: ExecutionTarget;
+    trigger?: ExecutionTriggerUpdate;
+}
+
+// @public
+export interface StorageTaskAssignmentUpdateParameters {
+    properties?: StorageTaskAssignmentUpdateProperties;
+}
+
+// @public
+export interface StorageTaskAssignmentUpdateProperties {
+    description?: string;
+    enabled?: boolean;
+    executionContext?: StorageTaskAssignmentUpdateExecutionContext;
+    readonly provisioningState?: ProvisioningState;
+    report?: StorageTaskAssignmentUpdateReport;
+    runStatus?: StorageTaskReportProperties;
+    readonly taskId?: string;
+}
+
+// @public
+export interface StorageTaskAssignmentUpdateReport {
+    prefix?: string;
+}
+
+// @public
+export interface StorageTaskReportInstance extends ProxyResource {
+    properties?: StorageTaskReportProperties;
+}
+
+// @public
+export interface StorageTaskReportProperties {
+    readonly finishTime?: string;
+    readonly objectFailedCount?: string;
+    readonly objectsOperatedOnCount?: string;
+    readonly objectsSucceededCount?: string;
+    readonly objectsTargetedCount?: string;
+    readonly runResult?: RunResult;
+    readonly runStatusEnum?: RunStatusEnum;
+    readonly runStatusError?: string;
+    readonly startTime?: string;
+    readonly storageAccountId?: string;
+    readonly summaryReportPath?: string;
+    readonly taskAssignmentId?: string;
+    readonly taskId?: string;
+    readonly taskVersion?: string;
+}
+
+// @public
+export interface StorageTaskReportSummary {
+    readonly nextLink?: string;
+    readonly value?: StorageTaskReportInstance[];
 }
 
 // @public
@@ -2824,6 +3269,27 @@ export interface TrackedResource extends Resource {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export interface TriggerParameters {
+    endBy?: Date;
+    interval?: number;
+    intervalUnit?: "Days";
+    startFrom?: Date;
+    startOn?: Date;
+}
+
+// @public
+export interface TriggerParametersUpdate {
+    endBy?: Date;
+    interval?: number;
+    intervalUnit?: "Days";
+    startFrom?: Date;
+    startOn?: Date;
+}
+
+// @public
+export type TriggerType = "RunOnce" | "OnSchedule";
 
 // @public
 export interface UpdateHistoryProperty {

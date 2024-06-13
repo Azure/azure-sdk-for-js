@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Gets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobServicesGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobServicesGet.json
  */
 async function getBlobServices() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function getBlobServices() {
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.blobServices.getServiceProperties(
     resourceGroupName,
-    accountName
+    accountName,
   );
   console.log(result);
 }
