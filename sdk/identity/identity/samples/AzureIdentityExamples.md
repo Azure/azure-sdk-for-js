@@ -656,7 +656,7 @@ steps:
       scriptType: bash
       scriptLocation: "inlineScript"
       inlineScript: |
-        node <path-to-the-javascript-code>
+        node <path-to-the-javascript-code-file>
 ```
 
 **Note: The environment variables `AZURESUBSCRIPTION_CLIENT_ID`, `AZURESUBSCRIPTION_TENANT_ID`, and `AZURESUBSCRIPTION_SERVICE_CONNECTION_ID` are configured by Azure Pipelines only in the tasks `AzureCLI@2` and `AzurePowershell@5`. Values from these environment variables should be passed into the constructor of `AzurePipelinesCredential` by the user.**

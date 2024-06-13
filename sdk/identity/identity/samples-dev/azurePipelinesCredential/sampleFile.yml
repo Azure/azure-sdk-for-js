@@ -8,6 +8,8 @@ steps:
   - script: |
       npm install @azure/identity@4.3.0
       npm install @azure/keyvault-secrets
+      npm install -D typescript
+      npm install -D ts-node
     displayName: "Install the test version of Azure Identity"
 
   - task: AzureCLI@2
@@ -17,4 +19,4 @@ steps:
       scriptType: bash
       scriptLocation: "inlineScript"
       inlineScript: |
-        node sdk/identity/identity/samples/sample.js
+        node <PATH-TO-JS-FILE eg: sdk/identity/identity/samples/sample.js>

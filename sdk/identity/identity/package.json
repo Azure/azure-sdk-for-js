@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "4.3.0-beta.1",
+  "version": "4.3.0",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Microsoft Entra ID",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -128,6 +128,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/keyvault-keys": "^4.2.0",
+    "@azure/keyvault-secrets": "^4.8.0",
     "@azure-tools/test-utils": "^1.0.1",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",

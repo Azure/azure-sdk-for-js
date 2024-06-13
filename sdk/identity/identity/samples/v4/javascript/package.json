@@ -31,6 +31,8 @@
   "dependencies": {
     "@azure/identity": "latest",
     "dotenv": "latest",
-    "@azure/keyvault-keys": "^4.2.0"
+    "@azure/keyvault-keys": "^4.2.0",
+    "@azure/core-rest-pipeline": "^1.1.0",
+    "@azure/keyvault-secrets": "^4.8.0"
   }
 }
