@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   StorageMover as StorageMoverMapper,
@@ -21,7 +21,7 @@ import {
   Project as ProjectMapper,
   ProjectUpdateParameters as ProjectUpdateParametersMapper,
   JobDefinition as JobDefinitionMapper,
-  JobDefinitionUpdateParameters as JobDefinitionUpdateParametersMapper
+  JobDefinitionUpdateParameters as JobDefinitionUpdateParametersMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -31,9 +31,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -42,22 +42,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-10-01",
+    defaultValue: "2024-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -66,24 +66,24 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -91,14 +91,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const storageMoverName: OperationURLParameter = {
@@ -107,9 +107,9 @@ export const storageMoverName: OperationURLParameter = {
     serializedName: "storageMoverName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -119,19 +119,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const storageMover: OperationParameter = {
   parameterPath: "storageMover",
-  mapper: StorageMoverMapper
+  mapper: StorageMoverMapper,
 };
 
 export const storageMover1: OperationParameter = {
   parameterPath: "storageMover",
-  mapper: StorageMoverUpdateParametersMapper
+  mapper: StorageMoverUpdateParametersMapper,
 };
 
 export const agentName: OperationURLParameter = {
@@ -140,19 +140,19 @@ export const agentName: OperationURLParameter = {
     serializedName: "agentName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const agent: OperationParameter = {
   parameterPath: "agent",
-  mapper: AgentMapper
+  mapper: AgentMapper,
 };
 
 export const agent1: OperationParameter = {
   parameterPath: "agent",
-  mapper: AgentUpdateParametersMapper
+  mapper: AgentUpdateParametersMapper,
 };
 
 export const endpointName: OperationURLParameter = {
@@ -161,19 +161,19 @@ export const endpointName: OperationURLParameter = {
     serializedName: "endpointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const endpoint: OperationParameter = {
   parameterPath: "endpoint",
-  mapper: EndpointMapper
+  mapper: EndpointMapper,
 };
 
 export const endpoint1: OperationParameter = {
   parameterPath: "endpoint",
-  mapper: EndpointBaseUpdateParametersMapper
+  mapper: EndpointBaseUpdateParametersMapper,
 };
 
 export const projectName: OperationURLParameter = {
@@ -182,19 +182,19 @@ export const projectName: OperationURLParameter = {
     serializedName: "projectName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const project: OperationParameter = {
   parameterPath: "project",
-  mapper: ProjectMapper
+  mapper: ProjectMapper,
 };
 
 export const project1: OperationParameter = {
   parameterPath: "project",
-  mapper: ProjectUpdateParametersMapper
+  mapper: ProjectUpdateParametersMapper,
 };
 
 export const jobDefinitionName: OperationURLParameter = {
@@ -203,19 +203,19 @@ export const jobDefinitionName: OperationURLParameter = {
     serializedName: "jobDefinitionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const jobDefinition: OperationParameter = {
   parameterPath: "jobDefinition",
-  mapper: JobDefinitionMapper
+  mapper: JobDefinitionMapper,
 };
 
 export const jobDefinition1: OperationParameter = {
   parameterPath: "jobDefinition",
-  mapper: JobDefinitionUpdateParametersMapper
+  mapper: JobDefinitionUpdateParametersMapper,
 };
 
 export const jobRunName: OperationURLParameter = {
@@ -224,7 +224,7 @@ export const jobRunName: OperationURLParameter = {
     serializedName: "jobRunName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
