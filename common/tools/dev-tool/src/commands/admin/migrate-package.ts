@@ -304,6 +304,7 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
   await renameFieldFiles("browser", "browser", projectFolder, packageJson);
   await renameFieldFiles("react-native", "native", projectFolder, packageJson);
   packageJson.browser = "./dist/browser/index.js";
+  delete packageJson["react-native"];
 
   // Save the updated package.json
   await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
