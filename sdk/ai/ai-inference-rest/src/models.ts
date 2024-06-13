@@ -164,17 +164,6 @@ export interface ChatCompletionsFunctionToolSelection {
   name: string;
 }
 
-/** Represents an image with optional text. */
-export interface EmbeddingInput {
-  /** The input image, in PNG format. */
-  image: string;
-  /**
-   * Optional. The text input to feed into the model (like DINO, CLIP).
-   * Returns a 422 error if the model doesn't support the value or parameter.
-   */
-  text?: string;
-}
-
 /** An abstract representation of a chat message as provided in a request. */
 export type ChatRequestMessage =
   | ChatRequestMessageParent
@@ -216,14 +205,3 @@ export type ChatCompletionsToolSelectionPreset =
   | "auto"
   | "none"
   | "required";
-/** Alias for EmbeddingEncodingFormat */
-export type EmbeddingEncodingFormat =
-  | string
-  | "base64"
-  | "binary"
-  | "float"
-  | "int8"
-  | "ubinary"
-  | "uint8";
-/** Alias for EmbeddingInputType */
-export type EmbeddingInputType = string | "text" | "query" | "document";

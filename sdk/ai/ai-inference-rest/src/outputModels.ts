@@ -113,47 +113,6 @@ export interface ModelInfoOutput {
 }
 
 /**
- * Representation of the response data from an embeddings request.
- * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
- * recommendations, and other similar scenarios.
- */
-export interface EmbeddingsResultOutput {
-  /** Unique identifier for the embeddings result. */
-  id: string;
-  /** Embedding values for the prompts submitted in the request. */
-  data: Array<EmbeddingItemOutput>;
-  /** Usage counts for tokens input using the embeddings API. */
-  usage: EmbeddingsUsageOutput;
-  /** The model ID used to generate this result. */
-  model: string;
-}
-
-/** Representation of a single embeddings relatedness comparison. */
-export interface EmbeddingItemOutput {
-  /**
-   * List of embeddings value for the input prompt. These represent a measurement of the
-   * vector-based relatedness of the provided input.
-   */
-  embedding: number[];
-  /** Index of the prompt to which the EmbeddingItem corresponds. */
-  index: number;
-}
-
-/** Measurement of the amount of tokens used in this request and response. */
-export interface EmbeddingsUsageOutput {
-  /** Number of tokens in the request prompt. */
-  input_tokens: number;
-  /**
-   * Number of tokens used for the prompt sent to the AI model. Typically identical to `input_tokens`.
-   * However, certain AI models may add extra tokens to the input hence the number can be higher.
-   * (for example when input_type="query").
-   */
-  prompt_tokens: number;
-  /** Total number of tokens transacted in this request/response. */
-  total_tokens: number;
-}
-
-/**
  * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
  * chat completion.
  */
