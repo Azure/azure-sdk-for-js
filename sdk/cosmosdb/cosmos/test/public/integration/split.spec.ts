@@ -80,8 +80,7 @@ describe("Partition Splits", () => {
       .container(container.id)
       .items.query("SELECT * FROM root r", {
         maxItemCount: 2,
-        maxDegreeOfParallelism: 1,
-        disableNonStreamingOrderByQuery: true,
+        maxDegreeOfParallelism: 1
       })
       .fetchAll();
 
@@ -123,8 +122,7 @@ describe("Partition Splits", () => {
         .container(container.id)
         .items.query("SELECT * FROM root r", {
           maxItemCount: 2,
-          maxDegreeOfParallelism: 1,
-          disableNonStreamingOrderByQuery: true,
+          maxDegreeOfParallelism: 1
         })
         .fetchAll();
       assert.fail("Expected query to fail");
@@ -139,8 +137,7 @@ describe("Partition Splits", () => {
         .container(container.id)
         .items.query("SELECT * FROM root r", {
           maxItemCount: 2,
-          maxDegreeOfParallelism: 1,
-          disableNonStreamingOrderByQuery: true,
+          maxDegreeOfParallelism: 1 
         })
         .fetchNext();
       assert.fail("Expected query to fail");
@@ -155,8 +152,7 @@ describe("Partition Splits", () => {
         .container(container.id)
         .items.query("SELECT * FROM root r", {
           maxItemCount: 2,
-          maxDegreeOfParallelism: 1,
-          disableNonStreamingOrderByQuery: true,
+          maxDegreeOfParallelism: 1
         })
         .getAsyncIterator();
       const results = [];

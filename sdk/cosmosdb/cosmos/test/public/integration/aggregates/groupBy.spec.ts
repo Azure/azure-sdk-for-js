@@ -8,7 +8,6 @@ import { Context } from "mocha";
 
 const options = {
   maxItemCount: 100,
-  disableNonStreamingOrderByQuery: true,
 };
 
 const items = [

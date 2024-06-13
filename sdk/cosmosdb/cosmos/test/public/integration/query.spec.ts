@@ -33,7 +33,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", function (this
 
     await container.items.create(doc);
     const query = "SELECT * from " + containerId;
-    const queryIterator = container.items.query(query, { disableNonStreamingOrderByQuery: true });
+    const queryIterator = container.items.query(query);
 
     const { resources } = await queryIterator.fetchAll();
     assert.equal(resources[0]["id"], "myId");
@@ -68,8 +68,7 @@ describe("Test Query Metrics", function (this: Suite) {
     await createdContainer.items.create(doc);
     const query = "SELECT * from " + collectionId;
     const queryOptions: FeedOptions = {
-      populateQueryMetrics: true,
-      disableNonStreamingOrderByQuery: true,
+      populateQueryMetrics: true
     };
     const queryIterator = createdContainer.items.query(query, queryOptions);
 
@@ -117,8 +116,7 @@ describe("Partition key in FeedOptions", function (this: Suite) {
     await container.items.create({ id: "bar" });
     const query = "SELECT * from C";
     const queryIterator = container.items.query(query, {
-      partitionKey: "foo",
-      disableNonStreamingOrderByQuery: true,
+      partitionKey: "foo"
     });
 
     const { resources } = await queryIterator.fetchAll();
@@ -167,7 +165,7 @@ describe("aggregate query over null value", function (this: Suite) {
       "SELECT COUNT(c.source) AS _COUNT, c.source FROM c " +
       "WHERE c.referenceNumber IN ('AAAAGDD', 'AAAAHGM') GROUP BY c.source";
 
-    const queryIterator = container.items.query(query, { disableNonStreamingOrderByQuery: true });
+    const queryIterator = container.items.query(query);
 
     const { resources } = await queryIterator.fetchAll();
 
@@ -227,8 +225,7 @@ describe("Test Index metrics", function (this: Suite) {
     const queryList = [query1, query2];
     const queryOptions: FeedOptions = {
       populateIndexMetrics: true,
-      maxItemCount: 1,
-      disableNonStreamingOrderByQuery: true,
+      maxItemCount: 1
     };
     for (const query of queryList) {
       const queryIterator = container.items.query(query, queryOptions);
