@@ -513,7 +513,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
     abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => PromiseLike<TResult>;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
 }
 

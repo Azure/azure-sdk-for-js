@@ -5,7 +5,7 @@ import {
   PollerLike,
   OperationState,
   ResourceLocationConfig,
-  LongRunningOperation,
+  RunningOperation,
   createHttpPoller,
   OperationResponse,
 } from "@azure/core-lro";
@@ -33,7 +33,7 @@ export interface GetLongRunningPollerOptions<TResponse> {
    * The original url of the LRO
    * Should not be null when restoreFrom is set
    */
-  initialUrl?: string;
+  initialRequestUrl?: string;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
@@ -48,7 +48,7 @@ export function getLongRunningPoller<
   TResult = void,
 >(
   client: Client,
-  processResponseBody: (result: TResponse) => PromiseLike<TResult>,
+  processResponseBody: (result: TResponse) => Promise<TResult>,
   options: GetLongRunningPollerOptions<TResponse>,
 ): PollerLike<OperationState<TResult>, TResult> {
   const { restoreFrom, getInitialResponse } = options;
@@ -59,7 +59,7 @@ export function getLongRunningPoller<
   }
   let initialResponse: TResponse | undefined = undefined;
   const pollAbortController = new AbortController();
-  const poller: LongRunningOperation<TResponse> = {
+  const poller: RunningOperation<TResponse> = {
     sendInitialRequest: async () => {
       if (!getInitialResponse) {
         throw new Error(
@@ -99,9 +99,9 @@ export function getLongRunningPoller<
         options.abortSignal?.removeEventListener("abort", abortListener);
         pollOptions?.abortSignal?.removeEventListener("abort", abortListener);
       }
-      if (options.initialUrl || initialResponse) {
+      if (options.initialRequestUrl || initialResponse) {
         response.headers["x-ms-original-url"] =
-          options.initialUrl ?? initialResponse!.request.url;
+          options.initialRequestUrl ?? initialResponse!.request.url;
       }
 
       return getLroResponse(response as TResponse);
@@ -112,7 +112,7 @@ export function getLongRunningPoller<
     resourceLocationConfig: options?.resourceLocationConfig,
     restoreFrom: options?.restoreFrom,
     processResult: (result: unknown) => {
-      return processResponseBody(result as TResponse) as TResult;
+      return processResponseBody(result as TResponse);
     },
   });
 }

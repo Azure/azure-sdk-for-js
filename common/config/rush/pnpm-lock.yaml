@@ -1472,6 +1472,16 @@ packages:
       tslib: 2.6.3
     dev: false
 
+  /@azure/core-lro@3.0.0-beta.2:
+    resolution: {integrity: sha512-8WwZaYHwgp04oA4bnJcjgoHg9Aty4k/fu1EUhaC+r7OhiPwLNKchaY7NH4Z6KqSS8MpFOjmdUjCPcgyAvtweJQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      tslib: 2.6.3
+    dev: false
+
   /@azure/core-paging@1.6.2:
     resolution: {integrity: sha512-YKWi9YuCU04B55h25cnOYZHxXYtEvQEbKST5vqRga7hWY9ydd3FZHdeQF8pyh+acWZvppw13M/LMGx0LABUVMA==}
     engines: {node: '>=18.0.0'}
@@ -16442,14 +16452,14 @@ packages:
     dev: false
 
   file:projects/arm-networkanalytics.tgz:
-    resolution: {integrity: sha512-mK459lxM9y97JaytdCDhtHHNP3O6UwmowkCy06uV5xq1bhBHNbRBLUZlxCajZnSzM2w4ZqYA9w0nAceFottBZA==, tarball: file:projects/arm-networkanalytics.tgz}
+    resolution: {integrity: sha512-TX9P7h6MW5XgpOfZznrbvSDGiL4+sXJnkrNaeWC6zOk951fCby+7o5dJkGHCMGJHKXua6iytBtmVNT1GY73m6A==, tarball: file:projects/arm-networkanalytics.tgz}
     name: '@rush-temp/arm-networkanalytics'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
       '@azure-tools/test-recorder': 3.5.1
       '@azure/abort-controller': 1.1.0
-      '@azure/core-lro': 3.0.0-beta.1
+      '@azure/core-lro': 3.0.0-beta.2
       '@azure/identity': 4.2.1
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
       '@types/chai': 4.3.16
