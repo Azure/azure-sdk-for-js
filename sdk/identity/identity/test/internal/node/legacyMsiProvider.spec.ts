@@ -275,7 +275,6 @@ describe("ManagedIdentityCredential", function () {
       ],
     });
 
-    console.log(error);
     assert.ok(error!.message!.indexOf("Network unreachable.") > -1);
     assert(error!.name, "CredentialUnavailableError");
   });
