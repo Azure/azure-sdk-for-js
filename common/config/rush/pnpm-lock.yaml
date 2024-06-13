@@ -20592,7 +20592,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-lro': 2.7.2
+      '@azure/core-lro': 3.0.0-beta.1
       '@azure/identity': 4.2.1
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
       '@types/node': 18.19.34
