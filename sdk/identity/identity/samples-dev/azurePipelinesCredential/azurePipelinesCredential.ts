@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Authenticates using AzurePipelines Credential
+ * @summary Authenticates using AzurePipelinesCredential
  */
 import { AzurePipelinesCredential } from "@azure/identity";
 import { KeyClient } from "@azure/keyvault-keys";

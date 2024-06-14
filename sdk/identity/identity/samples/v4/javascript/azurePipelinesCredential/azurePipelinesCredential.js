@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Authenticates using AzurePipelines Credential
+ * @summary Authenticates using AzurePipelinesCredential
  */
 const { AzurePipelinesCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
