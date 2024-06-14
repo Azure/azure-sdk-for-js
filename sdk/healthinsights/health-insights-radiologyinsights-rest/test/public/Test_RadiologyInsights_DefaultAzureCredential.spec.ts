@@ -135,12 +135,11 @@ const RadiologyInsightsJob = {
   },
 };
 
-declare var window: any;
 const param = {
   body: RadiologyInsightsJob,
-}; const testSuite = (typeof window !== 'undefined') ? describe.skip : describe;
+};
 
-testSuite("Radiology Insights Test for DefaultAzureCredential", () => {
+describe("Radiology Insights Test for DefaultAzureCredential", () => {
   let recorder: Recorder;
   let client: AzureHealthInsightsClient;
 
