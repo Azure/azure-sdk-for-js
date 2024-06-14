@@ -2534,10 +2534,32 @@ export class Users {
 
 // @public
 export interface VectorEmbedding {
-    dataType: "float16" | "float32" | "uint8" | "int8";
+    dataType: VectorEmbeddingDataType;
     dimensions: number;
-    distanceFunction: "euclidean" | "cosine" | "dotproduct";
+    distanceFunction: VectorEmbeddingDistanceFunction;
     path: string;
+}
+
+// @public
+export enum VectorEmbeddingDataType {
+    // (undocumented)
+    Float16 = "float16",
+    // (undocumented)
+    Float32 = "float32",
+    // (undocumented)
+    Int8 = "int8",
+    // (undocumented)
+    UInt8 = "uint8"
+}
+
+// @public
+export enum VectorEmbeddingDistanceFunction {
+    // (undocumented)
+    Cosine = "cosine",
+    // (undocumented)
+    DotProduct = "dotproduct",
+    // (undocumented)
+    Euclidean = "euclidean"
 }
 
 // @public
@@ -2548,7 +2570,17 @@ export interface VectorEmbeddingPolicy {
 // @public
 export interface VectorIndex {
     path: string;
-    type: "flat" | "diskANN" | "quantizedFlat";
+    type: VectorIndexType;
+}
+
+// @public
+export enum VectorIndexType {
+    // (undocumented)
+    DiskANN = "diskANN",
+    // (undocumented)
+    Flat = "flat",
+    // (undocumented)
+    QuantizedFlat = "quantizedFlat"
 }
 
 // (No @packageDocumentation comment for this package)
