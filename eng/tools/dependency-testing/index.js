@@ -10,7 +10,7 @@ import packageUtils from "@azure-tools/eng-package-utils";
 // For more details see - https://www.npmjs.com/package/cross-spawn
 import crossSpawn from "cross-spawn";
 
-let cliArguments = argv
+const cliArguments = argv
   .options({
     "artifact-name": {
       type: "string",
@@ -99,7 +99,7 @@ async function insertPackageJson(
   testFolder,
 ) {
   const testPath = path.join(targetPackagePath, testFolder);
-  const testPackageJson = await packageUtils.readFileJson("./templates/package.json");
+  const testPackageJson = await packageUtils.readFileJson("./template/package.json");
   if (packageJsonContents.name.startsWith("@azure/")) {
     testPackageJson.name = packageJsonContents.name.replace("@azure/", "azure-") + "-test";
   } else if (packageJsonContents.name.startsWith("@azure-rest/")) {
@@ -108,12 +108,16 @@ async function insertPackageJson(
   }
   await usePackageTestTimeout(testPackageJson, packageJsonContents);
   testPackageJson.type = packageJsonContents.type;
-  if (packageJsonContents.scripts["integration-test:node"].includes("vitest")) {
+
+  if (packageJsonContents.devDependencies["tshy"]) {
+    testPackageJson.scripts["build"] = "tshy";
+  }
+
+  if (packageJsonContents.devDependencies["vitest"]) {
     testPackageJson.scripts["integration-test:node"] =
       "dev-tool run test:vitest -- -c vitest.dependency-test.config.ts";
     testPackageJson.scripts["integration-test:browser"] =
       "dev-tool run build-test && dev-tool run test:vitest --browser  -- -c vitest.dependency-test.browser.config.ts";
-    testPackageJson.scripts["build"] = "echo skipped.";
   }
 
   testPackageJson.devDependencies = {};
@@ -205,7 +209,7 @@ async function findAppropriateVersion(packageName, packageJsonDepVersion, repoRo
     }
     console.log(versionType);
     if (versionType === "min") {
-      let minVersion = await semver.minSatisfying(allVersions, packageJsonDepVersion);
+      let minVersion = semver.minSatisfying(allVersions, packageJsonDepVersion);
       if (minVersion) {
         return minVersion;
       } else {
@@ -238,12 +242,12 @@ async function findAppropriateVersion(packageName, packageJsonDepVersion, repoRo
 }
 
 async function getPackageVersion(repoRoot, packageName) {
-  let thisPackage = await getPackageFromRush(repoRoot, packageName);
-  console.log(thisPackage);
-  let thisPackagePath = path.join(repoRoot, thisPackage.projectFolder);
-  let thisPackageJsonPath = path.join(thisPackagePath, "package.json");
-  let thisPackageJsonContents = await packageUtils.readFileJson(thisPackageJsonPath);
-  console.log(thisPackageJsonContents);
+  const thisPackage = await getPackageFromRush(repoRoot, packageName);
+
+  const thisPackagePath = path.join(repoRoot, thisPackage.projectFolder);
+  const thisPackageJsonPath = path.join(thisPackagePath, "package.json");
+  const thisPackageJsonContents = await packageUtils.readFileJson(thisPackageJsonPath);
+
   return thisPackageJsonContents.version;
 }
 
@@ -283,9 +287,17 @@ function copyVitestConfig(targetPackagePath, testFolder) {
   fs.writeFileSync(vitestConfigPath, vitestConfig);
 }
 
-async function insertTsConfigJson(targetPackagePath, testFolder) {
+async function insertTsConfigJson(packageJsonContents, targetPackagePath, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
   let tsConfigJson = await packageUtils.readFileJson("./templates/tsconfig.json");
+
+  // Check if ESM
+  if (packageJsonContents.type === "module") {
+    tsConfigJson.compilerOptions.module = "NodeNext";
+    tsConfigJson.compilerOptions.moduleResolution = "NodeNext";
+    delete tsConfigJson.compilerOptions.outDir;
+    tsConfigJson.include = ["src/**/*.ts", "src/**/*.cts", "src/**/*.mts", "test/**/*.ts"];
+  }
 
   const tsConfigPath = path.join(testPath, "tsconfig.json");
   await packageUtils.writePackageJson(tsConfigPath, tsConfigJson);
@@ -409,7 +421,7 @@ async function main(argv) {
     versionType,
     testFolder,
   );
-  await insertTsConfigJson(targetPackagePath, testFolder);
+  await insertTsConfigJson(packageJsonContents, targetPackagePath, testFolder);
   copyVitestConfig(targetPackagePath, testFolder);
   if (dryRun) {
     console.log("Dry run only, no changes");

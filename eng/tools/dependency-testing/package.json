@@ -20,10 +20,15 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "dependencies": {
+    "@azure-tools/eng-package-utils": "file:../eng-package-utils",
     "cross-spawn": "^7.0.3",
     "prettier": "^3.3.2",
     "semver": "^7.6.2",
-    "yargs": "^17.7.2",
-    "@azure-tools/eng-package-utils": "file:../eng-package-utils"
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.6",
+    "@types/semver": "^7.5.8",
+    "@types/yargs": "^17.0.32"
   }
 }
