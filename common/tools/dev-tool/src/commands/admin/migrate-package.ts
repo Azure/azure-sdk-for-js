@@ -146,7 +146,22 @@ function fixTestingImports(packageFolder: string): void {
 
   // Iterate over all the source files
   for (const sourceFile of project.getSourceFiles()) {
-    console.log(`Fixing imports in ${sourceFile.getFilePath()}`);
+    // Remove if the file is a test utility for chai
+    if (
+      sourceFile.getFilePath().includes("/test") &&
+      !sourceFile.getBaseName().endsWith(".spec.ts")
+    ) {
+      for (const importDeclaration of sourceFile.getImportDeclarations()) {
+        const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
+        if (["chai", "assert"].includes(moduleSpecifier)) {
+          importDeclaration.remove();
+          sourceFile.addImportDeclaration({
+            namedImports: ["assert"],
+            moduleSpecifier: "vitest",
+          });
+        }
+      }
+    }
 
     if (sourceFile.getBaseName().endsWith(".spec.ts")) {
       // If the file ends with .spec.ts, add the import statement
