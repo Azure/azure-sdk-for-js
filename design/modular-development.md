@@ -267,17 +267,12 @@ To support this in our packages, we should think about how we support a hybrid p
 For design considerations and code re-use, we could deploy a hybrid solution to this problem by using the single method exports and still expose the existing `ServiceClient` which simply acts as a proxy to the underlying method.  
 
 ```typescript
-import { 
-  NotificationHubsClientContext, 
-  createClientContext, 
-  createRegistrationId } from "@azure/notification-hubs/api";
+import { NotificationHubsClientContext, createClientContext, createRegistrationId } from "@azure/notification-hubs/api";
 
 export class NotificationHubsServiceClient {
   private _context: NotificationHubsClientContext;
 
-  constructor(connectionString: string, 
-  hubName: string, 
-  options: NotificationHubClientOptions) {
+  constructor(connectionString: string, hubName: string, options: NotificationHubClientOptions) {
     this._context = createClientContext(connectionString, hubName, options);
   }
 
