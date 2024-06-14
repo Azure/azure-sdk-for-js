@@ -1,14 +1,10 @@
 # Release History
 
-## 4.3.0-beta.3 (Unreleased)
+## 4.3.0 (2024-06-18)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added `AzurePipelinesCredential` for supporting workload identity federation in Azure Pipelines with service connections.
 
 ## 4.3.0-beta.2 (2024-06-10)
 
