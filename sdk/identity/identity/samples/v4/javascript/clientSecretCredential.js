@@ -15,7 +15,7 @@ async function main() {
   const credential = new ClientSecretCredential(
     process.env.AZURE_TENANT_ID, // The tenant ID in Microsoft Entra ID
     process.env.AZURE_CLIENT_ID, // The app registration client Id in the Microsoft Entra tenant
-    process.env.AZURE_CLIENT_SECRET // The app registration secret for the registered application
+    process.env.AZURE_CLIENT_SECRET,
   );
 
   const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
