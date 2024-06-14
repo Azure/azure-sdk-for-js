@@ -6,7 +6,7 @@ We are excited to announce the GA of a new set of management plane libraries for
 APIs that are idiomatic, compatible, and dependable. See [TypeScript Design Guidelines](https://azure.github.io/azure-sdk/typescript_design.html) for more information.
 
 Currently, we have released GA version of several packages such as `azure/arm-resources`, `@azure/arm-storage`, 
-`@azure/arm-compute`, `@azure/arm-network` for next-generation. Please find the latest version of those libraries in [npmjs.com](https://www.npmjs.org) and have a try.
+`@azure/arm-compute`, `@azure/arm-network` for next-generation. Please find the latest version of those libraries in [npm](https://www.npmjs.com) and have a try.
 
 In this basic quickstart guide, we will walk you through how to
 authenticate to Azure and start interacting with Azure resources. There are several possible approaches to
@@ -76,7 +76,7 @@ As an example, to install the Azure Compute module, you would run :
 ```sh
 npm i @azure/arm-compute@latest
 ```
-You can always find the latest preview version of our next-generation management libraries via [npmjs](https://www.npmjs.org) under the `next` tag of each package.  
+You can always find the latest preview version of our next-generation management libraries via [npm](https://www.npmjs.com) under the `next` tag of each package.  
 
 We also recommend installing other packages for authentication and core functionalities :
 

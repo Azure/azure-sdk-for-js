@@ -182,10 +182,10 @@ In order to use Azure SDK libraries inside JS, you need to import code from the 
 ```js
 // src/index.js
 const { BlobServiceClient } = require("@azure/storage-blob");
-// Now, do something interesting with BlobServiceClient :)
+// Now do something interesting with BlobServiceClient :)
 ```
 
-Now, we need to configure Rollup to take the above code and turn it into a bundle. Save the following `rollup.config.js` file next to your `package.json` file you created earlier:
+Next we need to configure Rollup to take the above code and turn it into a bundle. Save the following `rollup.config.js` file next to your `package.json` file you created earlier:
 
 ```js
 // rollup.config.js
@@ -238,7 +238,7 @@ We also need to install the plugins we referenced in the above file:
 npm install --save-dev @rollup/plugin-node-resolve @rollup/plugin-commonjs @rollup/plugin-json rollup-plugin-shim
 ```
 
-Now, that we have our config file and necessary plugins installed, we can run rollup:
+Now that we have our config file and necessary plugins installed, we can run rollup:
 
 ```sh
 rollup --config
@@ -260,7 +260,7 @@ First, you need to install [TypeScript](https://typescriptlang.org):
 npm install --save-dev typescript
 ```
 
-Now, let's create a very basic [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file to configure TypeScript. If you've already configured TypeScript, you can skip this step. Save the following `tsconfig.json` file next to your `package.json` file you created earlier:
+Next, let's create a very basic [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file to configure TypeScript. If you've already configured TypeScript, you can skip this step. Save the following `tsconfig.json` file next to your `package.json` file you created earlier:
 
 ```json
 {
@@ -280,10 +280,10 @@ Similar to our JS example above, let's create an `index.ts` file that imports fr
 ```ts
 // src/index.ts
 import { BlobServiceClient } from "@azure/storage-blob";
-// Now, do something interesting with BlobServiceClient :)
+// Now do something interesting with BlobServiceClient :)
 ```
 
-Now, we need to configure Rollup to take the above code and turn it into a bundle. Save the following `rollup.config.js` file next to your `package.json` file you created earlier:
+Next we need to configure Rollup to take the above code and turn it into a bundle. Save the following `rollup.config.js` file next to your `package.json` file you created earlier:
 
 ```js
 // rollup.config.js
@@ -346,7 +346,7 @@ rollup --config
 
 This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the brower-compatible bundle to `dist/bundle.js` as configured above.
 
-Now, you can use this bundled output file inside an html page via a script tag:
+Now you can use this bundled output file inside an html page via a script tag:
 
 ```html
 <script src="./dist/bundle.js"></script>
@@ -381,7 +381,7 @@ To accomplish this, let's create two files, `index.js` and `index.html`:
 ```js
 // index.js
 const { BlobServiceClient } = require("@azure/storage-blob");
-// Now, do something interesting with BlobServiceClient :)
+// Now do something interesting with BlobServiceClient :)
 ```
 
 ```html
@@ -394,7 +394,7 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 </html>
 ```
 
-Now, you can invoke parcel on the command-line:
+Now you can invoke parcel on the command-line:
 
 ```sh
 parcel index.html
@@ -428,7 +428,7 @@ Next, you need to install [TypeScript](https://typescriptlang.org):
 npm install --save-dev typescript
 ```
 
-Now, let's create a very basic [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file to configure TypeScript:
+Next, let's create a very basic [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file to configure TypeScript:
 
 ```json
 {
@@ -465,7 +465,7 @@ and also an `index.html` that references it:
 </html>
 ```
 
-Now, you can invoke parcel on the command-line:
+Now you can invoke parcel on the command-line:
 
 ```sh
 parcel index.html

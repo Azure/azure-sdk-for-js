@@ -103,7 +103,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
 3. **Edit rush.json**  
     
-    As the libraries in `azure-sdk-for-js` repository are managed by rush, you need to add an entry in `rush.json` under projects section for the first time to make sure it works. For example:
+    As the libraries in the `azure-sdk-for-js` repository are managed by rush, you need to add an entry in `rush.json` under projects section for the first time to make sure it works. For example:
 
     ```json
         {
@@ -113,7 +113,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
         },
     ```
 
-    Here, you also need to replace the `packageName`, `projectFolder` into your own services'.
+    You also need to replace the `packageName`, `projectFolder` entries with your own services'.
 
 # After SDK generation
 

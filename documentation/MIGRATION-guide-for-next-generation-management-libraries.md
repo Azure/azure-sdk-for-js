@@ -6,7 +6,7 @@ This document shows the customers of the JavaScript/TypeScript management librar
 
 ## Current status
 
-Currently, we have released GA version of selected services including `@azure/arm-resources`, `@azure/arm-storage`, `@azure/arm-compute`, `@azure/arm-network`. We are actively working on releasing more packages and eventually cover all Azure services. Please find the latest version of those libraries in [npmjs.com](https://www.npmjs.org) and have a try.
+Currently, we have released GA version of selected services including `@azure/arm-resources`, `@azure/arm-storage`, `@azure/arm-compute`, `@azure/arm-network`. We are actively working on releasing more packages and eventually cover all Azure services. Please find the latest version of those libraries in [npm](https://www.npmjs.com) and have a try.
 
 ## Why Switching to the next-generation
 
