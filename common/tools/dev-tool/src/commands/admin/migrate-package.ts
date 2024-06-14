@@ -146,10 +146,23 @@ function fixTestingImports(packageFolder: string): void {
 
   // Iterate over all the source files
   for (const sourceFile of project.getSourceFiles()) {
-    // If the file ends with .spec.ts, add the import statement
+    console.log(`Fixing imports in ${sourceFile.getFilePath()}`);
+
     if (sourceFile.getBaseName().endsWith(".spec.ts")) {
+      // If the file ends with .spec.ts, add the import statement
+      const hasMocking = sourceFile.getImportDeclarations().some((importDeclaration) => {
+        const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
+        return moduleSpecifier === "sinon";
+      });
+
+      const viTestImports = ["describe", "it", "assert"];
+      // Insert typical mocking imports if needed
+      if (hasMocking) {
+        viTestImports.push("expect, vi, beforeEach, afterEach");
+      }
+
       sourceFile.addImportDeclaration({
-        namedImports: ["describe", "it", "assert"],
+        namedImports: viTestImports,
         moduleSpecifier: "vitest",
       });
     }
@@ -162,6 +175,18 @@ function fixTestingImports(packageFolder: string): void {
       // If the module specifier is legacy, remove the import declaration
       if (modulesToRemove.includes(moduleSpecifier)) {
         importDeclaration.remove();
+      } else if (moduleSpecifier === "@azure-tools/test-utils") {
+        // If the module specifier is "@azure-tools/test-utils", remove the "assert" named import
+        const namedImports = importDeclaration.getNamedImports();
+        const assertImport = namedImports.find((namedImport) => namedImport.getName() === "assert");
+        if (assertImport) {
+          assertImport.remove();
+        }
+
+        // If there are no named imports left, remove the entire import declaration
+        if (importDeclaration.getNamedImports().length === 0) {
+          importDeclaration.remove();
+        }
       }
     }
     // Save the changes to the source file
@@ -220,7 +245,7 @@ function fixSourceFiles(packageFolder: string): void {
 }
 
 function fixDeclaration(sourceFile: SourceFile, moduleSpecifier: string): string {
-  if (moduleSpecifier.startsWith("./") || moduleSpecifier.startsWith("../")) {
+  if (moduleSpecifier.startsWith(".") || moduleSpecifier.startsWith("..")) {
     if (!moduleSpecifier.endsWith(".js")) {
       // If the module specifier ends with "/", add "index.js", otherwise add ".js"
       if (moduleSpecifier.endsWith("/")) {
