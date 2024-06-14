@@ -62,6 +62,8 @@ const client = RadiologyInsightsRestClient(endpoint, credential);
 export async function main() {
   const credential = new AzureKeyCredential(apiKey);
   const client = AzureHealthInsightsClient(endpoint, credential);
+  // if you want to use DefaultAzureCredential, you need to be logged in through az portal
+  const client = AzureHealthInsightsClient(endpoint, new DefaultAzureCredential());
 
   // Create request body
   const radiologyInsightsParameter = createRequestBody();

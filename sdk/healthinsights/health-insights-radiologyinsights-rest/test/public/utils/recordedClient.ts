@@ -7,6 +7,7 @@ import {
   RecorderStartOptions,
 } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 import { Context } from "mocha";
 import AHIClient, { AzureHealthInsightsClient } from "../../../src";
 import "./env";
@@ -44,5 +45,11 @@ export async function createClient(recorder: Recorder): Promise<AzureHealthInsig
   const endpoint = assertEnvironmentVariable("HEALTH_INSIGHTS_ENDPOINT");
   const key = assertEnvironmentVariable("HEALTH_INSIGHTS_KEY");
   const credential = new AzureKeyCredential(key);
+  return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
+}
+
+export async function createDefaultClient(recorder: Recorder): Promise<AzureHealthInsightsClient> {
+  const endpoint = assertEnvironmentVariable("HEALTH_INSIGHTS_ENDPOINT");
+  const credential = new DefaultAzureCredential() as any;
   return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
 }
