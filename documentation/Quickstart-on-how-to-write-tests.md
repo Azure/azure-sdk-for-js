@@ -60,7 +60,7 @@ generate-test: true
 
 They only contains basics for testing, you need to update to your own utility and test cases. The overall structure will be similar to below:
 
-_Note: the structure of `test` folder has slight differences between high-level and rest-level clients. In HLC, we only have one file under the `test` folder which contains all contents. But in RLC, we separate the sample test and utils._
+_Note: the structure of the `test` folder has slight differences between high-level and rest-level clients. In HLC, we only have one file under the `test` folder which contains all contents. But in RLC, we separate the sample test and utils._
 
 ```
 sdk/
