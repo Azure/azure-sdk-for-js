@@ -4,7 +4,7 @@
 
 In Azure [API design guideline](https://azure.github.io/azure-sdk/general_design.html#client-interface), we allow one client library to have multiple service clients. which can be defined with multiple @client decorators in TypeSpec. But our Rest Level Client (RLC) is meant to be light-weighted and RESTful.  
 
-As you may know, our JS next generation library [Modular](https://github.com/Azure/azure-sdk-for-js/blob/main/design/modular-development.md) is composited of classical client layer, api layer and rest layer. And, one of our goals is to have customers like Azure Portal to use our libraries with the rest layer.
+As you may know, our JS next generation library [Modular](https://github.com/Azure/azure-sdk-for-js/blob/main/design/modular-development.md) is composited of classical client layer, api layer and rest layer. One of our goals is to have customers like Azure Portal use our libraries with the rest layer.
 
 This document is going to talk about what the multi-client and multi-endpoint for our Modular would look like. We will introduce it from:
 
