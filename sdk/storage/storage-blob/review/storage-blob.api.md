@@ -409,6 +409,7 @@ export class BlobClient extends StorageClient {
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
     generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string>;
+    getAccountInfo(options?: BlobGetAccountInfoOptions): Promise<BlobGetAccountInfoResponse>;
     getAppendBlobClient(): AppendBlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
     getBlockBlobClient(): BlockBlobClient;
@@ -433,7 +434,7 @@ export interface BlobCopyFromURLHeaders {
     clientRequestId?: string;
     contentMD5?: Uint8Array;
     copyId?: string;
-    copyStatus?: "success";
+    copyStatus?: SyncCopyStatusType;
     date?: Date;
     encryptionScope?: string;
     errorCode?: string;
@@ -647,6 +648,25 @@ export interface BlobFlatListSegmentModel {
 export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
     permissions?: BlobSASPermissions;
 }
+
+// @public
+export interface BlobGetAccountInfoHeaders {
+    accountKind?: AccountKind;
+    clientRequestId?: string;
+    date?: Date;
+    isHierarchicalNamespaceEnabled?: boolean;
+    requestId?: string;
+    skuName?: SkuName;
+    version?: string;
+}
+
+// @public
+export interface BlobGetAccountInfoOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type BlobGetAccountInfoResponse = WithResponse<BlobGetAccountInfoHeaders, BlobGetAccountInfoHeaders>;
 
 // @public
 export interface BlobGetPropertiesHeaders {
@@ -1683,6 +1703,7 @@ export class ContainerClient extends StorageClient {
     findBlobsByTags(tagFilterSqlExpression: string, options?: ContainerFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ContainerFindBlobsByTagsSegmentResponse>;
     generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
+    getAccountInfo(options?: ContainerGetAccountInfoOptions): Promise<ContainerGetAccountInfoResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
     getBlobBatchClient(): BlobBatchClient;
     getBlobClient(blobName: string): BlobClient;
@@ -1819,6 +1840,25 @@ export type ContainerGetAccessPolicyResponse = WithResponse<{
 
 // @public
 export type ContainerGetAccessPolicyResponseModel = ContainerGetAccessPolicyHeaders & SignedIdentifierModel[];
+
+// @public
+export interface ContainerGetAccountInfoHeaders {
+    accountKind?: AccountKind;
+    clientRequestId?: string;
+    date?: Date;
+    isHierarchicalNamespaceEnabled?: boolean;
+    requestId?: string;
+    skuName?: SkuName;
+    version?: string;
+}
+
+// @public
+export interface ContainerGetAccountInfoOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type ContainerGetAccountInfoResponse = WithResponse<ContainerGetAccountInfoHeaders, ContainerGetAccountInfoHeaders>;
 
 // @public
 export interface ContainerGetPropertiesHeaders {
@@ -2159,6 +2199,9 @@ export interface GeoReplication {
 
 // @public
 export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
+
+// @public
+export function getBlobServiceAccountAudience(storageAccountName: string): string;
 
 // @public
 export interface HttpAuthorization {
@@ -3182,6 +3225,9 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
     protected signRequest(request: WebResource): WebResource;
 }
+
+// @public
+export type SyncCopyStatusType = "success";
 
 // @public
 export interface TagConditions {

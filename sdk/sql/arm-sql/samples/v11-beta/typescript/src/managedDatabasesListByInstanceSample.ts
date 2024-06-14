@@ -31,7 +31,7 @@ async function listDatabasesByManagedInstances() {
   const resArray = new Array();
   for await (let item of client.managedDatabases.listByInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

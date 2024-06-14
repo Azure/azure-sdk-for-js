@@ -37,7 +37,7 @@ For more information, see our [support policy](https://github.com/Azure/azure-sd
 Install the Azure Monitor Query client library for JavaScript with npm:
 
 ```bash
-npm install @azure/monitor-query
+npm install --save @azure/monitor-query
 ```
 
 ### Create the client
@@ -61,21 +61,28 @@ const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(endPoint, 
 
 #### Configure client for Azure sovereign cloud
 
-By default, `LogsQueryClient` and `MetricsQueryClient` are configured to use the Azure Public Cloud. To use a sovereign cloud instead, provide the correct `endpoint` argument. For example:
+By default, the library's clients are configured to use the Azure Public Cloud. To use a sovereign cloud instead, provide the correct endpoint and audience value when instantiating a client. For example:
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, MetricsQueryClient } from "@azure/monitor-query";
+import { LogsQueryClient, MetricsQueryClient, MetricsClient } from "@azure/monitor-query";
 
 const credential = new DefaultAzureCredential();
 
-const logsQueryClient = new LogsQueryClient(credential, {
+const logsQueryClient: LogsQueryClient = new LogsQueryClient(credential, {
   endpoint: "https://api.loganalytics.azure.cn/v1",
+  audience: "https://api.loganalytics.azure.cn/.default",
 });
-
 // or
-const metricsQueryClient = new MetricsQueryClient(credential{
+const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(credential, {
   endpoint: "https://management.chinacloudapi.cn",
+  audience: "https://monitor.azure.cn/.default",
+});
+// or
+const endPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
+
+const metricsClient: MetricsClient = new MetricsClient(endPoint, credential, {
+  audience: "https://monitor.azure.cn/.default",
 });
 ```
 
@@ -113,6 +120,8 @@ Each set of metric values is a time series with the following characteristics:
 - [Advanced logs query scenarios](#advanced-logs-query-scenarios)
   - [Set logs query timeout](#set-logs-query-timeout)
   - [Query multiple workspaces](#query-multiple-workspaces)
+  - [Include statistics](#include-statistics)
+  - [Include visualization](#include-visualization)
 - [Metrics query](#metrics-query)
   - [Handle metrics query response](#handle-metrics-query-response)
   - [Example of handling response](#example-of-handling-response)
@@ -122,7 +131,7 @@ Each set of metric values is a time series with the following characteristics:
 
 The `LogsQueryClient` can be used to query a Log Analytics workspace using the [Kusto Query Language][kusto_query_language]. The `timespan.duration` can be specified as a string in an ISO 8601 duration format. You can use the `Durations` constants provided for some commonly used ISO 8601 durations.
 
-You can query logs by workspace ID or resource ID. The result is returned as a table with a collection of rows.
+You can query logs by Log Analytics workspace ID or Azure resource ID. The result is returned as a table with a collection of rows.
 
 #### Workspace-centric logs query
 
@@ -582,7 +591,7 @@ To get logs query execution statistics, such as CPU and memory consumption:
 The following example prints the query execution time:
 
 ```ts
-const workspaceId = "<workspace_id>";
+const monitorWorkspaceId = "<workspace_id>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 const kustoQuery = "AzureActivity | top 10 by TimeGenerated";
 
@@ -628,16 +637,16 @@ To get visualization data for logs queries using the [render operator](https://l
 For example:
 
 ```ts
-const workspaceId = "<workspace_id>";
+const monitorWorkspaceId = "<workspace_id>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 const result = await logsQueryClient.queryWorkspace(
     monitorWorkspaceId,
-    @"StormEvents
+    `StormEvents
         | summarize event_count = count() by State
         | where event_count > 10
         | project State, event_count
-        | render columnchart",
+        | render columnchart`,
     { duration: Durations.oneDay },
     {
       includeVisualization: true
@@ -841,7 +850,10 @@ Each Azure resource must reside in:
 - The same region as the endpoint specified when creating the client.
 - The same Azure subscription.
 
-Furthermore, the metric namespace containing the metrics to be queried must be provided. For a list of metric namespaces, see [Supported metrics and log categories by resource type][metric_namespaces].
+Furthermore:
+
+- The user must be authorized to read monitoring data at the Azure subscription level. For example, the [Monitoring Reader role](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles/monitor#monitoring-reader) on the subscription to be queried.
+- The metric namespace containing the metrics to be queried must be provided. For a list of metric namespaces, see [Supported metrics and log categories by resource type][metric_namespaces].
 
 ```ts
 let resourceIds: string[] = [

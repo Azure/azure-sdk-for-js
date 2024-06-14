@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as arcMsi from "../../../src/credentials/managedIdentityCredential/arcMsi";
+
 import { AzureLogger, setLogLevel } from "@azure/logger";
 import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
 import {
@@ -8,8 +10,7 @@ import {
   imdsEndpointPath,
   imdsHost,
 } from "../../../src/credentials/managedIdentityCredential/constants";
-import { imdsMsi } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
-import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
+
 import { Context } from "mocha";
 import { GetTokenOptions } from "@azure/core-auth";
 import { IdentityTestContext } from "../../httpRequests";
@@ -17,9 +18,10 @@ import { ManagedIdentityCredential } from "../../../src";
 import { RestError } from "@azure/core-rest-pipeline";
 import Sinon from "sinon";
 import { assert } from "chai";
+import fs from "node:fs";
+import { imdsMsi } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
 import { join } from "path";
 import { logger } from "../../../src/credentials/managedIdentityCredential/cloudShellMsi";
-import { tmpdir } from "os";
 
 describe("ManagedIdentityCredential", function () {
   let testContext: IdentityTestContextInterface;
@@ -323,9 +325,9 @@ describe("ManagedIdentityCredential", function () {
         createResponse(404),
         createResponse(404),
         createResponse(404),
+        createResponse(404),
       ],
     });
-
     assert.ok(
       error!.message!.indexOf(
         `Failed to retrieve IMDS token after ${credential["msiRetryConfig"].maxRetries} retries.`,
@@ -761,20 +763,32 @@ describe("ManagedIdentityCredential", function () {
     ]);
   });
 
-  it("sends an authorization request correctly in an Azure Arc environment", async function (this: Mocha.Context) {
-    // Trigger Azure Arc behavior by setting environment variables
+  describe("Azure Arc", function () {
+    const keyContents = "challenge key";
+    let expectedDirectory: string;
 
-    process.env.IMDS_ENDPOINT = "http://endpoint";
-    process.env.IDENTITY_ENDPOINT = "http://endpoint";
+    beforeEach(function () {
+      if (process.platform !== "win32" && process.platform !== "linux") {
+        // not supported on this platform
+        this.skip();
+      }
+      expectedDirectory = arcMsi.platformToFilePath();
 
-    // eslint-disable-next-line @typescript-eslint/no-invalid-this
-    const testTitle = this.test?.title || `test-Date.time()`;
-    const tempDir = mkdtempSync(join(tmpdir(), testTitle));
-    const tempFile = join(tempDir, testTitle);
-    const key = "challenge key";
-    writeFileSync(tempFile, key, { encoding: "utf8" });
+      // Trigger Azure Arc behavior by setting environment variables
+      process.env.IMDS_ENDPOINT = "http://endpoint";
+      process.env.IDENTITY_ENDPOINT = "http://endpoint";
+      // Stub out a valid key file
+      Sinon.stub(fs, "statSync").returns({ size: 400 } as any);
+      Sinon.stub(fs.promises, "readFile").resolves(keyContents);
+    });
 
-    try {
+    afterEach(function () {
+      Sinon.restore();
+    });
+
+    it("sends an authorization request correctly in an Azure Arc environment", async function (this: Mocha.Context) {
+      const tempFile = join(expectedDirectory, "fake.key");
+
       const authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default"],
         credential: new ManagedIdentityCredential(),
@@ -800,6 +814,7 @@ describe("ManagedIdentityCredential", function () {
       assert.equal(validationRequest.method, "GET");
       assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
 
+      assert.exists(process.env.IDENTITY_ENDPOINT);
       assert.ok(
         validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
         "URL does not start with expected host and path",
@@ -813,37 +828,22 @@ describe("ManagedIdentityCredential", function () {
       assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
 
       assert.ok(
-        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT!),
         "URL does not start with expected host and path",
       );
 
-      assert.equal(authRequest.headers.Authorization, `Basic ${key}`);
+      assert.equal(authRequest.headers.Authorization, `Basic ${keyContents}`);
       if (authDetails.result!.token) {
         // We use Date.now underneath.
         assert.ok(authDetails.result!.expiresOnTimestamp);
       } else {
         assert.fail("No token was returned!");
       }
-    } finally {
-      unlinkSync(tempFile);
-      rmdirSync(tempDir);
-    }
-  });
+    });
 
-  it("sends an authorization request correctly in an Azure Arc environment (with resourceId)", async function (this: Mocha.Context) {
-    // Trigger Azure Arc behavior by setting environment variables
+    it("sends an authorization request correctly in an Azure Arc environment (with resourceId)", async function (this: Mocha.Context) {
+      const filePath = join(expectedDirectory, "fake.key");
 
-    process.env.IMDS_ENDPOINT = "http://endpoint";
-    process.env.IDENTITY_ENDPOINT = "http://endpoint";
-
-    // eslint-disable-next-line @typescript-eslint/no-invalid-this
-    const testTitle = this.test?.title || `test-Date.time()`;
-    const tempDir = mkdtempSync(join(tmpdir(), testTitle));
-    const tempFile = join(tempDir, testTitle);
-    const key = "challenge key";
-    writeFileSync(tempFile, key, { encoding: "utf8" });
-
-    try {
       const authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default"],
         credential: new ManagedIdentityCredential({ resourceId: "RESOURCE-ID" }),
@@ -852,7 +852,7 @@ describe("ManagedIdentityCredential", function () {
             401,
             {},
             {
-              "www-authenticate": `we don't pay much attention about this format=${tempFile}`,
+              "www-authenticate": `we don't pay much attention about this format=${filePath}`,
             },
           ),
           createResponse(200, {
@@ -864,12 +864,12 @@ describe("ManagedIdentityCredential", function () {
 
       // File request
       const validationRequest = authDetails.requests[0];
-      console.log(validationRequest.url.split("?")[1]);
       let query = new URLSearchParams(validationRequest.url.split("?")[1]);
 
       assert.equal(validationRequest.method, "GET");
       assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
 
+      assert.exists(process.env.IDENTITY_ENDPOINT);
       assert.ok(
         validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
         "URL does not start with expected host and path",
@@ -877,7 +877,6 @@ describe("ManagedIdentityCredential", function () {
 
       // Authorization request, which comes after getting the file path, for now at least.
       const authRequest = authDetails.requests[1];
-      console.log(authRequest.url.split("?")[1]);
       query = new URLSearchParams(authRequest.url.split("?")[1]);
 
       assert.equal(authRequest.method, "GET");
@@ -889,33 +888,18 @@ describe("ManagedIdentityCredential", function () {
         "URL does not start with expected host and path",
       );
 
-      assert.equal(authRequest.headers.Authorization, `Basic ${key}`);
+      assert.equal(authRequest.headers.Authorization, `Basic ${keyContents}`);
       if (authDetails.result!.token) {
         // We use Date.now underneath.
         assert.ok(authDetails.result!.expiresOnTimestamp);
       } else {
         assert.fail("No token was returned!");
       }
-    } finally {
-      unlinkSync(tempFile);
-      rmdirSync(tempDir);
-    }
-  });
+    });
 
-  it("sends an authorization request correctly in an Azure Arc environment (with clientId)", async function (this: Mocha.Context) {
-    // Trigger Azure Arc behavior by setting environment variables
+    it("sends an authorization request correctly in an Azure Arc environment (with clientId)", async function (this: Mocha.Context) {
+      const filePath = join(expectedDirectory, "fake.key");
 
-    process.env.IMDS_ENDPOINT = "http://endpoint";
-    process.env.IDENTITY_ENDPOINT = "http://endpoint";
-
-    // eslint-disable-next-line @typescript-eslint/no-invalid-this
-    const testTitle = this.test?.title || `test-Date.time()`;
-    const tempDir = mkdtempSync(join(tmpdir(), testTitle));
-    const tempFile = join(tempDir, testTitle);
-    const key = "challenge key";
-    writeFileSync(tempFile, key, { encoding: "utf8" });
-
-    try {
       const authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default"],
         credential: new ManagedIdentityCredential({ clientId: "CLIENT-ID" }),
@@ -924,7 +908,7 @@ describe("ManagedIdentityCredential", function () {
             401,
             {},
             {
-              "www-authenticate": `we don't pay much attention about this format=${tempFile}`,
+              "www-authenticate": `we don't pay much attention about this format=${filePath}`,
             },
           ),
           createResponse(200, {
@@ -942,6 +926,7 @@ describe("ManagedIdentityCredential", function () {
       assert.equal(validationRequest.method, "GET");
       assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
 
+      assert.exists(process.env.IDENTITY_ENDPOINT);
       assert.ok(
         validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
         "URL does not start with expected host and path",
@@ -961,17 +946,14 @@ describe("ManagedIdentityCredential", function () {
         "URL does not start with expected host and path",
       );
 
-      assert.equal(authRequest.headers.Authorization, `Basic ${key}`);
+      assert.equal(authRequest.headers.Authorization, `Basic ${keyContents}`);
       if (authDetails.result!.token) {
         // We use Date.now underneath.
         assert.ok(authDetails.result!.expiresOnTimestamp);
       } else {
         assert.fail("No token was returned!");
       }
-    } finally {
-      unlinkSync(tempFile);
-      rmdirSync(tempDir);
-    }
+    });
   });
 
   it("sends an authorization request correctly in an Azure Fabric environment", async () => {

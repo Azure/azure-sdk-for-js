@@ -11,7 +11,7 @@ import {
   StorageTargetFlushOptionalParams,
   StorageTargetSuspendOptionalParams,
   StorageTargetResumeOptionalParams,
-  StorageTargetInvalidateOptionalParams
+  StorageTargetInvalidateOptionalParams,
 } from "../models";
 
 /** Interface representing a StorageTargetOperations. */
@@ -29,7 +29,7 @@ export interface StorageTargetOperations {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetFlushOptionalParams
+    options?: StorageTargetFlushOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Tells the cache to write all dirty data to the Storage Target's backend storage. Client requests to
@@ -44,7 +44,7 @@ export interface StorageTargetOperations {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetFlushOptionalParams
+    options?: StorageTargetFlushOptionalParams,
   ): Promise<void>;
   /**
    * Suspends client access to a storage target.
@@ -58,7 +58,7 @@ export interface StorageTargetOperations {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetSuspendOptionalParams
+    options?: StorageTargetSuspendOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Suspends client access to a storage target.
@@ -72,7 +72,7 @@ export interface StorageTargetOperations {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetSuspendOptionalParams
+    options?: StorageTargetSuspendOptionalParams,
   ): Promise<void>;
   /**
    * Resumes client access to a previously suspended storage target.
@@ -86,7 +86,7 @@ export interface StorageTargetOperations {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetResumeOptionalParams
+    options?: StorageTargetResumeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resumes client access to a previously suspended storage target.
@@ -100,7 +100,7 @@ export interface StorageTargetOperations {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetResumeOptionalParams
+    options?: StorageTargetResumeOptionalParams,
   ): Promise<void>;
   /**
    * Invalidate all cached data for a storage target. Cached files are discarded and fetched from the
@@ -115,7 +115,7 @@ export interface StorageTargetOperations {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetInvalidateOptionalParams
+    options?: StorageTargetInvalidateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Invalidate all cached data for a storage target. Cached files are discarded and fetched from the
@@ -130,6 +130,6 @@ export interface StorageTargetOperations {
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
-    options?: StorageTargetInvalidateOptionalParams
+    options?: StorageTargetInvalidateOptionalParams,
   ): Promise<void>;
 }

@@ -16,7 +16,7 @@ import { FrontDoorManagementClient } from "../frontDoorManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   CustomHttpsConfiguration,
   FrontendEndpointsEnableHttpsOptionalParams,
   FrontendEndpointsDisableHttpsOptionalParams,
-  FrontendEndpointsListByFrontDoorNextResponse
+  FrontendEndpointsListByFrontDoorNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +54,12 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
   public listByFrontDoor(
     resourceGroupName: string,
     frontDoorName: string,
-    options?: FrontendEndpointsListByFrontDoorOptionalParams
+    options?: FrontendEndpointsListByFrontDoorOptionalParams,
   ): PagedAsyncIterableIterator<FrontendEndpoint> {
     const iter = this.listByFrontDoorPagingAll(
       resourceGroupName,
       frontDoorName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
           resourceGroupName,
           frontDoorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
     resourceGroupName: string,
     frontDoorName: string,
     options?: FrontendEndpointsListByFrontDoorOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FrontendEndpoint[]> {
     let result: FrontendEndpointsListByFrontDoorResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
       result = await this._listByFrontDoor(
         resourceGroupName,
         frontDoorName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
         resourceGroupName,
         frontDoorName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
   private async *listByFrontDoorPagingAll(
     resourceGroupName: string,
     frontDoorName: string,
-    options?: FrontendEndpointsListByFrontDoorOptionalParams
+    options?: FrontendEndpointsListByFrontDoorOptionalParams,
   ): AsyncIterableIterator<FrontendEndpoint> {
     for await (const page of this.listByFrontDoorPagingPage(
       resourceGroupName,
       frontDoorName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
   private _listByFrontDoor(
     resourceGroupName: string,
     frontDoorName: string,
-    options?: FrontendEndpointsListByFrontDoorOptionalParams
+    options?: FrontendEndpointsListByFrontDoorOptionalParams,
   ): Promise<FrontendEndpointsListByFrontDoorResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, frontDoorName, options },
-      listByFrontDoorOperationSpec
+      listByFrontDoorOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
     resourceGroupName: string,
     frontDoorName: string,
     frontendEndpointName: string,
-    options?: FrontendEndpointsGetOptionalParams
+    options?: FrontendEndpointsGetOptionalParams,
   ): Promise<FrontendEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, frontDoorName, frontendEndpointName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -178,25 +178,24 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
     frontDoorName: string,
     frontendEndpointName: string,
     customHttpsConfiguration: CustomHttpsConfiguration,
-    options?: FrontendEndpointsEnableHttpsOptionalParams
+    options?: FrontendEndpointsEnableHttpsOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -205,8 +204,8 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -214,8 +213,8 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -226,14 +225,14 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
         frontDoorName,
         frontendEndpointName,
         customHttpsConfiguration,
-        options
+        options,
       },
-      spec: enableHttpsOperationSpec
+      spec: enableHttpsOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -252,14 +251,14 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
     frontDoorName: string,
     frontendEndpointName: string,
     customHttpsConfiguration: CustomHttpsConfiguration,
-    options?: FrontendEndpointsEnableHttpsOptionalParams
+    options?: FrontendEndpointsEnableHttpsOptionalParams,
   ): Promise<void> {
     const poller = await this.beginEnableHttps(
       resourceGroupName,
       frontDoorName,
       frontendEndpointName,
       customHttpsConfiguration,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -275,25 +274,24 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
     resourceGroupName: string,
     frontDoorName: string,
     frontendEndpointName: string,
-    options?: FrontendEndpointsDisableHttpsOptionalParams
+    options?: FrontendEndpointsDisableHttpsOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -302,8 +300,8 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -311,20 +309,20 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, frontDoorName, frontendEndpointName, options },
-      spec: disableHttpsOperationSpec
+      spec: disableHttpsOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -341,13 +339,13 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
     resourceGroupName: string,
     frontDoorName: string,
     frontendEndpointName: string,
-    options?: FrontendEndpointsDisableHttpsOptionalParams
+    options?: FrontendEndpointsDisableHttpsOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDisableHttps(
       resourceGroupName,
       frontDoorName,
       frontendEndpointName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -363,11 +361,11 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
     resourceGroupName: string,
     frontDoorName: string,
     nextLink: string,
-    options?: FrontendEndpointsListByFrontDoorNextOptionalParams
+    options?: FrontendEndpointsListByFrontDoorNextOptionalParams,
   ): Promise<FrontendEndpointsListByFrontDoorNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, frontDoorName, nextLink, options },
-      listByFrontDoorNextOperationSpec
+      listByFrontDoorNextOperationSpec,
     );
   }
 }
@@ -375,38 +373,15 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByFrontDoorOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FrontendEndpointsListResult
+      bodyMapper: Mappers.FrontendEndpointsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.frontDoorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FrontendEndpoint
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -414,14 +389,34 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.frontDoorName,
-    Parameters.frontendEndpointName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FrontendEndpoint,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.frontDoorName,
+    Parameters.frontendEndpointName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const enableHttpsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/enableHttps",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/enableHttps",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -429,8 +424,8 @@ const enableHttpsOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.customHttpsConfiguration,
   queryParameters: [Parameters.apiVersion1],
@@ -439,15 +434,14 @@ const enableHttpsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.frontDoorName,
-    Parameters.frontendEndpointName
+    Parameters.frontendEndpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const disableHttpsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/disableHttps",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/disableHttps",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -455,8 +449,8 @@ const disableHttpsOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -464,29 +458,29 @@ const disableHttpsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.frontDoorName,
-    Parameters.frontendEndpointName
+    Parameters.frontendEndpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByFrontDoorNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FrontendEndpointsListResult
+      bodyMapper: Mappers.FrontendEndpointsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.frontDoorName
+    Parameters.frontDoorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

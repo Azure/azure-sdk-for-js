@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { GeneratedClient } from "./generatedClient";
-export { GeneratedClientContext } from "./generatedClientContext";
+export * from "./models/index.js";
+export { GeneratedClient } from "./generatedClient.js";
+export { GeneratedClientContext } from "./generatedClientContext.js";

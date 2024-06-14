@@ -16,7 +16,7 @@ import { EventGridManagementClient } from "../eventGridManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,13 +36,14 @@ import {
   PartnerTopicEventSubscriptionsGetFullUrlResponse,
   PartnerTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
   PartnerTopicEventSubscriptionsGetDeliveryAttributesResponse,
-  PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse
+  PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PartnerTopicEventSubscriptions operations. */
 export class PartnerTopicEventSubscriptionsImpl
-  implements PartnerTopicEventSubscriptions {
+  implements PartnerTopicEventSubscriptions
+{
   private readonly client: EventGridManagementClient;
 
   /**
@@ -62,12 +63,12 @@ export class PartnerTopicEventSubscriptionsImpl
   public listByPartnerTopic(
     resourceGroupName: string,
     partnerTopicName: string,
-    options?: PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams
+    options?: PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams,
   ): PagedAsyncIterableIterator<EventSubscription> {
     const iter = this.listByPartnerTopicPagingAll(
       resourceGroupName,
       partnerTopicName,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +85,9 @@ export class PartnerTopicEventSubscriptionsImpl
           resourceGroupName,
           partnerTopicName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +95,7 @@ export class PartnerTopicEventSubscriptionsImpl
     resourceGroupName: string,
     partnerTopicName: string,
     options?: PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EventSubscription[]> {
     let result: PartnerTopicEventSubscriptionsListByPartnerTopicResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +103,7 @@ export class PartnerTopicEventSubscriptionsImpl
       result = await this._listByPartnerTopic(
         resourceGroupName,
         partnerTopicName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -114,7 +115,7 @@ export class PartnerTopicEventSubscriptionsImpl
         resourceGroupName,
         partnerTopicName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,12 +127,12 @@ export class PartnerTopicEventSubscriptionsImpl
   private async *listByPartnerTopicPagingAll(
     resourceGroupName: string,
     partnerTopicName: string,
-    options?: PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams
+    options?: PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams,
   ): AsyncIterableIterator<EventSubscription> {
     for await (const page of this.listByPartnerTopicPagingPage(
       resourceGroupName,
       partnerTopicName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,19 +142,18 @@ export class PartnerTopicEventSubscriptionsImpl
    * Get properties of an event subscription of a partner topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param partnerTopicName Name of the partner topic.
-   * @param eventSubscriptionName Name of the event subscription to be found. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be found.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     partnerTopicName: string,
     eventSubscriptionName: string,
-    options?: PartnerTopicEventSubscriptionsGetOptionalParams
+    options?: PartnerTopicEventSubscriptionsGetOptionalParams,
   ): Promise<PartnerTopicEventSubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, partnerTopicName, eventSubscriptionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -163,7 +163,7 @@ export class PartnerTopicEventSubscriptionsImpl
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param partnerTopicName Name of the partner topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   *                              must be between 3 and 64 characters in length and use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the destination and filter
    *                              information.
    * @param options The options parameters.
@@ -173,7 +173,7 @@ export class PartnerTopicEventSubscriptionsImpl
     partnerTopicName: string,
     eventSubscriptionName: string,
     eventSubscriptionInfo: EventSubscription,
-    options?: PartnerTopicEventSubscriptionsCreateOrUpdateOptionalParams
+    options?: PartnerTopicEventSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PartnerTopicEventSubscriptionsCreateOrUpdateResponse>,
@@ -182,21 +182,20 @@ export class PartnerTopicEventSubscriptionsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PartnerTopicEventSubscriptionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -205,8 +204,8 @@ export class PartnerTopicEventSubscriptionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -214,8 +213,8 @@ export class PartnerTopicEventSubscriptionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -226,16 +225,16 @@ export class PartnerTopicEventSubscriptionsImpl
         partnerTopicName,
         eventSubscriptionName,
         eventSubscriptionInfo,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PartnerTopicEventSubscriptionsCreateOrUpdateResponse,
       OperationState<PartnerTopicEventSubscriptionsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -247,7 +246,7 @@ export class PartnerTopicEventSubscriptionsImpl
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param partnerTopicName Name of the partner topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   *                              must be between 3 and 64 characters in length and use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the destination and filter
    *                              information.
    * @param options The options parameters.
@@ -257,14 +256,14 @@ export class PartnerTopicEventSubscriptionsImpl
     partnerTopicName: string,
     eventSubscriptionName: string,
     eventSubscriptionInfo: EventSubscription,
-    options?: PartnerTopicEventSubscriptionsCreateOrUpdateOptionalParams
+    options?: PartnerTopicEventSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<PartnerTopicEventSubscriptionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       partnerTopicName,
       eventSubscriptionName,
       eventSubscriptionInfo,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -273,33 +272,31 @@ export class PartnerTopicEventSubscriptionsImpl
    * Delete an existing event subscription of a partner topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param partnerTopicName Name of the partner topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be deleted.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     partnerTopicName: string,
     eventSubscriptionName: string,
-    options?: PartnerTopicEventSubscriptionsDeleteOptionalParams
+    options?: PartnerTopicEventSubscriptionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -308,8 +305,8 @@ export class PartnerTopicEventSubscriptionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -317,8 +314,8 @@ export class PartnerTopicEventSubscriptionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -328,13 +325,13 @@ export class PartnerTopicEventSubscriptionsImpl
         resourceGroupName,
         partnerTopicName,
         eventSubscriptionName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -344,21 +341,20 @@ export class PartnerTopicEventSubscriptionsImpl
    * Delete an existing event subscription of a partner topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param partnerTopicName Name of the partner topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be deleted.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     partnerTopicName: string,
     eventSubscriptionName: string,
-    options?: PartnerTopicEventSubscriptionsDeleteOptionalParams
+    options?: PartnerTopicEventSubscriptionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       partnerTopicName,
       eventSubscriptionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -367,8 +363,7 @@ export class PartnerTopicEventSubscriptionsImpl
    * Update an existing event subscription of a partner topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param partnerTopicName Name of the partner topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be updated.
    * @param eventSubscriptionUpdateParameters Updated event subscription information.
    * @param options The options parameters.
    */
@@ -377,7 +372,7 @@ export class PartnerTopicEventSubscriptionsImpl
     partnerTopicName: string,
     eventSubscriptionName: string,
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
-    options?: PartnerTopicEventSubscriptionsUpdateOptionalParams
+    options?: PartnerTopicEventSubscriptionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PartnerTopicEventSubscriptionsUpdateResponse>,
@@ -386,21 +381,20 @@ export class PartnerTopicEventSubscriptionsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PartnerTopicEventSubscriptionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -409,8 +403,8 @@ export class PartnerTopicEventSubscriptionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -418,8 +412,8 @@ export class PartnerTopicEventSubscriptionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -430,16 +424,16 @@ export class PartnerTopicEventSubscriptionsImpl
         partnerTopicName,
         eventSubscriptionName,
         eventSubscriptionUpdateParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       PartnerTopicEventSubscriptionsUpdateResponse,
       OperationState<PartnerTopicEventSubscriptionsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -449,8 +443,7 @@ export class PartnerTopicEventSubscriptionsImpl
    * Update an existing event subscription of a partner topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param partnerTopicName Name of the partner topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be updated.
    * @param eventSubscriptionUpdateParameters Updated event subscription information.
    * @param options The options parameters.
    */
@@ -459,14 +452,14 @@ export class PartnerTopicEventSubscriptionsImpl
     partnerTopicName: string,
     eventSubscriptionName: string,
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
-    options?: PartnerTopicEventSubscriptionsUpdateOptionalParams
+    options?: PartnerTopicEventSubscriptionsUpdateOptionalParams,
   ): Promise<PartnerTopicEventSubscriptionsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       partnerTopicName,
       eventSubscriptionName,
       eventSubscriptionUpdateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -475,19 +468,18 @@ export class PartnerTopicEventSubscriptionsImpl
    * Get the full endpoint URL for an event subscription of a partner topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param partnerTopicName Name of the partner topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription.
    * @param options The options parameters.
    */
   getFullUrl(
     resourceGroupName: string,
     partnerTopicName: string,
     eventSubscriptionName: string,
-    options?: PartnerTopicEventSubscriptionsGetFullUrlOptionalParams
+    options?: PartnerTopicEventSubscriptionsGetFullUrlOptionalParams,
   ): Promise<PartnerTopicEventSubscriptionsGetFullUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, partnerTopicName, eventSubscriptionName, options },
-      getFullUrlOperationSpec
+      getFullUrlOperationSpec,
     );
   }
 
@@ -500,11 +492,11 @@ export class PartnerTopicEventSubscriptionsImpl
   private _listByPartnerTopic(
     resourceGroupName: string,
     partnerTopicName: string,
-    options?: PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams
+    options?: PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams,
   ): Promise<PartnerTopicEventSubscriptionsListByPartnerTopicResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, partnerTopicName, options },
-      listByPartnerTopicOperationSpec
+      listByPartnerTopicOperationSpec,
     );
   }
 
@@ -512,19 +504,18 @@ export class PartnerTopicEventSubscriptionsImpl
    * Get all delivery attributes for an event subscription of a partner topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param partnerTopicName Name of the partner topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription.
    * @param options The options parameters.
    */
   getDeliveryAttributes(
     resourceGroupName: string,
     partnerTopicName: string,
     eventSubscriptionName: string,
-    options?: PartnerTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
+    options?: PartnerTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
   ): Promise<PartnerTopicEventSubscriptionsGetDeliveryAttributesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, partnerTopicName, eventSubscriptionName, options },
-      getDeliveryAttributesOperationSpec
+      getDeliveryAttributesOperationSpec,
     );
   }
 
@@ -539,11 +530,11 @@ export class PartnerTopicEventSubscriptionsImpl
     resourceGroupName: string,
     partnerTopicName: string,
     nextLink: string,
-    options?: PartnerTopicEventSubscriptionsListByPartnerTopicNextOptionalParams
+    options?: PartnerTopicEventSubscriptionsListByPartnerTopicNextOptionalParams,
   ): Promise<PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, partnerTopicName, nextLink, options },
-      listByPartnerTopicNextOperationSpec
+      listByPartnerTopicNextOperationSpec,
     );
   }
 }
@@ -551,14 +542,13 @@ export class PartnerTopicEventSubscriptionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/eventSubscriptions/{eventSubscriptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/eventSubscriptions/{eventSubscriptionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -566,29 +556,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.eventSubscriptionName,
-    Parameters.partnerTopicName
+    Parameters.partnerTopicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/eventSubscriptions/{eventSubscriptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/eventSubscriptions/{eventSubscriptionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
     201: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
     202: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
     204: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.eventSubscriptionInfo,
   queryParameters: [Parameters.apiVersion],
@@ -597,15 +586,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.eventSubscriptionName,
-    Parameters.partnerTopicName
+    Parameters.partnerTopicName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/eventSubscriptions/{eventSubscriptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/eventSubscriptions/{eventSubscriptionName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -614,28 +602,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.eventSubscriptionName,
-    Parameters.partnerTopicName
+    Parameters.partnerTopicName,
   ],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/eventSubscriptions/{eventSubscriptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/eventSubscriptions/{eventSubscriptionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
     201: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
     202: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
     204: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.eventSubscriptionUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -644,21 +631,20 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.eventSubscriptionName,
-    Parameters.partnerTopicName
+    Parameters.partnerTopicName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getFullUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/eventSubscriptions/{eventSubscriptionName}/getFullUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/eventSubscriptions/{eventSubscriptionName}/getFullUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EventSubscriptionFullUrl
+      bodyMapper: Mappers.EventSubscriptionFullUrl,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -666,40 +652,38 @@ const getFullUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.eventSubscriptionName,
-    Parameters.partnerTopicName
+    Parameters.partnerTopicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByPartnerTopicOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/eventSubscriptions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/eventSubscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventSubscriptionsListResult
+      bodyMapper: Mappers.EventSubscriptionsListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerTopicName
+    Parameters.partnerTopicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerTopics/{partnerTopicName}/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DeliveryAttributeListResult
+      bodyMapper: Mappers.DeliveryAttributeListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -707,27 +691,27 @@ const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.eventSubscriptionName,
-    Parameters.partnerTopicName
+    Parameters.partnerTopicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByPartnerTopicNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventSubscriptionsListResult
+      bodyMapper: Mappers.EventSubscriptionsListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.partnerTopicName
+    Parameters.partnerTopicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

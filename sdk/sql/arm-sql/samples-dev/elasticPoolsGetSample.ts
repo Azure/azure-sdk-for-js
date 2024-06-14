@@ -33,7 +33,7 @@ async function getAHyperscaleElasticPool() {
   const result = await client.elasticPools.get(
     resourceGroupName,
     serverName,
-    elasticPoolName
+    elasticPoolName,
   );
   console.log(result);
 }
@@ -57,7 +57,7 @@ async function getAnElasticPool() {
   const result = await client.elasticPools.get(
     resourceGroupName,
     serverName,
-    elasticPoolName
+    elasticPoolName,
   );
   console.log(result);
 }
@@ -81,7 +81,7 @@ async function getAnElasticPoolWithAvailabilityZone() {
   const result = await client.elasticPools.get(
     resourceGroupName,
     serverName,
-    elasticPoolName
+    elasticPoolName,
   );
   console.log(result);
 }
@@ -105,7 +105,7 @@ async function getAnElasticPoolWithPreferredEnclaveTypeParameter() {
   const result = await client.elasticPools.get(
     resourceGroupName,
     serverName,
-    elasticPoolName
+    elasticPoolName,
   );
   console.log(result);
 }

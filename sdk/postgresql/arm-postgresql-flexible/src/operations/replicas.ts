@@ -15,7 +15,7 @@ import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagemen
 import {
   Server,
   ReplicasListByServerOptionalParams,
-  ReplicasListByServerResponse
+  ReplicasListByServerResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,12 +40,12 @@ export class ReplicasImpl implements Replicas {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ReplicasListByServerOptionalParams
+    options?: ReplicasListByServerOptionalParams,
   ): PagedAsyncIterableIterator<Server> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -62,9 +62,9 @@ export class ReplicasImpl implements Replicas {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,7 +72,7 @@ export class ReplicasImpl implements Replicas {
     resourceGroupName: string,
     serverName: string,
     options?: ReplicasListByServerOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Server[]> {
     let result: ReplicasListByServerResponse;
     result = await this._listByServer(resourceGroupName, serverName, options);
@@ -82,12 +82,12 @@ export class ReplicasImpl implements Replicas {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ReplicasListByServerOptionalParams
+    options?: ReplicasListByServerOptionalParams,
   ): AsyncIterableIterator<Server> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -102,11 +102,11 @@ export class ReplicasImpl implements Replicas {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ReplicasListByServerOptionalParams
+    options?: ReplicasListByServerOptionalParams,
   ): Promise<ReplicasListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 }
@@ -114,24 +114,23 @@ export class ReplicasImpl implements Replicas {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/replicas",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/replicas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerListResult
+      bodyMapper: Mappers.ServerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

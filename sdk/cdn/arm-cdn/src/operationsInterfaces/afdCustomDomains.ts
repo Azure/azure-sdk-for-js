@@ -19,7 +19,7 @@ import {
   AfdCustomDomainsUpdateOptionalParams,
   AfdCustomDomainsUpdateResponse,
   AfdCustomDomainsDeleteOptionalParams,
-  AfdCustomDomainsRefreshValidationTokenOptionalParams
+  AfdCustomDomainsRefreshValidationTokenOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface AfdCustomDomains {
   listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdCustomDomainsListByProfileOptionalParams
+    options?: AfdCustomDomainsListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<AFDDomain>;
   /**
    * Gets an existing AzureFrontDoor domain with the specified domain name under the specified
@@ -50,7 +50,7 @@ export interface AfdCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AfdCustomDomainsGetOptionalParams
+    options?: AfdCustomDomainsGetOptionalParams,
   ): Promise<AfdCustomDomainsGetResponse>;
   /**
    * Creates a new domain within the specified profile.
@@ -66,7 +66,7 @@ export interface AfdCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomain: AFDDomain,
-    options?: AfdCustomDomainsCreateOptionalParams
+    options?: AfdCustomDomainsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AfdCustomDomainsCreateResponse>,
@@ -87,7 +87,7 @@ export interface AfdCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomain: AFDDomain,
-    options?: AfdCustomDomainsCreateOptionalParams
+    options?: AfdCustomDomainsCreateOptionalParams,
   ): Promise<AfdCustomDomainsCreateResponse>;
   /**
    * Updates an existing domain within a profile.
@@ -103,7 +103,7 @@ export interface AfdCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomainUpdateProperties: AFDDomainUpdateParameters,
-    options?: AfdCustomDomainsUpdateOptionalParams
+    options?: AfdCustomDomainsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AfdCustomDomainsUpdateResponse>,
@@ -124,7 +124,7 @@ export interface AfdCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomainUpdateProperties: AFDDomainUpdateParameters,
-    options?: AfdCustomDomainsUpdateOptionalParams
+    options?: AfdCustomDomainsUpdateOptionalParams,
   ): Promise<AfdCustomDomainsUpdateResponse>;
   /**
    * Deletes an existing AzureFrontDoor domain with the specified domain name under the specified
@@ -139,7 +139,7 @@ export interface AfdCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AfdCustomDomainsDeleteOptionalParams
+    options?: AfdCustomDomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing AzureFrontDoor domain with the specified domain name under the specified
@@ -154,7 +154,7 @@ export interface AfdCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AfdCustomDomainsDeleteOptionalParams
+    options?: AfdCustomDomainsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates the domain validation token.
@@ -168,7 +168,7 @@ export interface AfdCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AfdCustomDomainsRefreshValidationTokenOptionalParams
+    options?: AfdCustomDomainsRefreshValidationTokenOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Updates the domain validation token.
@@ -182,6 +182,6 @@ export interface AfdCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AfdCustomDomainsRefreshValidationTokenOptionalParams
+    options?: AfdCustomDomainsRefreshValidationTokenOptionalParams,
   ): Promise<void>;
 }

@@ -4,6 +4,7 @@
 import chai from "chai";
 import Long from "long";
 const should = chai.should();
+const expect = chai.expect;
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ServiceBusMessage, delay } from "../../src";
@@ -19,7 +20,6 @@ import {
   getRandomTestClientType,
 } from "./utils/testutils2";
 import { ServiceBusSender } from "../../src";
-import { AbortController } from "@azure/abort-controller";
 import { StandardAbortMessage } from "@azure/core-amqp";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
@@ -463,7 +463,7 @@ describe("Sender Tests", () => {
         });
         throw new Error(`Test failure`);
       } catch (err: any) {
-        err.message.should.equal(StandardAbortMessage);
+        expect(err.message).includes(StandardAbortMessage);
       }
     },
   );
@@ -478,7 +478,7 @@ describe("Sender Tests", () => {
         await sender.cancelScheduledMessages([Long.ZERO], { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err: any) {
-        err.message.should.equal(StandardAbortMessage);
+        expect(err.message).includes(StandardAbortMessage);
       }
     },
   );
@@ -592,7 +592,9 @@ describe("ServiceBusMessage validations", function (): void {
         actualErrorMsg = err.message;
       });
 
-      should.equal(actualErrorMsg, testInput.expectedErrorMessage, "Error not thrown as expected");
+      expect(actualErrorMsg, "Error not thrown as expected").includes(
+        testInput.expectedErrorMessage,
+      );
     });
 
     // sendBatch(<Array of messages>) - Commented
@@ -603,11 +605,8 @@ describe("ServiceBusMessage validations", function (): void {
     //     await sender.sendBatch([testInput.message, { body: "random" }]).catch((err) => {
     //       actualErrorMsg = err.message;
     //     });
-    //     should.equal(
-    //       actualErrorMsg,
-    //       testInput.expectedErrorMessage,
-    //       "Error not thrown as expected"
-    //     );
+    //     expect(actualErrorMsg, "Error not thrown as expected")
+    //       .includes(testInput.expectedErrorMessage);
     //   }
     // );
 
@@ -618,11 +617,8 @@ describe("ServiceBusMessage validations", function (): void {
     //     await sender.sendBatch([{ body: "random" }, testInput.message]).catch((err) => {
     //       actualErrorMsg = err.message;
     //     });
-    //     should.equal(
-    //       actualErrorMsg,
-    //       testInput.expectedErrorMessage,
-    //       "Error not thrown as expected"
-    //     );
+    //     expect(actualErrorMsg, "Error not thrown as expected")
+    //       .includes(testInput.expectedErrorMessage);
     //   }
     // );
 
@@ -633,7 +629,7 @@ describe("ServiceBusMessage validations", function (): void {
         actualErr = err;
         actualErrorMsg = err.message;
       });
-      should.equal(actualErrorMsg, testInput.expectedErrorMessage, actualErr);
+      expect(actualErrorMsg, actualErr).includes(testInput.expectedErrorMessage);
     });
   });
 });

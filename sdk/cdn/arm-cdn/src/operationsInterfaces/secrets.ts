@@ -15,7 +15,7 @@ import {
   SecretsGetResponse,
   SecretsCreateOptionalParams,
   SecretsCreateResponse,
-  SecretsDeleteOptionalParams
+  SecretsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Secrets {
   listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: SecretsListByProfileOptionalParams
+    options?: SecretsListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<Secret>;
   /**
    * Gets an existing Secret within a profile.
@@ -45,7 +45,7 @@ export interface Secrets {
     resourceGroupName: string,
     profileName: string,
     secretName: string,
-    options?: SecretsGetOptionalParams
+    options?: SecretsGetOptionalParams,
   ): Promise<SecretsGetResponse>;
   /**
    * Creates a new Secret within the specified profile.
@@ -61,7 +61,7 @@ export interface Secrets {
     profileName: string,
     secretName: string,
     secret: Secret,
-    options?: SecretsCreateOptionalParams
+    options?: SecretsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SecretsCreateResponse>,
@@ -82,7 +82,7 @@ export interface Secrets {
     profileName: string,
     secretName: string,
     secret: Secret,
-    options?: SecretsCreateOptionalParams
+    options?: SecretsCreateOptionalParams,
   ): Promise<SecretsCreateResponse>;
   /**
    * Deletes an existing Secret within profile.
@@ -96,7 +96,7 @@ export interface Secrets {
     resourceGroupName: string,
     profileName: string,
     secretName: string,
-    options?: SecretsDeleteOptionalParams
+    options?: SecretsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Secret within profile.
@@ -110,6 +110,6 @@ export interface Secrets {
     resourceGroupName: string,
     profileName: string,
     secretName: string,
-    options?: SecretsDeleteOptionalParams
+    options?: SecretsDeleteOptionalParams,
   ): Promise<void>;
 }

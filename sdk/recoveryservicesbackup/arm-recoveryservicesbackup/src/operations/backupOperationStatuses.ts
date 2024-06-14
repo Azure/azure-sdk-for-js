@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   BackupOperationStatusesGetOptionalParams,
-  BackupOperationStatusesGetResponse
+  BackupOperationStatusesGetResponse,
 } from "../models";
 
 /** Class containing BackupOperationStatuses operations. */
@@ -44,11 +44,11 @@ export class BackupOperationStatusesImpl implements BackupOperationStatuses {
     vaultName: string,
     resourceGroupName: string,
     operationId: string,
-    options?: BackupOperationStatusesGetOptionalParams
+    options?: BackupOperationStatusesGetOptionalParams,
   ): Promise<BackupOperationStatusesGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -56,16 +56,15 @@ export class BackupOperationStatusesImpl implements BackupOperationStatuses {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupOperations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupOperations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -73,8 +72,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

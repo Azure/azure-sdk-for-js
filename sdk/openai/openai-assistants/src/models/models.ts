@@ -10,7 +10,7 @@
  */
 /** The request details to use when creating a new assistant. */
 export interface AssistantCreationOptions {
-  /** The ID of the model to use. */
+  /** The ID of the model to use. (In Azure AI Studio, corresponds to "Deployment name") */
   model: string;
   /** The name of the new assistant. */
   name?: string | null;
@@ -123,12 +123,7 @@ export interface AssistantFileDeletionStatus extends DeletionStatus {}
 /** The details used to create a new assistant thread. */
 export interface AssistantThreadCreationOptions {
   /** The messages to associate with the new thread. */
-  messages?: {
-    /** The role associated with the assistant thread message. */
-    role: string;
-    /** The list of content items associated with the assistant thread message. */
-    content: string;
-  }[];
+  messages?: ThreadInitializationMessage[];
   /** A set of key/value pairs used to store additional information about the object. */
   metadata?: Record<string, string>;
 }
@@ -145,7 +140,7 @@ export interface ThreadInitializationMessage {
    */
   fileIds?: string[];
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata: Record<string, string> | null;
+  metadata?: Record<string, string> | null;
 }
 
 /** Information about a single thread associated with an assistant. */

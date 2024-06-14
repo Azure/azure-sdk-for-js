@@ -16,7 +16,7 @@ import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,13 +29,14 @@ import {
   ServerThreatProtectionSettingsGetResponse,
   ServerThreatProtectionSettingsCreateOrUpdateOptionalParams,
   ServerThreatProtectionSettingsCreateOrUpdateResponse,
-  ServerThreatProtectionSettingsListByServerNextResponse
+  ServerThreatProtectionSettingsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServerThreatProtectionSettings operations. */
 export class ServerThreatProtectionSettingsImpl
-  implements ServerThreatProtectionSettings {
+  implements ServerThreatProtectionSettings
+{
   private readonly client: PostgreSQLManagementFlexibleServerClient;
 
   /**
@@ -55,12 +56,12 @@ export class ServerThreatProtectionSettingsImpl
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerThreatProtectionSettingsListByServerOptionalParams
+    options?: ServerThreatProtectionSettingsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerThreatProtectionSettingsModel> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +78,9 @@ export class ServerThreatProtectionSettingsImpl
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +88,7 @@ export class ServerThreatProtectionSettingsImpl
     resourceGroupName: string,
     serverName: string,
     options?: ServerThreatProtectionSettingsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServerThreatProtectionSettingsModel[]> {
     let result: ServerThreatProtectionSettingsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +104,7 @@ export class ServerThreatProtectionSettingsImpl
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +116,12 @@ export class ServerThreatProtectionSettingsImpl
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerThreatProtectionSettingsListByServerOptionalParams
+    options?: ServerThreatProtectionSettingsListByServerOptionalParams,
   ): AsyncIterableIterator<ServerThreatProtectionSettingsModel> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,11 +136,11 @@ export class ServerThreatProtectionSettingsImpl
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerThreatProtectionSettingsListByServerOptionalParams
+    options?: ServerThreatProtectionSettingsListByServerOptionalParams,
   ): Promise<ServerThreatProtectionSettingsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -154,11 +155,11 @@ export class ServerThreatProtectionSettingsImpl
     resourceGroupName: string,
     serverName: string,
     threatProtectionName: ThreatProtectionName,
-    options?: ServerThreatProtectionSettingsGetOptionalParams
+    options?: ServerThreatProtectionSettingsGetOptionalParams,
   ): Promise<ServerThreatProtectionSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, threatProtectionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -175,7 +176,7 @@ export class ServerThreatProtectionSettingsImpl
     serverName: string,
     threatProtectionName: ThreatProtectionName,
     parameters: ServerThreatProtectionSettingsModel,
-    options?: ServerThreatProtectionSettingsCreateOrUpdateOptionalParams
+    options?: ServerThreatProtectionSettingsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerThreatProtectionSettingsCreateOrUpdateResponse>,
@@ -184,21 +185,20 @@ export class ServerThreatProtectionSettingsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServerThreatProtectionSettingsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -207,8 +207,8 @@ export class ServerThreatProtectionSettingsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -216,8 +216,8 @@ export class ServerThreatProtectionSettingsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -228,9 +228,9 @@ export class ServerThreatProtectionSettingsImpl
         serverName,
         threatProtectionName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ServerThreatProtectionSettingsCreateOrUpdateResponse,
@@ -238,7 +238,7 @@ export class ServerThreatProtectionSettingsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -257,14 +257,14 @@ export class ServerThreatProtectionSettingsImpl
     serverName: string,
     threatProtectionName: ThreatProtectionName,
     parameters: ServerThreatProtectionSettingsModel,
-    options?: ServerThreatProtectionSettingsCreateOrUpdateOptionalParams
+    options?: ServerThreatProtectionSettingsCreateOrUpdateOptionalParams,
   ): Promise<ServerThreatProtectionSettingsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
       threatProtectionName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -280,11 +280,11 @@ export class ServerThreatProtectionSettingsImpl
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: ServerThreatProtectionSettingsListByServerNextOptionalParams
+    options?: ServerThreatProtectionSettingsListByServerNextOptionalParams,
   ): Promise<ServerThreatProtectionSettingsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -292,38 +292,15 @@ export class ServerThreatProtectionSettingsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerThreatProtectionListResult
+      bodyMapper: Mappers.ServerThreatProtectionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/{threatProtectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServerThreatProtectionSettingsModel
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -331,31 +308,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.threatProtectionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/{threatProtectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServerThreatProtectionSettingsModel,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.threatProtectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/{threatProtectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/{threatProtectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerThreatProtectionSettingsModel
+      bodyMapper: Mappers.ServerThreatProtectionSettingsModel,
     },
     201: {
-      bodyMapper: Mappers.ServerThreatProtectionSettingsModel
+      bodyMapper: Mappers.ServerThreatProtectionSettingsModel,
     },
     202: {
-      bodyMapper: Mappers.ServerThreatProtectionSettingsModel
+      bodyMapper: Mappers.ServerThreatProtectionSettingsModel,
     },
     204: {
-      bodyMapper: Mappers.ServerThreatProtectionSettingsModel
+      bodyMapper: Mappers.ServerThreatProtectionSettingsModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
@@ -364,30 +361,30 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.threatProtectionName
+    Parameters.threatProtectionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerThreatProtectionListResult
+      bodyMapper: Mappers.ServerThreatProtectionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

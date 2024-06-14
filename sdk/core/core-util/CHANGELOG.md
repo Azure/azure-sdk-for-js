@@ -1,12 +1,23 @@
 # Release History
 
-## 1.8.2 (Unreleased)
+## 1.9.1 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 1.9.0 (2024-04-09)
+
+### Features Added
+
+- Add new `isNodeLike` and `isNodeRuntime` helpers. [PR #29086](https://github.com/Azure/azure-sdk-for-js/pull/29086/files)
+  - `isNodeLike` can be used to test if the current environment is compatible with Node.
+  - `isNodeRuntime` can be used to test if the current environment is strictly Node.js.
+  - Deprecated the existing `isNode` helper. Use `isNodeLike` instead.
 
 ### Other Changes
 
@@ -74,7 +85,6 @@
 ### Bugs Fixed
 
 - UUID fix for older versions of Node.js
-  - [#25501](https://github.com/Azure/azure-sdk-for-js/issues/25501)
   - [#25541](https://github.com/Azure/azure-sdk-for-js/issues/25541)
   - [#25538](https://github.com/Azure/azure-sdk-for-js/issues/25538)
   - [#25532](https://github.com/Azure/azure-sdk-for-js/issues/25532)

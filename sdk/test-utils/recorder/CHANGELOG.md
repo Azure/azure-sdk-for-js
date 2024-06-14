@@ -1,6 +1,23 @@
 # Release History
 
-## 4.0.0 (2024-04-04)
+## 4.1.0 (Unreleased)
+
+### Features Added
+
+- Introduced fallback sanitizers into the test recorder to handle potential secret leaks.
+  - The new sanitizers are designed to work in conjunction with the existing `handleEnvSetup` mechanism and the fake secrets.
+  - The sanitizers include:
+    - `BodyKeySanitizers` that redact sensitive information in the JSON body of the requests.
+    - `FindReplaceSanitizers` that redact sensitive information based on provided regular expressions.
+    - `HeaderSanitizers` that redact sensitive information in the headers of the requests.
+- Added support for the TestProxy/addSanitizers API, which improves the recording of tests by reducing flakiness and timeouts caused by concurrent requests. This helps to speed up the recording process and reduces the burden on the test proxy.
+- Adds `removeCentralSanitizers` option to the `RecorderStartOptions` to allow users pass in the central sanitizer ids to skip the specific santiizers at the test proxy level.
+
+### Bugs Fixed
+
+- Fixes connectionStringSanitizer regression stemmed from batch sanitizers migration, where the request bodies are incorrect.
+
+## 4.0.0 (2024-04-09)
 
 ### Features Added
 

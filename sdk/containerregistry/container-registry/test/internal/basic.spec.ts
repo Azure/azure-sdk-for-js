@@ -8,7 +8,7 @@ import { assert } from "chai";
 import { calculateDigest } from "../../src/utils/digest";
 import { Readable } from "stream";
 import { parseWWWAuthenticate } from "../../src/utils/wwwAuthenticateParser";
-import { expect } from "@azure/test-utils";
+import { expect } from "@azure-tools/test-utils";
 
 describe("ContainerRegistryClient functional test", async function () {
   ["", null, undefined].forEach((value) => {

@@ -11,10 +11,7 @@
  */
 
 const { ServiceBusClient, delay, isServiceBusError } = require("@azure/service-bus");
-const dotenv = require("dotenv");
-const { AbortController } = require("@azure/abort-controller");
-
-dotenv.config();
+require("dotenv").config();
 
 const serviceBusConnectionString =
   process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";

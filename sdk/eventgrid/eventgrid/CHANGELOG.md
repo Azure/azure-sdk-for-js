@@ -1,5 +1,35 @@
 # Release History
 
+## 5.5.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 5.5.0 (2026-06-11)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.Communication.ChatThreadCreated`
+  - `Microsoft.Communication.ChatThreadDeleted`
+  - `Microsoft.Communication.ChatThreadPropertiesUpdated`
+
+## 5.4.0 (2024-04-11)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated`
+  - `Microsoft.Communication.AdvancedMessageReceived`
+  - `Microsoft.Communication.RouterWorkerUpdated`
+
 ## 5.3.0 (2024-03-13)
 
 ### Features Added

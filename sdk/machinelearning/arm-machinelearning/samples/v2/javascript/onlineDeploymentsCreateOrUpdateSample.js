@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureMachineLearningWorkspaces } = require("@azure/arm-machinelearning");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update Inference Endpoint Deployment (asynchronous).
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/KubernetesOnlineDeployment/createOrUpdate.json
  */
 async function createOrUpdateKubernetesOnlineDeployment() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
@@ -75,12 +77,10 @@ async function createOrUpdateKubernetesOnlineDeployment() {
     workspaceName,
     endpointName,
     deploymentName,
-    body
+    body,
   );
   console.log(result);
 }
-
-createOrUpdateKubernetesOnlineDeployment().catch(console.error);
 
 /**
  * This sample demonstrates how to Create or update Inference Endpoint Deployment (asynchronous).
@@ -89,8 +89,9 @@ createOrUpdateKubernetesOnlineDeployment().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/ManagedOnlineDeployment/createOrUpdate.json
  */
 async function createOrUpdateManagedOnlineDeployment() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
@@ -149,9 +150,14 @@ async function createOrUpdateManagedOnlineDeployment() {
     workspaceName,
     endpointName,
     deploymentName,
-    body
+    body,
   );
   console.log(result);
 }
 
-createOrUpdateManagedOnlineDeployment().catch(console.error);
+async function main() {
+  createOrUpdateKubernetesOnlineDeployment();
+  createOrUpdateManagedOnlineDeployment();
+}
+
+main().catch(console.error);

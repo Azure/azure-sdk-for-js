@@ -23,7 +23,7 @@ import {
   NamespaceTopicsListSharedAccessKeysResponse,
   TopicRegenerateKeyRequest,
   NamespaceTopicsRegenerateKeyOptionalParams,
-  NamespaceTopicsRegenerateKeyResponse
+  NamespaceTopicsRegenerateKeyResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface NamespaceTopics {
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespaceTopicsListByNamespaceOptionalParams
+    options?: NamespaceTopicsListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<NamespaceTopic>;
   /**
    * Get properties of a namespace topic.
@@ -51,7 +51,7 @@ export interface NamespaceTopics {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: NamespaceTopicsGetOptionalParams
+    options?: NamespaceTopicsGetOptionalParams,
   ): Promise<NamespaceTopicsGetResponse>;
   /**
    * Asynchronously creates a new namespace topic with the specified parameters.
@@ -66,7 +66,7 @@ export interface NamespaceTopics {
     namespaceName: string,
     topicName: string,
     namespaceTopicInfo: NamespaceTopic,
-    options?: NamespaceTopicsCreateOrUpdateOptionalParams
+    options?: NamespaceTopicsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NamespaceTopicsCreateOrUpdateResponse>,
@@ -86,7 +86,7 @@ export interface NamespaceTopics {
     namespaceName: string,
     topicName: string,
     namespaceTopicInfo: NamespaceTopic,
-    options?: NamespaceTopicsCreateOrUpdateOptionalParams
+    options?: NamespaceTopicsCreateOrUpdateOptionalParams,
   ): Promise<NamespaceTopicsCreateOrUpdateResponse>;
   /**
    * Delete existing namespace topic.
@@ -99,7 +99,7 @@ export interface NamespaceTopics {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: NamespaceTopicsDeleteOptionalParams
+    options?: NamespaceTopicsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete existing namespace topic.
@@ -112,7 +112,7 @@ export interface NamespaceTopics {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: NamespaceTopicsDeleteOptionalParams
+    options?: NamespaceTopicsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Asynchronously updates a namespace topic with the specified parameters.
@@ -127,7 +127,7 @@ export interface NamespaceTopics {
     namespaceName: string,
     topicName: string,
     namespaceTopicUpdateParameters: NamespaceTopicUpdateParameters,
-    options?: NamespaceTopicsUpdateOptionalParams
+    options?: NamespaceTopicsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NamespaceTopicsUpdateResponse>,
@@ -147,7 +147,7 @@ export interface NamespaceTopics {
     namespaceName: string,
     topicName: string,
     namespaceTopicUpdateParameters: NamespaceTopicUpdateParameters,
-    options?: NamespaceTopicsUpdateOptionalParams
+    options?: NamespaceTopicsUpdateOptionalParams,
   ): Promise<NamespaceTopicsUpdateResponse>;
   /**
    * List the two keys used to publish to a namespace topic.
@@ -160,7 +160,7 @@ export interface NamespaceTopics {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: NamespaceTopicsListSharedAccessKeysOptionalParams
+    options?: NamespaceTopicsListSharedAccessKeysOptionalParams,
   ): Promise<NamespaceTopicsListSharedAccessKeysResponse>;
   /**
    * Regenerate a shared access key for a namespace topic.
@@ -175,7 +175,7 @@ export interface NamespaceTopics {
     namespaceName: string,
     topicName: string,
     regenerateKeyRequest: TopicRegenerateKeyRequest,
-    options?: NamespaceTopicsRegenerateKeyOptionalParams
+    options?: NamespaceTopicsRegenerateKeyOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NamespaceTopicsRegenerateKeyResponse>,
@@ -195,6 +195,6 @@ export interface NamespaceTopics {
     namespaceName: string,
     topicName: string,
     regenerateKeyRequest: TopicRegenerateKeyRequest,
-    options?: NamespaceTopicsRegenerateKeyOptionalParams
+    options?: NamespaceTopicsRegenerateKeyOptionalParams,
   ): Promise<NamespaceTopicsRegenerateKeyResponse>;
 }

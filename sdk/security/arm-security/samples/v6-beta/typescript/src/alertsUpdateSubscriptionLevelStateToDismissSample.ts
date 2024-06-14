@@ -30,7 +30,7 @@ async function updateSecurityAlertStateOnASubscriptionFromASecurityDataLocation(
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.alerts.updateSubscriptionLevelStateToDismiss(
     ascLocation,
-    alertName
+    alertName,
   );
   console.log(result);
 }

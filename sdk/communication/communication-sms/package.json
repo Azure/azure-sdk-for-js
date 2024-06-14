@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-sms",
-  "version": "1.1.1",
+  "version": "1.2.0-beta.1",
   "description": "SDK for Azure Communication SMS service which facilitates the sending of SMS messages.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -16,11 +16,11 @@
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "dev-tool samples publish --force",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && api-extractor run --local",
+    "extract-api": "tsc -p . && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md && rushx format",
     "integration-test:browser": "dev-tool run test:browser",
@@ -78,7 +78,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
-    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
@@ -101,13 +101,12 @@
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
     "mocha": "^10.0.0",
-    "c8": "^9.1.0",
+    "nyc": "^15.1.0",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.5",
     "util": "^0.12.1",
-    "ts-node": "^10.0.0",
-    "esm": "^3.2.18"
+    "ts-node": "^10.0.0"
   },
   "//metadata": {
     "constantPaths": [

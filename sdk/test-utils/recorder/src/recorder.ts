@@ -23,7 +23,7 @@ import {
 import { assetsJsonPath, sessionFilePath, TestContext } from "./utils/sessionFilePath.js";
 import { SanitizerOptions } from "./utils/utils.js";
 import { paths } from "./utils/paths.js";
-import { addSanitizers, transformsInfo } from "./sanitizer.js";
+import { addSanitizers, removeCentralSanitizers, transformsInfo } from "./sanitizer.js";
 import { handleEnvSetup } from "./utils/envSetupForPlayback.js";
 import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher.js";
 import { addTransform, Transform } from "./transform.js";
@@ -353,6 +353,19 @@ export class Recorder {
           Recorder.url,
           this.recordingId,
           options.envSetupForPlayback,
+        );
+
+        //  https://github.com/Azure/azure-sdk-tools/pull/8142/
+        //  https://github.com/Azure/azure-sdk-tools/blob/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy/Common/SanitizerDictionary.cs
+        const removalList = [
+          "AZSDK2003", // Location header in the response is not a secret, and is also sanitized by other URI sanitizers
+        ];
+        // Central test proxy Sanitizers to be removed
+        await removeCentralSanitizers(
+          this.httpClient,
+          Recorder.url,
+          this.recordingId,
+          removalList.concat(options.removeCentralSanitizers ?? []),
         );
 
         // Sanitizers to be added only in record mode

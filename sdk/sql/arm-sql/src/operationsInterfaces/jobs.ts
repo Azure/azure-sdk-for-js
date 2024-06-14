@@ -14,7 +14,7 @@ import {
   JobsGetResponse,
   JobsCreateOrUpdateOptionalParams,
   JobsCreateOrUpdateResponse,
-  JobsDeleteOptionalParams
+  JobsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface Jobs {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobsListByAgentOptionalParams
+    options?: JobsListByAgentOptionalParams,
   ): PagedAsyncIterableIterator<Job>;
   /**
    * Gets a job.
@@ -48,7 +48,7 @@ export interface Jobs {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobsGetOptionalParams
+    options?: JobsGetOptionalParams,
   ): Promise<JobsGetResponse>;
   /**
    * Creates or updates a job.
@@ -66,7 +66,7 @@ export interface Jobs {
     jobAgentName: string,
     jobName: string,
     parameters: Job,
-    options?: JobsCreateOrUpdateOptionalParams
+    options?: JobsCreateOrUpdateOptionalParams,
   ): Promise<JobsCreateOrUpdateResponse>;
   /**
    * Deletes a job.
@@ -82,6 +82,6 @@ export interface Jobs {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobsDeleteOptionalParams
+    options?: JobsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -8,7 +8,7 @@
 
 import {
   TieringCostOperationStatusGetOptionalParams,
-  TieringCostOperationStatusGetResponse
+  TieringCostOperationStatusGetResponse,
 } from "../models";
 
 /** Interface representing a TieringCostOperationStatus. */
@@ -25,6 +25,6 @@ export interface TieringCostOperationStatus {
     resourceGroupName: string,
     vaultName: string,
     operationId: string,
-    options?: TieringCostOperationStatusGetOptionalParams
+    options?: TieringCostOperationStatusGetOptionalParams,
   ): Promise<TieringCostOperationStatusGetResponse>;
 }

@@ -110,6 +110,8 @@ export interface KubernetesVersion {
   version?: string;
   /** Capabilities on this Kubernetes version. */
   capabilities?: KubernetesVersionCapabilities;
+  /** Whether this version is default. */
+  isDefault?: boolean;
   /** Whether this version is in preview mode. */
   isPreview?: boolean;
   /** Patch versions of Kubernetes release */
@@ -304,6 +306,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   hostGroupID?: string;
   /** Network-related settings of an agent pool. */
   networkProfile?: AgentPoolNetworkProfile;
+  /** The Windows agent pool's specific profile. */
+  windowsProfile?: AgentPoolWindowsProfile;
 }
 
 /** Settings for upgrading an agentpool */
@@ -446,6 +450,12 @@ export interface PortRange {
   portEnd?: number;
   /** The network protocol of the port. */
   protocol?: Protocol;
+}
+
+/** The Windows agent pool's specific profile. */
+export interface AgentPoolWindowsProfile {
+  /** The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled. */
+  disableOutboundNat?: boolean;
 }
 
 /** Profile for Linux VMs in the container service cluster. */
@@ -1004,8 +1014,6 @@ export interface IstioIngressGateway {
 export interface IstioEgressGateway {
   /** Whether to enable the egress gateway. */
   enabled: boolean;
-  /** NodeSelector for scheduling the egress gateway. */
-  nodeSelector?: { [propertyName: string]: string };
 }
 
 /** Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described here https://aka.ms/asm-plugin-ca */
@@ -1026,6 +1034,18 @@ export interface IstioPluginCertificateAuthority {
   rootCertObjectName?: string;
   /** Certificate chain object name in Azure Key Vault. */
   certChainObjectName?: string;
+}
+
+/** The metrics profile for the ManagedCluster. */
+export interface ManagedClusterMetricsProfile {
+  /** The cost analysis configuration for the cluster */
+  costAnalysis?: ManagedClusterCostAnalysis;
+}
+
+/** The cost analysis configuration for the cluster */
+export interface ManagedClusterCostAnalysis {
+  /** The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis. */
+  enabled?: boolean;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -1795,6 +1815,8 @@ export interface AgentPool extends SubResource {
   hostGroupID?: string;
   /** Network-related settings of an agent pool. */
   networkProfile?: AgentPoolNetworkProfile;
+  /** The Windows agent pool's specific profile. */
+  windowsProfile?: AgentPoolWindowsProfile;
 }
 
 /** Mesh upgrade profile properties for a major.minor release. */
@@ -1912,6 +1934,8 @@ export interface ManagedCluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceUID?: string;
+  /** Optional cluster metrics configuration. */
+  metricsProfile?: ManagedClusterMetricsProfile;
 }
 
 /** Managed cluster Access Profile. */

@@ -18,7 +18,7 @@ export async function main() {
   // File upload sample code
   const filename = "sample_file_for_upload.txt";
   const uint8array = new TextEncoder().encode(
-    "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457."
+    "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.",
   );
   const uploadAssistantFile = await assistantsClient.uploadFile(uint8array, "assistants", {
     filename,
@@ -49,7 +49,7 @@ export async function main() {
     },
     {
       requestOptions: { timeout: 10000 },
-    }
+    },
   );
   console.log(runResponse);
 

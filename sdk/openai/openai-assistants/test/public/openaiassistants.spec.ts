@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert, matrix } from "@azure/test-utils";
+import { assert, matrix } from "@azure-tools/test-utils";
 import { assertAssistantEquality } from "./utils/asserts.js";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient.js";
 import { getModels } from "./utils/utils.js";
@@ -51,7 +51,7 @@ describe("OpenAIAssistants", () => {
           codeAssistant.name = "Completely different name";
           const updateAssistantResponse = await client.updateAssistant(
             assistantResponse.id,
-            codeAssistant
+            codeAssistant,
           );
           assertAssistantEquality(codeAssistant, updateAssistantResponse);
           const listLength = 1;
@@ -104,7 +104,7 @@ describe("OpenAIAssistants", () => {
             threadResponse.id,
             role,
             content,
-            messageOptions
+            messageOptions,
           );
 
           let messageContent = messageResponse.content[0];
@@ -116,7 +116,7 @@ describe("OpenAIAssistants", () => {
           assert.equal(messageResponse.metadata?.foo, metadataValue);
           const getMessageResponse = await client.getMessage(
             threadResponse.id,
-            messageResponse.id || ""
+            messageResponse.id || "",
           );
           messageContent = getMessageResponse.content[0];
           assert.equal(messageResponse.id, getMessageResponse.id);
@@ -132,7 +132,7 @@ describe("OpenAIAssistants", () => {
           const updateMessageResponse = await client.updateMessage(
             threadResponse.id,
             messageResponse.id || "",
-            messageOptions
+            messageOptions,
           );
           assert.equal(messageResponse.id, updateMessageResponse.id);
           assert.equal(updateMessageResponse.metadata?.foo, newMetadataValue);
@@ -388,7 +388,7 @@ describe("OpenAIAssistants", () => {
             },
             {
               requestOptions: { timeout: 10000 },
-            }
+            },
           );
 
           const runId = run.id;

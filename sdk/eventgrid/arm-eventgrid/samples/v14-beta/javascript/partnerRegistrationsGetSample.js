@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a partner registration with the specified parameters.
  *
  * @summary Gets a partner registration with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerRegistrations_Get.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerRegistrations_Get.json
  */
 async function partnerRegistrationsGet() {
   const subscriptionId =

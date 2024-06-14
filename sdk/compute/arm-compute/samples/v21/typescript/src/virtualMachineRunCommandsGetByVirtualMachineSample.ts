@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to get the run command.
  *
  * @summary The operation to get the run command.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/runCommandExamples/VirtualMachineRunCommand_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/runCommandExamples/VirtualMachineRunCommand_Get.json
  */
 async function getARunCommand() {
   const subscriptionId =

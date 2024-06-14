@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   OnlineEndpoint,
   OnlineEndpointsListOptionalParams,
@@ -24,7 +24,7 @@ import {
   RegenerateEndpointKeysRequest,
   OnlineEndpointsRegenerateKeysOptionalParams,
   OnlineEndpointsGetTokenOptionalParams,
-  OnlineEndpointsGetTokenResponse
+  OnlineEndpointsGetTokenResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface OnlineEndpoints {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: OnlineEndpointsListOptionalParams
+    options?: OnlineEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<OnlineEndpoint>;
   /**
    * Delete Online Endpoint (asynchronous).
@@ -52,8 +52,8 @@ export interface OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: OnlineEndpointsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Online Endpoint (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -65,7 +65,7 @@ export interface OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineEndpointsDeleteOptionalParams
+    options?: OnlineEndpointsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get Online Endpoint.
@@ -78,7 +78,7 @@ export interface OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineEndpointsGetOptionalParams
+    options?: OnlineEndpointsGetOptionalParams,
   ): Promise<OnlineEndpointsGetResponse>;
   /**
    * Update Online Endpoint (asynchronous).
@@ -93,10 +93,10 @@ export interface OnlineEndpoints {
     workspaceName: string,
     endpointName: string,
     body: PartialMinimalTrackedResourceWithIdentity,
-    options?: OnlineEndpointsUpdateOptionalParams
+    options?: OnlineEndpointsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineEndpointsUpdateResponse>,
       OnlineEndpointsUpdateResponse
     >
   >;
@@ -113,7 +113,7 @@ export interface OnlineEndpoints {
     workspaceName: string,
     endpointName: string,
     body: PartialMinimalTrackedResourceWithIdentity,
-    options?: OnlineEndpointsUpdateOptionalParams
+    options?: OnlineEndpointsUpdateOptionalParams,
   ): Promise<OnlineEndpointsUpdateResponse>;
   /**
    * Create or update Online Endpoint (asynchronous).
@@ -128,10 +128,10 @@ export interface OnlineEndpoints {
     workspaceName: string,
     endpointName: string,
     body: OnlineEndpoint,
-    options?: OnlineEndpointsCreateOrUpdateOptionalParams
+    options?: OnlineEndpointsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineEndpointsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineEndpointsCreateOrUpdateResponse>,
       OnlineEndpointsCreateOrUpdateResponse
     >
   >;
@@ -148,7 +148,7 @@ export interface OnlineEndpoints {
     workspaceName: string,
     endpointName: string,
     body: OnlineEndpoint,
-    options?: OnlineEndpointsCreateOrUpdateOptionalParams
+    options?: OnlineEndpointsCreateOrUpdateOptionalParams,
   ): Promise<OnlineEndpointsCreateOrUpdateResponse>;
   /**
    * List EndpointAuthKeys for an Endpoint using Key-based authentication.
@@ -161,7 +161,7 @@ export interface OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineEndpointsListKeysOptionalParams
+    options?: OnlineEndpointsListKeysOptionalParams,
   ): Promise<OnlineEndpointsListKeysResponse>;
   /**
    * Regenerate EndpointAuthKeys for an Endpoint using Key-based authentication (asynchronous).
@@ -176,8 +176,8 @@ export interface OnlineEndpoints {
     workspaceName: string,
     endpointName: string,
     body: RegenerateEndpointKeysRequest,
-    options?: OnlineEndpointsRegenerateKeysOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: OnlineEndpointsRegenerateKeysOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Regenerate EndpointAuthKeys for an Endpoint using Key-based authentication (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -191,7 +191,7 @@ export interface OnlineEndpoints {
     workspaceName: string,
     endpointName: string,
     body: RegenerateEndpointKeysRequest,
-    options?: OnlineEndpointsRegenerateKeysOptionalParams
+    options?: OnlineEndpointsRegenerateKeysOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve a valid AAD token for an Endpoint using AMLToken-based authentication.
@@ -204,6 +204,6 @@ export interface OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineEndpointsGetTokenOptionalParams
+    options?: OnlineEndpointsGetTokenOptionalParams,
   ): Promise<OnlineEndpointsGetTokenResponse>;
 }

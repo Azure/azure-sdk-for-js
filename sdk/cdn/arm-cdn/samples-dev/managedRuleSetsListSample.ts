@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all available managed rule sets.
  *
  * @summary Lists all available managed rule sets.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/WafListManagedRuleSets.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/WafListManagedRuleSets.json
  */
 async function listPoliciesInAResourceGroup() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

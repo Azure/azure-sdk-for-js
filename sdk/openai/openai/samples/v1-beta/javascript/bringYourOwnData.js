@@ -10,7 +10,9 @@
 const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+const { parseOpenAIError } = require("./parseOpenAIError.js");
+dotenv.config();
 
 // You will need to set these environment variables or edit the following values
 // The endpoint you will use to access your Azure OpenAI instance
@@ -65,7 +67,7 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error("The sample encountered an error:", err);
+  parseOpenAIError(err);
 });
 
 module.exports = { main };

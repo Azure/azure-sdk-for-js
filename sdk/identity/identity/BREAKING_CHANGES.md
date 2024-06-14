@@ -1,5 +1,9 @@
 # Breaking Changes
 
+## 4.1.0
+
+As of `@azure/identity` 4.1.0, the number of IMDS probing retries has been increased to 5 (from 3 initially) to match the [IMDS retry guidance](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/how-to-use-vm-token#retry-guidance) in the `DefaultAzureCredential` and `ManagedIdentityCredential`. The users should be able to override the behavior, if required, by setting the `options.retryOptions.maxRetries` in the respective credential.
+
 ## 3.0.0
 
 As of `@azure/identity` 3.0.0, the default behavior of credentials supporting multi-tenant authentication has changed. Each of these credentials will throw an error if the requested `tenantId` doesn't match the tenant ID originally configured on the credential. Apps must now do one of the following things:
@@ -8,7 +12,7 @@ As of `@azure/identity` 3.0.0, the default behavior of credentials supporting mu
 
 ```typescript Snippet:Identity_BreakingChanges_AddExplicitAdditionallyAllowedTenants
 const credential = new DefaultAzureCredential({
-  additionallyAllowedTenants: ["<tenant_id_1>", "<tenant_id_2>"]
+  additionallyAllowedTenants: ["<tenant_id_1>", "<tenant_id_2>"],
 });
 ```
 
@@ -16,7 +20,7 @@ const credential = new DefaultAzureCredential({
 
 ```typescript Snippet:Identity_BreakingChanges_AddAllAdditionallyAllowedTenants
 const credential = new DefaultAzureCredential({
-  additionallyAllowedTenants: ["*"]
+  additionallyAllowedTenants: ["*"],
 });
 ```
 

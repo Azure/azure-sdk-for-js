@@ -31,7 +31,7 @@ import {
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Messages, MessageId, Queue } from "./generated/src/operationsInterfaces";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "../../storage-blob/src/Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline, isPipelineLike } from "./Pipeline";
 import { StorageClient, CommonOptions, getStorageClientContext } from "./StorageClient";
 import {
   appendToURLPath,
@@ -478,7 +478,7 @@ export class QueueClient extends StorageClient {
     options = options || {};
     let pipeline: Pipeline;
     let url: string;
-    if (credentialOrPipelineOrQueueName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrQueueName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrQueueName;

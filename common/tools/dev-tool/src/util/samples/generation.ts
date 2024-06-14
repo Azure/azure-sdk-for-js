@@ -169,7 +169,7 @@ export async function makeSampleGenerationInfo(
 
         try {
           contents = fs.readFileSync(path.resolve(projectInfo.path, file));
-        } catch (ex: any) {
+        } catch (ex: unknown) {
           fail(`Failed to read custom snippet file '${file}'`, ex);
         }
         return {

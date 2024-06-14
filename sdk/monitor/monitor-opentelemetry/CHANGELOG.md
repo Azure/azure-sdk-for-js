@@ -1,18 +1,47 @@
 # Release History
 
-## 1.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.6.0 (2024-06-13)
 
 ### Bugs Fixed
 
+- Setting the sampling ratio to 0 now correctly applies the value instead of defaulting to 1.
+- Fixed standard metrics reported success/failure status for dependencies/requests.
+- 3xx level response codes on request telemetry is no longer counted as a request failure in standard metrics.
+
 ### Other Changes
+
+- Add support for tracking Application Insights shim usage to statsbeat.
+- Live Metrics is enabled by default.
+- Update to the latest OpenTelemetry dependencies.
+
+## 1.5.0 (2024-05-10)
 
 ### Features Added
 
+- Allow setting log level for winston and bunyan via environment variable.
+- Add Winston Log instrumentation.
+- Add log level configuration for Bunyan and Winston loggers.
+
+### Other Changes
+
+- Updated OpenTelemetry dependencies.
+
+## 1.4.0 (2024-04-16)
+
+### Features Added
+
+- Capture live metrics and live metrics activation in statsbeat.
 - Add support for Trace based sampling for logs.
+- Add support for Winston log instrumentation.
+
+### Bugs Fixed
+
+- Handle Parsing Nested Objects in Integration Tests.
+
+### Other Changes
+
+- When log sampling, check for spanId instead of traceId.
+- Update OpenTelemetry depdendencies.
 
 ## 1.3.0 (2024-02-13)
 

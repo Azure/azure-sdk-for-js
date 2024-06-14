@@ -15,6 +15,7 @@ export async function setRecordingOptions(
   httpClient: HttpClient,
   { handleRedirects, tlsValidationCert }: RecordingOptions,
 ): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const rawBody: Record<string, any> = {
     HandleRedirects: handleRedirects,
   };

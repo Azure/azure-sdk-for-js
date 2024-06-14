@@ -12,7 +12,7 @@ import {
   createRecordedCommunicationIdentityClientWithToken,
 } from "../utils/recordedClient";
 import { PublicClientApplication } from "@azure/msal-node";
-import { matrix } from "@azure/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import { assert } from "chai";
 
