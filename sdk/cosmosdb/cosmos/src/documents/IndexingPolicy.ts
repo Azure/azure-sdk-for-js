@@ -71,7 +71,16 @@ export interface VectorIndex {
  * Represents the index type of the vector.
  */
 export enum VectorIndexType {
+  /**
+   * Represents flat index type.
+   */
   Flat = "flat",
+  /**
+   * Represents diskANN index type.
+   */
   DiskANN = "diskANN",
+  /**
+   * Represents quantizedFlat index type.
+   */
   QuantizedFlat = "quantizedFlat",
 }

@@ -2542,23 +2542,16 @@ export interface VectorEmbedding {
 
 // @public
 export enum VectorEmbeddingDataType {
-    // (undocumented)
     Float16 = "float16",
-    // (undocumented)
     Float32 = "float32",
-    // (undocumented)
     Int8 = "int8",
-    // (undocumented)
     UInt8 = "uint8"
 }
 
 // @public
 export enum VectorEmbeddingDistanceFunction {
-    // (undocumented)
     Cosine = "cosine",
-    // (undocumented)
     DotProduct = "dotproduct",
-    // (undocumented)
     Euclidean = "euclidean"
 }
 
@@ -2575,11 +2568,8 @@ export interface VectorIndex {
 
 // @public
 export enum VectorIndexType {
-    // (undocumented)
     DiskANN = "diskANN",
-    // (undocumented)
     Flat = "flat",
-    // (undocumented)
     QuantizedFlat = "quantizedFlat"
 }
 
