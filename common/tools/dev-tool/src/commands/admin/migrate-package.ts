@@ -437,6 +437,7 @@ function removeLegacyPackages(packageJson: any): void {
     "karma-sourcemap-loader",
     "nyc",
     "puppeteer",
+    "source-map-support",
     "ts-node",
     "uglify-js",
     "@types/chai-as-promised",
