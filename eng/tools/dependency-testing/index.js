@@ -403,7 +403,9 @@ async function main(argv) {
     testFolder,
   );
   await insertTsConfigJson(targetPackagePath, testFolder);
-  copyVitestConfig(targetPackagePath, testFolder);
+  if (packageJsonContents.scripts["integration-test:node"].includes("vitest")) {
+    copyVitestConfig(targetPackagePath, testFolder);
+  }
   if (dryRun) {
     console.log("Dry run only, no changes");
     return;
