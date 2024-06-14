@@ -145,7 +145,7 @@ If we have existing recordings, then the tests have been run against generated t
 ## How to push test recordings to assets repo
 We need to push test recording files to [asset repo](https://github.com/Azure/azure-sdk-assets) after testing your test cases.
 
-`Notice`: Before push your recording file, you must confirm that you are able to push recordings to the `azure-sdk-assets` repo, you need write-access to the assets repo. [Permissions to `Azure/azure-sdk-assets`](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/785/Externalizing-Recordings-(Asset-Sync)?anchor=permissions-to-%60azure/azure-sdk-assets%60)
+`Notice`: Before pushing your recording file, you must confirm that you are able to push recordings to the `azure-sdk-assets` repo, you need write-access to the assets repo. [Permissions to `Azure/azure-sdk-assets`](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/785/Externalizing-Recordings-(Asset-Sync)?anchor=permissions-to-%60azure/azure-sdk-assets%60)
 
 ### Push test recording
 
@@ -185,7 +185,7 @@ At this point, you should have an `assets.json` file under your SDK. `sdk/<servi
 With asset sync enabled, there is one extra step that must be taken before you create a PR with changes to recorded tests: you must push the new recordings to the assets repo. This is done with the following command:
 
  `Notice`:
-       the tests have to be recorded using the `TEST_MODE=record`, then the recording files will be generated. And then, you can push them to `assets repo`
+       the tests have to be recorded using the `TEST_MODE=record`, then the recording files will be generated, then you can push them to `assets repo`
 
 ```bash
 npx dev-tool test-proxy push
@@ -219,7 +219,7 @@ Example `assets.json` from `arm-network` SDK:
 }
 ```
 
-The recordings are located at [here](https://github.com/Azure/azure-sdk-assets/tree/js/network/arm-network_bec01aa795).
+The recordings are located at https://github.com/Azure/azure-sdk-assets/tree/js/network/arm-network_bec01aa795.
 
 # How to add tests
 
