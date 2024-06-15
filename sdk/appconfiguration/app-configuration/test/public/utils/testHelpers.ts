@@ -6,25 +6,31 @@ import {
   AppConfigurationClientOptions,
   ListSnapshotsPage,
   ConfigurationSnapshot,
-} from "../../../src";
+} from "../../../src/index.js";
 import {
   ConfigurationSetting,
   ListConfigurationSettingPage,
   ListRevisionsPage,
-} from "../../../src";
-import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
+} from "../../../src/index.js";
+import {
+  Recorder,
+  RecorderStartOptions,
+  env,
+  isPlaybackMode,
+  VitestTestContext,
+} from "@azure-tools/test-recorder";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RestError } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/identity";
-import { assert } from "chai";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "vitest";
 
 export interface CredsAndEndpoint {
   credential: TokenCredential;
   endpoint: string;
 }
 
-export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
+export async function startRecorder(context: VitestTestContext): Promise<Recorder> {
   const recorderStartOptions: RecorderStartOptions = {
     envSetupForPlayback: {
       AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
@@ -37,7 +43,7 @@ export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
     ],
   };
 
-  const recorder = new Recorder(that.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderStartOptions);
   return recorder;
 }

@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { Context } from "mocha";
-import { assert } from "chai";
-import { AppConfigurationClient } from "../../../src/appConfigurationClient";
+import { AppConfigurationClient } from "../../../src/appConfigurationClient.js";
 import { TokenCredential } from "@azure/core-auth";
-import { packageVersion } from "../../../src/internal/constants";
+import { packageVersion } from "../../../src/internal/constants.js";
+import { describe, it, assert } from "vitest";
 
 describe("packagejson related tests", () => {
   // if this test is failing you need to update the contant `packageVersion` referenced above
   // in the generated code.
-  it("user agent string matches the package version", async function (this: Context) {
+  it("user agent string matches the package version", async function () {
     let userAgent: string | undefined;
     const client = new AppConfigurationClient(
       "https://myresource.azconfig.io",

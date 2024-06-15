@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { AppConfigurationClient } from "./appConfigurationClient";
+export { AppConfigurationClient } from "./appConfigurationClient.js";
 export {
   featureFlagContentType,
   featureFlagPrefix,
   FeatureFlagValue,
   isFeatureFlag,
   parseFeatureFlag,
-} from "./featureFlag";
-export * from "./models";
+} from "./featureFlag.js";
+export * from "./models.js";
 export {
   isSecretReference,
   parseSecretReference,
   secretReferenceContentType,
   SecretReferenceValue,
-} from "./secretReference";
+} from "./secretReference.js";

@@ -9,22 +9,21 @@ import {
   isSecretReference,
   parseSecretReference,
   secretReferenceContentType,
-} from "../../src";
+} from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
-import { Context } from "mocha";
-import { assert } from "chai";
+import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("AppConfigurationClient - SecretReference", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async function (ctx) {
+    recorder = await startRecorder(ctx);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function () {
     await recorder.stop();
   });
 

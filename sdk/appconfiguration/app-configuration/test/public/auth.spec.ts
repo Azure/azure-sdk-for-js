@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient } from "../../src";
-import { assert } from "chai";
+import { AppConfigurationClient } from "../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("AppConfigurationClient constructor error cases", () => {
   it("invalid connection string gives a decent error message", () => {

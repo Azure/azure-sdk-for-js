@@ -36,7 +36,7 @@ import {
   SnapshotInfo,
   UpdateSnapshotOptions,
   UpdateSnapshotResponse,
-} from "./models";
+} from "./models.js";
 import {
   AppConfigurationGetKeyValuesHeaders,
   AppConfigurationGetRevisionsHeaders,
@@ -45,7 +45,7 @@ import {
   GetRevisionsResponse,
   GetSnapshotsResponse,
   ConfigurationSnapshot,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
 import {
@@ -53,7 +53,7 @@ import {
   bearerTokenAuthenticationPolicy,
   RestError,
 } from "@azure/core-rest-pipeline";
-import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
+import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy.js";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   SendConfigurationSettingsOptions,
@@ -72,15 +72,15 @@ import {
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
   transformSnapshotResponse,
-} from "./internal/helpers";
-import { AppConfiguration } from "./generated/src/appConfiguration";
-import { FeatureFlagValue } from "./featureFlag";
-import { SecretReferenceValue } from "./secretReference";
-import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
-import { tracingClient } from "./internal/tracing";
-import { logger } from "./logger";
+} from "./internal/helpers.js";
+import { AppConfiguration } from "./generated/src/appConfiguration.js";
+import { FeatureFlagValue } from "./featureFlag.js";
+import { SecretReferenceValue } from "./secretReference.js";
+import { appConfigKeyCredentialPolicy } from "./appConfigCredential.js";
+import { tracingClient } from "./internal/tracing.js";
+import { logger } from "./logger.js";
 import { OperationState, SimplePollerLike } from "@azure/core-lro";
-import { appConfigurationApiVersion } from "./internal/constants";
+import { appConfigurationApiVersion } from "./internal/constants.js";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {

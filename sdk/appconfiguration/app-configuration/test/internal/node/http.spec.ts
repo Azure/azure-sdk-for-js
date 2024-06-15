@@ -4,19 +4,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SyncTokens, parseSyncToken } from "../../../src/internal/synctokenpolicy";
+import { SyncTokens, parseSyncToken } from "../../../src/internal/synctokenpolicy.js";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
   startRecorder,
-} from "../../public/utils/testHelpers";
-import { AppConfigurationClient } from "../../../src";
-import { Context } from "mocha";
-import { InternalAppConfigurationClientOptions } from "../../../src/appConfigurationClient";
+} from "../../public/utils/testHelpers.js";
+import { AppConfigurationClient } from "../../../src/index.js";
+import { InternalAppConfigurationClientOptions } from "../../../src/appConfigurationClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import nock from "nock";
 import { NoOpCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("http request related tests", function () {
   describe("unit tests", () => {
@@ -82,8 +81,8 @@ describe("http request related tests", function () {
     let client: AppConfigurationClient;
     let recorder: Recorder;
 
-    beforeEach(async function (this: Context) {
-      recorder = await startRecorder(this);
+    beforeEach(async function (ctx) {
+      recorder = await startRecorder(ctx);
       client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     });
 
@@ -118,9 +117,9 @@ describe("http request related tests", function () {
     let syncTokens: SyncTokens;
     let scope: nock.Scope;
 
-    beforeEach(function (this: Context) {
+    beforeEach(function (ctx) {
       if (nock == null || nock.recorder == null) {
-        this.skip();
+        ctx.skip();
         return;
       }
 
@@ -131,7 +130,7 @@ describe("http request related tests", function () {
         createAppConfigurationClientForTests({
           syncTokens: syncTokens,
           testCredential: new NoOpCredential(),
-        } as InternalAppConfigurationClientOptions) || this.skip();
+        } as InternalAppConfigurationClientOptions) || ctx.skip();
 
       nock.recorder.clear();
       nock.restore();
@@ -148,12 +147,12 @@ describe("http request related tests", function () {
       });
     });
 
-    afterEach(function (this: Context) {
+    afterEach(function (ctx) {
       if (nock == null || nock.recorder == null) {
         return;
       }
 
-      if (!this.currentTest?.isPending()) {
+      if (!ctx.task.pending) {
         assert.ok(scope.isDone());
       }
       nock.recorder.clear();

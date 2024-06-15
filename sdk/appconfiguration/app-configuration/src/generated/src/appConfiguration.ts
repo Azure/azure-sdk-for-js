@@ -18,9 +18,9 @@ import {
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "./lroImpl";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import { createLroSpec } from "./lroImpl.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ApiVersion20231001,
   AppConfigurationOptionalParams,
@@ -78,7 +78,7 @@ import {
   GetLabelsNextResponse,
   GetRevisionsNextOptionalParams,
   GetRevisionsNextResponse,
-} from "./models";
+} from "./models/index.js";
 
 /** @internal */
 export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {

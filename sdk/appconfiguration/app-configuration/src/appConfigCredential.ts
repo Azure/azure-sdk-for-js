@@ -8,7 +8,7 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import { computeSha256Hash, computeSha256Hmac } from "@azure/core-util";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 
 /**
  * Create an HTTP pipeline policy to authenticate a request
