@@ -1061,9 +1061,17 @@ const getAccountInfoOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.BlobGetAccountInfoExceptionHeaders,
     },
   },
-  queryParameters: [Parameters.comp, Parameters.restype1],
+  queryParameters: [
+    Parameters.comp,
+    Parameters.timeoutInSeconds,
+    Parameters.restype1,
+  ],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.accept1],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.accept1,
+  ],
   isXML: true,
   serializer: xmlSerializer,
 };

@@ -7,23 +7,19 @@ import {
   CloudEvent,
   PublishResult,
   ReceiveResult,
-  AcknowledgeOptions,
   AcknowledgeResult,
-  ReleaseOptions,
   ReleaseResult,
-  RejectOptions,
   RejectResult,
-  RenewLockOptions,
-  RenewCloudEventLocksResult,
+  RenewLocksResult,
 } from "./models/models";
 import {
-  PublishCloudEventOptions,
-  PublishCloudEventsOptions,
-  ReceiveCloudEventsOptions,
-  AcknowledgeCloudEventsOptions,
-  ReleaseCloudEventsOptions,
-  RejectCloudEventsOptions,
-  RenewCloudEventLocksOptions,
+  PublishCloudEventOptionalParams,
+  PublishCloudEventsOptionalParams,
+  ReceiveCloudEventsOptionalParams,
+  AcknowledgeCloudEventsOptionalParams,
+  ReleaseCloudEventsOptionalParams,
+  RejectCloudEventsOptionalParams,
+  RenewCloudEventLocksOptionalParams,
 } from "./models/options";
 import {
   createEventGrid,
@@ -46,111 +42,94 @@ export class EventGridClient {
   getClient(): EventGridContext {
     return this._client;
   }
-
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
   /** Azure Messaging EventGrid Client */
   constructor(
-    endpoint: string,
+    endpointParam: string,
     credential: KeyCredential | TokenCredential,
     options: EventGridClientOptions = {},
   ) {
-    this._client = createEventGrid(endpoint, credential, options);
+    this._client = createEventGrid(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
   }
 
-  /** Publish Single Cloud Event to namespace topic. In case of success, the server responds with an HTTP 200 status code with an empty JSON object in response. Otherwise, the server can return various error codes. For example, 401: which indicates authorization failure, 403: which indicates quota exceeded or message is too large, 410: which indicates that specific topic is not found, 400: for bad request, and 500: for internal server error. */
+  /** Publish a single Cloud Event to a namespace topic. */
   publishCloudEvent(
     topicName: string,
     event: CloudEvent,
-    options: PublishCloudEventOptions = { requestOptions: {} },
+    options: PublishCloudEventOptionalParams = { requestOptions: {} },
   ): Promise<PublishResult> {
     return publishCloudEvent(this._client, topicName, event, options);
   }
 
-  /** Publish Batch Cloud Event to namespace topic. In case of success, the server responds with an HTTP 200 status code with an empty JSON object in response. Otherwise, the server can return various error codes. For example, 401: which indicates authorization failure, 403: which indicates quota exceeded or message is too large, 410: which indicates that specific topic is not found, 400: for bad request, and 500: for internal server error. */
+  /** Publish a batch of Cloud Events to a namespace topic. */
   publishCloudEvents(
     topicName: string,
     events: CloudEvent[],
-    options: PublishCloudEventsOptions = { requestOptions: {} },
+    options: PublishCloudEventsOptionalParams = { requestOptions: {} },
   ): Promise<PublishResult> {
     return publishCloudEvents(this._client, topicName, events, options);
   }
 
-  /** Receive Batch of Cloud Events from the Event Subscription. */
+  /** Receive a batch of Cloud Events from a subscription. */
   receiveCloudEvents(
     topicName: string,
     eventSubscriptionName: string,
-    options: ReceiveCloudEventsOptions = { requestOptions: {} },
+    options: ReceiveCloudEventsOptionalParams = { requestOptions: {} },
   ): Promise<ReceiveResult> {
     return receiveCloudEvents(this._client, topicName, eventSubscriptionName, options);
   }
 
-  /** Acknowledge batch of Cloud Events. The server responds with an HTTP 200 status code if the request is successfully accepted. The response body will include the set of successfully acknowledged lockTokens, along with other failed lockTokens with their corresponding error information. Successfully acknowledged events will no longer be available to any consumer. */
+  /** Acknowledge a batch of Cloud Events. The response will include the set of successfully acknowledged lock tokens, along with other failed lock tokens with their corresponding error information. Successfully acknowledged events will no longer be available to be received by any consumer. */
   acknowledgeCloudEvents(
     topicName: string,
     eventSubscriptionName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    acknowledgeOptions: AcknowledgeOptions,
-    options: AcknowledgeCloudEventsOptions = { requestOptions: {} },
+    lockTokens: string[],
+    options: AcknowledgeCloudEventsOptionalParams = { requestOptions: {} },
   ): Promise<AcknowledgeResult> {
     return acknowledgeCloudEvents(
       this._client,
       topicName,
       eventSubscriptionName,
-      acknowledgeOptions,
+      lockTokens,
       options,
     );
   }
 
-  /** Release batch of Cloud Events. The server responds with an HTTP 200 status code if the request is successfully accepted. The response body will include the set of successfully released lockTokens, along with other failed lockTokens with their corresponding error information. */
+  /** Release a batch of Cloud Events. The response will include the set of successfully released lock tokens, along with other failed lock tokens with their corresponding error information. Successfully released events can be received by consumers. */
   releaseCloudEvents(
     topicName: string,
     eventSubscriptionName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    releaseOptions: ReleaseOptions,
-    options: ReleaseCloudEventsOptions = { requestOptions: {} },
+    lockTokens: string[],
+    options: ReleaseCloudEventsOptionalParams = { requestOptions: {} },
   ): Promise<ReleaseResult> {
-    return releaseCloudEvents(
-      this._client,
-      topicName,
-      eventSubscriptionName,
-      releaseOptions,
-      options,
-    );
+    return releaseCloudEvents(this._client, topicName, eventSubscriptionName, lockTokens, options);
   }
 
-  /** Reject batch of Cloud Events. The server responds with an HTTP 200 status code if the request is successfully accepted. The response body will include the set of successfully rejected lockTokens, along with other failed lockTokens with their corresponding error information. */
+  /** Reject a batch of Cloud Events. The response will include the set of successfully rejected lock tokens, along with other failed lock tokens with their corresponding error information. Successfully rejected events will be dead-lettered and can no longer be received by a consumer. */
   rejectCloudEvents(
     topicName: string,
     eventSubscriptionName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    rejectOptions: RejectOptions,
-    options: RejectCloudEventsOptions = { requestOptions: {} },
+    lockTokens: string[],
+    options: RejectCloudEventsOptionalParams = { requestOptions: {} },
   ): Promise<RejectResult> {
-    return rejectCloudEvents(
-      this._client,
-      topicName,
-      eventSubscriptionName,
-      rejectOptions,
-      options,
-    );
+    return rejectCloudEvents(this._client, topicName, eventSubscriptionName, lockTokens, options);
   }
 
-  /** Renew lock for batch of Cloud Events. The server responds with an HTTP 200 status code if the request is successfully accepted. The response body will include the set of successfully renewed lockTokens, along with other failed lockTokens with their corresponding error information. */
+  /** Renew locks for a batch of Cloud Events. The response will include the set of successfully renewed lock tokens, along with other failed lock tokens with their corresponding error information. Successfully renewed locks will ensure that the associated event is only available to the consumer that holds the renewed lock. */
   renewCloudEventLocks(
     topicName: string,
     eventSubscriptionName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    renewLockOptions: RenewLockOptions,
-    options: RenewCloudEventLocksOptions = { requestOptions: {} },
-  ): Promise<RenewCloudEventLocksResult> {
+    lockTokens: string[],
+    options: RenewCloudEventLocksOptionalParams = { requestOptions: {} },
+  ): Promise<RenewLocksResult> {
     return renewCloudEventLocks(
       this._client,
       topicName,
       eventSubscriptionName,
-      renewLockOptions,
+      lockTokens,
       options,
     );
   }

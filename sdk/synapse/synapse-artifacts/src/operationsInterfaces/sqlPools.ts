@@ -10,7 +10,7 @@ import {
   SqlPoolsListOptionalParams,
   SqlPoolsListResponse,
   SqlPoolsGetOptionalParams,
-  SqlPoolsGetResponse
+  SqlPoolsGetResponse,
 } from "../models";
 
 /** Interface representing a SqlPools. */
@@ -27,6 +27,6 @@ export interface SqlPools {
    */
   get(
     sqlPoolName: string,
-    options?: SqlPoolsGetOptionalParams
+    options?: SqlPoolsGetOptionalParams,
   ): Promise<SqlPoolsGetResponse>;
 }
