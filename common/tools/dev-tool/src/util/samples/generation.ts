@@ -115,7 +115,12 @@ export async function makeSampleGenerationInfo(
     }
   };
 
-  const moduleInfos = await processSources(sampleSourcesPath, sampleSources, fail, requireInScope);
+  const moduleInfos = await processSources(
+    sampleSourcesPath,
+    sampleSources.sort(),
+    fail,
+    requireInScope,
+  );
 
   const defaultDependencies: Record<string, string> = {
     // If we are a beta package, use "next", otherwise we will use "latest"
@@ -169,7 +174,7 @@ export async function makeSampleGenerationInfo(
 
         try {
           contents = fs.readFileSync(path.resolve(projectInfo.path, file));
-        } catch (ex: any) {
+        } catch (ex: unknown) {
           fail(`Failed to read custom snippet file '${file}'`, ex);
         }
         return {

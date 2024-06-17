@@ -3,38 +3,45 @@
 
 /**
  * @file Rule to force package.json's sideEffects value to be set to false.
- * @author Arpan Laha
+ *
  */
 
-import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
-import { Rule } from "eslint";
+import { VerifierMessages, createRule, getVerifiers, stripPath } from "../utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
-  meta: getRuleMetaData(
-    "ts-package-json-sideeffects",
-    "force package.json's sideEffects value to be false",
-    "code",
-  ),
-  create: (context: Rule.RuleContext): Rule.RuleListener => {
+export default createRule({
+  name: "ts-package-json-sideeffects",
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "force package.json's sideEffects value to be false",
+      recommended: "recommended",
+    },
+    messages: {
+      ...VerifierMessages,
+    },
+    schema: [],
+    fixable: "code",
+  },
+  defaultOptions: [],
+  create(context) {
     const verifiers = getVerifiers(context, {
       outer: "sideEffects",
       expected: false,
     });
-    return stripPath(context.filename) === "package.json"
-      ? ({
-          // callback functions
+    if (stripPath(context.filename) !== "package.json") {
+      return {};
+    }
+    return {
+      // check to see if sideEffects exists at the outermost level
+      "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
 
-          // check to see if sideEffects exists at the outermost level
-          "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
-
-          // check the node corresponding to sideEffects to see if its value is false
-          "ExpressionStatement > ObjectExpression > Property[key.value='sideEffects']":
-            verifiers.outerMatchesExpected,
-        } as Rule.RuleListener)
-      : {};
+      // check the node corresponding to sideEffects to see if its value is false
+      "ExpressionStatement > ObjectExpression > Property[key.value='sideEffects']":
+        verifiers.outerMatchesExpected,
+    };
   },
-};
+});

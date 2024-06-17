@@ -17,6 +17,6 @@ export interface NotebookOperationResult {
    */
   get(
     operationId: string,
-    options?: NotebookOperationResultGetOptionalParams
+    options?: NotebookOperationResultGetOptionalParams,
   ): Promise<void>;
 }

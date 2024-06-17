@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualEndpointResourceForPatch,
-  PostgreSQLManagementFlexibleServerClient
+  PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing virtual endpoint. The request body can contain one to many of the properties present in the normal virtual endpoint definition.
  *
  * @summary Updates an existing virtual endpoint. The request body can contain one to many of the properties present in the normal virtual endpoint definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/VirtualEndpointUpdate.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/VirtualEndpointUpdate.json
  */
 async function updateAVirtualEndpointForAServerToUpdateThe() {
   const subscriptionId =
@@ -33,18 +33,18 @@ async function updateAVirtualEndpointForAServerToUpdateThe() {
   const virtualEndpointName = "pgVirtualEndpoint1";
   const parameters: VirtualEndpointResourceForPatch = {
     endpointType: "ReadWrite",
-    members: ["testReplica1"]
+    members: ["testReplica1"],
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.virtualEndpoints.beginUpdateAndWait(
     resourceGroupName,
     serverName,
     virtualEndpointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

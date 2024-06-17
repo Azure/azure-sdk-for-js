@@ -11,5 +11,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Azure.Synapse.Artifacts",
   packageName: "@azure/synapse-artifacts",
-  packageVersion: "1.0.0-beta.14"
+  packageVersion: "1.0.0-beta.15",
 });

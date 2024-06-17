@@ -17,7 +17,7 @@ import {
   Application,
   ApplicationCreateOrUpdateOptionalParams,
   ApplicationCreateOrUpdateResponse,
-  ApplicationDeleteOptionalParams
+  ApplicationDeleteOptionalParams,
 } from "../models";
 
 /** Class containing ApplicationOperations operations. */
@@ -39,11 +39,11 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
    */
   get(
     applicationId: string,
-    options?: ApplicationGetOptionalParams
+    options?: ApplicationGetOptionalParams,
   ): Promise<ApplicationGetResponse> {
     return this.client.sendOperationRequest(
       { applicationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -56,11 +56,11 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
   createOrUpdate(
     applicationId: string,
     application: Application,
-    options?: ApplicationCreateOrUpdateOptionalParams
+    options?: ApplicationCreateOrUpdateOptionalParams,
   ): Promise<ApplicationCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { applicationId, application, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -71,11 +71,11 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
    */
   delete(
     applicationId: string,
-    options?: ApplicationDeleteOptionalParams
+    options?: ApplicationDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { applicationId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -83,62 +83,59 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applications/{applicationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applications/{applicationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.Application,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.applicationId
+    Parameters.applicationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applications/{applicationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applications/{applicationId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.Application,
     },
     201: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.Application,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.application,
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.applicationId
+    Parameters.applicationId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applications/{applicationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applications/{applicationId}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.applicationId
+    Parameters.applicationId,
   ],
-  serializer
+  serializer,
 };

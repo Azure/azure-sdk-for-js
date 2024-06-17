@@ -37,6 +37,63 @@ export const commandInfo = makeCommandInfo(
 
 const log = createPrinter("extract-api");
 
+/**
+ * Represents an export entry in the package.json "exports" field along with
+ * customization options for API Extractor.
+ */
+interface ExportEntry {
+  /** The path, or key for the export. */
+  path: string;
+  /** true for subexports such as "./models", false for top-level export such as ".". */
+  isSubpath: boolean;
+  /**
+   * The name with leading "./" and trailing extension removed, e.g. "./models" -> "models".
+   * For nested exports, "/" are replaced with hyphens since "/" is an invalid character for APIView
+   */
+  baseName: string;
+  /**
+   * When true, generates an api.json docModel file for this export.
+   */
+  generateDocModel: boolean;
+  /**
+   * Represents the updated mainEntryPointFilePath for this export to be fed into API Extractor.
+   */
+  mainEntryPointFilePath: string;
+  /**
+   * When true, suppresses forgotten export errors for this export as API Extractor is not aware of top-level exports.
+   */
+  suppressForgottenExportErrors?: boolean;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function buildExportConfiguration(packageJson: any, options: any): ExportEntry[] | undefined {
+  const exports = packageJson["exports"];
+  if (!exports) {
+    return undefined;
+  }
+  const isValidExport = (key: string) => key !== "./package.json";
+
+  const exportEntries: ExportEntry[] = Object.keys(exports)
+    .filter(isValidExport)
+    .map<ExportEntry>((exportPath) => {
+      return {
+        path: exportPath,
+        isSubpath: exportPath !== ".",
+        baseName: exportPath
+          .replace(/^\.\//, "") // remove leading "./"
+          .replace(/\//g, "-"), // replace slashes with hyphens
+
+        generateDocModel: exportPath === "." || options["subpath-doc-model"],
+        // Take either the top-level "types" filepath or - for packages that use tshy - the ESM "types" filepath
+        mainEntryPointFilePath: exports[exportPath].types || exports[exportPath]?.import?.types,
+        suppressForgottenExportErrors: exportPath !== ".",
+      };
+    });
+
+  log.debug(`Detected exports: ${JSON.stringify(exportEntries, null, 2)}`);
+  return exportEntries;
+}
+
 function extractApi(
   extractorConfigObject: IConfigFile,
   apiExtractorJsonPath: string,
@@ -89,21 +146,18 @@ export default leafCommand(commandInfo, async (options) => {
 
   let succeed = true;
   // sub path exports extraction
-  const exports = packageJson["exports"];
-  if (exports) {
+  const exports = buildExportConfiguration(packageJson, options);
+  if (exports !== undefined) {
     log.info("Detected subpath exports, extracting markdown for each subpath.");
-    for (const exportPath of Object.keys(exports)) {
-      const customizations = {
-        isSubpathExport: exportPath !== ".",
-        exportBaseName: path.parse(exportPath).name,
-        generateDocModel: exportPath === "." || options["subpath-doc-model"],
-      };
-
+    for (const exportEntry of exports) {
+      log.info(`Extracting api for export: ${exportEntry.path}`);
       // Place the subpath export rollup file in the directory from which it is exported
-      let publicTrimmedFilePath = path.parse(extractorConfigObject.dtsRollup.publicTrimmedFilePath);
+      const publicTrimmedFilePath = path.parse(
+        extractorConfigObject.dtsRollup.publicTrimmedFilePath,
+      );
       const newPublicTrimmedPath = path.join(
         publicTrimmedFilePath.dir,
-        exportPath,
+        exportEntry.path,
         publicTrimmedFilePath.base,
       );
 
@@ -111,17 +165,17 @@ export default leafCommand(commandInfo, async (options) => {
       let newApiJsonPath = extractorConfigObject.docModel?.apiJsonFilePath;
       let newApiReportName = extractorConfigObject.apiReport?.reportFileName;
 
-      if (customizations.isSubpathExport) {
+      if (exportEntry.isSubpath) {
         // Append the subpath export name to the api.json and api.md file names
         // e.g. for ./rest export: <unscopedPackageName>.api.json -> <unscopedPackageName>-rest.api.json
         // e.g. for ./rest export: <unscopedPackageName>.api.md -> <unscopedPackageName>-rest.api.md
         newApiJsonPath = extractorConfigObject.docModel?.apiJsonFilePath?.replace(
           ".api.json",
-          `-${customizations.exportBaseName}.api.json`,
+          `-${exportEntry.baseName}.api.json`,
         );
         newApiReportName = extractorConfigObject.apiReport?.reportFileName?.replace(
           ".api.md",
-          `-${customizations.exportBaseName}.api.md`,
+          `-${exportEntry.baseName}.api.md`,
         );
       }
 
@@ -131,7 +185,7 @@ export default leafCommand(commandInfo, async (options) => {
       };
       const newDocModel: IConfigDocModel = {
         ...extractorConfigObject.docModel,
-        enabled: customizations.generateDocModel,
+        enabled: exportEntry.generateDocModel,
         apiJsonFilePath: newApiJsonPath,
       };
 
@@ -140,18 +194,19 @@ export default leafCommand(commandInfo, async (options) => {
         enabled: true, // or should we disable? not sure if we need look at multiple api.md
         reportFileName: newApiReportName,
       };
+
       const updatedConfigObject: IConfigFile = {
         ...extractorConfigObject,
         dtsRollup: newDtsRollupOptions,
         docModel: newDocModel,
         apiReport: newApiReport,
-        mainEntryPointFilePath: exports[exportPath].types,
+        mainEntryPointFilePath: exportEntry.mainEntryPointFilePath,
       };
 
       // subpath exports often use top-level exports, but API Extractor is not aware of this and
       // flags them as forgotten exports.
       if (
-        customizations.isSubpathExport &&
+        exportEntry.suppressForgottenExportErrors &&
         updatedConfigObject.messages?.extractorMessageReporting
       ) {
         updatedConfigObject.messages.extractorMessageReporting["ae-forgotten-export"] = {

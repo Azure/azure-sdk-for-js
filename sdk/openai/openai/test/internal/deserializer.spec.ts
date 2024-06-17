@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { getChatCompletionsResult, getCompletionsResult } from "../../src/api/operations.js";
 
 const created = new Date("2022-01-01T00:00:00.000Z").getTime();

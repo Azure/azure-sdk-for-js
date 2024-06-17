@@ -31,7 +31,7 @@ async function getJitNetworkAccessPoliciesOnAResourceGroupFromASecurityDataLocat
   const resArray = new Array();
   for await (let item of client.jitNetworkAccessPolicies.listByResourceGroupAndRegion(
     resourceGroupName,
-    ascLocation
+    ascLocation,
   )) {
     resArray.push(item);
   }

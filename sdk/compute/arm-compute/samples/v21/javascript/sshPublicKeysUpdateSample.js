@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates a new SSH public key resource.
  *
  * @summary Updates a new SSH public key resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/sshPublicKeyExamples/SshPublicKey_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/sshPublicKeyExamples/SshPublicKey_Update_MaximumSet_Gen.json
  */
 async function sshPublicKeyUpdateMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -36,7 +36,7 @@ async function sshPublicKeyUpdateMaximumSetGen() {
  * This sample demonstrates how to Updates a new SSH public key resource.
  *
  * @summary Updates a new SSH public key resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/sshPublicKeyExamples/SshPublicKey_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/sshPublicKeyExamples/SshPublicKey_Update_MinimumSet_Gen.json
  */
 async function sshPublicKeyUpdateMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

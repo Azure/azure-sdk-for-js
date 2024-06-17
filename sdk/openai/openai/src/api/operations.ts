@@ -59,7 +59,7 @@ import {
   AudioResult,
   GetAudioTranslationOptions,
 } from "../models/audio.js";
-import { snakeCaseKeys, camelCaseKeys } from "./util.js";
+import { snakeCaseKeys, camelCaseKeys, createOpenAIError } from "./util.js";
 
 /**
  * Returns the transcription of an audio file in a simple JSON format.
@@ -226,7 +226,7 @@ export async function _getCompletionsDeserialize(
   result: GetCompletions200Response | GetCompletionsDefaultResponse,
 ): Promise<Completions> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw createOpenAIError(result);
   }
 
   return getCompletionsResult(result.body);
@@ -355,9 +355,8 @@ export async function _getChatCompletionsDeserialize(
   result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse,
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw createOpenAIError(result);
   }
-
   return getChatCompletionsResult(result.body);
 }
 
@@ -486,7 +485,7 @@ export async function _getImageGenerationsDeserialize(
   result: GetImageGenerations200Response | GetImageGenerationsDefaultResponse,
 ): Promise<ImageGenerations> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw createOpenAIError(result);
   }
 
   return {
@@ -605,7 +604,7 @@ export async function _getEmbeddingsDeserialize(
   result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse,
 ): Promise<Embeddings> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw createOpenAIError(result);
   }
 
   return {

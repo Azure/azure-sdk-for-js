@@ -15,12 +15,13 @@ import {
   BackupResourceEncryptionConfigsGetOptionalParams,
   BackupResourceEncryptionConfigsGetResponse,
   BackupResourceEncryptionConfigResource,
-  BackupResourceEncryptionConfigsUpdateOptionalParams
+  BackupResourceEncryptionConfigsUpdateOptionalParams,
 } from "../models";
 
 /** Class containing BackupResourceEncryptionConfigs operations. */
 export class BackupResourceEncryptionConfigsImpl
-  implements BackupResourceEncryptionConfigs {
+  implements BackupResourceEncryptionConfigs
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -41,11 +42,11 @@ export class BackupResourceEncryptionConfigsImpl
   get(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupResourceEncryptionConfigsGetOptionalParams
+    options?: BackupResourceEncryptionConfigsGetOptionalParams,
   ): Promise<BackupResourceEncryptionConfigsGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -61,11 +62,11 @@ export class BackupResourceEncryptionConfigsImpl
     vaultName: string,
     resourceGroupName: string,
     parameters: BackupResourceEncryptionConfigResource,
-    options?: BackupResourceEncryptionConfigsUpdateOptionalParams
+    options?: BackupResourceEncryptionConfigsUpdateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -73,36 +74,34 @@ export class BackupResourceEncryptionConfigsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEncryptionConfigs/backupResourceEncryptionConfig",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEncryptionConfigs/backupResourceEncryptionConfig",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupResourceEncryptionConfigExtendedResource
+      bodyMapper: Mappers.BackupResourceEncryptionConfigExtendedResource,
     },
     default: {
-      bodyMapper: Mappers.NewErrorResponse
-    }
+      bodyMapper: Mappers.NewErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEncryptionConfigs/backupResourceEncryptionConfig",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEncryptionConfigs/backupResourceEncryptionConfig",
   httpMethod: "PUT",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.NewErrorResponse
-    }
+      bodyMapper: Mappers.NewErrorResponse,
+    },
   },
   requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
@@ -110,9 +109,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

@@ -22,7 +22,7 @@ import {
   ServersGetResponse,
   ServersRestartOptionalParams,
   ServersStartOptionalParams,
-  ServersStopOptionalParams
+  ServersStopOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface Servers {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ServersListByResourceGroupOptionalParams
+    options?: ServersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Server>;
   /**
    * List all the servers in a given subscription.
@@ -53,7 +53,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     parameters: Server,
-    options?: ServersCreateOptionalParams
+    options?: ServersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServersCreateResponse>,
@@ -71,7 +71,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     parameters: Server,
-    options?: ServersCreateOptionalParams
+    options?: ServersCreateOptionalParams,
   ): Promise<ServersCreateResponse>;
   /**
    * Updates an existing server. The request body can contain one to many of the properties present in
@@ -85,7 +85,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     parameters: ServerForUpdate,
-    options?: ServersUpdateOptionalParams
+    options?: ServersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServersUpdateResponse>,
@@ -104,7 +104,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     parameters: ServerForUpdate,
-    options?: ServersUpdateOptionalParams
+    options?: ServersUpdateOptionalParams,
   ): Promise<ServersUpdateResponse>;
   /**
    * Deletes a server.
@@ -115,7 +115,7 @@ export interface Servers {
   beginDelete(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersDeleteOptionalParams
+    options?: ServersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a server.
@@ -126,7 +126,7 @@ export interface Servers {
   beginDeleteAndWait(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersDeleteOptionalParams
+    options?: ServersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about a server.
@@ -137,7 +137,7 @@ export interface Servers {
   get(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersGetOptionalParams
+    options?: ServersGetOptionalParams,
   ): Promise<ServersGetResponse>;
   /**
    * Restarts a server.
@@ -148,7 +148,7 @@ export interface Servers {
   beginRestart(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersRestartOptionalParams
+    options?: ServersRestartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restarts a server.
@@ -159,7 +159,7 @@ export interface Servers {
   beginRestartAndWait(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersRestartOptionalParams
+    options?: ServersRestartOptionalParams,
   ): Promise<void>;
   /**
    * Starts a server.
@@ -170,7 +170,7 @@ export interface Servers {
   beginStart(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersStartOptionalParams
+    options?: ServersStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a server.
@@ -181,7 +181,7 @@ export interface Servers {
   beginStartAndWait(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersStartOptionalParams
+    options?: ServersStartOptionalParams,
   ): Promise<void>;
   /**
    * Stops a server.
@@ -192,7 +192,7 @@ export interface Servers {
   beginStop(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersStopOptionalParams
+    options?: ServersStopOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops a server.
@@ -203,6 +203,6 @@ export interface Servers {
   beginStopAndWait(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersStopOptionalParams
+    options?: ServersStopOptionalParams,
   ): Promise<void>;
 }

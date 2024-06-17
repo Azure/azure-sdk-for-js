@@ -12,7 +12,7 @@ import { AzureNamedKeyCredential } from "@azure/core-auth";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { expectedSharedKeyLiteHeader } from "./fakeTestSecrets";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy";
 
 describe("TablesSharedKeyCredential", function () {
@@ -27,7 +27,7 @@ describe("TablesSharedKeyCredential", function () {
   });
 
   it("It should sign", async function (this: Context) {
-    if (!isNode) {
+    if (!isNodeLike) {
       // AzureNamedKeyCredential auth is not supported in Browser
       this.skip();
     }

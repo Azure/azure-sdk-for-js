@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces",
   "dependencies": {
     "@azure/eventgrid-namespaces": "next",
     "dotenv": "latest",

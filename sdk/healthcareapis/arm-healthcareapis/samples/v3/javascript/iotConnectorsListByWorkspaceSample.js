@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all IoT Connectors for the given workspace
  *
  * @summary Lists all IoT Connectors for the given workspace
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/iotconnectors/iotconnector_List.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/iotconnectors/iotconnector_List.json
  */
 async function listIotconnectors() {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";

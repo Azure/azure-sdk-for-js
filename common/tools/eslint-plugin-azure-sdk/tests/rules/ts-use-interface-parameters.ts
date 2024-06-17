@@ -3,10 +3,10 @@
 
 /**
  * @file Testing the ts-use-interface-parameters.
- * @author Arpan Laha
+ *
  */
 
-import { RuleTester } from "../ruleTester";
+import { createRuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-use-interface-parameters";
 
 //------------------------------------------------------------------------------
@@ -42,13 +42,7 @@ interface B5 {
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-use-interface-parameters", rule, {
   valid: [
@@ -131,7 +125,7 @@ ruleTester.run("ts-use-interface-parameters", rule, {
     },
     // private method
     {
-      code: `${example}class { private pMethod(a: A): void { console.log(a); } }`,
+      code: `${example}class C { private pMethod(a: A): void { console.log(a); } }`,
       filename: "src/test.ts",
     },
     // not in src
@@ -154,19 +148,17 @@ ruleTester.run("ts-use-interface-parameters", rule, {
       filename: "src/test.ts",
       errors: [
         {
-          message:
-            "type A of parameter a of function func9 is a class or contains a class as a member",
+          messageId: "FunctionParameterIsClass",
         },
       ],
     },
     {
       // class method
-      code: `${example}class { method3(a: A): void { console.log(a); } }`,
+      code: `${example}class C { method3(a: A): void { console.log(a); } }`,
       filename: "src/test.ts",
       errors: [
         {
-          message:
-            "type A of parameter a of function method3 is a class or contains a class as a member",
+          messageId: "FunctionParameterIsClass",
         },
       ],
     },
@@ -177,19 +169,17 @@ ruleTester.run("ts-use-interface-parameters", rule, {
       filename: "src/test.ts",
       errors: [
         {
-          message:
-            "type A of parameter a of function func12 is a class or contains a class as a member",
+          messageId: "FunctionParameterIsClass",
         },
       ],
     },
     {
       // class method
-      code: `${example}class { method4(a: A, b: B): void { console.log(a, b); } }`,
+      code: `${example}class C { method4(a: A, b: B): void { console.log(a, b); } }`,
       filename: "src/test.ts",
       errors: [
         {
-          message:
-            "type A of parameter a of function method4 is a class or contains a class as a member",
+          messageId: "FunctionParameterIsClass",
         },
       ],
     },
@@ -200,27 +190,23 @@ ruleTester.run("ts-use-interface-parameters", rule, {
       filename: "src/test.ts",
       errors: [
         {
-          message:
-            "type A of parameter a1 of function func15 is a class or contains a class as a member",
+          messageId: "FunctionParameterIsClass",
         },
         {
-          message:
-            "type A of parameter a2 of function func15 is a class or contains a class as a member",
+          messageId: "FunctionParameterIsClass",
         },
       ],
     },
     {
       // class method
-      code: `${example}class { method3(a1: A, a2: A): void { console.log(a1, a2); } }`,
+      code: `${example}class C { method3(a1: A, a2: A): void { console.log(a1, a2); } }`,
       filename: "src/test.ts",
       errors: [
         {
-          message:
-            "type A of parameter a1 of function method3 is a class or contains a class as a member",
+          messageId: "FunctionParameterIsClass",
         },
         {
-          message:
-            "type A of parameter a2 of function method3 is a class or contains a class as a member",
+          messageId: "FunctionParameterIsClass",
         },
       ],
     },
@@ -289,7 +275,7 @@ ruleTester.run("ts-use-interface-parameters", rule, {
     {
       // Anonymous function export
       code: `${example} export default function(b: B3) : void { console.log(b); }`,
-      filename: "src/tests.ts",
+      filename: "src/test.ts",
       errors: [
         {
           message:

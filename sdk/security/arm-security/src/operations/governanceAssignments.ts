@@ -23,7 +23,7 @@ import {
   GovernanceAssignmentsCreateOrUpdateOptionalParams,
   GovernanceAssignmentsCreateOrUpdateResponse,
   GovernanceAssignmentsDeleteOptionalParams,
-  GovernanceAssignmentsListNextResponse
+  GovernanceAssignmentsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,7 +50,7 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
   public list(
     scope: string,
     assessmentName: string,
-    options?: GovernanceAssignmentsListOptionalParams
+    options?: GovernanceAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<GovernanceAssignment> {
     const iter = this.listPagingAll(scope, assessmentName, options);
     return {
@@ -65,7 +65,7 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, assessmentName, options, settings);
-      }
+      },
     };
   }
 
@@ -73,7 +73,7 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
     scope: string,
     assessmentName: string,
     options?: GovernanceAssignmentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<GovernanceAssignment[]> {
     let result: GovernanceAssignmentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
         scope,
         assessmentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,12 +101,12 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
   private async *listPagingAll(
     scope: string,
     assessmentName: string,
-    options?: GovernanceAssignmentsListOptionalParams
+    options?: GovernanceAssignmentsListOptionalParams,
   ): AsyncIterableIterator<GovernanceAssignment> {
     for await (const page of this.listPagingPage(
       scope,
       assessmentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -123,11 +123,11 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
   private _list(
     scope: string,
     assessmentName: string,
-    options?: GovernanceAssignmentsListOptionalParams
+    options?: GovernanceAssignmentsListOptionalParams,
   ): Promise<GovernanceAssignmentsListResponse> {
     return this.client.sendOperationRequest(
       { scope, assessmentName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -145,11 +145,11 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
     scope: string,
     assessmentName: string,
     assignmentKey: string,
-    options?: GovernanceAssignmentsGetOptionalParams
+    options?: GovernanceAssignmentsGetOptionalParams,
   ): Promise<GovernanceAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, assessmentName, assignmentKey, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -169,11 +169,11 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
     assessmentName: string,
     assignmentKey: string,
     governanceAssignment: GovernanceAssignment,
-    options?: GovernanceAssignmentsCreateOrUpdateOptionalParams
+    options?: GovernanceAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<GovernanceAssignmentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { scope, assessmentName, assignmentKey, governanceAssignment, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -191,11 +191,11 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
     scope: string,
     assessmentName: string,
     assignmentKey: string,
-    options?: GovernanceAssignmentsDeleteOptionalParams
+    options?: GovernanceAssignmentsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, assessmentName, assignmentKey, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -212,11 +212,11 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
     scope: string,
     assessmentName: string,
     nextLink: string,
-    options?: GovernanceAssignmentsListNextOptionalParams
+    options?: GovernanceAssignmentsListNextOptionalParams,
   ): Promise<GovernanceAssignmentsListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, assessmentName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -224,106 +224,102 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/governanceAssignments",
+  path: "/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/governanceAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GovernanceAssignmentsList
+      bodyMapper: Mappers.GovernanceAssignmentsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion16],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope1,
-    Parameters.assessmentName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/governanceAssignments/{assignmentKey}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GovernanceAssignment
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.scope1,
     Parameters.assessmentName1,
-    Parameters.assignmentKey
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/governanceAssignments/{assignmentKey}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GovernanceAssignment,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.scope1,
+    Parameters.assessmentName1,
+    Parameters.assignmentKey,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/governanceAssignments/{assignmentKey}",
+  path: "/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/governanceAssignments/{assignmentKey}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GovernanceAssignment
+      bodyMapper: Mappers.GovernanceAssignment,
     },
     201: {
-      bodyMapper: Mappers.GovernanceAssignment
+      bodyMapper: Mappers.GovernanceAssignment,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.governanceAssignment,
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.scope1,
     Parameters.assessmentName1,
-    Parameters.assignmentKey
+    Parameters.assignmentKey,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/governanceAssignments/{assignmentKey}",
+  path: "/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/governanceAssignments/{assignmentKey}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.scope1,
     Parameters.assessmentName1,
-    Parameters.assignmentKey
+    Parameters.assignmentKey,
   ],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GovernanceAssignmentsList
+      bodyMapper: Mappers.GovernanceAssignmentsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.scope1,
-    Parameters.assessmentName1
+    Parameters.assessmentName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

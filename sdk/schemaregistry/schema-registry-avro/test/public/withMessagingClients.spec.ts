@@ -22,7 +22,7 @@ import { assertError } from "./utils/assertError";
 import { createEventHubsClient } from "./clients/eventHubs";
 import { createMockedMessagingClient } from "./clients/mocked";
 import { createTestSerializer } from "./utils/mockedSerializer";
-import { matrix } from "@azure/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import { testGroup } from "./utils/dummies";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { createPipelineWithCredential, removeSchemas } from "./utils/mockedRegistryClient";

@@ -3,6 +3,7 @@
 
 import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
 import { NotificationHubsClientContext, createClientContext } from "../../../src/api/index.js";
+import { isBrowser } from "@azure/core-util";
 
 const replaceableVariables: { [k: string]: string } = {
   // Used in record and playback modes
@@ -30,6 +31,24 @@ export async function createRecordedClientContext(
   recorder: Recorder,
 ): Promise<NotificationHubsClientContext> {
   await recorder.start(recorderOptions);
+  if (isBrowser) {
+    // there are timestamps in the body, so do not match body
+    await recorder.setMatcher("BodilessMatcher");
+    await recorder.addSanitizers(
+      {
+        // looks like the registration id is dynamic, redacting it instead
+        generalSanitizers: [
+          {
+            regex: true,
+            target: "registrations/(?<secret>.*?)?api-version=",
+            value: "registration-id-redacted",
+            groupForReplace: "secret",
+          },
+        ],
+      },
+      ["record", "playback"],
+    );
+  }
 
   if (!env.NOTIFICATION_HUB_CONNECTION_STRING || !env.NOTIFICATION_HUB_NAME) {
     throw new Error(

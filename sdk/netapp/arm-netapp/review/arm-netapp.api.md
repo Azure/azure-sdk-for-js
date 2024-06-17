@@ -139,6 +139,26 @@ export interface AuthorizeRequest {
 export type AvsDataStore = string;
 
 // @public
+export interface Backup extends ProxyResource {
+    readonly backupId?: string;
+    readonly backupPolicyResourceId?: string;
+    readonly backupType?: BackupType;
+    readonly creationDate?: Date;
+    readonly failureReason?: string;
+    label?: string;
+    readonly provisioningState?: string;
+    readonly size?: number;
+    snapshotName?: string;
+    useExistingSnapshot?: boolean;
+    volumeResourceId: string;
+}
+
+// @public
+export interface BackupPatch {
+    label?: string;
+}
+
+// @public
 export interface BackupPolicies {
     beginCreate(resourceGroupName: string, accountName: string, backupPolicyName: string, body: BackupPolicy, options?: BackupPoliciesCreateOptionalParams): Promise<SimplePollerLike<OperationState<BackupPoliciesCreateResponse>, BackupPoliciesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, backupPolicyName: string, body: BackupPolicy, options?: BackupPoliciesCreateOptionalParams): Promise<BackupPoliciesCreateResponse>;
@@ -226,16 +246,281 @@ export interface BackupPolicyPatch {
 }
 
 // @public
+export interface BackupRestoreFiles {
+    destinationVolumeId: string;
+    fileList: string[];
+    restoreFilePath?: string;
+}
+
+// @public
 export interface Backups {
-    getVolumeRestoreStatus(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: BackupsGetVolumeRestoreStatusOptionalParams): Promise<BackupsGetVolumeRestoreStatusResponse>;
+    beginCreate(resourceGroupName: string, accountName: string, backupVaultName: string, backupName: string, body: Backup, options?: BackupsCreateOptionalParams): Promise<SimplePollerLike<OperationState<BackupsCreateResponse>, BackupsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, accountName: string, backupVaultName: string, backupName: string, body: Backup, options?: BackupsCreateOptionalParams): Promise<BackupsCreateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, backupVaultName: string, backupName: string, options?: BackupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<BackupsDeleteResponse>, BackupsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, backupVaultName: string, backupName: string, options?: BackupsDeleteOptionalParams): Promise<BackupsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, accountName: string, backupVaultName: string, backupName: string, options?: BackupsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BackupsUpdateResponse>, BackupsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, accountName: string, backupVaultName: string, backupName: string, options?: BackupsUpdateOptionalParams): Promise<BackupsUpdateResponse>;
+    get(resourceGroupName: string, accountName: string, backupVaultName: string, backupName: string, options?: BackupsGetOptionalParams): Promise<BackupsGetResponse>;
+    getLatestStatus(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: BackupsGetLatestStatusOptionalParams): Promise<BackupsGetLatestStatusResponse>;
+    getVolumeLatestRestoreStatus(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: BackupsGetVolumeLatestRestoreStatusOptionalParams): Promise<BackupsGetVolumeLatestRestoreStatusResponse>;
+    listByVault(resourceGroupName: string, accountName: string, backupVaultName: string, options?: BackupsListByVaultOptionalParams): PagedAsyncIterableIterator<Backup>;
 }
 
 // @public
-export interface BackupsGetVolumeRestoreStatusOptionalParams extends coreClient.OperationOptions {
+export interface BackupsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type BackupsGetVolumeRestoreStatusResponse = RestoreStatus;
+export type BackupsCreateResponse = Backup;
+
+// @public
+export interface BackupsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BackupsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BackupsDeleteResponse = BackupsDeleteHeaders;
+
+// @public
+export interface BackupsGetLatestStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BackupsGetLatestStatusResponse = BackupStatus;
+
+// @public
+export interface BackupsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BackupsGetResponse = Backup;
+
+// @public
+export interface BackupsGetVolumeLatestRestoreStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BackupsGetVolumeLatestRestoreStatusResponse = RestoreStatus;
+
+// @public
+export interface BackupsList {
+    nextLink?: string;
+    value?: Backup[];
+}
+
+// @public
+export interface BackupsListByVaultNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BackupsListByVaultNextResponse = BackupsList;
+
+// @public
+export interface BackupsListByVaultOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type BackupsListByVaultResponse = BackupsList;
+
+// @public
+export interface BackupsMigrationRequest {
+    backupVaultId: string;
+}
+
+// @public
+export interface BackupStatus {
+    readonly errorMessage?: string;
+    readonly healthy?: boolean;
+    readonly lastTransferSize?: number;
+    readonly lastTransferType?: string;
+    readonly mirrorState?: MirrorState;
+    readonly relationshipStatus?: RelationshipStatus;
+    readonly totalTransferBytes?: number;
+    readonly transferProgressBytes?: number;
+    readonly unhealthyReason?: string;
+}
+
+// @public
+export interface BackupsUnderAccount {
+    beginMigrateBackups(resourceGroupName: string, accountName: string, body: BackupsMigrationRequest, options?: BackupsUnderAccountMigrateBackupsOptionalParams): Promise<SimplePollerLike<OperationState<BackupsUnderAccountMigrateBackupsResponse>, BackupsUnderAccountMigrateBackupsResponse>>;
+    beginMigrateBackupsAndWait(resourceGroupName: string, accountName: string, body: BackupsMigrationRequest, options?: BackupsUnderAccountMigrateBackupsOptionalParams): Promise<BackupsUnderAccountMigrateBackupsResponse>;
+}
+
+// @public
+export interface BackupsUnderAccountMigrateBackupsHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BackupsUnderAccountMigrateBackupsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BackupsUnderAccountMigrateBackupsResponse = BackupsUnderAccountMigrateBackupsHeaders;
+
+// @public
+export interface BackupsUnderBackupVault {
+    beginRestoreFiles(resourceGroupName: string, accountName: string, backupVaultName: string, backupName: string, body: BackupRestoreFiles, options?: BackupsUnderBackupVaultRestoreFilesOptionalParams): Promise<SimplePollerLike<OperationState<BackupsUnderBackupVaultRestoreFilesResponse>, BackupsUnderBackupVaultRestoreFilesResponse>>;
+    beginRestoreFilesAndWait(resourceGroupName: string, accountName: string, backupVaultName: string, backupName: string, body: BackupRestoreFiles, options?: BackupsUnderBackupVaultRestoreFilesOptionalParams): Promise<BackupsUnderBackupVaultRestoreFilesResponse>;
+}
+
+// @public
+export interface BackupsUnderBackupVaultRestoreFilesHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BackupsUnderBackupVaultRestoreFilesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BackupsUnderBackupVaultRestoreFilesResponse = BackupsUnderBackupVaultRestoreFilesHeaders;
+
+// @public
+export interface BackupsUnderVolume {
+    beginMigrateBackups(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: BackupsMigrationRequest, options?: BackupsUnderVolumeMigrateBackupsOptionalParams): Promise<SimplePollerLike<OperationState<BackupsUnderVolumeMigrateBackupsResponse>, BackupsUnderVolumeMigrateBackupsResponse>>;
+    beginMigrateBackupsAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: BackupsMigrationRequest, options?: BackupsUnderVolumeMigrateBackupsOptionalParams): Promise<BackupsUnderVolumeMigrateBackupsResponse>;
+}
+
+// @public
+export interface BackupsUnderVolumeMigrateBackupsHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BackupsUnderVolumeMigrateBackupsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BackupsUnderVolumeMigrateBackupsResponse = BackupsUnderVolumeMigrateBackupsHeaders;
+
+// @public
+export interface BackupsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BackupsUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: BackupPatch;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BackupsUpdateResponse = Backup;
+
+// @public
+export type BackupType = string;
+
+// @public
+export interface BackupVault extends TrackedResource {
+    readonly provisioningState?: string;
+}
+
+// @public
+export interface BackupVaultPatch {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface BackupVaults {
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, backupVaultName: string, body: BackupVault, options?: BackupVaultsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BackupVaultsCreateOrUpdateResponse>, BackupVaultsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, backupVaultName: string, body: BackupVault, options?: BackupVaultsCreateOrUpdateOptionalParams): Promise<BackupVaultsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, backupVaultName: string, options?: BackupVaultsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<BackupVaultsDeleteResponse>, BackupVaultsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, backupVaultName: string, options?: BackupVaultsDeleteOptionalParams): Promise<BackupVaultsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, accountName: string, backupVaultName: string, body: BackupVaultPatch, options?: BackupVaultsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BackupVaultsUpdateResponse>, BackupVaultsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, accountName: string, backupVaultName: string, body: BackupVaultPatch, options?: BackupVaultsUpdateOptionalParams): Promise<BackupVaultsUpdateResponse>;
+    get(resourceGroupName: string, accountName: string, backupVaultName: string, options?: BackupVaultsGetOptionalParams): Promise<BackupVaultsGetResponse>;
+    listByNetAppAccount(resourceGroupName: string, accountName: string, options?: BackupVaultsListByNetAppAccountOptionalParams): PagedAsyncIterableIterator<BackupVault>;
+}
+
+// @public
+export interface BackupVaultsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BackupVaultsCreateOrUpdateResponse = BackupVault;
+
+// @public
+export interface BackupVaultsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BackupVaultsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BackupVaultsDeleteResponse = BackupVaultsDeleteHeaders;
+
+// @public
+export interface BackupVaultsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BackupVaultsGetResponse = BackupVault;
+
+// @public
+export interface BackupVaultsList {
+    nextLink?: string;
+    value?: BackupVault[];
+}
+
+// @public
+export interface BackupVaultsListByNetAppAccountNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BackupVaultsListByNetAppAccountNextResponse = BackupVaultsList;
+
+// @public
+export interface BackupVaultsListByNetAppAccountOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BackupVaultsListByNetAppAccountResponse = BackupVaultsList;
+
+// @public
+export interface BackupVaultsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BackupVaultsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BackupVaultsUpdateResponse = BackupVault;
 
 // @public
 export interface BreakFileLocksRequest {
@@ -452,6 +737,12 @@ export enum KnownApplicationType {
 export enum KnownAvsDataStore {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownBackupType {
+    Manual = "Manual",
+    Scheduled = "Scheduled"
 }
 
 // @public
@@ -788,9 +1079,19 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     backups: Backups;
     // (undocumented)
+    backupsUnderAccount: BackupsUnderAccount;
+    // (undocumented)
+    backupsUnderBackupVault: BackupsUnderBackupVault;
+    // (undocumented)
+    backupsUnderVolume: BackupsUnderVolume;
+    // (undocumented)
+    backupVaults: BackupVaults;
+    // (undocumented)
     netAppResource: NetAppResource;
     // (undocumented)
     netAppResourceQuotaLimits: NetAppResourceQuotaLimits;
+    // (undocumented)
+    netAppResourceRegionInfos: NetAppResourceRegionInfos;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -883,6 +1184,33 @@ export interface NetAppResourceQuotaLimitsListOptionalParams extends coreClient.
 
 // @public
 export type NetAppResourceQuotaLimitsListResponse = SubscriptionQuotaItemList;
+
+// @public
+export interface NetAppResourceRegionInfos {
+    get(location: string, options?: NetAppResourceRegionInfosGetOptionalParams): Promise<NetAppResourceRegionInfosGetResponse>;
+    list(location: string, options?: NetAppResourceRegionInfosListOptionalParams): PagedAsyncIterableIterator<RegionInfoResource>;
+}
+
+// @public
+export interface NetAppResourceRegionInfosGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceRegionInfosGetResponse = RegionInfoResource;
+
+// @public
+export interface NetAppResourceRegionInfosListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceRegionInfosListNextResponse = RegionInfosList;
+
+// @public
+export interface NetAppResourceRegionInfosListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceRegionInfosListResponse = RegionInfosList;
 
 // @public
 export interface NetAppResourceUpdateNetworkSiblingSetHeaders {
@@ -1060,6 +1388,18 @@ export interface RegionInfo {
 export interface RegionInfoAvailabilityZoneMappingsItem {
     availabilityZone?: string;
     isAvailable?: boolean;
+}
+
+// @public
+export interface RegionInfoResource extends ProxyResource {
+    availabilityZoneMappings?: RegionInfoAvailabilityZoneMappingsItem[];
+    storageToNetworkProximity?: RegionStorageToNetworkProximity;
+}
+
+// @public
+export interface RegionInfosList {
+    nextLink?: string;
+    value?: RegionInfoResource[];
 }
 
 // @public
@@ -1551,10 +1891,18 @@ export interface Volume extends TrackedResource {
 }
 
 // @public
+export interface VolumeBackupProperties {
+    backupPolicyId?: string;
+    backupVaultId?: string;
+    policyEnforced?: boolean;
+}
+
+// @public
 export interface VolumeBackups {
     backupsCount?: number;
     policyEnabled?: boolean;
     volumeName?: string;
+    volumeResourceId?: string;
 }
 
 // @public
@@ -1730,6 +2078,7 @@ export interface VolumePatch {
 
 // @public
 export interface VolumePatchPropertiesDataProtection {
+    backup?: VolumeBackupProperties;
     snapshot?: VolumeSnapshotProperties;
 }
 
@@ -1740,6 +2089,7 @@ export interface VolumePatchPropertiesExportPolicy {
 
 // @public
 export interface VolumePropertiesDataProtection {
+    backup?: VolumeBackupProperties;
     replication?: ReplicationObject;
     snapshot?: VolumeSnapshotProperties;
     volumeRelocation?: VolumeRelocationProperties;

@@ -1,14 +1,17 @@
 # Release History
 
-## 1.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.2 (2024-05-01)
 
 ### Bugs Fixed
 
+- Fix the bug that `sequenceAck` ping won't be sent if nothing has been received for a client
+
+## 1.0.1 (2024-04-24)
+
 ### Other Changes
+
+- Update the `sequenceAck` logic to make it more efficient when receiving rate is high
+- Periodically send message to detect the connection alive especially when the connection is idle
 
 ## 1.0.0 (2023-12-01)
 

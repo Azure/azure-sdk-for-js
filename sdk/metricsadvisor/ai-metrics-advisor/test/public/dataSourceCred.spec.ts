@@ -20,7 +20,7 @@ import {
   makeCredential,
 } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils";
 
 describe("DataSourceCredential", () => {
   let client: MetricsAdvisorAdministrationClient;

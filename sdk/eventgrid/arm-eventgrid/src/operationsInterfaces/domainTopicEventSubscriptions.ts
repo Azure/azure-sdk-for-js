@@ -22,7 +22,7 @@ import {
   DomainTopicEventSubscriptionsUpdateOptionalParams,
   DomainTopicEventSubscriptionsUpdateResponse,
   DomainTopicEventSubscriptionsGetFullUrlOptionalParams,
-  DomainTopicEventSubscriptionsGetFullUrlResponse
+  DomainTopicEventSubscriptionsGetFullUrlResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface DomainTopicEventSubscriptions {
     resourceGroupName: string,
     domainName: string,
     topicName: string,
-    options?: DomainTopicEventSubscriptionsListOptionalParams
+    options?: DomainTopicEventSubscriptionsListOptionalParams,
   ): PagedAsyncIterableIterator<EventSubscription>;
   /**
    * Get all delivery attributes for an event subscription for domain topic.
@@ -54,14 +54,14 @@ export interface DomainTopicEventSubscriptions {
     domainName: string,
     topicName: string,
     eventSubscriptionName: string,
-    options?: DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
+    options?: DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
   ): Promise<DomainTopicEventSubscriptionsGetDeliveryAttributesResponse>;
   /**
    * Get properties of a nested event subscription for a domain topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param domainName Name of the top level domain.
    * @param topicName Name of the domain topic.
-   * @param eventSubscriptionName Name of the event subscription.
+   * @param eventSubscriptionName Name of the event subscription to be found.
    * @param options The options parameters.
    */
   get(
@@ -69,7 +69,7 @@ export interface DomainTopicEventSubscriptions {
     domainName: string,
     topicName: string,
     eventSubscriptionName: string,
-    options?: DomainTopicEventSubscriptionsGetOptionalParams
+    options?: DomainTopicEventSubscriptionsGetOptionalParams,
   ): Promise<DomainTopicEventSubscriptionsGetResponse>;
   /**
    * Asynchronously creates a new event subscription or updates an existing event subscription.
@@ -77,7 +77,7 @@ export interface DomainTopicEventSubscriptions {
    * @param domainName Name of the top level domain.
    * @param topicName Name of the domain topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   *                              must be between 3 and 64 characters in length and use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the destination and filter
    *                              information.
    * @param options The options parameters.
@@ -88,7 +88,7 @@ export interface DomainTopicEventSubscriptions {
     topicName: string,
     eventSubscriptionName: string,
     eventSubscriptionInfo: EventSubscription,
-    options?: DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams
+    options?: DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DomainTopicEventSubscriptionsCreateOrUpdateResponse>,
@@ -101,7 +101,7 @@ export interface DomainTopicEventSubscriptions {
    * @param domainName Name of the top level domain.
    * @param topicName Name of the domain topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   *                              must be between 3 and 64 characters in length and use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the destination and filter
    *                              information.
    * @param options The options parameters.
@@ -112,15 +112,14 @@ export interface DomainTopicEventSubscriptions {
     topicName: string,
     eventSubscriptionName: string,
     eventSubscriptionInfo: EventSubscription,
-    options?: DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams
+    options?: DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<DomainTopicEventSubscriptionsCreateOrUpdateResponse>;
   /**
    * Delete a nested existing event subscription for a domain topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param domainName Name of the top level domain.
    * @param topicName Name of the domain topic.
-   * @param eventSubscriptionName Name of the event subscription to be deleted. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be deleted.
    * @param options The options parameters.
    */
   beginDelete(
@@ -128,15 +127,14 @@ export interface DomainTopicEventSubscriptions {
     domainName: string,
     topicName: string,
     eventSubscriptionName: string,
-    options?: DomainTopicEventSubscriptionsDeleteOptionalParams
+    options?: DomainTopicEventSubscriptionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a nested existing event subscription for a domain topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param domainName Name of the top level domain.
    * @param topicName Name of the domain topic.
-   * @param eventSubscriptionName Name of the event subscription to be deleted. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be deleted.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -144,7 +142,7 @@ export interface DomainTopicEventSubscriptions {
     domainName: string,
     topicName: string,
     eventSubscriptionName: string,
-    options?: DomainTopicEventSubscriptionsDeleteOptionalParams
+    options?: DomainTopicEventSubscriptionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update an existing event subscription for a domain topic.
@@ -161,7 +159,7 @@ export interface DomainTopicEventSubscriptions {
     topicName: string,
     eventSubscriptionName: string,
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
-    options?: DomainTopicEventSubscriptionsUpdateOptionalParams
+    options?: DomainTopicEventSubscriptionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DomainTopicEventSubscriptionsUpdateResponse>,
@@ -183,7 +181,7 @@ export interface DomainTopicEventSubscriptions {
     topicName: string,
     eventSubscriptionName: string,
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
-    options?: DomainTopicEventSubscriptionsUpdateOptionalParams
+    options?: DomainTopicEventSubscriptionsUpdateOptionalParams,
   ): Promise<DomainTopicEventSubscriptionsUpdateResponse>;
   /**
    * Get the full endpoint URL for a nested event subscription for domain topic.
@@ -198,6 +196,6 @@ export interface DomainTopicEventSubscriptions {
     domainName: string,
     topicName: string,
     eventSubscriptionName: string,
-    options?: DomainTopicEventSubscriptionsGetFullUrlOptionalParams
+    options?: DomainTopicEventSubscriptionsGetFullUrlOptionalParams,
   ): Promise<DomainTopicEventSubscriptionsGetFullUrlResponse>;
 }

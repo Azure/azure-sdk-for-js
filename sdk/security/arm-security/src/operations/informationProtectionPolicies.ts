@@ -23,13 +23,14 @@ import {
   InformationProtectionPoliciesGetResponse,
   InformationProtectionPoliciesCreateOrUpdateOptionalParams,
   InformationProtectionPoliciesCreateOrUpdateResponse,
-  InformationProtectionPoliciesListNextResponse
+  InformationProtectionPoliciesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing InformationProtectionPolicies operations. */
 export class InformationProtectionPoliciesImpl
-  implements InformationProtectionPolicies {
+  implements InformationProtectionPolicies
+{
   private readonly client: SecurityCenter;
 
   /**
@@ -49,7 +50,7 @@ export class InformationProtectionPoliciesImpl
    */
   public list(
     scope: string,
-    options?: InformationProtectionPoliciesListOptionalParams
+    options?: InformationProtectionPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<InformationProtectionPolicy> {
     const iter = this.listPagingAll(scope, options);
     return {
@@ -64,14 +65,14 @@ export class InformationProtectionPoliciesImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     scope: string,
     options?: InformationProtectionPoliciesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<InformationProtectionPolicy[]> {
     let result: InformationProtectionPoliciesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +94,7 @@ export class InformationProtectionPoliciesImpl
 
   private async *listPagingAll(
     scope: string,
-    options?: InformationProtectionPoliciesListOptionalParams
+    options?: InformationProtectionPoliciesListOptionalParams,
   ): AsyncIterableIterator<InformationProtectionPolicy> {
     for await (const page of this.listPagingPage(scope, options)) {
       yield* page;
@@ -111,11 +112,11 @@ export class InformationProtectionPoliciesImpl
   get(
     scope: string,
     informationProtectionPolicyName: InformationProtectionPolicyName,
-    options?: InformationProtectionPoliciesGetOptionalParams
+    options?: InformationProtectionPoliciesGetOptionalParams,
   ): Promise<InformationProtectionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { scope, informationProtectionPolicyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -132,16 +133,16 @@ export class InformationProtectionPoliciesImpl
     scope: string,
     informationProtectionPolicyName: InformationProtectionPolicyName,
     informationProtectionPolicy: InformationProtectionPolicy,
-    options?: InformationProtectionPoliciesCreateOrUpdateOptionalParams
+    options?: InformationProtectionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<InformationProtectionPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         informationProtectionPolicyName,
         informationProtectionPolicy,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -154,11 +155,11 @@ export class InformationProtectionPoliciesImpl
    */
   private _list(
     scope: string,
-    options?: InformationProtectionPoliciesListOptionalParams
+    options?: InformationProtectionPoliciesListOptionalParams,
   ): Promise<InformationProtectionPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -173,11 +174,11 @@ export class InformationProtectionPoliciesImpl
   private _listNext(
     scope: string,
     nextLink: string,
-    options?: InformationProtectionPoliciesListNextOptionalParams
+    options?: InformationProtectionPoliciesListNextOptionalParams,
   ): Promise<InformationProtectionPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -185,80 +186,78 @@ export class InformationProtectionPoliciesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Security/informationProtectionPolicies/{informationProtectionPolicyName}",
+  path: "/{scope}/providers/Microsoft.Security/informationProtectionPolicies/{informationProtectionPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InformationProtectionPolicy
+      bodyMapper: Mappers.InformationProtectionPolicy,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.informationProtectionPolicyName
+    Parameters.informationProtectionPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Security/informationProtectionPolicies/{informationProtectionPolicyName}",
+  path: "/{scope}/providers/Microsoft.Security/informationProtectionPolicies/{informationProtectionPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.InformationProtectionPolicy
+      bodyMapper: Mappers.InformationProtectionPolicy,
     },
     201: {
-      bodyMapper: Mappers.InformationProtectionPolicy
+      bodyMapper: Mappers.InformationProtectionPolicy,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.informationProtectionPolicy,
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.informationProtectionPolicyName
+    Parameters.informationProtectionPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Security/informationProtectionPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InformationProtectionPolicyList
+      bodyMapper: Mappers.InformationProtectionPolicyList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InformationProtectionPolicyList
+      bodyMapper: Mappers.InformationProtectionPolicyList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

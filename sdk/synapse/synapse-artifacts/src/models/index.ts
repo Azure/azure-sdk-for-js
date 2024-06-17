@@ -60,6 +60,7 @@ export type DatasetUnion =
   | OdbcTableDataset
   | MySqlTableDataset
   | PostgreSqlTableDataset
+  | PostgreSqlV2TableDataset
   | MicrosoftAccessTableDataset
   | SalesforceObjectDataset
   | SalesforceServiceCloudObjectDataset
@@ -84,6 +85,7 @@ export type DatasetUnion =
   | DrillTableDataset
   | EloquaObjectDataset
   | GoogleBigQueryObjectDataset
+  | GoogleBigQueryV2ObjectDataset
   | GreenplumTableDataset
   | HBaseObjectDataset
   | HiveObjectDataset
@@ -113,8 +115,14 @@ export type DatasetUnion =
   | AzureDataExplorerTableDataset
   | GoogleAdWordsObjectDataset
   | SnowflakeDataset
+  | SnowflakeV2Dataset
   | SharePointOnlineListResourceDataset
-  | AzureDatabricksDeltaLakeDataset;
+  | AzureDatabricksDeltaLakeDataset
+  | LakeHouseTableDataset
+  | SalesforceV2ObjectDataset
+  | SalesforceServiceCloudV2ObjectDataset
+  | WarehouseTableDataset
+  | ServiceNowV2ObjectDataset;
 export type LinkedServiceUnion =
   | LinkedService
   | AzureStorageLinkedService
@@ -140,6 +148,7 @@ export type LinkedServiceUnion =
   | AzureMySqlLinkedService
   | MySqlLinkedService
   | PostgreSqlLinkedService
+  | PostgreSqlV2LinkedService
   | SybaseLinkedService
   | Db2LinkedService
   | TeradataLinkedService
@@ -191,6 +200,7 @@ export type LinkedServiceUnion =
   | DrillLinkedService
   | EloquaLinkedService
   | GoogleBigQueryLinkedService
+  | GoogleBigQueryV2LinkedService
   | GreenplumLinkedService
   | HBaseLinkedService
   | HiveLinkedService
@@ -226,9 +236,14 @@ export type LinkedServiceUnion =
   | AzureDataExplorerLinkedService
   | AzureFunctionLinkedService
   | SnowflakeLinkedService
+  | SnowflakeV2LinkedService
   | SharePointOnlineListLinkedService
   | AzureSynapseArtifactsLinkedService
-  | PowerBIWorkspaceLinkedService;
+  | LakeHouseLinkedService
+  | PowerBIWorkspaceLinkedService
+  | SalesforceV2LinkedService
+  | SalesforceServiceCloudV2LinkedService
+  | WarehouseLinkedService;
 export type ActivityUnion =
   | Activity
   | ControlActivityUnion
@@ -252,7 +267,8 @@ export type DatasetLocationUnion =
   | FtpServerLocation
   | SftpLocation
   | HttpServerLocation
-  | HdfsLocation;
+  | HdfsLocation
+  | LakeHouseLocation;
 export type DatasetStorageFormatUnion =
   | DatasetStorageFormat
   | TextFormat
@@ -277,7 +293,8 @@ export type StoreReadSettingsUnion =
   | FtpReadSettings
   | SftpReadSettings
   | HttpReadSettings
-  | HdfsReadSettings;
+  | HdfsReadSettings
+  | LakeHouseReadSettings;
 export type StoreWriteSettingsUnion =
   | StoreWriteSettings
   | SftpWriteSettings
@@ -285,9 +302,11 @@ export type StoreWriteSettingsUnion =
   | AzureBlobFSWriteSettings
   | AzureDataLakeStoreWriteSettings
   | FileServerWriteSettings
-  | AzureFileStorageWriteSettings;
+  | AzureFileStorageWriteSettings
+  | LakeHouseWriteSettings;
 export type FormatReadSettingsUnion =
   | FormatReadSettings
+  | ParquetReadSettings
   | DelimitedTextReadSettings
   | JsonReadSettings
   | XmlReadSettings
@@ -340,9 +359,12 @@ export type CopySourceUnion =
   | AzureDataLakeStoreSource
   | AzureBlobFSSource
   | HttpSource
+  | LakeHouseTableSource
   | SnowflakeSource
+  | SnowflakeV2Source
   | AzureDatabricksDeltaLakeSource
-  | SharePointOnlineListSource;
+  | SharePointOnlineListSource
+  | SalesforceServiceCloudV2Source;
 export type CopySinkUnion =
   | CopySink
   | DelimitedTextSink
@@ -352,6 +374,7 @@ export type CopySinkUnion =
   | AzurePostgreSqlSink
   | AzureMySqlSink
   | AzureDatabricksDeltaLakeSink
+  | WarehouseSink
   | SapCloudForCustomerSink
   | AzureQueueSink
   | AzureTableSink
@@ -368,6 +391,7 @@ export type CopySinkUnion =
   | SqlMISink
   | SqlDWSink
   | SnowflakeSink
+  | SnowflakeV2Sink
   | OracleSink
   | AzureDataLakeStoreSink
   | AzureBlobFSSink
@@ -381,7 +405,10 @@ export type CopySinkUnion =
   | AzureDataExplorerSink
   | SalesforceSink
   | SalesforceServiceCloudSink
-  | CosmosDbMongoDbApiSink;
+  | CosmosDbMongoDbApiSink
+  | LakeHouseTableSink
+  | SalesforceV2Sink
+  | SalesforceServiceCloudV2Sink;
 export type ExportSettingsUnion =
   | ExportSettings
   | SnowflakeExportCopyCommand
@@ -455,6 +482,7 @@ export type TabularSourceUnion =
   | OdbcSource
   | MySqlSource
   | PostgreSqlSource
+  | PostgreSqlV2Source
   | SybaseSource
   | SapBwSource
   | SalesforceSource
@@ -480,6 +508,7 @@ export type TabularSourceUnion =
   | DrillSource
   | EloquaSource
   | GoogleBigQuerySource
+  | GoogleBigQueryV2Source
   | GreenplumSource
   | HBaseSource
   | HiveSource
@@ -507,7 +536,10 @@ export type TabularSourceUnion =
   | DynamicsAXSource
   | OracleServiceCloudSource
   | GoogleAdWordsSource
-  | AmazonRedshiftSource;
+  | AmazonRedshiftSource
+  | WarehouseSource
+  | SalesforceV2Source
+  | ServiceNowV2Source;
 export type TriggerDependencyReferenceUnion =
   | TriggerDependencyReference
   | TumblingWindowTriggerDependencyReference;
@@ -1448,6 +1480,7 @@ export interface Dataset {
     | "OdbcTable"
     | "MySqlTable"
     | "PostgreSqlTable"
+    | "PostgreSqlV2Table"
     | "MicrosoftAccessTable"
     | "SalesforceObject"
     | "SalesforceServiceCloudObject"
@@ -1472,6 +1505,7 @@ export interface Dataset {
     | "DrillTable"
     | "EloquaObject"
     | "GoogleBigQueryObject"
+    | "GoogleBigQueryV2Object"
     | "GreenplumTable"
     | "HBaseObject"
     | "HiveObject"
@@ -1501,8 +1535,14 @@ export interface Dataset {
     | "AzureDataExplorerTable"
     | "GoogleAdWordsObject"
     | "SnowflakeTable"
+    | "SnowflakeV2Table"
     | "SharePointOnlineListResource"
-    | "AzureDatabricksDeltaLakeDataset";
+    | "AzureDatabricksDeltaLakeDataset"
+    | "LakeHouseTable"
+    | "SalesforceV2Object"
+    | "SalesforceServiceCloudV2Object"
+    | "WarehouseTable"
+    | "ServiceNowV2Object";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Dataset description. */
@@ -1562,6 +1602,7 @@ export interface LinkedService {
     | "AzureMySql"
     | "MySql"
     | "PostgreSql"
+    | "PostgreSqlV2"
     | "Sybase"
     | "Db2"
     | "Teradata"
@@ -1613,6 +1654,7 @@ export interface LinkedService {
     | "Drill"
     | "Eloqua"
     | "GoogleBigQuery"
+    | "GoogleBigQueryV2"
     | "Greenplum"
     | "HBase"
     | "Hive"
@@ -1648,9 +1690,14 @@ export interface LinkedService {
     | "AzureDataExplorer"
     | "AzureFunction"
     | "Snowflake"
+    | "SnowflakeV2"
     | "SharePointOnlineList"
     | "AzureSynapseArtifacts"
-    | "PowerBIWorkspace";
+    | "LakeHouse"
+    | "PowerBIWorkspace"
+    | "SalesforceV2"
+    | "SalesforceServiceCloudV2"
+    | "Warehouse";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The integration runtime reference. */
@@ -3008,7 +3055,8 @@ export interface DatasetLocation {
     | "FtpServerLocation"
     | "SftpLocation"
     | "HttpServerLocation"
-    | "HdfsLocation";
+    | "HdfsLocation"
+    | "LakeHouseLocation";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Specify the folder path of dataset. Type: string (or Expression with resultType string) */
@@ -3094,6 +3142,26 @@ export interface ScriptAction {
   parameters?: string;
 }
 
+/** ServiceNowV2 server linked service properties. */
+export interface ServiceNowV2LinkedServiceTypeProperties {
+  /** The endpoint of the ServiceNowV2 server. (i.e. <instance>.service-now.com) */
+  endpoint: any;
+  /** The authentication type to use. */
+  authenticationType: ServiceNowV2AuthenticationType;
+  /** The user name used to connect to the ServiceNowV2 server for Basic and OAuth2 authentication. */
+  username?: any;
+  /** The password corresponding to the user name for Basic and OAuth2 authentication. */
+  password?: SecretBaseUnion;
+  /** The client id for OAuth2 authentication. */
+  clientId?: any;
+  /** The client secret for OAuth2 authentication. */
+  clientSecret?: SecretBaseUnion;
+  /** GrantType for OAuth2 authentication. Default value is password. */
+  grantType?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
 /** Execution policy for an activity. */
 export interface ActivityPolicy {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
@@ -3124,7 +3192,8 @@ export interface StoreReadSettings {
     | "FtpReadSettings"
     | "SftpReadSettings"
     | "HttpReadSettings"
-    | "HdfsReadSettings";
+    | "HdfsReadSettings"
+    | "LakeHouseReadSettings";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The maximum concurrent connection count for the source data store. Type: integer (or Expression with resultType integer). */
@@ -3140,13 +3209,24 @@ export interface StoreWriteSettings {
     | "AzureBlobFSWriteSettings"
     | "AzureDataLakeStoreWriteSettings"
     | "FileServerWriteSettings"
-    | "AzureFileStorageWriteSettings";
+    | "AzureFileStorageWriteSettings"
+    | "LakeHouseWriteSettings";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The maximum concurrent connection count for the source data store. Type: integer (or Expression with resultType integer). */
   maxConcurrentConnections?: any;
   /** The type of copy behavior for copy sink. */
   copyBehavior?: any;
+  /** Specify the custom metadata to be added to sink data. Type: array of objects (or Expression with resultType array of objects). */
+  metadata?: MetadataItem[];
+}
+
+/** Specify the name and value of custom metadata item. */
+export interface MetadataItem {
+  /** Metadata item key name. Type: string (or Expression with resultType string). */
+  name?: any;
+  /** Metadata item value. Type: string (or Expression with resultType string). */
+  value?: any;
 }
 
 /** Distcp settings. */
@@ -3163,6 +3243,7 @@ export interface DistcpSettings {
 export interface FormatReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type:
+    | "ParquetReadSettings"
     | "DelimitedTextReadSettings"
     | "JsonReadSettings"
     | "XmlReadSettings"
@@ -3219,6 +3300,7 @@ export interface CopySource {
     | "OdbcSource"
     | "MySqlSource"
     | "PostgreSqlSource"
+    | "PostgreSqlV2Source"
     | "SybaseSource"
     | "SapBwSource"
     | "ODataSource"
@@ -3261,6 +3343,7 @@ export interface CopySource {
     | "DrillSource"
     | "EloquaSource"
     | "GoogleBigQuerySource"
+    | "GoogleBigQueryV2Source"
     | "GreenplumSource"
     | "HBaseSource"
     | "HiveSource"
@@ -3289,9 +3372,15 @@ export interface CopySource {
     | "OracleServiceCloudSource"
     | "GoogleAdWordsSource"
     | "AmazonRedshiftSource"
+    | "LakeHouseTableSource"
     | "SnowflakeSource"
+    | "SnowflakeV2Source"
     | "AzureDatabricksDeltaLakeSource"
-    | "SharePointOnlineListSource";
+    | "WarehouseSource"
+    | "SharePointOnlineListSource"
+    | "SalesforceV2Source"
+    | "SalesforceServiceCloudV2Source"
+    | "ServiceNowV2Source";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Source retry count. Type: integer (or Expression with resultType integer). */
@@ -3313,6 +3402,7 @@ export interface CopySink {
     | "AzurePostgreSqlSink"
     | "AzureMySqlSink"
     | "AzureDatabricksDeltaLakeSink"
+    | "WarehouseSink"
     | "SapCloudForCustomerSink"
     | "AzureQueueSink"
     | "AzureTableSink"
@@ -3329,6 +3419,7 @@ export interface CopySink {
     | "SqlMISink"
     | "SqlDWSink"
     | "SnowflakeSink"
+    | "SnowflakeV2Sink"
     | "OracleSink"
     | "AzureDataLakeStoreSink"
     | "AzureBlobFSSink"
@@ -3342,7 +3433,10 @@ export interface CopySink {
     | "AzureDataExplorerSink"
     | "SalesforceSink"
     | "SalesforceServiceCloudSink"
-    | "CosmosDbMongoDbApiSink";
+    | "CosmosDbMongoDbApiSink"
+    | "LakeHouseTableSink"
+    | "SalesforceV2Sink"
+    | "SalesforceServiceCloudV2Sink";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Write batch size. Type: integer (or Expression with resultType integer), minimum: 0. */
@@ -3543,6 +3637,22 @@ export interface ImportSettings {
   [property: string]: any;
 }
 
+/** DW Copy Command settings. */
+export interface DWCopyCommandSettings {
+  /** Specifies the default values for each target column in SQL DW. The default values in the property overwrite the DEFAULT constraint set in the DB, and identity column cannot have a default value. Type: array of objects (or Expression with resultType array of objects). */
+  defaultValues?: DWCopyCommandDefaultValue[];
+  /** Additional options directly passed to SQL DW in Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalOptions": { "MAXERRORS": "1000", "DATEFORMAT": "'ymd'" } */
+  additionalOptions?: { [propertyName: string]: string };
+}
+
+/** Default value. */
+export interface DWCopyCommandDefaultValue {
+  /** Column name. Type: object (or Expression with resultType string). */
+  columnName?: any;
+  /** The default value of the column. Type: object (or Expression with resultType string). */
+  defaultValue?: any;
+}
+
 /** SQL stored procedure parameter. */
 export interface StoredProcedureParameter {
   /** Stored procedure parameter value. Type: string (or Expression with resultType string). */
@@ -3571,22 +3681,6 @@ export interface PolybaseSettings {
   rejectSampleValue?: any;
   /** Specifies how to handle missing values in delimited text files when PolyBase retrieves data from the text file. Type: boolean (or Expression with resultType boolean). */
   useTypeDefault?: any;
-}
-
-/** DW Copy Command settings. */
-export interface DWCopyCommandSettings {
-  /** Specifies the default values for each target column in SQL DW. The default values in the property overwrite the DEFAULT constraint set in the DB, and identity column cannot have a default value. Type: array of objects (or Expression with resultType array of objects). */
-  defaultValues?: DWCopyCommandDefaultValue[];
-  /** Additional options directly passed to SQL DW in Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalOptions": { "MAXERRORS": "1000", "DATEFORMAT": "'ymd'" } */
-  additionalOptions?: { [propertyName: string]: string };
-}
-
-/** Default value. */
-export interface DWCopyCommandDefaultValue {
-  /** Column name. Type: object (or Expression with resultType string). */
-  columnName?: any;
-  /** The default value of the column. Type: object (or Expression with resultType string). */
-  defaultValue?: any;
 }
 
 /** Specify the column name and value of additional columns. */
@@ -3755,18 +3849,18 @@ export interface SecureInputOutputPolicy {
 
 /** Compute properties for data flow activity. */
 export interface ExecuteDataFlowActivityTypePropertiesCompute {
-  /** Compute type of the cluster which will execute data flow job. */
-  computeType?: DataFlowComputeType;
-  /** Core count of the cluster which will execute data flow job. Supported values are: 8, 16, 32, 48, 80, 144 and 272. */
-  coreCount?: number;
+  /** Compute type of the cluster which will execute data flow job. Possible values include: 'General', 'MemoryOptimized', 'ComputeOptimized'. Type: string (or Expression with resultType string) */
+  computeType?: any;
+  /** Core count of the cluster which will execute data flow job. Supported values are: 8, 16, 32, 48, 80, 144 and 272. Type: integer (or Expression with resultType integer) */
+  coreCount?: any;
 }
 
 /** Script block of scripts. */
 export interface ScriptActivityScriptBlock {
   /** The query text. Type: string (or Expression with resultType string). */
   text: any;
-  /** The type of the query. Type: string. */
-  type: ScriptType;
+  /** The type of the query. Please refer to the ScriptType for valid options. Type: string (or Expression with resultType string). */
+  type: any;
   /** Array of script parameters. Type: array. */
   parameters?: ScriptActivityParameter[];
 }
@@ -3799,6 +3893,18 @@ export interface SparkConfigurationParametrizationReference {
   type: SparkConfigurationReferenceType;
   /** Reference spark configuration name. Type: string (or Expression with resultType string). */
   referenceName: any;
+}
+
+/** Nested representation of a complex expression. */
+export interface ExpressionV2 {
+  /** Type of expressions supported by the system. Type: string. */
+  type?: ExpressionV2Type;
+  /** Value for Constant/Field Type: string. */
+  value?: string;
+  /** Expression operator value Type: string. */
+  operator?: string;
+  /** List of nested expressions. */
+  operands?: ExpressionV2[];
 }
 
 /** The workflow trigger recurrence. */
@@ -4579,6 +4685,16 @@ export interface PostgreSqlTableDataset extends Dataset {
   schemaTypePropertiesSchema?: any;
 }
 
+/** The PostgreSQLV2 table dataset. */
+export interface PostgreSqlV2TableDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "PostgreSqlV2Table";
+  /** The PostgreSQL table name. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The PostgreSQL schema name. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+}
+
 /** The Microsoft Access table dataset. */
 export interface MicrosoftAccessTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -4813,6 +4929,16 @@ export interface GoogleBigQueryObjectDataset extends Dataset {
   type: "GoogleBigQueryObject";
   /** This property will be retired. Please consider using database + table properties instead. */
   tableName?: any;
+  /** The table name of the Google BigQuery. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The database name of the Google BigQuery. Type: string (or Expression with resultType string). */
+  dataset?: any;
+}
+
+/** Google BigQuery service dataset. */
+export interface GoogleBigQueryV2ObjectDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleBigQueryV2Object";
   /** The table name of the Google BigQuery. Type: string (or Expression with resultType string). */
   table?: any;
   /** The database name of the Google BigQuery. Type: string (or Expression with resultType string). */
@@ -5085,6 +5211,16 @@ export interface SnowflakeDataset extends Dataset {
   table?: any;
 }
 
+/** The snowflake dataset. */
+export interface SnowflakeV2Dataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SnowflakeV2Table";
+  /** The schema name of the Snowflake database. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The table name of the Snowflake database. Type: string (or Expression with resultType string). */
+  table?: any;
+}
+
 /** The sharepoint online list resource dataset. */
 export interface SharePointOnlineListResourceDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -5101,6 +5237,52 @@ export interface AzureDatabricksDeltaLakeDataset extends Dataset {
   table?: any;
   /** The database name of delta table. Type: string (or Expression with resultType string). */
   database?: any;
+}
+
+/** Microsoft Fabric LakeHouse Table. */
+export interface LakeHouseTableDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LakeHouseTable";
+  /** The name of Microsoft Fabric LakeHouse Table. Type: string (or Expression with resultType string). */
+  table?: any;
+}
+
+/** The Salesforce V2 object dataset. */
+export interface SalesforceV2ObjectDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceV2Object";
+  /** The Salesforce V2 object API name. Type: string (or Expression with resultType string). */
+  objectApiName?: any;
+  /** The Salesforce V2 report Id. Type: string (or Expression with resultType string). */
+  reportId?: any;
+}
+
+/** The Salesforce Service Cloud V2 object dataset. */
+export interface SalesforceServiceCloudV2ObjectDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceServiceCloudV2Object";
+  /** The Salesforce Service Cloud V2 object API name. Type: string (or Expression with resultType string). */
+  objectApiName?: any;
+  /** The Salesforce Service Cloud V2 reportId. Type: string (or Expression with resultType string). */
+  reportId?: any;
+}
+
+/** Microsoft Fabric Warehouse dataset. */
+export interface WarehouseTableDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "WarehouseTable";
+  /** The schema name of the Microsoft Fabric Warehouse. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The table name of the Microsoft Fabric Warehouse. Type: string (or Expression with resultType string). */
+  table?: any;
+}
+
+/** ServiceNowV2 server dataset. */
+export interface ServiceNowV2ObjectDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServiceNowV2Object";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
 }
 
 /** The storage account linked service. */
@@ -5527,8 +5709,22 @@ export interface AzureMySqlLinkedService extends LinkedService {
 export interface MySqlLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MySql";
+  /** The version of the MySQL driver. Type: string. V1 or empty for legacy driver, V2 for new driver. V1 can support connection string and property bag, V2 can only support connection string. */
+  driverVersion?: any;
   /** The connection string. */
-  connectionString: any;
+  connectionString?: any;
+  /** Server name for connection. Type: string. */
+  server?: any;
+  /** The port for the connection. Type: integer. */
+  port?: any;
+  /** Username for authentication. Type: string. */
+  username?: any;
+  /** Database name for connection. Type: string. */
+  database?: any;
+  /** SSL mode for connection. Type: integer. 0: disable, 1: prefer, 2: require, 3: verify-ca, 4: verify-full. */
+  sslMode?: any;
+  /** Use system trust store for connection. Type: integer. 0: enable, 1: disable. */
+  useSystemTrustStore?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
@@ -5542,6 +5738,50 @@ export interface PostgreSqlLinkedService extends LinkedService {
   /** The connection string. */
   connectionString: any;
   /** The Azure key vault secret reference of password in connection string. */
+  password?: AzureKeyVaultSecretReference;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+}
+
+/** Linked service for PostgreSQLV2 data source. */
+export interface PostgreSqlV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "PostgreSqlV2";
+  /** Server name for connection. Type: string. */
+  server: any;
+  /** The port for the connection. Type: integer. */
+  port?: any;
+  /** Username for authentication. Type: string. */
+  username: any;
+  /** Database name for connection. Type: string. */
+  database: any;
+  /** SSL mode for connection. Type: integer. 0: disable, 1:allow, 2: prefer, 3: require, 4: verify-ca, 5: verify-full. Type: integer. */
+  sslMode: any;
+  /** Sets the schema search path. Type: string. */
+  schema?: any;
+  /** Whether connection pooling should be used. Type: boolean. */
+  pooling?: any;
+  /** The time to wait (in seconds) while trying to establish a connection before terminating the attempt and generating an error. Type: integer. */
+  connectionTimeout?: any;
+  /** The time to wait (in seconds) while trying to execute a command before terminating the attempt and generating an error. Set to zero for infinity. Type: integer. */
+  commandTimeout?: any;
+  /** Whether to trust the server certificate without validating it. Type: boolean. */
+  trustServerCertificate?: any;
+  /** Location of a client certificate to be sent to the server. Type: string. */
+  sslCertificate?: any;
+  /** Location of a client key for a client certificate to be sent to the server. Type: string. */
+  sslKey?: any;
+  /** Password for a key for a client certificate. Type: string. */
+  sslPassword?: any;
+  /** Determines the size of the internal buffer uses when reading. Increasing may improve performance if transferring large values from the database. Type: integer. */
+  readBufferSize?: any;
+  /** When enabled, parameter values are logged when commands are executed. Type: boolean. */
+  logParameters?: any;
+  /** Gets or sets the session timezone. Type: string. */
+  timezone?: any;
+  /** Gets or sets the .NET encoding that will be used to encode/decode PostgreSQL string data. Type: string */
+  encoding?: any;
+  /** The Azure key vault secret reference of password in connection string. Type: string. */
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
@@ -6497,6 +6737,26 @@ export interface GoogleBigQueryLinkedService extends LinkedService {
   encryptedCredential?: any;
 }
 
+/** Google BigQuery service linked service. */
+export interface GoogleBigQueryV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleBigQueryV2";
+  /** The default BigQuery project id to query against. */
+  projectId: any;
+  /** The OAuth 2.0 authentication mechanism used for authentication. */
+  authenticationType: GoogleBigQueryV2AuthenticationType;
+  /** The client id of the google application used to acquire the refresh token. Type: string (or Expression with resultType string). */
+  clientId?: any;
+  /** The client secret of the google application used to acquire the refresh token. */
+  clientSecret?: SecretBaseUnion;
+  /** The refresh token obtained from Google for authorizing access to BigQuery for UserAuthentication. */
+  refreshToken?: SecretBaseUnion;
+  /** The content of the .json key file that is used to authenticate the service account. */
+  keyFileContent?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: string;
+}
+
 /** Greenplum Database linked service. */
 export interface GreenplumLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -6671,10 +6931,20 @@ export interface MagentoLinkedService extends LinkedService {
 export interface MariaDBLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MariaDB";
+  /** The version of the MariaDB driver. Type: string. V1 or empty for legacy driver, V2 for new driver. V1 can support connection string and property bag, V2 can only support connection string. */
+  driverVersion?: any;
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString?: any;
+  /** Server name for connection. Type: string. */
+  server?: any;
+  /** The port for the connection. Type: integer. */
+  port?: any;
+  /** Username for authentication. Type: string. */
+  username?: any;
+  /** Database name for connection. Type: string. */
+  database?: any;
   /** The Azure key vault secret reference of password in connection string. */
-  pwd?: AzureKeyVaultSecretReference;
+  password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
 }
@@ -7228,7 +7498,7 @@ export interface OracleServiceCloudLinkedService extends LinkedService {
 export interface GoogleAdWordsLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleAdWords";
-  /** Properties used to connect to GoogleAds. It is mutually exclusive with any other properties in the linked service. Type: object. */
+  /** (Deprecated) Properties used to connect to GoogleAds. It is mutually exclusive with any other properties in the linked service. Type: object. */
   connectionProperties?: any;
   /** The Client customer ID of the AdWords account that you want to fetch report data for. */
   clientCustomerID?: any;
@@ -7244,12 +7514,20 @@ export interface GoogleAdWordsLinkedService extends LinkedService {
   clientSecret?: SecretBaseUnion;
   /** The service account email ID that is used for ServiceAuthentication and can only be used on self-hosted IR. */
   email?: any;
-  /** The full path to the .p12 key file that is used to authenticate the service account email address and can only be used on self-hosted IR. */
+  /** (Deprecated) The full path to the .p12 key file that is used to authenticate the service account email address and can only be used on self-hosted IR. */
   keyFilePath?: any;
-  /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
+  /** (Deprecated) The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
   trustedCertPath?: any;
-  /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
+  /** (Deprecated) Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
   useSystemTrustStore?: any;
+  /** The private key that is used to authenticate the service account email address and can only be used on self-hosted IR. */
+  privateKey?: SecretBaseUnion;
+  /** The customer ID of the Google Ads Manager account through which you want to fetch report data of specific Customer. */
+  loginCustomerID?: any;
+  /** The Google Ads API major version such as v14. The supported major versions could be found on https://developers.google.com/google-ads/api/docs/release-notes. */
+  googleAdsApiVersion?: any;
+  /** Specifies whether to use the legacy data type mappings, which maps float, int32 and int64 from Google to string. Do not set this to true unless you want to keep backward compatibility with legacy driver's data type mappings. Type: boolean (or Expression with resultType boolean). */
+  supportLegacyDataTypes?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
 }
@@ -7340,6 +7618,38 @@ export interface SnowflakeLinkedService extends LinkedService {
   encryptedCredential?: any;
 }
 
+/** Snowflake linked service. */
+export interface SnowflakeV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SnowflakeV2";
+  /** The account identifier of your Snowflake account, e.g. xy12345.east-us-2.azure */
+  accountIdentifier: any;
+  /** The name of the Snowflake user. */
+  user?: any;
+  /** The Azure key vault secret reference of password in connection string. */
+  password?: SecretBaseUnion;
+  /** The name of the Snowflake database. */
+  database: any;
+  /** The name of the Snowflake warehouse. */
+  warehouse: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: SnowflakeAuthenticationType;
+  /** The client ID of the application registered in Azure Active Directory for AADServicePrincipal authentication. */
+  clientId?: any;
+  /** The Azure key vault secret reference of client secret for AADServicePrincipal authentication. */
+  clientSecret?: SecretBaseUnion;
+  /** The tenant ID of the application registered in Azure Active Directory for AADServicePrincipal authentication. */
+  tenantId?: any;
+  /** The scope of the application registered in Azure Active Directory for AADServicePrincipal authentication. */
+  scope?: any;
+  /** The Azure key vault secret reference of privateKey for KeyPair auth. */
+  privateKey?: SecretBaseUnion;
+  /** The Azure key vault secret reference of private key password for KeyPair auth with encrypted private key. */
+  privateKeyPassphrase?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
 /** SharePoint Online List linked service. */
 export interface SharePointOnlineListLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -7368,6 +7678,28 @@ export interface AzureSynapseArtifactsLinkedService extends LinkedService {
   workspaceResourceId?: any;
 }
 
+/** Microsoft Fabric LakeHouse linked service. */
+export interface LakeHouseLinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LakeHouse";
+  /** The ID of Microsoft Fabric workspace. Type: string (or Expression with resultType string). */
+  workspaceId?: any;
+  /** The ID of Microsoft Fabric LakeHouse artifact. Type: string (or Expression with resultType string). */
+  artifactId?: any;
+  /** The ID of the application used to authenticate against Microsoft Fabric LakeHouse. Type: string (or Expression with resultType string). */
+  servicePrincipalId?: any;
+  /** The Key of the application used to authenticate against Microsoft Fabric LakeHouse. */
+  servicePrincipalKey?: SecretBaseUnion;
+  /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
+  tenant?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
+}
+
 /** Power BI Workspace linked service. */
 export interface PowerBIWorkspaceLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -7376,6 +7708,66 @@ export interface PowerBIWorkspaceLinkedService extends LinkedService {
   workspaceId: string;
   /** The tenant id to which the Power BI workspace belongs. */
   tenantId: string;
+}
+
+/** Linked service for Salesforce V2. */
+export interface SalesforceV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceV2";
+  /** The URL of Salesforce instance. For example, 'https://[domain].my.salesforce.com'. Type: string (or Expression with resultType string). */
+  environmentUrl?: any;
+  /** The authentication type to be used to connect to the Salesforce. Currently, we only support OAuth2ClientCredentials, it is also the default value */
+  authenticationType?: any;
+  /** The client Id for OAuth 2.0 Client Credentials Flow authentication of the Salesforce instance. Type: string (or Expression with resultType string). */
+  clientId?: any;
+  /** The client secret for OAuth 2.0 Client Credentials Flow authentication of the Salesforce instance. */
+  clientSecret?: SecretBaseUnion;
+  /** The Salesforce API version used in ADF. The version must be larger than or equal to 47.0 which is required by Salesforce BULK API 2.0. Type: string (or Expression with resultType string). */
+  apiVersion?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
+/** Linked service for Salesforce Service Cloud V2. */
+export interface SalesforceServiceCloudV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceServiceCloudV2";
+  /** The URL of Salesforce Service Cloud instance. For example, 'https://[domain].my.salesforce.com'. Type: string (or Expression with resultType string). */
+  environmentUrl?: any;
+  /** The authentication type to be used to connect to the Salesforce. Currently, we only support OAuth2ClientCredentials, it is also the default value */
+  authenticationType?: any;
+  /** The client Id for OAuth 2.0 Client Credentials Flow authentication of the Salesforce instance. Type: string (or Expression with resultType string). */
+  clientId?: any;
+  /** The client secret for OAuth 2.0 Client Credentials Flow authentication of the Salesforce instance. */
+  clientSecret?: SecretBaseUnion;
+  /** The Salesforce API version used in ADF. The version must be larger than or equal to 47.0 which is required by Salesforce BULK API 2.0. Type: string (or Expression with resultType string). */
+  apiVersion?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
+/** Microsoft Fabric Warehouse linked service. */
+export interface WarehouseLinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Warehouse";
+  /** The ID of Microsoft Fabric Warehouse artifact. Type: string (or Expression with resultType string). */
+  artifactId: any;
+  /** The endpoint of Microsoft Fabric Warehouse server. Type: string (or Expression with resultType string). */
+  endpoint: any;
+  /** The ID of Microsoft Fabric workspace. Type: string (or Expression with resultType string). */
+  workspaceId?: any;
+  /** The ID of the application used to authenticate against Microsoft Fabric Warehouse. Type: string (or Expression with resultType string). */
+  servicePrincipalId?: any;
+  /** The Key of the application used to authenticate against Microsoft Fabric Warehouse. */
+  servicePrincipalKey?: SecretBaseUnion;
+  /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
+  tenant?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
 }
 
 /** Base class for all control activities like IfCondition, ForEach , Until. */
@@ -7601,6 +7993,12 @@ export interface HttpServerLocation extends DatasetLocation {
 export interface HdfsLocation extends DatasetLocation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HdfsLocation";
+}
+
+/** The location of Microsoft Fabric LakeHouse Files dataset. */
+export interface LakeHouseLocation extends DatasetLocation {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LakeHouseLocation";
 }
 
 /** The data stored in text format. */
@@ -7967,6 +8365,30 @@ export interface HdfsReadSettings extends StoreReadSettings {
   deleteFilesAfterCompletion?: any;
 }
 
+/** Microsoft Fabric LakeHouse Files read settings. */
+export interface LakeHouseReadSettings extends StoreReadSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LakeHouseReadSettings";
+  /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
+  recursive?: any;
+  /** Microsoft Fabric LakeHouse Files wildcardFolderPath. Type: string (or Expression with resultType string). */
+  wildcardFolderPath?: any;
+  /** Microsoft Fabric LakeHouse Files wildcardFileName. Type: string (or Expression with resultType string). */
+  wildcardFileName?: any;
+  /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
+  fileListPath?: any;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
+  /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
+  partitionRootPath?: any;
+  /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
+  deleteFilesAfterCompletion?: any;
+  /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
+  modifiedDatetimeStart?: any;
+  /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
+  modifiedDatetimeEnd?: any;
+}
+
 /** Sftp write settings. */
 export interface SftpWriteSettings extends StoreWriteSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -8011,6 +8433,20 @@ export interface FileServerWriteSettings extends StoreWriteSettings {
 export interface AzureFileStorageWriteSettings extends StoreWriteSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFileStorageWriteSettings";
+}
+
+/** Microsoft Fabric LakeHouse Files write settings. */
+export interface LakeHouseWriteSettings extends StoreWriteSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LakeHouseWriteSettings";
+}
+
+/** Parquet read settings. */
+export interface ParquetReadSettings extends FormatReadSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ParquetReadSettings";
+  /** Compression settings. */
+  compressionProperties?: CompressionReadSettingsUnion;
 }
 
 /** Delimited text read settings. */
@@ -8161,6 +8597,8 @@ export interface ParquetSource extends CopySource {
   type: "ParquetSource";
   /** Parquet store settings. */
   storeSettings?: StoreReadSettingsUnion;
+  /** Parquet format settings. */
+  formatSettings?: ParquetReadSettings;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
 }
@@ -8232,6 +8670,7 @@ export interface TabularSource extends CopySource {
     | "OdbcSource"
     | "MySqlSource"
     | "PostgreSqlSource"
+    | "PostgreSqlV2Source"
     | "SybaseSource"
     | "SapBwSource"
     | "SalesforceSource"
@@ -8257,6 +8696,7 @@ export interface TabularSource extends CopySource {
     | "DrillSource"
     | "EloquaSource"
     | "GoogleBigQuerySource"
+    | "GoogleBigQueryV2Source"
     | "GreenplumSource"
     | "HBaseSource"
     | "HiveSource"
@@ -8284,7 +8724,10 @@ export interface TabularSource extends CopySource {
     | "DynamicsAXSource"
     | "OracleServiceCloudSource"
     | "GoogleAdWordsSource"
-    | "AmazonRedshiftSource";
+    | "AmazonRedshiftSource"
+    | "WarehouseSource"
+    | "SalesforceV2Source"
+    | "ServiceNowV2Source";
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   queryTimeout?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
@@ -8605,10 +9048,32 @@ export interface HttpSource extends CopySource {
   httpRequestTimeout?: any;
 }
 
+/** A copy activity source for Microsoft Fabric LakeHouse Table. */
+export interface LakeHouseTableSource extends CopySource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LakeHouseTableSource";
+  /** Query an older snapshot by timestamp. Type: string (or Expression with resultType string). */
+  timestampAsOf?: any;
+  /** Query an older snapshot by version. Type: integer (or Expression with resultType integer). */
+  versionAsOf?: any;
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
+}
+
 /** A copy activity snowflake source. */
 export interface SnowflakeSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SnowflakeSource";
+  /** Snowflake Sql query. Type: string (or Expression with resultType string). */
+  query?: any;
+  /** Snowflake export settings. */
+  exportSettings: SnowflakeExportCopyCommand;
+}
+
+/** A copy activity snowflake source. */
+export interface SnowflakeV2Source extends CopySource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SnowflakeV2Source";
   /** Snowflake Sql query. Type: string (or Expression with resultType string). */
   query?: any;
   /** Snowflake export settings. */
@@ -8633,6 +9098,18 @@ export interface SharePointOnlineListSource extends CopySource {
   query?: any;
   /** The wait time to get a response from SharePoint Online. Default value is 5 minutes (00:05:00). Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   httpRequestTimeout?: any;
+}
+
+/** A copy activity Salesforce Service Cloud V2 source. */
+export interface SalesforceServiceCloudV2Source extends CopySource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceServiceCloudV2Source";
+  /** Database query. Type: string (or Expression with resultType string). */
+  soqlQuery?: any;
+  /** This property control whether query result contains Deleted objects. Default is false. Type: boolean (or Expression with resultType boolean). */
+  includeDeletedObjects?: any;
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 }
 
 /** A copy activity DelimitedText sink. */
@@ -8705,6 +9182,22 @@ export interface AzureDatabricksDeltaLakeSink extends CopySink {
   preCopyScript?: any;
   /** Azure Databricks Delta Lake import settings. */
   importSettings?: AzureDatabricksDeltaLakeImportCommand;
+}
+
+/** A copy activity Microsoft Fabric Warehouse sink. */
+export interface WarehouseSink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "WarehouseSink";
+  /** SQL pre-copy script. Type: string (or Expression with resultType string). */
+  preCopyScript?: any;
+  /** Indicates to use Copy Command to copy data into SQL Data Warehouse. Type: boolean (or Expression with resultType boolean). */
+  allowCopyCommand?: any;
+  /** Specifies Copy Command related settings when allowCopyCommand is true. */
+  copyCommandSettings?: DWCopyCommandSettings;
+  /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
+  tableOption?: any;
+  /** Write behavior when copying data into azure Microsoft Fabric Data Warehouse. Type: DWWriteBehaviorEnum (or Expression with resultType DWWriteBehaviorEnum) */
+  writeBehavior?: any;
 }
 
 /** A copy activity SAP Cloud for Customer sink. */
@@ -8905,6 +9398,16 @@ export interface SnowflakeSink extends CopySink {
   importSettings?: SnowflakeImportCopyCommand;
 }
 
+/** A copy activity snowflake sink. */
+export interface SnowflakeV2Sink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SnowflakeV2Sink";
+  /** SQL pre-copy script. Type: string (or Expression with resultType string). */
+  preCopyScript?: any;
+  /** Snowflake import settings. */
+  importSettings?: SnowflakeImportCopyCommand;
+}
+
 /** A copy activity Oracle sink. */
 export interface OracleSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -9041,6 +9544,42 @@ export interface CosmosDbMongoDbApiSink extends CopySink {
   type: "CosmosDbMongoDbApiSink";
   /** Specifies whether the document with same key to be overwritten (upsert) rather than throw exception (insert). The default value is "insert". Type: string (or Expression with resultType string). Type: string (or Expression with resultType string). */
   writeBehavior?: any;
+}
+
+/** A copy activity for Microsoft Fabric LakeHouse Table sink. */
+export interface LakeHouseTableSink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LakeHouseTableSink";
+  /** The type of table action for LakeHouse Table sink. Possible values include: "None", "Append", "Overwrite". */
+  tableActionOption?: any;
+  /** Create partitions in folder structure based on one or multiple columns. Each distinct column value (pair) will be a new partition. Possible values include: "None", "PartitionByKey". */
+  partitionOption?: any;
+  /** Specify the partition column names from sink columns. Type: array of objects (or Expression with resultType array of objects). */
+  partitionNameList?: any;
+}
+
+/** A copy activity Salesforce V2 sink. */
+export interface SalesforceV2Sink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceV2Sink";
+  /** The write behavior for the operation. Default is Insert. */
+  writeBehavior?: SalesforceV2SinkWriteBehavior;
+  /** The name of the external ID field for upsert operation. Default value is 'Id' column. Type: string (or Expression with resultType string). */
+  externalIdFieldName?: any;
+  /** The flag indicating whether or not to ignore null values from input dataset (except key fields) during write operation. Default value is false. If set it to true, it means ADF will leave the data in the destination object unchanged when doing upsert/update operation and insert defined default value when doing insert operation, versus ADF will update the data in the destination object to NULL when doing upsert/update operation and insert NULL value when doing insert operation. Type: boolean (or Expression with resultType boolean). */
+  ignoreNullValues?: any;
+}
+
+/** A copy activity Salesforce Service Cloud V2 sink. */
+export interface SalesforceServiceCloudV2Sink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceServiceCloudV2Sink";
+  /** The write behavior for the operation. Default is Insert. */
+  writeBehavior?: SalesforceV2SinkWriteBehavior;
+  /** The name of the external ID field for upsert operation. Default value is 'Id' column. Type: string (or Expression with resultType string). */
+  externalIdFieldName?: any;
+  /** The flag indicating whether or not to ignore null values from input dataset (except key fields) during write operation. Default value is false. If set it to true, it means ADF will leave the data in the destination object unchanged when doing upsert/update operation and insert defined default value when doing insert operation, versus ADF will update the data in the destination object to NULL when doing upsert/update operation and insert NULL value when doing insert operation. Type: boolean (or Expression with resultType boolean). */
+  ignoreNullValues?: any;
 }
 
 /** Snowflake export command settings. */
@@ -10037,6 +10576,14 @@ export interface PostgreSqlSource extends TabularSource {
   query?: any;
 }
 
+/** A copy activity source for PostgreSQL databases. */
+export interface PostgreSqlV2Source extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "PostgreSqlV2Source";
+  /** Database query. Type: string (or Expression with resultType string). */
+  query?: any;
+}
+
 /** A copy activity source for Sybase databases. */
 export interface SybaseSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -10351,6 +10898,14 @@ export interface GoogleBigQuerySource extends TabularSource {
   query?: any;
 }
 
+/** A copy activity Google BigQuery service source. */
+export interface GoogleBigQueryV2Source extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleBigQueryV2Source";
+  /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
+  query?: any;
+}
+
 /** A copy activity Greenplum Database source. */
 export interface GreenplumSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -10583,6 +11138,42 @@ export interface AmazonRedshiftSource extends TabularSource {
   redshiftUnloadSettings?: RedshiftUnloadSettings;
 }
 
+/** A copy activity Microsoft Fabric Warehouse source. */
+export interface WarehouseSource extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "WarehouseSource";
+  /** Microsoft Fabric Warehouse reader query. Type: string (or Expression with resultType string). */
+  sqlReaderQuery?: any;
+  /** Name of the stored procedure for a Microsoft Fabric Warehouse source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
+  sqlReaderStoredProcedureName?: any;
+  /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". Type: object (or Expression with resultType object), itemType: StoredProcedureParameter. */
+  storedProcedureParameters?: any;
+  /** Specifies the transaction locking behavior for the Microsoft Fabric Warehouse source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
+  isolationLevel?: any;
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  partitionOption?: any;
+  /** The settings that will be leveraged for Sql source partitioning. */
+  partitionSettings?: SqlPartitionSettings;
+}
+
+/** A copy activity Salesforce V2 source. */
+export interface SalesforceV2Source extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceV2Source";
+  /** Database query. Type: string (or Expression with resultType string). */
+  soqlQuery?: any;
+  /** This property control whether query result contains Deleted objects. Default is false. Type: boolean (or Expression with resultType boolean). */
+  includeDeletedObjects?: any;
+}
+
+/** A copy activity ServiceNowV2 server source. */
+export interface ServiceNowV2Source extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServiceNowV2Source";
+  /** Expression to filter data from source. */
+  expression?: ExpressionV2;
+}
+
 /** Referenced tumbling window trigger dependency. */
 export interface TumblingWindowTriggerDependencyReference
   extends TriggerDependencyReference {
@@ -10691,7 +11282,7 @@ export interface DataFlowDebugSessionExecuteCommandHeaders {
 /** Known values of {@link Type} that the service accepts. */
 export enum KnownType {
   /** LinkedServiceReference */
-  LinkedServiceReference = "LinkedServiceReference"
+  LinkedServiceReference = "LinkedServiceReference",
 }
 
 /**
@@ -10710,7 +11301,7 @@ export enum KnownActionOnExistingTargetTable {
   /** Same existing tables on target database will be dropped and recreated. */
   DropAndRecreateTable = "DropAndRecreateTable",
   /** Same existing tables on target database will be Merged together. */
-  MergeWithExistingData = "MergeWithExistingData"
+  MergeWithExistingData = "MergeWithExistingData",
 }
 
 /**
@@ -10727,7 +11318,7 @@ export type ActionOnExistingTargetTable = string;
 /** Known values of {@link BigDataPoolReferenceType} that the service accepts. */
 export enum KnownBigDataPoolReferenceType {
   /** BigDataPoolReference */
-  BigDataPoolReference = "BigDataPoolReference"
+  BigDataPoolReference = "BigDataPoolReference",
 }
 
 /**
@@ -10742,7 +11333,7 @@ export type BigDataPoolReferenceType = string;
 /** Known values of {@link SparkConfigurationReferenceType} that the service accepts. */
 export enum KnownSparkConfigurationReferenceType {
   /** SparkConfigurationReference */
-  SparkConfigurationReference = "SparkConfigurationReference"
+  SparkConfigurationReference = "SparkConfigurationReference",
 }
 
 /**
@@ -10763,7 +11354,7 @@ export enum KnownCellOutputType {
   /** Stream */
   Stream = "stream",
   /** Error */
-  Error = "error"
+  Error = "error",
 }
 
 /**
@@ -10785,7 +11376,7 @@ export enum KnownRequestStatus {
   /** Completed */
   Completed = "Completed",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -10806,7 +11397,7 @@ export enum KnownResourceStatus {
   /** Created */
   Created = "Created",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -10835,7 +11426,7 @@ export enum KnownNodeSize {
   /** XXLarge */
   XXLarge = "XXLarge",
   /** XXXLarge */
-  XXXLarge = "XXXLarge"
+  XXXLarge = "XXXLarge",
 }
 
 /**
@@ -10858,7 +11449,7 @@ export enum KnownNodeSizeFamily {
   /** None */
   None = "None",
   /** MemoryOptimized */
-  MemoryOptimized = "MemoryOptimized"
+  MemoryOptimized = "MemoryOptimized",
 }
 
 /**
@@ -10876,7 +11467,7 @@ export enum KnownIntegrationRuntimeType {
   /** Managed */
   Managed = "Managed",
   /** SelfHosted */
-  SelfHosted = "SelfHosted"
+  SelfHosted = "SelfHosted",
 }
 
 /**
@@ -10904,7 +11495,7 @@ export enum KnownParameterType {
   /** Array */
   Array = "Array",
   /** SecureString */
-  SecureString = "SecureString"
+  SecureString = "SecureString",
 }
 
 /**
@@ -10925,7 +11516,7 @@ export type ParameterType = string;
 /** Known values of {@link IntegrationRuntimeReferenceType} that the service accepts. */
 export enum KnownIntegrationRuntimeReferenceType {
   /** IntegrationRuntimeReference */
-  IntegrationRuntimeReference = "IntegrationRuntimeReference"
+  IntegrationRuntimeReference = "IntegrationRuntimeReference",
 }
 
 /**
@@ -10944,7 +11535,7 @@ export enum KnownDataFlowDebugCommandType {
   /** ExecuteStatisticsQuery */
   ExecuteStatisticsQuery = "executeStatisticsQuery",
   /** ExecuteExpressionQuery */
-  ExecuteExpressionQuery = "executeExpressionQuery"
+  ExecuteExpressionQuery = "executeExpressionQuery",
 }
 
 /**
@@ -10963,7 +11554,7 @@ export enum KnownActivityState {
   /** Active */
   Active = "Active",
   /** Inactive */
-  Inactive = "Inactive"
+  Inactive = "Inactive",
 }
 
 /**
@@ -10983,7 +11574,7 @@ export enum KnownActivityOnInactiveMarkAs {
   /** Failed */
   Failed = "Failed",
   /** Skipped */
-  Skipped = "Skipped"
+  Skipped = "Skipped",
 }
 
 /**
@@ -11006,7 +11597,7 @@ export enum KnownDependencyCondition {
   /** Skipped */
   Skipped = "Skipped",
   /** Completed */
-  Completed = "Completed"
+  Completed = "Completed",
 }
 
 /**
@@ -11030,7 +11621,7 @@ export enum KnownVariableType {
   /** Boolean */
   Boolean = "Boolean",
   /** Array */
-  Array = "Array"
+  Array = "Array",
 }
 
 /**
@@ -11070,7 +11661,7 @@ export enum KnownRunQueryFilterOperand {
   /** RunGroupId */
   RunGroupId = "RunGroupId",
   /** LatestOnly */
-  LatestOnly = "LatestOnly"
+  LatestOnly = "LatestOnly",
 }
 
 /**
@@ -11102,7 +11693,7 @@ export enum KnownRunQueryFilterOperator {
   /** In */
   In = "In",
   /** NotIn */
-  NotIn = "NotIn"
+  NotIn = "NotIn",
 }
 
 /**
@@ -11136,7 +11727,7 @@ export enum KnownRunQueryOrderByField {
   /** TriggerName */
   TriggerName = "TriggerName",
   /** TriggerRunTimestamp */
-  TriggerRunTimestamp = "TriggerRunTimestamp"
+  TriggerRunTimestamp = "TriggerRunTimestamp",
 }
 
 /**
@@ -11161,7 +11752,7 @@ export enum KnownRunQueryOrder {
   /** ASC */
   ASC = "ASC",
   /** Desc */
-  Desc = "DESC"
+  Desc = "DESC",
 }
 
 /**
@@ -11179,7 +11770,7 @@ export enum KnownSparkJobType {
   /** SparkBatch */
   SparkBatch = "SparkBatch",
   /** SparkSession */
-  SparkSession = "SparkSession"
+  SparkSession = "SparkSession",
 }
 
 /**
@@ -11201,7 +11792,7 @@ export enum KnownSparkBatchJobResultType {
   /** Failed */
   Failed = "Failed",
   /** Cancelled */
-  Cancelled = "Cancelled"
+  Cancelled = "Cancelled",
 }
 
 /**
@@ -11223,7 +11814,7 @@ export enum KnownSchedulerCurrentState {
   /** Scheduled */
   Scheduled = "Scheduled",
   /** Ended */
-  Ended = "Ended"
+  Ended = "Ended",
 }
 
 /**
@@ -11252,7 +11843,7 @@ export enum KnownPluginCurrentState {
   /** Cleanup */
   Cleanup = "Cleanup",
   /** Ended */
-  Ended = "Ended"
+  Ended = "Ended",
 }
 
 /**
@@ -11279,7 +11870,7 @@ export enum KnownSparkErrorSource {
   /** Unknown */
   Unknown = "Unknown",
   /** Dependency */
-  Dependency = "Dependency"
+  Dependency = "Dependency",
 }
 
 /**
@@ -11317,7 +11908,7 @@ export enum KnownLivyStates {
   /** Running */
   Running = "running",
   /** Recovering */
-  Recovering = "recovering"
+  Recovering = "recovering",
 }
 
 /**
@@ -11348,7 +11939,7 @@ export enum KnownCreateMode {
   /** Recovery */
   Recovery = "Recovery",
   /** Restore */
-  Restore = "Restore"
+  Restore = "Restore",
 }
 
 /**
@@ -11366,7 +11957,7 @@ export type CreateMode = string;
 /** Known values of {@link SqlScriptType} that the service accepts. */
 export enum KnownSqlScriptType {
   /** SqlQuery */
-  SqlQuery = "SqlQuery"
+  SqlQuery = "SqlQuery",
 }
 
 /**
@@ -11383,7 +11974,7 @@ export enum KnownSqlConnectionType {
   /** SqlOnDemand */
   SqlOnDemand = "SqlOnDemand",
   /** SqlPool */
-  SqlPool = "SqlPool"
+  SqlPool = "SqlPool",
 }
 
 /**
@@ -11403,7 +11994,7 @@ export enum KnownTriggerRuntimeState {
   /** Stopped */
   Stopped = "Stopped",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -11428,7 +12019,7 @@ export enum KnownEventSubscriptionStatus {
   /** Disabled */
   Disabled = "Disabled",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -11451,7 +12042,7 @@ export enum KnownTriggerRunStatus {
   /** Failed */
   Failed = "Failed",
   /** Inprogress */
-  Inprogress = "Inprogress"
+  Inprogress = "Inprogress",
 }
 
 /**
@@ -11468,7 +12059,7 @@ export type TriggerRunStatus = string;
 /** Known values of {@link ExpressionType} that the service accepts. */
 export enum KnownExpressionType {
   /** Expression */
-  Expression = "Expression"
+  Expression = "Expression",
 }
 
 /**
@@ -11483,7 +12074,7 @@ export type ExpressionType = string;
 /** Known values of {@link PipelineReferenceType} that the service accepts. */
 export enum KnownPipelineReferenceType {
   /** PipelineReference */
-  PipelineReference = "PipelineReference"
+  PipelineReference = "PipelineReference",
 }
 
 /**
@@ -11498,7 +12089,7 @@ export type PipelineReferenceType = string;
 /** Known values of {@link DatasetReferenceType} that the service accepts. */
 export enum KnownDatasetReferenceType {
   /** DatasetReference */
-  DatasetReference = "DatasetReference"
+  DatasetReference = "DatasetReference",
 }
 
 /**
@@ -11513,7 +12104,7 @@ export type DatasetReferenceType = string;
 /** Known values of {@link DataFlowReferenceType} that the service accepts. */
 export enum KnownDataFlowReferenceType {
   /** DataFlowReference */
-  DataFlowReference = "DataFlowReference"
+  DataFlowReference = "DataFlowReference",
 }
 
 /**
@@ -11528,7 +12119,7 @@ export type DataFlowReferenceType = string;
 /** Known values of {@link NotebookReferenceType} that the service accepts. */
 export enum KnownNotebookReferenceType {
   /** NotebookReference */
-  NotebookReference = "NotebookReference"
+  NotebookReference = "NotebookReference",
 }
 
 /**
@@ -11543,7 +12134,7 @@ export type NotebookReferenceType = string;
 /** Known values of {@link SparkJobReferenceType} that the service accepts. */
 export enum KnownSparkJobReferenceType {
   /** SparkJobDefinitionReference */
-  SparkJobDefinitionReference = "SparkJobDefinitionReference"
+  SparkJobDefinitionReference = "SparkJobDefinitionReference",
 }
 
 /**
@@ -11558,7 +12149,7 @@ export type SparkJobReferenceType = string;
 /** Known values of {@link SqlPoolReferenceType} that the service accepts. */
 export enum KnownSqlPoolReferenceType {
   /** SqlPoolReference */
-  SqlPoolReference = "SqlPoolReference"
+  SqlPoolReference = "SqlPoolReference",
 }
 
 /**
@@ -11573,7 +12164,7 @@ export type SqlPoolReferenceType = string;
 /** Known values of {@link CredentialReferenceType} that the service accepts. */
 export enum KnownCredentialReferenceType {
   /** CredentialReference */
-  CredentialReference = "CredentialReference"
+  CredentialReference = "CredentialReference",
 }
 
 /**
@@ -11596,7 +12187,7 @@ export enum KnownAzureStorageAuthenticationType {
   /** ServicePrincipal */
   ServicePrincipal = "ServicePrincipal",
   /** Msi */
-  Msi = "Msi"
+  Msi = "Msi",
 }
 
 /**
@@ -11619,7 +12210,7 @@ export enum KnownSqlAlwaysEncryptedAkvAuthType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** UserAssignedManagedIdentity */
-  UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
 }
 
 /**
@@ -11638,7 +12229,7 @@ export enum KnownSybaseAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** Windows */
-  Windows = "Windows"
+  Windows = "Windows",
 }
 
 /**
@@ -11654,7 +12245,7 @@ export type SybaseAuthenticationType = string;
 /** Known values of {@link Db2AuthenticationType} that the service accepts. */
 export enum KnownDb2AuthenticationType {
   /** Basic */
-  Basic = "Basic"
+  Basic = "Basic",
 }
 
 /**
@@ -11671,7 +12262,7 @@ export enum KnownTeradataAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** Windows */
-  Windows = "Windows"
+  Windows = "Windows",
 }
 
 /**
@@ -11695,7 +12286,7 @@ export enum KnownODataAuthenticationType {
   /** AadServicePrincipal */
   AadServicePrincipal = "AadServicePrincipal",
   /** ManagedServiceIdentity */
-  ManagedServiceIdentity = "ManagedServiceIdentity"
+  ManagedServiceIdentity = "ManagedServiceIdentity",
 }
 
 /**
@@ -11716,7 +12307,7 @@ export enum KnownODataAadServicePrincipalCredentialType {
   /** ServicePrincipalKey */
   ServicePrincipalKey = "ServicePrincipalKey",
   /** ServicePrincipalCert */
-  ServicePrincipalCert = "ServicePrincipalCert"
+  ServicePrincipalCert = "ServicePrincipalCert",
 }
 
 /**
@@ -11736,7 +12327,7 @@ export enum KnownWebAuthenticationType {
   /** Anonymous */
   Anonymous = "Anonymous",
   /** ClientCertificate */
-  ClientCertificate = "ClientCertificate"
+  ClientCertificate = "ClientCertificate",
 }
 
 /**
@@ -11755,7 +12346,7 @@ export enum KnownMongoDbAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** Anonymous */
-  Anonymous = "Anonymous"
+  Anonymous = "Anonymous",
 }
 
 /**
@@ -11779,7 +12370,7 @@ export enum KnownRestServiceAuthenticationType {
   /** ManagedServiceIdentity */
   ManagedServiceIdentity = "ManagedServiceIdentity",
   /** OAuth2ClientCredential */
-  OAuth2ClientCredential = "OAuth2ClientCredential"
+  OAuth2ClientCredential = "OAuth2ClientCredential",
 }
 
 /**
@@ -11800,7 +12391,7 @@ export enum KnownTeamDeskAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** Token */
-  Token = "Token"
+  Token = "Token",
 }
 
 /**
@@ -11818,7 +12409,7 @@ export enum KnownZendeskAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** Token */
-  Token = "Token"
+  Token = "Token",
 }
 
 /**
@@ -11842,7 +12433,7 @@ export enum KnownHttpAuthenticationType {
   /** Windows */
   Windows = "Windows",
   /** ClientCertificate */
-  ClientCertificate = "ClientCertificate"
+  ClientCertificate = "ClientCertificate",
 }
 
 /**
@@ -11863,7 +12454,7 @@ export enum KnownFtpAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** Anonymous */
-  Anonymous = "Anonymous"
+  Anonymous = "Anonymous",
 }
 
 /**
@@ -11881,7 +12472,7 @@ export enum KnownSftpAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** SshPublicKey */
-  SshPublicKey = "SshPublicKey"
+  SshPublicKey = "SshPublicKey",
 }
 
 /**
@@ -11899,7 +12490,7 @@ export enum KnownSapHanaAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** Windows */
-  Windows = "Windows"
+  Windows = "Windows",
 }
 
 /**
@@ -11917,7 +12508,7 @@ export enum KnownGoogleBigQueryAuthenticationType {
   /** ServiceAuthentication */
   ServiceAuthentication = "ServiceAuthentication",
   /** UserAuthentication */
-  UserAuthentication = "UserAuthentication"
+  UserAuthentication = "UserAuthentication",
 }
 
 /**
@@ -11930,12 +12521,30 @@ export enum KnownGoogleBigQueryAuthenticationType {
  */
 export type GoogleBigQueryAuthenticationType = string;
 
+/** Known values of {@link GoogleBigQueryV2AuthenticationType} that the service accepts. */
+export enum KnownGoogleBigQueryV2AuthenticationType {
+  /** ServiceAuthentication */
+  ServiceAuthentication = "ServiceAuthentication",
+  /** UserAuthentication */
+  UserAuthentication = "UserAuthentication",
+}
+
+/**
+ * Defines values for GoogleBigQueryV2AuthenticationType. \
+ * {@link KnownGoogleBigQueryV2AuthenticationType} can be used interchangeably with GoogleBigQueryV2AuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServiceAuthentication** \
+ * **UserAuthentication**
+ */
+export type GoogleBigQueryV2AuthenticationType = string;
+
 /** Known values of {@link HBaseAuthenticationType} that the service accepts. */
 export enum KnownHBaseAuthenticationType {
   /** Anonymous */
   Anonymous = "Anonymous",
   /** Basic */
-  Basic = "Basic"
+  Basic = "Basic",
 }
 
 /**
@@ -11955,7 +12564,7 @@ export enum KnownHiveServerType {
   /** HiveServer2 */
   HiveServer2 = "HiveServer2",
   /** HiveThriftServer */
-  HiveThriftServer = "HiveThriftServer"
+  HiveThriftServer = "HiveThriftServer",
 }
 
 /**
@@ -11976,7 +12585,7 @@ export enum KnownHiveThriftTransportProtocol {
   /** Sasl */
   Sasl = "SASL",
   /** Http */
-  Http = "HTTP "
+  Http = "HTTP ",
 }
 
 /**
@@ -11999,7 +12608,7 @@ export enum KnownHiveAuthenticationType {
   /** UsernameAndPassword */
   UsernameAndPassword = "UsernameAndPassword",
   /** WindowsAzureHDInsightService */
-  WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
+  WindowsAzureHDInsightService = "WindowsAzureHDInsightService",
 }
 
 /**
@@ -12021,7 +12630,7 @@ export enum KnownImpalaAuthenticationType {
   /** SaslUsername */
   SaslUsername = "SASLUsername",
   /** UsernameAndPassword */
-  UsernameAndPassword = "UsernameAndPassword"
+  UsernameAndPassword = "UsernameAndPassword",
 }
 
 /**
@@ -12042,7 +12651,7 @@ export enum KnownPhoenixAuthenticationType {
   /** UsernameAndPassword */
   UsernameAndPassword = "UsernameAndPassword",
   /** WindowsAzureHDInsightService */
-  WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
+  WindowsAzureHDInsightService = "WindowsAzureHDInsightService",
 }
 
 /**
@@ -12061,7 +12670,7 @@ export enum KnownPrestoAuthenticationType {
   /** Anonymous */
   Anonymous = "Anonymous",
   /** Ldap */
-  Ldap = "LDAP"
+  Ldap = "LDAP",
 }
 
 /**
@@ -12079,7 +12688,7 @@ export enum KnownServiceNowAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** OAuth2 */
-  OAuth2 = "OAuth2"
+  OAuth2 = "OAuth2",
 }
 
 /**
@@ -12099,7 +12708,7 @@ export enum KnownSparkServerType {
   /** SharkServer2 */
   SharkServer2 = "SharkServer2",
   /** SparkThriftServer */
-  SparkThriftServer = "SparkThriftServer"
+  SparkThriftServer = "SparkThriftServer",
 }
 
 /**
@@ -12120,7 +12729,7 @@ export enum KnownSparkThriftTransportProtocol {
   /** Sasl */
   Sasl = "SASL",
   /** Http */
-  Http = "HTTP "
+  Http = "HTTP ",
 }
 
 /**
@@ -12143,7 +12752,7 @@ export enum KnownSparkAuthenticationType {
   /** UsernameAndPassword */
   UsernameAndPassword = "UsernameAndPassword",
   /** WindowsAzureHDInsightService */
-  WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
+  WindowsAzureHDInsightService = "WindowsAzureHDInsightService",
 }
 
 /**
@@ -12163,7 +12772,7 @@ export enum KnownGoogleAdWordsAuthenticationType {
   /** ServiceAuthentication */
   ServiceAuthentication = "ServiceAuthentication",
   /** UserAuthentication */
-  UserAuthentication = "UserAuthentication"
+  UserAuthentication = "UserAuthentication",
 }
 
 /**
@@ -12176,6 +12785,45 @@ export enum KnownGoogleAdWordsAuthenticationType {
  */
 export type GoogleAdWordsAuthenticationType = string;
 
+/** Known values of {@link SnowflakeAuthenticationType} that the service accepts. */
+export enum KnownSnowflakeAuthenticationType {
+  /** Basic */
+  Basic = "Basic",
+  /** KeyPair */
+  KeyPair = "KeyPair",
+  /** AADServicePrincipal */
+  AADServicePrincipal = "AADServicePrincipal",
+}
+
+/**
+ * Defines values for SnowflakeAuthenticationType. \
+ * {@link KnownSnowflakeAuthenticationType} can be used interchangeably with SnowflakeAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **KeyPair** \
+ * **AADServicePrincipal**
+ */
+export type SnowflakeAuthenticationType = string;
+
+/** Known values of {@link ServiceNowV2AuthenticationType} that the service accepts. */
+export enum KnownServiceNowV2AuthenticationType {
+  /** Basic */
+  Basic = "Basic",
+  /** OAuth2 */
+  OAuth2 = "OAuth2",
+}
+
+/**
+ * Defines values for ServiceNowV2AuthenticationType. \
+ * {@link KnownServiceNowV2AuthenticationType} can be used interchangeably with ServiceNowV2AuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **OAuth2**
+ */
+export type ServiceNowV2AuthenticationType = string;
+
 /** Known values of {@link OraclePartitionOption} that the service accepts. */
 export enum KnownOraclePartitionOption {
   /** None */
@@ -12183,7 +12831,7 @@ export enum KnownOraclePartitionOption {
   /** PhysicalPartitionsOfTable */
   PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
   /** DynamicRange */
-  DynamicRange = "DynamicRange"
+  DynamicRange = "DynamicRange",
 }
 
 /**
@@ -12204,7 +12852,7 @@ export enum KnownTeradataPartitionOption {
   /** Hash */
   Hash = "Hash",
   /** DynamicRange */
-  DynamicRange = "DynamicRange"
+  DynamicRange = "DynamicRange",
 }
 
 /**
@@ -12239,7 +12887,7 @@ export enum KnownCassandraSourceReadConsistencyLevels {
   /** Serial */
   Serial = "SERIAL",
   /** LocalSerial */
-  LocalSerial = "LOCAL_SERIAL"
+  LocalSerial = "LOCAL_SERIAL",
 }
 
 /**
@@ -12267,7 +12915,7 @@ export enum KnownNetezzaPartitionOption {
   /** DataSlice */
   DataSlice = "DataSlice",
   /** DynamicRange */
-  DynamicRange = "DynamicRange"
+  DynamicRange = "DynamicRange",
 }
 
 /**
@@ -12296,7 +12944,7 @@ export enum KnownStoredProcedureParameterType {
   /** Boolean */
   Boolean = "Boolean",
   /** Date */
-  Date = "Date"
+  Date = "Date",
 }
 
 /**
@@ -12323,7 +12971,7 @@ export enum KnownNotebookParameterType {
   /** Float */
   Float = "float",
   /** Bool */
-  Bool = "bool"
+  Bool = "bool",
 }
 
 /**
@@ -12343,7 +12991,7 @@ export enum KnownSapCloudForCustomerSinkWriteBehavior {
   /** Insert */
   Insert = "Insert",
   /** Update */
-  Update = "Update"
+  Update = "Update",
 }
 
 /**
@@ -12361,7 +13009,7 @@ export enum KnownPolybaseSettingsRejectType {
   /** Value */
   Value = "value",
   /** Percentage */
-  Percentage = "percentage"
+  Percentage = "percentage",
 }
 
 /**
@@ -12379,7 +13027,7 @@ export enum KnownAzureSearchIndexWriteBehaviorType {
   /** Merge */
   Merge = "Merge",
   /** Upload */
-  Upload = "Upload"
+  Upload = "Upload",
 }
 
 /**
@@ -12395,7 +13043,7 @@ export type AzureSearchIndexWriteBehaviorType = string;
 /** Known values of {@link DynamicsSinkWriteBehavior} that the service accepts. */
 export enum KnownDynamicsSinkWriteBehavior {
   /** Upsert */
-  Upsert = "Upsert"
+  Upsert = "Upsert",
 }
 
 /**
@@ -12412,7 +13060,7 @@ export enum KnownSalesforceSinkWriteBehavior {
   /** Insert */
   Insert = "Insert",
   /** Upsert */
-  Upsert = "Upsert"
+  Upsert = "Upsert",
 }
 
 /**
@@ -12432,7 +13080,7 @@ export enum KnownHDInsightActivityDebugInfoOption {
   /** Always */
   Always = "Always",
   /** Failure */
-  Failure = "Failure"
+  Failure = "Failure",
 }
 
 /**
@@ -12455,7 +13103,7 @@ export enum KnownSsisPackageLocationType {
   /** InlinePackage */
   InlinePackage = "InlinePackage",
   /** PackageStore */
-  PackageStore = "PackageStore"
+  PackageStore = "PackageStore",
 }
 
 /**
@@ -12473,7 +13121,7 @@ export type SsisPackageLocationType = string;
 /** Known values of {@link SsisLogLocationType} that the service accepts. */
 export enum KnownSsisLogLocationType {
   /** File */
-  File = "File"
+  File = "File",
 }
 
 /**
@@ -12494,7 +13142,7 @@ export enum KnownWebActivityMethod {
   /** PUT */
   PUT = "PUT",
   /** Delete */
-  Delete = "DELETE"
+  Delete = "DELETE",
 }
 
 /**
@@ -12524,7 +13172,7 @@ export enum KnownAzureFunctionActivityMethod {
   /** Head */
   Head = "HEAD",
   /** Trace */
-  Trace = "TRACE"
+  Trace = "TRACE",
 }
 
 /**
@@ -12545,7 +13193,7 @@ export type AzureFunctionActivityMethod = string;
 /** Known values of {@link WebHookActivityMethod} that the service accepts. */
 export enum KnownWebHookActivityMethod {
   /** Post */
-  Post = "POST"
+  Post = "POST",
 }
 
 /**
@@ -12556,45 +13204,6 @@ export enum KnownWebHookActivityMethod {
  * **POST**
  */
 export type WebHookActivityMethod = string;
-
-/** Known values of {@link DataFlowComputeType} that the service accepts. */
-export enum KnownDataFlowComputeType {
-  /** General */
-  General = "General",
-  /** MemoryOptimized */
-  MemoryOptimized = "MemoryOptimized",
-  /** ComputeOptimized */
-  ComputeOptimized = "ComputeOptimized"
-}
-
-/**
- * Defines values for DataFlowComputeType. \
- * {@link KnownDataFlowComputeType} can be used interchangeably with DataFlowComputeType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **General** \
- * **MemoryOptimized** \
- * **ComputeOptimized**
- */
-export type DataFlowComputeType = string;
-
-/** Known values of {@link ScriptType} that the service accepts. */
-export enum KnownScriptType {
-  /** Query */
-  Query = "Query",
-  /** NonQuery */
-  NonQuery = "NonQuery"
-}
-
-/**
- * Defines values for ScriptType. \
- * {@link KnownScriptType} can be used interchangeably with ScriptType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Query** \
- * **NonQuery**
- */
-export type ScriptType = string;
 
 /** Known values of {@link ScriptActivityParameterType} that the service accepts. */
 export enum KnownScriptActivityParameterType {
@@ -12621,7 +13230,7 @@ export enum KnownScriptActivityParameterType {
   /** String */
   String = "String",
   /** Timespan */
-  Timespan = "Timespan"
+  Timespan = "Timespan",
 }
 
 /**
@@ -12651,7 +13260,7 @@ export enum KnownScriptActivityParameterDirection {
   /** Output */
   Output = "Output",
   /** InputOutput */
-  InputOutput = "InputOutput"
+  InputOutput = "InputOutput",
 }
 
 /**
@@ -12670,7 +13279,7 @@ export enum KnownScriptActivityLogDestination {
   /** ActivityOutput */
   ActivityOutput = "ActivityOutput",
   /** ExternalStore */
-  ExternalStore = "ExternalStore"
+  ExternalStore = "ExternalStore",
 }
 
 /**
@@ -12690,7 +13299,7 @@ export enum KnownConfigurationType {
   /** Customized */
   Customized = "Customized",
   /** Artifact */
-  Artifact = "Artifact"
+  Artifact = "Artifact",
 }
 
 /**
@@ -12703,6 +13312,48 @@ export enum KnownConfigurationType {
  * **Artifact**
  */
 export type ConfigurationType = string;
+
+/** Known values of {@link SalesforceV2SinkWriteBehavior} that the service accepts. */
+export enum KnownSalesforceV2SinkWriteBehavior {
+  /** Insert */
+  Insert = "Insert",
+  /** Upsert */
+  Upsert = "Upsert",
+}
+
+/**
+ * Defines values for SalesforceV2SinkWriteBehavior. \
+ * {@link KnownSalesforceV2SinkWriteBehavior} can be used interchangeably with SalesforceV2SinkWriteBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Insert** \
+ * **Upsert**
+ */
+export type SalesforceV2SinkWriteBehavior = string;
+
+/** Known values of {@link ExpressionV2Type} that the service accepts. */
+export enum KnownExpressionV2Type {
+  /** Constant */
+  Constant = "Constant",
+  /** Field */
+  Field = "Field",
+  /** Unary */
+  Unary = "Unary",
+  /** Binary */
+  Binary = "Binary",
+}
+
+/**
+ * Defines values for ExpressionV2Type. \
+ * {@link KnownExpressionV2Type} can be used interchangeably with ExpressionV2Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Constant** \
+ * **Field** \
+ * **Unary** \
+ * **Binary**
+ */
+export type ExpressionV2Type = string;
 
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {
@@ -12719,7 +13370,7 @@ export enum KnownRecurrenceFrequency {
   /** Month */
   Month = "Month",
   /** Year */
-  Year = "Year"
+  Year = "Year",
 }
 
 /**
@@ -12742,7 +13393,7 @@ export enum KnownBlobEventType {
   /** MicrosoftStorageBlobCreated */
   MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
   /** MicrosoftStorageBlobDeleted */
-  MicrosoftStorageBlobDeleted = "Microsoft.Storage.BlobDeleted"
+  MicrosoftStorageBlobDeleted = "Microsoft.Storage.BlobDeleted",
 }
 
 /**
@@ -12762,7 +13413,7 @@ export enum KnownTumblingWindowFrequency {
   /** Hour */
   Hour = "Hour",
   /** Month */
-  Month = "Month"
+  Month = "Month",
 }
 
 /**
@@ -12779,7 +13430,7 @@ export type TumblingWindowFrequency = string;
 /** Known values of {@link TriggerReferenceType} that the service accepts. */
 export enum KnownTriggerReferenceType {
   /** TriggerReference */
-  TriggerReference = "TriggerReference"
+  TriggerReference = "TriggerReference",
 }
 
 /**
@@ -12812,7 +13463,7 @@ export enum KnownIntegrationRuntimeState {
   /** Offline */
   Offline = "Offline",
   /** AccessDenied */
-  AccessDenied = "AccessDenied"
+  AccessDenied = "AccessDenied",
 }
 
 /**
@@ -12833,6 +13484,27 @@ export enum KnownIntegrationRuntimeState {
  */
 export type IntegrationRuntimeState = string;
 
+/** Known values of {@link DataFlowComputeType} that the service accepts. */
+export enum KnownDataFlowComputeType {
+  /** General */
+  General = "General",
+  /** MemoryOptimized */
+  MemoryOptimized = "MemoryOptimized",
+  /** ComputeOptimized */
+  ComputeOptimized = "ComputeOptimized",
+}
+
+/**
+ * Defines values for DataFlowComputeType. \
+ * {@link KnownDataFlowComputeType} can be used interchangeably with DataFlowComputeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **General** \
+ * **MemoryOptimized** \
+ * **ComputeOptimized**
+ */
+export type DataFlowComputeType = string;
+
 /** Known values of {@link IntegrationRuntimeSsisCatalogPricingTier} that the service accepts. */
 export enum KnownIntegrationRuntimeSsisCatalogPricingTier {
   /** Basic */
@@ -12842,7 +13514,7 @@ export enum KnownIntegrationRuntimeSsisCatalogPricingTier {
   /** Premium */
   Premium = "Premium",
   /** PremiumRS */
-  PremiumRS = "PremiumRS"
+  PremiumRS = "PremiumRS",
 }
 
 /**
@@ -12862,7 +13534,7 @@ export enum KnownIntegrationRuntimeLicenseType {
   /** BasePrice */
   BasePrice = "BasePrice",
   /** LicenseIncluded */
-  LicenseIncluded = "LicenseIncluded"
+  LicenseIncluded = "LicenseIncluded",
 }
 
 /**
@@ -12880,7 +13552,7 @@ export enum KnownIntegrationRuntimeEntityReferenceType {
   /** IntegrationRuntimeReference */
   IntegrationRuntimeReference = "IntegrationRuntimeReference",
   /** LinkedServiceReference */
-  LinkedServiceReference = "LinkedServiceReference"
+  LinkedServiceReference = "LinkedServiceReference",
 }
 
 /**
@@ -12898,7 +13570,7 @@ export enum KnownIntegrationRuntimeEdition {
   /** Standard */
   Standard = "Standard",
   /** Enterprise */
-  Enterprise = "Enterprise"
+  Enterprise = "Enterprise",
 }
 
 /**
@@ -12916,7 +13588,7 @@ export enum KnownJsonFormatFilePattern {
   /** SetOfObjects */
   SetOfObjects = "setOfObjects",
   /** ArrayOfObjects */
-  ArrayOfObjects = "arrayOfObjects"
+  ArrayOfObjects = "arrayOfObjects",
 }
 
 /**
@@ -12934,7 +13606,7 @@ export enum KnownDatasetCompressionLevel {
   /** Optimal */
   Optimal = "Optimal",
   /** Fastest */
-  Fastest = "Fastest"
+  Fastest = "Fastest",
 }
 
 /**
@@ -12958,7 +13630,7 @@ export enum KnownAvroCompressionCodec {
   /** Xz */
   Xz = "xz",
   /** Bzip2 */
-  Bzip2 = "bzip2"
+  Bzip2 = "bzip2",
 }
 
 /**
@@ -12983,7 +13655,7 @@ export enum KnownParquetCompressionCodecEnum {
   /** Snappy */
   Snappy = "snappy",
   /** Lzo */
-  Lzo = "lzo"
+  Lzo = "lzo",
 }
 
 /**
@@ -13019,7 +13691,7 @@ export enum KnownCompressionCodec {
   /** Tar */
   Tar = "tar",
   /** TarGZip */
-  TarGZip = "tarGZip"
+  TarGZip = "tarGZip",
 }
 
 /**
@@ -13049,7 +13721,7 @@ export enum KnownOrcCompressionCodec {
   /** Snappy */
   Snappy = "snappy",
   /** Lzo */
-  Lzo = "lzo"
+  Lzo = "lzo",
 }
 
 /**
@@ -13069,7 +13741,7 @@ export enum KnownDynamicsDeploymentType {
   /** Online */
   Online = "Online",
   /** OnPremisesWithIfd */
-  OnPremisesWithIfd = "OnPremisesWithIfd"
+  OnPremisesWithIfd = "OnPremisesWithIfd",
 }
 
 /**
@@ -13089,7 +13761,7 @@ export enum KnownDynamicsAuthenticationType {
   /** Ifd */
   Ifd = "Ifd",
   /** AADServicePrincipal */
-  AADServicePrincipal = "AADServicePrincipal"
+  AADServicePrincipal = "AADServicePrincipal",
 }
 
 /**
@@ -13108,7 +13780,7 @@ export enum KnownDynamicsServicePrincipalCredentialType {
   /** ServicePrincipalKey */
   ServicePrincipalKey = "ServicePrincipalKey",
   /** ServicePrincipalCert */
-  ServicePrincipalCert = "ServicePrincipalCert"
+  ServicePrincipalCert = "ServicePrincipalCert",
 }
 
 /**
@@ -13128,7 +13800,7 @@ export enum KnownHdiNodeTypes {
   /** Workernode */
   Workernode = "Workernode",
   /** Zookeeper */
-  Zookeeper = "Zookeeper"
+  Zookeeper = "Zookeeper",
 }
 
 /**
@@ -13147,7 +13819,7 @@ export enum KnownJsonWriteFilePattern {
   /** SetOfObjects */
   SetOfObjects = "setOfObjects",
   /** ArrayOfObjects */
-  ArrayOfObjects = "arrayOfObjects"
+  ArrayOfObjects = "arrayOfObjects",
 }
 
 /**
@@ -13165,7 +13837,7 @@ export enum KnownSalesforceSourceReadBehavior {
   /** Query */
   Query = "Query",
   /** QueryAll */
-  QueryAll = "QueryAll"
+  QueryAll = "QueryAll",
 }
 
 /**
@@ -13185,7 +13857,7 @@ export enum KnownAmazonRdsForOraclePartitionOption {
   /** PhysicalPartitionsOfTable */
   PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
   /** DynamicRange */
-  DynamicRange = "DynamicRange"
+  DynamicRange = "DynamicRange",
 }
 
 /**
@@ -13206,7 +13878,7 @@ export enum KnownCopyBehaviorType {
   /** FlattenHierarchy */
   FlattenHierarchy = "FlattenHierarchy",
   /** MergeFiles */
-  MergeFiles = "MergeFiles"
+  MergeFiles = "MergeFiles",
 }
 
 /**
@@ -13220,6 +13892,24 @@ export enum KnownCopyBehaviorType {
  */
 export type CopyBehaviorType = string;
 
+/** Known values of {@link ScriptType} that the service accepts. */
+export enum KnownScriptType {
+  /** Query */
+  Query = "Query",
+  /** NonQuery */
+  NonQuery = "NonQuery",
+}
+
+/**
+ * Defines values for ScriptType. \
+ * {@link KnownScriptType} can be used interchangeably with ScriptType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Query** \
+ * **NonQuery**
+ */
+export type ScriptType = string;
+
 /** Known values of {@link SqlPartitionOption} that the service accepts. */
 export enum KnownSqlPartitionOption {
   /** None */
@@ -13227,7 +13917,7 @@ export enum KnownSqlPartitionOption {
   /** PhysicalPartitionsOfTable */
   PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
   /** DynamicRange */
-  DynamicRange = "DynamicRange"
+  DynamicRange = "DynamicRange",
 }
 
 /**
@@ -13248,7 +13938,7 @@ export enum KnownSapHanaPartitionOption {
   /** PhysicalPartitionsOfTable */
   PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
   /** SapHanaDynamicRange */
-  SapHanaDynamicRange = "SapHanaDynamicRange"
+  SapHanaDynamicRange = "SapHanaDynamicRange",
 }
 
 /**
@@ -13275,7 +13965,7 @@ export enum KnownSapTablePartitionOption {
   /** PartitionOnCalendarDate */
   PartitionOnCalendarDate = "PartitionOnCalendarDate",
   /** PartitionOnTime */
-  PartitionOnTime = "PartitionOnTime"
+  PartitionOnTime = "PartitionOnTime",
 }
 
 /**
@@ -13345,7 +14035,8 @@ export interface LinkConnectionGetDetailedStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDetailedStatus operation. */
-export type LinkConnectionGetDetailedStatusResponse = LinkConnectionDetailedStatus;
+export type LinkConnectionGetDetailedStatusResponse =
+  LinkConnectionDetailedStatus;
 
 /** Optional parameters. */
 export interface LinkConnectionListLinkTablesOptionalParams
@@ -13359,7 +14050,8 @@ export interface LinkConnectionQueryTableStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryTableStatus operation. */
-export type LinkConnectionQueryTableStatusResponse = LinkConnectionQueryTableStatus;
+export type LinkConnectionQueryTableStatusResponse =
+  LinkConnectionQueryTableStatus;
 
 /** Optional parameters. */
 export interface LinkConnectionUpdateLandingZoneCredentialOptionalParams
@@ -13378,7 +14070,8 @@ export interface LinkConnectionListByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
-export type LinkConnectionListByWorkspaceNextResponse = LinkConnectionListResponse;
+export type LinkConnectionListByWorkspaceNextResponse =
+  LinkConnectionListResponse;
 
 /** Optional parameters. */
 export interface RunNotebookCreateRunOptionalParams
@@ -13477,7 +14170,8 @@ export interface MetastoreGetDatabaseOperationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDatabaseOperations operation. */
-export type MetastoreGetDatabaseOperationsResponse = MetastoreRequestSuccessResponse;
+export type MetastoreGetDatabaseOperationsResponse =
+  MetastoreRequestSuccessResponse;
 
 /** Optional parameters. */
 export interface MetastoreUpdateOptionalParams
@@ -13495,7 +14189,8 @@ export interface SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalPara
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSparkConfigurationsByWorkspace operation. */
-export type SparkConfigurationGetSparkConfigurationsByWorkspaceResponse = SparkConfigurationListResponse;
+export type SparkConfigurationGetSparkConfigurationsByWorkspaceResponse =
+  SparkConfigurationListResponse;
 
 /** Optional parameters. */
 export interface SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams
@@ -13509,7 +14204,8 @@ export interface SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParam
 }
 
 /** Contains response data for the createOrUpdateSparkConfiguration operation. */
-export type SparkConfigurationCreateOrUpdateSparkConfigurationResponse = SparkConfigurationResource;
+export type SparkConfigurationCreateOrUpdateSparkConfigurationResponse =
+  SparkConfigurationResource;
 
 /** Optional parameters. */
 export interface SparkConfigurationGetSparkConfigurationOptionalParams
@@ -13519,7 +14215,8 @@ export interface SparkConfigurationGetSparkConfigurationOptionalParams
 }
 
 /** Contains response data for the getSparkConfiguration operation. */
-export type SparkConfigurationGetSparkConfigurationResponse = SparkConfigurationResource;
+export type SparkConfigurationGetSparkConfigurationResponse =
+  SparkConfigurationResource;
 
 /** Optional parameters. */
 export interface SparkConfigurationDeleteSparkConfigurationOptionalParams
@@ -13544,7 +14241,8 @@ export interface SparkConfigurationGetSparkConfigurationsByWorkspaceNextOptional
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSparkConfigurationsByWorkspaceNext operation. */
-export type SparkConfigurationGetSparkConfigurationsByWorkspaceNextResponse = SparkConfigurationListResponse;
+export type SparkConfigurationGetSparkConfigurationsByWorkspaceNextResponse =
+  SparkConfigurationListResponse;
 
 /** Optional parameters. */
 export interface BigDataPoolsListOptionalParams
@@ -13626,21 +14324,24 @@ export interface DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams
 }
 
 /** Contains response data for the createDataFlowDebugSession operation. */
-export type DataFlowDebugSessionCreateDataFlowDebugSessionResponse = CreateDataFlowDebugSessionResponse;
+export type DataFlowDebugSessionCreateDataFlowDebugSessionResponse =
+  CreateDataFlowDebugSessionResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryDataFlowDebugSessionsByWorkspace operation. */
-export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse = QueryDataFlowDebugSessionsResponse;
+export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse =
+  QueryDataFlowDebugSessionsResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionAddDataFlowOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the addDataFlow operation. */
-export type DataFlowDebugSessionAddDataFlowResponse = AddDataFlowToDebugSessionResponse;
+export type DataFlowDebugSessionAddDataFlowResponse =
+  AddDataFlowToDebugSessionResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionDeleteDataFlowDebugSessionOptionalParams
@@ -13656,14 +14357,16 @@ export interface DataFlowDebugSessionExecuteCommandOptionalParams
 }
 
 /** Contains response data for the executeCommand operation. */
-export type DataFlowDebugSessionExecuteCommandResponse = DataFlowDebugCommandResponse;
+export type DataFlowDebugSessionExecuteCommandResponse =
+  DataFlowDebugCommandResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryDataFlowDebugSessionsByWorkspaceNext operation. */
-export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse = QueryDataFlowDebugSessionsResponse;
+export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse =
+  QueryDataFlowDebugSessionsResponse;
 
 /** Optional parameters. */
 export interface DatasetGetDatasetsByWorkspaceOptionalParams
@@ -13729,7 +14432,8 @@ export interface WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams
 }
 
 /** Contains response data for the getGitHubAccessToken operation. */
-export type WorkspaceGitRepoManagementGetGitHubAccessTokenResponse = GitHubAccessTokenResponse;
+export type WorkspaceGitRepoManagementGetGitHubAccessTokenResponse =
+  GitHubAccessTokenResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesListOptionalParams
@@ -13811,7 +14515,8 @@ export interface LinkedServiceGetLinkedServicesByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLinkedServicesByWorkspace operation. */
-export type LinkedServiceGetLinkedServicesByWorkspaceResponse = LinkedServiceListResponse;
+export type LinkedServiceGetLinkedServicesByWorkspaceResponse =
+  LinkedServiceListResponse;
 
 /** Optional parameters. */
 export interface LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
@@ -13825,7 +14530,8 @@ export interface LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
 }
 
 /** Contains response data for the createOrUpdateLinkedService operation. */
-export type LinkedServiceCreateOrUpdateLinkedServiceResponse = LinkedServiceResource;
+export type LinkedServiceCreateOrUpdateLinkedServiceResponse =
+  LinkedServiceResource;
 
 /** Optional parameters. */
 export interface LinkedServiceGetLinkedServiceOptionalParams
@@ -13860,7 +14566,8 @@ export interface LinkedServiceGetLinkedServicesByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLinkedServicesByWorkspaceNext operation. */
-export type LinkedServiceGetLinkedServicesByWorkspaceNextResponse = LinkedServiceListResponse;
+export type LinkedServiceGetLinkedServicesByWorkspaceNextResponse =
+  LinkedServiceListResponse;
 
 /** Optional parameters. */
 export interface NotebookGetNotebooksByWorkspaceOptionalParams
@@ -13874,7 +14581,8 @@ export interface NotebookGetNotebookSummaryByWorkSpaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNotebookSummaryByWorkSpace operation. */
-export type NotebookGetNotebookSummaryByWorkSpaceResponse = NotebookListResponse;
+export type NotebookGetNotebookSummaryByWorkSpaceResponse =
+  NotebookListResponse;
 
 /** Optional parameters. */
 export interface NotebookCreateOrUpdateNotebookOptionalParams
@@ -13930,7 +14638,8 @@ export interface NotebookGetNotebookSummaryByWorkSpaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNotebookSummaryByWorkSpaceNext operation. */
-export type NotebookGetNotebookSummaryByWorkSpaceNextResponse = NotebookListResponse;
+export type NotebookGetNotebookSummaryByWorkSpaceNextResponse =
+  NotebookListResponse;
 
 /** Optional parameters. */
 export interface NotebookOperationResultGetOptionalParams
@@ -14013,7 +14722,8 @@ export interface PipelineRunQueryPipelineRunsByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryPipelineRunsByWorkspace operation. */
-export type PipelineRunQueryPipelineRunsByWorkspaceResponse = PipelineRunsQueryResponse;
+export type PipelineRunQueryPipelineRunsByWorkspaceResponse =
+  PipelineRunsQueryResponse;
 
 /** Optional parameters. */
 export interface PipelineRunGetPipelineRunOptionalParams
@@ -14041,7 +14751,8 @@ export interface SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalPara
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSparkJobDefinitionsByWorkspace operation. */
-export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse = SparkJobDefinitionsListResponse;
+export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse =
+  SparkJobDefinitionsListResponse;
 
 /** Optional parameters. */
 export interface SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams
@@ -14055,7 +14766,8 @@ export interface SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParam
 }
 
 /** Contains response data for the createOrUpdateSparkJobDefinition operation. */
-export type SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse = SparkJobDefinitionResource;
+export type SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse =
+  SparkJobDefinitionResource;
 
 /** Optional parameters. */
 export interface SparkJobDefinitionGetSparkJobDefinitionOptionalParams
@@ -14065,7 +14777,8 @@ export interface SparkJobDefinitionGetSparkJobDefinitionOptionalParams
 }
 
 /** Contains response data for the getSparkJobDefinition operation. */
-export type SparkJobDefinitionGetSparkJobDefinitionResponse = SparkJobDefinitionResource;
+export type SparkJobDefinitionGetSparkJobDefinitionResponse =
+  SparkJobDefinitionResource;
 
 /** Optional parameters. */
 export interface SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams
@@ -14114,7 +14827,8 @@ export interface SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextOptional
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSparkJobDefinitionsByWorkspaceNext operation. */
-export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse = SparkJobDefinitionsListResponse;
+export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse =
+  SparkJobDefinitionsListResponse;
 
 /** Optional parameters. */
 export interface SqlPoolsListOptionalParams
@@ -14184,7 +14898,8 @@ export interface SqlScriptGetSqlScriptsByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSqlScriptsByWorkspaceNext operation. */
-export type SqlScriptGetSqlScriptsByWorkspaceNextResponse = SqlScriptsListResponse;
+export type SqlScriptGetSqlScriptsByWorkspaceNextResponse =
+  SqlScriptsListResponse;
 
 /** Optional parameters. */
 export interface TriggerGetTriggersByWorkspaceOptionalParams
@@ -14236,14 +14951,16 @@ export interface TriggerSubscribeTriggerToEventsOptionalParams
 }
 
 /** Contains response data for the subscribeTriggerToEvents operation. */
-export type TriggerSubscribeTriggerToEventsResponse = TriggerSubscriptionOperationStatus;
+export type TriggerSubscribeTriggerToEventsResponse =
+  TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
 export interface TriggerGetEventSubscriptionStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEventSubscriptionStatus operation. */
-export type TriggerGetEventSubscriptionStatusResponse = TriggerSubscriptionOperationStatus;
+export type TriggerGetEventSubscriptionStatusResponse =
+  TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
 export interface TriggerUnsubscribeTriggerFromEventsOptionalParams
@@ -14255,7 +14972,8 @@ export interface TriggerUnsubscribeTriggerFromEventsOptionalParams
 }
 
 /** Contains response data for the unsubscribeTriggerFromEvents operation. */
-export type TriggerUnsubscribeTriggerFromEventsResponse = TriggerSubscriptionOperationStatus;
+export type TriggerUnsubscribeTriggerFromEventsResponse =
+  TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
 export interface TriggerStartTriggerOptionalParams
@@ -14295,7 +15013,8 @@ export interface TriggerRunQueryTriggerRunsByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryTriggerRunsByWorkspace operation. */
-export type TriggerRunQueryTriggerRunsByWorkspaceResponse = TriggerRunsQueryResponse;
+export type TriggerRunQueryTriggerRunsByWorkspaceResponse =
+  TriggerRunsQueryResponse;
 
 /** Optional parameters. */
 export interface WorkspaceGetOptionalParams

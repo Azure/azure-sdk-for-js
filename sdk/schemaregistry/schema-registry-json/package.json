@@ -13,11 +13,11 @@
     "build:node": "npm run bundle",
     "build:samples": "echo Obsolete.",
     "build:test": "npm run bundle",
-    "build": "npm run clean && npm run bundle && api-extractor run --local",
+    "build": "npm run clean && npm run bundle && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && api-extractor run --local",
+    "extract-api": "tsc -p . && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
@@ -79,7 +79,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/event-hubs": "^5.8.0",
     "@azure/identity": "^4.0.1",
-    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
@@ -101,10 +101,9 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "c8": "^9.1.0",
+    "nyc": "^15.1.0",
     "rimraf": "^5.0.5",
     "typescript": "~5.4.5",
-    "ts-node": "^10.0.0",
-    "esm": "^3.2.18"
+    "ts-node": "^10.0.0"
   }
 }

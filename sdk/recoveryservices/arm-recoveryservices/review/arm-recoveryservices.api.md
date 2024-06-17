@@ -19,11 +19,18 @@ export type AuthType = string;
 // @public
 export interface AzureMonitorAlertSettings {
     // (undocumented)
+    alertsForAllFailoverIssues?: AlertsState;
+    // (undocumented)
     alertsForAllJobFailures?: AlertsState;
+    // (undocumented)
+    alertsForAllReplicationIssues?: AlertsState;
 }
 
 // @public
 export type BackupStorageVersion = string;
+
+// @public
+export type BcdrSecurityLevel = string;
 
 // @public
 export interface CapabilitiesProperties {
@@ -67,6 +74,8 @@ export interface CheckNameAvailabilityResult {
 export interface ClassicAlertSettings {
     // (undocumented)
     alertsForCriticalOperations?: AlertsState;
+    // (undocumented)
+    emailNotificationsForSiteRecovery?: AlertsState;
 }
 
 // @public
@@ -150,9 +159,21 @@ export interface DNSZoneResponse extends DNSZone {
 }
 
 // @public
+export type EnhancedSecurityState = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
@@ -162,6 +183,11 @@ export interface ErrorModel {
     readonly details?: ErrorModel[];
     readonly message?: string;
     readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -233,6 +259,14 @@ export enum KnownBackupStorageVersion {
 }
 
 // @public
+export enum KnownBcdrSecurityLevel {
+    Excellent = "Excellent",
+    Fair = "Fair",
+    Good = "Good",
+    Poor = "Poor"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -251,6 +285,14 @@ export enum KnownCrossSubscriptionRestoreState {
     Disabled = "Disabled",
     Enabled = "Enabled",
     PermanentlyDisabled = "PermanentlyDisabled"
+}
+
+// @public
+export enum KnownEnhancedSecurityState {
+    AlwaysON = "AlwaysON",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Invalid = "Invalid"
 }
 
 // @public
@@ -342,6 +384,7 @@ export enum KnownSoftDeleteState {
 // @public
 export enum KnownStandardTierStorageRedundancy {
     GeoRedundant = "GeoRedundant",
+    Invalid = "Invalid",
     LocallyRedundant = "LocallyRedundant",
     ZoneRedundant = "ZoneRedundant"
 }
@@ -722,6 +765,8 @@ export type SkuName = string;
 
 // @public
 export interface SoftDeleteSettings {
+    // (undocumented)
+    enhancedSecurityState?: EnhancedSecurityState;
     softDeleteRetentionPeriodInDays?: number;
     // (undocumented)
     softDeleteState?: SoftDeleteState;
@@ -865,6 +910,7 @@ export type VaultPrivateEndpointState = string;
 // @public
 export interface VaultProperties {
     readonly backupStorageVersion?: BackupStorageVersion;
+    readonly bcdrSecurityLevel?: BcdrSecurityLevel;
     encryption?: VaultPropertiesEncryption;
     monitoringSettings?: MonitoringSettings;
     moveDetails?: VaultPropertiesMoveDetails;
@@ -875,6 +921,7 @@ export interface VaultProperties {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     redundancySettings?: VaultPropertiesRedundancySettings;
+    resourceGuardOperationRequests?: string[];
     restoreSettings?: RestoreSettings;
     readonly secureScore?: SecureScoreLevel;
     securitySettings?: SecuritySettings;
@@ -899,17 +946,18 @@ export interface VaultPropertiesMoveDetails {
 
 // @public
 export interface VaultPropertiesRedundancySettings {
-    readonly crossRegionRestore?: CrossRegionRestore;
-    readonly standardTierStorageRedundancy?: StandardTierStorageRedundancy;
+    crossRegionRestore?: CrossRegionRestore;
+    standardTierStorageRedundancy?: StandardTierStorageRedundancy;
 }
 
 // @public
 export interface Vaults {
     beginCreateOrUpdate(resourceGroupName: string, vaultName: string, vault: Vault, options?: VaultsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VaultsCreateOrUpdateResponse>, VaultsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, vaultName: string, vault: Vault, options?: VaultsCreateOrUpdateOptionalParams): Promise<VaultsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VaultsDeleteResponse>, VaultsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams): Promise<VaultsDeleteResponse>;
     beginUpdate(resourceGroupName: string, vaultName: string, vault: PatchVault, options?: VaultsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VaultsUpdateResponse>, VaultsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, vaultName: string, vault: PatchVault, options?: VaultsUpdateOptionalParams): Promise<VaultsUpdateResponse>;
-    delete(resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, vaultName: string, options?: VaultsGetOptionalParams): Promise<VaultsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: VaultsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Vault>;
     listBySubscriptionId(options?: VaultsListBySubscriptionIdOptionalParams): PagedAsyncIterableIterator<Vault>;
@@ -919,14 +967,27 @@ export interface Vaults {
 export interface VaultsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public
 export type VaultsCreateOrUpdateResponse = Vault;
 
 // @public
-export interface VaultsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface VaultsDeleteHeaders {
+    // (undocumented)
+    location?: string;
 }
+
+// @public
+export interface VaultsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VaultsDeleteResponse = VaultsDeleteHeaders;
 
 // @public
 export interface VaultsGetOptionalParams extends coreClient.OperationOptions {
@@ -970,6 +1031,8 @@ export type VaultSubResourceType = string;
 export interface VaultsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public

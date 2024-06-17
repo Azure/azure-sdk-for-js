@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { PathUncheckedResponse } from "@azure-rest/core-client";
+import { OpenAIError } from "../models/models.js";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { isError } from "@azure/core-util";
+
 type CamelCase<S extends string> = S extends `${infer P1}_${infer P2}`
   ? `${Lowercase<P1>}${Capitalize<CamelCase<P2>>}`
   : Lowercase<S>;
@@ -86,4 +91,38 @@ function toSnakeCase<P extends string>(str: P): SnakeCase<P> {
   return str
     .replace(/([A-Z])/g, (group) => `_${group.toLowerCase()}`)
     .replace(/^_/, "") as SnakeCase<P>;
+}
+
+function statusCodeToNumber(statusCode: string): number | undefined {
+  const status = Number.parseInt(statusCode);
+
+  return Number.isNaN(status) ? undefined : status;
+}
+
+export function createOpenAIError(result: PathUncheckedResponse): OpenAIError {
+  const err = result.body.error ?? result.body;
+  if (!err) {
+    throw new Error("An error response has been received but can't be parsed");
+  }
+  const statusCode = statusCodeToNumber(result.status);
+  return new OpenAIError(err.message, err.param, err.type, {
+    code: err.code,
+    statusCode,
+    response: {
+      headers: createHttpHeaders(result.headers),
+      request: result.request,
+      status: statusCode ?? -1,
+    },
+  });
+}
+
+/**
+ * Typeguard for RestError
+ * @param e - Something caught by a catch clause.
+ */
+export function isOpenAIError(e: unknown): e is OpenAIError {
+  if (e instanceof OpenAIError) {
+    return true;
+  }
+  return isError(e) && e.name === "OpenAIError";
 }

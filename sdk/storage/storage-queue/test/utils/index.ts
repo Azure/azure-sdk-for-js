@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { newPipeline } from "../../../storage-blob/src/Pipeline";
+import { newPipeline } from "../../src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
 import {
   generateAccountSASQueryParameters,
@@ -79,7 +79,7 @@ export function getSASConnectionStringFromEnvironment(recorder: Recorder): strin
   const sas = generateAccountSASQueryParameters(
     {
       expiresOn: tmr,
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
       permissions: AccountSASPermissions.parse("rwdlacup"),
       protocol: SASProtocol.HttpsAndHttp,
       resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
