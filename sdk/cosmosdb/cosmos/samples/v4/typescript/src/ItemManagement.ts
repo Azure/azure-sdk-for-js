@@ -231,6 +231,14 @@ async function run(): Promise<void> {
       console.log(`Patched ${JSON.stringify(patchSource)} to new ${JSON.stringify(patchSource3)}.`);
     }
   }
+
+  logStep("Query items with index metrics enabled");
+  const { resources: resultsIndexMetrics, indexMetrics } = await container.items
+    .query(querySpec, { populateIndexMetrics: true })
+    .fetchAll();
+  console.log("IndexMetrics: ", indexMetrics);
+  console.log("Query results: ", resultsIndexMetrics);
+
   logStep("Delete item '" + item.id + "'");
   await item.delete();
 
