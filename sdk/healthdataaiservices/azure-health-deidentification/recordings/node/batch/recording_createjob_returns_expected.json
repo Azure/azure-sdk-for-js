@@ -1,0 +1,66 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397330272?api-version=2024-01-16-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "347",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": {
+        "dataType": "Plaintext",
+        "operation": "Surrogate",
+        "sourceLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1",
+          "extensions": [
+            "*"
+          ]
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:35:36 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "78600ab8-a107-4b31-9699-028caf1ae4ed"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "NotStarted",
+        "createdAt": "2024-06-14T20:35:36.4150798Z",
+        "lastUpdatedAt": "2024-06-14T20:35:36.4150798Z",
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    }
+  ],
+  "Variables": {}
+}

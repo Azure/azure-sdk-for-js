@@ -31,15 +31,11 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetJob {
   /** Resource read operation template. */
-  get(
-    options?: GetJobParameters,
-  ): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
+  get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
   /** Long-running resource create or replace operation template. */
   put(
     options: CreateJobParameters,
-  ): StreamableMethod<
-    CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse
-  >;
+  ): StreamableMethod<CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse>;
   /** Removes the record of the job from the service. Does not delete any files. */
   delete(
     options?: DeleteJobParameters,

@@ -144,12 +144,7 @@ export type PagedDeidentificationJobOutput = Paged<DeidentificationJobOutput>;
 /** Paged collection of HealthFileDetails items */
 export type PagedHealthFileDetailsOutput = Paged<HealthFileDetailsOutput>;
 /** Enum describing allowed operation states. */
-export type OperationStateOutput =
-  | "NotStarted"
-  | "Running"
-  | "Succeeded"
-  | "Failed"
-  | "Canceled";
+export type OperationStateOutput = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 /** Alias for StringIndexTypeOutput */
 export type StringIndexTypeOutput =
   | "TextElement_v8"

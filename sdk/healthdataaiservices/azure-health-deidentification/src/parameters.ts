@@ -30,9 +30,7 @@ export interface CreateJobHeaderParam {
   headers?: RawHttpHeadersInput & CreateJobHeaders;
 }
 
-export type CreateJobParameters = CreateJobHeaderParam &
-  CreateJobBodyParam &
-  RequestParameters;
+export type CreateJobParameters = CreateJobHeaderParam & CreateJobBodyParam & RequestParameters;
 
 export interface ListJobsHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -54,9 +52,7 @@ export interface ListJobsHeaderParam {
   headers?: RawHttpHeadersInput & ListJobsHeaders;
 }
 
-export type ListJobsParameters = ListJobsQueryParam &
-  ListJobsHeaderParam &
-  RequestParameters;
+export type ListJobsParameters = ListJobsQueryParam & ListJobsHeaderParam & RequestParameters;
 
 export interface ListJobFilesHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */

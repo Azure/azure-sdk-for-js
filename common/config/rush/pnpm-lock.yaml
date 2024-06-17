@@ -10306,6 +10306,24 @@ packages:
       walk-up-path: 3.0.1
     dev: false
 
+  /tshy@1.15.1:
+    resolution: {integrity: sha512-7p30vmXaNX7OL1yLy/MYUtO0SJOm9fQSnzk3DXaM+LmQosooCB4elVeHAGIIZdABhL2E8dx5t/5msR5lh0xnaQ==}
+    engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
+    hasBin: true
+    dependencies:
+      chalk: 5.3.0
+      chokidar: 3.6.0
+      foreground-child: 3.1.1
+      minimatch: 9.0.4
+      mkdirp: 3.0.1
+      polite-json: 4.0.1
+      resolve-import: 1.4.5
+      rimraf: 5.0.7
+      sync-content: 1.0.2
+      typescript: 5.4.5
+      walk-up-path: 3.0.1
+    dev: false
+
   /tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
     dev: false
@@ -18925,7 +18943,7 @@ packages:
     dev: false
 
   file:projects/azure-health-deidentification.tgz:
-    resolution: {integrity: sha512-zsIrXNs5tiTuwBnKz0DH0i5mjtRTViww2AdJTXrI6/4is30+YVAZl45CD9CMNQu96KoF3TFvgH4iLIHVSRRNNw==, tarball: file:projects/azure-health-deidentification.tgz}
+    resolution: {integrity: sha512-KEo1/Y5hbirora/ipaznHHtwSnbv3VnNaQ9JbnLHlLvk2ZFEuYjBxcB0B9cRPR7UPlsc4s45843Iyrt41GqUFw==, tarball: file:projects/azure-health-deidentification.tgz}
     name: '@rush-temp/azure-health-deidentification'
     version: 0.0.0
     dependencies:
@@ -18944,15 +18962,13 @@ packages:
       playwright: 1.44.1
       prettier: 3.3.0
       rimraf: 5.0.7
-      tshy: 1.14.0
+      tshy: 1.15.1
       tslib: 2.6.2
       typescript: 5.4.5
       vitest: 1.6.0(@types/node@18.19.33)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
-      - bufferutil
-      - debug
       - happy-dom
       - jsdom
       - less
@@ -18963,7 +18979,6 @@ packages:
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
       - webdriverio
     dev: false
 

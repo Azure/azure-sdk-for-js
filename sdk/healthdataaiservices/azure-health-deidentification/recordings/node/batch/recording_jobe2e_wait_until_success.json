@@ -1,0 +1,801 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491?api-version=2024-01-16-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "347",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": {
+        "dataType": "Plaintext",
+        "operation": "Surrogate",
+        "sourceLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1",
+          "extensions": [
+            "*"
+          ]
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:35:47 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "11aa6959-2d5f-4e1b-ac74-fbb5216c3e82"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "NotStarted",
+        "createdAt": "2024-06-14T20:35:47.2397261Z",
+        "lastUpdatedAt": "2024-06-14T20:35:47.2397261Z",
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:35:48 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "cc648b8a-ca7b-4818-9716-f2fe818ec8a4"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "NotStarted",
+        "createdAt": "2024-06-14T20:35:47.2397261Z",
+        "lastUpdatedAt": "2024-06-14T20:35:47.2397261Z",
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:35:50 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "d90983b6-6470-43ec-ba63-ac6c27e83918"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "Running",
+        "createdAt": "2024-06-14T20:35:47.2397261Z",
+        "startedAt": "2024-06-14T20:35:50.1912676Z",
+        "lastUpdatedAt": "2024-06-14T20:35:50.3856081Z",
+        "summary": {
+          "successful": 0,
+          "failed": 0,
+          "canceled": 0,
+          "total": 2,
+          "bytesProcessed": 0
+        },
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:35:53 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "42f5c9ba-2bc4-459a-9e1c-68b1e81e887d"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "Running",
+        "createdAt": "2024-06-14T20:35:47.2397261Z",
+        "startedAt": "2024-06-14T20:35:50.1912676Z",
+        "lastUpdatedAt": "2024-06-14T20:35:50.3856081Z",
+        "summary": {
+          "successful": 0,
+          "failed": 0,
+          "canceled": 0,
+          "total": 2,
+          "bytesProcessed": 0
+        },
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:35:55 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "af5e0e89-c26f-4f29-b967-4a086c8c683b"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "Running",
+        "createdAt": "2024-06-14T20:35:47.2397261Z",
+        "startedAt": "2024-06-14T20:35:50.1912676Z",
+        "lastUpdatedAt": "2024-06-14T20:35:50.3856081Z",
+        "summary": {
+          "successful": 0,
+          "failed": 0,
+          "canceled": 0,
+          "total": 2,
+          "bytesProcessed": 0
+        },
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:35:57 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "03c5d5a8-80d7-46e1-8317-bc62b5d055db"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "Running",
+        "createdAt": "2024-06-14T20:35:47.2397261Z",
+        "startedAt": "2024-06-14T20:35:50.1912676Z",
+        "lastUpdatedAt": "2024-06-14T20:35:50.3856081Z",
+        "summary": {
+          "successful": 0,
+          "failed": 0,
+          "canceled": 0,
+          "total": 2,
+          "bytesProcessed": 0
+        },
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:35:59 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "04188cf3-2a6f-4ac8-82b7-6d1a0cbc5cf6"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "Running",
+        "createdAt": "2024-06-14T20:35:47.2397261Z",
+        "startedAt": "2024-06-14T20:35:50.1912676Z",
+        "lastUpdatedAt": "2024-06-14T20:35:50.3856081Z",
+        "summary": {
+          "successful": 0,
+          "failed": 0,
+          "canceled": 0,
+          "total": 2,
+          "bytesProcessed": 0
+        },
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:36:01 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "02943262-a143-4d2b-91ca-9e70ef439ce6"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "Running",
+        "createdAt": "2024-06-14T20:35:47.2397261Z",
+        "startedAt": "2024-06-14T20:35:50.1912676Z",
+        "lastUpdatedAt": "2024-06-14T20:35:50.3856081Z",
+        "summary": {
+          "successful": 0,
+          "failed": 0,
+          "canceled": 0,
+          "total": 2,
+          "bytesProcessed": 0
+        },
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:36:03 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "ee352e48-0d3b-44cb-b9be-fca2f8d8f1f8"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "Running",
+        "createdAt": "2024-06-14T20:35:47.2397261Z",
+        "startedAt": "2024-06-14T20:35:50.1912676Z",
+        "lastUpdatedAt": "2024-06-14T20:35:50.3856081Z",
+        "summary": {
+          "successful": 0,
+          "failed": 0,
+          "canceled": 0,
+          "total": 2,
+          "bytesProcessed": 0
+        },
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:36:05 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "1e2b3dd0-9a10-4877-8b94-bf368713324d"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "Running",
+        "createdAt": "2024-06-14T20:35:47.2397261Z",
+        "startedAt": "2024-06-14T20:35:50.1912676Z",
+        "lastUpdatedAt": "2024-06-14T20:35:50.3856081Z",
+        "summary": {
+          "successful": 0,
+          "failed": 0,
+          "canceled": 0,
+          "total": 2,
+          "bytesProcessed": 0
+        },
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:36:07 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "08d6d346-8967-45b4-b367-c6858d71626a"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "Running",
+        "createdAt": "2024-06-14T20:35:47.2397261Z",
+        "startedAt": "2024-06-14T20:35:50.1912676Z",
+        "lastUpdatedAt": "2024-06-14T20:35:50.3856081Z",
+        "summary": {
+          "successful": 0,
+          "failed": 0,
+          "canceled": 0,
+          "total": 2,
+          "bytesProcessed": 0
+        },
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:36:09 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "9763d719-afb7-4c3c-b5ba-fd65f5b448dc"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "Running",
+        "createdAt": "2024-06-14T20:35:47.2397261Z",
+        "startedAt": "2024-06-14T20:35:50.1912676Z",
+        "lastUpdatedAt": "2024-06-14T20:35:50.3856081Z",
+        "summary": {
+          "successful": 0,
+          "failed": 0,
+          "canceled": 0,
+          "total": 2,
+          "bytesProcessed": 0
+        },
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:36:12 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "6f415229-2562-49cc-84b3-f7445b37ed37"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "Running",
+        "createdAt": "2024-06-14T20:35:47.2397261Z",
+        "startedAt": "2024-06-14T20:35:50.1912676Z",
+        "lastUpdatedAt": "2024-06-14T20:35:50.3856081Z",
+        "summary": {
+          "successful": 0,
+          "failed": 0,
+          "canceled": 0,
+          "total": 2,
+          "bytesProcessed": 0
+        },
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:36:14 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "77904c1c-4bd7-4954-a957-05b5aee8c0b3"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "Succeeded",
+        "createdAt": "2024-06-14T20:35:47.2397261Z",
+        "startedAt": "2024-06-14T20:35:50.1912676Z",
+        "lastUpdatedAt": "2024-06-14T20:36:12.8209362Z",
+        "summary": {
+          "successful": 2,
+          "failed": 0,
+          "canceled": 0,
+          "total": 2,
+          "bytesProcessed": 823
+        },
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397341491/files?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:36:14 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "efba5231-2473-4a86-a36b-273dae17cfa4"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "Sanitized",
+            "input": {
+              "path": "example_patient_1/doctor_dictation.txt",
+              "eTag": "0x8DC8CA2196493BD"
+            },
+            "output": {
+              "path": "_output/js-sdk-job-1718397341491/example_patient_1/doctor_dictation.txt",
+              "eTag": "0x8DC8CB19B92243F"
+            },
+            "status": "Succeeded"
+          },
+          {
+            "id": "Sanitized",
+            "input": {
+              "path": "example_patient_1/visit_summary.txt",
+              "eTag": "0x8DC8CA219768100"
+            },
+            "output": {
+              "path": "_output/js-sdk-job-1718397341491/example_patient_1/visit_summary.txt",
+              "eTag": "0x8DC8CB19B93A925"
+            },
+            "status": "Succeeded"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

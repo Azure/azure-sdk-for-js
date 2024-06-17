@@ -75,8 +75,4 @@ export type JobStatus =
   | "Canceled"
   | string;
 /** Alias for StringIndexType */
-export type StringIndexType =
-  | "TextElement_v8"
-  | "UnicodeCodePoint"
-  | "Utf16CodeUnit"
-  | string;
+export type StringIndexType = "TextElement_v8" | "UnicodeCodePoint" | "Utf16CodeUnit" | string;

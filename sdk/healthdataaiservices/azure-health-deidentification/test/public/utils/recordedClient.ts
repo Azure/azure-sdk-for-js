@@ -15,13 +15,12 @@ export async function createRecorder(testContext: VitestTestContext): Promise<Re
   return new Recorder(testContext);
 }
 
-export async function createRecordedDeidentificationClient(recorder: Recorder, credentials: TokenCredential): Promise<DeidentificationClient> {
+export async function createRecordedDeidentificationClient(
+  recorder: Recorder,
+  credentials: TokenCredential,
+): Promise<DeidentificationClient> {
   const endpoint = assertEnvironmentVariable("DEID_SERVICE_ENDPOINT");
-  const client = await createClient(
-    endpoint,
-    credentials,
-    recorder.configureClientOptions({}),
-  );
+  const client = await createClient(endpoint, credentials, recorder.configureClientOptions({}));
 
   return client;
 }

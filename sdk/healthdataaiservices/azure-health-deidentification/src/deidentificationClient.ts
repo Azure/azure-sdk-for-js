@@ -17,8 +17,7 @@ export default function createClient(
   credentials: TokenCredential,
   options: ClientOptions = {},
 ): DeidentificationClient {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `https://${endpointParam}`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://${endpointParam}`;
   options.apiVersion = options.apiVersion ?? "2024-01-16-preview";
   const userAgentInfo = `azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1`;
   const userAgentPrefix =
@@ -34,17 +33,11 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://deid.azure.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://deid.azure.com/.default"],
     },
   };
 
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as DeidentificationClient;
+  const client = getClient(endpointUrl, credentials, options) as DeidentificationClient;
 
   return client;
 }

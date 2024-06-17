@@ -1,0 +1,764 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs/js-sdk-job-1718397336084?api-version=2024-01-16-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "347",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": {
+        "dataType": "Plaintext",
+        "operation": "Surrogate",
+        "sourceLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1",
+          "extensions": [
+            "*"
+          ]
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:35:40 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "4bbad0f4-1844-41da-9ceb-3c48cb47f4aa"
+      },
+      "ResponseBody": {
+        "name": "Sanitized",
+        "status": "NotStarted",
+        "createdAt": "2024-06-14T20:35:40.8996492Z",
+        "lastUpdatedAt": "2024-06-14T20:35:40.8996492Z",
+        "sourceLocation": {
+          "extensions": [
+            "*"
+          ],
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "example_patient_1"
+        },
+        "targetLocation": {
+          "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+          "prefix": "_output"
+        },
+        "dataType": "Plaintext",
+        "operation": "Surrogate"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.api.cac001.deid.azure.com/jobs?api-version=2024-01-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jun 2024 20:35:41 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "d1030466-6695-4d36-bc5e-847bbddfa572"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "Sanitized",
+            "status": "NotStarted",
+            "createdAt": "2024-06-14T20:35:40.8996492Z",
+            "lastUpdatedAt": "2024-06-14T20:35:40.8996492Z",
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Running",
+            "createdAt": "2024-06-14T20:35:36.4150798Z",
+            "startedAt": "2024-06-14T20:35:37.4622846Z",
+            "lastUpdatedAt": "2024-06-14T20:35:37.6524969Z",
+            "summary": {
+              "successful": 0,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 0
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:34:50.0601842Z",
+            "startedAt": "2024-06-14T20:34:51.3636872Z",
+            "lastUpdatedAt": "2024-06-14T20:35:15.3325415Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:34:46.5912526Z",
+            "startedAt": "2024-06-14T20:34:48.3205972Z",
+            "lastUpdatedAt": "2024-06-14T20:35:11.4075288Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:34:42.4824227Z",
+            "startedAt": "2024-06-14T20:34:43.2486727Z",
+            "lastUpdatedAt": "2024-06-14T20:35:05.3356123Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:32:15.9019826Z",
+            "startedAt": "2024-06-14T20:32:16.9594045Z",
+            "lastUpdatedAt": "2024-06-14T20:32:41.0029631Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:32:12.3969121Z",
+            "startedAt": "2024-06-14T20:32:14.3546574Z",
+            "lastUpdatedAt": "2024-06-14T20:32:35.3215792Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:32:07.383421Z",
+            "startedAt": "2024-06-14T20:32:11.4113216Z",
+            "lastUpdatedAt": "2024-06-14T20:32:35.3601403Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:31:20.9826361Z",
+            "startedAt": "2024-06-14T20:31:22.3124266Z",
+            "lastUpdatedAt": "2024-06-14T20:31:46.6369708Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:31:24.6230634Z",
+            "startedAt": "2024-06-14T20:31:25.3607033Z",
+            "lastUpdatedAt": "2024-06-14T20:31:46.6369708Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:31:16.6461999Z",
+            "startedAt": "2024-06-14T20:31:19.4876944Z",
+            "lastUpdatedAt": "2024-06-14T20:31:41.7352809Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:26:01.3487204Z",
+            "startedAt": "2024-06-14T20:26:01.6861714Z",
+            "lastUpdatedAt": "2024-06-14T20:26:24.0144004Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:25:32.521327Z",
+            "startedAt": "2024-06-14T20:25:33.6872445Z",
+            "lastUpdatedAt": "2024-06-14T20:25:55.9705967Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:25:28.3449088Z",
+            "startedAt": "2024-06-14T20:25:30.5042613Z",
+            "lastUpdatedAt": "2024-06-14T20:25:51.1537939Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:25:24.1635262Z",
+            "startedAt": "2024-06-14T20:25:26.5642791Z",
+            "lastUpdatedAt": "2024-06-14T20:25:47.9370982Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:24:35.0393872Z",
+            "startedAt": "2024-06-14T20:24:36.9574414Z",
+            "lastUpdatedAt": "2024-06-14T20:25:00.4576185Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:24:31.6280035Z",
+            "startedAt": "2024-06-14T20:24:33.4892239Z",
+            "lastUpdatedAt": "2024-06-14T20:24:56.9563462Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:24:27.6253176Z",
+            "startedAt": "2024-06-14T20:24:30.4883579Z",
+            "lastUpdatedAt": "2024-06-14T20:24:53.3785363Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:23:24.6632438Z",
+            "startedAt": "2024-06-14T20:23:25.268376Z",
+            "lastUpdatedAt": "2024-06-14T20:23:48.2589223Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:23:21.2595543Z",
+            "startedAt": "2024-06-14T20:23:24.7961848Z",
+            "lastUpdatedAt": "2024-06-14T20:23:45.7668172Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:23:17.4036426Z",
+            "startedAt": "2024-06-14T20:23:19.7650711Z",
+            "lastUpdatedAt": "2024-06-14T20:23:42.8039677Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:22:30.0998831Z",
+            "startedAt": "2024-06-14T20:22:31.0757881Z",
+            "lastUpdatedAt": "2024-06-14T20:22:56.5852115Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:22:26.5659424Z",
+            "startedAt": "2024-06-14T20:22:30.5727293Z",
+            "lastUpdatedAt": "2024-06-14T20:22:53.0350621Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:22:22.5716445Z",
+            "startedAt": "2024-06-14T20:22:24.0629319Z",
+            "lastUpdatedAt": "2024-06-14T20:22:47.1581875Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "Sanitized",
+            "status": "Succeeded",
+            "createdAt": "2024-06-14T20:04:09.5545981Z",
+            "startedAt": "2024-06-14T20:04:09.9652055Z",
+            "lastUpdatedAt": "2024-06-14T20:04:32.7734786Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          }
+        ],
+        "nextLink": "fakeserviceId.deid.azure.com/jobs?api-version=2024-01-16-preview&continuationToken=1234"
+      }
+    }
+  ],
+  "Variables": {}
+}
