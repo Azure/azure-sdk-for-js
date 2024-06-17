@@ -33,7 +33,7 @@ import {
   SqlScriptOperationsImpl,
   TriggerOperationsImpl,
   TriggerRunOperationsImpl,
-  WorkspaceOperationsImpl
+  WorkspaceOperationsImpl,
 } from "./operations";
 import {
   LinkConnectionOperations,
@@ -59,7 +59,7 @@ import {
   SqlScriptOperations,
   TriggerOperations,
   TriggerRunOperations,
-  WorkspaceOperations
+  WorkspaceOperations,
 } from "./operationsInterfaces";
 import { ArtifactsClientOptionalParams } from "./models";
 
@@ -76,7 +76,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     endpoint: string,
-    options?: ArtifactsClientOptionalParams
+    options?: ArtifactsClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -91,7 +91,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     }
     const defaults: ArtifactsClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.15`;
@@ -107,19 +107,20 @@ export class ArtifactsClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -129,7 +130,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -139,9 +140,9 @@ export class ArtifactsClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -152,7 +153,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     this.kqlScriptOperations = new KqlScriptOperationsImpl(this);
     this.metastore = new MetastoreImpl(this);
     this.sparkConfigurationOperations = new SparkConfigurationOperationsImpl(
-      this
+      this,
     );
     this.bigDataPools = new BigDataPoolsImpl(this);
     this.dataFlowOperations = new DataFlowOperationsImpl(this);
@@ -167,7 +168,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     this.pipelineOperations = new PipelineOperationsImpl(this);
     this.pipelineRunOperations = new PipelineRunOperationsImpl(this);
     this.sparkJobDefinitionOperations = new SparkJobDefinitionOperationsImpl(
-      this
+      this,
     );
     this.sqlPools = new SqlPoolsImpl(this);
     this.sqlScriptOperations = new SqlScriptOperationsImpl(this);
