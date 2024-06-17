@@ -57,11 +57,11 @@ function buildServer(app: Express) {
       const cred = new ChainedTokenCredential(
         new AzurePowerShellCredential(req.body),
         new AzureCliCredential(req.body),
+        new AzureDeveloperCliCredential(req.body),
         // Keep Environment Credential for packages that have not migrated to Federated Authentication
         // See the migration guide for more information
         // https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/1080/Secret-auth-migration
         new EnvironmentCredential(req.body),
-        new AzureDeveloperCliCredential(req.body),
       );
       credentials[id] = cred;
       res.status(201).send({ id });
