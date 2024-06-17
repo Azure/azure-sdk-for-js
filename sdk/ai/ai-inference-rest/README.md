@@ -126,6 +126,103 @@ main().catch((err) => {
 });
 ```
 
+## Examples
+
+### Generate Multiple Completions With Subscription Key
+
+This example generates text responses to input prompts using an Azure subscription key
+
+```javascript
+import ModelClient from "@azure-rest/ai-inference";
+import { AzureKeyCredential } from "@azure/core-auth";
+
+async function main(){
+  // Replace with your Azure OpenAI key
+  const key = "YOUR_MODEL_API_KEY";
+  const endpoint = "https://your-model-endpoint/";
+  const client = new ModelClient(endpoint, new AzureKeyCredential(key));
+
+  const messages = [
+    { role: "user", content: "How are you today?" },
+    { role: "user", content: "What is Azure OpenAI?" },
+    { role: "user", content: "Why do children love dinosaurs?" },
+    { role: "user", content: "Generate a proof of Euler's identity" },
+    { role: "user", content: "Describe in single words only the good things that come into your mind about your mother." },
+  ];
+
+  let promptIndex = 0;
+  const response = await client.path("/chat/completions").post({
+    body: {
+      messages
+    }
+  });
+
+  if(response.status !== "200") {
+    throw response.body.error;
+  }
+  for (const choice of response.body.choices) {
+    const completion = choice.message.content;
+    console.log(`Input: ${examplePrompts[promptIndex++]}`);
+    console.log(`Chatbot: ${completion}`);
+  }
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+### Summarize Text with Completion
+
+This example generates a summarization of the given input prompt.
+
+```javascript
+import ModelClient from "@azure-rest/ai-inference";
+import { DefaultAzureCredential } from "@azure/identity";
+
+async function main(){
+  const endpoint = "https://your-model-endpoint/";
+  const client = new ModelClient(endpoint, new DefaultAzureCredential());
+
+  const textToSummarize = `
+    Two independent experiments reported their results this morning at CERN, Europe's high-energy physics laboratory near Geneva in Switzerland. Both show convincing evidence of a new boson particle weighing around 125 gigaelectronvolts, which so far fits predictions of the Higgs previously made by theoretical physicists.
+
+    ""As a layman I would say: 'I think we have it'. Would you agree?"" Rolf-Dieter Heuer, CERN's director-general, asked the packed auditorium. The physicists assembled there burst into applause.
+  :`;
+
+  const summarizationPrompt = [`
+    Summarize the following text.
+
+    Text:
+    """"""
+    ${textToSummarize}
+    """"""
+
+    Summary:
+  `];
+
+  console.log(`Input: ${summarizationPrompt}`);
+
+  const response = await client.path("/chat/completions").post({
+    body: {
+      messages: [
+        { role: "user", content: summarizationPrompt }
+      ],
+      max_tokens: 64
+    }
+  });
+
+  if(response.status !== "200") {
+    throw response.body.error;
+  }
+  const completion = response.body.choices[0].message.content;
+  console.log(`Summarization: ${completion}`);
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
 
 ## Troubleshooting
 
