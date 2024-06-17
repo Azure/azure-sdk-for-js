@@ -18,6 +18,10 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [Bulk.js][bulk]                                                                                                   | Shows a simple bulk call with each BulkOperation type.                                              |
 | [BulkUpdateWithSproc.js][bulkupdatewithsproc]                                                                     | Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior. |
 | [ChangeFeed.js][changefeed]                                                                                       | Demonstrates using a ChangeFeed.                                                                    |
+| [ChangeFeedIterator\ChangeFeedHierarchicalPartitionKey.js][changefeediterator_changefeedhierarchicalpartitionkey] | Demonstrates using a ChangeFeed for a partition key                                                 |
+| [ChangeFeedIterator\ChangeFeedIteratorEntireContainer.js][changefeediterator_changefeediteratorentirecontainer]   | Demonstrates using a ChangeFeed for entire container                                                |
+| [ChangeFeedIterator\ChangeFeedIteratorEpkRange.js][changefeediterator_changefeediteratorepkrange]                 | Demonstrates using a ChangeFeed for an epk range                                                    |
+| [ChangeFeedIterator\ChangeFeedPartitionKey.js][changefeediterator_changefeedpartitionkey]                         | Demonstrates using a ChangeFeed for a partition key                                                 |
 | [ContainerManagement.js][containermanagement]                                                                     | Demonstrates container create, read, delete and reading all containers belonging to a database.     |
 | [DatabaseManagement.js][databasemanagement]                                                                       | Demonstrates database create, read, delete and reading all databases.                               |
 | [Diagnostics.js][diagnostics]                                                                                     | Demonstrates usage of CosmosDiagnostic Object.                                                      |
@@ -27,10 +31,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [QueryThroughput.js][querythroughput]                                                                             | Demonstrates query throughput scenarios.                                                            |
 | [SasTokenAuth.js][sastokenauth]                                                                                   | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_      |
 | [ServerSideScripts.js][serversidescripts]                                                                         | Demonstrates using stored procedures for server side run functions                                  |
-| [ChangeFeedIterator\ChangeFeedHierarchicalPartitionKey.js][changefeediterator_changefeedhierarchicalpartitionkey] | Demonstrates using a ChangeFeed for a partition key                                                 |
-| [ChangeFeedIterator\ChangeFeedIteratorEntireContainer.js][changefeediterator_changefeediteratorentirecontainer]   | Demonstrates using a ChangeFeed for entire container                                                |
-| [ChangeFeedIterator\ChangeFeedIteratorEpkRange.js][changefeediterator_changefeediteratorepkrange]                 | Demonstrates using a ChangeFeed for an epk range                                                    |
-| [ChangeFeedIterator\ChangeFeedPartitionKey.js][changefeediterator_changefeedpartitionkey]                         | Demonstrates using a ChangeFeed for a partition key                                                 |
 
 ## Prerequisites
 
@@ -77,6 +77,10 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [bulk]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/Bulk.js
 [bulkupdatewithsproc]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/BulkUpdateWithSproc.js
 [changefeed]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeed.js
+[changefeediterator_changefeedhierarchicalpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeedIterator\ChangeFeedHierarchicalPartitionKey.js
+[changefeediterator_changefeediteratorentirecontainer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeedIterator\ChangeFeedIteratorEntireContainer.js
+[changefeediterator_changefeediteratorepkrange]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeedIterator\ChangeFeedIteratorEpkRange.js
+[changefeediterator_changefeedpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeedIterator\ChangeFeedPartitionKey.js
 [containermanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ContainerManagement.js
 [databasemanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/DatabaseManagement.js
 [diagnostics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/Diagnostics.js
@@ -86,10 +90,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [querythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/QueryThroughput.js
 [sastokenauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/SasTokenAuth.js
 [serversidescripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ServerSideScripts.js
-[changefeediterator_changefeedhierarchicalpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeedIterator/ChangeFeedHierarchicalPartitionKey.js
-[changefeediterator_changefeediteratorentirecontainer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeedIterator/ChangeFeedIteratorEntireContainer.js
-[changefeediterator_changefeediteratorepkrange]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeedIterator/ChangeFeedIteratorEpkRange.js
-[changefeediterator_changefeedpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeedIterator/ChangeFeedPartitionKey.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/cosmos
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecosmosdbaccount]: https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account
