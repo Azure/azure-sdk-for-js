@@ -15,26 +15,13 @@ import {
 import { createRecordedClient } from "./utils/recordedClient";
 import { Buffer } from "buffer";
 /* eslint no-constant-condition: "off" */
-async function clearMessages(
-  receiverClient: EventGridReceiverClient,
-  topicName: string,
-  eventSubscriptionName: string,
-): Promise<void> {
+async function clearMessages(receiverClient: EventGridReceiverClient): Promise<void> {
   // Clear any messages that may be available in the topic.
-  let receivedResult: ReceiveResult<any> = await receiverClient.receiveEvents({
-    topicName,
-    eventSubscriptionName,
-  });
+  let receivedResult: ReceiveResult<any> = await receiverClient.receiveEvents();
   while (receivedResult && receivedResult.details.length > 0) {
     const lockToken = receivedResult.details[0].brokerProperties.lockToken;
-    await receiverClient.acknowledgeEvents([lockToken], {
-      eventSubscriptionName,
-      topicName,
-    });
-    receivedResult = await receiverClient.receiveEvents({
-      eventSubscriptionName,
-      topicName,
-    });
+    await receiverClient.acknowledgeEvents([lockToken]);
+    receivedResult = await receiverClient.receiveEvents();
   }
 }
 
@@ -47,20 +34,23 @@ describe("Event Grid Namespace Client", function (this: Suite) {
   let maxDeliveryCount: number;
 
   beforeEach(async function (this: Context) {
+    eventSubscriptionName = env["EVENT_SUBSCRIPTION_NAME"] ?? "testsubscription1";
+    topicName = env["TOPIC_NAME"] ?? "testtopic1";
+    maxDeliveryCount = env["MAX_DELIVERY_COUNT"] ? parseInt(env["MAX_DELIVERY_COUNT"]) : 10;
+
     ({ senderClient, receiverClient, recorder } = await createRecordedClient(
       this.currentTest,
       "EVENT_GRID_NAMESPACES_ENDPOINT",
       "EVENT_GRID_NAMESPACES_KEY",
+      topicName,
+      eventSubscriptionName,
     ));
 
-    eventSubscriptionName = env["EVENT_SUBSCRIPTION_NAME"] ?? "testsubscription1";
-    topicName = env["TOPIC_NAME"] ?? "testtopic1";
-    maxDeliveryCount = env["MAX_DELIVERY_COUNT"] ? parseInt(env["MAX_DELIVERY_COUNT"]) : 10;
-    await clearMessages(receiverClient, topicName, eventSubscriptionName);
+    await clearMessages(receiverClient);
   });
 
   afterEach(async function () {
-    await clearMessages(receiverClient, topicName, eventSubscriptionName);
+    await clearMessages(receiverClient);
     await recorder.stop();
   });
 
@@ -78,12 +68,9 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         specVersion: "1.0",
       };
       // Publish the Cloud Event
-      await senderClient.sendEvents(cloudEvent, { topicName });
+      await senderClient.sendEvents(cloudEvent);
       // Receive the Published Cloud Event
-      const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
-        topicName,
-        eventSubscriptionName,
-      });
+      const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents();
 
       const deserializer: EventGridDeserializer = new EventGridDeserializer();
       const result: CloudEvent<any>[] = await deserializer.deserializeCloudEvents(
@@ -121,12 +108,10 @@ describe("Event Grid Namespace Client", function (this: Suite) {
           specVersion: "1.0",
         },
       ];
-      await senderClient.sendEvents(cloudEvents, { topicName });
+      await senderClient.sendEvents(cloudEvents);
 
       const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
-        eventSubscriptionName,
         maxEvents: 2,
-        topicName,
       });
 
       assert.equal(2, receiveResult.details.length);
@@ -155,16 +140,13 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         specVersion: "1.0",
       };
       // Publish the Cloud Event
-      await senderClient.sendEvents(cloudEvent, { topicName });
+      await senderClient.sendEvents(cloudEvent);
 
       let counter: number = 0;
       while (true) {
         // Receive the Published Cloud Event
         counter++;
-        const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
-          topicName,
-          eventSubscriptionName,
-        });
+        const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents();
 
         if (
           (counter > maxDeliveryCount && receiveResult.details.length !== 0) ||
@@ -178,7 +160,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         }
 
         const lockToken = receiveResult.details[0].brokerProperties.lockToken;
-        await receiverClient.releaseEvents([lockToken], { eventSubscriptionName, topicName });
+        await receiverClient.releaseEvents([lockToken]);
       }
     });
 
@@ -195,24 +177,15 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         specVersion: "1.0",
       };
       // Publish the Cloud Event
-      await senderClient.sendEvents(cloudEvent, { topicName });
+      await senderClient.sendEvents(cloudEvent);
       // Receive the Published Cloud Event
-      let receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
-        topicName,
-        eventSubscriptionName,
-      });
+      let receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents();
       const lockToken = receiveResult.details[0].brokerProperties.lockToken;
-      const rejectResult: RejectResult = await receiverClient.rejectEvents([lockToken], {
-        topicName,
-        eventSubscriptionName,
-      });
+      const rejectResult: RejectResult = await receiverClient.rejectEvents([lockToken]);
       assert.equal(rejectResult.succeededLockTokens.length, 1);
       assert.equal(rejectResult.succeededLockTokens[0], lockToken);
 
-      receiveResult = await receiverClient.receiveEvents({
-        eventSubscriptionName,
-        topicName,
-      });
+      receiveResult = await receiverClient.receiveEvents();
       assert.equal(receiveResult.details.length, 0);
     });
 
@@ -229,17 +202,11 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         specVersion: "1.0",
       };
       // Publish the Cloud Event
-      await senderClient.sendEvents(cloudEvent, { topicName });
+      await senderClient.sendEvents(cloudEvent);
       // Receive the Published Cloud Event
-      const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
-        topicName,
-        eventSubscriptionName,
-      });
+      const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents();
       const lockToken = receiveResult.details[0].brokerProperties.lockToken;
-      const renewResult: RenewLocksResult = await receiverClient.renewEventLocks([lockToken], {
-        topicName,
-        eventSubscriptionName,
-      });
+      const renewResult: RenewLocksResult = await receiverClient.renewEventLocks([lockToken]);
       assert.equal(renewResult.succeededLockTokens.length, 1);
       assert.equal(renewResult.succeededLockTokens[0], lockToken);
     });
@@ -261,14 +228,9 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         specVersion: "1.0",
       };
       // Publish the Cloud Event
-      await senderClient.sendEvents(cloudEvent, {
-        topicName,
-      });
+      await senderClient.sendEvents(cloudEvent);
       // Receive the Published Cloud Event
-      const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents({
-        topicName,
-        eventSubscriptionName,
-      });
+      const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents();
 
       for (const detail of receiveResult.details) {
         const event = detail.event;
