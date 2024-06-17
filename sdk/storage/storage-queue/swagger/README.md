@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "6.0.3"
-package-version: 12.22.0
+package-version: 12.23.0-beta.2
 ```
 
 ## Customizations for Track 2 Generator
@@ -227,13 +227,13 @@ directive:
       $["x-ms-client-name"] = "queueAnalyticsLogging"
 ```
 
-### Update service version from "2018-03-28" to "2024-05-04"
+### Update service version from "2018-03-28" to "2024-08-04"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2024-05-04" ];
+    transform: $.enum = [ "2024-08-04" ];
 ```
 
 ### Rename AccessPolicy start -> startsOn
@@ -548,6 +548,16 @@ directive:
     where: $.definitions.Metrics
     transform: >
       $.description = "An interface representing Metrics.";
+```
+
+### Add AuthenticationErrorDetail.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.StorageError
+    transform: >
+      $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-queue%2Fswagger%2FREADME.png)

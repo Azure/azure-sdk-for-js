@@ -265,6 +265,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     let errorMessage: string = "";
 
     const link = await this._context.connection.createReceiver(options);
+    this._intermediateLink = link;
 
     const receivedSessionId = link.source?.filter?.[Constants.sessionFilterName];
     if (!this._providedSessionId && !receivedSessionId) {
@@ -279,6 +280,9 @@ export class MessageSession extends LinkEntity<Receiver> {
       ) {
         await delay(1); // yield to eventloop
         if (this._lastSBError) {
+          logger.verbose("%s cleaning up resources held by link", this.logPrefix);
+          await link.close({ closeSession: true });
+          link.remove();
           throw this._lastSBError;
         }
       }
@@ -297,6 +301,12 @@ export class MessageSession extends LinkEntity<Receiver> {
         condition: ErrorNameConditionMapper.SessionCannotBeLockedError,
       });
       logger.logError(error, this.logPrefix);
+      logger.verbose(
+        "%s cleaning up resources held by intermediate link (SessionCannotBeLockedError)",
+        this.logPrefix,
+      );
+      await link.close({ closeSession: true });
+      link.remove();
       throw error;
     }
 
@@ -351,6 +361,11 @@ export class MessageSession extends LinkEntity<Receiver> {
           errObj.message = "Failed to create a receiver within allocated time and retry attempts.";
         }
       }
+      if (this._intermediateLink) {
+        logger.verbose("%s cleaning up resources held by intermediate link", this.logPrefix);
+        await this._intermediateLink.close({ closeSession: true });
+        this._intermediateLink.remove();
+      }
       throw errObj;
     }
   }
@@ -388,6 +403,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
   private _retryOptions: RetryOptions | undefined;
   private _lastSBError: Error | ServiceBusError | undefined;
+  private _intermediateLink: Receiver | undefined;
 
   /**
    * Constructs a MessageSession instance which lets you receive messages as batches

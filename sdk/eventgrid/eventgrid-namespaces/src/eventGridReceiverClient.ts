@@ -12,12 +12,12 @@ import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/Ev
 import {
   CloudEvent,
   ReceiveResult,
-  ReceiveEventsOptions,
   AcknowledgeEventsOptions,
   ReleaseEventsOptions,
   RejectEventsOptions,
   RenewEventLocksOptions,
   EventGridReceiverClientOptions,
+  ReceiveEventsOptions,
 } from "./models";
 import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
 import { tracingPolicyName } from "@azure/core-rest-pipeline";
@@ -28,18 +28,20 @@ import { uint8ArrayToString } from "@azure/core-util";
  */
 export class EventGridReceiverClient {
   private _client: EventGridClientGenerated;
-  private _topicName: string | undefined;
-  private _eventSubscriptionName: string | undefined;
+  private _topicName: string;
+  private _subscriptionName: string;
 
   /** Azure Messaging EventGrid Client */
   constructor(
     endpoint: string,
     credential: AzureKeyCredential | TokenCredential,
+    topicName: string,
+    subscriptionName: string,
     options: EventGridReceiverClientOptions = {},
   ) {
     this._client = new EventGridClientGenerated(endpoint, credential, options);
-    this._topicName = options?.topicName ?? undefined;
-    this._eventSubscriptionName = options?.eventSubscriptionName ?? undefined;
+    this._topicName = topicName;
+    this._subscriptionName = subscriptionName;
     this._client.pipeline.addPolicy(cloudEventDistributedTracingEnricherPolicy(), {
       afterPolicies: [tracingPolicyName],
     });
@@ -54,19 +56,11 @@ export class EventGridReceiverClient {
   async receiveEvents<T>(
     options: ReceiveEventsOptions = { requestOptions: {} },
   ): Promise<ReceiveResult<T>> {
-    const topicName = options?.topicName ?? this._topicName;
-
-    if (!topicName) {
-      throw new Error("Topic name is required");
-    }
-
-    const eventSubscriptionName = options?.eventSubscriptionName ?? this._eventSubscriptionName;
-
-    if (!eventSubscriptionName) {
-      throw new Error("Event Subscription name is required");
-    }
-
-    const result = await this._client.receiveCloudEvents(topicName, eventSubscriptionName, options);
+    const result = await this._client.receiveCloudEvents(
+      this._topicName,
+      this._subscriptionName,
+      options,
+    );
 
     const modifiedResult: ReceiveResult<T> = {
       details: result.details.map((receiveDetails) => {
@@ -109,21 +103,9 @@ export class EventGridReceiverClient {
     lockTokens: string[],
     options: AcknowledgeEventsOptions = { requestOptions: {} },
   ): Promise<AcknowledgeResult> {
-    const topicName = options?.topicName ?? this._topicName;
-
-    if (!topicName) {
-      throw new Error("Topic name is required");
-    }
-
-    const eventSubscriptionName = options?.eventSubscriptionName ?? this._eventSubscriptionName;
-
-    if (!eventSubscriptionName) {
-      throw new Error("Event Subscription name is required");
-    }
-
     return this._client.acknowledgeCloudEvents(
-      topicName,
-      eventSubscriptionName,
+      this._topicName,
+      this._subscriptionName,
       lockTokens,
       options,
     );
@@ -142,19 +124,7 @@ export class EventGridReceiverClient {
     lockTokens: string[],
     options: ReleaseEventsOptions = { requestOptions: {} },
   ): Promise<ReleaseResult> {
-    const topicName = options?.topicName ?? this._topicName;
-
-    if (!topicName) {
-      throw new Error("Topic name is required");
-    }
-
-    const eventSubscriptionName = options?.eventSubscriptionName ?? this._eventSubscriptionName;
-
-    if (!eventSubscriptionName) {
-      throw new Error("Event Subscription name is required");
-    }
-
-    return this._client.releaseCloudEvents(topicName, eventSubscriptionName, lockTokens, {
+    return this._client.releaseCloudEvents(this._topicName, this._subscriptionName, lockTokens, {
       ...options,
       releaseDelayInSeconds: options.releaseDelay,
     });
@@ -171,19 +141,12 @@ export class EventGridReceiverClient {
     lockTokens: string[],
     options: RejectEventsOptions = { requestOptions: {} },
   ): Promise<RejectResult> {
-    const topicName = options?.topicName ?? this._topicName;
-
-    if (!topicName) {
-      throw new Error("Topic name is required");
-    }
-
-    const eventSubscriptionName = options?.eventSubscriptionName ?? this._eventSubscriptionName;
-
-    if (!eventSubscriptionName) {
-      throw new Error("Event Subscription name is required");
-    }
-
-    return this._client.rejectCloudEvents(topicName, eventSubscriptionName, lockTokens, options);
+    return this._client.rejectCloudEvents(
+      this._topicName,
+      this._subscriptionName,
+      lockTokens,
+      options,
+    );
   }
 
   /**
@@ -196,18 +159,11 @@ export class EventGridReceiverClient {
     lockTokens: string[],
     options: RenewEventLocksOptions = { requestOptions: {} },
   ): Promise<RenewLocksResult> {
-    const topicName = options?.topicName ?? this._topicName;
-
-    if (!topicName) {
-      throw new Error("Topic name is required");
-    }
-
-    const eventSubscriptionName = options?.eventSubscriptionName ?? this._eventSubscriptionName;
-
-    if (!eventSubscriptionName) {
-      throw new Error("Event Subscription name is required");
-    }
-
-    return this._client.renewCloudEventLocks(topicName, eventSubscriptionName, lockTokens, options);
+    return this._client.renewCloudEventLocks(
+      this._topicName,
+      this._subscriptionName,
+      lockTokens,
+      options,
+    );
   }
 }

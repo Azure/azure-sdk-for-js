@@ -14,14 +14,14 @@ import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 
 import { AbortError } from "@azure/abort-controller";
 import { AuthenticationRequiredError } from "../../../src/errors";
+import { Context } from "mocha";
+import { DeveloperSignOnClientId } from "../../../src/constants";
 import { IdentityClient } from "../../../src/client/identityClient";
 import { assert } from "@azure-tools/test-utils";
 import { credentialLogger } from "../../../src/util/logging";
+import { getUsernamePasswordStaticResources } from "../../msalTestUtils";
 import { msalPlugins } from "../../../src/msal/nodeFlows/msalPlugins";
 import sinon from "sinon";
-import { DeveloperSignOnClientId } from "../../../src/constants";
-import { Context } from "mocha";
-import { getUsernamePasswordStaticResources } from "../../msalTestUtils";
 
 describe("MsalClient", function () {
   describe("recorded tests", function () {
@@ -102,6 +102,22 @@ describe("MsalClient", function () {
       const client = msalClient.createMsalClient(clientId, tenantId);
       assert.exists(client);
     });
+
+    it("can configure a custom logger for the client", async function () {
+      const clientId = "client-id";
+      const tenantId = "tenant-id";
+      const logger = credentialLogger("test");
+      const logSpy = sinon.spy(logger, "info");
+
+      const client = msalClient.createMsalClient(clientId, tenantId, { logger });
+      try {
+        await client.getTokenByClientSecret(["https://vault.azure.net/.default"], "client-secret");
+      } catch (e) {
+        // ignore errors
+      }
+
+      assert.isAbove(logSpy.callCount, 0);
+    });
   });
 
   describe("#generateMsalConfiguration", function () {
@@ -164,18 +180,13 @@ describe("MsalClient", function () {
   });
 
   describe("CAE support", function () {
-    let sandbox: sinon.SinonSandbox;
     let subject: msalClient.MsalClient;
 
     const clientId = "client-id";
     const tenantId = "tenant-id";
 
     afterEach(async function () {
-      sandbox.restore();
-    });
-
-    beforeEach(async function () {
-      sandbox = sinon.createSandbox();
+      sinon.restore();
     });
 
     describe("when CAE is enabled", function () {
@@ -191,7 +202,7 @@ describe("MsalClient", function () {
           beforeCacheAccess: sinon.stub(),
         };
 
-        sandbox.stub(msalPlugins, "generatePluginConfiguration").returns({
+        sinon.stub(msalPlugins, "generatePluginConfiguration").returns({
           broker: {
             isEnabled: false,
             enableMsaPassthrough: false,
@@ -235,7 +246,7 @@ describe("MsalClient", function () {
           beforeCacheAccess: sinon.stub(),
         };
 
-        sandbox.stub(msalPlugins, "generatePluginConfiguration").returns({
+        sinon.stub(msalPlugins, "generatePluginConfiguration").returns({
           broker: {
             isEnabled: false,
             enableMsaPassthrough: false,
@@ -268,9 +279,71 @@ describe("MsalClient", function () {
     });
   });
 
-  describe("#getTokenByDeviceCode", function () {
-    let sandbox: sinon.SinonSandbox;
+  describe("#getTokenByAuthorizationCode", function () {
+    const clientId = "client-id";
+    const tenantId = "tenant-id";
+    const fakeTokenResponse = {
+      accessToken: "token",
+      expiresOn: new Date(Date.now() + 3600 * 1000),
+      account: {
+        environment: "environment",
+        homeAccountId: "homeAccountId",
+        localAccountId: "localAccountId",
+        tenantId: "tenantId",
+        username: "username",
+      },
+    };
+    const scopes = ["https://vault.azure.net/.default"];
 
+    afterEach(async function () {
+      sinon.restore();
+    });
+
+    describe("with clientSecret", function () {
+      it("uses a confidentialClientApplication", async function () {
+        const client = msalClient.createMsalClient(clientId, tenantId);
+
+        const publicClientStub = sinon.stub(
+          PublicClientApplication.prototype,
+          "acquireTokenByCode",
+        );
+        const confidentialClientStub = sinon
+          .stub(ConfidentialClientApplication.prototype, "acquireTokenByCode")
+          .resolves(fakeTokenResponse as AuthenticationResult);
+
+        await client.getTokenByAuthorizationCode(scopes, "code", "redirectUri", "clientSecret");
+
+        assert.equal(publicClientStub.callCount, 0);
+        assert.equal(confidentialClientStub.callCount, 1);
+      });
+    });
+
+    describe("without clientSecret", function () {
+      it("uses a publicClientApplication", async function () {
+        const client = msalClient.createMsalClient(clientId, tenantId);
+
+        const publicClientStub = sinon
+          .stub(PublicClientApplication.prototype, "acquireTokenByCode")
+          .resolves(fakeTokenResponse as AuthenticationResult);
+        const confidentialClientStub = sinon.stub(
+          ConfidentialClientApplication.prototype,
+          "acquireTokenByCode",
+        );
+
+        await client.getTokenByAuthorizationCode(
+          scopes,
+          "code",
+          "redirectUri",
+          undefined /* clientSecret */,
+        );
+
+        assert.equal(publicClientStub.callCount, 1);
+        assert.equal(confidentialClientStub.callCount, 0);
+      });
+    });
+  });
+
+  describe("#getTokenByDeviceCode", function () {
     const clientId = "client-id";
     const tenantId = "tenant-id";
     const deviceCodeCallback: () => void = () => {
@@ -278,11 +351,7 @@ describe("MsalClient", function () {
     };
 
     afterEach(async function () {
-      sandbox.restore();
-    });
-
-    beforeEach(async function () {
-      sandbox = sinon.createSandbox();
+      sinon.restore();
     });
 
     describe("with silent authentication", function () {
@@ -299,7 +368,7 @@ describe("MsalClient", function () {
           authenticationRecord,
         });
 
-        const silentAuthSpy = sandbox
+        const silentAuthSpy = sinon
           .stub(ClientApplication.prototype, "acquireTokenSilent")
           .resolves({
             accessToken: "token",
@@ -319,14 +388,14 @@ describe("MsalClient", function () {
       });
 
       it("attempts silent authentication without AuthenticationRecord", async function () {
-        const silentAuthStub = sandbox
+        const silentAuthStub = sinon
           .stub(ClientApplication.prototype, "acquireTokenSilent")
           .resolves({
             accessToken: "token",
             expiresOn: new Date(),
           } as AuthenticationResult);
 
-        const clientCredentialAuthStub = sandbox
+        const clientCredentialAuthStub = sinon
           .stub(PublicClientApplication.prototype, "acquireTokenByDeviceCode")
           .resolves({
             accessToken: "token",
@@ -371,7 +440,7 @@ describe("MsalClient", function () {
           },
         });
 
-        sandbox
+        sinon
           .stub(ClientApplication.prototype, "acquireTokenSilent")
           .rejects(new AbortError("operation has been aborted")); // AbortErrors should get re-thrown
 
@@ -385,7 +454,7 @@ describe("MsalClient", function () {
 
       it("throws when silentAuthentication fails and disableAutomaticAuthentication is true", async function () {
         const scopes = ["https://vault.azure.net/.default"];
-        sandbox
+        sinon
           .stub(ClientApplication.prototype, "acquireTokenSilent")
           .rejects(new AuthenticationRequiredError({ scopes }));
 

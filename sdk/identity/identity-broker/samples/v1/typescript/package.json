@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker",
   "dependencies": {
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "^4.2.1",
     "@azure/identity-broker": "^1.0.0",
     "dotenv": "^16.0.0",
     "electron": "^27.0.0"
