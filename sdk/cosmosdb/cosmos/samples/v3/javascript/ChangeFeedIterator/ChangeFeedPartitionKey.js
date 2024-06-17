@@ -42,11 +42,11 @@ const client = new CosmosClient({ endpoint, key });
 
 async function iterateChangeFeedTillNow(container) {
   console.log("fetching changefeed until now");
-
   const changeFeedIteratorOptions = {
     maxItemCount: 1,
     changeFeedStartFrom: ChangeFeedStartFrom.Beginning("sample1"), //sample1 is the partition key value
   };
+
   let continuationToken = "";
 
   for await (const result of container.items
@@ -87,7 +87,6 @@ async function run() {
 
     // fetch the continuation token, so that we can start from the same point in time
     const continuationToken = await iterateChangeFeedTillNow(container);
-
     const changeFeedIteratorOptions = {
       maxItemCount: 1,
       changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),

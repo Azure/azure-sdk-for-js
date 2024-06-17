@@ -5,17 +5,10 @@
  * @summary Demonstrates usage of CosmosDiagnostic Object.
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-import { handleError, logSampleHeader, finish } from "./Shared/handleError";
-import {
-  CosmosClient,
-  BulkOperationType,
-  OperationInput,
-  Container,
-  PatchOperationType,
-} from "@azure/cosmos";
+const { handleError, logSampleHeader, finish } = require("./Shared/handleError");
+const { CosmosClient, BulkOperationType, PatchOperationType } = require("@azure/cosmos");
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -26,7 +19,7 @@ logSampleHeader("Demonstrating Usage of CosmosDB Diagnostics.");
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
 
-async function run(): Promise<void> {
+async function run() {
   const itemId = "itemId";
   const { database } = await accessingDiagnosticForDatabaseOperations(databaseId);
   const { container } = await accessingDiagnosticForContainerOperations(database);
@@ -36,7 +29,7 @@ async function run(): Promise<void> {
   await finish();
 }
 
-async function accessingDiagnosticForDatabaseOperations(databaseId: string) {
+async function accessingDiagnosticForDatabaseOperations(databaseId) {
   const { database, diagnostics: databaseCreateDiagnostic } =
     await client.databases.createIfNotExists({ id: databaseId });
   console.log("    ## Database with id " + database.id + " created.");
@@ -45,9 +38,7 @@ async function accessingDiagnosticForDatabaseOperations(databaseId: string) {
     database,
   };
 }
-async function accessingDiagnosticForContainerOperations(
-  database: any,
-): Promise<{ container: any }> {
+async function accessingDiagnosticForContainerOperations(database) {
   const { container, diagnostics: containerCreateDiagnostic } =
     await database.containers.createIfNotExists({
       id: containerId,
@@ -61,7 +52,7 @@ async function accessingDiagnosticForContainerOperations(
   };
 }
 
-async function accessingDiagnosticForItemOperations(itemId: string, container: Container) {
+async function accessingDiagnosticForItemOperations(itemId, container) {
   const { item, diagnostics } = await container.items.create({
     id: itemId,
     key1: "A",
@@ -71,17 +62,17 @@ async function accessingDiagnosticForItemOperations(itemId: string, container: C
   displayCosmosDiagnosticsObject(diagnostics, "Item create");
 }
 
-async function accessingDiagnosticForQueryOperations(container: Container) {
+async function accessingDiagnosticForQueryOperations(container) {
   const queryIterator = container.items.query("select * from c");
   const { resources, diagnostics } = await queryIterator.fetchAll();
   displayCosmosDiagnosticsObject(diagnostics, "query, fetch all");
 }
 
-async function accessingDiagnosticForBatchOperations(container: Container) {
+async function accessingDiagnosticForBatchOperations(container) {
   const createItemId = "batchItemCreate";
   const upsertItemId = "upsertItemId";
   const patchItemId = "patchItemId";
-  const operations: OperationInput[] = [
+  const operations = [
     {
       operationType: BulkOperationType.Create,
       resourceBody: { id: createItemId, key: "A", school: "high" },
@@ -104,21 +95,21 @@ async function accessingDiagnosticForBatchOperations(container: Container) {
   displayCosmosDiagnosticsObject(response.diagnostics, "batch");
 }
 
-function displayCosmosDiagnosticsObject(diagnostics: any, target: string) {
+function displayCosmosDiagnosticsObject(diagnostics, target) {
   console.log(
-    `######################## Printing diagnostic for ${target} ##############################`,
+    `######################## Printing diagnostic for ${target} ##############################`
   );
   console.log(
-    `    ## Operation start time stamp: ${diagnostics.clientSideRequestStatistics.requestStartTimeUTCInMs}`,
+    `    ## Operation start time stamp: ${diagnostics.clientSideRequestStatistics.requestStartTimeUTCInMs}`
   );
   console.log(
-    `    ## Total time taken in operation: ${diagnostics.clientSideRequestStatistics.requestDurationInMs}`,
+    `    ## Total time taken in operation: ${diagnostics.clientSideRequestStatistics.requestDurationInMs}`
   );
   console.log(
-    `    ## Total request payload length operation: ${diagnostics.clientSideRequestStatistics.totalRequestPayloadLengthInBytes}`,
+    `    ## Total request payload length operation: ${diagnostics.clientSideRequestStatistics.totalRequestPayloadLengthInBytes}`
   );
   console.log(
-    `    ## Total response payload length operation: ${diagnostics.clientSideRequestStatistics.totalResponsePayloadLengthInBytes}`,
+    `    ## Total response payload length operation: ${diagnostics.clientSideRequestStatistics.totalResponsePayloadLengthInBytes}`
   );
   console.log(`    ## Location endpoints contacted during operation - `);
 

@@ -43,13 +43,13 @@ const client = new CosmosClient({ endpoint, key });
 
 async function iterateChangeFeedTillNow(container) {
   console.log("fetching changefeed until now");
-
   const changeFeedIteratorOptions = {
     maxItemCount: 1,
     changeFeedStartFrom: ChangeFeedStartFrom.Beginning([0, "0"]),
   };
 
   let continuationToken = "";
+
   for await (const result of container.items
     .getChangeFeedIterator(changeFeedIteratorOptions)
     .getAsyncIterator()) {
@@ -97,7 +97,6 @@ async function run() {
     await ingestData(container, 11, 21);
     let timeout = 0;
     console.log("Starting fetching changes from continuation token");
-
     for await (const result of container.items
       .getChangeFeedIterator(changeFeedIteratorOptions)
       .getAsyncIterator()) {

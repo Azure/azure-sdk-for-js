@@ -5,19 +5,15 @@
  * @summary Demonstrates using a ChangeFeed for an epk range
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-import { finish, handleError, logSampleHeader } from "../Shared/handleError";
-import {
+const { finish, handleError, logSampleHeader } = require("../Shared/handleError");
+const {
   CosmosClient,
   PartitionKeyDefinitionVersion,
-  Container,
   StatusCodes,
-  FeedRange,
-  ChangeFeedIteratorOptions,
   ChangeFeedStartFrom,
-} from "@azure/cosmos";
+} = require("@azure/cosmos");
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -26,7 +22,7 @@ const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Change Feed");
 
-async function ingestData(container: Container, initialize: number, end: number) {
+async function ingestData(container, initialize, end) {
   console.log("beginning data ingestion");
   for (let i = initialize; i < end; i++) {
     await container.items.create({ name: "sample1", key: i });
@@ -37,25 +33,21 @@ async function ingestData(container: Container, initialize: number, end: number)
   console.log("ingested items");
 }
 
-async function waitFor(milliseconds: number): Promise<void> {
+async function waitFor(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
 
-async function iterateChangeFeedTillNow(
-  container: Container,
-  feedRange: FeedRange,
-): Promise<string> {
+async function iterateChangeFeedTillNow(container, epkRange) {
   console.log("fetching changefeed until now");
-
-  const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+  const changeFeedIteratorOptions = {
     maxItemCount: 1,
-    changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRange),
+    changeFeedStartFrom: ChangeFeedStartFrom.Beginning(epkRange),
   };
+  let continuationToken = "";
 
-  let continuationToken: string = "";
   for await (const result of container.items
     .getChangeFeedIterator(changeFeedIteratorOptions)
     .getAsyncIterator()) {
@@ -76,7 +68,7 @@ async function iterateChangeFeedTillNow(
   return continuationToken;
 }
 
-async function run(): Promise<void> {
+async function run() {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const containerDef = {
     id: containerId,
@@ -97,13 +89,13 @@ async function run(): Promise<void> {
 
     // fetch the continuation token, so that we can start from the same point in time
     const continuationToken = await iterateChangeFeedTillNow(container, feedRanges[0]);
-    // ingest some new data after fetching the continuation token
-    await ingestData(container, 11, 21);
-    let timeout = 0;
-    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+    const changeFeedIteratorOptions = {
       maxItemCount: 1,
       changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
     };
+    // ingest some new data after fetching the continuation token
+    await ingestData(container, 11, 21);
+    let timeout = 0;
     console.log("Starting fetching changes from continuation token");
     for await (const result of container.items
       .getChangeFeedIterator(changeFeedIteratorOptions)

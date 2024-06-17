@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates using a ChangeFeed for an epk range
+ * @summary Demonstrates using a ChangeFeed for entire container
  */
 
 require("dotenv").config();
@@ -40,15 +40,15 @@ async function waitFor(milliseconds) {
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
 
-async function iterateChangeFeedTillNow(container, feedRange) {
+async function iterateChangeFeedTillNow(container) {
   console.log("fetching changefeed until now");
 
   const changeFeedIteratorOptions = {
     maxItemCount: 1,
-    changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRange),
+    changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
   };
-
   let continuationToken = "";
+
   for await (const result of container.items
     .getChangeFeedIterator(changeFeedIteratorOptions)
     .getAsyncIterator()) {
@@ -85,18 +85,16 @@ async function run() {
 
     await ingestData(container, 1, 11);
 
-    // query all the feed ranges inside the container
-    const feedRanges = await container.getFeedRanges();
-
     // fetch the continuation token, so that we can start from the same point in time
-    const continuationToken = await iterateChangeFeedTillNow(container, feedRanges[0]);
-    // ingest some new data after fetching the continuation token
-    await ingestData(container, 11, 21);
-    let timeout = 0;
+    const continuationToken = await iterateChangeFeedTillNow(container);
     const changeFeedIteratorOptions = {
       maxItemCount: 1,
       changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
     };
+
+    // ingest some new data after fetching the continuation token
+    await ingestData(container, 11, 21);
+    let timeout = 0;
     console.log("Starting fetching changes from continuation token");
     for await (const result of container.items
       .getChangeFeedIterator(changeFeedIteratorOptions)
