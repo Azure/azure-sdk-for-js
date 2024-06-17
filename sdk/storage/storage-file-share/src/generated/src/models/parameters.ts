@@ -99,7 +99,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2024-05-04",
+    defaultValue: "2024-08-04",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -257,6 +257,17 @@ export const rootSquash: OperationParameter = {
     type: {
       name: "Enum",
       allowedValues: ["NoRootSquash", "RootSquash", "AllSquash"]
+    }
+  }
+};
+
+export const enableSnapshotVirtualDirectoryAccess: OperationParameter = {
+  parameterPath: ["options", "enableSnapshotVirtualDirectoryAccess"],
+  mapper: {
+    serializedName: "x-ms-enable-snapshot-virtual-directory-access",
+    xmlName: "x-ms-enable-snapshot-virtual-directory-access",
+    type: {
+      name: "Boolean"
     }
   }
 };

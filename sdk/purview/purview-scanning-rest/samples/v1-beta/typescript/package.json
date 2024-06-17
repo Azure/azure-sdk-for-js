@@ -33,7 +33,7 @@
     "@azure-rest/purview-scanning": "next",
     "dotenv": "latest",
     "@azure/core-paging": "^1.1.1",
-    "@azure/identity": "^4.0.1"
+    "@azure/identity": "^4.2.1"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

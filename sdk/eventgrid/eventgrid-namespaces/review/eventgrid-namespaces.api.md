@@ -16,8 +16,6 @@ export interface AcknowledgeEventsOptionalParams extends OperationOptions {
 
 // @public
 export interface AcknowledgeEventsOptions extends AcknowledgeEventsOptionalParams {
-    eventSubscriptionName?: string;
-    topicName?: string;
 }
 
 // @public
@@ -61,7 +59,7 @@ export class EventGridDeserializer {
 
 // @public
 export class EventGridReceiverClient {
-    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: EventGridReceiverClientOptions);
+    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, topicName: string, subscriptionName: string, options?: EventGridReceiverClientOptions);
     acknowledgeEvents(lockTokens: string[], options?: AcknowledgeEventsOptions): Promise<AcknowledgeResult>;
     receiveEvents<T>(options?: ReceiveEventsOptions): Promise<ReceiveResult<T>>;
     rejectEvents(lockTokens: string[], options?: RejectEventsOptions): Promise<RejectResult>;
@@ -71,19 +69,16 @@ export class EventGridReceiverClient {
 
 // @public
 export interface EventGridReceiverClientOptions extends EventGridClientOptions {
-    eventSubscriptionName?: string;
-    topicName?: string;
 }
 
 // @public
 export class EventGridSenderClient {
-    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: EventGridSenderClientOptions);
+    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, topicName: string, options?: EventGridSenderClientOptions);
     sendEvents<T>(events: CloudEvent<T>[] | CloudEvent<T>, options?: SendEventsOptions): Promise<void>;
 }
 
 // @public
 export interface EventGridSenderClientOptions extends EventGridClientOptions {
-    topicName?: string;
 }
 
 // @public
@@ -117,8 +112,6 @@ export interface ReceiveEventsOptionalParams extends OperationOptions {
 
 // @public
 export interface ReceiveEventsOptions extends ReceiveEventsOptionalParams {
-    eventSubscriptionName?: string;
-    topicName?: string;
 }
 
 // @public
@@ -132,8 +125,6 @@ export interface RejectEventsOptionalParams extends OperationOptions {
 
 // @public
 export interface RejectEventsOptions extends RejectEventsOptionalParams {
-    eventSubscriptionName?: string;
-    topicName?: string;
 }
 
 // @public
@@ -147,9 +138,7 @@ export type ReleaseDelay = string;
 
 // @public
 export interface ReleaseEventsOptions extends OperationOptions {
-    eventSubscriptionName?: string;
     releaseDelay?: ReleaseDelay;
-    topicName?: string;
 }
 
 // @public
@@ -164,8 +153,6 @@ export interface RenewEventLocksOptionalParams extends OperationOptions {
 
 // @public
 export interface RenewEventLocksOptions extends RenewEventLocksOptionalParams {
-    eventSubscriptionName?: string;
-    topicName?: string;
 }
 
 // @public
@@ -186,7 +173,6 @@ export interface SendEventsOptionalParams extends OperationOptions {
 
 // @public
 export interface SendEventsOptions extends SendEventOptionalParams {
-    topicName?: string;
 }
 
 // (No @packageDocumentation comment for this package)

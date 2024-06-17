@@ -16,7 +16,7 @@ import {
   SqlPoolsListOptionalParams,
   SqlPoolsListResponse,
   SqlPoolsGetOptionalParams,
-  SqlPoolsGetResponse
+  SqlPoolsGetResponse,
 } from "../models";
 
 /** Class containing SqlPools operations. */
@@ -36,7 +36,7 @@ export class SqlPoolsImpl implements SqlPools {
    * @param options The options parameters.
    */
   async list(
-    options?: SqlPoolsListOptionalParams
+    options?: SqlPoolsListOptionalParams,
   ): Promise<SqlPoolsListResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.list",
@@ -44,9 +44,9 @@ export class SqlPoolsImpl implements SqlPools {
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          listOperationSpec
+          listOperationSpec,
         ) as Promise<SqlPoolsListResponse>;
-      }
+      },
     );
   }
 
@@ -57,7 +57,7 @@ export class SqlPoolsImpl implements SqlPools {
    */
   async get(
     sqlPoolName: string,
-    options?: SqlPoolsGetOptionalParams
+    options?: SqlPoolsGetOptionalParams,
   ): Promise<SqlPoolsGetResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.get",
@@ -65,9 +65,9 @@ export class SqlPoolsImpl implements SqlPools {
       async (options) => {
         return this.client.sendOperationRequest(
           { sqlPoolName, options },
-          getOperationSpec
+          getOperationSpec,
         ) as Promise<SqlPoolsGetResponse>;
-      }
+      },
     );
   }
 }
@@ -79,30 +79,30 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolInfoListResult
+      bodyMapper: Mappers.SqlPoolInfoListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/sqlPools/{sqlPoolName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.sqlPoolName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

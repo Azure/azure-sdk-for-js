@@ -251,4 +251,71 @@ describe("Main functions", () => {
     useAzureMonitor(config);
     assert.strictEqual(process.env["AZURE_MONITOR_PREFIX"], `k${os}m_`);
   });
+
+  it("should prioritize resource detectors in env var OTEL_NODE_RESOURCE_DETECTORS", () => {
+    const expectedResourceAttributeNamespaces = new Set(["os", "service", "telemetry"]);
+    const env = <{ [id: string]: string }>{};
+    env.OTEL_NODE_RESOURCE_DETECTORS = "os";
+    process.env = env;
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    let span = trace.getTracer("testTracer").startSpan("testSpan");
+    span.end();
+
+    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
+    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
+    const resource = (span as any)["resource"]["_attributes"];
+    console.log(resource);
+    Object.keys(resource).forEach((attr) => {
+      const parts = attr.split(".");
+      assert.ok(expectedResourceAttributeNamespaces.has(parts[0]));
+    });
+  });
+
+  it("should skip unknown resource detectors", () => {
+    const expectedResourceAttributeNamespaces = new Set(["host", "service", "telemetry"]);
+    const env = <{ [id: string]: string }>{};
+    env.OTEL_NODE_RESOURCE_DETECTORS = "blah,host";
+    process.env = env;
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    let span = trace.getTracer("testTracer").startSpan("testSpan");
+    span.end();
+
+    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
+    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
+    const resource = (span as any)["resource"]["_attributes"];
+    console.log(resource);
+    Object.keys(resource).forEach((attr) => {
+      const parts = attr.split(".");
+      assert.ok(expectedResourceAttributeNamespaces.has(parts[0]));
+    });
+  });
+
+  it("should not use process resource detector if OTEL_NODE_RESOURCE_DETECTORS not specified", () => {
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    let span = trace.getTracer("testTracer").startSpan("testSpan");
+    span.end();
+
+    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
+    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
+    const resource = (span as any)["resource"]["_attributes"];
+    console.log(resource);
+    Object.keys(resource).forEach((attr) => {
+      assert.ok(!attr.includes("process"));
+    });
+  });
 });
