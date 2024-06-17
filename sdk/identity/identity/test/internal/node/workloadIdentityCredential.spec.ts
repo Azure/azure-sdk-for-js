@@ -70,6 +70,7 @@ describe("WorkloadIdentityCredential", function () {
   });
 
   it("authenticates with ManagedIdentity Credential", async function (this: Context) {
+    process.env.AZURE_FEDERATED_TOKEN_FILE = tokenFilePath;
     const credential = new ManagedIdentityCredential("dummy-clientId");
     assert.equal(credential["clientId"], "dummy-clientId");
     const token = await credential.getToken(scope);

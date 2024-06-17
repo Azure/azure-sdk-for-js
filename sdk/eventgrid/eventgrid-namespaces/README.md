@@ -96,12 +96,15 @@ const { DefaultAzureCredential } = require("@azure/identity");
 
 const eventGridSenderClient = new EventGridSenderClient(
   "<endpoint>",
-  new DefaultAzureCredential()
+  new DefaultAzureCredential(),
+  "<topicName>"
 );
 
 const eventGridReceiverClient = new EventGridReceiverClient(
   "<endpoint>",
-  new DefaultAzureCredential()
+  new DefaultAzureCredential(),
+  "<topicName>",
+  "<subscriptionName>"
 );
 ```
 
@@ -114,7 +117,8 @@ const eventGridReceiverClient = new EventGridReceiverClient(
 ```js
 const eventGridSenderClient = new EventGridSenderClient(
   "<endpoint>",
-  new AzureKeyCredential("<API Key>")
+  new AzureKeyCredential("<API Key>"),
+  "<topicName>"
 );
 ```
 
@@ -123,7 +127,9 @@ const eventGridSenderClient = new EventGridSenderClient(
 ```js
 const eventGridReceiverClient = new EventGridReceiverClient(
   "<endpoint>",
-  new AzureKeyCredential("<API Key>")
+  new AzureKeyCredential("<API Key>"),
+  "<topicName>",
+  "<subscriptionName>"
 );
 ```
 
@@ -144,7 +150,8 @@ const { EventGridSenderClient, AzureKeyCredential } = require("@azure/eventgrid-
 
 const client = new EventGridSenderClient(
   "<endpoint>",
-  new AzureKeyCredential("<API key>")
+  new AzureKeyCredential("<API key>"),
+  "<topicName>"
 );
 
 const cloudEvent: CloudEvent = {
@@ -158,7 +165,7 @@ const cloudEvent: CloudEvent = {
   specversion: "1.0",
 };
 // Publish the Cloud Event
-await client.sendEvents(cloudEvent, topicName);
+await client.sendEvents(cloudEvent);
 ```
 
 ## Troubleshooting

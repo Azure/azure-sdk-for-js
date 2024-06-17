@@ -2255,6 +2255,7 @@ matrix(
             },
           });
           assert.equal(serialized, expectedSerialized);
+          assert.exists(poller.operationState);
           assert.equal(poller.operationState.status, "succeeded");
           const restoredPoller = createTestPoller({
             routes: [],
@@ -2263,7 +2264,7 @@ matrix(
             throwOnNon2xxResponse,
           });
           assert.equal(serialized, await restoredPoller.serialize());
-          assert.equal(poller.operationState.status, "succeeded");
+          assert.equal(poller.operationState!.status, "succeeded");
           assert.deepEqual(poller.result, retResult);
         });
 
@@ -2324,7 +2325,8 @@ matrix(
             },
           });
           assert.equal(serialized, expectedSerialized);
-          assert.equal(poller.operationState.status, "running");
+          assert.isNotNull(poller.operationState);
+          assert.equal(poller.operationState!.status, "running");
           pollCount = 0;
           const restoredPoller = createTestPoller({
             routes: pollingRoutes,
@@ -2734,7 +2736,8 @@ matrix(
           const result = await poller;
           assert.deepEqual(retResult, result);
           assert.equal(pollCount, 11);
-          assert.equal(poller.operationState.status, "succeeded");
+          assert.isNotNull(poller.operationState);
+          assert.equal(poller.operationState!.status, "succeeded");
           assert.deepEqual(poller.result, retResult);
           assert.equal(poller.result, result);
           // duplicate awaitting would not trigger extra pollings
@@ -2950,7 +2953,8 @@ matrix(
           assert.isUndefined(poller.operationState);
           await poller.submitted();
           assert.equal(pollCount, 0);
-          assert.equal(poller.operationState.status, "running");
+          assert.isNotNull(poller.operationState);
+          assert.equal(poller.operationState!.status, "running");
         });
       });
 

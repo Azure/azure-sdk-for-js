@@ -20,8 +20,13 @@ const topicName = process.env["TOPIC_NAME"] ?? "testtopic1";
 
 async function main() {
   // Create the client used to publish events
-  const senderClient = new EventGridSenderClient(endpoint, new AzureKeyCredential(key));
-  const receiverClient = new EventGridReceiverClient(endpoint, new AzureKeyCredential(key));
+  const senderClient = new EventGridSenderClient(endpoint, new AzureKeyCredential(key), topicName);
+  const receiverClient = new EventGridReceiverClient(
+    endpoint,
+    new AzureKeyCredential(key),
+    topicName,
+    eventSubscriptionName,
+  );
 
   // publishes a single cloud event
   const eventId = `singleEventIdV210001`;
@@ -36,12 +41,9 @@ async function main() {
     specVersion: "1.0",
   };
   // Publish the Cloud Event
-  await senderClient.sendEvents(cloudEvent, { topicName });
+  await senderClient.sendEvents(cloudEvent);
   // Receive the Published Cloud Event
-  const receiveResult = await receiverClient.receiveEvents({
-    topicName,
-    eventSubscriptionName,
-  });
+  const receiveResult = await receiverClient.receiveEvents();
   // The Received Cloud Event ID must be equal to the ID of the Event that was published.
   console.log(`Received Event ID: ${receiveResult.details[0].event.id}`);
 }

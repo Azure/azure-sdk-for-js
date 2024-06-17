@@ -22,6 +22,7 @@ import { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { getInstance } from "./utils/statsbeat";
+import { parseResourceDetectorsFromEnvVar } from "./utils/common";
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
 
@@ -69,6 +70,8 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
     .getInstrumentations()
     .concat(logHandler.getInstrumentations());
 
+  const resourceDetectorsList = parseResourceDetectorsFromEnvVar();
+
   // Initialize OpenTelemetry SDK
   const sdkConfig: Partial<NodeSDKConfiguration> = {
     autoDetectResources: true,
@@ -79,6 +82,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
     resource: config.resource,
     sampler: traceHandler.getSampler(),
     spanProcessors: [traceHandler.getAzureMonitorSpanProcessor()],
+    resourceDetectors: resourceDetectorsList,
   };
   sdk = new NodeSDK(sdkConfig);
   setSdkPrefix();
