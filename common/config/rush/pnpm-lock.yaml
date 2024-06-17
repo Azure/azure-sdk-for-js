@@ -11687,7 +11687,7 @@ packages:
     dev: false
 
   file:projects/ai-inference.tgz:
-    resolution: {integrity: sha512-9wvJJ4Ia5iIlUFUpNWaBWPetz0aIkRfY72tzIAGJxlJOCVyeLRwWz8jBDQxUKmYnEpuy3me57kDA4JH7l/dWQw==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-d7gLVKnKMLfQ6F3Yr/5KDxXq2EUevzHMiW0MqMLO7FAgLFTeg3kzYkPuhjWcoxgvCGTaoEtTEUvIyaUwLlJq5w==, tarball: file:projects/ai-inference.tgz}
     name: '@rush-temp/ai-inference'
     version: 0.0.0
     dependencies:
@@ -11700,6 +11700,7 @@ packages:
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.34
+      '@types/node-fetch': 2.6.11
       '@vitest/browser': 1.6.0(playwright@1.44.1)(vitest@1.6.0)
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       autorest: 3.7.1
