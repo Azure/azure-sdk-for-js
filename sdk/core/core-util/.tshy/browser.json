@@ -6,6 +6,7 @@
     "../src/**/*.tsx"
   ],
   "exclude": [
+    ".././src/sha256-react-native.mts",
     ".././src/uuidUtils-react-native.mts"
   ],
   "compilerOptions": {
