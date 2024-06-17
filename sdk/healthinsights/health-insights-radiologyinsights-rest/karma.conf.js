@@ -56,6 +56,7 @@ module.exports = function (config) {
       "HEALTH_INSIGHTS_ENDPOINT",
       "HEALTH_INSIGHTS_KEY",
       "RECORDINGS_RELATIVE_PATH",
+      "AZURE_TENANT_ID",
     ],
 
     // test results reporter to use

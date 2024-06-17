@@ -64,6 +64,11 @@ export async function main() {
   const client = AzureHealthInsightsClient(endpoint, credential);
   // if you want to use DefaultAzureCredential, you need to be logged in through az portal
   const client = AzureHealthInsightsClient(endpoint, new DefaultAzureCredential());
+  // if you need InteractiveBrowserCredential
+  const client = AzureHealthInsightsClient(endpoint, new InteractiveBrowserCredential({
+      clientId: process.env.CLIENT_ID,
+      tenantId: process.env.TENANT_ID,
+    }));
 
   // Create request body
   const radiologyInsightsParameter = createRequestBody();

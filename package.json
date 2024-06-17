@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@azure/identity": "^4.2.1"
+  }
+}
