@@ -60,11 +60,11 @@ export function createTestCredential(
     return new ChainedTokenCredential(
       new AzurePowerShellCredential(dacOptions),
       new AzureCliCredential(dacOptions),
+      new AzureDeveloperCliCredential(dacOptions),
       // Keep Environment Credential for packages that have not migrated to Federated Authentication
       // See the migration guide for more information
       // https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/1080/Secret-auth-migration
       new EnvironmentCredential(dacOptions),
-      new AzureDeveloperCliCredential(dacOptions),
     );
   }
 }

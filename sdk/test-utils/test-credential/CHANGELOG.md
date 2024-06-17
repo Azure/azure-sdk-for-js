@@ -4,7 +4,7 @@
 
 ### Breaking Changes
 
-Updates the `createTestCredential` method to consume `ChainedTokenCredential` instead of `DefaultAzureCredential` in order to ensure live test pipeline can authenticate successfully. The `ChainedTokenCredential` will try `AzurePowershelLCredential`, `AzureCliCredential`, `EnvironmentCredential`, and `AzureDeveloperCliCredential` in the listed order.
+Updates the `createTestCredential` method to consume `ChainedTokenCredential` instead of `DefaultAzureCredential` in order to ensure live test pipeline can authenticate successfully. The `ChainedTokenCredential` will try `AzurePowershelLCredential`, `AzureCliCredential`, `AzureDeveloperCliCredential`, and `EnvironmentCredential` in the listed order.
 
 ## 1.1.0 (2024-05-08)
 
