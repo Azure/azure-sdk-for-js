@@ -14,7 +14,7 @@ import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { SchemaRegistry } from "@azure/schema-registry";
 
-describe("JsonSerializer", async function () {
+describe("JsonSchemaSerializer", async function () {
   let serializerOptions: CreateTestSerializerOptions<any>;
   let recorder: Recorder;
   let registry: SchemaRegistry;
