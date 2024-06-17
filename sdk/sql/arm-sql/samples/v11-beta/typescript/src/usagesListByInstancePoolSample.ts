@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   UsagesListByInstancePoolOptionalParams,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -37,7 +37,7 @@ async function listInstancePoolUsagesExpandedWithChildren() {
   for await (let item of client.usages.listByInstancePool(
     resourceGroupName,
     instancePoolName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -61,7 +61,7 @@ async function listInstancePoolUsages() {
   const resArray = new Array();
   for await (let item of client.usages.listByInstancePool(
     resourceGroupName,
-    instancePoolName
+    instancePoolName,
   )) {
     resArray.push(item);
   }

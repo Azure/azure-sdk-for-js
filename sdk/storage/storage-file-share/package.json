@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-file-share",
   "sdk-type": "client",
-  "version": "12.23.0-beta.2",
+  "version": "12.24.0-beta.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - File",
   "main": "./dist/index.js",
   "module": "./dist-esm/storage-file-share/src/index.js",
@@ -48,7 +48,7 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "echo skipped",
+    "unit-test:browser": "dev-tool run test:browser",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
@@ -81,7 +81,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/storageClientContext.ts",
+        "path": "src/generated/src/storageClient.ts",
         "prefix": "packageVersion"
       },
       {
@@ -128,7 +128,7 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure/storage-blob": "^12.23.0-beta.2",
+    "@azure/storage-blob": "^12.23.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",

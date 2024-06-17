@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   CodeVersionsListOptionalParams,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List versions.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/CodeVersion/list.json
  */
 async function listCodeVersion() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const orderBy = "string";
@@ -35,11 +41,15 @@ async function listCodeVersion() {
     resourceGroupName,
     workspaceName,
     name,
-    options
+    options,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-listCodeVersion().catch(console.error);
+async function main() {
+  listCodeVersion();
+}
+
+main().catch(console.error);

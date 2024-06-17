@@ -3,6 +3,7 @@
 
 import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
+import { delay } from "@azure/core-util";
 import EventEmitter from "events";
 import { IndexDocumentsResult } from "./generated/data/models";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -16,7 +17,7 @@ import {
   SearchIndexingBufferedSenderOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions,
 } from "./indexModels";
-import { delay, getRandomIntegerInclusive } from "./serviceUtils";
+import { getRandomIntegerInclusive } from "./serviceUtils";
 import { createSpan } from "./tracing";
 
 /**

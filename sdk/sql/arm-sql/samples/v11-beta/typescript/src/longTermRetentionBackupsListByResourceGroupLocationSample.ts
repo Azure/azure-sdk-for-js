@@ -32,7 +32,7 @@ async function getAllLongTermRetentionBackupsUnderTheLocationBasedOnResourceGrou
   const resArray = new Array();
   for await (let item of client.longTermRetentionBackups.listByResourceGroupLocation(
     resourceGroupName,
-    locationName
+    locationName,
   )) {
     resArray.push(item);
   }

@@ -13,7 +13,7 @@ import {
   BackupResourceVaultConfigsUpdateOptionalParams,
   BackupResourceVaultConfigsUpdateResponse,
   BackupResourceVaultConfigsPutOptionalParams,
-  BackupResourceVaultConfigsPutResponse
+  BackupResourceVaultConfigsPutResponse,
 } from "../models";
 
 /** Interface representing a BackupResourceVaultConfigs. */
@@ -28,7 +28,7 @@ export interface BackupResourceVaultConfigs {
   get(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupResourceVaultConfigsGetOptionalParams
+    options?: BackupResourceVaultConfigsGetOptionalParams,
   ): Promise<BackupResourceVaultConfigsGetResponse>;
   /**
    * Updates vault security config.
@@ -42,7 +42,7 @@ export interface BackupResourceVaultConfigs {
     vaultName: string,
     resourceGroupName: string,
     parameters: BackupResourceVaultConfigResource,
-    options?: BackupResourceVaultConfigsUpdateOptionalParams
+    options?: BackupResourceVaultConfigsUpdateOptionalParams,
   ): Promise<BackupResourceVaultConfigsUpdateResponse>;
   /**
    * Updates vault security config.
@@ -56,6 +56,6 @@ export interface BackupResourceVaultConfigs {
     vaultName: string,
     resourceGroupName: string,
     parameters: BackupResourceVaultConfigResource,
-    options?: BackupResourceVaultConfigsPutOptionalParams
+    options?: BackupResourceVaultConfigsPutOptionalParams,
   ): Promise<BackupResourceVaultConfigsPutResponse>;
 }

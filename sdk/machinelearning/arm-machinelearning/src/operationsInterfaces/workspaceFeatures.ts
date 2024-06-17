@@ -21,6 +21,6 @@ export interface WorkspaceFeatures {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceFeaturesListOptionalParams
+    options?: WorkspaceFeaturesListOptionalParams,
   ): PagedAsyncIterableIterator<AmlUserFeature>;
 }

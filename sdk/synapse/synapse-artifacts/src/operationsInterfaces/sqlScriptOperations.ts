@@ -17,7 +17,7 @@ import {
   SqlScriptGetSqlScriptResponse,
   SqlScriptDeleteSqlScriptOptionalParams,
   ArtifactRenameRequest,
-  SqlScriptRenameSqlScriptOptionalParams
+  SqlScriptRenameSqlScriptOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface SqlScriptOperations {
    * @param options The options parameters.
    */
   listSqlScriptsByWorkspace(
-    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams
+    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<SqlScriptResource>;
   /**
    * Creates or updates a Sql Script.
@@ -39,7 +39,7 @@ export interface SqlScriptOperations {
   beginCreateOrUpdateSqlScript(
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
-    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
+    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlScriptCreateOrUpdateSqlScriptResponse>,
@@ -55,7 +55,7 @@ export interface SqlScriptOperations {
   beginCreateOrUpdateSqlScriptAndWait(
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
-    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
+    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams,
   ): Promise<SqlScriptCreateOrUpdateSqlScriptResponse>;
   /**
    * Gets a sql script.
@@ -64,7 +64,7 @@ export interface SqlScriptOperations {
    */
   getSqlScript(
     sqlScriptName: string,
-    options?: SqlScriptGetSqlScriptOptionalParams
+    options?: SqlScriptGetSqlScriptOptionalParams,
   ): Promise<SqlScriptGetSqlScriptResponse>;
   /**
    * Deletes a Sql Script.
@@ -73,7 +73,7 @@ export interface SqlScriptOperations {
    */
   beginDeleteSqlScript(
     sqlScriptName: string,
-    options?: SqlScriptDeleteSqlScriptOptionalParams
+    options?: SqlScriptDeleteSqlScriptOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Sql Script.
@@ -82,7 +82,7 @@ export interface SqlScriptOperations {
    */
   beginDeleteSqlScriptAndWait(
     sqlScriptName: string,
-    options?: SqlScriptDeleteSqlScriptOptionalParams
+    options?: SqlScriptDeleteSqlScriptOptionalParams,
   ): Promise<void>;
   /**
    * Renames a sqlScript.
@@ -93,7 +93,7 @@ export interface SqlScriptOperations {
   beginRenameSqlScript(
     sqlScriptName: string,
     request: ArtifactRenameRequest,
-    options?: SqlScriptRenameSqlScriptOptionalParams
+    options?: SqlScriptRenameSqlScriptOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a sqlScript.
@@ -104,6 +104,6 @@ export interface SqlScriptOperations {
   beginRenameSqlScriptAndWait(
     sqlScriptName: string,
     request: ArtifactRenameRequest,
-    options?: SqlScriptRenameSqlScriptOptionalParams
+    options?: SqlScriptRenameSqlScriptOptionalParams,
   ): Promise<void>;
 }

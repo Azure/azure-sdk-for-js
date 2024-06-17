@@ -49,7 +49,7 @@ import {
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
 import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { ReceiveMode } from "../models";
 import { translateServiceBusError } from "../serviceBusError";
 import { defaultDataTransformer, tryToJsonDecode } from "../dataTransformer";
@@ -265,23 +265,35 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             `${this.logPrefix} new replyTo address: ${this.replyTo} generated`,
           );
         }
-        const { abortSignal } = options ?? {};
+        const { abortSignal } = options;
         const aborter = new AbortController();
-        const { signal } = new AbortController([
-          aborter.signal,
-          ...(abortSignal ? [abortSignal] : []),
-        ]);
+
+        const abortListener = () => {
+          aborter.abort();
+        };
+        abortSignal?.addEventListener("abort", abortListener);
 
         if (!this.isOpen()) {
           await Promise.race([
-            this._init(signal),
-            delay(retryTimeoutInMs, { abortSignal: aborter.signal }).then(() => {
-              throw {
-                name: "OperationTimeoutError",
-                message: "The management request timed out. Please try again later.",
-              };
-            }),
-          ]).finally(() => aborter.abort());
+            this._init(aborter.signal),
+            delay(retryTimeoutInMs, { abortSignal: aborter.signal }).then(
+              function onfulfilled() {
+                throw {
+                  name: "OperationTimeoutError",
+                  message:
+                    "The initialization of management client timed out. Please try again later.",
+                };
+              },
+              function onrejected(_) {
+                managementClientLogger.verbose(
+                  `The management client initialization has either completed or been cancelled.`,
+                );
+              },
+            ),
+          ]).finally(() => {
+            aborter.abort();
+            abortSignal?.removeEventListener("abort", abortListener);
+          });
         }
 
         // time taken by the init operation

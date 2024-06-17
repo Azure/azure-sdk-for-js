@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
-import { WebPubSubEventHandler } from "../src/webPubSubEventHandler";
-import { assert } from "chai";
 
-describe("Can creat event handler", function () {
+import { describe, it, assert } from "vitest";
+import { WebPubSubEventHandler } from "../src/webPubSubEventHandler.js";
+
+describe("Can create event handler", function () {
   it("Can provide default path", function () {
     const dispatcher = new WebPubSubEventHandler("hub");
     assert.equal("/api/webpubsub/hubs/hub/", dispatcher.path);

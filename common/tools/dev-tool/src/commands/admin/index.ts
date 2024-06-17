@@ -8,5 +8,6 @@ export const commandInfo = makeCommandInfo("admin", "run administrative tasks fo
 export default subCommand(commandInfo, {
   "create-migration": () => import("./create-migration"),
   "stage-migrations": () => import("./stage-migrations"),
+  "migrate-package": () => import("./migrate-package"),
   list: () => import("./list"),
 });

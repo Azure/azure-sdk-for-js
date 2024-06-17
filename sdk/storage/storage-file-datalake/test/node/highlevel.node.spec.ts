@@ -661,6 +661,7 @@ describe("Highlevel Node.js only", () => {
 
   // Skipped because it throws an "invalid typed array length" error due to bugs in node-fetch.
   // https://github.com/Azure/azure-sdk-for-js/issues/9481
+  // Too large ArrayBuffer would cause "JavaScript heap out of memory" error.
   it.skip("upload with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed", async () => {
     const fileSize = FILE_UPLOAD_MAX_CHUNK_SIZE * 2 + MB;
     const arrayBuf = new ArrayBuffer(fileSize);

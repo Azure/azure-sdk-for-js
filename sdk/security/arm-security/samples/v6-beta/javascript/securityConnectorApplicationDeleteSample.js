@@ -29,7 +29,7 @@ async function deleteSecurityApplication() {
   const result = await client.securityConnectorApplication.delete(
     resourceGroupName,
     securityConnectorName,
-    applicationId
+    applicationId,
   );
   console.log(result);
 }
