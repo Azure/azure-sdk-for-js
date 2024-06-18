@@ -34,7 +34,7 @@ export const DEFAULT_TYPESCRIPT_CONFIG = {
     outDir: "dist",
     rootDir: "src",
   },
-  include: ["src/**.ts"],
+  include: ["src/**/*.ts"],
 };
 
 /**

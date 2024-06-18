@@ -1,6 +1,6 @@
 {
   "name": "@azure/schema-registry-json",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "Schema Registry JSON Serializer Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -69,7 +69,7 @@
   },
   "dependencies": {
     "@azure/logger": "^1.0.0",
-    "@azure/schema-registry": "1.3.0-beta.2",
+    "@azure/schema-registry": "^1.3.0",
     "lru-cache": "^10.2.0",
     "tslib": "^2.2.0"
   },
