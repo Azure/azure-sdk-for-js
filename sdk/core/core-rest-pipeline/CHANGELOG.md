@@ -1,6 +1,6 @@
 # Release History
 
-## 1.17.0 (Unreleased)
+## 1.16.1 (Unreleased)
 
 ### Features Added
 
@@ -9,7 +9,6 @@
 ### Bugs Fixed
 
 - Tracing spans will now correctly sanitize query parameters in the http.url span attribute. [#29606](https://github.com/Azure/azure-sdk-for-js/pull/29606)
-- `RestError` content will now be sanitized upon JSON serialization. [#29737](https://github.com/Azure/azure-sdk-for-js/pull/29606)
 
 ### Other Changes
 
