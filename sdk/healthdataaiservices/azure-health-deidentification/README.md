@@ -1,8 +1,8 @@
 # Azure Deidentification REST client library for JavaScript
 
-Health Deidentification Service
+`@azure-rest/azure-health-deidentification` is a managed service that enables users to tag, redact, or surrogate health data.
 
-**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
+<!-- **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library** -->
 
 Key links:
 
@@ -33,14 +33,52 @@ To use an [Azure Active Directory (AAD) token credential](https://github.com/Azu
 provide an instance of the desired credential type obtained from the
 [@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity)
 
 After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
 As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
 can be used to authenticate the client.
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
-AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
+`AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`
+
+Pull `ServiceUrl` from your created Deidentification Service.
+
+![Service Url Location](documentation/images/ServiceUrl_Location.png)
+
+Basic code snippet to create your Deidentification Client and Deidentify a string.
+
+```javascript
+import createClient, {
+  DeidentificationContent,
+  DeidentificationResultOutput,
+} from '@azure-rest/azure-health-deidentification';
+import { DefaultAzureCredential } from '@azure/identity';
+
+const credential = new DefaultAzureCredential();
+const serviceEndpoint = 'https://example.api.cac001.deid.azure.com';
+const client = createClient(serviceEndpoint, credential);
+const content: DeidentificationContent = {
+  dataType: 'Plaintext',
+  inputText: 'Hello John!',
+  operation: 'Surrogate',
+};
+
+const response = await client.path('/deid').post({ body: content });
+
+console.log((response.body as DeidentificationResultOutput).outputText); // Hello, Tom!
+
+```
+
+## Key concept
+
+Operation Modes:
+
+- Tag: Will return a structure of offset and length with the PHI category of the related text spans.
+- Redact: Will return output text with placeholder stubbed text. ex. `[name]`
+- Surrogate: Will return output text with synthetic replacements.
+  - `My name is John Smith`
+  - `My name is Tom Jones`
 
 ## Troubleshooting
 
