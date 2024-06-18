@@ -19,7 +19,7 @@ $connectionString = $DeploymentOutputs['STORAGE_ACCOUNT_CONNECTION_STRING']
 $containerName = $DeploymentOutputs['STORAGE_CONTAINER_NAME']
 $deIdServiceEndpoint = $DeploymentOutputs['DEID_SERVICE_ENDPOINT']
 $storageAccountSasUri = $DeploymentOutputs['STORAGE_ACCOUNT_SAS_URI']
-$testMode = "live"
+$testMode = "playback"
 
 # Set the local folder path to upload
 $localFolderPath = "test\public\data\example_patient_1"

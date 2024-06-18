@@ -5,13 +5,21 @@
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "221",
         "Content-Type": "application/json; charset=UTF-8",
-        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
-        "x-ms-client-request-id": "Sanitized"
+        "Referer": "http://localhost:5173/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/125.0.6422.26 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-useragent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 OS/Windows"
       },
       "RequestBody": {
         "dataType": "Plaintext",
@@ -32,12 +40,12 @@
       "ResponseHeaders": {
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 18 Jun 2024 21:04:00 GMT",
+        "Date": "Tue, 18 Jun 2024 21:12:41 GMT",
         "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-id": "c10d1feb-fa1a-4bcd-b8e7-c745651f9b4c"
+        "x-ms-correlation-id": "e30205f3-18dd-4e12-9c9b-c5a94d9123b7"
       },
       "ResponseBody": {
         "error": {
@@ -63,11 +71,19 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
-        "x-ms-client-request-id": "Sanitized"
+        "Referer": "http://localhost:5173/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/125.0.6422.26 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-useragent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 OS/Windows"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -77,13 +93,13 @@
         "Cache-Control": "no-store, no-cache",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 18 Jun 2024 21:04:00 GMT",
+        "Date": "Tue, 18 Jun 2024 21:12:41 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-id": "f6d6ce4e-221c-45d1-8737-5c173ec1f0ab",
+        "x-ms-correlation-id": "170854fc-dd07-47b2-aca3-b76e9e908895",
         "x-ms-error-code": "JobNotFound"
       },
       "ResponseBody": {

@@ -11,13 +11,7 @@ import { DeidentificationResultOutput } from "../../src/outputModels.js";
 import { assert } from "@azure-tools/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 
-const DEID_SERVICE_ENDPOINT = "fakeserviceId.deid.azure.com";
-const replaceableVariables: Record<string, string> = {
-  DEID_SERVICE_ENDPOINT,
-  STORAGE_ACCOUNT_SAS_URI:
-    "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
-  FAKE_NEXT_LINK:`${DEID_SERVICE_ENDPOINT}/jobs?api-version=2024-01-16-preview&continuationToken=1234`
-};
+const replaceableVariables: Record<string, string> = {};
 
 describe("Realtime", () => {
   let recorder: Recorder;
@@ -27,18 +21,6 @@ describe("Realtime", () => {
     recorder = await createRecorder(context);
     await recorder.start({
       envSetupForPlayback: replaceableVariables,
-      sanitizerOptions: {
-        bodyKeySanitizers: [
-          {
-            value: replaceableVariables.STORAGE_ACCOUNT_SAS_URI,
-            jsonPath: "$..location",
-          },
-          {
-            value: replaceableVariables.FAKE_NEXT_LINK,
-            jsonPath: "$..nextLink",
-          },
-        ],
-      },
     });
     const credential = createTestCredential();
     if (process.env.DEID_SERVICE_ENDPOINT) {

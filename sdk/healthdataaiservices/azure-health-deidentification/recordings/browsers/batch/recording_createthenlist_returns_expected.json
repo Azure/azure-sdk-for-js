@@ -5,13 +5,21 @@
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "347",
         "Content-Type": "application/json; charset=UTF-8",
-        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
-        "x-ms-client-request-id": "Sanitized"
+        "Referer": "http://localhost:5173/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/125.0.6422.26 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-useragent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 OS/Windows"
       },
       "RequestBody": {
         "dataType": "Plaintext",
@@ -34,18 +42,18 @@
         "api-supported-versions": "2024-01-16-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 18 Jun 2024 21:03:24 GMT",
+        "Date": "Tue, 18 Jun 2024 21:12:08 GMT",
         "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-id": "12711354-1db1-41d3-b9fd-b174a7da2379"
+        "x-ms-correlation-id": "28a325fc-af36-4608-9406-e015bb32ce22"
       },
       "ResponseBody": {
         "name": "js-sdk-job-recorded-22",
         "status": "NotStarted",
-        "createdAt": "2024-06-18T21:03:24.8820676Z",
-        "lastUpdatedAt": "2024-06-18T21:03:24.8820676Z",
+        "createdAt": "2024-06-18T21:12:08.8751567Z",
+        "lastUpdatedAt": "2024-06-18T21:12:08.8751568Z",
         "sourceLocation": {
           "extensions": [
             "*"
@@ -66,11 +74,19 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
-        "x-ms-client-request-id": "Sanitized"
+        "Referer": "http://localhost:5173/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/125.0.6422.26 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-useragent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 OS/Windows"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -79,20 +95,93 @@
         "api-supported-versions": "2024-01-16-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 18 Jun 2024 21:03:25 GMT",
+        "Date": "Tue, 18 Jun 2024 21:12:09 GMT",
         "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-id": "7c899d44-52d5-48d1-8b9f-ae5eb870c4cd"
+        "x-ms-correlation-id": "40f6f8a6-1a96-45ab-bf18-44ae0d6bc9b7"
       },
       "ResponseBody": {
         "value": [
           {
             "name": "js-sdk-job-recorded-22",
             "status": "NotStarted",
+            "createdAt": "2024-06-18T21:12:08.8751567Z",
+            "lastUpdatedAt": "2024-06-18T21:12:08.8751568Z",
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "js-sdk-job-recorded-31",
+            "status": "NotStarted",
+            "createdAt": "2024-06-18T21:12:07.4985368Z",
+            "lastUpdatedAt": "2024-06-18T21:12:07.4985369Z",
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "js-sdk-job-recorded-23",
+            "status": "Succeeded",
+            "createdAt": "2024-06-18T21:03:28.3796367Z",
+            "startedAt": "2024-06-18T21:03:28.6876989Z",
+            "lastUpdatedAt": "2024-06-18T21:03:50.138083Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
+            "sourceLocation": {
+              "extensions": [
+                "*"
+              ],
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "example_patient_1"
+            },
+            "targetLocation": {
+              "location": "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+              "prefix": "_output"
+            },
+            "dataType": "Plaintext",
+            "operation": "Surrogate"
+          },
+          {
+            "name": "js-sdk-job-recorded-22",
+            "status": "Succeeded",
             "createdAt": "2024-06-18T21:03:24.8820676Z",
-            "lastUpdatedAt": "2024-06-18T21:03:24.8820676Z",
+            "startedAt": "2024-06-18T21:03:27.2368286Z",
+            "lastUpdatedAt": "2024-06-18T21:03:48.8868951Z",
+            "summary": {
+              "successful": 2,
+              "failed": 0,
+              "canceled": 0,
+              "total": 2,
+              "bytesProcessed": 823
+            },
             "sourceLocation": {
               "extensions": [
                 "*"
@@ -109,16 +198,16 @@
           },
           {
             "name": "js-sdk-job-recorded-21",
-            "status": "Running",
+            "status": "Succeeded",
             "createdAt": "2024-06-18T21:03:21.3032398Z",
             "startedAt": "2024-06-18T21:03:22.245208Z",
-            "lastUpdatedAt": "2024-06-18T21:03:22.6649113Z",
+            "lastUpdatedAt": "2024-06-18T21:03:46.1538588Z",
             "summary": {
-              "successful": 0,
+              "successful": 2,
               "failed": 0,
               "canceled": 0,
               "total": 2,
-              "bytesProcessed": 0
+              "bytesProcessed": 823
             },
             "sourceLocation": {
               "extensions": [
@@ -664,7 +753,46 @@
             },
             "dataType": "Plaintext",
             "operation": "Surrogate"
-          },
+          }
+        ],
+        "nextLink": "https://fakeserviceId.api.cac001.deid.azure.com:443/jobs?api-version=2024-01-16-preview&continuationToken=W3siY29tcG9zaXRlVG9rZW4iOnsidG9rZW4iOm51bGwsInJhbmdlIjp7Im1pbiI6IjA1QzFENUFCNTVBQjU0IiwibWF4IjoiMDVDMUU1QUI1NUFCNTQifX0sIm9yZGVyQnlJdGVtcyI6W3siaXRlbSI6MTcxODY3MDE3M31dLCJyaWQiOiJoZ1JJQU93bFNyNzBhd2NBQUFBQUNBPT0iLCJza2lwQ291bnQiOjEsImZpbHRlciI6InRydWUifV0%3d"
+      }
+    },
+    {
+      "RequestUri": "https://fakeserviceId.api.cac001.deid.azure.com/jobs?api-version=2024-01-16-preview&continuationToken=W3siY29tcG9zaXRlVG9rZW4iOnsidG9rZW4iOm51bGwsInJhbmdlIjp7Im1pbiI6IjA1QzFENUFCNTVBQjU0IiwibWF4IjoiMDVDMUU1QUI1NUFCNTQifX0sIm9yZGVyQnlJdGVtcyI6W3siaXRlbSI6MTcxODY3MDE3M31dLCJyaWQiOiJoZ1JJQU93bFNyNzBhd2NBQUFBQUNBPT0iLCJza2lwQ291bnQiOjEsImZpbHRlciI6InRydWUifV0%3d",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:5173/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/125.0.6422.26 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-useragent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 OS/Windows"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "1",
+        "api-supported-versions": "2024-01-16-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 18 Jun 2024 21:12:09 GMT",
+        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-id": "8883c61f-f296-409b-a5f4-43ffa63e3cae"
+      },
+      "ResponseBody": {
+        "value": [
           {
             "name": "js-sdk-job-1718661266364",
             "status": "Succeeded",
@@ -745,38 +873,7 @@
             },
             "dataType": "Plaintext",
             "operation": "Surrogate"
-          }
-        ],
-        "nextLink": "https://fakeserviceId.api.cac001.deid.azure.com:443/jobs?api-version=2024-01-16-preview&continuationToken=W3siY29tcG9zaXRlVG9rZW4iOnsidG9rZW4iOm51bGwsInJhbmdlIjp7Im1pbiI6IiIsIm1heCI6IjA1QzFENUFCNTVBQjU0In19LCJvcmRlckJ5SXRlbXMiOlt7Iml0ZW0iOjE3MTg2NjEyODZ9XSwicmlkIjoiaGdSSUFPd2xTcjRFYVFjQUFBQUFBQT09Iiwic2tpcENvdW50IjoxLCJmaWx0ZXIiOiJ0cnVlIn1d"
-      }
-    },
-    {
-      "RequestUri": "https://fakeserviceId.api.cac001.deid.azure.com/jobs?api-version=2024-01-16-preview&continuationToken=W3siY29tcG9zaXRlVG9rZW4iOnsidG9rZW4iOm51bGwsInJhbmdlIjp7Im1pbiI6IiIsIm1heCI6IjA1QzFENUFCNTVBQjU0In19LCJvcmRlckJ5SXRlbXMiOlt7Iml0ZW0iOjE3MTg2NjEyODZ9XSwicmlkIjoiaGdSSUFPd2xTcjRFYVFjQUFBQUFBQT09Iiwic2tpcENvdW50IjoxLCJmaWx0ZXIiOiJ0cnVlIn1d",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
-        "x-ms-client-request-id": "Sanitized"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "api-deprecated-versions": "1",
-        "api-supported-versions": "2024-01-16-preview",
-        "Connection": "keep-alive",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 18 Jun 2024 21:03:25 GMT",
-        "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-id": "48b340b2-92da-4179-a253-750cabf676e4"
-      },
-      "ResponseBody": {
-        "value": [
+          },
           {
             "name": "js-sdk-job-1718661203888",
             "status": "Succeeded",

@@ -5,18 +5,26 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "86",
+        "Content-Length": "92",
         "Content-Type": "application/json; charset=UTF-8",
-        "User-Agent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.20.1 OS/(x64-Windows_NT-10.0.22631)",
-        "x-ms-client-request-id": "Sanitized"
+        "Referer": "http://localhost:5173/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/125.0.6422.26 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-useragent": "azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 OS/Windows"
       },
       "RequestBody": {
         "dataType": "Plaintext",
         "inputText": "Hello, my name is John Smith.",
-        "operation": "Tag"
+        "operation": "Surrogate"
       },
       "StatusCode": 200,
       "ResponseHeaders": {
@@ -24,26 +32,15 @@
         "api-supported-versions": "2024-01-16-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 18 Jun 2024 21:03:25 GMT",
+        "Date": "Tue, 18 Jun 2024 21:12:43 GMT",
         "Request-Context": "appId=cid-v1:4ff766fe-2902-470a-ac17-842181337fd9",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-id": "b856fab4-416a-4db9-85d2-1c4db7c379cb"
+        "x-ms-correlation-id": "ad7f4969-a23e-4982-9894-7ea7e85775f2"
       },
       "ResponseBody": {
-        "taggerResult": {
-          "entities": [
-            {
-              "category": "Doctor",
-              "offset": 18,
-              "length": 10,
-              "text": "John Smith",
-              "confidenceScore": 0.911
-            }
-          ],
-          "stringIndexType": "TextElement_v8"
-        }
+        "outputText": "Hello, my name is Sutton Boram."
       }
     }
   ],
