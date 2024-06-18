@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of JsonSerializer to create messages with json-serialized payload using schema from Schema Registry.
+ * @summary Demonstrates the use of JsonSchemaSerializer to create messages with json-serialized payload using schema from Schema Registry.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -11,7 +11,7 @@ import {
   SchemaDescription,
   KnownSchemaFormats,
 } from "@azure/schema-registry";
-import { JsonSerializer } from "@azure/schema-registry-json";
+import { JsonSchemaSerializer } from "@azure/schema-registry-json";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -63,14 +63,14 @@ export async function main() {
   // Create a new client
   const client = new SchemaRegistryClient(
     schemaRegistryFullyQualifiedNamespace,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   // Register the schema. This would generally have been done somewhere else.
   await client.registerSchema(schemaDescription);
 
   // Create a new serializer backed by the client
-  const serializer = new JsonSerializer(client, { groupName });
+  const serializer = new JsonSchemaSerializer(client, { groupName });
 
   // serialize an object that matches the schema and put it in a message
   const value: User = { firstName: "Jane", lastName: "Doe" };

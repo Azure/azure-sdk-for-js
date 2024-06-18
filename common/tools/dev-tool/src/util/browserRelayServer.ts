@@ -3,7 +3,14 @@
 
 import express from "express";
 import type { Express } from "express-serve-static-core";
-import { DefaultAzureCredential, type TokenCredential } from "@azure/identity";
+import {
+  AzureCliCredential,
+  AzureDeveloperCliCredential,
+  AzurePowerShellCredential,
+  ChainedTokenCredential,
+  EnvironmentCredential,
+  type TokenCredential,
+} from "@azure/identity";
 import { randomUUID } from "node:crypto";
 import { createPrinter } from "./printer";
 
@@ -47,7 +54,15 @@ function buildServer(app: Express) {
   app.put("/credential", (req, res) => {
     const id = randomUUID();
     try {
-      const cred = new DefaultAzureCredential(req.body);
+      const cred = new ChainedTokenCredential(
+        new AzurePowerShellCredential(req.body),
+        new AzureCliCredential(req.body),
+        new AzureDeveloperCliCredential(req.body),
+        // Keep Environment Credential for packages that have not migrated to Federated Authentication
+        // See the migration guide for more information
+        // https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/1080/Secret-auth-migration
+        new EnvironmentCredential(req.body),
+      );
       credentials[id] = cred;
       res.status(201).send({ id });
     } catch (error: unknown) {
