@@ -137,14 +137,14 @@ import ModelClient from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 async function main(){
-  // Replace with your Azure OpenAI key
+  // Replace with your Model API key
   const key = "YOUR_MODEL_API_KEY";
   const endpoint = "https://your-model-endpoint/";
   const client = new ModelClient(endpoint, new AzureKeyCredential(key));
 
   const messages = [
     { role: "user", content: "How are you today?" },
-    { role: "user", content: "What is Azure OpenAI?" },
+    { role: "user", content: "What is inference in the context of AI?" },
     { role: "user", content: "Why do children love dinosaurs?" },
     { role: "user", content: "Generate a proof of Euler's identity" },
     { role: "user", content: "Describe in single words only the good things that come into your mind about your mother." },
@@ -239,7 +239,6 @@ setLogLevel("info");
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 <!-- LINKS -->
-[get_completions_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/completions.js
 [stream_chat_completion_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/streamChatCompletions.js
 [azure_openai_completions_docs]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/completions
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
