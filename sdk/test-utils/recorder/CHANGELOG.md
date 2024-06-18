@@ -1,5 +1,11 @@
 # Release History
 
+## 3.5.2 (2024-06-18)
+
+### Other Changes
+
+- Ignore `Accept-Encoding` header for browsers [#30073](https://github.com/Azure/azure-sdk-for-js/pull/30073)
+
 ## 3.5.1 (2024-06-04)
 
 ### Bugs Fixed
