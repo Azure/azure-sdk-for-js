@@ -12,14 +12,14 @@ export interface DeserializeOptions {
 }
 
 // @public
-export class JsonSerializer<MessageT = MessageContent> {
-    constructor(client: SchemaRegistry, options?: JsonSerializerOptions<MessageT>);
+export class JsonSchemaSerializer<MessageT = MessageContent> {
+    constructor(client: SchemaRegistry, options?: JsonSchemaSerializerOptions<MessageT>);
     deserialize(message: MessageT, options?: DeserializeOptions): Promise<unknown>;
     serialize(value: unknown, schema: string): Promise<MessageT>;
 }
 
 // @public
-export interface JsonSerializerOptions<MessageT> {
+export interface JsonSchemaSerializerOptions<MessageT> {
     groupName?: string;
     messageAdapter?: MessageAdapter<MessageT>;
 }
