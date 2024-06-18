@@ -83,6 +83,9 @@ export class RestError extends Error {
     return `RestError: ${this.message} \n ${sanitizeObject(this)}`;
   }
 
+  /**
+   * Custom JSON serialization to sanitize JSON values
+   */
   toJSON(): unknown {
     // Extract toJSON so we don't end up in an infinite loop when we sanitize
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
