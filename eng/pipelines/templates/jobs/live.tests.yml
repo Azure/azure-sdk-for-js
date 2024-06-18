@@ -95,7 +95,7 @@ jobs:
                 ArmTemplateParameters: $(ArmTemplateParameters)
                 UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
                 ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
-                SubscriptionConfigurationFilePath: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePath }}
+                SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
         - ${{ if not(parameters.TestResourceDirectories) }}:
           - template: /eng/common/TestResources/deploy-test-resources.yml
             parameters:
@@ -106,7 +106,7 @@ jobs:
               ArmTemplateParameters: $(ArmTemplateParameters)
               UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
               ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
-              SubscriptionConfigurationFilePath: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePath }}
+              SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
 
       - script: |
           node common/scripts/install-run-rush.js install
