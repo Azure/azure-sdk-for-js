@@ -18,7 +18,10 @@
     ".././src/util/uuidUtils-browser.mts",
     ".././src/defaultHttpClient-react-native.mts",
     ".././src/logger/log-react-native.mts",
+    ".././src/policies/proxyPolicy-react-native.mts",
     ".././src/util/bytesEncoding-react-native.mts",
+    ".././src/util/concat-react-native.mts",
+    ".././src/util/inspect-react-native.mts",
     ".././src/util/sha256-react-native.mts",
     ".././src/util/userAgentPlatform-react-native.mts",
     ".././src/util/uuidUtils-react-native.mts"
