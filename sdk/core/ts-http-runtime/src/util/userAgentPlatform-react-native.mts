@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Platform } from "react-native";
+
 /**
  * @internal
  */
@@ -12,7 +14,6 @@ export function getHeaderName(): string {
  * @internal
  */
 export async function setPlatformSpecificData(map: Map<string, string>): Promise<void> {
-  const { Platform } = await import("react-native");
   if (Platform.constants?.reactNativeVersion) {
     const { major, minor, patch } = Platform.constants.reactNativeVersion;
     map.set("react-native", `${major}.${minor}.${patch}`);
