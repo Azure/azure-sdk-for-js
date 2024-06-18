@@ -17,11 +17,11 @@
         "inputs": [
           {
             "source": {
-              "sourceUrl": "https://fakeStorageName.blob.core.windows.net/source-0572012825?sv=Sanitized&se=2024-06-15T00%3A58%3A11Z&sr=c&sp=rwl&sig=Sanitized"
+              "sourceUrl": "https://fakeStorageName.blob.core.windows.net/source-1799321025?sv=Sanitized&se=2024-06-19T18%3A39%3A04Z&sr=c&sp=rwl&sig=Sanitized"
             },
             "targets": [
               {
-                "targetUrl": "https://fakeStorageName.blob.core.windows.net/target-3938031507?sv=Sanitized&se=2024-06-15T00%3A58%3A11Z&sr=c&sp=rwl&sig=Sanitized",
+                "targetUrl": "https://fakeStorageName.blob.core.windows.net/target-6461943942?sv=Sanitized&se=2024-06-19T18%3A39%3A04Z&sr=c&sp=rwl&sig=Sanitized",
                 "language": "fr"
               }
             ]
@@ -30,15 +30,15 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "4c2a4179-1bd0-4698-a134-ab663d696180",
+        "apim-request-id": "ee2ba553-bbb6-4dc2-a865-1a19742f9550",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Jun 2024 00:58:10 GMT",
+        "Date": "Tue, 18 Jun 2024 18:38:59 GMT",
         "Operation-Location": "https://example.com",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "x-ms-region": "West US",
-        "X-RequestId": "4c2a4179-1bd0-4698-a134-ab663d696180"
+        "X-RequestId": "ee2ba553-bbb6-4dc2-a865-1a19742f9550"
       },
       "ResponseBody": {
         "id": "Sanitized",
@@ -46,47 +46,52 @@
       }
     },
     {
-      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches/c446a7df-8db1-401f-ae58-d445e848a4c4?api-version=2024-05-01",
-      "RequestMethod": "DELETE",
+      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches?api-version=2024-05-01",
+      "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
+        "Content-Length": "345",
+        "Content-Type": "application/json; charset=UTF-8",
         "Ocp-Apim-Subscription-Key": "Sanitized",
         "User-Agent": "azsdk-js-ai-translation-document-rest/1.0.0-beta.1 core-rest-pipeline/1.16.0 Node/20.12.1 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "Sanitized"
       },
-      "RequestBody": null,
-      "StatusCode": 200,
+      "RequestBody": {
+        "inputs": [
+          {
+            "source": {
+              "sourceUrl": "https://fakeStorageName.blob.core.windows.net/source-1100419009?sv=Sanitized&se=2024-06-19T18%3A39%3A04Z&sr=c&sp=rwl&sig=Sanitized"
+            },
+            "targets": [
+              {
+                "targetUrl": "https://fakeStorageName.blob.core.windows.net/target-9862470395?sv=Sanitized&se=2024-06-19T18%3A39%3A04Z&sr=c&sp=rwl&sig=Sanitized",
+                "language": "fr"
+              }
+            ]
+          }
+        ]
+      },
+      "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "498e638d-f3d1-4cad-a5a9-0a346d5224fa",
+        "apim-request-id": "dc11fbf1-ff3d-4682-9704-7d5fbd3fd74f",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Jun 2024 00:58:10 GMT",
-        "Retry-After": "1",
+        "Date": "Tue, 18 Jun 2024 18:38:59 GMT",
+        "Operation-Location": "https://example.com",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "x-ms-region": "West US",
-        "X-RequestId": "498e638d-f3d1-4cad-a5a9-0a346d5224fa"
+        "X-RequestId": "dc11fbf1-ff3d-4682-9704-7d5fbd3fd74f"
       },
       "ResponseBody": {
         "id": "Sanitized",
-        "createdDateTimeUtc": "2024-06-14T00:58:11.0450599Z",
-        "lastActionDateTimeUtc": "2024-06-14T00:58:11.1445753Z",
-        "status": "Cancelling",
-        "summary": {
-          "total": 0,
-          "failed": 0,
-          "success": 0,
-          "inProgress": 0,
-          "notYetStarted": 0,
-          "cancelled": 0,
-          "totalCharacterCharged": 0
-        }
+        "status": "NotStarted"
       }
     },
     {
-      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches/c446a7df-8db1-401f-ae58-d445e848a4c4?api-version=2024-05-01",
+      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches?statuses=Cancelled%2CCancelling&createdDateTimeUtcStart=2024-06-18T18%3A39%3A03.710Z&api-version=2024-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -99,32 +104,20 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "daa18917-b66c-4848-b2cc-53e6468b57cc",
+        "apim-request-id": "f0ba197c-3180-4456-8163-e279896d539f",
         "Cache-Control": "public, max-age=1",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Jun 2024 00:58:10 GMT",
-        "ETag": "\"B260436533BB85FC61E9824F935B7A32F4216B68FD5097E1BFCF0586714AC3B6\"",
+        "Date": "Tue, 18 Jun 2024 18:39:01 GMT",
+        "ETag": "\"821E9968C3829CF50857A0B31D52AFDD040489425FD2C0E81448D520991CC0E8\"",
         "Retry-After": "1",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "x-ms-region": "West US",
-        "X-RequestId": "daa18917-b66c-4848-b2cc-53e6468b57cc"
+        "X-RequestId": "f0ba197c-3180-4456-8163-e279896d539f"
       },
       "ResponseBody": {
-        "id": "Sanitized",
-        "createdDateTimeUtc": "2024-06-14T00:58:11.0450599Z",
-        "lastActionDateTimeUtc": "2024-06-14T00:58:11.1445753Z",
-        "status": "Cancelling",
-        "summary": {
-          "total": 0,
-          "failed": 0,
-          "success": 0,
-          "inProgress": 0,
-          "notYetStarted": 0,
-          "cancelled": 0,
-          "totalCharacterCharged": 0
-        }
+        "value": []
       }
     }
   ],

@@ -45,7 +45,7 @@ describe("DocumentFilter tests", () => {
     if (response.status === "200" && "body" in response) {  
       const responseBody = (response as GetDocumentsStatus200Response).body;
       for (const documentStatus of responseBody.value) {
-        assert.isTrue(succeededStatusList.includes(documentStatus.status))
+        assert.isTrue(succeededStatusList.includes(documentStatus.status));
       }
     }
     if (isUnexpected(response)) {
@@ -83,7 +83,7 @@ describe("DocumentFilter tests", () => {
     if (documentStatusResponse.status === "200" && "body" in documentStatusResponse) {  
       const responseBody = (documentStatusResponse as GetDocumentsStatus200Response).body;
       for (const documentStatus of responseBody.value) {
-        assert.isTrue(testIds.includes(documentStatus.id))
+        assert.isTrue(testIds.includes(documentStatus.id));
       }
     }
     if (isUnexpected(response)) {
@@ -211,7 +211,7 @@ describe("DocumentFilter tests", () => {
 
   });
  
-  it.only ("Document Statuses Filter By Created On", async () => {
+  it ("Document Statuses Filter By Created On", async () => {
     const result = createSingleTranslationJob(3, client);    
     const operationLocationUrl = (await result).headers["operation-location"]
     const operationId = getTranslationOperationID(operationLocationUrl);
@@ -220,7 +220,7 @@ describe("DocumentFilter tests", () => {
     let orderByList: string[] = ["createdDateTimeUtc desc"];
     const queryParams = {
       statuses: orderByList
-  };
+    };
 
     //get Documents Status
     const response = await client.path("/document/batches/{id}/documents", operationId).get({
