@@ -14,6 +14,7 @@
     ".././src/util/userAgentPlatform-browser.mts",
     ".././src/defaultHttpClient-react-native.mts",
     ".././src/policies/proxyPolicy-react-native.mts",
+    ".././src/util/concat-react-native.mts",
     ".././src/util/inspect-react-native.mts",
     ".././src/util/userAgentPlatform-react-native.mts"
   ],

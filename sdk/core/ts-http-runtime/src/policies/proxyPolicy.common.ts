@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- * NOTE: When moving this file, please update "browser" section in package.json
- */
-
 export const proxyPolicyName = "proxyPolicy";
 const errorMessage = "proxyPolicy is not supported in browser environment";
 
