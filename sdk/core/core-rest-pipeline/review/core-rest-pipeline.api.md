@@ -376,7 +376,6 @@ export class RestError extends Error {
     static readonly REQUEST_SEND_ERROR: string;
     response?: PipelineResponse;
     statusCode?: number;
-    // (undocumented)
     toJSON(): unknown;
 }
 
