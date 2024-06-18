@@ -11,7 +11,6 @@ import {
   ServiceRenameContainerOptions,
   ContainerRenameResponse,
   ContainerUndeleteResponse,
-  CommonOptions,
   WithResponse,
 } from "@azure/storage-blob";
 import { DataLakePathClient } from "./clients";
@@ -58,6 +57,7 @@ import { DirectorySASPermissions } from "./sas/DirectorySASPermissions";
 import { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions";
 import { SasIPRange } from "./sas/SasIPRange";
 import { SASProtocol } from "./sas/SASQueryParameters";
+import { CommonOptions } from "./StorageClient";
 
 export {
   LeaseAccessConditions,
@@ -783,6 +783,9 @@ export interface PathAccessControl {
   owner?: string;
   group?: string;
   permissions?: PathPermissions;
+  /**
+   * POSIX access control rights on files and directories.
+   */
   acl: PathAccessControlItem[];
 }
 
@@ -978,6 +981,10 @@ export interface PathGetPropertiesHeaders {
   owner?: string;
   group?: string;
   permissions?: PathPermissions;
+  /**
+   * POSIX access control rights on files and directories.
+   */
+  acl: PathAccessControlItem[];
 }
 
 export type PathGetPropertiesResponse = WithResponse<
@@ -1201,6 +1208,10 @@ export interface FileReadHeaders {
   owner?: string;
   group?: string;
   permissions?: PathPermissions;
+  /**
+   * POSIX access control rights on files and directories.
+   */
+  acl: PathAccessControlItem[];
 }
 
 export type FileReadResponse = WithResponse<
@@ -1573,6 +1584,23 @@ export declare interface FileSystemEncryptionScope {
 
   /** Optional.  Version 2021-02-12 and newer.  If true, prevents any request from specifying a different encryption scope than the scope set on the container. */
   preventEncryptionScopeOverride?: boolean;
+}
+
+/**
+ * Defines the known cloud audiences for Storage.
+ */
+export enum StorageDataLakeAudience {
+  /**
+   * The OAuth scope to use to retrieve an AAD token for Azure Storage.
+   */
+  StorageOAuthScopes = "https://storage.azure.com/.default",
+}
+
+/**
+ * To get OAuth audience for a storage account for datalake service.
+ */
+export function getDataLakeServiceAccountAudience(storageAccountName: string): string {
+  return `https://${storageAccountName}.dfs.core.windows.net/.default`;
 }
 
 /** *********************************************************/

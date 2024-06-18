@@ -38,7 +38,7 @@ async function getTheSpecifiedVersionOfAJobStep() {
     jobAgentName,
     jobName,
     jobVersion,
-    stepName
+    stepName,
   );
   console.log(result);
 }

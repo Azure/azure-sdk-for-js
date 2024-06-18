@@ -14,7 +14,7 @@ import { RecoveryServicesClient } from "../recoveryServicesClient";
 import {
   CertificateRequest,
   VaultCertificatesCreateOptionalParams,
-  VaultCertificatesCreateResponse
+  VaultCertificatesCreateResponse,
 } from "../models";
 
 /** Class containing VaultCertificates operations. */
@@ -42,7 +42,7 @@ export class VaultCertificatesImpl implements VaultCertificates {
     vaultName: string,
     certificateName: string,
     certificateRequest: CertificateRequest,
-    options?: VaultCertificatesCreateOptionalParams
+    options?: VaultCertificatesCreateOptionalParams,
   ): Promise<VaultCertificatesCreateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -50,9 +50,9 @@ export class VaultCertificatesImpl implements VaultCertificates {
         vaultName,
         certificateName,
         certificateRequest,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 }
@@ -60,13 +60,12 @@ export class VaultCertificatesImpl implements VaultCertificates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/certificates/{certificateName}",
+  path: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/certificates/{certificateName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultCertificateResponse
-    }
+      bodyMapper: Mappers.VaultCertificateResponse,
+    },
   },
   requestBody: Parameters.certificateRequest,
   queryParameters: [Parameters.apiVersion],
@@ -75,9 +74,9 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

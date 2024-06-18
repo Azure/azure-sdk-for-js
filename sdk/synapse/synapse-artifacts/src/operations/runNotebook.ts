@@ -15,7 +15,7 @@ import { ArtifactsClient } from "../artifactsClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -27,7 +27,7 @@ import {
   RunNotebookCancelRunOptionalParams,
   RunNotebookCancelRunResponse,
   RunNotebookGetSnapshotOptionalParams,
-  RunNotebookGetSnapshotResponse
+  RunNotebookGetSnapshotResponse,
 } from "../models";
 
 /** Class containing RunNotebook operations. */
@@ -51,7 +51,7 @@ export class RunNotebookImpl implements RunNotebook {
   async beginCreateRun(
     runId: string,
     runNotebookRequest: RunNotebookRequest,
-    options?: RunNotebookCreateRunOptionalParams
+    options?: RunNotebookCreateRunOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RunNotebookCreateRunResponse>,
@@ -60,29 +60,29 @@ export class RunNotebookImpl implements RunNotebook {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RunNotebookCreateRunResponse> => {
       return tracingClient.withSpan(
         "ArtifactsClient.beginCreateRun",
         options ?? {},
         async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<
-            RunNotebookCreateRunResponse
-          >;
-        }
+          return this.client.sendOperationRequest(
+            args,
+            spec,
+          ) as Promise<RunNotebookCreateRunResponse>;
+        },
       );
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -91,8 +91,8 @@ export class RunNotebookImpl implements RunNotebook {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -100,22 +100,22 @@ export class RunNotebookImpl implements RunNotebook {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { runId, runNotebookRequest, options },
-      spec: createRunOperationSpec
+      spec: createRunOperationSpec,
     });
     const poller = await createHttpPoller<
       RunNotebookCreateRunResponse,
       OperationState<RunNotebookCreateRunResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -130,12 +130,12 @@ export class RunNotebookImpl implements RunNotebook {
   async beginCreateRunAndWait(
     runId: string,
     runNotebookRequest: RunNotebookRequest,
-    options?: RunNotebookCreateRunOptionalParams
+    options?: RunNotebookCreateRunOptionalParams,
   ): Promise<RunNotebookCreateRunResponse> {
     const poller = await this.beginCreateRun(
       runId,
       runNotebookRequest,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -147,7 +147,7 @@ export class RunNotebookImpl implements RunNotebook {
    */
   async getStatus(
     runId: string,
-    options?: RunNotebookGetStatusOptionalParams
+    options?: RunNotebookGetStatusOptionalParams,
   ): Promise<RunNotebookGetStatusResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.getStatus",
@@ -155,9 +155,9 @@ export class RunNotebookImpl implements RunNotebook {
       async (options) => {
         return this.client.sendOperationRequest(
           { runId, options },
-          getStatusOperationSpec
+          getStatusOperationSpec,
         ) as Promise<RunNotebookGetStatusResponse>;
-      }
+      },
     );
   }
 
@@ -168,7 +168,7 @@ export class RunNotebookImpl implements RunNotebook {
    */
   async cancelRun(
     runId: string,
-    options?: RunNotebookCancelRunOptionalParams
+    options?: RunNotebookCancelRunOptionalParams,
   ): Promise<RunNotebookCancelRunResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.cancelRun",
@@ -176,9 +176,9 @@ export class RunNotebookImpl implements RunNotebook {
       async (options) => {
         return this.client.sendOperationRequest(
           { runId, options },
-          cancelRunOperationSpec
+          cancelRunOperationSpec,
         ) as Promise<RunNotebookCancelRunResponse>;
-      }
+      },
     );
   }
 
@@ -189,7 +189,7 @@ export class RunNotebookImpl implements RunNotebook {
    */
   async getSnapshot(
     runId: string,
-    options?: RunNotebookGetSnapshotOptionalParams
+    options?: RunNotebookGetSnapshotOptionalParams,
   ): Promise<RunNotebookGetSnapshotResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.getSnapshot",
@@ -197,9 +197,9 @@ export class RunNotebookImpl implements RunNotebook {
       async (options) => {
         return this.client.sendOperationRequest(
           { runId, options },
-          getSnapshotOperationSpec
+          getSnapshotOperationSpec,
         ) as Promise<RunNotebookGetSnapshotResponse>;
-      }
+      },
     );
   }
 }
@@ -212,80 +212,80 @@ const createRunOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.RunNotebookResponse,
-      headersMapper: Mappers.RunNotebookCreateRunHeaders
+      headersMapper: Mappers.RunNotebookCreateRunHeaders,
     },
     201: {
       bodyMapper: Mappers.RunNotebookResponse,
-      headersMapper: Mappers.RunNotebookCreateRunHeaders
+      headersMapper: Mappers.RunNotebookCreateRunHeaders,
     },
     202: {
       bodyMapper: Mappers.RunNotebookResponse,
-      headersMapper: Mappers.RunNotebookCreateRunHeaders
+      headersMapper: Mappers.RunNotebookCreateRunHeaders,
     },
     204: {
       bodyMapper: Mappers.RunNotebookResponse,
-      headersMapper: Mappers.RunNotebookCreateRunHeaders
+      headersMapper: Mappers.RunNotebookCreateRunHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.runNotebookRequest,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint, Parameters.runId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getStatusOperationSpec: coreClient.OperationSpec = {
   path: "/notebooks/runs/{runId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RunNotebookResponse
+      bodyMapper: Mappers.RunNotebookResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint, Parameters.runId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelRunOperationSpec: coreClient.OperationSpec = {
   path: "/notebooks/runs/{runId}/cancel",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RunNotebookResponse
+      bodyMapper: Mappers.RunNotebookResponse,
     },
     409: {
       bodyMapper: Mappers.RunNotebookResponse,
-      isError: true
+      isError: true,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint, Parameters.runId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getSnapshotOperationSpec: coreClient.OperationSpec = {
   path: "/notebooks/runs/{runId}/snapshot",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RunNotebookSnapshotResponse
+      bodyMapper: Mappers.RunNotebookSnapshotResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint, Parameters.runId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

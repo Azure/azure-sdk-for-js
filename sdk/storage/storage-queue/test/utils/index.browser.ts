@@ -3,7 +3,7 @@
 
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
-import { newPipeline } from "../../../storage-blob/src/Pipeline";
+import { newPipeline } from "../../src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
 import { configureStorageClient } from "./testutils.common";
 export * from "./testutils.common";

@@ -14,7 +14,7 @@ import {
   DataContainersGetOptionalParams,
   DataContainersGetResponse,
   DataContainersCreateOrUpdateOptionalParams,
-  DataContainersCreateOrUpdateResponse
+  DataContainersCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface DataContainers {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataContainersListOptionalParams
+    options?: DataContainersListOptionalParams,
   ): PagedAsyncIterableIterator<DataContainer>;
   /**
    * Delete container.
@@ -42,7 +42,7 @@ export interface DataContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DataContainersDeleteOptionalParams
+    options?: DataContainersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get container.
@@ -55,7 +55,7 @@ export interface DataContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DataContainersGetOptionalParams
+    options?: DataContainersGetOptionalParams,
   ): Promise<DataContainersGetResponse>;
   /**
    * Create or update container.
@@ -70,6 +70,6 @@ export interface DataContainers {
     workspaceName: string,
     name: string,
     body: DataContainer,
-    options?: DataContainersCreateOrUpdateOptionalParams
+    options?: DataContainersCreateOrUpdateOptionalParams,
   ): Promise<DataContainersCreateOrUpdateResponse>;
 }

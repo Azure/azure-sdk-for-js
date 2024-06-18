@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   DatabaseOperation,
   DatabaseOperationsListByDatabaseOptionalParams,
-  DatabaseOperationsCancelOptionalParams
+  DatabaseOperationsCancelOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface DatabaseOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseOperationsListByDatabaseOptionalParams
+    options?: DatabaseOperationsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseOperation>;
   /**
    * Cancels the asynchronous operation on the database.
@@ -44,6 +44,6 @@ export interface DatabaseOperations {
     serverName: string,
     databaseName: string,
     operationId: string,
-    options?: DatabaseOperationsCancelOptionalParams
+    options?: DatabaseOperationsCancelOptionalParams,
   ): Promise<void>;
 }

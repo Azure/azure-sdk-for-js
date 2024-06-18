@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   OnlineDeployment,
   OnlineDeploymentsListOptionalParams,
@@ -23,7 +23,7 @@ import {
   OnlineDeploymentsCreateOrUpdateResponse,
   DeploymentLogsRequest,
   OnlineDeploymentsGetLogsOptionalParams,
-  OnlineDeploymentsGetLogsResponse
+  OnlineDeploymentsGetLogsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export interface OnlineDeployments {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineDeploymentsListOptionalParams
+    options?: OnlineDeploymentsListOptionalParams,
   ): PagedAsyncIterableIterator<OnlineDeployment>;
   /**
    * List Inference Endpoint Deployment Skus.
@@ -55,7 +55,7 @@ export interface OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: OnlineDeploymentsListSkusOptionalParams
+    options?: OnlineDeploymentsListSkusOptionalParams,
   ): PagedAsyncIterableIterator<SkuResource>;
   /**
    * Delete Inference Endpoint Deployment (asynchronous).
@@ -70,8 +70,8 @@ export interface OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: OnlineDeploymentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: OnlineDeploymentsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Inference Endpoint Deployment (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -85,7 +85,7 @@ export interface OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: OnlineDeploymentsDeleteOptionalParams
+    options?: OnlineDeploymentsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get Inference Deployment Deployment.
@@ -100,7 +100,7 @@ export interface OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: OnlineDeploymentsGetOptionalParams
+    options?: OnlineDeploymentsGetOptionalParams,
   ): Promise<OnlineDeploymentsGetResponse>;
   /**
    * Update Online Deployment (asynchronous).
@@ -117,10 +117,10 @@ export interface OnlineDeployments {
     endpointName: string,
     deploymentName: string,
     body: PartialMinimalTrackedResourceWithSku,
-    options?: OnlineDeploymentsUpdateOptionalParams
+    options?: OnlineDeploymentsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineDeploymentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineDeploymentsUpdateResponse>,
       OnlineDeploymentsUpdateResponse
     >
   >;
@@ -139,7 +139,7 @@ export interface OnlineDeployments {
     endpointName: string,
     deploymentName: string,
     body: PartialMinimalTrackedResourceWithSku,
-    options?: OnlineDeploymentsUpdateOptionalParams
+    options?: OnlineDeploymentsUpdateOptionalParams,
   ): Promise<OnlineDeploymentsUpdateResponse>;
   /**
    * Create or update Inference Endpoint Deployment (asynchronous).
@@ -156,10 +156,10 @@ export interface OnlineDeployments {
     endpointName: string,
     deploymentName: string,
     body: OnlineDeployment,
-    options?: OnlineDeploymentsCreateOrUpdateOptionalParams
+    options?: OnlineDeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineDeploymentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineDeploymentsCreateOrUpdateResponse>,
       OnlineDeploymentsCreateOrUpdateResponse
     >
   >;
@@ -178,7 +178,7 @@ export interface OnlineDeployments {
     endpointName: string,
     deploymentName: string,
     body: OnlineDeployment,
-    options?: OnlineDeploymentsCreateOrUpdateOptionalParams
+    options?: OnlineDeploymentsCreateOrUpdateOptionalParams,
   ): Promise<OnlineDeploymentsCreateOrUpdateResponse>;
   /**
    * Polls an Endpoint operation.
@@ -195,6 +195,6 @@ export interface OnlineDeployments {
     endpointName: string,
     deploymentName: string,
     body: DeploymentLogsRequest,
-    options?: OnlineDeploymentsGetLogsOptionalParams
+    options?: OnlineDeploymentsGetLogsOptionalParams,
   ): Promise<OnlineDeploymentsGetLogsResponse>;
 }

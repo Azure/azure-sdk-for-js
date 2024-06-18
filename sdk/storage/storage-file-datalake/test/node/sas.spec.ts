@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { UserDelegationKey } from "@azure/storage-blob";
 import { Recorder, delay } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -22,6 +20,7 @@ import {
   PathAccessControlItem,
   PathPermissions,
   StorageSharedKeyCredential,
+  UserDelegationKey,
   SASQueryParameters,
   FileSystemListPathsResponse,
 } from "../../src";
@@ -66,7 +65,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
@@ -200,7 +199,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("co").toString(),
@@ -244,7 +243,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         fileSystemName: fileSystemClient.name,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: FileSystemSASPermissions.parse("racwdl"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -337,7 +336,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: DataLakeSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -394,7 +393,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: DataLakeSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -503,7 +502,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: DataLakeSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -677,7 +676,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         fileSystemName: fileSystemClient.name,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: FileSystemSASPermissions.parse("racwdl"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -797,7 +796,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: DataLakeSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -870,7 +869,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: DataLakeSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -957,7 +956,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         version: "2016-05-31",
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
       },
     );
     const serviceClientWithSAS = new DataLakeServiceClient(sasURL);
@@ -1039,7 +1038,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       startsOn: now,
       expiresOn: tmr,
       permissions: FileSystemSASPermissions.parse("racwdl"),
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
       cacheControl: "cache-control-override",
       contentDisposition: "content-disposition-override",
       contentEncoding: "content-encoding-override",
@@ -1190,6 +1189,39 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileClientWithSAS.create();
     assert.ok(await fileClientWithSAS.exists());
   });
+
+  it("listPaths with invalid SAS should fail", async () => {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() - 1);
+
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const sharedKeyCredential = serviceClient["credential"];
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: tmr,
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: AccountSASPermissions.parse("rwdlacup"),
+        protocol: SASProtocol.HttpsAndHttp,
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+      },
+      sharedKeyCredential as StorageSharedKeyCredential,
+    ).toString();
+
+    const sasURL = `${serviceClient.url}?${sas}`;
+    const serviceClientWithSAS = new DataLakeServiceClient(sasURL, newPipeline());
+    configureStorageClient(recorder, serviceClientWithSAS);
+
+    const fileSystemClientWithSAS = serviceClientWithSAS.getFileSystemClient(fileSystemName);
+    try {
+      await fileSystemClientWithSAS.listPaths();
+    } catch (err) {
+      assert.ok((err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"));
+    }
+  });
 });
 
 describe("SAS generation Node.js only for directory SAS", () => {
@@ -1262,7 +1294,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         isDirectory: true,
         directoryDepth: 1,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: DirectorySASPermissions.parse("racwdlmeop"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -1358,7 +1390,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         fileSystemName: fileSystemClient.name,
         pathName: fileClient.name,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: DataLakeSASPermissions.parse("racwdmeop"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -1389,7 +1421,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
       {
         fileSystemName: fileSystemClient.name,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: FileSystemSASPermissions.parse("racwdlmeop"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,

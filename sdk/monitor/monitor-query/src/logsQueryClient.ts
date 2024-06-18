@@ -29,7 +29,7 @@ import { SDK_VERSION } from "./constants";
 import { tracingClient } from "./tracing";
 import { getLogQueryEndpoint } from "./internal/logQueryOptionUtils";
 
-const defaultMonitorScope = "https://api.loganalytics.io/.default";
+const defaultMonitorScope = "https://api.loganalytics.io/";
 
 /**
  * Options for the LogsQueryClient.
@@ -39,6 +39,12 @@ export interface LogsQueryClientOptions extends CommonClientOptions {
    * The host to connect to.
    */
   endpoint?: string;
+
+  /**
+   * The Audience to use for authentication with Microsoft Entra ID. The
+   * audience is not considered when using a shared key.
+   */
+  audience?: string;
 }
 
 /**
@@ -54,17 +60,14 @@ export class LogsQueryClient {
    * @param options - Options for the LogsClient.
    */
   constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions) {
-    // This client defaults to using 'https://api.loganalytics.io/' as the
-    // host.
-    let scope;
+    const scope: string = options?.audience
+      ? `${options.audience}/.default`
+      : `${defaultMonitorScope}/.default`;
+
     let endpoint = options?.endpoint;
     if (options?.endpoint) {
-      scope = `${options.endpoint}/.default`;
       endpoint = getLogQueryEndpoint(options);
     }
-    const credentialOptions = {
-      credentialScopes: scope,
-    };
     const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
     const userAgentPrefix =
       options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
@@ -74,7 +77,7 @@ export class LogsQueryClient {
       ...options,
       $host: endpoint,
       endpoint: endpoint,
-      credentialScopes: credentialOptions?.credentialScopes ?? defaultMonitorScope,
+      credentialScopes: scope,
       credential: tokenCredential,
       userAgentOptions: {
         userAgentPrefix,

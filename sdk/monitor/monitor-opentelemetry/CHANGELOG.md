@@ -1,5 +1,17 @@
 # Release History
 
+## 1.5.1 Unreleased
+
+### Bugs Fixed
+
+- Setting the sampling ratio to 0 now correctly applies the value instead of defaulting to 1.
+- Fixed standard metrics reported success/failure status for dependencies/requests.
+
+### Other Changes
+
+- Add support for tracking Application Insights shim usage to statsbeat.
+- Live Metrics is enabled by default.
+
 ## 1.5.0 (2024-05-10)
 
 ### Features Added

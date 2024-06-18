@@ -11,6 +11,7 @@ export {
   arrayToString,
   getVerifiers,
   stripPath,
+  usesTshy,
   VerifierMessages,
   type VerifierMessageIds,
 } from "./verifiers";

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a Azure Arc PrivateLinkScope.
  *
  * @summary Deletes a Azure Arc PrivateLinkScope.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateLinkScope/PrivateLinkScopes_Delete.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/privateLinkScope/PrivateLinkScopes_Delete.json
  */
 async function privateLinkScopesDelete() {
   const subscriptionId =

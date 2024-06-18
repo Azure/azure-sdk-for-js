@@ -65,7 +65,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
@@ -94,7 +97,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: AccountSASPermissions.parse("rwdlacupy"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
@@ -191,7 +197,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("co").toString(),
@@ -237,7 +246,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
@@ -284,7 +296,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         containerName: containerClient.containerName,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: ContainerSASPermissions.parse("racwdl"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -330,7 +345,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         containerName: containerClient.containerName,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: ContainerSASPermissions.parse("racwdl"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -385,7 +403,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -439,7 +460,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -483,7 +507,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         blobName: blobClient.name,
         containerName: blobClient.containerName,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwdy"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -532,7 +559,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -591,7 +621,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwdt"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -649,7 +682,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwdt"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -710,7 +746,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -762,7 +801,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwdy"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -818,7 +860,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -980,7 +1025,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         containerName: containerClient.containerName,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: ContainerSASPermissions.parse("racwdl"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -1096,7 +1144,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -1163,7 +1214,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwdy"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -1226,7 +1280,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwdy"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -1293,7 +1350,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -1358,7 +1418,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         blobName: blobClient.name,
         containerName: blobClient.containerName,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwdy"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -1397,7 +1460,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: future,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: AccountSASPermissions.parse("rwdlacupx"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
@@ -1440,7 +1506,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: future,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: AccountSASPermissions.parse("rwdlacupxy"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
@@ -1488,7 +1557,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         containerName: blobClient.containerName,
         startsOn: now,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwdx"),
         protocol: SASProtocol.HttpsAndHttp,
         versionId: uploadRes.versionId,
@@ -1531,7 +1603,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         containerName: blobClient.containerName,
         startsOn: now,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwdxy"),
         protocol: SASProtocol.HttpsAndHttp,
         versionId: uploadRes.versionId,
@@ -1588,7 +1663,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         containerName: blobClient.containerName,
         startsOn: now,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwdx"),
         protocol: SASProtocol.HttpsAndHttp,
         versionId: uploadRes.versionId,
@@ -1647,7 +1725,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         containerName: blobClient.containerName,
         startsOn: now,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwdxy"),
         protocol: SASProtocol.HttpsAndHttp,
         versionId: uploadRes.versionId,
@@ -1691,7 +1772,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         containerName: blobClient.containerName,
         startsOn: now,
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: BlobSASPermissions.parse("racwdxt"),
         protocol: SASProtocol.HttpsAndHttp,
         versionId: uploadRes.versionId,
@@ -1726,7 +1810,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: AccountSASPermissions.parse("rwdlacupft"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
@@ -1790,7 +1877,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: tmr,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: AccountSASPermissions.parse("rwdlacupx"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
@@ -1899,7 +1989,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       AccountSASResourceTypes.parse("s").toString(),
       {
         protocol: SASProtocol.HttpsAndHttp,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         startsOn: now,
       },
     );
@@ -1936,7 +2029,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       AccountSASResourceTypes.parse("sco").toString(),
       {
         protocol: SASProtocol.HttpsAndHttp,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         startsOn: now,
         encryptionScope: encryptionScopeName,
       },
@@ -1971,7 +2067,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       AccountSASResourceTypes.parse("sco").toString(),
       {
         protocol: SASProtocol.HttpsAndHttp,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         startsOn: now,
       },
     );
@@ -2001,7 +2100,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasURL = await containerClient.generateSasUrl({
       expiresOn: tmr,
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
       permissions: ContainerSASPermissions.parse("racwdl"),
       protocol: SASProtocol.HttpsAndHttp,
       startsOn: now,
@@ -2042,7 +2144,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasURL = await containerClient.generateSasUrl({
       expiresOn: tmr,
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
       permissions: ContainerSASPermissions.parse("racwdl"),
       protocol: SASProtocol.HttpsAndHttp,
       startsOn: now,
@@ -2083,7 +2188,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasURL = await containerClient.generateSasUrl({
       expiresOn: tmr,
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
       permissions: ContainerSASPermissions.parse("racwdlf"),
       protocol: SASProtocol.HttpsAndHttp,
     });
@@ -2130,7 +2238,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       contentLanguage: "content-language-override",
       contentType: "content-type-override",
       expiresOn: tmr,
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
       permissions: BlobSASPermissions.parse("racwd"),
       protocol: SASProtocol.HttpsAndHttp,
       startsOn: now,
@@ -2170,7 +2281,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasURL = await blobClient.generateSasUrl({
       expiresOn: tmr,
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
       permissions: BlobSASPermissions.parse("racwd"),
       protocol: SASProtocol.HttpsAndHttp,
       startsOn: now,
@@ -2202,7 +2316,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasURL = await blobClient.generateSasUrl({
       expiresOn: tmr,
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
       permissions: BlobSASPermissions.parse("racwdy"),
       protocol: SASProtocol.HttpsAndHttp,
       startsOn: now,
@@ -2248,7 +2365,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       contentLanguage: "content-language-override",
       contentType: "content-type-override",
       expiresOn: tmr,
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
       permissions: BlobSASPermissions.parse("racwd"),
       protocol: SASProtocol.HttpsAndHttp,
       startsOn: now,
@@ -2338,7 +2458,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       contentLanguage: "content-language-override",
       contentType: "content-type-override",
       expiresOn: tmr,
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
       permissions: BlobSASPermissions.parse("racwdy"),
       protocol: SASProtocol.HttpsAndHttp,
       startsOn: now,
@@ -2517,6 +2640,40 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     await containerClient.delete();
   });
+
+  it("create container with invalid SAS should fail", async () => {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() - 1);
+
+    const sharedKeyCredential = blobServiceClient["credential"];
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: tmr,
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
+        permissions: AccountSASPermissions.parse("rwdlacup"),
+        protocol: SASProtocol.HttpsAndHttp,
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+      },
+      sharedKeyCredential as StorageSharedKeyCredential,
+    ).toString();
+
+    const sasURL = `${blobServiceClient.url}?${sas}`;
+    const serviceClientWithSAS = new BlobServiceClient(sasURL, newPipeline());
+    configureBlobStorageClient(recorder, serviceClientWithSAS);
+
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    const containerClient = serviceClientWithSAS.getContainerClient(containerName);
+    try {
+      await containerClient.create();
+    } catch (err) {
+      assert.ok((err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"));
+    }
+  });
 });
 
 describe("Generation for user delegation SAS Node.js only", () => {
@@ -2682,7 +2839,10 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     const sas = generateAccountSASQueryParameters(
       {
         expiresOn: aDayLater,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: AccountSASPermissions.parse("rwdlacupi"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
@@ -2737,7 +2897,10 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
       {
         containerName: containerClient.containerName,
         expiresOn: aDayLater,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
         permissions: ContainerSASPermissions.parse("i"),
         protocol: SASProtocol.HttpsAndHttp,
         version: "2020-08-04",

@@ -359,4 +359,8 @@ export {
   KnownAcsInteractiveReplyKind,
   AcsMessageDeliveryStatus,
   KnownAcsMessageDeliveryStatus,
+  AcsChatThreadCreatedEventData,
+  AcsChatThreadDeletedEventData,
+  AcsChatThreadPropertiesUpdatedEventData,
+  AcsChatThreadEventInThreadBase,
 } from "./generated/models";

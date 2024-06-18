@@ -61,21 +61,28 @@ const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(endPoint, 
 
 #### Configure client for Azure sovereign cloud
 
-By default, `LogsQueryClient` and `MetricsQueryClient` are configured to use the Azure Public Cloud. To use a sovereign cloud instead, provide the correct `endpoint` argument. For example:
+By default, the library's clients are configured to use the Azure Public Cloud. To use a sovereign cloud instead, provide the correct endpoint and audience value when instantiating a client. For example:
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, MetricsQueryClient } from "@azure/monitor-query";
+import { LogsQueryClient, MetricsQueryClient, MetricsClient } from "@azure/monitor-query";
 
 const credential = new DefaultAzureCredential();
 
-const logsQueryClient = new LogsQueryClient(credential, {
+const logsQueryClient: LogsQueryClient = new LogsQueryClient(credential, {
   endpoint: "https://api.loganalytics.azure.cn/v1",
+  audience: "https://api.loganalytics.azure.cn/.default",
 });
-
 // or
-const metricsQueryClient = new MetricsQueryClient(credential{
+const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(credential, {
   endpoint: "https://management.chinacloudapi.cn",
+  audience: "https://monitor.azure.cn/.default",
+});
+// or
+const endPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
+
+const metricsClient: MetricsClient = new MetricsClient(endPoint, credential, {
+  audience: "https://monitor.azure.cn/.default",
 });
 ```
 
@@ -584,7 +591,7 @@ To get logs query execution statistics, such as CPU and memory consumption:
 The following example prints the query execution time:
 
 ```ts
-const workspaceId = "<workspace_id>";
+const monitorWorkspaceId = "<workspace_id>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 const kustoQuery = "AzureActivity | top 10 by TimeGenerated";
 
@@ -630,16 +637,16 @@ To get visualization data for logs queries using the [render operator](https://l
 For example:
 
 ```ts
-const workspaceId = "<workspace_id>";
+const monitorWorkspaceId = "<workspace_id>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 const result = await logsQueryClient.queryWorkspace(
     monitorWorkspaceId,
-    @"StormEvents
+    `StormEvents
         | summarize event_count = count() by State
         | where event_count > 10
         | project State, event_count
-        | render columnchart",
+        | render columnchart`,
     { duration: Durations.oneDay },
     {
       includeVisualization: true

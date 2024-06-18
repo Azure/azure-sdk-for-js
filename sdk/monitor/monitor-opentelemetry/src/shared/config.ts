@@ -62,7 +62,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     // Default values
     this.azureMonitorExporterOptions = {};
     this.samplingRatio = 1;
-    this.enableLiveMetrics = false;
+    this.enableLiveMetrics = true;
     this.enableStandardMetrics = true;
     this.enableTraceBasedSamplingForLogs = true;
     this.instrumentationOptions = {
@@ -91,7 +91,8 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
         options.instrumentationOptions,
       );
       this.resource = Object.assign(this.resource, options.resource);
-      this.samplingRatio = options.samplingRatio || this.samplingRatio;
+      this.samplingRatio =
+        options.samplingRatio !== undefined ? options.samplingRatio : this.samplingRatio;
       this.browserSdkLoaderOptions = Object.assign(
         this.browserSdkLoaderOptions,
         options.browserSdkLoaderOptions,

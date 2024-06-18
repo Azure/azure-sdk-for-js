@@ -33,7 +33,7 @@ async function getAServerThreatDetectionPolicy() {
   const result = await client.serverSecurityAlertPolicies.get(
     resourceGroupName,
     serverName,
-    securityAlertPolicyName
+    securityAlertPolicyName,
   );
   console.log(result);
 }

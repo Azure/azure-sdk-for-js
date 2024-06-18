@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ComputeResource,
   ComputeListOptionalParams,
@@ -26,7 +26,7 @@ import {
   ComputeListKeysResponse,
   ComputeStartOptionalParams,
   ComputeStopOptionalParams,
-  ComputeRestartOptionalParams
+  ComputeRestartOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export interface ComputeOperations {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ComputeListOptionalParams
+    options?: ComputeListOptionalParams,
   ): PagedAsyncIterableIterator<ComputeResource>;
   /**
    * Get the details (e.g IP address, port etc) of all the compute nodes in the compute.
@@ -54,7 +54,7 @@ export interface ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeListNodesOptionalParams
+    options?: ComputeListNodesOptionalParams,
   ): PagedAsyncIterableIterator<AmlComputeNodeInformation>;
   /**
    * Gets compute definition by its name. Any secrets (storage keys, service credentials, etc) are not
@@ -68,7 +68,7 @@ export interface ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeGetOptionalParams
+    options?: ComputeGetOptionalParams,
   ): Promise<ComputeGetResponse>;
   /**
    * Creates or updates compute. This call will overwrite a compute if it exists. This is a
@@ -85,10 +85,10 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     parameters: ComputeResource,
-    options?: ComputeCreateOrUpdateOptionalParams
+    options?: ComputeCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ComputeCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ComputeCreateOrUpdateResponse>,
       ComputeCreateOrUpdateResponse
     >
   >;
@@ -107,7 +107,7 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     parameters: ComputeResource,
-    options?: ComputeCreateOrUpdateOptionalParams
+    options?: ComputeCreateOrUpdateOptionalParams,
   ): Promise<ComputeCreateOrUpdateResponse>;
   /**
    * Updates properties of a compute. This call will overwrite a compute if it exists. This is a
@@ -123,9 +123,12 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     parameters: ClusterUpdateParameters,
-    options?: ComputeUpdateOptionalParams
+    options?: ComputeUpdateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<ComputeUpdateResponse>, ComputeUpdateResponse>
+    SimplePollerLike<
+      OperationState<ComputeUpdateResponse>,
+      ComputeUpdateResponse
+    >
   >;
   /**
    * Updates properties of a compute. This call will overwrite a compute if it exists. This is a
@@ -141,7 +144,7 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     parameters: ClusterUpdateParameters,
-    options?: ComputeUpdateOptionalParams
+    options?: ComputeUpdateOptionalParams,
   ): Promise<ComputeUpdateResponse>;
   /**
    * Deletes specified Machine Learning compute.
@@ -157,8 +160,8 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     underlyingResourceAction: UnderlyingResourceAction,
-    options?: ComputeDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ComputeDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes specified Machine Learning compute.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -173,7 +176,7 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     underlyingResourceAction: UnderlyingResourceAction,
-    options?: ComputeDeleteOptionalParams
+    options?: ComputeDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets secrets related to Machine Learning compute (storage keys, service credentials, etc).
@@ -186,7 +189,7 @@ export interface ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeListKeysOptionalParams
+    options?: ComputeListKeysOptionalParams,
   ): Promise<ComputeListKeysResponse>;
   /**
    * Posts a start action to a compute instance
@@ -199,8 +202,8 @@ export interface ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ComputeStartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Posts a start action to a compute instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -212,7 +215,7 @@ export interface ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeStartOptionalParams
+    options?: ComputeStartOptionalParams,
   ): Promise<void>;
   /**
    * Posts a stop action to a compute instance
@@ -225,8 +228,8 @@ export interface ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ComputeStopOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Posts a stop action to a compute instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -238,7 +241,7 @@ export interface ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeStopOptionalParams
+    options?: ComputeStopOptionalParams,
   ): Promise<void>;
   /**
    * Posts a restart action to a compute instance
@@ -251,8 +254,8 @@ export interface ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ComputeRestartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Posts a restart action to a compute instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -264,6 +267,6 @@ export interface ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeRestartOptionalParams
+    options?: ComputeRestartOptionalParams,
   ): Promise<void>;
 }
