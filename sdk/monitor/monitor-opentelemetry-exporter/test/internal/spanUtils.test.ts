@@ -8,9 +8,28 @@ import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
 import { Resource } from "@opentelemetry/resources";
 import {
-  DbSystemValues,
-  SemanticAttributes,
-  SemanticResourceAttributes,
+  DBSYSTEMVALUES_HIVE,
+  DBSYSTEMVALUES_MONGODB,
+  DBSYSTEMVALUES_MYSQL,
+  DBSYSTEMVALUES_POSTGRESQL,
+  DBSYSTEMVALUES_REDIS,
+  DBSYSTEMVALUES_SQLITE,
+  SEMATTRS_DB_NAME,
+  SEMATTRS_DB_OPERATION,
+  SEMATTRS_DB_STATEMENT,
+  SEMATTRS_DB_SYSTEM,
+  SEMATTRS_HTTP_HOST,
+  SEMATTRS_HTTP_METHOD,
+  SEMATTRS_HTTP_ROUTE,
+  SEMATTRS_HTTP_STATUS_CODE,
+  SEMATTRS_HTTP_URL,
+  SEMATTRS_NET_PEER_IP,
+  SEMATTRS_PEER_SERVICE,
+  SEMATTRS_RPC_GRPC_STATUS_CODE,
+  SEMATTRS_RPC_SYSTEM,
+  SEMRESATTRS_SERVICE_INSTANCE_ID,
+  SEMRESATTRS_SERVICE_NAME,
+  SEMRESATTRS_SERVICE_NAMESPACE,
 } from "@opentelemetry/semantic-conventions";
 
 import { Tags, Properties, Measurements } from "../../src/types";
@@ -31,9 +50,9 @@ const context = getInstance();
 
 const tracerProviderConfig: TracerConfig = {
   resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "testServiceInstanceID",
-    [SemanticResourceAttributes.SERVICE_NAME]: "testServiceName",
-    [SemanticResourceAttributes.SERVICE_NAMESPACE]: "testServiceNamespace",
+    [SEMRESATTRS_SERVICE_INSTANCE_ID]: "testServiceInstanceID",
+    [SEMRESATTRS_SERVICE_NAME]: "testServiceName",
+    [SEMRESATTRS_SERVICE_NAMESPACE]: "testServiceNamespace",
   }),
 };
 
@@ -107,8 +126,8 @@ describe("spanUtils.ts", () => {
         );
         span.setAttributes({
           "extra.attribute": "foo",
-          [SemanticAttributes.RPC_GRPC_STATUS_CODE]: 123,
-          [SemanticAttributes.RPC_SYSTEM]: "test rpc system",
+          [SEMATTRS_RPC_GRPC_STATUS_CODE]: 123,
+          [SEMATTRS_RPC_SYSTEM]: "test rpc system",
         });
         span.setStatus({
           code: SpanStatusCode.OK,
@@ -157,8 +176,8 @@ describe("spanUtils.ts", () => {
         );
         span.setAttributes({
           "extra.attribute": "foo",
-          [SemanticAttributes.RPC_GRPC_STATUS_CODE]: 123,
-          [SemanticAttributes.RPC_SYSTEM]: "test rpc system",
+          [SEMATTRS_RPC_GRPC_STATUS_CODE]: 123,
+          [SEMATTRS_RPC_SYSTEM]: "test rpc system",
         });
         span.setStatus({
           code: SpanStatusCode.OK,
@@ -196,6 +215,56 @@ describe("spanUtils.ts", () => {
           expectedBaseData,
         );
       });
+      it("should create success:false Dependency Envelope for Client spans with status code ERROR", () => {
+        const span = new Span(
+          tracer,
+          ROOT_CONTEXT,
+          "parent span",
+          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+          SpanKind.CLIENT,
+          "parentSpanId",
+        );
+        span.setAttributes({
+          "extra.attribute": "foo",
+          [SEMATTRS_RPC_GRPC_STATUS_CODE]: 400,
+          [SEMATTRS_RPC_SYSTEM]: "test rpc system",
+        });
+        span.setStatus({
+          code: SpanStatusCode.ERROR,
+        });
+        span.end();
+        const expectedTags: Tags = {
+          [KnownContextTagKeys.AiOperationId]: "traceid",
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+        };
+        const expectedProperties = {
+          "extra.attribute": "foo",
+        };
+
+        const expectedBaseData: Partial<RemoteDependencyData> = {
+          id: `${span.spanContext().spanId}`,
+          success: false,
+          resultCode: "400",
+          target: "test rpc system",
+          type: "GRPC",
+          name: `parent span`,
+          version: 2,
+          properties: expectedProperties,
+          measurements: {},
+        };
+
+        const envelope = readableSpanToEnvelope(span, "ikey");
+        assertEnvelope(
+          envelope,
+          "Microsoft.ApplicationInsights.RemoteDependency",
+          100,
+          "RemoteDependencyData",
+          expectedTags,
+          expectedProperties,
+          emptyMeasurements,
+          expectedBaseData,
+        );
+      });
       it("should create a Dependency Envelope for Client Spans with an updated dependency target", () => {
         const span = new Span(
           tracer,
@@ -207,9 +276,9 @@ describe("spanUtils.ts", () => {
         );
         span.setAttributes({
           "extra.attribute": "foo",
-          [SemanticAttributes.RPC_GRPC_STATUS_CODE]: 123,
-          [SemanticAttributes.RPC_SYSTEM]: "test rpc system",
-          [SemanticAttributes.PEER_SERVICE]: "test peer service",
+          [SEMATTRS_RPC_GRPC_STATUS_CODE]: 123,
+          [SEMATTRS_RPC_SYSTEM]: "test rpc system",
+          [SEMATTRS_PEER_SERVICE]: "test peer service",
         });
         span.setStatus({
           code: SpanStatusCode.OK,
@@ -258,8 +327,8 @@ describe("spanUtils.ts", () => {
         );
         span.setAttributes({
           "extra.attribute": "foo",
-          [SemanticAttributes.RPC_GRPC_STATUS_CODE]: 123,
-          [SemanticAttributes.RPC_SYSTEM]: DependencyTypes.Wcf,
+          [SEMATTRS_RPC_GRPC_STATUS_CODE]: 123,
+          [SEMATTRS_RPC_SYSTEM]: DependencyTypes.Wcf,
         });
         span.setStatus({
           code: SpanStatusCode.OK,
@@ -324,6 +393,54 @@ describe("spanUtils.ts", () => {
         const expectedBaseData: Partial<RequestData> = {
           id: `${span.spanContext().spanId}`,
           success: true,
+          responseCode: "0",
+          name: `parent span`,
+          version: 2,
+          source: undefined,
+          properties: {}, // Should not add sampleRate
+          measurements: {},
+        };
+
+        const envelope = readableSpanToEnvelope(span, "ikey");
+        assertEnvelope(
+          envelope,
+          "Microsoft.ApplicationInsights.Request",
+          50,
+          "RequestData",
+          expectedTags,
+          {},
+          emptyMeasurements,
+          expectedBaseData,
+          expectedTime,
+        );
+      });
+
+      it("should create a success:false Request Envelope for Server Spans with 4xx status codes", () => {
+        const span = new Span(
+          tracer,
+          ROOT_CONTEXT,
+          "parent span",
+          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+          SpanKind.SERVER,
+          "parentSpanId",
+        );
+        span.setAttributes({
+          "_MS.sampleRate": "50",
+          [SEMATTRS_HTTP_STATUS_CODE]: 400,
+        });
+        span.setStatus({
+          code: SpanStatusCode.UNSET,
+        });
+        span.end();
+        const expectedTime = hrTimeToDate(span.startTime);
+        const expectedTags: Tags = {
+          [KnownContextTagKeys.AiOperationId]: "traceid",
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+          [KnownContextTagKeys.AiOperationName]: "parent span",
+        };
+        const expectedBaseData: Partial<RequestData> = {
+          id: `${span.spanContext().spanId}`,
+          success: false,
           responseCode: "0",
           name: `parent span`,
           version: 2,
@@ -456,10 +573,10 @@ describe("spanUtils.ts", () => {
           [{ context: { traceId: "traceid", spanId: "spanId", traceFlags: 0 } }],
         );
         span.setAttributes({
-          [SemanticAttributes.HTTP_METHOD]: "GET",
-          [SemanticAttributes.HTTP_ROUTE]: "/api/example",
-          [SemanticAttributes.HTTP_URL]: "https://example.com/api/example",
-          [SemanticAttributes.HTTP_STATUS_CODE]: 200,
+          [SEMATTRS_HTTP_METHOD]: "GET",
+          [SEMATTRS_HTTP_ROUTE]: "/api/example",
+          [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
+          [SEMATTRS_HTTP_STATUS_CODE]: 200,
           "extra.attribute": "foo",
         });
         span.setStatus({
@@ -509,10 +626,10 @@ describe("spanUtils.ts", () => {
           "parentSpanId",
         );
         span.setAttributes({
-          [SemanticAttributes.HTTP_METHOD]: "GET",
-          [SemanticAttributes.HTTP_URL]: "https://example.com/api/example",
-          [SemanticAttributes.HTTP_STATUS_CODE]: 200,
-          [SemanticAttributes.NET_PEER_IP]: "192.168.123.132",
+          [SEMATTRS_HTTP_METHOD]: "GET",
+          [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
+          [SEMATTRS_HTTP_STATUS_CODE]: 200,
+          [SEMATTRS_NET_PEER_IP]: "192.168.123.132",
           "extra.attribute": "foo",
         });
         span.setStatus({
@@ -563,9 +680,9 @@ describe("spanUtils.ts", () => {
           "parentSpanId",
         );
         span.setAttributes({
-          [SemanticAttributes.HTTP_URL]: "https://example.com/api/example",
-          [SemanticAttributes.HTTP_STATUS_CODE]: 200,
-          [SemanticAttributes.NET_PEER_IP]: "192.168.123.132",
+          [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
+          [SEMATTRS_HTTP_STATUS_CODE]: 200,
+          [SEMATTRS_NET_PEER_IP]: "192.168.123.132",
           "extra.attribute": "foo",
         });
         span.setStatus({
@@ -615,10 +732,10 @@ describe("spanUtils.ts", () => {
           "parentSpanId",
         );
         span.setAttributes({
-          [SemanticAttributes.HTTP_METHOD]: "GET",
-          [SemanticAttributes.HTTP_URL]: "https://example.com/api/example",
-          [SemanticAttributes.PEER_SERVICE]: "https://someotherexample.com/api/example",
-          [SemanticAttributes.HTTP_STATUS_CODE]: 200,
+          [SEMATTRS_HTTP_METHOD]: "GET",
+          [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
+          [SEMATTRS_PEER_SERVICE]: "https://someotherexample.com/api/example",
+          [SEMATTRS_HTTP_STATUS_CODE]: 200,
           "extra.attribute": "foo",
         });
         span.setStatus({
@@ -756,8 +873,8 @@ describe("spanUtils.ts", () => {
           "parentSpanId",
         );
         span.setAttributes({
-          [SemanticAttributes.HTTP_METHOD]: "GET",
-          [SemanticAttributes.HTTP_HOST]: "http://test:80",
+          [SEMATTRS_HTTP_METHOD]: "GET",
+          [SEMATTRS_HTTP_HOST]: "http://test:80",
           "extra.attribute": "foo",
         });
         span.end();
@@ -806,8 +923,8 @@ describe("spanUtils.ts", () => {
           "parentSpanId",
         );
         span.setAttributes({
-          [SemanticAttributes.DB_SYSTEM]: DbSystemValues.MYSQL,
-          [SemanticAttributes.DB_STATEMENT]: "SELECT * FROM Test",
+          [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_MYSQL,
+          [SEMATTRS_DB_STATEMENT]: "SELECT * FROM Test",
           "extra.attribute": "foo",
         });
         span.setStatus({
@@ -856,8 +973,8 @@ describe("spanUtils.ts", () => {
           "parentSpanId",
         );
         span.setAttributes({
-          [SemanticAttributes.DB_SYSTEM]: DbSystemValues.POSTGRESQL,
-          [SemanticAttributes.DB_STATEMENT]: "SELECT * FROM Test",
+          [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_POSTGRESQL,
+          [SEMATTRS_DB_STATEMENT]: "SELECT * FROM Test",
           "extra.attribute": "foo",
         });
         span.setStatus({
@@ -906,8 +1023,8 @@ describe("spanUtils.ts", () => {
           "parentSpanId",
         );
         span.setAttributes({
-          [SemanticAttributes.DB_SYSTEM]: DbSystemValues.MONGODB,
-          [SemanticAttributes.DB_STATEMENT]: "SELECT * FROM Test",
+          [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_MONGODB,
+          [SEMATTRS_DB_STATEMENT]: "SELECT * FROM Test",
           "extra.attribute": "foo",
         });
         span.setStatus({
@@ -956,8 +1073,8 @@ describe("spanUtils.ts", () => {
           "parentSpanId",
         );
         span.setAttributes({
-          [SemanticAttributes.DB_SYSTEM]: DbSystemValues.REDIS,
-          [SemanticAttributes.DB_STATEMENT]: "SELECT * FROM Test",
+          [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_REDIS,
+          [SEMATTRS_DB_STATEMENT]: "SELECT * FROM Test",
           "extra.attribute": "foo",
         });
         span.setStatus({
@@ -1006,8 +1123,8 @@ describe("spanUtils.ts", () => {
           "parentSpanId",
         );
         span.setAttributes({
-          [SemanticAttributes.DB_SYSTEM]: DbSystemValues.SQLITE,
-          [SemanticAttributes.DB_STATEMENT]: "SELECT * FROM Test",
+          [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_SQLITE,
+          [SEMATTRS_DB_STATEMENT]: "SELECT * FROM Test",
           "extra.attribute": "foo",
         });
         span.setStatus({
@@ -1056,10 +1173,10 @@ describe("spanUtils.ts", () => {
           "parentSpanId",
         );
         span.setAttributes({
-          [SemanticAttributes.DB_SYSTEM]: DbSystemValues.HIVE,
-          [SemanticAttributes.DB_OPERATION]: "SELECT * FROM Test",
-          [SemanticAttributes.PEER_SERVICE]: "test",
-          [SemanticAttributes.DB_NAME]: "test2",
+          [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_HIVE,
+          [SEMATTRS_DB_OPERATION]: "SELECT * FROM Test",
+          [SEMATTRS_PEER_SERVICE]: "test",
+          [SEMATTRS_DB_NAME]: "test2",
           "extra.attribute": "foo",
         });
         span.setStatus({
