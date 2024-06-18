@@ -128,6 +128,69 @@ main().catch((err) => {
 
 ## Examples
 
+### Generate Chatbot Response
+
+Streaming chat with the Inference SDK requires core streaming support; to enable this support, please install the `@azure/core-sse` package:
+
+```bash
+npm install @azure/core-sse
+```
+
+This example authenticates using a DefaultAzureCredential, then generates chat responses to input chat question and messages.
+
+```javascript
+import ModelClient from "@azure-rest/ai-inference";
+import { DefaultAzureCredential } from "@azure/identity";
+import { createSseStream } from "@azure/core-sse";
+
+async function main(){
+  const endpoint = "https://myaccount.openai.azure.com/";
+  const client = new ModelClient(endpoint, new DefaultAzureCredential());
+
+  const messages = [
+    // NOTE: "system" role is not supported on all Azure Models
+    { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
+    { role: "user", content: "Can you help me?" },
+    { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
+    { role: "user", content: "What's the best way to train a parrot?" },
+  ];
+
+  console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
+
+  const response = await client.path("/chat/completions").post({
+    body: {
+      messages,
+      stream: true,
+      max_tokens: 128
+    }
+  }).asNodeStream();
+
+  const stream = response.body;
+  if (!stream) {
+    throw new Error("The response stream is undefined");
+  }
+
+  if (response.status !== "200") {
+    throw new Error(`Failed to get chat completions: ${response.body.error}`);
+  }
+
+  const sses = createSseStream(stream);
+
+  for await (const event of sses) {
+    if (event.data === "[DONE]") {
+      return;
+    }
+    for (const choice of (JSON.parse(event.data)).choices) {
+      console.log(choice.delta?.content);
+    }
+  }
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
 ### Generate Multiple Completions With Subscription Key
 
 This example generates text responses to input prompts using an Azure subscription key
