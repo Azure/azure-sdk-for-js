@@ -28,7 +28,7 @@ interface NavigatorEx extends Navigator {
   };
 }
 
-function getBrandVersionString(brands: { brand: string, version: string }[]): { brand: string, version: string } {
+function getBrandVersionString(brands: { brand: string, version: string }[]): { brand: string, version: string } | undefined {
   // Check for Microsoft Edge
   const edge = brands.find((b) => b.brand === "Microsoft Edge");
   if (edge) {
@@ -47,7 +47,7 @@ function getBrandVersionString(brands: { brand: string, version: string }[]): { 
     return chromium;
   }
 
-  throw new Error("No known brand found");
+  return undefined;
 }
 
 /**
@@ -64,8 +64,10 @@ export async function setPlatformSpecificData(map: Map<string, string>): Promise
     osPlatform = `${entropyValues.architecture}-${entropyValues.platform}-${entropyValues.platformVersion}`;
 
     // Get the brand and version
-    const { brand, version } = getBrandVersionString(entropyValues.brands);
-    map.set(brand, version);
+    const brand = getBrandVersionString(entropyValues.brands);
+    if (brand) {
+      map.set(brand.brand, brand.version);
+    }
   } else if (localNavigator?.platform) {
     osPlatform = localNavigator.platform;
   }
