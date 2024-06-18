@@ -84,17 +84,13 @@ export class RestError extends Error {
   }
 
   toJSON(): unknown {
-    if (process.env.AZURE_SANITIZE_RESTERROR === "true") {
-      // Extract toJSON so we don't end up in an infinite loop when we sanitize
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { toJSON: _, ...valueToSanitize } = this;
+    // Extract toJSON so we don't end up in an infinite loop when we sanitize
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { toJSON: _, ...valueToSanitize } = this;
 
-      // While we _could_ write some logic to recursively walk the object and sanitize, it's much easier to just
-      // leverage JSON.stringify's logic as used in sanitizeObject and parse it back into an object.
-      return JSON.parse(sanitizeObject(valueToSanitize));
-    } else {
-      return this;
-    }
+    // While we _could_ write some logic to recursively walk the object and sanitize, it's much easier to just
+    // leverage JSON.stringify's logic as used in sanitizeObject and parse it back into an object.
+    return JSON.parse(sanitizeObject(valueToSanitize));
   }
 }
 
