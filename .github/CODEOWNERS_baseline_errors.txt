@@ -3,7 +3,6 @@ mpodwysocki is not a public member of Azure.
 minhanh-phan is not a public member of Azure.
 anilba06 is not a public member of Azure.
 dpwatrous is not a public member of Azure.
-There are no owners defined for CODEOWNERS entry.
 danielav7 is not a public member of Azure.
 miguhern is not a public member of Azure.
 RoyHerrod is not a public member of Azure.

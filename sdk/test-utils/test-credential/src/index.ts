@@ -2,10 +2,14 @@
 // Licensed under the MIT license.
 
 import {
-  DefaultAzureCredential,
+  AzureCliCredential,
+  AzureDeveloperCliCredential,
+  AzurePowerShellCredential,
+  ChainedTokenCredential,
   DefaultAzureCredentialClientIdOptions,
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialResourceIdOptions,
+  EnvironmentCredential,
 } from "@azure/identity";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "./noOpCredential";
@@ -40,7 +44,7 @@ export type CreateTestCredentialOptions = DefaultAzureCredentialCombinedOptions 
  *  - returns the NoOpCredential (helps bypass the AAD traffic)
  *
  * ### In record/live modes
- *  - returns the DefaultAzureCredential in Node (expects that you used [`User Auth` or `Auth via development tools`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-users) credentials)
+ *  - returns the ChainedTokenCredential in Node (expects that you used [`User Auth` or `Auth via development tools`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-users) credentials)
  *  - Returns browser relay credential in browser. Requires the dev-tool browser relay server to be running (dev-tool run start-browser-relay, or is automatically started when using the dev-tool browser test command)
  *  - AAD traffic won't be recorded if this credential is used.
  */
@@ -53,7 +57,15 @@ export function createTestCredential(
     return createBrowserRelayCredential(tokenCredentialOptions);
   } else {
     const { browserRelayServerUrl: _, ...dacOptions } = tokenCredentialOptions;
-    return new DefaultAzureCredential(dacOptions);
+    return new ChainedTokenCredential(
+      new AzurePowerShellCredential(dacOptions),
+      new AzureCliCredential(dacOptions),
+      new AzureDeveloperCliCredential(dacOptions),
+      // Keep Environment Credential for packages that have not migrated to Federated Authentication
+      // See the migration guide for more information
+      // https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/1080/Secret-auth-migration
+      new EnvironmentCredential(dacOptions),
+    );
   }
 }
 

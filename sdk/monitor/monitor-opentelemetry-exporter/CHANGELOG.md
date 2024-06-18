@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.24 Unreleased
+## 1.0.0-beta.24 (2024-06-13)
 
 ### Bugs Fixed
 
@@ -10,6 +10,8 @@
 ### Other Changes
 
 - Client generated Span event exceptions no longer generate trace telemetry.
+- Sever spans with http status codes within 4xx range should count as request failures.
+- Update to the latest OpenTelemetry dependencies.
 
 ## 1.0.0-beta.23 (2024-05-10)
 
