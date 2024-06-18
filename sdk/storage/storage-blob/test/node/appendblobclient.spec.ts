@@ -314,6 +314,34 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
+  // [Copy source error code] Feature is pending on service side, skip the case for now.
+  it.skip("appendBlockFromURL - should fail with source error message", async function () {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+
+    const newBlobClient = containerClient.getAppendBlobClient(
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
+    );
+    await newBlobClient.create();
+
+    const sourceUrl = await appendBlobClient.generateSasUrl({
+      permissions: BlobSASPermissions.parse("d"),
+      expiresOn: tmr,
+    });
+
+    try {
+      await newBlobClient.appendBlockFromURL(sourceUrl, 0, 512);
+    } catch (err) {
+      assert.deepEqual((err as any).details.errorCode, "CannotVerifyCopySource");
+      assert.equal((err as any).details.copySourceStatusCode, 403);
+      assert.deepEqual((err as any).details.copySourceErrorCode, "AuthorizationPermissionMismatch");
+      assert.deepEqual(
+        (err as any).details.copySourceErrorMessage,
+        "This request is not authorized to perform this operation using this permission.",
+      );
+    }
+  });
+
   it("conditional tags for appendBlockFromURL's destination blob", async () => {
     const newBlobClient = containerClient.getAppendBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob")),

@@ -4,7 +4,7 @@
 /**
  * @internal
  */
-export const SDK_VERSION: string = "1.2.0";
+export const SDK_VERSION: string = "1.3.0";
 
 /**
  * Known values for Monitor Audience

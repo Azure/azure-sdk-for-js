@@ -90,6 +90,7 @@ export interface StaticWebsite {
 export interface StorageError {
   message?: string;
   code?: string;
+  authenticationErrorDetail?: string;
 }
 
 /** Stats for the storage service. */
@@ -969,6 +970,8 @@ export interface ContainerGetAccountInfoHeaders {
   skuName?: SkuName;
   /** Identifies the account kind */
   accountKind?: AccountKind;
+  /** Version 2019-07-07 and newer. Indicates if the account has a hierarchical namespace enabled. */
+  isHierarchicalNamespaceEnabled?: boolean;
 }
 
 /** Defines headers for Container_getAccountInfo operation. */
@@ -1610,6 +1613,8 @@ export interface BlobGetAccountInfoHeaders {
   skuName?: SkuName;
   /** Identifies the account kind */
   accountKind?: AccountKind;
+  /** Version 2019-07-07 and newer. Indicates if the account has a hierarchical namespace enabled. */
+  isHierarchicalNamespaceEnabled?: boolean;
 }
 
 /** Defines headers for Blob_getAccountInfo operation. */
@@ -2937,7 +2942,12 @@ export type ServiceGetUserDelegationKeyResponse =
 
 /** Optional parameters. */
 export interface ServiceGetAccountInfoOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  timeoutInSeconds?: number;
+  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+  requestId?: string;
+}
 
 /** Contains response data for the getAccountInfo operation. */
 export type ServiceGetAccountInfoResponse = ServiceGetAccountInfoHeaders;
@@ -3285,7 +3295,12 @@ export type ContainerListBlobHierarchySegmentResponse =
 
 /** Optional parameters. */
 export interface ContainerGetAccountInfoOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  timeoutInSeconds?: number;
+  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+  requestId?: string;
+}
 
 /** Contains response data for the getAccountInfo operation. */
 export type ContainerGetAccountInfoResponse = ContainerGetAccountInfoHeaders;
@@ -3695,7 +3710,12 @@ export type BlobSetTierResponse = BlobSetTierHeaders;
 
 /** Optional parameters. */
 export interface BlobGetAccountInfoOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  timeoutInSeconds?: number;
+  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+  requestId?: string;
+}
 
 /** Contains response data for the getAccountInfo operation. */
 export type BlobGetAccountInfoResponse = BlobGetAccountInfoHeaders;

@@ -72,6 +72,7 @@ export interface CorsRule {
 export interface StorageError {
   message?: string;
   code?: string;
+  authenticationErrorDetail?: string;
 }
 
 /** Stats for the storage service. */

@@ -82,7 +82,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
-    "@azure/identity": "^3.3.0",
+    "@azure/identity": "^4.2.1",
     "@azure-tools/test-recorder": "^3.0.0",
     "mocha": "^10.0.0",
     "@types/mocha": "^10.0.0",

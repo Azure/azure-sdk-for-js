@@ -116,6 +116,7 @@ export interface StatsbeatOptions {
   endpointUrl: string;
   networkCollectionInterval?: number;
   longCollectionInterval?: number;
+  disableOfflineStorage?: boolean;
 }
 
 export interface VirtualMachineInfo {

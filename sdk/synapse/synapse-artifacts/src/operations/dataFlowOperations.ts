@@ -17,7 +17,7 @@ import { ArtifactsClient } from "../artifactsClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   DataFlowDeleteDataFlowOptionalParams,
   ArtifactRenameRequest,
   DataFlowRenameDataFlowOptionalParams,
-  DataFlowGetDataFlowsByWorkspaceNextResponse
+  DataFlowGetDataFlowsByWorkspaceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,7 +53,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
    * @param options The options parameters.
    */
   public listDataFlowsByWorkspace(
-    options?: DataFlowGetDataFlowsByWorkspaceOptionalParams
+    options?: DataFlowGetDataFlowsByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<DataFlowResource> {
     const iter = this.getDataFlowsByWorkspacePagingAll(options);
     return {
@@ -68,13 +68,13 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.getDataFlowsByWorkspacePagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *getDataFlowsByWorkspacePagingPage(
     options?: DataFlowGetDataFlowsByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataFlowResource[]> {
     let result: DataFlowGetDataFlowsByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
     while (continuationToken) {
       result = await this._getDataFlowsByWorkspaceNext(
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -98,7 +98,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
   }
 
   private async *getDataFlowsByWorkspacePagingAll(
-    options?: DataFlowGetDataFlowsByWorkspaceOptionalParams
+    options?: DataFlowGetDataFlowsByWorkspaceOptionalParams,
   ): AsyncIterableIterator<DataFlowResource> {
     for await (const page of this.getDataFlowsByWorkspacePagingPage(options)) {
       yield* page;
@@ -114,7 +114,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
   async beginCreateOrUpdateDataFlow(
     dataFlowName: string,
     dataFlow: DataFlowResource,
-    options?: DataFlowCreateOrUpdateDataFlowOptionalParams
+    options?: DataFlowCreateOrUpdateDataFlowOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataFlowCreateOrUpdateDataFlowResponse>,
@@ -123,29 +123,29 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DataFlowCreateOrUpdateDataFlowResponse> => {
       return tracingClient.withSpan(
         "ArtifactsClient.beginCreateOrUpdateDataFlow",
         options ?? {},
         async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<
-            DataFlowCreateOrUpdateDataFlowResponse
-          >;
-        }
+          return this.client.sendOperationRequest(
+            args,
+            spec,
+          ) as Promise<DataFlowCreateOrUpdateDataFlowResponse>;
+        },
       );
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -154,8 +154,8 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -163,22 +163,22 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { dataFlowName, dataFlow, options },
-      spec: createOrUpdateDataFlowOperationSpec
+      spec: createOrUpdateDataFlowOperationSpec,
     });
     const poller = await createHttpPoller<
       DataFlowCreateOrUpdateDataFlowResponse,
       OperationState<DataFlowCreateOrUpdateDataFlowResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -193,12 +193,12 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
   async beginCreateOrUpdateDataFlowAndWait(
     dataFlowName: string,
     dataFlow: DataFlowResource,
-    options?: DataFlowCreateOrUpdateDataFlowOptionalParams
+    options?: DataFlowCreateOrUpdateDataFlowOptionalParams,
   ): Promise<DataFlowCreateOrUpdateDataFlowResponse> {
     const poller = await this.beginCreateOrUpdateDataFlow(
       dataFlowName,
       dataFlow,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -210,7 +210,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
    */
   async getDataFlow(
     dataFlowName: string,
-    options?: DataFlowGetDataFlowOptionalParams
+    options?: DataFlowGetDataFlowOptionalParams,
   ): Promise<DataFlowGetDataFlowResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.getDataFlow",
@@ -218,9 +218,9 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { dataFlowName, options },
-          getDataFlowOperationSpec
+          getDataFlowOperationSpec,
         ) as Promise<DataFlowGetDataFlowResponse>;
-      }
+      },
     );
   }
 
@@ -231,31 +231,30 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
    */
   async beginDeleteDataFlow(
     dataFlowName: string,
-    options?: DataFlowDeleteDataFlowOptionalParams
+    options?: DataFlowDeleteDataFlowOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return tracingClient.withSpan(
         "ArtifactsClient.beginDeleteDataFlow",
         options ?? {},
         async () => {
           return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        }
+        },
       );
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -264,8 +263,8 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -273,19 +272,19 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { dataFlowName, options },
-      spec: deleteDataFlowOperationSpec
+      spec: deleteDataFlowOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -298,7 +297,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
    */
   async beginDeleteDataFlowAndWait(
     dataFlowName: string,
-    options?: DataFlowDeleteDataFlowOptionalParams
+    options?: DataFlowDeleteDataFlowOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeleteDataFlow(dataFlowName, options);
     return poller.pollUntilDone();
@@ -313,31 +312,30 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
   async beginRenameDataFlow(
     dataFlowName: string,
     request: ArtifactRenameRequest,
-    options?: DataFlowRenameDataFlowOptionalParams
+    options?: DataFlowRenameDataFlowOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return tracingClient.withSpan(
         "ArtifactsClient.beginRenameDataFlow",
         options ?? {},
         async () => {
           return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        }
+        },
       );
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -346,8 +344,8 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -355,19 +353,19 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { dataFlowName, request, options },
-      spec: renameDataFlowOperationSpec
+      spec: renameDataFlowOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -382,12 +380,12 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
   async beginRenameDataFlowAndWait(
     dataFlowName: string,
     request: ArtifactRenameRequest,
-    options?: DataFlowRenameDataFlowOptionalParams
+    options?: DataFlowRenameDataFlowOptionalParams,
   ): Promise<void> {
     const poller = await this.beginRenameDataFlow(
       dataFlowName,
       request,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -397,7 +395,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
    * @param options The options parameters.
    */
   private async _getDataFlowsByWorkspace(
-    options?: DataFlowGetDataFlowsByWorkspaceOptionalParams
+    options?: DataFlowGetDataFlowsByWorkspaceOptionalParams,
   ): Promise<DataFlowGetDataFlowsByWorkspaceResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient._getDataFlowsByWorkspace",
@@ -405,9 +403,9 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          getDataFlowsByWorkspaceOperationSpec
+          getDataFlowsByWorkspaceOperationSpec,
         ) as Promise<DataFlowGetDataFlowsByWorkspaceResponse>;
-      }
+      },
     );
   }
 
@@ -419,7 +417,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
    */
   private async _getDataFlowsByWorkspaceNext(
     nextLink: string,
-    options?: DataFlowGetDataFlowsByWorkspaceNextOptionalParams
+    options?: DataFlowGetDataFlowsByWorkspaceNextOptionalParams,
   ): Promise<DataFlowGetDataFlowsByWorkspaceNextResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient._getDataFlowsByWorkspaceNext",
@@ -427,9 +425,9 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { nextLink, options },
-          getDataFlowsByWorkspaceNextOperationSpec
+          getDataFlowsByWorkspaceNextOperationSpec,
         ) as Promise<DataFlowGetDataFlowsByWorkspaceNextResponse>;
-      }
+      },
     );
   }
 }
@@ -441,20 +439,20 @@ const createOrUpdateDataFlowOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataFlowResource
+      bodyMapper: Mappers.DataFlowResource,
     },
     201: {
-      bodyMapper: Mappers.DataFlowResource
+      bodyMapper: Mappers.DataFlowResource,
     },
     202: {
-      bodyMapper: Mappers.DataFlowResource
+      bodyMapper: Mappers.DataFlowResource,
     },
     204: {
-      bodyMapper: Mappers.DataFlowResource
+      bodyMapper: Mappers.DataFlowResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.dataFlow,
   queryParameters: [Parameters.apiVersion5],
@@ -462,26 +460,26 @@ const createOrUpdateDataFlowOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getDataFlowOperationSpec: coreClient.OperationSpec = {
   path: "/dataflows/{dataFlowName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataFlowResource
+      bodyMapper: Mappers.DataFlowResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.dataFlowName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer
+  serializer,
 };
 const deleteDataFlowOperationSpec: coreClient.OperationSpec = {
   path: "/dataflows/{dataFlowName}",
@@ -492,13 +490,13 @@ const deleteDataFlowOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.dataFlowName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const renameDataFlowOperationSpec: coreClient.OperationSpec = {
   path: "/dataflows/{dataFlowName}/rename",
@@ -509,44 +507,44 @@ const renameDataFlowOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.request,
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.dataFlowName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getDataFlowsByWorkspaceOperationSpec: coreClient.OperationSpec = {
   path: "/dataflows",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataFlowListResponse
+      bodyMapper: Mappers.DataFlowListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDataFlowsByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataFlowListResponse
+      bodyMapper: Mappers.DataFlowListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
