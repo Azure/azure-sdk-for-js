@@ -28,7 +28,9 @@ interface NavigatorEx extends Navigator {
   };
 }
 
-function getBrandVersionString(brands: { brand: string, version: string }[]): { brand: string, version: string } | undefined {
+function getBrandVersionString(
+  brands: { brand: string; version: string }[],
+): { brand: string; version: string } | undefined {
   // Check for Microsoft Edge
   const edge = brands.find((b) => b.brand === "Microsoft Edge");
   if (edge) {
