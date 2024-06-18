@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { DocumentTranslationClient, GetTranslationStatus200Response, StartTranslationParameters } from "../.././../src";
+import { DocumentTranslationClient, GetTranslationStatus200Response, isUnexpected } from "../.././../src";
 import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
 import { ONE_TEST_DOCUMENTS, createSourceContainer, createTargetContainer } from "./containerHelper";
 import { Context } from "mocha";
@@ -22,20 +22,18 @@ describe("CancelTranslation tests", () => {
     await recorder.stop();
   });
 
-  it.only("cancel translation", async () => {
+  it("cancel translation", async () => {
     const sourceUrl = await createSourceContainer(ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
     const targetUrl = await createTargetContainer();
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
-    const options: StartTranslationParameters = {      
-      body: {
-        inputs: [batchRequest]
-      }
-    };
-
+    
     //Start translation
-    const poller = await client.path("/document/batches").post(options); 
+    const batchRequests = {inputs: [batchRequest]};
+    const poller = await client.path("/document/batches").post({
+      body: batchRequests
+    }); 
     const id = getTranslationOperationID(poller.headers["operation-location"]);
 
     //Cancel translation
@@ -48,8 +46,9 @@ describe("CancelTranslation tests", () => {
       assert.isTrue(idOutput == id);
       const statusOutput = (response as GetTranslationStatus200Response).body.status; 
       assert.isTrue((statusOutput == "Cancelled") || (statusOutput == "Cancelling") || (statusOutput == "NotStarted"));     
-    } else {
-      assert.fail("Failed to get the status. Response:");
+    } 
+    if (isUnexpected(response)) {
+      throw response.body;
     }
   });
   
