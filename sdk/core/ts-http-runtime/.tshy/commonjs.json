@@ -18,6 +18,7 @@
     "../src/util/userAgentPlatform-browser.mts",
     "../src/util/uuidUtils-browser.mts",
     "../src/defaultHttpClient-react-native.mts",
+    "../src/logger/log-react-native.mts",
     "../src/util/userAgentPlatform-react-native.mts",
     "../src/util/uuidUtils-react-native.mts"
   ],
