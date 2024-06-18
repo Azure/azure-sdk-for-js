@@ -1,4 +1,4 @@
-# Azure Schema Registry client library samples for TypeScript (Beta)
+# Azure Schema Registry client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure Schema Registry in some common scenarios.
 
@@ -62,11 +62,11 @@ npx cross-env SCHEMA_REGISTRY_ENDPOINT="<schema registry endpoint>" SCHEMA_REGIS
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[schemaregistryjsonsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1-beta/typescript/src/schemaRegistryJsonSample.ts
-[schemaregistryjsonwithvalidation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1-beta/typescript/src/schemaRegistryJsonWithValidation.ts
-[witheventhubsbufferedproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1-beta/typescript/src/withEventHubsBufferedProducerClient.ts
-[witheventhubsconsumerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1-beta/typescript/src/withEventHubsConsumerClient.ts
-[witheventhubsproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1-beta/typescript/src/withEventHubsProducerClient.ts
+[schemaregistryjsonsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/schemaRegistryJsonSample.ts
+[schemaregistryjsonwithvalidation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/schemaRegistryJsonWithValidation.ts
+[witheventhubsbufferedproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/withEventHubsBufferedProducerClient.ts
+[witheventhubsconsumerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/withEventHubsConsumerClient.ts
+[witheventhubsproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/withEventHubsProducerClient.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/schema-registry-json
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureschemaregistryresource]: https://aka.ms/schemaregistry
