@@ -12,4 +12,13 @@ describe("userAgentPlatform", () => {
 
     assert.ok(map.has("OS"));
   });
+
+  it("should set the Browser Type", async () => {
+    const map = new Map<string, string>();
+
+    await setPlatformSpecificData(map);
+
+    // Switch if we're using a different browser runner
+    assert.ok(map.has("Chromium"));
+  });
 });
