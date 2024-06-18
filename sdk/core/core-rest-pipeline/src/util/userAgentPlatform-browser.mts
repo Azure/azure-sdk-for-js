@@ -28,7 +28,7 @@ interface NavigatorEx extends Navigator {
       platform: string;
       platformVersion: string;
       wow64: boolean;
-    }>
+    }>;
   };
 }
 
@@ -39,7 +39,10 @@ export async function setPlatformSpecificData(map: Map<string, string>): Promise
   const localNavigator = globalThis.navigator as NavigatorEx;
   let osPlatform = "unknown";
   if (localNavigator.userAgentData) {
-    const entropyValues = await localNavigator.userAgentData.getHighEntropyValues(["architecture", "platformVersion"]);
+    const entropyValues = await localNavigator.userAgentData.getHighEntropyValues([
+      "architecture",
+      "platformVersion",
+    ]);
     osPlatform = `${entropyValues.architecture}-${entropyValues.platform}-${entropyValues.platformVersion}`;
   } else if (localNavigator?.platform) {
     osPlatform = localNavigator.platform;
