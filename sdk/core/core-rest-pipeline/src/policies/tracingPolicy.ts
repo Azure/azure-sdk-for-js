@@ -45,7 +45,7 @@ export interface TracingPolicyOptions {
  * @param options - Options to configure the telemetry logged by the tracing policy.
  */
 export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolicy {
-  const userAgent = getUserAgentValue(options.userAgentPrefix);
+  const userAgentPromise = getUserAgentValue(options.userAgentPrefix);
   const sanitizerAllowedValues = createSanitizerAllowedValues({
     additionalAllowedQueryParameters: options.additionalAllowedQueryParameters,
   });
@@ -57,6 +57,8 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
       if (!tracingClient || !request.tracingOptions?.tracingContext) {
         return next(request);
       }
+
+      const userAgent = await userAgentPromise;
 
       const spanAttributes = {
         "http.url": sanitizeUrl(request.url, sanitizerAllowedValues),
