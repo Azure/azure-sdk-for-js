@@ -59,7 +59,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/core-auth": "^1.3.2",
-    "@azure/core-client": "^1.0.0",
+    "@azure/core-client": "^1.9.2",
     "@azure/core-rest-pipeline": "^1.13.0",
     "@azure/core-util": "^1.6.1",
     "@azure/logger": "^1.0.0"

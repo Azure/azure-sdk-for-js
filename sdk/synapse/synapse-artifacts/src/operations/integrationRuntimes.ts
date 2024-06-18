@@ -16,7 +16,7 @@ import {
   IntegrationRuntimesListOptionalParams,
   IntegrationRuntimesListResponse,
   IntegrationRuntimesGetOptionalParams,
-  IntegrationRuntimesGetResponse
+  IntegrationRuntimesGetResponse,
 } from "../models";
 
 /** Class containing IntegrationRuntimes operations. */
@@ -36,7 +36,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
    * @param options The options parameters.
    */
   async list(
-    options?: IntegrationRuntimesListOptionalParams
+    options?: IntegrationRuntimesListOptionalParams,
   ): Promise<IntegrationRuntimesListResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.list",
@@ -44,9 +44,9 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          listOperationSpec
+          listOperationSpec,
         ) as Promise<IntegrationRuntimesListResponse>;
-      }
+      },
     );
   }
 
@@ -57,7 +57,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
    */
   async get(
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesGetOptionalParams
+    options?: IntegrationRuntimesGetOptionalParams,
   ): Promise<IntegrationRuntimesGetResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.get",
@@ -65,9 +65,9 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       async (options) => {
         return this.client.sendOperationRequest(
           { integrationRuntimeName, options },
-          getOperationSpec
+          getOperationSpec,
         ) as Promise<IntegrationRuntimesGetResponse>;
-      }
+      },
     );
   }
 }
@@ -79,30 +79,30 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeListResponse
+      bodyMapper: Mappers.IntegrationRuntimeListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/integrationRuntimes/{integrationRuntimeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeResource
+      bodyMapper: Mappers.IntegrationRuntimeResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.integrationRuntimeName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

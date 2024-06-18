@@ -3548,29 +3548,65 @@ export interface CronTrigger extends TriggerBase {
   expression: string;
 }
 
-export interface MLTableJobInput extends AssetJobInput, JobInput {}
+export interface MLTableJobInput extends AssetJobInput, JobInput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobInputType: "mltable";
+}
 
-export interface CustomModelJobInput extends AssetJobInput, JobInput {}
+export interface CustomModelJobInput extends AssetJobInput, JobInput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobInputType: "custom_model";
+}
 
-export interface MLFlowModelJobInput extends AssetJobInput, JobInput {}
+export interface MLFlowModelJobInput extends AssetJobInput, JobInput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobInputType: "mlflow_model";
+}
 
-export interface TritonModelJobInput extends AssetJobInput, JobInput {}
+export interface TritonModelJobInput extends AssetJobInput, JobInput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobInputType: "triton_model";
+}
 
-export interface UriFileJobInput extends AssetJobInput, JobInput {}
+export interface UriFileJobInput extends AssetJobInput, JobInput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobInputType: "uri_file";
+}
 
-export interface UriFolderJobInput extends AssetJobInput, JobInput {}
+export interface UriFolderJobInput extends AssetJobInput, JobInput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobInputType: "uri_folder";
+}
 
-export interface CustomModelJobOutput extends AssetJobOutput, JobOutput {}
+export interface CustomModelJobOutput extends AssetJobOutput, JobOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobOutputType: "custom_model";
+}
 
-export interface MLFlowModelJobOutput extends AssetJobOutput, JobOutput {}
+export interface MLFlowModelJobOutput extends AssetJobOutput, JobOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobOutputType: "mlflow_model";
+}
 
-export interface MLTableJobOutput extends AssetJobOutput, JobOutput {}
+export interface MLTableJobOutput extends AssetJobOutput, JobOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobOutputType: "mltable";
+}
 
-export interface TritonModelJobOutput extends AssetJobOutput, JobOutput {}
+export interface TritonModelJobOutput extends AssetJobOutput, JobOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobOutputType: "triton_model";
+}
 
-export interface UriFileJobOutput extends AssetJobOutput, JobOutput {}
+export interface UriFileJobOutput extends AssetJobOutput, JobOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobOutputType: "uri_file";
+}
 
-export interface UriFolderJobOutput extends AssetJobOutput, JobOutput {}
+export interface UriFolderJobOutput extends AssetJobOutput, JobOutput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobOutputType: "uri_folder";
+}
 
 /** Forecast horizon determined automatically by system. */
 export interface AutoForecastHorizon extends ForecastHorizon {
@@ -3588,6 +3624,8 @@ export interface CustomForecastHorizon extends ForecastHorizon {
 
 /** Classification task in AutoML Table vertical. */
 export interface Classification extends TableVertical, AutoMLVertical {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  taskType: "Classification";
   /** Positive label for binary metrics calculation. */
   positiveLabel?: string;
   /** Primary metric for the task. */
@@ -3598,6 +3636,8 @@ export interface Classification extends TableVertical, AutoMLVertical {
 
 /** Forecasting task in AutoML Table vertical. */
 export interface Forecasting extends TableVertical, AutoMLVertical {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  taskType: "Forecasting";
   /** Forecasting task specific inputs. */
   forecastingSettings?: ForecastingSettings;
   /** Primary metric for forecasting task. */
@@ -3613,6 +3653,8 @@ export interface Forecasting extends TableVertical, AutoMLVertical {
 export interface ImageClassification
   extends ImageClassificationBase,
     AutoMLVertical {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  taskType: "ImageClassification";
   /** Primary metric to optimize for this task. */
   primaryMetric?: ClassificationPrimaryMetrics;
 }
@@ -3624,6 +3666,8 @@ export interface ImageClassification
 export interface ImageClassificationMultilabel
   extends ImageClassificationBase,
     AutoMLVertical {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  taskType: "ImageClassificationMultilabel";
   /** Primary metric to optimize for this task. */
   primaryMetric?: ClassificationMultilabelPrimaryMetrics;
 }
@@ -3635,6 +3679,8 @@ export interface ImageClassificationMultilabel
 export interface ImageInstanceSegmentation
   extends ImageObjectDetectionBase,
     AutoMLVertical {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  taskType: "ImageInstanceSegmentation";
   /** Primary metric to optimize for this task. */
   primaryMetric?: InstanceSegmentationPrimaryMetrics;
 }
@@ -3646,12 +3692,16 @@ export interface ImageInstanceSegmentation
 export interface ImageObjectDetection
   extends ImageObjectDetectionBase,
     AutoMLVertical {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  taskType: "ImageObjectDetection";
   /** Primary metric to optimize for this task. */
   primaryMetric?: ObjectDetectionPrimaryMetrics;
 }
 
 /** Regression task in AutoML Table vertical. */
 export interface Regression extends TableVertical, AutoMLVertical {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  taskType: "Regression";
   /** Primary metric for regression task. */
   primaryMetric?: RegressionPrimaryMetrics;
   /** Inputs for training phase for an AutoML Job. */
@@ -3663,6 +3713,8 @@ export interface Regression extends TableVertical, AutoMLVertical {
  * NLP - Natural Language Processing.
  */
 export interface TextClassification extends NlpVertical, AutoMLVertical {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  taskType: "TextClassification";
   /** Primary metric for Text-Classification task. */
   primaryMetric?: ClassificationPrimaryMetrics;
 }
@@ -3674,6 +3726,8 @@ export interface TextClassification extends NlpVertical, AutoMLVertical {
 export interface TextClassificationMultilabel
   extends NlpVertical,
     AutoMLVertical {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  taskType: "TextClassificationMultilabel";
   /**
    * Primary metric for Text-Classification-Multilabel task.
    * Currently only Accuracy is supported as primary metric, hence user need not set it explicitly.
@@ -3688,6 +3742,8 @@ export interface TextClassificationMultilabel
  * NLP - Natural Language Processing.
  */
 export interface TextNer extends NlpVertical, AutoMLVertical {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  taskType: "TextNER";
   /**
    * Primary metric for Text-NER task.
    * Only 'Accuracy' is supported for Text-NER, so user need not set this explicitly.
@@ -4608,7 +4664,7 @@ export enum KnownProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -4631,7 +4687,7 @@ export enum KnownEncryptionStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -4649,7 +4705,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -4673,7 +4729,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Disconnected */
   Disconnected = "Disconnected",
   /** Timeout */
-  Timeout = "Timeout"
+  Timeout = "Timeout",
 }
 
 /**
@@ -4698,7 +4754,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -4722,7 +4778,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -4746,7 +4802,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -4768,7 +4824,7 @@ export enum KnownDiagnoseResultLevel {
   /** Error */
   Error = "Error",
   /** Information */
-  Information = "Information"
+  Information = "Information",
 }
 
 /**
@@ -4785,7 +4841,7 @@ export type DiagnoseResultLevel = string;
 /** Known values of {@link UsageUnit} that the service accepts. */
 export enum KnownUsageUnit {
   /** Count */
-  Count = "Count"
+  Count = "Count",
 }
 
 /**
@@ -4800,7 +4856,7 @@ export type UsageUnit = string;
 /** Known values of {@link BillingCurrency} that the service accepts. */
 export enum KnownBillingCurrency {
   /** USD */
-  USD = "USD"
+  USD = "USD",
 }
 
 /**
@@ -4815,7 +4871,7 @@ export type BillingCurrency = string;
 /** Known values of {@link UnitOfMeasure} that the service accepts. */
 export enum KnownUnitOfMeasure {
   /** OneHour */
-  OneHour = "OneHour"
+  OneHour = "OneHour",
 }
 
 /**
@@ -4832,7 +4888,7 @@ export enum KnownVMPriceOSType {
   /** Linux */
   Linux = "Linux",
   /** Windows */
-  Windows = "Windows"
+  Windows = "Windows",
 }
 
 /**
@@ -4852,7 +4908,7 @@ export enum KnownVMTier {
   /** LowPriority */
   LowPriority = "LowPriority",
   /** Spot */
-  Spot = "Spot"
+  Spot = "Spot",
 }
 
 /**
@@ -4869,7 +4925,7 @@ export type VMTier = string;
 /** Known values of {@link QuotaUnit} that the service accepts. */
 export enum KnownQuotaUnit {
   /** Count */
-  Count = "Count"
+  Count = "Count",
 }
 
 /**
@@ -4898,7 +4954,7 @@ export enum KnownStatus {
   /** OperationNotSupportedForSku */
   OperationNotSupportedForSku = "OperationNotSupportedForSku",
   /** OperationNotEnabledForRegion */
-  OperationNotEnabledForRegion = "OperationNotEnabledForRegion"
+  OperationNotEnabledForRegion = "OperationNotEnabledForRegion",
 }
 
 /**
@@ -4938,7 +4994,7 @@ export enum KnownComputeType {
   /** DataLakeAnalytics */
   DataLakeAnalytics = "DataLakeAnalytics",
   /** SynapseSpark */
-  SynapseSpark = "SynapseSpark"
+  SynapseSpark = "SynapseSpark",
 }
 
 /**
@@ -4964,7 +5020,7 @@ export enum KnownUnderlyingResourceAction {
   /** Delete */
   Delete = "Delete",
   /** Detach */
-  Detach = "Detach"
+  Detach = "Detach",
 }
 
 /**
@@ -4990,7 +5046,7 @@ export enum KnownNodeState {
   /** Leaving */
   Leaving = "leaving",
   /** Preempted */
-  Preempted = "preempted"
+  Preempted = "preempted",
 }
 
 /**
@@ -5018,7 +5074,7 @@ export enum KnownConnectionAuthType {
   /** None */
   None = "None",
   /** SAS */
-  SAS = "SAS"
+  SAS = "SAS",
 }
 
 /**
@@ -5041,7 +5097,7 @@ export enum KnownConnectionCategory {
   /** ContainerRegistry */
   ContainerRegistry = "ContainerRegistry",
   /** Git */
-  Git = "Git"
+  Git = "Git",
 }
 
 /**
@@ -5058,7 +5114,7 @@ export type ConnectionCategory = string;
 /** Known values of {@link ValueFormat} that the service accepts. */
 export enum KnownValueFormat {
   /** Json */
-  Json = "JSON"
+  Json = "JSON",
 }
 
 /**
@@ -5083,7 +5139,7 @@ export enum KnownEndpointProvisioningState {
   /** Updating */
   Updating = "Updating",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -5107,7 +5163,7 @@ export enum KnownEndpointAuthMode {
   /** Key */
   Key = "Key",
   /** AADToken */
-  AADToken = "AADToken"
+  AADToken = "AADToken",
 }
 
 /**
@@ -5128,7 +5184,7 @@ export enum KnownBatchLoggingLevel {
   /** Warning */
   Warning = "Warning",
   /** Debug */
-  Debug = "Debug"
+  Debug = "Debug",
 }
 
 /**
@@ -5149,7 +5205,7 @@ export enum KnownReferenceType {
   /** DataPath */
   DataPath = "DataPath",
   /** OutputPath */
-  OutputPath = "OutputPath"
+  OutputPath = "OutputPath",
 }
 
 /**
@@ -5168,7 +5224,7 @@ export enum KnownBatchOutputAction {
   /** SummaryOnly */
   SummaryOnly = "SummaryOnly",
   /** AppendRow */
-  AppendRow = "AppendRow"
+  AppendRow = "AppendRow",
 }
 
 /**
@@ -5196,7 +5252,7 @@ export enum KnownDeploymentProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -5221,7 +5277,7 @@ export enum KnownListViewType {
   /** ArchivedOnly */
   ArchivedOnly = "ArchivedOnly",
   /** All */
-  All = "All"
+  All = "All",
 }
 
 /**
@@ -5242,7 +5298,7 @@ export enum KnownDataType {
   /** UriFolder */
   UriFolder = "uri_folder",
   /** Mltable */
-  Mltable = "mltable"
+  Mltable = "mltable",
 }
 
 /**
@@ -5267,7 +5323,7 @@ export enum KnownCredentialsType {
   /** Sas */
   Sas = "Sas",
   /** ServicePrincipal */
-  ServicePrincipal = "ServicePrincipal"
+  ServicePrincipal = "ServicePrincipal",
 }
 
 /**
@@ -5292,7 +5348,7 @@ export enum KnownDatastoreType {
   /** AzureDataLakeGen2 */
   AzureDataLakeGen2 = "AzureDataLakeGen2",
   /** AzureFile */
-  AzureFile = "AzureFile"
+  AzureFile = "AzureFile",
 }
 
 /**
@@ -5316,7 +5372,7 @@ export enum KnownSecretsType {
   /** Sas */
   Sas = "Sas",
   /** ServicePrincipal */
-  ServicePrincipal = "ServicePrincipal"
+  ServicePrincipal = "ServicePrincipal",
 }
 
 /**
@@ -5336,7 +5392,7 @@ export enum KnownAutoRebuildSetting {
   /** Disabled */
   Disabled = "Disabled",
   /** OnBaseImageUpdate */
-  OnBaseImageUpdate = "OnBaseImageUpdate"
+  OnBaseImageUpdate = "OnBaseImageUpdate",
 }
 
 /**
@@ -5354,7 +5410,7 @@ export enum KnownEnvironmentType {
   /** Curated */
   Curated = "Curated",
   /** UserCreated */
-  UserCreated = "UserCreated"
+  UserCreated = "UserCreated",
 }
 
 /**
@@ -5372,7 +5428,7 @@ export enum KnownOperatingSystemType {
   /** Linux */
   Linux = "Linux",
   /** Windows */
-  Windows = "Windows"
+  Windows = "Windows",
 }
 
 /**
@@ -5392,7 +5448,7 @@ export enum KnownIdentityConfigurationType {
   /** AMLToken */
   AMLToken = "AMLToken",
   /** UserIdentity */
-  UserIdentity = "UserIdentity"
+  UserIdentity = "UserIdentity",
 }
 
 /**
@@ -5415,7 +5471,7 @@ export enum KnownJobType {
   /** Sweep */
   Sweep = "Sweep",
   /** Pipeline */
-  Pipeline = "Pipeline"
+  Pipeline = "Pipeline",
 }
 
 /**
@@ -5462,7 +5518,7 @@ export enum KnownJobStatus {
   /** The job is paused by users. Some adjustment to labeling jobs can be made only in paused state. */
   Paused = "Paused",
   /** Default job status if not mapped to all other statuses */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -5495,7 +5551,7 @@ export enum KnownEndpointComputeType {
   /** Kubernetes */
   Kubernetes = "Kubernetes",
   /** AzureMLCompute */
-  AzureMLCompute = "AzureMLCompute"
+  AzureMLCompute = "AzureMLCompute",
 }
 
 /**
@@ -5518,7 +5574,7 @@ export enum KnownOrderString {
   /** UpdatedAtDesc */
   UpdatedAtDesc = "UpdatedAtDesc",
   /** UpdatedAtAsc */
-  UpdatedAtAsc = "UpdatedAtAsc"
+  UpdatedAtAsc = "UpdatedAtAsc",
 }
 
 /**
@@ -5538,7 +5594,7 @@ export enum KnownPublicNetworkAccessType {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -5556,7 +5612,7 @@ export enum KnownEgressPublicNetworkAccessType {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -5574,7 +5630,7 @@ export enum KnownScaleType {
   /** Default */
   Default = "Default",
   /** TargetUtilization */
-  TargetUtilization = "TargetUtilization"
+  TargetUtilization = "TargetUtilization",
 }
 
 /**
@@ -5592,7 +5648,7 @@ export enum KnownContainerType {
   /** StorageInitializer */
   StorageInitializer = "StorageInitializer",
   /** InferenceServer */
-  InferenceServer = "InferenceServer"
+  InferenceServer = "InferenceServer",
 }
 
 /**
@@ -5612,7 +5668,7 @@ export enum KnownSkuScaleType {
   /** Node count scaled upon user request. */
   Manual = "Manual",
   /** Fixed set of nodes. */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -5631,7 +5687,7 @@ export enum KnownKeyType {
   /** Primary */
   Primary = "Primary",
   /** Secondary */
-  Secondary = "Secondary"
+  Secondary = "Secondary",
 }
 
 /**
@@ -5651,7 +5707,7 @@ export enum KnownScheduleListViewType {
   /** DisabledOnly */
   DisabledOnly = "DisabledOnly",
   /** All */
-  All = "All"
+  All = "All",
 }
 
 /**
@@ -5670,7 +5726,7 @@ export enum KnownScheduleActionType {
   /** CreateJob */
   CreateJob = "CreateJob",
   /** InvokeBatchEndpoint */
-  InvokeBatchEndpoint = "InvokeBatchEndpoint"
+  InvokeBatchEndpoint = "InvokeBatchEndpoint",
 }
 
 /**
@@ -5696,7 +5752,7 @@ export enum KnownScheduleProvisioningStatus {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -5718,7 +5774,7 @@ export enum KnownTriggerType {
   /** Recurrence */
   Recurrence = "Recurrence",
   /** Cron */
-  Cron = "Cron"
+  Cron = "Cron",
 }
 
 /**
@@ -5738,7 +5794,7 @@ export enum KnownClusterPurpose {
   /** DenseProd */
   DenseProd = "DenseProd",
   /** DevTest */
-  DevTest = "DevTest"
+  DevTest = "DevTest",
 }
 
 /**
@@ -5759,7 +5815,7 @@ export enum KnownSslConfigStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Auto */
-  Auto = "Auto"
+  Auto = "Auto",
 }
 
 /**
@@ -5778,7 +5834,7 @@ export enum KnownLoadBalancerType {
   /** PublicIp */
   PublicIp = "PublicIp",
   /** InternalLoadBalancer */
-  InternalLoadBalancer = "InternalLoadBalancer"
+  InternalLoadBalancer = "InternalLoadBalancer",
 }
 
 /**
@@ -5796,7 +5852,7 @@ export enum KnownOsType {
   /** Linux */
   Linux = "Linux",
   /** Windows */
-  Windows = "Windows"
+  Windows = "Windows",
 }
 
 /**
@@ -5814,7 +5870,7 @@ export enum KnownVmPriority {
   /** Dedicated */
   Dedicated = "Dedicated",
   /** LowPriority */
-  LowPriority = "LowPriority"
+  LowPriority = "LowPriority",
 }
 
 /**
@@ -5834,7 +5890,7 @@ export enum KnownRemoteLoginPortPublicAccess {
   /** Disabled */
   Disabled = "Disabled",
   /** NotSpecified */
-  NotSpecified = "NotSpecified"
+  NotSpecified = "NotSpecified",
 }
 
 /**
@@ -5853,7 +5909,7 @@ export enum KnownAllocationState {
   /** Steady */
   Steady = "Steady",
   /** Resizing */
-  Resizing = "Resizing"
+  Resizing = "Resizing",
 }
 
 /**
@@ -5871,7 +5927,7 @@ export enum KnownApplicationSharingPolicy {
   /** Personal */
   Personal = "Personal",
   /** Shared */
-  Shared = "Shared"
+  Shared = "Shared",
 }
 
 /**
@@ -5889,7 +5945,7 @@ export enum KnownSshPublicAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -5933,7 +5989,7 @@ export enum KnownComputeInstanceState {
   /** Unknown */
   Unknown = "Unknown",
   /** Unusable */
-  Unusable = "Unusable"
+  Unusable = "Unusable",
 }
 
 /**
@@ -5962,7 +6018,7 @@ export type ComputeInstanceState = string;
 /** Known values of {@link ComputeInstanceAuthorizationType} that the service accepts. */
 export enum KnownComputeInstanceAuthorizationType {
   /** Personal */
-  Personal = "personal"
+  Personal = "personal",
 }
 
 /**
@@ -5987,7 +6043,7 @@ export enum KnownOperationName {
   /** Reimage */
   Reimage = "Reimage",
   /** Delete */
-  Delete = "Delete"
+  Delete = "Delete",
 }
 
 /**
@@ -6021,7 +6077,7 @@ export enum KnownOperationStatus {
   /** ReimageFailed */
   ReimageFailed = "ReimageFailed",
   /** DeleteFailed */
-  DeleteFailed = "DeleteFailed"
+  DeleteFailed = "DeleteFailed",
 }
 
 /**
@@ -6047,7 +6103,7 @@ export enum KnownOperationTrigger {
   /** Schedule */
   Schedule = "Schedule",
   /** IdleShutdown */
-  IdleShutdown = "IdleShutdown"
+  IdleShutdown = "IdleShutdown",
 }
 
 /**
@@ -6068,7 +6124,7 @@ export enum KnownProvisioningStatus {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -6087,7 +6143,7 @@ export enum KnownScheduleStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -6105,7 +6161,7 @@ export enum KnownComputePowerAction {
   /** Start */
   Start = "Start",
   /** Stop */
-  Stop = "Stop"
+  Stop = "Stop",
 }
 
 /**
@@ -6129,7 +6185,7 @@ export enum KnownRecurrenceFrequency {
   /** Week frequency */
   Week = "Week",
   /** Month frequency */
-  Month = "Month"
+  Month = "Month",
 }
 
 /**
@@ -6160,7 +6216,7 @@ export enum KnownWeekDay {
   /** Saturday weekday */
   Saturday = "Saturday",
   /** Sunday weekday */
-  Sunday = "Sunday"
+  Sunday = "Sunday",
 }
 
 /**
@@ -6185,7 +6241,7 @@ export enum KnownScheduleProvisioningState {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -6206,7 +6262,7 @@ export enum KnownAutosave {
   /** Local */
   Local = "Local",
   /** Remote */
-  Remote = "Remote"
+  Remote = "Remote",
 }
 
 /**
@@ -6225,7 +6281,7 @@ export enum KnownNetwork {
   /** Bridge */
   Bridge = "Bridge",
   /** Host */
-  Host = "Host"
+  Host = "Host",
 }
 
 /**
@@ -6245,7 +6301,7 @@ export enum KnownCaching {
   /** ReadOnly */
   ReadOnly = "ReadOnly",
   /** ReadWrite */
-  ReadWrite = "ReadWrite"
+  ReadWrite = "ReadWrite",
 }
 
 /**
@@ -6264,7 +6320,7 @@ export enum KnownStorageAccountType {
   /** StandardLRS */
   StandardLRS = "Standard_LRS",
   /** PremiumLRS */
-  PremiumLRS = "Premium_LRS"
+  PremiumLRS = "Premium_LRS",
 }
 
 /**
@@ -6284,7 +6340,7 @@ export enum KnownSourceType {
   /** Datastore */
   Datastore = "Datastore",
   /** URI */
-  URI = "URI"
+  URI = "URI",
 }
 
 /**
@@ -6303,7 +6359,7 @@ export enum KnownMountAction {
   /** Mount */
   Mount = "Mount",
   /** Unmount */
-  Unmount = "Unmount"
+  Unmount = "Unmount",
 }
 
 /**
@@ -6329,7 +6385,7 @@ export enum KnownMountState {
   /** UnmountFailed */
   UnmountFailed = "UnmountFailed",
   /** Unmounted */
-  Unmounted = "Unmounted"
+  Unmounted = "Unmounted",
 }
 
 /**
@@ -6359,7 +6415,7 @@ export enum KnownInputDeliveryMode {
   /** EvalMount */
   EvalMount = "EvalMount",
   /** EvalDownload */
-  EvalDownload = "EvalDownload"
+  EvalDownload = "EvalDownload",
 }
 
 /**
@@ -6381,7 +6437,7 @@ export enum KnownOutputDeliveryMode {
   /** ReadWriteMount */
   ReadWriteMount = "ReadWriteMount",
   /** Upload */
-  Upload = "Upload"
+  Upload = "Upload",
 }
 
 /**
@@ -6399,7 +6455,7 @@ export enum KnownForecastHorizonMode {
   /** Forecast horizon to be determined automatically. */
   Auto = "Auto",
   /** Use the custom forecast horizon. */
-  Custom = "Custom"
+  Custom = "Custom",
 }
 
 /**
@@ -6425,7 +6481,7 @@ export enum KnownJobOutputType {
   /** MlflowModel */
   MlflowModel = "mlflow_model",
   /** TritonModel */
-  TritonModel = "triton_model"
+  TritonModel = "triton_model",
 }
 
 /**
@@ -6455,7 +6511,7 @@ export enum KnownLogVerbosity {
   /** Error and above log statements logged. */
   Error = "Error",
   /** Only critical statements logged. */
-  Critical = "Critical"
+  Critical = "Critical",
 }
 
 /**
@@ -6517,7 +6573,7 @@ export enum KnownTaskType {
    * Text Named Entity Recognition a.k.a. TextNER.
    * Named Entity Recognition (NER) is the ability to take free-form text and identify the occurrences of entities such as people, locations, organizations, and more.
    */
-  TextNER = "TextNER"
+  TextNER = "TextNER",
 }
 
 /**
@@ -6561,7 +6617,7 @@ export enum KnownJobInputType {
   /** MlflowModel */
   MlflowModel = "mlflow_model",
   /** TritonModel */
-  TritonModel = "triton_model"
+  TritonModel = "triton_model",
 }
 
 /**
@@ -6584,7 +6640,7 @@ export enum KnownNCrossValidationsMode {
   /** Determine N-Cross validations value automatically. Supported only for 'Forecasting' AutoML task. */
   Auto = "Auto",
   /** Use custom N-Cross validations value. */
-  Custom = "Custom"
+  Custom = "Custom",
 }
 
 /**
@@ -6602,7 +6658,7 @@ export enum KnownSeasonalityMode {
   /** Seasonality to be determined automatically. */
   Auto = "Auto",
   /** Use the custom seasonality value. */
-  Custom = "Custom"
+  Custom = "Custom",
 }
 
 /**
@@ -6620,7 +6676,7 @@ export enum KnownTargetLagsMode {
   /** Target lags to be determined automatically. */
   Auto = "Auto",
   /** Use the custom target lags. */
-  Custom = "Custom"
+  Custom = "Custom",
 }
 
 /**
@@ -6638,7 +6694,7 @@ export enum KnownTargetRollingWindowSizeMode {
   /** Determine rolling windows size automatically. */
   Auto = "Auto",
   /** Use the specified rolling window size. */
-  Custom = "Custom"
+  Custom = "Custom",
 }
 
 /**
@@ -6658,7 +6714,7 @@ export enum KnownServiceDataAccessAuthIdentity {
   /** Use the system assigned managed identity of the Workspace to authenticate service data access. */
   WorkspaceSystemAssignedIdentity = "WorkspaceSystemAssignedIdentity",
   /** Use the user assigned managed identity of the Workspace to authenticate service data access. */
-  WorkspaceUserAssignedIdentity = "WorkspaceUserAssignedIdentity"
+  WorkspaceUserAssignedIdentity = "WorkspaceUserAssignedIdentity",
 }
 
 /**
@@ -6679,7 +6735,7 @@ export enum KnownEarlyTerminationPolicyType {
   /** MedianStopping */
   MedianStopping = "MedianStopping",
   /** TruncationSelection */
-  TruncationSelection = "TruncationSelection"
+  TruncationSelection = "TruncationSelection",
 }
 
 /**
@@ -6700,7 +6756,7 @@ export enum KnownSamplingAlgorithmType {
   /** Random */
   Random = "Random",
   /** Bayesian */
-  Bayesian = "Bayesian"
+  Bayesian = "Bayesian",
 }
 
 /**
@@ -6735,7 +6791,7 @@ export enum KnownClassificationPrimaryMetrics {
    */
   AveragePrecisionScoreWeighted = "AveragePrecisionScoreWeighted",
   /** The arithmetic mean of precision for each class, weighted by number of true instances in each class. */
-  PrecisionScoreWeighted = "PrecisionScoreWeighted"
+  PrecisionScoreWeighted = "PrecisionScoreWeighted",
 }
 
 /**
@@ -6810,7 +6866,7 @@ export enum KnownClassificationModels {
   /** The technique of transiting week learners into a strong learner is called Boosting. The gradient boosting algorithm process works on this theory of execution. */
   GradientBoosting = "GradientBoosting",
   /** XGBoost: Extreme Gradient Boosting Algorithm. This algorithm is used for structured data where target column values can be divided into distinct class values. */
-  XGBoostClassifier = "XGBoostClassifier"
+  XGBoostClassifier = "XGBoostClassifier",
 }
 
 /**
@@ -6863,7 +6919,7 @@ export enum KnownStackMetaLearnerType {
   /** LightGBMRegressor */
   LightGBMRegressor = "LightGBMRegressor",
   /** LinearRegression */
-  LinearRegression = "LinearRegression"
+  LinearRegression = "LinearRegression",
 }
 
 /**
@@ -6892,9 +6948,9 @@ export enum KnownBlockedTransformers {
   CatTargetEncoder = "CatTargetEncoder",
   /** Tf-Idf stands for, term-frequency times inverse document-frequency. This is a common term weighting scheme for identifying information from documents. */
   TfIdf = "TfIdf",
-  /** Weight of Evidence encoding is a technique used to encode categorical variables. It uses the natural log of the P(1)/P(0) to create weights. */
+  /** Weight of Evidence encoding is a technique used to encode categorical variables. It uses the natural log of the P(1)\/P(0) to create weights. */
   WoETargetEncoder = "WoETargetEncoder",
-  /** Label encoder converts labels/categorical variables in a numerical form. */
+  /** Label encoder converts labels\/categorical variables in a numerical form. */
   LabelEncoder = "LabelEncoder",
   /** Word embedding helps represents words or phrases as a vector, or a series of numbers. */
   WordEmbedding = "WordEmbedding",
@@ -6903,7 +6959,7 @@ export enum KnownBlockedTransformers {
   /** Count Vectorizer converts a collection of text documents to a matrix of token counts. */
   CountVectorizer = "CountVectorizer",
   /** Hashing One Hot Encoder can turn categorical variables into a limited number of new features. This is often used for high-cardinality categorical features. */
-  HashOneHotEncoder = "HashOneHotEncoder"
+  HashOneHotEncoder = "HashOneHotEncoder",
 }
 
 /**
@@ -6931,7 +6987,7 @@ export enum KnownFeaturizationMode {
   /** Custom featurization. */
   Custom = "Custom",
   /** Featurization off. 'Forecasting' task cannot use this value. */
-  Off = "Off"
+  Off = "Off",
 }
 
 /**
@@ -6952,7 +7008,7 @@ export enum KnownDistributionType {
   /** TensorFlow */
   TensorFlow = "TensorFlow",
   /** Mpi */
-  Mpi = "Mpi"
+  Mpi = "Mpi",
 }
 
 /**
@@ -6971,7 +7027,7 @@ export enum KnownJobLimitsType {
   /** Command */
   Command = "Command",
   /** Sweep */
-  Sweep = "Sweep"
+  Sweep = "Sweep",
 }
 
 /**
@@ -6989,7 +7045,7 @@ export enum KnownFeatureLags {
   /** No feature lags generated. */
   None = "None",
   /** System auto-generates feature lags. */
-  Auto = "Auto"
+  Auto = "Auto",
 }
 
 /**
@@ -7004,14 +7060,14 @@ export type FeatureLags = string;
 
 /** Known values of {@link ShortSeriesHandlingConfiguration} that the service accepts. */
 export enum KnownShortSeriesHandlingConfiguration {
-  /** Represents no/null value. */
+  /** Represents no\/null value. */
   None = "None",
   /** Short series will be padded if there are no long series, otherwise short series will be dropped. */
   Auto = "Auto",
   /** All the short series will be padded. */
   Pad = "Pad",
   /** All the short series will be dropped. */
-  Drop = "Drop"
+  Drop = "Drop",
 }
 
 /**
@@ -7037,7 +7093,7 @@ export enum KnownTargetAggregationFunction {
   /** Min */
   Min = "Min",
   /** Mean */
-  Mean = "Mean"
+  Mean = "Mean",
 }
 
 /**
@@ -7060,7 +7116,7 @@ export enum KnownUseStl {
   /** Season */
   Season = "Season",
   /** SeasonTrend */
-  SeasonTrend = "SeasonTrend"
+  SeasonTrend = "SeasonTrend",
 }
 
 /**
@@ -7083,7 +7139,7 @@ export enum KnownForecastingPrimaryMetrics {
   /** The R2 score is one of the performance evaluation measures for forecasting-based machine learning models. */
   R2Score = "R2Score",
   /** The Normalized Mean Absolute Error (NMAE) is a validation metric to compare the Mean Absolute Error (MAE) of (time) series with different scales. */
-  NormalizedMeanAbsoluteError = "NormalizedMeanAbsoluteError"
+  NormalizedMeanAbsoluteError = "NormalizedMeanAbsoluteError",
 }
 
 /**
@@ -7121,11 +7177,11 @@ export enum KnownForecastingModels {
   /** Exponential smoothing is a time series forecasting method for univariate data that can be extended to support data with a systematic trend or seasonal component. */
   ExponentialSmoothing = "ExponentialSmoothing",
   /**
-   * An Autoregressive Integrated Moving Average with Explanatory Variable (ARIMAX) model can be viewed as a multiple regression model with one or more autoregressive (AR) terms and/or one or more moving average (MA) terms.
-   * This method is suitable for forecasting when data is stationary/non stationary, and multivariate with any type of data pattern, i.e., level/trend /seasonality/cyclicity.
+   * An Autoregressive Integrated Moving Average with Explanatory Variable (ARIMAX) model can be viewed as a multiple regression model with one or more autoregressive (AR) terms and\/or one or more moving average (MA) terms.
+   * This method is suitable for forecasting when data is stationary\/non stationary, and multivariate with any type of data pattern, i.e., level\/trend \/seasonality\/cyclicity.
    */
   Arimax = "Arimax",
-  /** TCNForecaster: Temporal Convolutional Networks Forecaster. //TODO: Ask forecasting team for brief intro. */
+  /** TCNForecaster: Temporal Convolutional Networks Forecaster. \//TODO: Ask forecasting team for brief intro. */
   TCNForecaster = "TCNForecaster",
   /** Elastic net is a popular type of regularized linear regression that combines two popular penalties, specifically the L1 and L2 penalty functions. */
   ElasticNet = "ElasticNet",
@@ -7160,7 +7216,7 @@ export enum KnownForecastingModels {
   /** LightGBM is a gradient boosting framework that uses tree based learning algorithms. */
   LightGBM = "LightGBM",
   /** XGBoostRegressor: Extreme Gradient Boosting Regressor is a supervised machine learning model using ensemble of base learners. */
-  XGBoostRegressor = "XGBoostRegressor"
+  XGBoostRegressor = "XGBoostRegressor",
 }
 
 /**
@@ -7206,7 +7262,7 @@ export enum KnownLearningRateScheduler {
   /** Cosine Annealing With Warmup. */
   WarmupCosine = "WarmupCosine",
   /** Step learning rate scheduler. */
-  Step = "Step"
+  Step = "Step",
 }
 
 /**
@@ -7229,7 +7285,7 @@ export enum KnownStochasticOptimizer {
   /** Adam is algorithm the optimizes stochastic objective functions based on adaptive estimates of moments */
   Adam = "Adam",
   /** AdamW is a variant of the optimizer Adam that has an improved implementation of weight decay. */
-  Adamw = "Adamw"
+  Adamw = "Adamw",
 }
 
 /**
@@ -7267,7 +7323,7 @@ export enum KnownClassificationMultilabelPrimaryMetrics {
   /** The arithmetic mean of precision for each class, weighted by number of true instances in each class. */
   PrecisionScoreWeighted = "PrecisionScoreWeighted",
   /** Intersection Over Union. Intersection of predictions divided by union of predictions. */
-  IOU = "IOU"
+  IOU = "IOU",
 }
 
 /**
@@ -7294,7 +7350,7 @@ export enum KnownInstanceSegmentationPrimaryMetrics {
    * Mean Average Precision (MAP) is the average of AP (Average Precision).
    * AP is calculated for each class and averaged to get the MAP.
    */
-  MeanAveragePrecision = "MeanAveragePrecision"
+  MeanAveragePrecision = "MeanAveragePrecision",
 }
 
 /**
@@ -7318,7 +7374,7 @@ export enum KnownModelSize {
   /** Large size. */
   Large = "Large",
   /** Extra large size. */
-  ExtraLarge = "ExtraLarge"
+  ExtraLarge = "ExtraLarge",
 }
 
 /**
@@ -7343,7 +7399,7 @@ export enum KnownValidationMetricType {
   /** Voc metric. */
   Voc = "Voc",
   /** CocoVoc metric. */
-  CocoVoc = "CocoVoc"
+  CocoVoc = "CocoVoc",
 }
 
 /**
@@ -7364,7 +7420,7 @@ export enum KnownObjectDetectionPrimaryMetrics {
    * Mean Average Precision (MAP) is the average of AP (Average Precision).
    * AP is calculated for each class and averaged to get the MAP.
    */
-  MeanAveragePrecision = "MeanAveragePrecision"
+  MeanAveragePrecision = "MeanAveragePrecision",
 }
 
 /**
@@ -7382,7 +7438,7 @@ export enum KnownGoal {
   /** Minimize */
   Minimize = "Minimize",
   /** Maximize */
-  Maximize = "Maximize"
+  Maximize = "Maximize",
 }
 
 /**
@@ -7400,7 +7456,7 @@ export enum KnownRandomSamplingAlgorithmRule {
   /** Random */
   Random = "Random",
   /** Sobol */
-  Sobol = "Sobol"
+  Sobol = "Sobol",
 }
 
 /**
@@ -7422,7 +7478,7 @@ export enum KnownRegressionPrimaryMetrics {
   /** The R2 score is one of the performance evaluation measures for forecasting-based machine learning models. */
   R2Score = "R2Score",
   /** The Normalized Mean Absolute Error (NMAE) is a validation metric to compare the Mean Absolute Error (MAE) of (time) series with different scales. */
-  NormalizedMeanAbsoluteError = "NormalizedMeanAbsoluteError"
+  NormalizedMeanAbsoluteError = "NormalizedMeanAbsoluteError",
 }
 
 /**
@@ -7472,7 +7528,7 @@ export enum KnownRegressionModels {
   /** LightGBM is a gradient boosting framework that uses tree based learning algorithms. */
   LightGBM = "LightGBM",
   /** XGBoostRegressor: Extreme Gradient Boosting Regressor is a supervised machine learning model using ensemble of base learners. */
-  XGBoostRegressor = "XGBoostRegressor"
+  XGBoostRegressor = "XGBoostRegressor",
 }
 
 /**
@@ -7603,7 +7659,8 @@ export interface WorkspacesListNotebookAccessTokenOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNotebookAccessToken operation. */
-export type WorkspacesListNotebookAccessTokenResponse = NotebookAccessTokenResult;
+export type WorkspacesListNotebookAccessTokenResponse =
+  NotebookAccessTokenResult;
 
 /** Optional parameters. */
 export interface WorkspacesPrepareNotebookOptionalParams
@@ -7622,7 +7679,8 @@ export interface WorkspacesListStorageAccountKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listStorageAccountKeys operation. */
-export type WorkspacesListStorageAccountKeysResponse = ListStorageAccountKeysResult;
+export type WorkspacesListStorageAccountKeysResponse =
+  ListStorageAccountKeysResult;
 
 /** Optional parameters. */
 export interface WorkspacesListNotebookKeysOptionalParams
@@ -7636,24 +7694,19 @@ export interface WorkspacesListOutboundNetworkDependenciesEndpointsOptionalParam
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
-export type WorkspacesListOutboundNetworkDependenciesEndpointsResponse = ExternalFqdnResponse;
+export type WorkspacesListOutboundNetworkDependenciesEndpointsResponse =
+  ExternalFqdnResponse;
 
 /** Optional parameters. */
 export interface WorkspacesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type WorkspacesListByResourceGroupNextResponse = WorkspaceListResult;
 
 /** Optional parameters. */
 export interface WorkspacesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type WorkspacesListBySubscriptionNextResponse = WorkspaceListResult;
@@ -7788,10 +7841,7 @@ export interface ComputeRestartOptionalParams
 
 /** Optional parameters. */
 export interface ComputeListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ComputeListNextResponse = PaginatedComputeResourcesList;
@@ -7808,7 +7858,8 @@ export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -7822,7 +7873,8 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -7840,14 +7892,16 @@ export interface WorkspaceConnectionsCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type WorkspaceConnectionsCreateResponse = WorkspaceConnectionPropertiesV2BasicResource;
+export type WorkspaceConnectionsCreateResponse =
+  WorkspaceConnectionPropertiesV2BasicResource;
 
 /** Optional parameters. */
 export interface WorkspaceConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceConnectionsGetResponse = WorkspaceConnectionPropertiesV2BasicResource;
+export type WorkspaceConnectionsGetResponse =
+  WorkspaceConnectionPropertiesV2BasicResource;
 
 /** Optional parameters. */
 export interface WorkspaceConnectionsDeleteOptionalParams
@@ -7863,19 +7917,16 @@ export interface WorkspaceConnectionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type WorkspaceConnectionsListResponse = WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult;
+export type WorkspaceConnectionsListResponse =
+  WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface WorkspaceConnectionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Target of the workspace connection. */
-  target?: string;
-  /** Category of the workspace connection. */
-  category?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WorkspaceConnectionsListNextResponse = WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult;
+export type WorkspaceConnectionsListNextResponse =
+  WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface BatchEndpointsListOptionalParams
@@ -7887,7 +7938,8 @@ export interface BatchEndpointsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type BatchEndpointsListResponse = BatchEndpointTrackedResourceArmPaginatedResult;
+export type BatchEndpointsListResponse =
+  BatchEndpointTrackedResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface BatchEndpointsDeleteOptionalParams
@@ -7938,15 +7990,11 @@ export type BatchEndpointsListKeysResponse = EndpointAuthKeys;
 
 /** Optional parameters. */
 export interface BatchEndpointsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Number of endpoints to be retrieved in a page of results. */
-  count?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type BatchEndpointsListNextResponse = BatchEndpointTrackedResourceArmPaginatedResult;
+export type BatchEndpointsListNextResponse =
+  BatchEndpointTrackedResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface BatchDeploymentsListOptionalParams
@@ -7960,7 +8008,8 @@ export interface BatchDeploymentsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type BatchDeploymentsListResponse = BatchDeploymentTrackedResourceArmPaginatedResult;
+export type BatchDeploymentsListResponse =
+  BatchDeploymentTrackedResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface BatchDeploymentsDeleteOptionalParams
@@ -8004,17 +8053,11 @@ export type BatchDeploymentsCreateOrUpdateResponse = BatchDeployment;
 
 /** Optional parameters. */
 export interface BatchDeploymentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Top of list. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type BatchDeploymentsListNextResponse = BatchDeploymentTrackedResourceArmPaginatedResult;
+export type BatchDeploymentsListNextResponse =
+  BatchDeploymentTrackedResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface CodeContainersListOptionalParams
@@ -8024,7 +8067,8 @@ export interface CodeContainersListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type CodeContainersListResponse = CodeContainerResourceArmPaginatedResult;
+export type CodeContainersListResponse =
+  CodeContainerResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface CodeContainersDeleteOptionalParams
@@ -8046,13 +8090,11 @@ export type CodeContainersCreateOrUpdateResponse = CodeContainer;
 
 /** Optional parameters. */
 export interface CodeContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type CodeContainersListNextResponse = CodeContainerResourceArmPaginatedResult;
+export type CodeContainersListNextResponse =
+  CodeContainerResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface CodeVersionsListOptionalParams
@@ -8088,17 +8130,11 @@ export type CodeVersionsCreateOrUpdateResponse = CodeVersion;
 
 /** Optional parameters. */
 export interface CodeVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Maximum number of records to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type CodeVersionsListNextResponse = CodeVersionResourceArmPaginatedResult;
+export type CodeVersionsListNextResponse =
+  CodeVersionResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface ComponentContainersListOptionalParams
@@ -8110,7 +8146,8 @@ export interface ComponentContainersListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ComponentContainersListResponse = ComponentContainerResourceArmPaginatedResult;
+export type ComponentContainersListResponse =
+  ComponentContainerResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface ComponentContainersDeleteOptionalParams
@@ -8132,15 +8169,11 @@ export type ComponentContainersCreateOrUpdateResponse = ComponentContainer;
 
 /** Optional parameters. */
 export interface ComponentContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ComponentContainersListNextResponse = ComponentContainerResourceArmPaginatedResult;
+export type ComponentContainersListNextResponse =
+  ComponentContainerResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface ComponentVersionsListOptionalParams
@@ -8156,7 +8189,8 @@ export interface ComponentVersionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ComponentVersionsListResponse = ComponentVersionResourceArmPaginatedResult;
+export type ComponentVersionsListResponse =
+  ComponentVersionResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface ComponentVersionsDeleteOptionalParams
@@ -8178,19 +8212,11 @@ export type ComponentVersionsCreateOrUpdateResponse = ComponentVersion;
 
 /** Optional parameters. */
 export interface ComponentVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Maximum number of records to return. */
-  top?: number;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ComponentVersionsListNextResponse = ComponentVersionResourceArmPaginatedResult;
+export type ComponentVersionsListNextResponse =
+  ComponentVersionResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface DataContainersListOptionalParams
@@ -8202,7 +8228,8 @@ export interface DataContainersListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type DataContainersListResponse = DataContainerResourceArmPaginatedResult;
+export type DataContainersListResponse =
+  DataContainerResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface DataContainersDeleteOptionalParams
@@ -8224,15 +8251,11 @@ export type DataContainersCreateOrUpdateResponse = DataContainer;
 
 /** Optional parameters. */
 export interface DataContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DataContainersListNextResponse = DataContainerResourceArmPaginatedResult;
+export type DataContainersListNextResponse =
+  DataContainerResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface DataVersionsListOptionalParams
@@ -8253,7 +8276,8 @@ export interface DataVersionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type DataVersionsListResponse = DataVersionBaseResourceArmPaginatedResult;
+export type DataVersionsListResponse =
+  DataVersionBaseResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface DataVersionsDeleteOptionalParams
@@ -8275,24 +8299,11 @@ export type DataVersionsCreateOrUpdateResponse = DataVersionBase;
 
 /** Optional parameters. */
 export interface DataVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Please choose OrderBy value from ['createdtime', 'modifiedtime'] */
-  orderBy?: string;
-  /**
-   * Top count of results, top count cannot be greater than the page size.
-   *                               If topCount > page size, results with be default page size count will be returned
-   */
-  top?: number;
-  /** [ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-  /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  tags?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DataVersionsListNextResponse = DataVersionBaseResourceArmPaginatedResult;
+export type DataVersionsListNextResponse =
+  DataVersionBaseResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface DatastoresListOptionalParams
@@ -8346,22 +8357,7 @@ export type DatastoresListSecretsResponse = DatastoreSecretsUnion;
 
 /** Optional parameters. */
 export interface DatastoresListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Maximum number of results to return. */
-  count?: number;
-  /** Filter down to the workspace default datastore. */
-  isDefault?: boolean;
-  /** Names of datastores to return. */
-  names?: string[];
-  /** Text to search for in the datastore names. */
-  searchText?: string;
-  /** Order by property (createdtime | modifiedtime | name). */
-  orderBy?: string;
-  /** Order by property in ascending order. */
-  orderByAsc?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DatastoresListNextResponse = DatastoreResourceArmPaginatedResult;
@@ -8376,7 +8372,8 @@ export interface EnvironmentContainersListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type EnvironmentContainersListResponse = EnvironmentContainerResourceArmPaginatedResult;
+export type EnvironmentContainersListResponse =
+  EnvironmentContainerResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface EnvironmentContainersDeleteOptionalParams
@@ -8398,15 +8395,11 @@ export type EnvironmentContainersCreateOrUpdateResponse = EnvironmentContainer;
 
 /** Optional parameters. */
 export interface EnvironmentContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type EnvironmentContainersListNextResponse = EnvironmentContainerResourceArmPaginatedResult;
+export type EnvironmentContainersListNextResponse =
+  EnvironmentContainerResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface EnvironmentVersionsListOptionalParams
@@ -8422,7 +8415,8 @@ export interface EnvironmentVersionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type EnvironmentVersionsListResponse = EnvironmentVersionResourceArmPaginatedResult;
+export type EnvironmentVersionsListResponse =
+  EnvironmentVersionResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface EnvironmentVersionsDeleteOptionalParams
@@ -8444,19 +8438,11 @@ export type EnvironmentVersionsCreateOrUpdateResponse = EnvironmentVersion;
 
 /** Optional parameters. */
 export interface EnvironmentVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Maximum number of records to return. */
-  top?: number;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type EnvironmentVersionsListNextResponse = EnvironmentVersionResourceArmPaginatedResult;
+export type EnvironmentVersionsListNextResponse =
+  EnvironmentVersionResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface JobsListOptionalParams extends coreClient.OperationOptions {
@@ -8504,16 +8490,7 @@ export interface JobsCancelOptionalParams extends coreClient.OperationOptions {
 
 /** Optional parameters. */
 export interface JobsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-  /** Type of job to be returned. */
-  jobType?: string;
-  /** Jobs returned will have this tag key. */
-  tag?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type JobsListNextResponse = JobBaseResourceArmPaginatedResult;
@@ -8530,7 +8507,8 @@ export interface ModelContainersListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ModelContainersListResponse = ModelContainerResourceArmPaginatedResult;
+export type ModelContainersListResponse =
+  ModelContainerResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface ModelContainersDeleteOptionalParams
@@ -8552,17 +8530,11 @@ export type ModelContainersCreateOrUpdateResponse = ModelContainer;
 
 /** Optional parameters. */
 export interface ModelContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Maximum number of results to return. */
-  count?: number;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ModelContainersListNextResponse = ModelContainerResourceArmPaginatedResult;
+export type ModelContainersListNextResponse =
+  ModelContainerResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface ModelVersionsListOptionalParams
@@ -8612,31 +8584,11 @@ export type ModelVersionsCreateOrUpdateResponse = ModelVersion;
 
 /** Optional parameters. */
 export interface ModelVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Maximum number of records to return. */
-  top?: number;
-  /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListViewType;
-  /** Model version. */
-  version?: string;
-  /** Model description. */
-  description?: string;
-  /** Number of initial results to skip. */
-  offset?: number;
-  /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  tags?: string;
-  /** Comma-separated list of property names (and optionally values). Example: prop1,prop2=value2 */
-  properties?: string;
-  /** Name of the feed. */
-  feed?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ModelVersionsListNextResponse = ModelVersionResourceArmPaginatedResult;
+export type ModelVersionsListNextResponse =
+  ModelVersionResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface OnlineEndpointsListOptionalParams
@@ -8658,7 +8610,8 @@ export interface OnlineEndpointsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type OnlineEndpointsListResponse = OnlineEndpointTrackedResourceArmPaginatedResult;
+export type OnlineEndpointsListResponse =
+  OnlineEndpointTrackedResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface OnlineEndpointsDeleteOptionalParams
@@ -8725,25 +8678,11 @@ export type OnlineEndpointsGetTokenResponse = EndpointAuthToken;
 
 /** Optional parameters. */
 export interface OnlineEndpointsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Number of endpoints to be retrieved in a page of results. */
-  count?: number;
-  /** A set of tags with which to filter the returned models. It is a comma separated string of tags key or tags key=value. Example: tagKey1,tagKey2,tagKey3=value3 . */
-  tags?: string;
-  /** A set of properties with which to filter the returned models. It is a comma separated string of properties key and/or properties key=value Example: propKey1,propKey2,propKey3=value3 . */
-  properties?: string;
-  /** Name of the endpoint. */
-  name?: string;
-  /** EndpointComputeType to be filtered by. */
-  computeType?: EndpointComputeType;
-  /** The option to order the response. */
-  orderBy?: OrderString;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type OnlineEndpointsListNextResponse = OnlineEndpointTrackedResourceArmPaginatedResult;
+export type OnlineEndpointsListNextResponse =
+  OnlineEndpointTrackedResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface OnlineDeploymentsListOptionalParams
@@ -8757,7 +8696,8 @@ export interface OnlineDeploymentsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type OnlineDeploymentsListResponse = OnlineDeploymentTrackedResourceArmPaginatedResult;
+export type OnlineDeploymentsListResponse =
+  OnlineDeploymentTrackedResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface OnlineDeploymentsDeleteOptionalParams
@@ -8820,29 +8760,19 @@ export type OnlineDeploymentsListSkusResponse = SkuResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface OnlineDeploymentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Ordering of list. */
-  orderBy?: string;
-  /** Top of list. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type OnlineDeploymentsListNextResponse = OnlineDeploymentTrackedResourceArmPaginatedResult;
+export type OnlineDeploymentsListNextResponse =
+  OnlineDeploymentTrackedResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface OnlineDeploymentsListSkusNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Number of Skus to be retrieved in a page of results. */
-  count?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkusNext operation. */
-export type OnlineDeploymentsListSkusNextResponse = SkuResourceArmPaginatedResult;
+export type OnlineDeploymentsListSkusNextResponse =
+  SkuResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface SchedulesListOptionalParams
@@ -8886,12 +8816,7 @@ export type SchedulesCreateOrUpdateResponse = Schedule;
 
 /** Optional parameters. */
 export interface SchedulesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token for pagination. */
-  skip?: string;
-  /** Status filter for schedule. */
-  listViewType?: ScheduleListViewType;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SchedulesListNextResponse = ScheduleResourceArmPaginatedResult;

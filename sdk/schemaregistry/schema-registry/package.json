@@ -1,6 +1,6 @@
 {
   "name": "@azure/schema-registry",
-  "version": "1.3.0-beta.2",
+  "version": "1.3.0",
   "description": "Schema Registry Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -86,7 +86,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/core-rest-pipeline": "^1.1.0",
-    "@azure/core-client": "^1.0.0",
+    "@azure/core-client": "^1.9.2",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "^1.0.0",
     "@azure/logger": "^1.0.0",

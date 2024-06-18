@@ -71,7 +71,7 @@ node dist/helloworld.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPCONFIG_CONNECTION_STRING="<appconfig connection string>" node dist/helloworld.js
+npx cross-env AZ_CONFIG_ENDPOINT="<az config endpoint>" node dist/helloworld.js
 ```
 
 ## Next Steps

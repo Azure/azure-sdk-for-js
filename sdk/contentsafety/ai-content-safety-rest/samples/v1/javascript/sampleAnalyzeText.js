@@ -34,7 +34,7 @@ async function main() {
     console.log(
       textCategoriesAnalysisOutput.category,
       " severity: ",
-      textCategoriesAnalysisOutput.severity
+      textCategoriesAnalysisOutput.severity,
     );
   }
 }

@@ -23,6 +23,7 @@ export interface StorageError {
   /** The service error response object. */
   error?: StorageErrorError;
   code?: string;
+  authenticationErrorDetail?: string;
 }
 
 /** The service error response object. */

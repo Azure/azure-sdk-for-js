@@ -22,7 +22,7 @@ export async function main() {
 
   const translateCedential: TranslatorCredential = {
     key: apiKey,
-    region
+    region,
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
@@ -39,7 +39,7 @@ export async function main() {
   for (const breakSentence of breakSentences) {
     console.log(`The detected sentece boundaries: '${breakSentence?.sentLen.join(", ")}'.`);
     console.log(
-      `Detected languages of the input text: ${breakSentence?.detectedLanguage?.language} with score: ${breakSentence?.detectedLanguage?.score}.`
+      `Detected languages of the input text: ${breakSentence?.detectedLanguage?.language} with score: ${breakSentence?.detectedLanguage?.score}.`,
     );
   }
 }
