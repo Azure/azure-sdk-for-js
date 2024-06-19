@@ -3,11 +3,111 @@
 ## 4.0.1 (Unreleased)
 
 ### Features Added
-- Added Correlated Activity Id feature in JS SDK for better troubleshooting of queries. The correlated activity id is added in the request header for all types of queries on Items. 
+
+- All versions and delete mode in change feed [#27058](https://github.com/Azure/azure-sdk-for-js/issues/27058)
+- Request Units (RU) based capping for Item/Document fetch Operations.
+- Bypassing integrated cache [#2257127](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2257127)
+- Computed Properties [#2472654](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2472654)
+- Composite Indexing [#21115](https://github.com/Azure/azure-sdk-for-js/issues/21115)
+- Correlated Activity Id [#2692245](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2692245)
+- Split/Merge support for Bulk API [#18682](https://github.com/Azure/azure-sdk-for-js/issues/18682)
+
+#### Change Feed - All versions and deletes mode
+
+- The [All versions and delete mode](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-modes?tabs=all-versions-and-deletes#all-versions-and-deletes-change-feed-mode-preview)
+  is included in change feed mode that captures every change (create, update, and delete) made to items.
+
+To read from the change feed in all versions and deletes mode, include `changeFeedMode` in changeFeedIteratorOptions:
+
+```js
+    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Now(),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+```
+
+#### RU based capping
+
+- We have implemented support for Request Unit (RU) caps in Query operations. Clients can now seamlessly integrate RU caps into their fetch functions by specifying the desired cap within the operation options. If the specified RU cap is surpassed during the operation, clients will promptly receive an error notification, providing enhanced control and transparency over resource consumption.
+
+Here's a sample of how we can set `RU cap` in `QueryOperationOptions` for fetchNext operation:
+
+```js
+const queryOperatorOptions: QueryOperationOptions = { ruCapPerOperation: 40000 };
+const { resource: results } = await queryIterator.fetchNext(queryOperatorOptions);
+```
+
+#### Bypassing Integrated Cache
+
+- The option for bypassing integrated cache is added in RequestOptions. [docs](https://learn.microsoft.com/azure/cosmos-db/integrated-cache#bypass-the-integrated-cache-preview)
+
+```js
+  const options: RequestOptions = {bypassIntegratedCache: true};
+  const response = await container.item("1").read(options);
+```
+
+#### Computed Properties
+
+- Adding [Computed Properties](https://learn.microsoft.com/azure/cosmos-db/nosql/query/computed-properties?tabs=dotnet#creating-computed-properties) in documents is now supported.
+  Here's an example of configuring computed properties for a container:
+
+```js
+    const computedProperties: ComputedProperty[] = [{
+      name: "lowerLastName",
+      query:
+        "SELECT VALUE LOWER(IS_DEFINED(c.lastName) ? c.lastName : c.parents[0].familyName) FROM c",
+    },];
+    const { resource: containerdef } = await database.containers.createIfNotExists({
+      id: containerName,
+      computedProperties: computedProperties,
+      indexingPolicy: indexingPolicy,
+    });
+    const container: Container = database.container(containerdef.id);
+```
+
+#### Composite Indexing
+
+- Support for including [Composite indexes](https://learn.microsoft.com/azure/cosmos-db/index-overview#composite-indexes) in the indexing policy is now available in JS SDK, enhancing query operation performance on multiple fields.
+
+Here's a sample of adding composite indexes for a container:
+
+```js
+    const containerDefinition: ContainerDefinition = {
+      id: "containerWithCompositeIndexingPolicy",
+      indexingPolicy: {
+        automatic: true,
+        indexingMode: IndexingMode.consistent,
+        includedPaths: [
+          {
+            path: "/*",
+          },
+        ],
+        excludedPaths: [],
+        compositeIndexes: [
+          [
+            { path: "/key", order: "ascending" },
+            { path: "/field", order: "ascending" },
+          ],
+        ],
+      },
+    };
+    await database.containers.create(containerDefinition);
+```
+
+#### Correlated Activity Id
+
+- Correlated Activity Id is now added in header of every query request on Items. This helps in troubleshooting by linking all sub-queries for a query that involves multiple server interactions and partitions.
+
+#### Split/Merge support for Bulk API
+
+- Earlier, whenever Bulk API encountered a partition merge or split during processing, it would return an error message. Now, JS SDK ensures that the Bulk API is resistant to partition splitting and merging.
 
 ### Breaking Changes
 
-####  Dropped Support for TypeScript 4.1
+#### Dropped Support for TypeScript 4.1
+
 - We have opted to discontinue support for TypeScript version 4.1. Consequently, the minimum supported TypeScript version has been elevated to 4.2. Kindly ensure that your environment is promptly updated to align with these changes.
 
 ### Bugs Fixed
@@ -15,9 +115,11 @@
 ### Other Changes
 
 ## 4.0.0 (2023-09-12)
+
 🎉 v4 release! 🎉 Many new features, bug fixes, and a few breaking changes.
-- Summary of new added features 
-  - Diagnostics: A diagnostic object has been added to responses of api operations ie. point lookups, bulk & batch operations, query and error responses, which contains information related to metadata lookups, retries, request and reponse latencies and payload siezes.
+
+- Summary of new added features
+  - Diagnostics: A diagnostic object has been added to responses of api operations ie. point lookups, bulk & batch operations, query and error responses, which contains information related to metadata lookups, retries, request and response latencies and payload sizes.
   - Hierarchical Partitioning: Containers with hierarchical partitions are now supported. [docs](https://learn.microsoft.com/azure/cosmos-db/hierarchical-partition-keys)
   - Index metrics: can be enabled to show both utilized indexed paths and recommended indexed paths. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/index-metrics?tabs=javascript)
   - New Changefeed iterator: which can consume changes for a specific partition key, a feed range or an entire container. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-pull-model?tabs=JavaScript)
@@ -26,7 +128,9 @@
 ### New Features
 
 #### Diagnostics
-- Since `diagnostics` is added to all Response objects. You could programatically access `CosmosDiagnostic` as follows. 
+
+- Since `diagnostics` is added to all Response objects. You could programatically access `CosmosDiagnostic` as follows.
+
 ```js
   // For point look up operations
   const { container, diagnostics: containerCreateDiagnostic } =
@@ -44,7 +148,7 @@
       resourceBody: { id: 'A', key: "A", school: "high" },
     },
   ];
-  const response = await container.items.batch(operations, "A"); 
+  const response = await container.items.batch(operations, "A");
   const diagnostics = response.diagnostics
 
   // For Bulk operations
@@ -54,7 +158,7 @@
       resourceBody: { id: 'A', key: "A", school: "high" },
     },
   ];
-  const response = await container.items.bulk(operations);; 
+  const response = await container.items.bulk(operations);
   const diagnostics = response.diagnostics
 
   // For query operations
@@ -68,7 +172,9 @@
     const diagnostics = err.diagnostics
   }
 ```
+
 #### Hierarchical Partitioning
+
 - Here is a sampele for creating container with Hierarchical Partitions
 
   ```js
@@ -79,29 +185,33 @@
       version: PartitionKeyDefinitionVersion.V2,
       kind: PartitionKeyKind.MultiHash,
     },
-  }
+  };
   const { container } = await database.containers.createIfNotExists(containerDefinition);
   console.log(container.id);
   ```
+
 - Definition of PartitionKey has been changed to support Hierarchical partitioning. Here is how to use the new definition.
+
   - The operations for which PartitionKey can be derived from Request body, providing PartitionKey is optional as always i.e
     ```js
-      const item = {
-        id: 1,
-        name: 'foo',
-        address: {
-          zip: 100
-        },
-        active: true
-      }
-      await container.items.create(item);
+    const item = {
+      id: 1,
+      name: "foo",
+      address: {
+        zip: 100,
+      },
+      active: true,
+    };
+    await container.items.create(item);
     ```
   - Here is sample for operations which require hierarchical partition to be passed.
 
     ```js
     await container.item("1", ["foo", 100]).read();
     ```
+
     OR
+
     ```js
     const partitionKey: PartitionKey = new PartitionKeyBuilder()
       .addValue("foo")
@@ -109,6 +219,7 @@
       .build();
     await container.item("1", partitionKey).read();
     ```
+
   - If you are not using Hierarchical Partitioning feature, Definition of Partition Key is practically backward compatible.
     ```js
     await container.item("1", "1").read();
@@ -116,27 +227,30 @@
 
 #### New Change feed Iterator
 
-The v4 SDK now supports [Change feed pull model](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-pull-model?tabs=JavaScript). 
+The v4 SDK now supports [Change feed pull model](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-pull-model?tabs=JavaScript).
 
-***Note: There are no breaking changes, the old change feed iterator is still supported.***
+**_Note: There are no breaking changes, the old change feed iterator is still supported._**
 
 Major Differences:
+
 - The new iterator allows fetching change feed for a partition key, a feed range, or an entire container, compared to the older iterator, which was limited to fetching change feed for a partition key only.
- 
-- The new implementation is effectively an infinite list of items that encompasses all future writes and updates. The `hasMoreResults` property  now always returns `true`, unlike the older implementation, which returned `false` when a `NotModified` status code was received from the backend.
+
+- The new implementation is effectively an infinite list of items that encompasses all future writes and updates. The `hasMoreResults` property now always returns `true`, unlike the older implementation, which returned `false` when a `NotModified` status code was received from the backend.
 
 Here is an example of creating and using the new change feed iterator:
+
 ```js
 const changeFeedOptions = {
-    changeFeedStartFrom : ChangeFeedStartFrom.Beginning("partition key or feed range"),
-    maxItemCount: 10
-} 
+  changeFeedStartFrom: ChangeFeedStartFrom.Beginning("partition key or feed range"),
+  maxItemCount: 10,
+};
 const iterator = container.items.getChangeFeedIterator(changeFeedOptions);
-while(iterator.hasMoreResults) {
-    const res = await iterator.readNext();
-    // process res
+while (iterator.hasMoreResults) {
+  const res = await iterator.readNext();
+  // process res
 }
 ```
+
 #### Index Metrics [#20194](https://github.com/Azure/azure-sdk-for-js/issues/20194)
 
 Azure Cosmos DB provides indexing metrics for optimizing query performance, especially when you're unsure about adjusting the indexing policy.
@@ -144,8 +258,8 @@ You can enable indexing metrics for a query by setting the PopulateIndexMetrics 
 
 ```js
 const { resources: resultsIndexMetrics, indexMetrics } = await container.items
-    .query(querySpec, { populateIndexMetrics: true })
-    .fetchAll();
+  .query(querySpec, { populateIndexMetrics: true })
+  .fetchAll();
 ```
 
 We only recommend enabling the index metrics for troubleshooting query performance.
@@ -161,14 +275,17 @@ Priority-based execution is a capability which allows users to specify priority 
 You can enable priority based throttling by setting priorityLevel property.
 
 ```js
-const response = await container.item(document.id).read<TestItem>({ priorityLevel: PriorityLevel.Low });
+const response =
+  (await container.item(document.id).read) < TestItem > { priorityLevel: PriorityLevel.Low };
 ```
 
 ### Bugs Fixed
+
 - Updated response codes for the getDatabase() method. [#25932](https://github.com/Azure/azure-sdk-for-js/issues/25932)
 - Fix Upsert operation failing when partition key of container is `/id` and `/id` is missing in the document. [#21383](https://github.com/Azure/azure-sdk-for-js/issues/21383)
 
 ### Breaking Changes
+
 - The definition of PartitionKey is changed, PartitionKeyDefinition is now a independent type. [#23416](https://github.com/Azure/azure-sdk-for-js/issues/23416)
 
 ## 3.17.3 (2023-02-13)
@@ -179,6 +296,7 @@ const response = await container.item(document.id).read<TestItem>({ priorityLeve
 - Enriched Timeout error response. We had defined Timeout error as custom error in our sdk but we were not sending up any message along with it, now we are throwing the specific Error. [#23025](https://github.com/Azure/azure-sdk-for-js/issues/23025)
 - Added functionality to delete entire data for a partition id. [#22091](https://github.com/Azure/azure-sdk-for-js/issues/22091)
 - SDK now defines all possible error types, namely Export RestError, AbortError, TimeoutError, and ErrorResponse. [22789](https://github.com/Azure/azure-sdk-for-js/issues/22789)
+
 ### Bugs Fixed
 
 - Removed excessive log warnings during bulk operations on a container with no partitionkey set.
@@ -186,7 +304,9 @@ const response = await container.item(document.id).read<TestItem>({ priorityLeve
 - Fix issue that caused parallel queries to break when returning a result of 0 or false. [#24493](https://github.com/Azure/azure-sdk-for-js/issues/24493)
 
 ### Other Changes
+
 - Error handling guidelines are added in README.md
+
 ## 3.17.2 (2022-11-15)
 
 ### Bugs Fixed
@@ -825,7 +945,7 @@ It is now possible to pass a connection string copied from the Azure portal:
 
 ```js
 const client = new CosmosClient(
-  "AccountEndpoint=https://test-account.documents.azure.com:443/;AccountKey=<KEY HERE>;"
+  "AccountEndpoint=https://test-account.documents.azure.com:443/;AccountKey=<KEY HERE>;",
 );
 ```
 

@@ -6,7 +6,8 @@
     "../src/**/*.tsx"
   ],
   "exclude": [
-    ".././src/log-browser.mts"
+    ".././src/log-browser.mts",
+    ".././src/log-react-native.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/esm"
