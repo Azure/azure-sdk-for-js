@@ -2745,7 +2745,7 @@ export const FleetUpdate: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "FleetPropertiesUpdate",
+          className: "FleetProperties",
         },
       },
     },
@@ -2765,6 +2765,7 @@ export const ManagedServiceIdentityUpdate: coreClient.CompositeMapper = {
       },
       userAssignedIdentities: {
         serializedName: "userAssignedIdentities",
+        nullable: true,
         type: {
           name: "Dictionary",
           value: {
@@ -2809,76 +2810,6 @@ export const ResourcePlanUpdate: coreClient.CompositeMapper = {
         serializedName: "version",
         type: {
           name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const FleetPropertiesUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FleetPropertiesUpdate",
-    modelProperties: {
-      spotPriorityProfile: {
-        serializedName: "spotPriorityProfile",
-        type: {
-          name: "Composite",
-          className: "SpotPriorityProfile",
-        },
-      },
-      regularPriorityProfile: {
-        serializedName: "regularPriorityProfile",
-        type: {
-          name: "Composite",
-          className: "RegularPriorityProfile",
-        },
-      },
-      vmSizesProfile: {
-        serializedName: "vmSizesProfile",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VmSizeProfile",
-            },
-          },
-        },
-      },
-      computeProfile: {
-        serializedName: "computeProfile",
-        type: {
-          name: "Composite",
-          className: "ComputeProfileUpdate",
-        },
-      },
-    },
-  },
-};
-
-export const ComputeProfileUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ComputeProfileUpdate",
-    modelProperties: {
-      baseVirtualMachineProfile: {
-        serializedName: "baseVirtualMachineProfile",
-        type: {
-          name: "Composite",
-          className: "VirtualMachineScaleSetVMProfile",
-        },
-      },
-      computeApiVersion: {
-        serializedName: "computeApiVersion",
-        type: {
-          name: "String",
-        },
-      },
-      platformFaultDomainCount: {
-        serializedName: "platformFaultDomainCount",
-        type: {
-          name: "Number",
         },
       },
     },

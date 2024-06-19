@@ -80,13 +80,6 @@ export interface ComputeProfile {
 }
 
 // @public
-export interface ComputeProfileUpdate {
-    baseVirtualMachineProfile?: VirtualMachineScaleSetVMProfile;
-    computeApiVersion?: string;
-    platformFaultDomainCount?: number;
-}
-
-// @public
 export type CreatedByType = string;
 
 // @public
@@ -174,14 +167,6 @@ export interface FleetProperties {
     regularPriorityProfile?: RegularPriorityProfile;
     spotPriorityProfile?: SpotPriorityProfile;
     vmSizesProfile: VmSizeProfile[];
-}
-
-// @public
-export interface FleetPropertiesUpdate {
-    computeProfile?: ComputeProfileUpdate;
-    regularPriorityProfile?: RegularPriorityProfile;
-    spotPriorityProfile?: SpotPriorityProfile;
-    vmSizesProfile?: VmSizeProfile[];
 }
 
 // @public
@@ -295,7 +280,7 @@ export type FleetsUpdateResponse = Fleet;
 export interface FleetUpdate {
     identity?: ManagedServiceIdentityUpdate;
     plan?: ResourcePlanUpdate;
-    properties?: FleetPropertiesUpdate;
+    properties?: FleetProperties;
     tags?: {
         [propertyName: string]: string;
     };

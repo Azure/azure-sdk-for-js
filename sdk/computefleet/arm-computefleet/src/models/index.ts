@@ -1001,7 +1001,7 @@ export interface FleetUpdate {
   /** Updatable resource plan */
   plan?: ResourcePlanUpdate;
   /** RP-specific updatable properties */
-  properties?: FleetPropertiesUpdate;
+  properties?: FleetProperties;
 }
 
 /** The template for adding optional properties. */
@@ -1024,37 +1024,6 @@ export interface ResourcePlanUpdate {
   promotionCode?: string;
   /** The version of the desired product/artifact. */
   version?: string;
-}
-
-/** Details of the Compute Fleet. */
-export interface FleetPropertiesUpdate {
-  /** Configuration Options for Spot instances in Compute Fleet. */
-  spotPriorityProfile?: SpotPriorityProfile;
-  /** Configuration Options for Regular instances in Compute Fleet. */
-  regularPriorityProfile?: RegularPriorityProfile;
-  /** List of VM sizes supported for Compute Fleet */
-  vmSizesProfile?: VmSizeProfile[];
-  /** Compute Profile to use for running user's workloads. */
-  computeProfile?: ComputeProfileUpdate;
-}
-
-/** Compute Profile to use for running user's workloads. */
-export interface ComputeProfileUpdate {
-  /** Base Virtual Machine Profile Properties to be specified according to "specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/{computeApiVersion}/virtualMachineScaleSet.json#/definitions/VirtualMachineScaleSetVMProfile" */
-  baseVirtualMachineProfile?: VirtualMachineScaleSetVMProfile;
-  /**
-   * Specifies the Microsoft.Compute API version to use when creating underlying Virtual Machine scale sets and Virtual Machines.
-   * The default value will be the latest supported computeApiVersion by Compute Fleet.
-   */
-  computeApiVersion?: string;
-  /**
-   * Specifies the number of fault domains to use when creating the underlying VMSS.
-   * A fault domain is a logical group of hardware within an Azure datacenter.
-   * VMs in the same fault domain share a common power source and network switch.
-   * If not specified, defaults to 1, which represents "Max Spreading" (using as many fault domains as possible).
-   * This property cannot be updated.
-   */
-  platformFaultDomainCount?: number;
 }
 
 /** The response of a VirtualMachineScaleSet list operation. */
