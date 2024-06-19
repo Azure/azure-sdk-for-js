@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { SpanStatusCode, trace } from "@opentelemetry/api";
+import { assert, beforeEach, describe, it } from "vitest";
 
 import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper.js";
 import { getExportedSpan } from "./util/testHelpers.js";
 import { inMemoryExporter } from "./util/setup.js";
-import { describe, it, assert } from "vitest";
 
 describe("OpenTelemetrySpanWrapper", () => {
   let span: OpenTelemetrySpanWrapper;
