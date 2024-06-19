@@ -20,6 +20,7 @@ import {
   CallConnection,
   CreateCallOptions,
   AnswerCallOptions,
+  ConnectCallOptions,
 } from "../src";
 import {
   createRecorder,
@@ -321,5 +322,80 @@ describe("Call Automation Main Client Live Tests", function () {
 
     const CallDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(CallDisconnectedEvent);
+  }).timeout(60000);
+
+  it("Connect call", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "create_call_and_connect_and_hangup";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = { operationContext: "operationContextCreateCall" };
+
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption,
+    );
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      const answerCallOptions: AnswerCallOptions = {
+        operationContext: "operationContextAnswerCall",
+      };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOptions,
+      );
+    }
+
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    const callConnectionProperties = await callConnection.getCallConnectionProperties();
+
+    const serverCallId = callConnectionProperties.serverCallId;
+    if (serverCallId) {
+      const callLocator: CallLocator = {
+        id: serverCallId,
+        kind: "serverCallLocator",
+      };
+
+      const connectCallOptions: ConnectCallOptions = {
+        operationContext: "connectCallContext",
+      };
+      const connectApiCallConnection = await callerCallAutomationClient.connectCall(
+        callLocator,
+        callBackUrl,
+        connectCallOptions,
+      );
+
+      const connectCallConnectionId = connectApiCallConnection.callConnectionProperties
+        .callConnectionId
+        ? connectApiCallConnection.callConnectionProperties.callConnectionId
+        : "";
+
+      const connectCallConnectedEvent = await waitForEvent(
+        "CallConnected",
+        connectCallConnectionId,
+        8000,
+      );
+
+      assert.isDefined(connectCallConnectedEvent);
+
+      await connectApiCallConnection.callConnection.hangUp(true);
+
+      const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+      assert.isDefined(callDisconnectedEvent);
+    }
   }).timeout(60000);
 });
