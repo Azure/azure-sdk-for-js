@@ -20,7 +20,7 @@ import { RedisManagementClient } from "../src/redisManagementClient";
 import { NetworkManagementClient, VirtualNetwork } from "@azure/arm-network";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
