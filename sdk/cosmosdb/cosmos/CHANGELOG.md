@@ -5,7 +5,6 @@
 ### Features Added
 
 - All versions and delete mode in change feed [#27058](https://github.com/Azure/azure-sdk-for-js/issues/27058)
-- Request Units (RU) based capping for Item/Document fetch Operations.
 - Bypassing integrated cache [#2257127](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2257127)
 - Computed Properties [#2472654](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2472654)
 - Composite Indexing [#21115](https://github.com/Azure/azure-sdk-for-js/issues/21115)
@@ -26,17 +25,6 @@ To read from the change feed in all versions and deletes mode, include `changeFe
       changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
     };
     const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-```
-
-#### RU based capping
-
-- We have implemented support for Request Unit (RU) caps in Query operations. Clients can now seamlessly integrate RU caps into their fetch functions by specifying the desired cap within the operation options. If the specified RU cap is surpassed during the operation, clients will promptly receive an error notification, providing enhanced control and transparency over resource consumption.
-
-Here's a sample of how we can set `RU cap` in `QueryOperationOptions` for fetchNext operation:
-
-```js
-const queryOperatorOptions: QueryOperationOptions = { ruCapPerOperation: 40000 };
-const { resource: results } = await queryIterator.fetchNext(queryOperatorOptions);
 ```
 
 #### Bypassing Integrated Cache
