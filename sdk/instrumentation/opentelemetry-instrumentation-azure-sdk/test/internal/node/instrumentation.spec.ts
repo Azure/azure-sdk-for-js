@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
-import { TestClient, tracingClientAttributes } from "../../public/util/testClient";
+import { TestClient, tracingClientAttributes } from "../../public/util/testClient.js";
+import { assert, beforeEach, describe, it } from "vitest";
 
-import { assert } from "chai";
-import { inMemoryExporter } from "../../public/util/setup";
+import { inMemoryExporter } from "../../public/util/setup.js";
 
 describe("instrumentation end-to-end tests", () => {
   beforeEach(() => {

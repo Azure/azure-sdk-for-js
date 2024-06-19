@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KnownEnvironmentKey, envVarToBoolean, environmentCache } from "../../../src/configuration";
-
-import { assert } from "chai";
+import { KnownEnvironmentKey, envVarToBoolean, environmentCache } from "../../../src/configuration.js";
+import { describe, it, assert } from "vitest";
 
 describe("#envVarToBoolean", () => {
   const key = "FOO" as KnownEnvironmentKey;

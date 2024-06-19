@@ -1,18 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter";
+import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter.js";
 import { SpanKind, context, trace } from "@opentelemetry/api";
 import { TracingSpan, TracingSpanKind } from "@azure/core-tracing";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
 
-import { Context } from "mocha";
-import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper";
+import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper.js";
 import { Span } from "@opentelemetry/sdk-trace-base";
-import { assert } from "chai";
-import { environmentCache } from "../../src/configuration";
-import { inMemoryExporter } from "./util/setup";
+import { environmentCache } from "../../src/configuration.js";
+import { inMemoryExporter } from "./util/setup.js";
 import { isTracingSuppressed } from "@opentelemetry/core";
-import sinon from "sinon";
 
 function unwrap(span: TracingSpan): Span {
   return (span as OpenTelemetrySpanWrapper).unwrap() as Span;
@@ -253,7 +251,7 @@ describe("OpenTelemetryInstrumenter", () => {
   });
 
   describe("#withContext", () => {
-    it("passes the correct arguments to OpenTelemetry", function (this: Context) {
+    it("passes the correct arguments to OpenTelemetry", function (ctx) {
       const contextSpy = sinon.spy(context, "with");
       // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       const callback = (arg1: number) => arg1 + 42;

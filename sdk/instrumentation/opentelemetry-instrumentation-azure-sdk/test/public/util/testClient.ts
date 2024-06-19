@@ -10,7 +10,7 @@ import {
   createPipelineFromOptions,
 } from "@azure/core-rest-pipeline";
 
-import { SDK_VERSION } from "../../../src/configuration";
+import { SDK_VERSION } from "../../../src/configuration.js";
 
 /**
  * A partial interface compatible with OperationOptions.

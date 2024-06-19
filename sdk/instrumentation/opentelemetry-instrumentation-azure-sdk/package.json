@@ -3,12 +3,8 @@
   "version": "1.0.0-beta.6",
   "description": "Instrumentation client for the Azure SDK.",
   "sdk-type": "client",
-  "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "browser": {
-    "./dist-esm/src/instrumentation.js": "./dist-esm/src/instrumentation.browser.js",
-    "./dist-esm/test/public/util/tracerProvider.js": "./dist-esm/test/public/util/tracerProvider.browser.js"
-  },
+  "main": "./dist/commonjs/index.js",
+  "browser": "./dist/browser/index.js",
   "//metadata": {
     "constantPaths": [
       {
@@ -17,12 +13,12 @@
       }
     ]
   },
-  "types": "types/latest/opentelemetry-instrumentation-azure-sdk.d.ts",
+  "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
+    "build": "npm run clean && tshy && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -38,14 +34,12 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "dev-tool run test:node-tsx-ts --no-test-proxy",
+    "unit-test:browser": "npm run clean && tshy && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/latest/",
     "README.md",
     "LICENSE"
   ],
@@ -82,31 +76,20 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@opentelemetry/sdk-trace-base": "^1.25.0",
     "@opentelemetry/sdk-trace-node": "^1.25.0",
-    "@types/chai": "^4.1.6",
-    "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^17.0.0",
-    "chai": "^4.2.0",
+    "@vitest/browser": "^1.6.0",
+    "@vitest/coverage-istanbul": "^1.6.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",
-    "karma": "^6.2.0",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^2.0.0",
-    "karma-env-preprocessor": "^0.1.1",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-junit-reporter": "^2.0.1",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
+    "playwright": "^1.44.1",
     "rimraf": "^5.0.5",
-    "sinon": "^17.0.0",
-    "source-map-support": "^0.5.9",
+    "tshy": "^1.15.1",
     "tsx": "^4.7.1",
     "typescript": "~5.4.5",
-    "util": "^0.12.1"
+    "util": "^0.12.1",
+    "vitest": "^1.6.0"
   },
   "//sampleConfiguration": {
     "skipFolder": true,
@@ -115,5 +98,46 @@
     "productSlugs": [],
     "apiRefLink": "https://docs.microsoft.com/javascript/api/",
     "requiredResources": {}
+  },
+  "type": "module",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "source": "./src/index.ts",
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "source": "./src/index.ts",
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "source": "./src/index.ts",
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "source": "./src/index.ts",
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   }
 }
