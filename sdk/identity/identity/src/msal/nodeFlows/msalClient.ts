@@ -47,6 +47,18 @@ export interface GetTokenWithSilentAuthOptions extends GetTokenOptions {
  * Represents a client for interacting with the Microsoft Authentication Library (MSAL).
  */
 export interface MsalClient {
+  getTokenOnBehalfOf(
+    scopes: string[],
+    userAssertionToken: string,
+    clientCertificate: CertificateParts,
+    options?: GetTokenOptions,
+  ): Promise<AccessToken>;
+  getTokenOnBehalfOf(
+    scopes: string[],
+    userAssertionToken: string,
+    clientSecret: string,
+    options?: GetTokenOptions,
+  ): Promise<AccessToken>;
   /**
    * Retrieves an access token by using a user's username and password.
    *
@@ -646,6 +658,57 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     });
   }
 
+  function getTokenOnBehalfOf(
+    scopes: string[],
+    userAssertionToken: string,
+    clientSecret: string,
+    options?: GetTokenOptions,
+  ): Promise<AccessToken>;
+  function getTokenOnBehalfOf(
+    scopes: string[],
+    userAssertionToken: string,
+    clientCertificate: CertificateParts,
+    options?: GetTokenOptions,
+  ): Promise<AccessToken>;
+  async function getTokenOnBehalfOf(
+    scopes: string[],
+    userAssertionToken: string,
+    clientSecretOrCertificate: string | CertificateParts,
+    options: GetTokenOptions = {},
+  ): Promise<AccessToken> {
+    msalLogger.getToken.info(`Attempting to acquire token on behalf of another user`);
+
+    if (typeof clientSecretOrCertificate === "string") {
+      // Client secret
+      msalLogger.getToken.info(`Using client secret for on behalf of flow`);
+      state.msalConfig.auth.clientSecret = clientSecretOrCertificate;
+    } else {
+      // Client certificate
+      msalLogger.getToken.info(`Using client certificate for on behalf of flow`);
+      state.msalConfig.auth.clientCertificate = clientSecretOrCertificate;
+    }
+
+    const msalApp = await getConfidentialApp(options);
+    try {
+      const response = await msalApp.acquireTokenOnBehalfOf({
+        scopes,
+        authority: state.msalConfig.auth.authority,
+        claims: options.claims,
+        oboAssertion: userAssertionToken,
+      });
+      ensureValidMsalToken(scopes, response, options);
+
+      msalLogger.getToken.info(formatSuccess(scopes));
+
+      return {
+        token: response.accessToken,
+        expiresOnTimestamp: response.expiresOn.getTime(),
+      };
+    } catch (err: any) {
+      throw handleMsalError(scopes, err, options);
+    }
+  }
+
   return {
     getActiveAccount,
     getTokenByClientSecret,
@@ -654,5 +717,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     getTokenByDeviceCode,
     getTokenByUsernamePassword,
     getTokenByAuthorizationCode,
+    getTokenOnBehalfOf,
   };
 }
