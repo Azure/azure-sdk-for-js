@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the quota usage for a search sku in the given subscription.
  *
  * @summary Gets the quota usage for a search sku in the given subscription.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-03-01-preview/examples/GetQuotaUsage.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/GetQuotaUsage.json
  */
 async function getQuotaUsage() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";

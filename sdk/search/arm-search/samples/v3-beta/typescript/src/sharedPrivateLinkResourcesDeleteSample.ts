@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Initiates the deletion of the shared private link resource from the search service.
  *
  * @summary Initiates the deletion of the shared private link resource from the search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-03-01-preview/examples/DeleteSharedPrivateLinkResource.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/DeleteSharedPrivateLinkResource.json
  */
 async function sharedPrivateLinkResourceDelete() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";

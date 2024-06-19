@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a search service in the given resource group, along with its associated resources.
  *
  * @summary Deletes a search service in the given resource group, along with its associated resources.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-03-01-preview/examples/SearchDeleteService.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchDeleteService.json
  */
 async function searchDeleteService() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";

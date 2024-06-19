@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of all Search services in the given resource group.
  *
  * @summary Gets a list of all Search services in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-03-01-preview/examples/SearchListServicesByResourceGroup.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchListServicesByResourceGroup.json
  */
 async function searchListServicesByResourceGroup() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
