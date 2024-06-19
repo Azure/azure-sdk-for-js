@@ -4,10 +4,6 @@
   },
   "matrix": {
     "Agent": {
-      "windows-2022": {
-        "OSVmImage": "env:WINDOWSVMIMAGE",
-        "Pool": "env:WINDOWSPOOL"
-      },
       "ubuntu-20.04": {
         "OSVmImage": "env:LINUXVMIMAGE",
         "Pool": "env:LINUXPOOL"
