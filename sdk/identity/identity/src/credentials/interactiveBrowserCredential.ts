@@ -18,7 +18,7 @@ import { AuthenticationRecord } from "../msal/types";
 import { credentialLogger } from "../util/logging";
 import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
-import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
+import { MsalClient, MsalClientOptions, createMsalClient } from "../msal/nodeFlows/msalClient";
 import { DeveloperSignOnClientId } from "../constants";
 import { MsalNodeOptions } from "../msal/nodeFlows/msalNodeCommon";
 
@@ -56,10 +56,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       options?.additionallyAllowedTenants,
     );
 
-    // TODO: fix this
-    const msalClientOptions: Partial<
-      Omit<MsalNodeOptions, "tenantId" | "clientId" | "disableAutomaticAuthentication">
-    > = {
+    const msalClientOptions: MsalClientOptions = {
       ...options,
       tokenCredentialOptions: options,
       logger,
