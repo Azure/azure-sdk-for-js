@@ -374,6 +374,36 @@ if (responseMessage?.role === "assistant") {
 }
 ```
 
+### Chat with images (using models supporting image chat, such as gpt-4o) 
+
+Some Azure models allow you to use images as input components into chat completions.
+
+To do this, provide distinct content items on the user message(s) for the chat completions request:
+
+```js
+const url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+const messages = [{
+    role: "user", content: [{
+    type: "image_url",
+    image_url: {
+      url,
+      detail: "auto"
+    }
+  }]},
+  {role: "user", content: "describe the image"}];
+```
+
+Chat Completions will then proceed as usual, though the model may report the more informative `finish_details` in lieu
+of `finish_reason`:
+
+```js
+const response = await client.path("/chat/completions").post({
+  body: {
+    messages 
+});
+console.log(`Chatbot: ${response.choices[0].message?.content}`);
+```
+
 ## Troubleshooting
 
 ### Logging
