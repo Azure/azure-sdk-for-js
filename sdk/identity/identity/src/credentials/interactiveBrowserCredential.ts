@@ -20,7 +20,6 @@ import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
 import { MsalClient, MsalClientOptions, createMsalClient } from "../msal/nodeFlows/msalClient";
 import { DeveloperSignOnClientId } from "../constants";
-import { MsalNodeOptions } from "../msal/nodeFlows/msalNodeCommon";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
