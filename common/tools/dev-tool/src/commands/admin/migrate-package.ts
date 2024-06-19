@@ -233,14 +233,19 @@ function fixSourceFiles(packageFolder: string): void {
         }
       }
 
+      // Fix some sinon
+      if (statement.getText().match(/sinon\.stub/gi)) {
+        statement.replaceWithText(statement.getText().replace(/sinon\.stub/gi, "vi.spyOn"));
+      }
+
       // If statement is a beforeEach, then fix the function
-      if (statement.getText().includes("beforeEach(async function (this: Context) {")) {
-        statement.replaceWithText(statement.getText().replace("(this: Context)", "(ctx)"));
+      if (statement.getText().match(/\(this: Context\)/g)) {
+        statement.replaceWithText(statement.getText().replace(/\(this: Context\)/g, "(ctx)"));
       }
 
       // If statement has a recorder, fix the context
-      if (statement.getText().includes("recorder = new Recorder(this.currentTest);")) {
-        statement.replaceWithText(statement.getText().replace("this.currentTest", "ctx"));
+      if (statement.getText().match(/\(this.currentTest\)/g)) {
+        statement.replaceWithText(statement.getText().replace(/\(this.currentTest\)/g, "(ctx)"));
       }
     }
 
@@ -264,6 +269,31 @@ function fixSourceFiles(packageFolder: string): void {
   }
 }
 
+function fixNodeDeclaration(moduleSpecifier: string): string {
+  const nodeModules = [
+    "assert",
+    "crypto",
+    "events",
+    "fs",
+    "fs/promises",
+    "http",
+    "https",
+    "net",
+    "os",
+    "path",
+    "process",
+    "stream",
+    "tls",
+    "util",
+  ];
+
+  if (nodeModules.includes(moduleSpecifier)) {
+    moduleSpecifier = `node:${moduleSpecifier}`;
+  }
+
+  return moduleSpecifier;
+}
+
 function fixDeclaration(sourceFile: SourceFile, moduleSpecifier: string): string {
   if (moduleSpecifier.startsWith(".") || moduleSpecifier.startsWith("..")) {
     if (!moduleSpecifier.endsWith(".js")) {
@@ -281,7 +311,8 @@ function fixDeclaration(sourceFile: SourceFile, moduleSpecifier: string): string
       }
     }
   }
-  return moduleSpecifier;
+  // Fix the node module declaration as well
+  return fixNodeDeclaration(moduleSpecifier);
 }
 
 async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void> {
