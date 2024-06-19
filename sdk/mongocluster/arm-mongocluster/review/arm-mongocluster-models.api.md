@@ -4,20 +4,7 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { Paged } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -121,18 +108,6 @@ export interface FirewallRulesGetOptionalParams extends OperationOptions {
 export interface FirewallRulesListByMongoClusterOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
-export interface FirewallRulesOperations {
-    // (undocumented)
-    createOrUpdate: (subscriptionId: string, resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, resource: FirewallRule, options?: FirewallRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
-    // (undocumented)
-    delete: (subscriptionId: string, resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    // (undocumented)
-    get: (subscriptionId: string, resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, options?: FirewallRulesGetOptionalParams) => Promise<FirewallRule>;
-    // (undocumented)
-    listByMongoCluster: (subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: FirewallRulesListByMongoClusterOptionalParams) => PagedAsyncIterableIterator<FirewallRule>;
-}
-
 // @public
 export interface ListConnectionStringsResult {
     readonly connectionStrings?: ConnectionString[];
@@ -147,22 +122,6 @@ export interface MongoCluster extends TrackedResource {
 export interface MongoClusterListResult {
     nextLink?: string;
     value: MongoCluster[];
-}
-
-// @public (undocumented)
-export class MongoClusterManagementClient {
-    constructor(credential: TokenCredential, options?: MongoClusterManagementClientOptions);
-    readonly firewallRules: FirewallRulesOperations;
-    readonly mongoClusters: MongoClustersOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
-    readonly privateLinks: PrivateLinksOperations;
-}
-
-// @public (undocumented)
-export interface MongoClusterManagementClientOptions extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public
@@ -215,26 +174,6 @@ export interface MongoClustersListConnectionStringsOptionalParams extends Operat
 
 // @public (undocumented)
 export interface MongoClustersListOptionalParams extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface MongoClustersOperations {
-    // (undocumented)
-    checkNameAvailability: (subscriptionId: string, location: string, body: CheckNameAvailabilityRequest, options?: MongoClustersCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponse>;
-    // (undocumented)
-    createOrUpdate: (subscriptionId: string, resourceGroupName: string, mongoClusterName: string, resource: MongoCluster, options?: MongoClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<MongoCluster>, MongoCluster>;
-    // (undocumented)
-    delete: (subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: MongoClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    // (undocumented)
-    get: (subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: MongoClustersGetOptionalParams) => Promise<MongoCluster>;
-    // (undocumented)
-    list: (subscriptionId: string, options?: MongoClustersListOptionalParams) => PagedAsyncIterableIterator<MongoCluster>;
-    // (undocumented)
-    listByResourceGroup: (subscriptionId: string, resourceGroupName: string, options?: MongoClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MongoCluster>;
-    // (undocumented)
-    listConnectionStrings: (subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: MongoClustersListConnectionStringsOptionalParams) => Promise<ListConnectionStringsResult>;
-    // (undocumented)
-    update: (subscriptionId: string, resourceGroupName: string, mongoClusterName: string, properties: MongoClusterUpdate, options?: MongoClustersUpdateOptionalParams) => PollerLike<OperationState<MongoCluster>, MongoCluster>;
 }
 
 // @public
@@ -292,12 +231,6 @@ export interface OperationDisplay {
 
 // @public (undocumented)
 export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface OperationsOperations {
-    // (undocumented)
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
@@ -371,18 +304,6 @@ export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOp
 export interface PrivateEndpointConnectionsListByMongoClusterOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
-export interface PrivateEndpointConnectionsOperations {
-    // (undocumented)
-    create: (subscriptionId: string, resourceGroupName: string, mongoClusterName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionsCreateOptionalParams) => PollerLike<OperationState<void>, void>;
-    // (undocumented)
-    delete: (subscriptionId: string, resourceGroupName: string, mongoClusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    // (undocumented)
-    get: (subscriptionId: string, resourceGroupName: string, mongoClusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnectionResource>;
-    // (undocumented)
-    listByMongoCluster: (subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: PrivateEndpointConnectionsListByMongoClusterOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
-}
-
 // @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
@@ -415,12 +336,6 @@ export interface PrivateLinkServiceConnectionState {
 export interface PrivateLinksListByMongoClusterOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
-export interface PrivateLinksOperations {
-    // (undocumented)
-    listByMongoCluster: (subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: PrivateLinksListByMongoClusterOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
-}
-
 // @public
 export type ProvisioningState = string | ResourceProvisioningState | "InProgress" | "Updating" | "Dropping";
 
@@ -441,18 +356,6 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
-
-// Warning: (ae-forgotten-export) The symbol "DocumentDBContext" needs to be exported by the entry point index.d.ts
-//
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DocumentDBContext | MongoClusterManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface SystemData {

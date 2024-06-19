@@ -1475,6 +1475,16 @@ packages:
       tslib: 2.6.3
     dev: false
 
+  /@azure/core-lro@3.0.0-beta.2:
+    resolution: {integrity: sha512-8WwZaYHwgp04oA4bnJcjgoHg9Aty4k/fu1EUhaC+r7OhiPwLNKchaY7NH4Z6KqSS8MpFOjmdUjCPcgyAvtweJQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      tslib: 2.6.3
+    dev: false
+
   /@azure/core-paging@1.6.2:
     resolution: {integrity: sha512-YKWi9YuCU04B55h25cnOYZHxXYtEvQEbKST5vqRga7hWY9ydd3FZHdeQF8pyh+acWZvppw13M/LMGx0LABUVMA==}
     engines: {node: '>=18.0.0'}
@@ -10548,6 +10558,23 @@ packages:
       strip-bom: 3.0.0
     dev: false
 
+  /tshy@1.11.1:
+    resolution: {integrity: sha512-AzATR8weBaUW46Nh4B1k5cfxVuADKJTXe95xHh7BzcI1RjQQy6HeUXQDY+erGEGTLpiv6N6xMFmtEsMMc7x40Q==}
+    engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
+    hasBin: true
+    dependencies:
+      chalk: 5.3.0
+      chokidar: 3.6.0
+      foreground-child: 3.1.1
+      mkdirp: 3.0.1
+      polite-json: 4.0.1
+      resolve-import: 1.4.5
+      rimraf: 5.0.7
+      sync-content: 1.0.2
+      typescript: 5.3.3
+      walk-up-path: 3.0.1
+    dev: false
+
   /tshy@1.15.1:
     resolution: {integrity: sha512-7p30vmXaNX7OL1yLy/MYUtO0SJOm9fQSnzk3DXaM+LmQosooCB4elVeHAGIIZdABhL2E8dx5t/5msR5lh0xnaQ==}
     engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
@@ -16235,33 +16262,50 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-+JRls0GC+wQAFWr/5WUH9admadBeEg42hVP4bWhdVmbJGeP7IvlEqGLaNQTVW5GtWCBWOtf9DNAwBcDbGvg7Ww==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-gNXxL7MLGz7U+LOjYJ5d0KBvLckQamCrUrLhol9XBg4GQcBChc2CQnN+0EDt+n3nQVndziqisTNsaMzhJ2nhmw==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
       '@azure-tools/test-recorder': 3.5.1
       '@azure/abort-controller': 1.1.0
-      '@azure/core-lro': 2.7.2
+      '@azure/core-lro': 3.0.0-beta.2
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
       '@types/node': 18.19.34
+      '@vitest/browser': 1.6.0(playwright@1.44.1)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      eslint: 8.57.0
       mkdirp: 3.0.1
       mocha: 10.4.0
+      playwright: 1.44.1
+      prettier: 3.3.2
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.34)(typescript@5.4.5)
+      tshy: 1.11.1
       tslib: 2.6.3
       tsx: 4.15.2
       typescript: 5.4.5
       uglify-js: 3.18.0
+      vitest: 1.6.0(@types/node@18.19.34)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:
