@@ -49,12 +49,12 @@ export async function createClient(recorder: Recorder): Promise<AzureHealthInsig
 }
 
 export function isBrowser(): boolean {
-  return typeof self !== "undefined";
+  return typeof process !== "undefined";
 }
 
 export async function createDefaultClient(recorder: Recorder): Promise<AzureHealthInsightsClient> {
   const endpoint = assertEnvironmentVariable("HEALTH_INSIGHTS_ENDPOINT");
-  if (isBrowser) {
+  if (isBrowser()) {
     const credential = new InteractiveBrowserCredential({
       clientId: envSetupForPlayback.AZURE_CLIENT_ID,
       tenantId: envSetupForPlayback.AZURE_TENANT_ID,
@@ -62,6 +62,7 @@ export async function createDefaultClient(recorder: Recorder): Promise<AzureHeal
     });
     return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
   } else {
+    // Handle non-browser environment
     return AHIClient(endpoint, new DefaultAzureCredential(), recorder.configureClientOptions({}));
   }
 }
