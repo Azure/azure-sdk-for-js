@@ -12,7 +12,7 @@
 
 import { AppConfigurationClient } from "@azure/app-configuration";
 import { isSystemEvent, EventGridEvent, EventGridDeserializer } from "@azure/eventgrid";
-import { appConfigTestEvent } from "./testData";
+import { appConfigTestEvent } from "./testData.js";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

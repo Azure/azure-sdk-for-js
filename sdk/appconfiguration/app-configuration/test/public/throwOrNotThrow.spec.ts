@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient, ConfigurationSetting } from "../../src";
+import { AppConfigurationClient, ConfigurationSetting } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
   startRecorder,
-} from "./utils/testHelpers";
-import { Context } from "mocha";
-import { assert } from "chai";
+} from "./utils/testHelpers.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 // There's been discussion on other teams about what errors are thrown when. This
 // is the file where I've documented the throws/notThrows cases to make coordination
@@ -21,8 +20,8 @@ describe("Various error cases", () => {
   let recorder: Recorder;
   const nonMatchingETag = "never-match-etag";
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async function (ctx) {
+    recorder = await startRecorder(ctx);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
   });
 
@@ -43,8 +42,8 @@ describe("Various error cases", () => {
       nonExistentKey = "non-existent key " + addedSetting.key;
     });
 
-    afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending()) {
+    afterEach(async function (ctx) {
+      if (!ctx.task.pending) {
         await deleteKeyCompletely([addedSetting.key], client);
       }
     });
@@ -104,8 +103,8 @@ describe("Various error cases", () => {
       nonExistentKey = "bogus key " + addedSetting.key;
     });
 
-    afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending()) {
+    afterEach(async function (ctx) {
+      if (!ctx.task.pending) {
         await deleteKeyCompletely([addedSetting.key], client);
       }
     });

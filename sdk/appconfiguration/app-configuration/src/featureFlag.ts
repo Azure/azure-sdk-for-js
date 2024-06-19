@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
-import { JsonFeatureFlagValue } from "./internal/jsonModels";
-import { logger } from "./logger";
+import { ConfigurationSetting, ConfigurationSettingParam } from "./models.js";
+import { JsonFeatureFlagValue } from "./internal/jsonModels.js";
+import { logger } from "./logger.js";
 
 /**
  * The prefix for feature flags.

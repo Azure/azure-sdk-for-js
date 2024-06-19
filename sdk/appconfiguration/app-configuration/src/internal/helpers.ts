@@ -14,20 +14,20 @@ import {
   ConfigurationSnapshot,
   SnapshotResponse,
   EtagEntity,
-} from "../models";
-import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
+} from "../models.js";
+import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag.js";
 import {
   GetKeyValuesOptionalParams,
   GetSnapshotsOptionalParams,
   KeyValue,
-} from "../generated/src/models";
+} from "../generated/src/models/index.js";
 import {
   SecretReferenceHelper,
   SecretReferenceValue,
   secretReferenceContentType,
-} from "../secretReference";
+} from "../secretReference.js";
 import { isDefined } from "@azure/core-util";
-import { logger } from "../logger";
+import { logger } from "../logger.js";
 import { OperationOptions } from "@azure/core-client";
 
 /**

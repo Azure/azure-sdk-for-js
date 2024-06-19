@@ -15,7 +15,7 @@ import {
   KeyValue as KeyValueMapper,
   ConfigurationSnapshot as ConfigurationSnapshotMapper,
   SnapshotUpdateParameters as SnapshotUpdateParametersMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
