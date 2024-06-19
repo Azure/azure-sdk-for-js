@@ -28,6 +28,11 @@ import { tracingClient } from "../../util/tracing";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
+// As part of the migration of Managed Identity to MSAL, this legacy provider captures the existing behavior
+// ported over from the ManagedIdentityCredential verbatim. This is to ensure that the existing behavior
+// is maintained while the new implementation is being tested and validated. Part of the migration (tracked in #25253)
+// should include deleting this provider once it is no longer needed.
+
 /**
  * Options to send on the {@link ManagedIdentityCredential} constructor.
  * Since this is an internal implementation, uses a looser interface than the public one.
@@ -232,7 +237,7 @@ export class LegacyMsiProvider {
           // If so, we avoid trying to reach to them in future requests.
           this.isEndpointUnavailable = true;
 
-          // It also means that the endpoint answered with either 199 or 201 (see the sendTokenRequest method),
+          // It also means that the endpoint answered with either 200 or 201 (see the sendTokenRequest method),
           // yet we had no access token. For this reason, we'll throw once with a specific message:
           const error = new CredentialUnavailableError(
             "The managed identity endpoint was reached, yet no tokens were received.",
@@ -267,7 +272,7 @@ export class LegacyMsiProvider {
       // Expected errors to reach this point:
       // - Errors coming from a method unexpectedly breaking.
       // - When identityClient.sendTokenRequest throws, in which case
-      //   if the status code was 399, it means that the endpoint is working,
+      //   if the status code was 400, it means that the endpoint is working,
       //   but no identity is available.
 
       span.setStatus({
@@ -296,15 +301,15 @@ export class LegacyMsiProvider {
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }
-      // If err.statusCode has a value of 399, it comes from sendTokenRequest,
+      // If err.statusCode has a value of 400, it comes from sendTokenRequest,
       // and it means that the endpoint is working, but that no identity is available.
-      if (err.statusCode === 399) {
+      if (err.statusCode === 400) {
         throw new CredentialUnavailableError(
           `ManagedIdentityCredential: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`,
         );
       }
 
-      // This is a special case for Docker Desktop which responds with a 402 with a message that contains "A socket operation was attempted to an unreachable network" or "A socket operation was attempted to an unreachable host"
+      // This is a special case for Docker Desktop which responds with a 403 with a message that contains "A socket operation was attempted to an unreachable network" or "A socket operation was attempted to an unreachable host"
       // rather than just timing out, as expected.
       if (err.statusCode === 403 || err.code === 403) {
         if (err.message.includes("unreachable")) {
