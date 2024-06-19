@@ -255,6 +255,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       url,
       method: "GET",
       body: options?.body,
+      allowInsecureConnection: true,
       headers: createHttpHeaders(options?.headers),
       abortSignal: this.generateAbortSignal(noCorrelationId),
     });

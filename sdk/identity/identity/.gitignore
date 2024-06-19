@@ -4,3 +4,5 @@ integration/AzureWebApps/.azure/
 integration/kubeconfig.yaml
 !assets/fake-cert.pem
 !assets/fake-cert-password.pem
+
+!*.tgz

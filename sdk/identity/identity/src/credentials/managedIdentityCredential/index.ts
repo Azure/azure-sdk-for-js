@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AppTokenProviderParameters, ConfidentialClientApplication } from "@azure/msal-node";
+import {
+  AppTokenProviderParameters,
+  ConfidentialClientApplication,
+  ManagedIdentityApplication,
+} from "@azure/msal-node";
 import {
   AuthenticationError,
   AuthenticationRequiredError,
@@ -20,12 +24,14 @@ import { appServiceMsi2019 } from "./appServiceMsi2019";
 import { arcMsi } from "./arcMsi";
 import { cloudShellMsi } from "./cloudShellMsi";
 import { fabricMsi } from "./fabricMsi";
-import { getLogLevel } from "@azure/logger";
+import { getLogLevel, setLogLevel } from "@azure/logger";
 import { getMSALLogLevel } from "../../msal/utils";
 import { imdsMsi } from "./imdsMsi";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { tracingClient } from "../../util/tracing";
+import { mapScopesToResource } from "./utils";
 
+setLogLevel("verbose");
 const logger = credentialLogger("ManagedIdentityCredential");
 
 /**
@@ -75,6 +81,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     startDelayInMs: 800,
     intervalIncrement: 2,
   };
+  private managedIdentityApp: ManagedIdentityApplication;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -149,6 +156,23 @@ export class ManagedIdentityCredential implements TokenCredential {
       },
       system: {
         loggerOptions: {
+          logLevel: getMSALLogLevel(getLogLevel()),
+        },
+      },
+    });
+
+    console.log(
+      `NEW CODEPATH! Initializing msal with clientId: ${this.clientId} and resourceId: ${this.resourceId}`,
+    );
+    this.managedIdentityApp = new ManagedIdentityApplication({
+      managedIdentityIdParams: {
+        userAssignedClientId: this.clientId,
+        userAssignedResourceId: this.resourceId,
+      },
+      system: {
+        networkClient: this.identityClient,
+        loggerOptions: {
+          piiLoggingEnabled: true,
           logLevel: getMSALLogLevel(getLogLevel()),
         },
       },
@@ -242,6 +266,27 @@ export class ManagedIdentityCredential implements TokenCredential {
     options?: GetTokenOptions,
   ): Promise<AccessToken> {
     let result: AccessToken | null = null;
+    const resource = mapScopesToResource(scopes);
+    if (!resource) {
+      throw new Error(`invalid scope ${scopes}`);
+    }
+
+    try {
+      const token = await this.managedIdentityApp.acquireToken({
+        resource,
+      });
+      console.log("got a token...");
+      console.log({ token });
+      return this.handleResult(scopes, token);
+    } catch (err: any) {
+      console.error("Got an error from MSAL app");
+      console.error(err);
+      console.error("In json form...");
+      console.error(JSON.stringify(err, null, 2));
+      console.error("rethrowing...");
+      throw err;
+    }
+
     const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.getToken`,
       options,
@@ -258,7 +303,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           const appTokenParameters: AppTokenProviderParameters = {
             correlationId: this.identityClient.getCorrelationId(),
             tenantId: options?.tenantId || "managed_identity",
-            scopes: Array.isArray(scopes) ? scopes : [scopes],
+            scopes: Array.isArray(scopes) ? scopes : ([scopes] as any),
             claims: options?.claims,
           };
 
@@ -299,7 +344,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       }
 
       logger.getToken.info(formatSuccess(scopes));
-      return result;
+      return result as any;
     } catch (err: any) {
       // CredentialUnavailable errors are expected to reach here.
       // We intend them to bubble up, so that DefaultAzureCredential can catch them.

@@ -131,7 +131,7 @@ export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon
     case "info":
       return msalCommon.LogLevel.Info;
     case "verbose":
-      return msalCommon.LogLevel.Verbose;
+      return msalCommon.LogLevel.Trace;
     case "warning":
       return msalCommon.LogLevel.Warning;
     default:
