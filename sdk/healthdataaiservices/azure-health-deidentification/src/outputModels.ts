@@ -129,7 +129,7 @@ export interface PhiEntityOutput {
 /** Alias for OperationTypeOutput */
 export type OperationTypeOutput = "Redact" | "Surrogate" | "Tag" | string;
 /** Alias for DocumentDataTypeOutput */
-export type DocumentDataTypeOutput = "PlainText" | string;
+export type DocumentDataTypeOutput = "Plaintext" | string;
 /** Alias for JobStatusOutput */
 export type JobStatusOutput =
   | "NotStarted"

@@ -64,7 +64,7 @@ export interface DeidentificationContent {
 /** Alias for OperationType */
 export type OperationType = "Redact" | "Surrogate" | "Tag" | string;
 /** Alias for DocumentDataType */
-export type DocumentDataType = "PlainText" | string;
+export type DocumentDataType = "Plaintext" | string;
 /** Alias for JobStatus */
 export type JobStatus =
   | "NotStarted"
