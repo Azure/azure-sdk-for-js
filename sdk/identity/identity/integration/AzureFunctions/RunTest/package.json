@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/identity": "^4.0.0",
+    "@azure/identity": "file:azure-identity-4.3.0-beta.3.tgz",
     "@azure/storage-blob": "^12.17.0",
     "@azure/functions": "^4.1.0",
     "applicationinsights": "^2.9.2",
