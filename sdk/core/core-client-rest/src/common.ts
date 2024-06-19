@@ -91,8 +91,16 @@ export type RequestParameters = {
  * A function to be called each time a response is received from the server
  * while performing the requested operation.
  * May be called multiple times.
+ *
+ * This callback will be called with two parameters: the raw response, including headers and response body; and an error
+ * object which will be provided if an error was thrown while processing the request.
+ * The third __legacyError parameter is provided for backwards compatability only and will have an identical value to the `error` parameter.
  */
-export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown) => void;
+export type RawResponseCallback = (
+  rawResponse: FullOperationResponse,
+  error?: unknown,
+  __legacyError?: unknown,
+) => void;
 
 /**
  * Wrapper object for http request and response. Deserialized object is stored in
