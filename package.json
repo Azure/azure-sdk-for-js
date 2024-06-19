@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@azure/core-util": "^1.9.0",
     "@azure/identity": "^4.2.1"
   }
 }
