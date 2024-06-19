@@ -9,7 +9,6 @@
 - Computed Properties [#2472654](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2472654)
 - Composite Indexing [#21115](https://github.com/Azure/azure-sdk-for-js/issues/21115)
 - Correlated Activity Id [#2692245](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2692245)
-- Split/Merge support for Bulk API [#18682](https://github.com/Azure/azure-sdk-for-js/issues/18682)
 
 #### Change Feed - All versions and deletes mode
 
@@ -88,10 +87,6 @@ Here's a sample of adding composite indexes for a container:
 
 - Correlated Activity Id is now added in header of every query request on Items. This helps in troubleshooting by linking all sub-queries for a query that involves multiple server interactions and partitions.
 
-#### Split/Merge support for Bulk API
-
-- Earlier, whenever Bulk API encountered a partition merge or split during processing, it would return an error message. Now, JS SDK ensures that the Bulk API is resistant to partition splitting and merging.
-
 ### Breaking Changes
 
 #### Dropped Support for TypeScript 4.1
@@ -100,6 +95,8 @@ Here's a sample of adding composite indexes for a container:
 
 ### Bugs Fixed
 
+- Bulk API is now resistant to partition splitting and merging. [#18682](https://github.com/Azure/azure-sdk-for-js/issues/18682)
+
 ### Other Changes
 
 ## 4.0.0 (2023-09-12)
@@ -107,7 +104,7 @@ Here's a sample of adding composite indexes for a container:
 🎉 v4 release! 🎉 Many new features, bug fixes, and a few breaking changes.
 
 - Summary of new added features
-  - Diagnostics: A diagnostic object has been added to responses of api operations ie. point lookups, bulk & batch operations, query and error responses, which contains information related to metadata lookups, retries, request and response latencies and payload sizes.
+  - Diagnostics: A diagnostic object has been added to responses of api operations ie. point lookups, bulk & batch operations, query and error responses, which contains information related to metadata lookups, retries, request and reponse latencies and payload siezes.
   - Hierarchical Partitioning: Containers with hierarchical partitions are now supported. [docs](https://learn.microsoft.com/azure/cosmos-db/hierarchical-partition-keys)
   - Index metrics: can be enabled to show both utilized indexed paths and recommended indexed paths. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/index-metrics?tabs=javascript)
   - New Changefeed iterator: which can consume changes for a specific partition key, a feed range or an entire container. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-pull-model?tabs=JavaScript)
