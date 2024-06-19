@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves information about an SSH public key.
  *
  * @summary Retrieves information about an SSH public key.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/sshPublicKeyExamples/SshPublicKey_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/sshPublicKeyExamples/SshPublicKey_Get.json
  */
 async function getAnSshPublicKey() {
   const subscriptionId =

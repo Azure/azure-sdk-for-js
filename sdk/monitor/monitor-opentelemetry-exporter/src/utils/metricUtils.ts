@@ -5,6 +5,16 @@ import { Attributes } from "@opentelemetry/api";
 import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { TelemetryItem as Envelope, MetricsData, MetricDataPoint } from "../generated";
 import { createTagsFromResource } from "./common";
+import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../types";
+
+const breezePerformanceCountersMap = new Map<string, string>([
+  [OTelPerformanceCounterNames.PRIVATE_BYTES, BreezePerformanceCounterNames.PRIVATE_BYTES],
+  [OTelPerformanceCounterNames.AVAILABLE_BYTES, BreezePerformanceCounterNames.AVAILABLE_BYTES],
+  [OTelPerformanceCounterNames.PROCESSOR_TIME, BreezePerformanceCounterNames.PROCESSOR_TIME],
+  [OTelPerformanceCounterNames.PROCESS_TIME, BreezePerformanceCounterNames.PROCESS_TIME],
+  [OTelPerformanceCounterNames.REQUEST_RATE, BreezePerformanceCounterNames.REQUEST_RATE],
+  [OTelPerformanceCounterNames.REQUEST_DURATION, BreezePerformanceCounterNames.REQUEST_DURATION],
+]);
 
 function createPropertiesFromMetricAttributes(attributes?: Attributes): {
   [propertyName: string]: string;
@@ -48,8 +58,12 @@ export function resourceMetricsToEnvelope(
           properties: {},
         };
         baseData.properties = createPropertiesFromMetricAttributes(dataPoint.attributes);
+        let perfCounterName;
+        if (breezePerformanceCountersMap.has(metric.descriptor.name)) {
+          perfCounterName = breezePerformanceCountersMap.get(metric.descriptor.name);
+        }
         const metricDataPoint: MetricDataPoint = {
-          name: metric.descriptor.name,
+          name: perfCounterName ? perfCounterName : metric.descriptor.name,
           value: 0,
           dataPointType: "Aggregation",
         };

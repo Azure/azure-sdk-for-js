@@ -23,7 +23,7 @@ import {
   PrivateLinkScopesGetValidationDetailsOptionalParams,
   PrivateLinkScopesGetValidationDetailsResponse,
   PrivateLinkScopesGetValidationDetailsForMachineOptionalParams,
-  PrivateLinkScopesGetValidationDetailsForMachineResponse
+  PrivateLinkScopesGetValidationDetailsForMachineResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface PrivateLinkScopes {
    * @param options The options parameters.
    */
   list(
-    options?: PrivateLinkScopesListOptionalParams
+    options?: PrivateLinkScopesListOptionalParams,
   ): PagedAsyncIterableIterator<HybridComputePrivateLinkScope>;
   /**
    * Gets a list of Azure Arc PrivateLinkScopes within a resource group.
@@ -43,7 +43,7 @@ export interface PrivateLinkScopes {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: PrivateLinkScopesListByResourceGroupOptionalParams
+    options?: PrivateLinkScopesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<HybridComputePrivateLinkScope>;
   /**
    * Deletes a Azure Arc PrivateLinkScope.
@@ -54,7 +54,7 @@ export interface PrivateLinkScopes {
   beginDelete(
     resourceGroupName: string,
     scopeName: string,
-    options?: PrivateLinkScopesDeleteOptionalParams
+    options?: PrivateLinkScopesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Azure Arc PrivateLinkScope.
@@ -65,7 +65,7 @@ export interface PrivateLinkScopes {
   beginDeleteAndWait(
     resourceGroupName: string,
     scopeName: string,
-    options?: PrivateLinkScopesDeleteOptionalParams
+    options?: PrivateLinkScopesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns a Azure Arc PrivateLinkScope.
@@ -76,7 +76,7 @@ export interface PrivateLinkScopes {
   get(
     resourceGroupName: string,
     scopeName: string,
-    options?: PrivateLinkScopesGetOptionalParams
+    options?: PrivateLinkScopesGetOptionalParams,
   ): Promise<PrivateLinkScopesGetResponse>;
   /**
    * Creates (or updates) a Azure Arc PrivateLinkScope. Note: You cannot specify a different value for
@@ -91,7 +91,7 @@ export interface PrivateLinkScopes {
     resourceGroupName: string,
     scopeName: string,
     parameters: HybridComputePrivateLinkScope,
-    options?: PrivateLinkScopesCreateOrUpdateOptionalParams
+    options?: PrivateLinkScopesCreateOrUpdateOptionalParams,
   ): Promise<PrivateLinkScopesCreateOrUpdateResponse>;
   /**
    * Updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method.
@@ -104,7 +104,7 @@ export interface PrivateLinkScopes {
     resourceGroupName: string,
     scopeName: string,
     privateLinkScopeTags: TagsResource,
-    options?: PrivateLinkScopesUpdateTagsOptionalParams
+    options?: PrivateLinkScopesUpdateTagsOptionalParams,
   ): Promise<PrivateLinkScopesUpdateTagsResponse>;
   /**
    * Returns a Azure Arc PrivateLinkScope's validation details.
@@ -115,7 +115,7 @@ export interface PrivateLinkScopes {
   getValidationDetails(
     location: string,
     privateLinkScopeId: string,
-    options?: PrivateLinkScopesGetValidationDetailsOptionalParams
+    options?: PrivateLinkScopesGetValidationDetailsOptionalParams,
   ): Promise<PrivateLinkScopesGetValidationDetailsResponse>;
   /**
    * Returns a Azure Arc PrivateLinkScope's validation details for a given machine.
@@ -127,6 +127,6 @@ export interface PrivateLinkScopes {
   getValidationDetailsForMachine(
     resourceGroupName: string,
     machineName: string,
-    options?: PrivateLinkScopesGetValidationDetailsForMachineOptionalParams
+    options?: PrivateLinkScopesGetValidationDetailsForMachineOptionalParams,
   ): Promise<PrivateLinkScopesGetValidationDetailsForMachineResponse>;
 }

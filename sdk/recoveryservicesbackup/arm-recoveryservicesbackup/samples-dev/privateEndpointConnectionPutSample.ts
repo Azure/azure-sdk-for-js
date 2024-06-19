@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnectionResource,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Approve or Reject Private Endpoint requests. This call is made by Backup Admin.
  *
  * @summary Approve or Reject Private Endpoint requests. This call is made by Backup Admin.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/PrivateEndpointConnection/PutPrivateEndpointConnection.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PrivateEndpointConnection/PutPrivateEndpointConnection.json
  */
 async function updatePrivateEndpointConnection() {
   const subscriptionId =
@@ -36,24 +36,24 @@ async function updatePrivateEndpointConnection() {
     properties: {
       groupIds: ["AzureBackup_secondary"],
       privateEndpoint: {
-        id:
-          "/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/gaallaRG/providers/Microsoft.Network/privateEndpoints/gaallatestpe3"
+        id: "/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/gaallaRG/providers/Microsoft.Network/privateEndpoints/gaallatestpe3",
       },
       privateLinkServiceConnectionState: {
         description: "Approved by johndoe@company.com",
-        status: "Approved"
+        status: "Approved",
       },
-      provisioningState: "Succeeded"
-    }
+      provisioningState: "Succeeded",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnectionOperations.beginPutAndWait(
-    vaultName,
-    resourceGroupName,
-    privateEndpointConnectionName,
-    parameters
-  );
+  const result =
+    await client.privateEndpointConnectionOperations.beginPutAndWait(
+      vaultName,
+      resourceGroupName,
+      privateEndpointConnectionName,
+      parameters,
+    );
   console.log(result);
 }
 

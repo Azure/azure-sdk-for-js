@@ -11,7 +11,7 @@ import {
 
 import { MsalClientOptions } from "../../../src/msal/nodeFlows/msalClient";
 import Sinon from "sinon";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 describe("#generatePluginConfiguration", function () {
   let options: MsalClientOptions;

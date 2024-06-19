@@ -9,6 +9,7 @@ import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { IncomingMessage, ServerResponse } from "http";
 import { Logger } from "../shared/logging/logger";
 import { BROWSER_SDK_LOADER_DEFAULT_SOURCE } from "../types";
+import { diag } from "@opentelemetry/api";
 
 export class BrowserSdkLoader {
   private static _instance: BrowserSdkLoader | null;
@@ -21,9 +22,7 @@ export class BrowserSdkLoader {
 
   constructor(config: InternalConfig) {
     if (!!BrowserSdkLoader._instance) {
-      throw new Error(
-        "Browser SDK Loader should be configured from the applicationInsights object",
-      );
+      diag.warn("Browser SDK Loader should be configured from the applicationInsights object");
     }
 
     BrowserSdkLoader._instance = this;

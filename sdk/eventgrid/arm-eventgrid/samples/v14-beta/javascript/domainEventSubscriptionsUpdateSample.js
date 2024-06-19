@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update an existing event subscription for a topic.
  *
  * @summary Update an existing event subscription for a topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/DomainEventSubscriptions_Update.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/DomainEventSubscriptions_Update.json
  */
 async function domainEventSubscriptionsUpdate() {
   const subscriptionId =

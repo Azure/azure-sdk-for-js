@@ -8,7 +8,7 @@ import { authenticate } from "./utils/authentication";
 import { testPollerProperties } from "./utils/recorder";
 import { getSasToken, getServiceVersion } from "./utils/common";
 import { delay } from "@azure/core-util";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { KeyClient } from "@azure/keyvault-keys";
 
 describe("KeyVaultBackupClient", () => {

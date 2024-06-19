@@ -12,7 +12,7 @@ import {
   PrivateEndpointConnectionUpdateOptionalParams,
   PrivateEndpointConnectionUpdateResponse,
   PrivateEndpointConnectionDeleteOptionalParams,
-  PrivateEndpointConnectionDeleteResponse
+  PrivateEndpointConnectionDeleteResponse,
 } from "../models";
 
 /** Interface representing a PrivateEndpointConnectionOperations. */
@@ -30,7 +30,7 @@ export interface PrivateEndpointConnectionOperations {
     serverName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionUpdateOptionalParams
+    options?: PrivateEndpointConnectionUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionUpdateResponse>,
@@ -50,7 +50,7 @@ export interface PrivateEndpointConnectionOperations {
     serverName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionUpdateOptionalParams
+    options?: PrivateEndpointConnectionUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionUpdateResponse>;
   /**
    * Deletes a private endpoint connection with a given name.
@@ -63,7 +63,7 @@ export interface PrivateEndpointConnectionOperations {
     resourceGroupName: string,
     serverName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionDeleteOptionalParams
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionDeleteResponse>,
@@ -81,6 +81,6 @@ export interface PrivateEndpointConnectionOperations {
     resourceGroupName: string,
     serverName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionDeleteOptionalParams
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
   ): Promise<PrivateEndpointConnectionDeleteResponse>;
 }

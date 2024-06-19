@@ -41,7 +41,7 @@ export function createMessage(context: AssistantsContext, threadId: string, role
 export function createRun(context: AssistantsContext, threadId: string, createRunOptions: CreateRunOptions, options?: CreateRunRequestOptions): Promise<ThreadRun>;
 
 // @public
-export function createThread(context: AssistantsContext, body: AssistantThreadCreationOptions, options?: CreateThreadOptions): Promise<AssistantThread>;
+export function createThread(context: AssistantsContext, body: AssistantThreadCreationOptions_2, options?: CreateThreadOptions): Promise<AssistantThread>;
 
 // @public
 export function createThreadAndRun(context: AssistantsContext, body: CreateAndRunThreadOptions_2, options?: CreateThreadAndRunOptions): Promise<ThreadRun>;

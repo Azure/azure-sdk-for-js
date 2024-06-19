@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get quota usages at specified location in a given subscription.
  *
  * @summary Get quota usages at specified location in a given subscription.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/QuotaUsagesForFlexibleServers.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/QuotaUsagesForFlexibleServers.json
  */
 async function listOfQuotaUsagesForFlexibleServers() {
   const subscriptionId =

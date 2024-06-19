@@ -11,7 +11,7 @@ import {
   MaintenanceConfiguration,
   PublicMaintenanceConfigurationsListOptionalParams,
   PublicMaintenanceConfigurationsGetOptionalParams,
-  PublicMaintenanceConfigurationsGetResponse
+  PublicMaintenanceConfigurationsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +22,7 @@ export interface PublicMaintenanceConfigurations {
    * @param options The options parameters.
    */
   list(
-    options?: PublicMaintenanceConfigurationsListOptionalParams
+    options?: PublicMaintenanceConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<MaintenanceConfiguration>;
   /**
    * Get Public Maintenance Configuration record
@@ -31,6 +31,6 @@ export interface PublicMaintenanceConfigurations {
    */
   get(
     resourceName: string,
-    options?: PublicMaintenanceConfigurationsGetOptionalParams
+    options?: PublicMaintenanceConfigurationsGetOptionalParams,
   ): Promise<PublicMaintenanceConfigurationsGetResponse>;
 }

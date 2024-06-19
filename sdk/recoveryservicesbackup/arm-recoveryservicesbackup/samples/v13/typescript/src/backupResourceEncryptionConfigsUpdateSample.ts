@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BackupResourceEncryptionConfigResource,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates Vault encryption config.
  *
  * @summary Updates Vault encryption config.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/BackupResourceEncryptionConfig_Put.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/BackupResourceEncryptionConfig_Put.json
  */
 async function updateVaultEncryptionConfiguration() {
   const subscriptionId =
@@ -36,15 +36,15 @@ async function updateVaultEncryptionConfiguration() {
       infrastructureEncryptionState: "true",
       keyUri:
         "https://gktestkv1.vault.azure.net/keys/Test1/ed2e8cdc7f86477ebf0c6462b504a9ed",
-      subscriptionId: "1a2311d9-66f5-47d3-a9fb-7a37da63934b"
-    }
+      subscriptionId: "1a2311d9-66f5-47d3-a9fb-7a37da63934b",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.backupResourceEncryptionConfigs.update(
     vaultName,
     resourceGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Asynchronously creates or updates a new namespace with the specified parameters.
  *
  * @summary Asynchronously creates or updates a new namespace with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Namespaces_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Namespaces_CreateOrUpdate.json
  */
 async function namespacesCreateOrUpdate() {
   const subscriptionId =
@@ -33,15 +33,15 @@ async function namespacesCreateOrUpdate() {
     topicSpacesConfiguration: {
       routeTopicResourceId:
         "/subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampleTopic1",
-      state: "Enabled"
-    }
+      state: "Enabled",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.namespaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     namespaceName,
-    namespaceInfo
+    namespaceInfo,
   );
   console.log(result);
 }

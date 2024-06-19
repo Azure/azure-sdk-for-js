@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all private endpoint connections on a server.
  *
  * @summary Gets all private endpoint connections on a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/PrivateEndpointConnectionList.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/PrivateEndpointConnectionList.json
  */
 async function getsListOfPrivateEndpointConnectionsOnAServer() {
   const subscriptionId =
@@ -30,12 +30,12 @@ async function getsListOfPrivateEndpointConnectionsOnAServer() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.privateEndpointConnections.listByServer(
     resourceGroupName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

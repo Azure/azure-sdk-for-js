@@ -19,7 +19,7 @@ import {
   ChannelUpdateParameters,
   ChannelsUpdateOptionalParams,
   ChannelsGetFullUrlOptionalParams,
-  ChannelsGetFullUrlResponse
+  ChannelsGetFullUrlResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Channels {
   listByPartnerNamespace(
     resourceGroupName: string,
     partnerNamespaceName: string,
-    options?: ChannelsListByPartnerNamespaceOptionalParams
+    options?: ChannelsListByPartnerNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<Channel>;
   /**
    * Get properties of a channel.
@@ -47,7 +47,7 @@ export interface Channels {
     resourceGroupName: string,
     partnerNamespaceName: string,
     channelName: string,
-    options?: ChannelsGetOptionalParams
+    options?: ChannelsGetOptionalParams,
   ): Promise<ChannelsGetResponse>;
   /**
    * Synchronously creates or updates a new channel with the specified parameters.
@@ -62,7 +62,7 @@ export interface Channels {
     partnerNamespaceName: string,
     channelName: string,
     channelInfo: Channel,
-    options?: ChannelsCreateOrUpdateOptionalParams
+    options?: ChannelsCreateOrUpdateOptionalParams,
   ): Promise<ChannelsCreateOrUpdateResponse>;
   /**
    * Delete an existing channel.
@@ -75,7 +75,7 @@ export interface Channels {
     resourceGroupName: string,
     partnerNamespaceName: string,
     channelName: string,
-    options?: ChannelsDeleteOptionalParams
+    options?: ChannelsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an existing channel.
@@ -88,7 +88,7 @@ export interface Channels {
     resourceGroupName: string,
     partnerNamespaceName: string,
     channelName: string,
-    options?: ChannelsDeleteOptionalParams
+    options?: ChannelsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Synchronously updates a channel with the specified parameters.
@@ -103,7 +103,7 @@ export interface Channels {
     partnerNamespaceName: string,
     channelName: string,
     channelUpdateParameters: ChannelUpdateParameters,
-    options?: ChannelsUpdateOptionalParams
+    options?: ChannelsUpdateOptionalParams,
   ): Promise<void>;
   /**
    * Get the full endpoint URL of a partner destination channel.
@@ -116,6 +116,6 @@ export interface Channels {
     resourceGroupName: string,
     partnerNamespaceName: string,
     channelName: string,
-    options?: ChannelsGetFullUrlOptionalParams
+    options?: ChannelsGetFullUrlOptionalParams,
   ): Promise<ChannelsGetFullUrlResponse>;
 }

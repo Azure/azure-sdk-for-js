@@ -35,19 +35,19 @@ async function createServer() {
       login: "bob@contoso.com",
       principalType: "User",
       sid: "00000011-1111-2222-2222-123456789111",
-      tenantId: "00000011-1111-2222-2222-123456789111"
+      tenantId: "00000011-1111-2222-2222-123456789111",
     },
     isIPv6Enabled: "Enabled",
     location: "Japan East",
     publicNetworkAccess: "Enabled",
-    restrictOutboundNetworkAccess: "Enabled"
+    restrictOutboundNetworkAccess: "Enabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.servers.beginCreateOrUpdateAndWait(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -32,7 +32,7 @@ async function listServerCommunicationLinks() {
   const resArray = new Array();
   for await (let item of client.serverCommunicationLinks.listByServer(
     resourceGroupName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

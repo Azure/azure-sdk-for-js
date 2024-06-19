@@ -15,7 +15,7 @@ import {
   ServerThreatProtectionSettingsGetOptionalParams,
   ServerThreatProtectionSettingsGetResponse,
   ServerThreatProtectionSettingsCreateOrUpdateOptionalParams,
-  ServerThreatProtectionSettingsCreateOrUpdateResponse
+  ServerThreatProtectionSettingsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ServerThreatProtectionSettings {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerThreatProtectionSettingsListByServerOptionalParams
+    options?: ServerThreatProtectionSettingsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerThreatProtectionSettingsModel>;
   /**
    * Get a server's Advanced Threat Protection settings.
@@ -43,7 +43,7 @@ export interface ServerThreatProtectionSettings {
     resourceGroupName: string,
     serverName: string,
     threatProtectionName: ThreatProtectionName,
-    options?: ServerThreatProtectionSettingsGetOptionalParams
+    options?: ServerThreatProtectionSettingsGetOptionalParams,
   ): Promise<ServerThreatProtectionSettingsGetResponse>;
   /**
    * Creates or updates a server's Advanced Threat Protection settings.
@@ -58,7 +58,7 @@ export interface ServerThreatProtectionSettings {
     serverName: string,
     threatProtectionName: ThreatProtectionName,
     parameters: ServerThreatProtectionSettingsModel,
-    options?: ServerThreatProtectionSettingsCreateOrUpdateOptionalParams
+    options?: ServerThreatProtectionSettingsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerThreatProtectionSettingsCreateOrUpdateResponse>,
@@ -78,6 +78,6 @@ export interface ServerThreatProtectionSettings {
     serverName: string,
     threatProtectionName: ThreatProtectionName,
     parameters: ServerThreatProtectionSettingsModel,
-    options?: ServerThreatProtectionSettingsCreateOrUpdateOptionalParams
+    options?: ServerThreatProtectionSettingsCreateOrUpdateOptionalParams,
   ): Promise<ServerThreatProtectionSettingsCreateOrUpdateResponse>;
 }

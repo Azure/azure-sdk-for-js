@@ -114,7 +114,7 @@ describe("logUtils.ts", () => {
         severityLevel: `Information`,
         version: 2,
         properties: expectedProperties,
-        measurements: {},
+        measurements: emptyMeasurements,
       };
 
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
@@ -178,6 +178,7 @@ describe("logUtils.ts", () => {
       const data: MessageData = {
         message: "testMessage",
         severityLevel: "Verbose",
+        measurements: { testMeasurement: 1 },
         version: 2,
       };
       testLogRecord.attributes = {
@@ -192,12 +193,15 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
       };
+      const expectedMeasurements: Measurements = {
+        testMeasurement: 1,
+      };
       const expectedBaseData: Partial<MessageData> = {
         message: `testMessage`,
         severityLevel: `Verbose`,
         version: 2,
         properties: expectedProperties,
-        measurements: {},
+        measurements: expectedMeasurements,
       };
 
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
@@ -207,7 +211,7 @@ describe("logUtils.ts", () => {
         100,
         "MessageData",
         expectedProperties,
-        emptyMeasurements,
+        expectedMeasurements,
         expectedBaseData,
         expectedTime,
       );

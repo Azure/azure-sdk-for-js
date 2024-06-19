@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
-import { DeserializeOptions, JsonSerializer } from "../../src";
+import { assert } from "@azure-tools/test-utils";
+import { DeserializeOptions, JsonSchemaSerializer } from "../../src";
 import { SchemaRegistry } from "@azure/schema-registry";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { createTestSerializer } from "./utils/mockedSerializer";
@@ -12,7 +12,7 @@ import { assertError } from "./utils/assertError";
 import Ajv from "ajv";
 
 describe("Deserialize Validation", function () {
-  let serializer: JsonSerializer;
+  let serializer: JsonSchemaSerializer;
   let registry: SchemaRegistry;
   let recorder: Recorder;
   let skipValidationOption: DeserializeOptions;
@@ -139,7 +139,7 @@ describe("Deserialize Validation", function () {
 });
 
 describe("Validation Error", function () {
-  let serializer: JsonSerializer;
+  let serializer: JsonSchemaSerializer;
   let registry: SchemaRegistry;
   let recorder: Recorder;
   let validateWithAjvOption: DeserializeOptions;

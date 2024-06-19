@@ -23,7 +23,7 @@ import {
 import { assetsJsonPath, sessionFilePath, TestContext } from "./utils/sessionFilePath.js";
 import { SanitizerOptions } from "./utils/utils.js";
 import { paths } from "./utils/paths.js";
-import { addSanitizers, transformsInfo } from "./sanitizer.js";
+import { addSanitizers, removeCentralSanitizers, transformsInfo } from "./sanitizer.js";
 import { handleEnvSetup } from "./utils/envSetupForPlayback.js";
 import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher.js";
 import { addTransform, Transform } from "./transform.js";
@@ -35,7 +35,6 @@ import { decodeBase64 } from "./utils/encoding.js";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 import { isVitestTestContext, TestInfo, VitestSuite } from "./testInfo.js";
 import { env } from "./utils/env.js";
-import { fallbackSanitizers } from "./utils/fallbackSanitizers.js";
 
 /**
  * Caculates session file path and JSON assets path from test context
@@ -356,8 +355,18 @@ export class Recorder {
           options.envSetupForPlayback,
         );
 
-        // Fallback sanitizers to be added in both record/playback modes
-        await fallbackSanitizers(this.httpClient, Recorder.url, this.recordingId);
+        //  https://github.com/Azure/azure-sdk-tools/pull/8142/
+        //  https://github.com/Azure/azure-sdk-tools/blob/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy/Common/SanitizerDictionary.cs
+        const removalList = [
+          "AZSDK2003", // Location header in the response is not a secret, and is also sanitized by other URI sanitizers
+        ];
+        // Central test proxy Sanitizers to be removed
+        await removeCentralSanitizers(
+          this.httpClient,
+          Recorder.url,
+          this.recordingId,
+          removalList.concat(options.removeCentralSanitizers ?? []),
+        );
 
         // Sanitizers to be added only in record mode
         if (isRecordMode() && options.sanitizerOptions) {
@@ -435,10 +444,10 @@ export class Recorder {
 
       // See discussion in https://github.com/Azure/azure-sdk-tools/pull/6152
       // Ideally this should be handled by the test-proxy.  However, it was suggested that
-      // there may be scenarios where it is desired to include this header.
-      // Thus we are ignoring Accept-Language header  in recorder for browser.
+      // there may be scenarios where it is desired to include these headers.
+      // Thus we are ignoring Accept-Language and Accept-Encountered headers in recorder for browser.
       const excludedHeaders = isBrowser
-        ? (options.excludedHeaders ?? []).concat("Accept-Language")
+        ? (options.excludedHeaders ?? []).concat("Accept-Language", "Accept-Encoding")
         : options.excludedHeaders;
 
       const updatedOptions = {

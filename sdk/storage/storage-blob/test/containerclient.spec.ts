@@ -14,7 +14,7 @@ import {
   uriSanitizers,
 } from "./utils";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue, assert } from "@azure/test-utils";
+import { getYieldedValue, assert } from "@azure-tools/test-utils";
 import {
   ContainerClient,
   BlockBlobTier,
@@ -1053,6 +1053,13 @@ describe("ContainerClient", () => {
       assert.deepStrictEqual(blob.tags, tags1);
       assert.deepStrictEqual(blob.tagValue, "");
     }
+  });
+
+  it("getAccountInfo", async function () {
+    const accountInfo = await containerClient.getAccountInfo();
+    assert.ok(accountInfo.accountKind);
+    assert.ok(accountInfo.skuName);
+    assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
   });
 });
 

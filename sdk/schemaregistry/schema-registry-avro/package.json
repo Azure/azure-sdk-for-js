@@ -83,7 +83,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/event-hubs": "^5.8.0",
     "@azure/identity": "^4.0.1",
-    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure/core-rest-pipeline": "^1.12.1",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",

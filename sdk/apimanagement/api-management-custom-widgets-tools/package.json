@@ -78,11 +78,18 @@
       "esm",
       "commonjs"
     ],
+    "esmDialects": [
+      "browser"
+    ],
     "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"

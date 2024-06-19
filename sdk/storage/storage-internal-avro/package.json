@@ -48,7 +48,7 @@
     "extract-api": "tsc -p . && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "dev-tool run test:node-js-input --no-test-proxy=true -- -t 300000  \"dist-esm/test/*.spec.js\" \"dist-esm/test/node/*.spec.js\"",
+    "integration-test:node": "dev-tool run test:node-js-input --no-test-proxy -- -t 300000  \"dist-esm/test/*.spec.js\" \"dist-esm/test/node/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
@@ -57,7 +57,7 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
+    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "echo Skipped."
   },

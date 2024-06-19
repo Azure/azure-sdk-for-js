@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { HybridComputeManagementClient } from "../hybridComputeManagementClient";
 import {
   NetworkProfileGetOptionalParams,
-  NetworkProfileGetResponse
+  NetworkProfileGetResponse,
 } from "../models";
 
 /** Class containing NetworkProfileOperations operations. */
@@ -37,11 +37,11 @@ export class NetworkProfileOperationsImpl implements NetworkProfileOperations {
   get(
     resourceGroupName: string,
     machineName: string,
-    options?: NetworkProfileGetOptionalParams
+    options?: NetworkProfileGetOptionalParams,
   ): Promise<NetworkProfileGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, machineName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class NetworkProfileOperationsImpl implements NetworkProfileOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/networkProfile",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/networkProfile",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkProfile
+      bodyMapper: Mappers.NetworkProfile,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName
+    Parameters.machineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

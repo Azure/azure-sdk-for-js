@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type * as coreTracing from "@azure/core-tracing";
 import {
   Instrumentation,
   InstrumentationBase,
@@ -9,6 +8,7 @@ import {
   InstrumentationModuleDefinition,
   InstrumentationNodeModuleDefinition,
 } from "@opentelemetry/instrumentation";
+
 import { OpenTelemetryInstrumenter } from "./instrumenter";
 import { SDK_VERSION } from "./configuration";
 
@@ -20,7 +20,7 @@ export interface AzureSdkInstrumentationOptions extends InstrumentationConfig {}
 /**
  * The instrumentation module for the Azure SDK. Implements OpenTelemetry's {@link Instrumentation}.
  */
-class AzureSdkInstrumentation extends InstrumentationBase {
+export class AzureSdkInstrumentation extends InstrumentationBase {
   constructor(options: AzureSdkInstrumentationOptions = {}) {
     super(
       "@azure/opentelemetry-instrumentation-azure-sdk",
@@ -33,22 +33,18 @@ class AzureSdkInstrumentation extends InstrumentationBase {
    *
    * @returns The patched \@azure/core-tracing module after setting its instrumenter.
    */
-  protected init():
-    | void
-    | InstrumentationModuleDefinition<typeof coreTracing>
-    | InstrumentationModuleDefinition<typeof coreTracing>[] {
-    const result: InstrumentationModuleDefinition<typeof coreTracing> =
-      new InstrumentationNodeModuleDefinition(
-        "@azure/core-tracing",
-        ["^1.0.0-preview.14", "^1.0.0"],
-        (moduleExports) => {
-          if (typeof moduleExports.useInstrumenter === "function") {
-            moduleExports.useInstrumenter(new OpenTelemetryInstrumenter());
-          }
+  protected init(): void | InstrumentationModuleDefinition | InstrumentationModuleDefinition[] {
+    const result: InstrumentationModuleDefinition = new InstrumentationNodeModuleDefinition(
+      "@azure/core-tracing",
+      ["^1.0.0-preview.14", "^1.0.0"],
+      (moduleExports) => {
+        if (typeof moduleExports.useInstrumenter === "function") {
+          moduleExports.useInstrumenter(new OpenTelemetryInstrumenter());
+        }
 
-          return moduleExports;
-        },
-      );
+        return moduleExports;
+      },
+    );
     // Needed to support 1.0.0-preview.14
     result.includePrerelease = true;
     return result;

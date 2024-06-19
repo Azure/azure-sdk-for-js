@@ -25,11 +25,14 @@ import {
   AutomationsGetResponse,
   AutomationsCreateOrUpdateOptionalParams,
   AutomationsCreateOrUpdateResponse,
+  AutomationUpdateModel,
+  AutomationsUpdateOptionalParams,
+  AutomationsUpdateResponse,
   AutomationsDeleteOptionalParams,
   AutomationsValidateOptionalParams,
   AutomationsValidateResponse,
   AutomationsListNextResponse,
-  AutomationsListByResourceGroupNextResponse
+  AutomationsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +54,7 @@ export class AutomationsImpl implements Automations {
    * @param options The options parameters.
    */
   public list(
-    options?: AutomationsListOptionalParams
+    options?: AutomationsListOptionalParams,
   ): PagedAsyncIterableIterator<Automation> {
     const iter = this.listPagingAll(options);
     return {
@@ -66,13 +69,13 @@ export class AutomationsImpl implements Automations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: AutomationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Automation[]> {
     let result: AutomationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +96,7 @@ export class AutomationsImpl implements Automations {
   }
 
   private async *listPagingAll(
-    options?: AutomationsListOptionalParams
+    options?: AutomationsListOptionalParams,
   ): AsyncIterableIterator<Automation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -109,7 +112,7 @@ export class AutomationsImpl implements Automations {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AutomationsListByResourceGroupOptionalParams
+    options?: AutomationsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Automation> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -126,16 +129,16 @@ export class AutomationsImpl implements Automations {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AutomationsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Automation[]> {
     let result: AutomationsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -150,7 +153,7 @@ export class AutomationsImpl implements Automations {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -161,11 +164,11 @@ export class AutomationsImpl implements Automations {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AutomationsListByResourceGroupOptionalParams
+    options?: AutomationsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Automation> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -177,7 +180,7 @@ export class AutomationsImpl implements Automations {
    * @param options The options parameters.
    */
   private _list(
-    options?: AutomationsListOptionalParams
+    options?: AutomationsListOptionalParams,
   ): Promise<AutomationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -191,11 +194,11 @@ export class AutomationsImpl implements Automations {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AutomationsListByResourceGroupOptionalParams
+    options?: AutomationsListByResourceGroupOptionalParams,
   ): Promise<AutomationsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -209,11 +212,11 @@ export class AutomationsImpl implements Automations {
   get(
     resourceGroupName: string,
     automationName: string,
-    options?: AutomationsGetOptionalParams
+    options?: AutomationsGetOptionalParams,
   ): Promise<AutomationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -230,11 +233,31 @@ export class AutomationsImpl implements Automations {
     resourceGroupName: string,
     automationName: string,
     automation: Automation,
-    options?: AutomationsCreateOrUpdateOptionalParams
+    options?: AutomationsCreateOrUpdateOptionalParams,
   ): Promise<AutomationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationName, automation, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Updates a security automation
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param automationName The security automation name.
+   * @param automation The update model of security automation resource
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    automationName: string,
+    automation: AutomationUpdateModel,
+    options?: AutomationsUpdateOptionalParams,
+  ): Promise<AutomationsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, automationName, automation, options },
+      updateOperationSpec,
     );
   }
 
@@ -248,11 +271,11 @@ export class AutomationsImpl implements Automations {
   delete(
     resourceGroupName: string,
     automationName: string,
-    options?: AutomationsDeleteOptionalParams
+    options?: AutomationsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -269,11 +292,11 @@ export class AutomationsImpl implements Automations {
     resourceGroupName: string,
     automationName: string,
     automation: Automation,
-    options?: AutomationsValidateOptionalParams
+    options?: AutomationsValidateOptionalParams,
   ): Promise<AutomationsValidateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationName, automation, options },
-      validateOperationSpec
+      validateOperationSpec,
     );
   }
 
@@ -284,11 +307,11 @@ export class AutomationsImpl implements Automations {
    */
   private _listNext(
     nextLink: string,
-    options?: AutomationsListNextOptionalParams
+    options?: AutomationsListNextOptionalParams,
   ): Promise<AutomationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -302,11 +325,11 @@ export class AutomationsImpl implements Automations {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AutomationsListByResourceGroupNextOptionalParams
+    options?: AutomationsListByResourceGroupNextOptionalParams,
   ): Promise<AutomationsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -314,172 +337,190 @@ export class AutomationsImpl implements Automations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/automations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/automations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutomationList
+      bodyMapper: Mappers.AutomationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutomationList
+      bodyMapper: Mappers.AutomationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion9],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Automation
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Automation,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.automationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Automation
+      bodyMapper: Mappers.Automation,
     },
     201: {
-      bodyMapper: Mappers.Automation
+      bodyMapper: Mappers.Automation,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.automation,
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationName
+    Parameters.automationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
-  httpMethod: "DELETE",
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
+  httpMethod: "PATCH",
   responses: {
-    204: {},
+    200: {
+      bodyMapper: Mappers.Automation,
+    },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion9],
+  requestBody: Parameters.automation1,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationName
+    Parameters.automationName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.automationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}/validate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}/validate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AutomationValidationStatus
+      bodyMapper: Mappers.AutomationValidationStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.automation,
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationName
+    Parameters.automationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutomationList
+      bodyMapper: Mappers.AutomationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutomationList
+      bodyMapper: Mappers.AutomationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
