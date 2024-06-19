@@ -4,7 +4,7 @@
 import { createRecorder, createModelClient } from "./utils/recordedClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { ChatCompletionsOutput, ModelClient, ChatCompletionsFunctionToolCallOutput } from "../../src/index.js";
+import { ChatCompletionsOutput, ModelClient, ChatCompletionsFunctionToolCallOutput, isUnexpected } from "../../src/index.js";
 
 describe("chat test suite", () => {
   let recorder: Recorder;
@@ -34,7 +34,7 @@ describe("chat test suite", () => {
       }
     });
 
-    assert.equal(response.status, "200");
+    assert.isFalse(isUnexpected(response));
 
     const completion = response.body as ChatCompletionsOutput;
     assert.isDefined(completion);
@@ -74,7 +74,7 @@ describe("chat test suite", () => {
         ],
       }
     });
-    assert.equal(response.status, "200");
+    assert.isFalse(isUnexpected(response));
 
     const completion = response.body as ChatCompletionsOutput;
     assert.isDefined(completion);
