@@ -99,7 +99,7 @@ describe("NewRelicObservability test", () => {
       testPollingOptions,
     );
     assert.equal(res.name, resourcename);
-    await delay(100000);
+    await delay(isPlaybackMode() ? 1000 : 100000);
   });
 
   it("monitors get test", async function () {
@@ -117,11 +117,8 @@ describe("NewRelicObservability test", () => {
 
   it("monitors delete test", async function () {
     const resArray = new Array();
-    const res = await client.monitors.beginDeleteAndWait(
-      resourceGroup,
-      "v-ziweichen@microsoft.com",
-      resourcename,
-    );
+    const res = await client.monitors.beginDeleteAndWait(resourceGroup, "v-ziweichen@microsoft.com", resourcename, testPollingOptions
+    )
     for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
