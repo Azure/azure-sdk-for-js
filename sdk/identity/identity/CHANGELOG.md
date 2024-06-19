@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- `OnBehalfOfCredential` migrated to use MSALClient internally instead of MSALNode flow. This is an internal refactoring and should not result in any behavioral changes. [#29890](https://github.com/Azure/azure-sdk-for-js/pull/29890)
+
 ## 4.3.0 (2024-06-18)
 
 ### Features Added
