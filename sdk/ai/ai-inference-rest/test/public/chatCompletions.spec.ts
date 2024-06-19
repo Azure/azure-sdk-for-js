@@ -85,10 +85,11 @@ describe("chat test suite", () => {
     assert.isDefined(completion.choices[0].message.tool_calls[0]);
     assert.isTrue(completion.choices[0].message.tool_calls[0].type === "function");
 
-    const toolCallFunction = completion.choices[0].message.tool_calls[0] as ChatCompletionsFunctionToolCallOutput;
-    assert.isDefined(toolCallFunction);
-    assert.isDefined(toolCallFunction.function);
-    assert.isTrue(toolCallFunction.function.name === "get_current_weather");
+    const toolCall = completion.choices[0].message.tool_calls[0] as ChatCompletionsFunctionToolCallOutput;
+    assert.isDefined(toolCall);
+    assert.isDefined(toolCall.function);
+    assert.isTrue(toolCall.function.name === getCurrentWeather.name);
+    assert.isTrue(toolCall.function.arguments.includes("location"));
   });
 
 });
