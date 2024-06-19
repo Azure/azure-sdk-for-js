@@ -11,9 +11,7 @@ const { logSampleHeader, handleError, finish, logStep } = require("./Shared/hand
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const { CosmosClient } = require("@azure/cosmos");
-const { v4 } = require("uuid");
-const uuid = v4;
-
+const { randomUUID } = require("@azure/core-util");
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
@@ -74,7 +72,7 @@ async function run() {
 
   // Create 20 items with state set to "closed"
   for (let index = 0; index < 20; index++) {
-    await container.items.create({ id: uuid(), state: "closed" });
+    await container.items.create({ id: randomUUID(), state: "closed" });
   }
 
   logStep("Created stored procedure");

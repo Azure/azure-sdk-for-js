@@ -8,7 +8,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { finish, handleError, logSampleHeader } from "../Shared/handleError";
+import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError";
 import {
   CosmosClient,
   PartitionKeyDefinitionVersion,
@@ -17,14 +17,18 @@ import {
   FeedRange,
   ChangeFeedIteratorOptions,
   ChangeFeedStartFrom,
+  ChangeFeedPolicy,
+  ChangeFeedRetentionTimeSpan,
+  ChangeFeedMode,
 } from "@azure/cosmos";
+import { randomUUID } from "@azure/core-util";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
-logSampleHeader("Change Feed");
+logSampleHeader("Change Feed For EPK Range");
 
 async function ingestData(container: Container, initialize: number, end: number) {
   console.log("beginning data ingestion");
@@ -35,6 +39,13 @@ async function ingestData(container: Container, initialize: number, end: number)
     await container.items.create({ name: "sample4", key: i });
   }
   console.log("ingested items");
+}
+async function insertAndModifyData(container: Container, initialize: number, end: number) {
+  await ingestData(container, initialize, end);
+  await container.items.upsert({ id: `item${initialize}`, name: `sample1`, key: initialize + 1 });
+  console.log(`upserted item with id - item${initialize} and partition key - sample1`);
+  await container.item(`item${initialize}`, `sample1`).delete();
+  console.log(`deleted item with id - item${initialize} and partition key - sample1`);
 }
 
 async function waitFor(milliseconds: number): Promise<void> {
@@ -87,6 +98,7 @@ async function run(): Promise<void> {
     throughput: 11000,
   };
   try {
+    logStep("Implementing Change Feed With Latest Version Mode");
     const { container } = await database.containers.createIfNotExists(containerDef);
     console.log("Container created");
 
@@ -99,7 +111,6 @@ async function run(): Promise<void> {
     const continuationToken = await iterateChangeFeedTillNow(container, feedRanges[0]);
     // ingest some new data after fetching the continuation token
     await ingestData(container, 11, 21);
-    let timeout = 0;
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 1,
       changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
@@ -108,20 +119,69 @@ async function run(): Promise<void> {
     for await (const result of container.items
       .getChangeFeedIterator(changeFeedIteratorOptions)
       .getAsyncIterator()) {
-      // infinite loop to check for new results.
+      // loop to check for new results.
       try {
         if (result.statusCode === StatusCodes.NotModified) {
           // if no new changes are found, wait for 5 seconds and try again
           console.log("No new results, waiting for 5 seconds");
-          timeout = 5000;
+          await waitFor(5000);
+          break;
         } else {
           console.log("Result found", result.result);
-          timeout = 0;
         }
       } catch (error) {
         console.error("Error occurred", error);
       }
-      await waitFor(timeout);
+    }
+
+    // AllVersionsAndDeletesChangeFeedMode
+    logStep("Implementing change feed with AllVersionsAndDeletesChangeFeedMode");
+    const changeFeedPolicy = new ChangeFeedPolicy(ChangeFeedRetentionTimeSpan.fromMinutes(5));
+    const containerDefWithChangeFeedPolicy = {
+      id: randomUUID(),
+      partitionKey: {
+        paths: ["/name"],
+        version: PartitionKeyDefinitionVersion.V1,
+      },
+      changeFeedPolicy: changeFeedPolicy,
+      throughput: 11000,
+    };
+    try {
+      const { container } = await database.containers.createIfNotExists(
+        containerDefWithChangeFeedPolicy,
+      );
+      const feedRanges = await container.getFeedRanges();
+      const changeFeedIteratorOptions = {
+        maxItemCount: 5,
+        changeFeedStartFrom: ChangeFeedStartFrom.Now(feedRanges[0]),
+        changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+      };
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+      console.log("Start fetching changes from now");
+      await insertAndModifyData(container, 1, 5);
+      let continuationToken = "";
+      while (iterator.hasMoreResults) {
+        const res = await iterator.readNext();
+        if (res.statusCode === StatusCodes.NotModified) {
+          continuationToken = res.continuationToken;
+          break;
+        }
+        console.log("Results Found: ", res.result);
+      }
+      await insertAndModifyData(container, 5, 10);
+      const changeFeedIteratorOptions2 = {
+        maxItemCount: 1,
+        changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+        changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+      };
+      const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
+      console.log("Start fetching changes from continuation token");
+      while (iterator2.hasMoreResults) {
+        const res = await iterator2.readNext();
+        console.log("Results Found: ", res.result);
+      }
+    } catch (error) {
+      console.error(error);
     }
   } catch (err) {
     console.error(err);

@@ -8,7 +8,7 @@
 require("dotenv").config();
 
 const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
-const { CosmosClient } = require("@azure/cosmos");
+const { CosmosClient, PriorityLevel } = require("@azure/cosmos");
 
 const { Families } = require("./Data/Families.json");
 
@@ -72,6 +72,12 @@ async function run() {
     );
   }
 
+  // can only be run against sqlx endpoint
+  logStep("Read item with with bypassIntegratedCache set to true");
+  const { resource: item4 } = await item.read({ bypassIntegratedCache: true });
+  console.log("item with id '" + item4.id + "' found");
+
+  logStep("Query items in container '" + container.id + "'");
   const querySpec = {
     query: "SELECT * FROM Families f WHERE  f.lastName = @lastName",
     parameters: [
@@ -82,7 +88,6 @@ async function run() {
     ],
   };
 
-  logStep("Query items in container '" + container.id + "'");
   const { resources: results } = await container.items.query(querySpec).fetchAll();
 
   if (results.length === 0) {
@@ -105,6 +110,12 @@ async function run() {
 
   person.children.push(childDef);
   person.lastName = "Updated Family";
+
+  logStep("Query items with priority");
+  const { resources: items } = await container.items
+    .readAll({ priorityLevel: PriorityLevel.Low })
+    .fetchAll();
+  console.log(`${items.length} items read with low priority`);
 
   logStep("Replace item with id '" + item.id + "'");
   const { resource: updatedPerson } = await container.items.upsert(person);

@@ -40,6 +40,63 @@ async function run() {
 
   logStep(`Delete container ${containerDef && containerDef.id}`);
   await container.delete();
+
+  logStep("Create container with computed property");
+  const lowerName = {
+    name: "lowerLastName",
+    query:
+      "SELECT VALUE LOWER(IS_DEFINED(c.lastName) ? c.lastName : c.parents[0].familyName) FROM c",
+  };
+
+  const { container: containerWithComputedProperty } = await database.containers.createIfNotExists({
+    id: containerId,
+    computedProperties: [lowerName],
+  });
+  console.log("Container with computed property created");
+  const andersenFamily = {
+    id: "AndersenFamily",
+    lastName: "Andersen",
+    parents: [{ firstName: "Thomas" }, { firstName: "Mary Kay" }],
+    children: [
+      {
+        firstName: "Henriette Thaulow",
+        gender: "female",
+        grade: 5,
+        pets: [{ givenName: "Fluffy" }],
+      },
+    ],
+    address: { state: "WA", county: "King", city: "seattle" },
+  };
+  const wakefieldFamily = {
+    id: "WakefieldFamily",
+    parents: [
+      { familyName: "Wakefield", givenName: "Robin" },
+      { familyName: "Miller", givenName: "Ben" },
+    ],
+    children: [
+      {
+        familyName: "Merriam",
+        givenName: "Jesse",
+        gender: "female",
+        grade: 1,
+        pets: [{ givenName: "Goofy" }, { givenName: "Shadow" }],
+      },
+      {
+        familyName: "Miller",
+        givenName: "Lisa",
+        gender: "female",
+        grade: 8,
+      },
+    ],
+    address: { state: "NY", county: "Manhattan", city: "NY" },
+  };
+  await containerWithComputedProperty.items.create(andersenFamily);
+  await containerWithComputedProperty.items.create(wakefieldFamily);
+
+  const response = await containerWithComputedProperty.items
+    .query(`SELECT c.${lowerName.name} FROM c`)
+    .fetchAll();
+  console.log("computed property query results: ", response.resources);
   await finish();
 }
 
