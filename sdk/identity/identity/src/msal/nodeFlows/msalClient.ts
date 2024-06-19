@@ -34,6 +34,9 @@ import { InteractiveBrowserCredentialNodeOptions } from "../../credentials/inter
  */
 const msalLogger = credentialLogger("MsalClient");
 
+/**
+ * Represents the options for acquiring a token using flows that support silent authentication.
+ */
 export interface GetTokenWithSilentAuthOptions extends GetTokenOptions {
   /**
    * Disables automatic authentication. If set to true, the method will throw an error if the user needs to authenticate.
@@ -45,9 +48,22 @@ export interface GetTokenWithSilentAuthOptions extends GetTokenOptions {
   disableAutomaticAuthentication?: boolean;
 }
 
+/**
+ * Represents the options for acquiring a token interactively.
+ */
 export interface GetTokenInteractiveOptions extends GetTokenWithSilentAuthOptions {
+  /**
+   * Window handle for parent window, required for WAM authentication.
+   */
   parentWindowHandle?: Buffer;
+  /**
+   * Shared configuration options for browser customization
+   */
   browserCustomizationOptions?: InteractiveBrowserCredentialNodeOptions["browserCustomizationOptions"];
+  /**
+   * loginHint allows a user name to be pre-selected for interactive logins.
+   * Setting this option skips the account selection prompt and immediately attempts to login with the specified account.
+   */
   loginHint?: string;
 }
 
@@ -55,19 +71,43 @@ export interface GetTokenInteractiveOptions extends GetTokenWithSilentAuthOption
  * Represents a client for interacting with the Microsoft Authentication Library (MSAL).
  */
 export interface MsalClient {
+  /**
+   * Retrieves an access token by using the on-behalf-of flow and a client certificate of the calling service.
+   *
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param userAssertionToken - The access token that was sent to the middle-tier API. This token must have an audience of the app making this OBO request.
+   * @param clientCertificate - The client certificate used for authentication.
+   * @param options - Additional options that may be provided to the method.
+   * @returns An access token.
+   */
   getTokenOnBehalfOf(
     scopes: string[],
     userAssertionToken: string,
     clientCertificate: CertificateParts,
     options?: GetTokenOptions,
   ): Promise<AccessToken>;
+  /**
+   *
+   * Retrieves an access token by using the on-behalf-of flow and a client secret of the calling service.
+   *
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param userAssertionToken - The access token that was sent to the middle-tier API. This token must have an audience of the app making this OBO request.
+   * @param clientSecret - The client secret used for authentication.
+   * @param options - Additional options that may be provided to the method.
+   * @returns An access token.
+   */
   getTokenOnBehalfOf(
     scopes: string[],
     userAssertionToken: string,
     clientSecret: string,
     options?: GetTokenOptions,
   ): Promise<AccessToken>;
-
+  /**
+   * Retrieves an access token by using an interactive prompt (InteractiveBrowserCredential).
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param options - Additional options that may be provided to the method.
+   * @returns An access token.
+   */
   getTokenByInteractiveRequest(
     scopes: string[],
     options: GetTokenInteractiveOptions,
