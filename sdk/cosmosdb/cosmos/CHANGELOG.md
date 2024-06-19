@@ -10,6 +10,7 @@
 - Composite Indexing [#21115](https://github.com/Azure/azure-sdk-for-js/issues/21115)
 - Correlated Activity Id [#2692245](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2692245)
 - Split/Merge proof for Bulk API [#18682](https://github.com/Azure/azure-sdk-for-js/issues/18682)
+- Improved samples
 
 #### Change Feed - All versions and deletes mode
 
@@ -91,6 +92,10 @@ Here's a sample of adding composite indexes for a container:
 #### Split/Merge proof for Bulk API
 
 - Earlier, whenever Bulk API encountered a partition merge or split during processing, it would return an error message. Now, JS SDK ensures that the Bulk API is resistant to partition splitting and merging.
+
+#### Improved samples
+
+- The samples have been updated in this release. We now have two sample folders: `v3` and `v4`. The `v3` folder contains samples for features up to the 3.0.x release, while the `v4` folder includes samples for features up to the 4.0.x release.
 
 ### Breaking Changes
 
