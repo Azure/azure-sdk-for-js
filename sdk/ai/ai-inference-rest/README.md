@@ -285,6 +285,95 @@ main().catch((err) => {
 });
 ```
 
+### Use chat tools
+
+**Tools** extend chat completions by allowing an assistant to invoke defined functions and other capabilities in the
+process of fulfilling a chat completions request. To use chat tools, start by defining a function tool:
+
+```js
+const getCurrentWeather = {
+    name: "get_current_weather",
+    description: "Get the current weather in a given location",
+    parameters: {
+      type: "object",
+      properties: {
+        location: {
+          type: "string",
+          description: "The city and state, e.g. San Francisco, CA",
+        },
+        unit: {
+          type: "string",
+          enum: ["celsius", "fahrenheit"],
+        },
+      },
+      required: ["location"],
+    },
+  };
+```
+
+With the tool defined, include that new definition in the options for a chat completions request:
+
+```js
+const messages = [{ role: "user", content: "What is the weather like in Boston?" }];
+const tools = [
+  {
+    type: "function",
+    function: getCurrentWeather,
+  },
+];
+const result = await client.path("/chat/completions").post({
+  body: {
+    messages,
+    tools
+  }
+});
+```
+
+When the assistant decides that one or more tools should be used, the response message includes one or more "tool
+calls" that must all be resolved via "tool messages" on the subsequent request. This resolution of tool calls into
+new request messages can be thought of as a sort of "callback" for chat completions.
+
+```js
+// Purely for convenience and clarity, this function handles tool call responses.
+function applyToolCall({ function: call, id }) {
+    if (call.name === "get_current_weather") {
+      const { location, unit } = JSON.parse(call.arguments);
+      // In a real application, this would be a call to a weather API with location and unit parameters
+      return {
+        role: "tool",
+        content: `The weather in ${location} is 72 degrees ${unit} and sunny.`,
+        toolCallId: id,
+      }
+    }
+    throw new Error(`Unknown tool call: ${call.name}`);
+}
+```
+
+To provide tool call resolutions to the assistant to allow the request to continue, provide all prior historical
+context -- including the original system and user messages, the response from the assistant that included the tool
+calls, and the tool messages that resolved each of those tools -- when making a subsequent request.
+
+```js
+const choice = result.choices[0];
+const responseMessage = choice.message;
+if (responseMessage?.role === "assistant") {
+  const requestedToolCalls = responseMessage?.toolCalls;
+  if (requestedToolCalls?.length) {
+    const toolCallResolutionMessages = [
+      ...messages,
+      responseMessage,
+      ...requestedToolCalls.map(applyToolCall),
+    ];
+    const toolCallResolutionResult = await client.path("/chat/completions").post({
+      body: {
+        messages: toolCallResolutionMessages
+      }
+    });
+    // continue handling the response as normal
+  }
+}
+```
+
 ## Troubleshooting
 
 ### Logging
