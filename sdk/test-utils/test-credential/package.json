@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/test-credential",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "sdk-type": "utility",
   "description": "Test utilities library that provides the test credential",
   "main": "dist/index.js",
