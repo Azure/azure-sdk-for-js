@@ -172,7 +172,7 @@ describe("Redis test", () => {
         break;
       } else {
         // The resource is activating
-        await delay(300000);
+        await delay(isPlaybackMode() ? 1000 : 300000);
       }
     }
   }).timeout(3600000);

@@ -76,7 +76,7 @@ describe("quantum test", () => {
         identity: { type: "SystemAssigned" }
       },
       testPollingOptions);
-    await delay(10000);
+    await delay(isPlaybackMode() ? 1000 : 10000);
     assert.equal(res.name, resourcename);
   });
 

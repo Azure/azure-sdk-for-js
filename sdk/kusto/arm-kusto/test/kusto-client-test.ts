@@ -86,7 +86,7 @@ describe("KustoManagementClient", () => {
   //   };
   //   const res = await client.clusters.beginUpdateAndWait(resourceGroup, clusterName_2, updateParams, testPollingOptions);
   //   if (!isPlaybackMode()) {
-  //     await delay(600000);
+  //     await delay(isPlaybackMode() ? 1000 :600000);
   //   }
   //   assert.equal(res.name, clusterName_2);
   // });

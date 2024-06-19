@@ -84,7 +84,7 @@ describe("NotificationHubs test", () => {
 
   it("notificationHubs create test", async function () {
     const res = await client.notificationHubs.createOrUpdate(resourceGroup, nameSpaceName, notificationhubsName, { location: location });
-    await delay(100000);
+    await delay(isPlaybackMode() ? 1000 : 100000);
     assert.equal(res.name, notificationhubsName);
   });
 
