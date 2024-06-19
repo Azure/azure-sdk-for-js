@@ -1,0 +1,41 @@
+{
+  "name": "@azure-samples/azure-health-deidentification-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": " client library samples for TypeScript",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/healthdataaiservices/azure-health-deidentification"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/azure-health-deidentification",
+  "dependencies": {
+    "@azure-rest/azure-health-deidentification": "file:../../",
+    "@azure/identity": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.5",
+    "typescript": "5.4.5",
+    "rimraf": "latest",
+    "dotenv": "latest"
+  }
+}
