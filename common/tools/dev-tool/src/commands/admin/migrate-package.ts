@@ -146,10 +146,38 @@ function fixTestingImports(packageFolder: string): void {
 
   // Iterate over all the source files
   for (const sourceFile of project.getSourceFiles()) {
-    // If the file ends with .spec.ts, add the import statement
+    // Remove if the file is a test utility for chai
+    if (
+      sourceFile.getFilePath().includes("/test") &&
+      !sourceFile.getBaseName().endsWith(".spec.ts")
+    ) {
+      for (const importDeclaration of sourceFile.getImportDeclarations()) {
+        const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
+        if (["chai", "assert"].includes(moduleSpecifier)) {
+          importDeclaration.remove();
+          sourceFile.addImportDeclaration({
+            namedImports: ["assert"],
+            moduleSpecifier: "vitest",
+          });
+        }
+      }
+    }
+
     if (sourceFile.getBaseName().endsWith(".spec.ts")) {
+      // If the file ends with .spec.ts, add the import statement
+      const hasMocking = sourceFile.getImportDeclarations().some((importDeclaration) => {
+        const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
+        return moduleSpecifier === "sinon" || moduleSpecifier === "@azure-tools/test-recorder";
+      });
+
+      const viTestImports = ["describe", "it", "assert"];
+      // Insert typical mocking imports if needed
+      if (hasMocking) {
+        viTestImports.push("expect, vi, beforeEach, afterEach");
+      }
+
       sourceFile.addImportDeclaration({
-        namedImports: ["describe", "it", "assert"],
+        namedImports: viTestImports,
         moduleSpecifier: "vitest",
       });
     }
@@ -162,6 +190,18 @@ function fixTestingImports(packageFolder: string): void {
       // If the module specifier is legacy, remove the import declaration
       if (modulesToRemove.includes(moduleSpecifier)) {
         importDeclaration.remove();
+      } else if (moduleSpecifier === "@azure-tools/test-utils") {
+        // If the module specifier is "@azure-tools/test-utils", remove the "assert" named import
+        const namedImports = importDeclaration.getNamedImports();
+        const assertImport = namedImports.find((namedImport) => namedImport.getName() === "assert");
+        if (assertImport) {
+          assertImport.remove();
+        }
+
+        // If there are no named imports left, remove the entire import declaration
+        if (importDeclaration.getNamedImports().length === 0) {
+          importDeclaration.remove();
+        }
       }
     }
     // Save the changes to the source file
@@ -194,8 +234,13 @@ function fixSourceFiles(packageFolder: string): void {
       }
 
       // If statement is a beforeEach, then fix the function
-      if (statement.getText() == "beforeEach(async function (this: Context) {") {
+      if (statement.getText().includes("beforeEach(async function (this: Context) {")) {
         statement.replaceWithText(statement.getText().replace("(this: Context)", "(ctx)"));
+      }
+
+      // If statement has a recorder, fix the context
+      if (statement.getText().includes("recorder = new Recorder(this.currentTest);")) {
+        statement.replaceWithText(statement.getText().replace("this.currentTest", "ctx"));
       }
     }
 
@@ -220,7 +265,7 @@ function fixSourceFiles(packageFolder: string): void {
 }
 
 function fixDeclaration(sourceFile: SourceFile, moduleSpecifier: string): string {
-  if (moduleSpecifier.startsWith("./") || moduleSpecifier.startsWith("../")) {
+  if (moduleSpecifier.startsWith(".") || moduleSpecifier.startsWith("..")) {
     if (!moduleSpecifier.endsWith(".js")) {
       // If the module specifier ends with "/", add "index.js", otherwise add ".js"
       if (moduleSpecifier.endsWith("/")) {
@@ -397,6 +442,7 @@ function removeLegacyPackages(packageJson: any): void {
     "karma-sourcemap-loader",
     "nyc",
     "puppeteer",
+    "source-map-support",
     "ts-node",
     "uglify-js",
     "@types/chai-as-promised",
