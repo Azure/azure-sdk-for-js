@@ -7,7 +7,7 @@
  * @summary get chat completions.
  */
 
-import ModelClient from "@azure-rest/ai-inference";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists
@@ -33,7 +33,7 @@ export async function main() {
     }
   });
 
-  if (response.status !== "200") {
+  if (isUnexpected(response)) {
     throw response.body.error;
   }
 

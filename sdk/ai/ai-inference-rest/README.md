@@ -14,7 +14,7 @@ Key links:
 ## Getting started
 
 ```javascript
-import ModelClient from "@azure-rest/ai-inference";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 const client = new ModelClient(
   "https://<Azure Model endpoint>",
@@ -29,7 +29,7 @@ const response = await client.path("/chat/completions").post({
   }
 });
 
-if(response.status !== "200") {
+if(isUnexpected(response)) {
   throw response.body.error;
 }
 console.log(response.body.choices[0].message.content);
@@ -96,7 +96,7 @@ const client = new ModelClient("<endpoint>", new DefaultAzureCredential());
 The main concept to understand is [Completions][azure_openai_completions_docs]. Briefly explained, completions provides its functionality in the form of a text prompt, which by using a specific [model](https://learn.microsoft.com/azure/cognitive-services/openai/concepts/models), will then attempt to match the context and patterns, providing an output text. The following code snippet provides a rough overview:
 
 ```javascript
-import ModelClient from "@azure-rest/ai-inference";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 async function main(){
@@ -112,13 +112,11 @@ async function main(){
     }
   });
 
-  if(response.status !== "200") {
+  if(isUnexpected(response)) {
     throw response.body.error;
   }
 
-  for (const choice of response.body.choices) {
-    console.log(choice.message.content);
-  }
+  console.log(response.body.choices[0].message.content);
 }
 
 main().catch((err) => {

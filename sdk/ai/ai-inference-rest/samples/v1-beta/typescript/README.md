@@ -18,6 +18,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [chatCompletions.ts][chatcompletions]                                               | get chat completions.                                                        |
 | [streamChatCompletions.ts][streamchatcompletions]                                   | list chat completions.                                                       |
 | [toolCall.ts][toolcall]                                                             | get chat completions with functions.                                         |
+| [getModelInfo.ts][modelinfo]                                                        | get model info for given endpoint.
 
 ## Prerequisites
 
@@ -74,6 +75,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/chatCompletions.ts
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/streamChatCompletions.ts
 [toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/toolCall.ts
+[modelinfo]: https://github.com/Azure/azure-sdk-for-js/blob/glharper/azure-ai-inference/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/getModelInfo.ts
 [apiref]: https://aka.ms/npm-azure-inference-rest
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource

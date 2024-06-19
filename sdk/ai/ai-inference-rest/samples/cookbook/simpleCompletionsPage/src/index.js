@@ -1,4 +1,4 @@
-import ModelClient from "@azure-rest/ai-inference";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 function getInferenceChoices(resultDiv) {
@@ -20,7 +20,7 @@ function getInferenceChoices(resultDiv) {
         }
       });
 
-      if (response.status !== "200") {
+      if (isUnexpected(response)) {
         throw new Error(response.error);
       }
       const completion = response.body;
