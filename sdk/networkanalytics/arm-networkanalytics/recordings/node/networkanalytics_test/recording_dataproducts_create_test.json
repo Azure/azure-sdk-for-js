@@ -1,0 +1,52 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NetworkAnalytics/dataProducts/resourcetest?api-version=2023-11-15",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "100",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-arm-networkanalytics-rest/1.0.0-beta.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": {
+        "location": "eastus2euap",
+        "properties": {
+          "publisher": "Microsoft",
+          "product": "MCC",
+          "majorVersion": "1"
+        }
+      },
+      "StatusCode": 409,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "272",
+        "Content-Type": "application/json",
+        "Date": "Thu, 13 Jun 2024 08:47:34 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "0db09c16-2b0e-48b5-bc41-1ec801f9310f",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20240613T084734Z:0db09c16-2b0e-48b5-bc41-1ec801f9310f",
+        "X-MSEdge-Ref": "Ref A: 3FB82C6D65654A5EA4235111C5AF4005 Ref B: MAA201060514053 Ref C: 2024-06-13T08:47:32Z"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceOperation",
+          "message": "The operation for resource '/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NetworkAnalytics/dataProducts/resourcetest' is invalid as it is being provisioned with state: 'Accepted'."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

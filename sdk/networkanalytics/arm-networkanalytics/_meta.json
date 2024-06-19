@@ -1,8 +1,0 @@
-{
-  "commit": "21a8d55d74e4425e96d76e5835f52cfc9eb95a22",
-  "readme": "specification/networkanalytics/resource-manager/readme.md",
-  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\networkanalytics\\resource-manager\\readme.md --use=@autorest/typescript@6.0.13 --generate-sample=true --modelerfour.flatten-models=false",
-  "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.4",
-  "use": "@autorest/typescript@6.0.13"
-}
