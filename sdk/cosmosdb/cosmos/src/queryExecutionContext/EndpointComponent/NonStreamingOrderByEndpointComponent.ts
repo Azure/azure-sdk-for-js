@@ -44,15 +44,14 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
   }
 
   public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+    let resHeaders = getInitialHeader();
     // if size is 0, just return undefined to signal to more results. Valid if query is TOP 0 or LIMIT 0
     if (this.priorityQueueBufferSize <= 0) {
       return {
         result: undefined,
-        headers: getInitialHeader(),
+        headers: resHeaders,
       };
     }
-
-    let resHeaders = getInitialHeader();
 
     // If there are more results in backend, keep filling pq.
     if (this.executionContext.hasMoreResults()) {
@@ -87,23 +86,19 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         this.offset--;
       }
     }
-    // Return final results from pq.
-    if (this.isCompleted) {
-      // If pq is not empty, return the result from pq.
-      if (!this.nonStreamingOrderByPQ.isEmpty()) {
-        const item = this.nonStreamingOrderByPQ.dequeue()?.payload;
-        return {
-          result: item,
-          headers: resHeaders,
-        };
-      } else {
-        // If pq is empty, return undefined to signal that there are no more results.
-        return {
-          result: undefined,
-          headers: resHeaders,
-        };
-      }
+    // If pq is not empty, return the result from pq.
+    if (!this.nonStreamingOrderByPQ.isEmpty()) {
+      const item = this.nonStreamingOrderByPQ.dequeue()?.payload;
+      return {
+        result: item,
+        headers: resHeaders,
+      };
     }
+    // If pq is empty, return undefined to signal that there are no more results.
+    return {
+      result: undefined,
+      headers: resHeaders,
+    };
   }
 
   /**

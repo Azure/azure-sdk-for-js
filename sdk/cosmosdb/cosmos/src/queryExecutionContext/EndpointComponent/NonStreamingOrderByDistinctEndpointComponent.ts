@@ -56,15 +56,15 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
   }
 
   public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+    let resHeaders = getInitialHeader();
     // if size is 0, just return undefined to signal to more results. Valid if query is TOP 0 or LIMIT 0
     if (this.priorityQueueBufferSize <= 0) {
       return {
         result: undefined,
-        headers: getInitialHeader(),
+        headers: resHeaders,
       };
     }
 
-    let resHeaders = getInitialHeader();
     // If there are more results in backend, keep filling map.
     if (this.executionContext.hasMoreResults()) {
       // Grab the next result
@@ -93,21 +93,18 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       await this.buildFinalResultArray();
     }
 
-    // Return final results from final array.
-    if (this.isCompleted) {
-      if (this.finalResultArray.length > 0) {
-        return {
-          result: this.finalResultArray.shift(),
-          headers: resHeaders,
-        };
-      } else {
-        // Signal that there are no more results.
-        return {
-          result: undefined,
-          headers: resHeaders,
-        };
-      }
+    // Return results from final array.
+    if (this.finalResultArray.length > 0) {
+      return {
+        result: this.finalResultArray.shift(),
+        headers: resHeaders,
+      };
     }
+    // Signal that there are no more results.
+    return {
+      result: undefined,
+      headers: resHeaders,
+    };
   }
 
   /**
