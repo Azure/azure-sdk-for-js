@@ -110,8 +110,7 @@
       "commonjs"
     ],
     "esmDialects": [
-      "browser",
-      "react-native"
+      "browser"
     ],
     "selfLink": false
   },
@@ -122,11 +121,6 @@
         "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "source": "./src/index.ts",
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
       },
       "import": {
         "source": "./src/index.ts",
