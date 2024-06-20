@@ -218,6 +218,7 @@ jobs:
           env:
             TEST_MODE: "live"
             SERVICE_VERSION: $(ServiceVersion)
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
 
         - task: AzurePowerShell@5
@@ -234,6 +235,7 @@ jobs:
           env:
             TEST_MODE: "live"
             SERVICE_VERSION: $(ServiceVersion)
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
 
         - ${{ parameters.PostSteps }}
@@ -251,6 +253,7 @@ jobs:
           env:
             TEST_MODE: "live"
             AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost" 
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
           condition: and(succeeded(),eq(variables['TestType'],'sample'))
 
