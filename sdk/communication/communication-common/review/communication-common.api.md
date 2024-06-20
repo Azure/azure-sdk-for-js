@@ -14,6 +14,7 @@ import { TokenCredential } from '@azure/core-auth';
 export class AzureCommunicationTokenCredential implements CommunicationTokenCredential {
     constructor(token: string);
     constructor(refreshOptions: CommunicationTokenRefreshOptions);
+    constructor(resourceEndpoint: string, entraToken: string);
     dispose(): void;
     getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
 }

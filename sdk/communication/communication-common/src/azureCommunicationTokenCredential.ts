@@ -13,6 +13,7 @@ import {
 import { AccessToken } from "@azure/core-auth";
 import { StaticTokenCredential } from "./staticTokenCredential";
 import { parseToken } from "./tokenParser";
+import { exchangeEntraToken } from "./entraTokenExchange";
 
 /**
  * The CommunicationTokenCredential implementation with support for proactive token refresh.
@@ -33,11 +34,20 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
    * @param refreshOptions - Options to configure refresh and opt-in to proactive refreshing.
    */
   constructor(refreshOptions: CommunicationTokenRefreshOptions);
-  constructor(tokenOrRefreshOptions: string | CommunicationTokenRefreshOptions) {
-    if (typeof tokenOrRefreshOptions === "string") {
-      this.tokenCredential = new StaticTokenCredential(parseToken(tokenOrRefreshOptions));
+  /**
+   * Creates an instance of CommunicationTokenCredential with an Entra ID token and no proactive refreshing.
+   * @param entraToken - The Azure Communication Service resource endpoint URL, e.g. https://myResource.communication.azure.com.
+   * @param entraToken - An Entra ID token for Azure Communication Service's chat or voip scope.
+   */
+  constructor(resourceEndpoint: string, entraToken: string);
+  constructor(tokenOrRefreshOptionsOrResourceEndpoint: string | CommunicationTokenRefreshOptions, entraToken?: string) {
+    if (!!entraToken) {
+      const resourceEndpoint = tokenOrRefreshOptionsOrResourceEndpoint as string;
+      this.tokenCredential = new StaticTokenCredential(exchangeEntraToken(resourceEndpoint, entraToken));
+    } else if (typeof tokenOrRefreshOptionsOrResourceEndpoint === "string") {
+      this.tokenCredential = new StaticTokenCredential(parseToken(tokenOrRefreshOptionsOrResourceEndpoint));
     } else {
-      this.tokenCredential = new AutoRefreshTokenCredential(tokenOrRefreshOptions);
+      this.tokenCredential = new AutoRefreshTokenCredential(tokenOrRefreshOptionsOrResourceEndpoint);
     }
   }
 
