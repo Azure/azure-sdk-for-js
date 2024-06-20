@@ -27,7 +27,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/eventgrid-sysem-events.d.ts",
+    "types/eventgrid-system-events.d.ts",
     "README.md",
     "LICENSE"
   ],
