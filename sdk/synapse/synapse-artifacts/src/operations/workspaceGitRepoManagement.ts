@@ -15,12 +15,13 @@ import { ArtifactsClient } from "../artifactsClient";
 import {
   GitHubAccessTokenRequest,
   WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams,
-  WorkspaceGitRepoManagementGetGitHubAccessTokenResponse
+  WorkspaceGitRepoManagementGetGitHubAccessTokenResponse,
 } from "../models";
 
 /** Class containing WorkspaceGitRepoManagement operations. */
 export class WorkspaceGitRepoManagementImpl
-  implements WorkspaceGitRepoManagement {
+  implements WorkspaceGitRepoManagement
+{
   private readonly client: ArtifactsClient;
 
   /**
@@ -38,7 +39,7 @@ export class WorkspaceGitRepoManagementImpl
    */
   async getGitHubAccessToken(
     gitHubAccessTokenRequest: GitHubAccessTokenRequest,
-    options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams
+    options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams,
   ): Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.getGitHubAccessToken",
@@ -46,9 +47,9 @@ export class WorkspaceGitRepoManagementImpl
       async (options) => {
         return this.client.sendOperationRequest(
           { gitHubAccessTokenRequest, options },
-          getGitHubAccessTokenOperationSpec
+          getGitHubAccessTokenOperationSpec,
         ) as Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse>;
-      }
+      },
     );
   }
 }
@@ -60,8 +61,8 @@ const getGitHubAccessTokenOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.GitHubAccessTokenResponse
-    }
+      bodyMapper: Mappers.GitHubAccessTokenResponse,
+    },
   },
   requestBody: Parameters.gitHubAccessTokenRequest,
   queryParameters: [Parameters.apiVersion5],
@@ -69,8 +70,8 @@ const getGitHubAccessTokenOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
-    Parameters.clientRequestId
+    Parameters.clientRequestId,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };

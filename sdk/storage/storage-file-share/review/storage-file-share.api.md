@@ -1491,6 +1491,7 @@ export interface ShareCreateIfNotExistsResponse extends ShareCreateResponse {
 export interface ShareCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessTier?: ShareAccessTier;
+    enableSnapshotVirtualDirectoryAccess?: boolean;
     metadata?: {
         [propertyName: string]: string;
     };
@@ -1715,6 +1716,7 @@ export interface ShareGetPropertiesHeaders {
     accessTierTransitionState?: string;
     date?: Date;
     enabledProtocols?: string;
+    enableSnapshotVirtualDirectoryAccess?: boolean;
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1841,6 +1843,8 @@ export interface SharePropertiesInternal {
     deletedTime?: Date;
     // (undocumented)
     enabledProtocols?: string;
+    // (undocumented)
+    enableSnapshotVirtualDirectoryAccess?: boolean;
     // (undocumented)
     etag: string;
     // (undocumented)

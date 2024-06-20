@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Event Grid service.",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "keywords": [
     "node",
     "azure",
@@ -27,7 +27,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/eventgrid-sysem-events.d.ts",
+    "types/eventgrid-system-events.d.ts",
     "README.md",
     "LICENSE"
   ],
