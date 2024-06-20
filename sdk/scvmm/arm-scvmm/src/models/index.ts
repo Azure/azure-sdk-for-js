@@ -49,7 +49,7 @@ export interface VirtualMachineInstanceProperties {
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Availability Set model */
@@ -494,7 +494,7 @@ export interface GuestAgentProperties {
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Username / Password Credentials to connect to guest. */
@@ -535,7 +535,7 @@ export interface VmInstanceHybridIdentityMetadataProperties {
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Defines the restore checkpoint action properties. */
@@ -635,7 +635,7 @@ export interface AvailabilitySetProperties {
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** The response of a Cloud list operation. */
@@ -676,7 +676,7 @@ export interface CloudProperties {
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Cloud Capacity model */
@@ -807,7 +807,7 @@ export interface VirtualMachineTemplateProperties {
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** The response of a VirtualNetwork list operation. */
@@ -838,7 +838,7 @@ export interface VirtualNetworkProperties {
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** The response of a VmmServer list operation. */
@@ -884,7 +884,7 @@ export interface VmmServerProperties {
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Credentials to connect to VmmServer. */
@@ -966,7 +966,7 @@ export interface InventoryItemProperties {
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Defines the resource properties. */
@@ -1436,8 +1436,8 @@ export enum KnownCreateDiffDisk {
  */
 export type CreateDiffDisk = string;
 
-/** Known values of {@link ResourceProvisioningState} that the service accepts. */
-export enum KnownResourceProvisioningState {
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
   /** Resource has been created. */
   Succeeded = "Succeeded",
   /** Resource creation failed. */
@@ -1457,8 +1457,8 @@ export enum KnownResourceProvisioningState {
 }
 
 /**
- * Defines values for ResourceProvisioningState. \
- * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: Resource has been created. \
@@ -1470,7 +1470,7 @@ export enum KnownResourceProvisioningState {
  * **Accepted**: The resource has been accepted. \
  * **Created**: The resource was created.
  */
-export type ResourceProvisioningState = string;
+export type ProvisioningState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {

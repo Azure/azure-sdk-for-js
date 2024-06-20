@@ -37,7 +37,7 @@ export interface AvailabilitySetListResult {
 // @public
 export interface AvailabilitySetProperties {
     availabilitySetName?: string;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     vmmServerId?: string;
 }
 
@@ -180,7 +180,7 @@ export interface CloudProperties {
     readonly cloudCapacity?: CloudCapacity;
     readonly cloudName?: string;
     inventoryItemId?: string;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     readonly storageQosPolicies?: StorageQosPolicy[];
     uuid?: string;
     vmmServerId?: string;
@@ -347,7 +347,7 @@ export interface GuestAgentProperties {
     readonly customResourceName?: string;
     httpProxyConfig?: HttpProxyConfiguration;
     provisioningAction?: ProvisioningAction;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     readonly status?: string;
     readonly uuid?: string;
 }
@@ -475,7 +475,7 @@ export interface InventoryItemProperties {
     readonly inventoryItemName?: string;
     inventoryType: "Cloud" | "VirtualMachine" | "VirtualMachineTemplate" | "VirtualNetwork";
     readonly managedResourceId?: string;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     readonly uuid?: string;
 }
 
@@ -622,7 +622,7 @@ export enum KnownProvisioningAction {
 }
 
 // @public
-export enum KnownResourceProvisioningState {
+export enum KnownProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
     Created = "Created",
@@ -739,6 +739,9 @@ export type OsType = string;
 export type ProvisioningAction = string;
 
 // @public
+export type ProvisioningState = string;
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
@@ -749,9 +752,6 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public (undocumented)
 export class ScVmm extends coreClient.ServiceClient {
@@ -905,7 +905,7 @@ export interface VirtualMachineInstanceProperties {
     networkProfile?: NetworkProfile;
     osProfile?: OsProfileForVmInstance;
     readonly powerState?: string;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     storageProfile?: StorageProfile;
 }
 
@@ -1160,7 +1160,7 @@ export interface VirtualMachineTemplateProperties {
     readonly networkInterfaces?: NetworkInterface[];
     readonly osName?: string;
     readonly osType?: OsType;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     uuid?: string;
     vmmServerId?: string;
 }
@@ -1286,7 +1286,7 @@ export interface VirtualNetworkListResult {
 export interface VirtualNetworkProperties {
     inventoryItemId?: string;
     readonly networkName?: string;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     uuid?: string;
     vmmServerId?: string;
 }
@@ -1404,7 +1404,7 @@ export interface VmInstanceHybridIdentityMetadataListResult {
 
 // @public
 export interface VmInstanceHybridIdentityMetadataProperties {
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     publicKey?: string;
     resourceUid?: string;
 }
@@ -1461,7 +1461,7 @@ export interface VmmServerProperties {
     readonly errorMessage?: string;
     fqdn: string;
     port?: number;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     readonly uuid?: string;
     readonly version?: string;
 }
