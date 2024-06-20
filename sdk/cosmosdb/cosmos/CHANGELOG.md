@@ -95,7 +95,7 @@ Here's a sample of adding composite indexes for a container:
 
 #### Improved samples
 
-- The samples have been updated in this release. We now have two sample folders: `v3` and `v4`. The `v3` folder contains samples for features up to the 3.0.x release, while the `v4` folder includes samples for features up to the 4.0.x release.
+- The samples have been updated in this release. We now have two sample folders: `v3` and `v4`. The `v3` folder contains samples for features of v3 release, and the `v4` folder includes samples for features of v4 releases.
 
 ### Breaking Changes
 
