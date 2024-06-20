@@ -36,8 +36,8 @@ describe("MongoCluster test", () => {
     const credential = createTestCredential();
     client = new MongoClusterManagementClient(credential, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest1";
+    resourceGroup = "czwjstest";
+    resourcename = "resourcetest";
 
   });
 
@@ -71,6 +71,23 @@ describe("MongoCluster test", () => {
       },
       testPollingOptions);
     assert.equal(res.name, resourcename);
+  });
+
+  it.only("firerules create test", async function () {
+    const res = await client.firewallRules.createOrUpdate(
+      subscriptionId,
+      resourceGroup,
+      resourcename,
+      "testfilerule",
+      {
+        properties: {
+          startIpAddress: "0.0.0.0",
+          endIpAddress: "255.255.255.255"
+        },
+      },
+      testPollingOptions);
+    console.log(res)
+    // assert.equal(res.name, resourcename);
   });
 
   it("mongoClusters get test", async function () {
