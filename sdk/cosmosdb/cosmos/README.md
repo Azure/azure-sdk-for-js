@@ -506,8 +506,7 @@ To execute non-streamable queries without the use of continuation tokens, you ca
 
 ```javascript
 const querySpec = {
-  query: "SELECT * FROM c WHERE c.status = @status",
-  parameters: [{ name: "@status", value: "active" }],
+  query: "SELECT c.status, COUNT(c.id) AS count FROM c GROUP BY c.status",
 };
 const queryOptions = {
   maxItemCount: 10, // maximum number of items to return per page
