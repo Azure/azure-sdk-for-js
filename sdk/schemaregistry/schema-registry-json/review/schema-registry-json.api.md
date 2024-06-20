@@ -14,7 +14,7 @@ export interface DeserializeOptions {
 // @public
 export class JsonSchemaSerializer<MessageT = MessageContent> {
     constructor(client: SchemaRegistry, options?: JsonSchemaSerializerOptions<MessageT>);
-    deserialize(message: MessageT, options?: DeserializeOptions): Promise<unknown>;
+    deserialize<T = unknown>(message: MessageT, options?: DeserializeOptions): Promise<T>;
     serialize(value: unknown, schema: string): Promise<MessageT>;
 }
 
