@@ -273,10 +273,10 @@ export interface DeleteJobHeaders {
 export type DeleteJobParameters = DeleteJobHeaderParam & RequestParameters;
 
 // @public
-export type DocumentDataType = "PlainText" | string;
+export type DocumentDataType = "Plaintext" | string;
 
 // @public
-export type DocumentDataTypeOutput = "PlainText" | string;
+export type DocumentDataTypeOutput = "Plaintext" | string;
 
 // @public
 export interface FileLocationOutput {

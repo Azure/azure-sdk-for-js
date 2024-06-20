@@ -51,12 +51,23 @@
         "path": "src/deidentificationClient.ts",
         "prefix": "package-version"
       }
-    ]
+    ],
+    "sampleConfiguration": {
+      "skipFolder": false,
+      "disableDocsMs": true,
+      "productName": "Health Deidentification Service",
+      "productSlugs": [],
+      "apiRefLink": "https://docs.microsoft.com/javascript/api/",
+      "requiredResources": {
+        "De-identification Service": "https://www.microsoft.com/en-us/industry/health/microsoft-cloud-for-healthcare"
+      }
+    }
   },
   "dependencies": {
     "@azure-rest/core-client": "^2.0.0",
     "@azure/core-auth": "^1.6.0",
     "@azure/core-rest-pipeline": "^1.5.0",
+    "@azure/identity": "~4.3.0-beta.1",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.6.2",
     "@azure/core-lro": "3.0.0-beta.1",
@@ -76,7 +87,6 @@
     "tshy": "^1.15.1",
     "@azure/core-util": "^1.9.0",
     "@azure-tools/test-credential": "^2.1.0",
-    "@azure/identity": "^4.0.1",
     "@azure-tools/test-recorder": "^4.1.0",
     "@vitest/browser": "^1.6.0",
     "@vitest/coverage-istanbul": "^1.3.1",
@@ -88,14 +98,14 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:node": "tshy",
-    "build:samples": "dev-tool samples publish --force",
+    "build:samples": "echo Obsolete.",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "build": "npm run clean && tshy && dev-tool run extract-api",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\"",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tshy && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test:browser": "tshy && dev-tool run build-test && dev-tool run test:vitest --browser",
     "integration-test:node": "dev-tool run test:vitest",
