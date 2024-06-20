@@ -174,13 +174,13 @@ describe("TranslationFilter tests", () => {
         docsPerJob = 20; // in order to avoid job completing before canceling
     }
     const testDocuments: TestDocument[] = createDummyTestDocuments(docsPerJob);    
-    const sourceUrl = await createSourceContainer(testDocuments);
+    const sourceUrl = await createSourceContainer(recorder, testDocuments);
     const sourceInput = createSourceInput(sourceUrl);
 
     // create a translation job
     let translationIds: string[] = [];
     for (let i = 1; i <= jobsCount; i++) {
-        let targetUrl = await createTargetContainer();
+        let targetUrl = await createTargetContainer(recorder);
         let targetInput = createTargetInput(targetUrl, "fr");
         let batchRequest = createBatchRequest(sourceInput, [targetInput]);
 

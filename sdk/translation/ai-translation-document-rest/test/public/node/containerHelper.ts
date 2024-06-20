@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 import {
-  //Recorder,
+  Recorder,
   env,
 } from "@azure-tools/test-recorder";
-import { BlobClient, ContainerClient, ContainerSASPermissions } from "@azure/storage-blob";
+import { BlobClient, ContainerClient, ContainerSASPermissions, BlobServiceClient } from "@azure/storage-blob";
 import { TestDocument, createTestDocument } from '../utils/TestDocument';
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-const { BlobServiceClient } = require("@azure/storage-blob");
+//const { BlobServiceClient } = require("@azure/storage-blob");
 
 export const ONE_TEST_DOCUMENTS: TestDocument[] = [
   createTestDocument('Document1.txt', 'First english test document')
@@ -19,9 +20,9 @@ export const TWO_TEST_DOCUMENTS: TestDocument[] = [
   createTestDocument('File2.txt', 'Second english test file')
 ];
 
-export async function createSourceContainer(documents: TestDocument[]): Promise<string> {
+export async function createSourceContainer(recorder: Recorder, documents: TestDocument[]): Promise<string> {
   const containerName = `source-${getUniqueName()}`;
-  const containerClient = await createContainer(containerName, documents);
+  const containerClient = await createContainer(recorder, containerName, documents);
 
   const sasUrl = await containerClient.generateSasUrl({
     permissions: ContainerSASPermissions.parse("rwl"),
@@ -30,9 +31,9 @@ export async function createSourceContainer(documents: TestDocument[]): Promise<
   return `${sasUrl}`;
 }
 
-export async function createTargetContainer(documents?: TestDocument[]): Promise<string> {
+export async function createTargetContainer(recorder: Recorder, documents?: TestDocument[]): Promise<string> {
   const containerName = `target-${getUniqueName()}`;
-  const containerClient = await createContainer(containerName, documents);
+  const containerClient = await createContainer(recorder, containerName, documents);
 
   const sasUrl = await containerClient.generateSasUrl({
     permissions: ContainerSASPermissions.parse("rwl"),
@@ -41,14 +42,14 @@ export async function createTargetContainer(documents?: TestDocument[]): Promise
   return `${sasUrl}`;
 }
 
-export async function createGlossaryContainer(): Promise<string> {
+export async function createGlossaryContainer(recorder: Recorder, ): Promise<string> {
   const glossaryName = "validGlossary.csv";
   const glossaryContent = "test, glossaryTest";
   const documents: TestDocument[] = [
     createTestDocument(glossaryName, glossaryContent)
   ];
   const containerName = `glossary-${getUniqueName()}`;
-  const containerClient = await createContainer(containerName, documents);
+  const containerClient = await createContainer(recorder, containerName, documents);
 
   const sasUrl = await containerClient.generateSasUrl({
     permissions: ContainerSASPermissions.parse("rwl"),
@@ -64,9 +65,9 @@ export async function createGlossaryContainer(): Promise<string> {
   return `${newUrl}`;
 }
 
-export async function createTargetContainerWithInfo(documents?: TestDocument[]): Promise<Map<string, string>> {
+export async function createTargetContainerWithInfo(recorder: Recorder, documents?: TestDocument[]): Promise<Map<string, string>> {
   const containerName = `target-${getUniqueName()}`;
-  const containerClient = await createContainer(containerName, documents);
+  const containerClient = await createContainer(recorder, containerName, documents);
 
   const sasUrl = await containerClient.generateSasUrl({
     permissions: ContainerSASPermissions.parse("rwl"),
@@ -78,8 +79,10 @@ export async function createTargetContainerWithInfo(documents?: TestDocument[]):
   return containerValuesMap;
 }
 
-async function createContainer(containerName: string, documents?: TestDocument[]): Promise<ContainerClient> {
-  const blobServiceClient = BlobServiceClient.fromConnectionString(env.DOCUMENT_TRANSLATION_CONNECTION_STRING);
+async function createContainer(recorder: Recorder, containerName: string, documents?: TestDocument[]): Promise<ContainerClient> {
+  const blobServiceClient: BlobServiceClient = BlobServiceClient.fromConnectionString(env.DOCUMENT_TRANSLATION_CONNECTION_STRING as string);
+  configureBlobStorageClient(recorder, blobServiceClient);
+
   const containerClient = blobServiceClient.getContainerClient(containerName);
   await containerClient.createIfNotExists();
 
@@ -87,6 +90,15 @@ async function createContainer(containerName: string, documents?: TestDocument[]
     await uploadDocuments(containerClient, documents);
   }  
   return containerClient;
+}
+
+function configureBlobStorageClient(recorder: Recorder, serviceClient: ContainerClient | BlobServiceClient): void {
+  const options = recorder.configureClientOptions({});
+
+  const pipeline: Pipeline = (serviceClient as any).storageClientContext.pipeline;
+  for (const { policy } of options.additionalPolicies ?? []) {
+    pipeline.addPolicy(policy, { afterPhase: "Sign", afterPolicies: ["injectorPolicy"] });
+  }
 }
 
 async function uploadDocuments(containerClient: ContainerClient, documents: TestDocument[]) {
@@ -120,7 +132,6 @@ function getDateOneDayAfter(): Date {
   return nextDayDate;
 }
 
-
 // A helper method used to read a Node.js readable stream into a Buffer
 async function streamToBuffer(readableStream: NodeJS.ReadableStream | undefined): Promise<Buffer> {
   return new Promise((resolve, reject) => {
@@ -134,4 +145,3 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream | undefined)
     readableStream?.on("error", reject);
   });
 }
-

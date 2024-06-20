@@ -240,10 +240,10 @@ describe("DocumentFilter tests", () => {
   });
   async function createSingleTranslationJob(count: number) {
     const testDocs: TestDocument[] = createDummyTestDocuments(count);
-    const sourceUrl = await createSourceContainer(testDocs);
+    const sourceUrl = await createSourceContainer(recorder, testDocs);
     const sourceInput = createSourceInput(sourceUrl);
   
-    const targetUrl = await createTargetContainer();
+    const targetUrl = await createTargetContainer(recorder,);
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
   

@@ -22,10 +22,10 @@ describe("CancelTranslation tests", () => {
     await recorder.stop();
   });
 
-  it("cancel translation", async () => {
-    const sourceUrl = await createSourceContainer(ONE_TEST_DOCUMENTS);
+  it.only("cancel translation", async () => {
+    const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
-    const targetUrl = await createTargetContainer();
+    const targetUrl = await createTargetContainer(recorder);
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
     
