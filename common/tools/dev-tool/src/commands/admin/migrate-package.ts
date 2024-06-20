@@ -167,7 +167,7 @@ function fixTestingImports(packageFolder: string): void {
       // If the file ends with .spec.ts, add the import statement
       const hasMocking = sourceFile.getImportDeclarations().some((importDeclaration) => {
         const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
-        return moduleSpecifier === "sinon";
+        return moduleSpecifier === "sinon" || moduleSpecifier === "@azure-tools/test-recorder";
       });
 
       const viTestImports = ["describe", "it", "assert"];
@@ -234,8 +234,13 @@ function fixSourceFiles(packageFolder: string): void {
       }
 
       // If statement is a beforeEach, then fix the function
-      if (statement.getText() == "beforeEach(async function (this: Context) {") {
+      if (statement.getText().includes("beforeEach(async function (this: Context) {")) {
         statement.replaceWithText(statement.getText().replace("(this: Context)", "(ctx)"));
+      }
+
+      // If statement has a recorder, fix the context
+      if (statement.getText().includes("recorder = new Recorder(this.currentTest);")) {
+        statement.replaceWithText(statement.getText().replace("this.currentTest", "ctx"));
       }
     }
 
